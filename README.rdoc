@@ -1,6 +1,6 @@
 = aruba
 
-Description goes here.
+Cucumber steps for driving out command line applications.
 
 == Note on Patches/Pull Requests
  
