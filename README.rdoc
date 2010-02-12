@@ -14,4 +14,4 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2010 David Chelimsky. See LICENSE for details.
+Copyright (c) 2010 Aslak Hellesøy and David Chelimsky. See LICENSE for details.
