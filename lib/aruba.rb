@@ -41,8 +41,8 @@ Before do
   FileUtils.rm_rf(current_dir)
 end
 
-When /^I run (.*)$/ do |cmd|
-  run(cmd)
+When /^I run "(.*)"$/ do |cmd|
+  run(eval(%{"#{cmd}"}))
 end
 
 Then /^I should see "([^\"]*)"$/ do |partial_output|
