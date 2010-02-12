@@ -27,3 +27,10 @@ Feature: Output
       world
 
       """
+
+  Scenario: Match exit status and partial output
+    When I run ruby -e 'puts "hello\nworld"'
+    Then it should pass with:
+      """
+      hello
+      """

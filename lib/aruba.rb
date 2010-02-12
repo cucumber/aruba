@@ -48,3 +48,8 @@ end
 Then /^the exit status should be (\d+)$/ do |exit_status|
   @last_exit_status.should == exit_status.to_i
 end
+
+Then /^it should pass with:$/ do |partial_output|
+  Then "the exit status should be 0"
+  Then "I should see:", partial_output
+end
