@@ -29,6 +29,18 @@ When /^I run (.*)$/ do |cmd|
   run(cmd)
 end
 
-Then /^I should see "([^\"]*)"$/ do |output|
-  @last_stdout.should =~ /#{output}/
+Then /^I should see "([^\"]*)"$/ do |partial_output|
+  @last_stdout.should =~ /#{partial_output}/
+end
+
+Then /^I should see:$/ do |partial_output|
+  @last_stdout.should =~ /#{partial_output}/
+end
+
+Then /^I should see exactly "([^\"]*)"$/ do |exact_output|
+  @last_stdout.should == eval(%{"#{exact_output}"})
+end
+
+Then /^I should see exactly:$/ do |exact_output|
+  @last_stdout.should == exact_output
 end
