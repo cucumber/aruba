@@ -34,6 +34,10 @@ module ArubaWorld
   def create_dir(dir_name)
     FileUtils.mkdir_p(dir_name) unless File.directory?(dir_name)
   end
+  
+  def unescape(string)
+    eval(%{"#{string}"})
+  end
 end
 World(ArubaWorld)
 
@@ -42,7 +46,7 @@ Before do
 end
 
 When /^I run "(.*)"$/ do |cmd|
-  run(eval(%{"#{cmd}"}))
+  run(unescape(cmd))
 end
 
 Then /^I should see "([^\"]*)"$/ do |partial_output|
@@ -54,7 +58,7 @@ Then /^I should see:$/ do |partial_output|
 end
 
 Then /^I should see exactly "([^\"]*)"$/ do |exact_output|
-  @last_stdout.should == eval(%{"#{exact_output}"})
+  @last_stdout.should == unescape(exact_output)
 end
 
 Then /^I should see exactly:$/ do |exact_output|
