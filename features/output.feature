@@ -28,9 +28,16 @@ Feature: Output
 
       """
 
-  Scenario: Match exit status and partial output
+  Scenario: Match passing exit status and partial output
     When I run ruby -e 'puts "hello\nworld"'
     Then it should pass with:
+      """
+      hello
+      """
+
+  Scenario: Match failing exit status and partial output
+    When I run ruby -e 'puts "hello\nworld";exit 99'
+    Then it should fail with:
       """
       hello
       """

@@ -37,6 +37,10 @@ module ArubaWorld
 end
 World(ArubaWorld)
 
+Before do
+  FileUtils.rm_rf(current_dir)
+end
+
 When /^I run (.*)$/ do |cmd|
   run(cmd)
 end
@@ -61,11 +65,20 @@ Then /^the exit status should be (\d+)$/ do |exit_status|
   @last_exit_status.should == exit_status.to_i
 end
 
-Then /^it should pass with:$/ do |partial_output|
-  Then "the exit status should be 0"
+Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
+  if pass_fail == 'pass'
+    @last_exit_status.should == 0
+  else
+    @last_exit_status.should_not == 0
+  end
   Then "I should see:", partial_output
 end
 
 Given /^a file named "([^\"]*)" with:$/ do |file_name, file_content|
   create_file(file_name, file_content)
 end
+
+Then /^the stderr should contain "([^\"]*)"$/ do |partial_output|
+  @last_stderr.should =~ /#{partial_output}/
+end
+
