@@ -41,3 +41,13 @@ Feature: Output
       """
       hello
       """
+      
+  Scenario: Match output in stdout
+    When I run "ruby -e 'puts \"hello\nworld\"'"
+    Then the stdout should contain "hello"
+    Then the stderr should not contain "hello"
+
+  Scenario: Match output in stderr
+    When I run "ruby -e 'STDERR.puts \"hello\nworld\";exit 99'"
+    Then the stderr should contain "hello"
+    Then the stdout should not contain "hello"

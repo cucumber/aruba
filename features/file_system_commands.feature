@@ -15,5 +15,5 @@ Feature: file system commands
   Scenario: clean up dude
     When I run "ruby foo/bar/example.rb"
     Then the exit status should be 1
-    And the stderr should contain "No such file or directory -- foo/bar/example.rb"
+    And I should see "No such file or directory -- foo/bar/example.rb"
     

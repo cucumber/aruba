@@ -38,6 +38,10 @@ module ArubaWorld
   def unescape(string)
     eval(%{"#{string}"})
   end
+
+  def combined_output
+    @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
+  end
 end
 World(ArubaWorld)
 
@@ -50,19 +54,19 @@ When /^I run "(.*)"$/ do |cmd|
 end
 
 Then /^I should see "([^\"]*)"$/ do |partial_output|
-  @last_stdout.should =~ /#{partial_output}/
+  combined_output.should =~ /#{partial_output}/
 end
 
 Then /^I should see:$/ do |partial_output|
-  @last_stdout.should =~ /#{partial_output}/
+  combined_output.should =~ /#{partial_output}/
 end
 
 Then /^I should see exactly "([^\"]*)"$/ do |exact_output|
-  @last_stdout.should == unescape(exact_output)
+  combined_output.should == unescape(exact_output)
 end
 
 Then /^I should see exactly:$/ do |exact_output|
-  @last_stdout.should == exact_output
+  combined_output.should == exact_output
 end
 
 Then /^the exit status should be (\d+)$/ do |exit_status|
@@ -86,3 +90,14 @@ Then /^the stderr should contain "([^\"]*)"$/ do |partial_output|
   @last_stderr.should =~ /#{partial_output}/
 end
 
+Then /^the stdout should contain "([^\"]*)"$/ do |partial_output|
+  @last_stdout.should =~ /#{partial_output}/
+end
+
+Then /^the stderr should not contain "([^\"]*)"$/ do |partial_output|
+  @last_stderr.should_not =~ /#{partial_output}/
+end
+
+Then /^the stdout should not contain "([^\"]*)"$/ do |partial_output|
+  @last_stdout.should_not =~ /#{partial_output}/
+end
