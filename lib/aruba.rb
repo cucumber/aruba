@@ -2,11 +2,12 @@ require 'tempfile'
 
 module ArubaWorld
   def in_current_dir(&block)
+    create_dir(current_dir)
     Dir.chdir(current_dir, &block)
   end
   
   def current_dir
-    @current_dir ||= '.'
+    'tmp/aruba'
   end
 
   def run(command)
@@ -21,6 +22,17 @@ module ArubaWorld
       @last_exit_status = $?.exitstatus
     end
     @last_stderr = IO.read(stderr_file.path)
+  end
+
+  def create_file(file_name, file_content)
+    in_current_dir do
+      create_dir(File.dirname(file_name))
+      File.open(file_name, 'w') { |f| f << file_content }
+    end
+  end
+
+  def create_dir(dir_name)
+    FileUtils.mkdir_p(dir_name) unless File.directory?(dir_name)
   end
 end
 World(ArubaWorld)
@@ -52,4 +64,8 @@ end
 Then /^it should pass with:$/ do |partial_output|
   Then "the exit status should be 0"
   Then "I should see:", partial_output
+end
+
+Given /^a file named "([^\"]*)" with:$/ do |file_name, file_content|
+  create_file(file_name, file_content)
 end
