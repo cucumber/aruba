@@ -2,6 +2,17 @@
 
 Cucumber steps for driving out command line applications.
 
+== Usage
+
+  gem install aruba
+
+Then, just require the library in one of your ruby files under <tt>features/support</tt>
+
+  require 'aruba'
+
+You now have a bunch of step definitions that you can use in your features. See aruba.rb
+for details.
+
 == Note on Patches/Pull Requests
  
 * Fork the project.

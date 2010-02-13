@@ -4,13 +4,13 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.version = "0.1"
+    gem.version = "0.1.0"
     gem.name = "aruba"
     gem.summary = %Q{CLI Steps for Cucumber}
     gem.description = %Q{CLI Steps for Cucumber, hand-crafted for you in Aruba}
     gem.email = "cukes@groups.google.com"
     gem.homepage = "http://github.com/aslakhellesoy/aruba"
-    gem.authors = ["Aslak Hellesoy", "David Chelimsky"]
+    gem.authors = ["Aslak Hellesøy", "David Chelimsky"]
     gem.add_development_dependency "rspec", ">= 1.3.0"
     gem.add_development_dependency "cucumber", ">= 0.6.2"
   end
@@ -32,7 +32,7 @@ rescue LoadError
   end
 end
 
-task :default => :spec
+task :default => :cucumber
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
