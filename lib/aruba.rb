@@ -2,12 +2,37 @@ require 'tempfile'
 
 module ArubaWorld
   def in_current_dir(&block)
-    create_dir(current_dir)
+    _mkdir(current_dir)
     Dir.chdir(current_dir, &block)
   end
-  
+
   def current_dir
     'tmp/aruba'
+  end
+
+  def create_file(file_name, file_content)
+    in_current_dir do
+      _mkdir(File.dirname(file_name))
+      File.open(file_name, 'w') { |f| f << file_content }
+    end
+  end
+
+  def create_dir(dir_name)
+    in_current_dir do
+      _mkdir(dir_name)
+    end
+  end
+
+  def _mkdir(dir_name)
+    FileUtils.mkdir_p(dir_name) unless File.directory?(dir_name)
+  end
+
+  def unescape(string)
+    eval(%{"#{string}"})
+  end
+
+  def combined_output
+    @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
   end
 
   def run(command)
@@ -23,30 +48,20 @@ module ArubaWorld
     end
     @last_stderr = IO.read(stderr_file.path)
   end
-
-  def create_file(file_name, file_content)
-    in_current_dir do
-      create_dir(File.dirname(file_name))
-      File.open(file_name, 'w') { |f| f << file_content }
-    end
-  end
-
-  def create_dir(dir_name)
-    FileUtils.mkdir_p(dir_name) unless File.directory?(dir_name)
-  end
-  
-  def unescape(string)
-    eval(%{"#{string}"})
-  end
-
-  def combined_output
-    @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
-  end
 end
+
 World(ArubaWorld)
 
 Before do
   FileUtils.rm_rf(current_dir)
+end
+
+Given /^a directory named "([^\"]*)"$/ do |dir_name|
+  create_dir(dir_name)
+end
+
+Given /^a file named "([^\"]*)" with:$/ do |file_name, file_content|
+  create_file(file_name, file_content)
 end
 
 When /^I run "(.*)"$/ do |cmd|
@@ -80,10 +95,6 @@ Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
     @last_exit_status.should_not == 0
   end
   Then "I should see:", partial_output
-end
-
-Given /^a file named "([^\"]*)" with:$/ do |file_name, file_content|
-  create_file(file_name, file_content)
 end
 
 Then /^the stderr should contain "([^\"]*)"$/ do |partial_output|
