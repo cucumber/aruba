@@ -11,3 +11,4 @@ Feature: exit statuses
   Scenario: non-zero exit status
     When I run "ruby -e 'exit 56'"
     Then the exit status should be 56
+    And the exit status should not be 0

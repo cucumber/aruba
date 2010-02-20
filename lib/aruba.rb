@@ -31,6 +31,10 @@ module ArubaWorld
     eval(%{"#{string}"})
   end
 
+  def compile_and_escape(string)
+    Regexp.compile(Regexp.escape(string))
+  end
+
   def combined_output
     @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
   end
@@ -69,11 +73,19 @@ When /^I run "(.*)"$/ do |cmd|
 end
 
 Then /^I should see "([^\"]*)"$/ do |partial_output|
-  combined_output.should =~ /#{partial_output}/
+  combined_output.should =~ compile_and_escape(partial_output)
+end
+
+Then /^I should not see "([^\"]*)"$/ do |partial_output|
+  combined_output.should_not =~ compile_and_escape(partial_output)
 end
 
 Then /^I should see:$/ do |partial_output|
-  combined_output.should =~ /#{partial_output}/
+  combined_output.should =~ compile_and_escape(partial_output)
+end
+
+Then /^I should not see:$/ do |partial_output|
+  combined_output.should_not =~ compile_and_escape(partial_output)
 end
 
 Then /^I should see exactly "([^\"]*)"$/ do |exact_output|
@@ -88,6 +100,10 @@ Then /^the exit status should be (\d+)$/ do |exit_status|
   @last_exit_status.should == exit_status.to_i
 end
 
+Then /^the exit status should not be (\d+)$/ do |exit_status|
+  @last_exit_status.should_not == exit_status.to_i
+end
+
 Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
   if pass_fail == 'pass'
     @last_exit_status.should == 0
@@ -98,17 +114,17 @@ Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
 end
 
 Then /^the stderr should contain "([^\"]*)"$/ do |partial_output|
-  @last_stderr.should =~ /#{partial_output}/
+  @last_stderr.should =~ compile_and_escape(partial_output)
 end
 
 Then /^the stdout should contain "([^\"]*)"$/ do |partial_output|
-  @last_stdout.should =~ /#{partial_output}/
+  @last_stdout.should =~ compile_and_escape(partial_output)
 end
 
 Then /^the stderr should not contain "([^\"]*)"$/ do |partial_output|
-  @last_stderr.should_not =~ /#{partial_output}/
+  @last_stderr.should_not =~ compile_and_escape(partial_output)
 end
 
 Then /^the stdout should not contain "([^\"]*)"$/ do |partial_output|
-  @last_stdout.should_not =~ /#{partial_output}/
+  @last_stdout.should_not =~ compile_and_escape(partial_output)
 end

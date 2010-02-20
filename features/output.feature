@@ -8,11 +8,22 @@ Feature: Output
     When I run "ruby -e 'puts \"hello world\"'"
     Then I should see "hello world"
 
+  Scenario: Detect absence of one-line output
+    When I run "ruby -e 'puts \"hello world\"'"
+    Then I should not see "good-bye"
+
   Scenario: Detect subset of multiline output
     When I run "ruby -e 'puts \"hello\nworld\"'"
     Then I should see:
       """
       hello
+      """
+
+  Scenario: Detect subset of multiline output
+    When I run "ruby -e 'puts \"hello\nworld\"'"
+    Then I should not see:
+      """
+      good-bye
       """
 
   Scenario: Detect exact one-line output
