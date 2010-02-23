@@ -8,7 +8,16 @@ module Api
   end
 
   def current_dir
-    'tmp/aruba'
+    File.join(*dirs)
+  end
+
+  def cd(dir)
+    dirs << dir
+    raise "#{current_dir} is not a directory." unless File.directory?(current_dir)
+  end
+
+  def dirs
+    @dirs ||= ['tmp/aruba']
   end
 
   def create_file(file_name, file_content)

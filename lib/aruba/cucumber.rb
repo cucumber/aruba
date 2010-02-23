@@ -14,6 +14,10 @@ Given /^a file named "([^\"]*)" with:$/ do |file_name, file_content|
   create_file(file_name, file_content)
 end
 
+When /^I cd to "([^\"]*)"$/ do |dir|
+  cd(dir)
+end
+
 When /^I run "(.*)"$/ do |cmd|
   run(unescape(cmd))
 end

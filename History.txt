@@ -1,5 +1,6 @@
 == 0.1.2
 * Separated API from Cucumber step definitions, makes this usable without Cucumber. (Aslak Hellesøy)
+* New step definition for cd (change directory) (Aslak Hellesøy)
 
 == 0.1.1
 * Better Regexp escaping (David Chelimsky)
