@@ -14,6 +14,10 @@ Given /^a file named "([^\"]*)" with:$/ do |file_name, file_content|
   create_file(file_name, file_content)
 end
 
+When /^I append to "([^\"]*)" with:$/ do |file_name, file_content|
+  append_to_file(file_name, file_content)
+end
+
 When /^I cd to "([^\"]*)"$/ do |dir|
   cd(dir)
 end

@@ -9,13 +9,26 @@ Feature: file system commands
     When I run "ruby -e \"puts test ?d, 'foo'\""
     Then the stdout should contain "true"
   
-  Scenario: cat a file
+  Scenario: create a file
     Given a file named "foo/bar/example.rb" with:
       """
       puts "hello world"
       """
     When I run "ruby foo/bar/example.rb"
     Then I should see "hello world"
+
+  Scenario: append to a file
+    Given a file named "foo/bar/example.rb" with:
+      """
+      puts "hello world"
+      """
+    When I append to "foo/bar/example.rb" with:
+      """
+      puts "this was appended"
+      """
+    When I run "ruby foo/bar/example.rb"
+    Then I should see "hello world"
+    And I should see "this was appended"
 
   Scenario: clean up files generated in previous scenario
     When I run "ruby foo/bar/example.rb"

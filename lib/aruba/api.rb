@@ -27,6 +27,12 @@ module Api
     end
   end
 
+  def append_to_file(file_name, file_content)
+    in_current_dir do
+      File.open(file_name, 'a') { |f| f << file_content }
+    end
+  end
+
   def create_dir(dir_name)
     in_current_dir do
       _mkdir(dir_name)
