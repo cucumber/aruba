@@ -1,0 +1,8 @@
+== In Git
+* Separated API from Cucumber step definitions, makes this usable without Cucumber. (Aslak Hellesøy)
+
+== 0.1.1
+* Better Regexp escaping (David Chelimsky)
+
+== 0.1.0
+* First release (David Chelimsky and Aslak Hellesøy)
