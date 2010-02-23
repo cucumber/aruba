@@ -1,4 +1,4 @@
-== In Git
+== 0.1.2
 * Separated API from Cucumber step definitions, makes this usable without Cucumber. (Aslak Hellesøy)
 
 == 0.1.1
