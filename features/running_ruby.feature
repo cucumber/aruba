@@ -35,6 +35,9 @@ Feature: Running ruby
   # In order to provide some level of flexibility (and readability)
   # it should be possible to set up a mapping from a version specified
   # in Gherkin to an *actual* version.
+  #
+  # In order to make this scenario pass you therefore need to install
+  # ruby-1.8.7-tv1_8_7_174 with rvm.
   Scenario: Specify an alias for an rvm
     Given I have a local file named "config/aruba-rvm.yml" with:
       """
