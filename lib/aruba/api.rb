@@ -40,6 +40,12 @@ module Api
     end
   end
 
+  def check_file_presence(paths)
+    in_current_dir do
+      paths.each{|path| File.should be_file(path)}
+    end
+  end
+
   def _mkdir(dir_name)
     FileUtils.mkdir_p(dir_name) unless File.directory?(dir_name)
   end

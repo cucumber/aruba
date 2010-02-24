@@ -55,3 +55,16 @@ Feature: file system commands
       puts "hello world"
       """
     When I cd to "foo/nonexistant"
+
+  Scenario: Check for presence of a subset of files
+    Given an empty file named "lorem/ipsum/dolor"
+    Given an empty file named "lorem/ipsum/sit"
+    Given an empty file named "lorem/ipsum/amet"
+    Then the following files should exist:
+      | lorem/ipsum/dolor |
+      | lorem/ipsum/amet  |
+
+  @fail
+  Scenario: Check for presence of a subset of files
+    Then the following files should exist:
+      | lorem/ipsum/dolor |

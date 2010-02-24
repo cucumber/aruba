@@ -1,4 +1,5 @@
 == In Git
+* Check for presence of files. (Aslak Hellesøy)
 * Allow specification of rvm gemsets. (Aslak Hellesøy)
 * Detect ruby commands and use current ruby when rvm is not explicitly used. (Aslak Hellesøy)
 * Added support for rvm, making it possible to choose Ruby interpreter. (Aslak Hellesøy)

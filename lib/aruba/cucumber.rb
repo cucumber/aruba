@@ -26,6 +26,10 @@ Given /^a file named "([^\"]*)" with:$/ do |file_name, file_content|
   create_file(file_name, file_content)
 end
 
+Given /^an empty file named "([^\"]*)"$/ do |file_name|
+  create_file(file_name, "")
+end
+
 When /^I append to "([^\"]*)" with:$/ do |file_name, file_content|
   append_to_file(file_name, file_content)
 end
@@ -93,4 +97,8 @@ end
 
 Then /^the stdout should not contain "([^\"]*)"$/ do |partial_output|
   @last_stdout.should_not =~ compile_and_escape(partial_output)
+end
+
+Then /^the following files should exist:$/ do |files|
+  check_file_presence(files.raw.map{|file_row| file_row[0]})
 end
