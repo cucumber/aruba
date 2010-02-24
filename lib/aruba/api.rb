@@ -40,9 +40,15 @@ module Api
     end
   end
 
-  def check_file_presence(paths)
+  def check_file_presence(paths, expect_presence)
     in_current_dir do
-      paths.each{|path| File.should be_file(path)}
+      paths.each do |path|
+        if expect_presence
+          File.should be_file(path)
+        else
+          File.should_not be_file(path)
+        end
+      end
     end
   end
 

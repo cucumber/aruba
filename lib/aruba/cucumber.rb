@@ -100,5 +100,9 @@ Then /^the stdout should not contain "([^\"]*)"$/ do |partial_output|
 end
 
 Then /^the following files should exist:$/ do |files|
-  check_file_presence(files.raw.map{|file_row| file_row[0]})
+  check_file_presence(files.raw.map{|file_row| file_row[0]}, true)
+end
+
+Then /^the following files should not exist:$/ do |files|
+  check_file_presence(files.raw.map{|file_row| file_row[0]}, false)
 end

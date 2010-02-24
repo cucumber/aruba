@@ -48,13 +48,13 @@ Feature: file system commands
     When I run "ruby example.rb"
     Then the exit status should be 1
 
-  @fail
   Scenario: Holler if cd to bad dir
     Given a file named "foo/bar/example.rb" with:
       """
       puts "hello world"
       """
-    When I cd to "foo/nonexistant"
+    When I do aruba I cd to "foo/nonexistant"
+    Then aruba should fail with "tmp/aruba/foo/nonexistant is not a directory"
 
   Scenario: Check for presence of a subset of files
     Given an empty file named "lorem/ipsum/dolor"
@@ -64,7 +64,6 @@ Feature: file system commands
       | lorem/ipsum/dolor |
       | lorem/ipsum/amet  |
 
-  @fail
   Scenario: Check for presence of a subset of files
-    Then the following files should exist:
+    Then the following files should not exist:
       | lorem/ipsum/dolor |

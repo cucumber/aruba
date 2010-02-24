@@ -22,19 +22,11 @@ end
 begin
   require 'cucumber/rake/task'
 
-  namespace :cucumber do
-    Cucumber::Rake::Task.new(:pass) do |t|
-      t.cucumber_opts = %w{--tags ~@fail}
-      t.cucumber_opts += %w{--tags ~@jruby} unless defined?(JRUBY_VERSION)
-    end
-
-    Cucumber::Rake::Task.new(:fail) do |t|
-      t.cucumber_opts = %w{--tags @fail --wip}
-      t.cucumber_opts += %w{--tags ~@jruby} unless defined?(JRUBY_VERSION)
-    end
+  Cucumber::Rake::Task.new do |t|
+    t.cucumber_opts = %w{--tags ~@jruby} unless defined?(JRUBY_VERSION)
   end
 
-  task :cucumber => [:check_dependencies, 'cucumber:pass', 'cucumber:fail']
+  task :cucumber => :check_dependencies
 rescue LoadError
   task :cucumber do
     abort "Cucumber is not available. In order to run features, you must: sudo gem install cucumber"
