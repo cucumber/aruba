@@ -10,6 +10,10 @@ Before('@announce') do
   @announce = true
 end
 
+Given /^I am using rvm "([^\"]*)"$/ do |ruby_version|
+  use_rvm(ruby_version)
+end
+
 Given /^a directory named "([^\"]*)"$/ do |dir_name|
   create_dir(dir_name)
 end

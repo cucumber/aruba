@@ -55,7 +55,13 @@ module Api
     @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
   end
 
+  def use_rvm(ruby_version)
+    @ruby_version = ruby_version
+  end
+
   def run(command, world=nil, announce=nil)
+    command.gsub!(/^ruby\s/, "rvm #{@ruby_version} ") if @ruby_version
+
     if(announce)
       world ? world.announce(command) : STDOUT.puts(command)
     end

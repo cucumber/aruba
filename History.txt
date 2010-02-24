@@ -1,4 +1,5 @@
 == In Git
+* Added support for rvm, making it possible to choose Ruby interpreter. (Aslak Hellesøy)
 * Added an @announce tag which is useful for seeing what's outputted. (Aslak Hellesøy)
 
 == 0.1.4
