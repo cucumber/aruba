@@ -24,11 +24,13 @@ begin
 
   namespace :cucumber do
     Cucumber::Rake::Task.new(:pass) do |t|
-      t.cucumber_opts = '--tags ~@fail'
+      t.cucumber_opts = %w{--tags ~@fail}
+      t.cucumber_opts += %w{--tags ~@jruby} unless defined?(JRUBY_VERSION)
     end
 
     Cucumber::Rake::Task.new(:fail) do |t|
-      t.cucumber_opts = '--tags @fail --wip'
+      t.cucumber_opts = %w{--tags @fail --wip}
+      t.cucumber_opts += %w{--tags ~@jruby} unless defined?(JRUBY_VERSION)
     end
   end
 

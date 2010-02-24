@@ -1,4 +1,5 @@
 require 'tempfile'
+require 'rbconfig'
 
 module Aruba
 module Api
@@ -55,12 +56,12 @@ module Api
     @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
   end
 
-  def use_rvm(ruby_version)
-    @ruby_version = ruby_version
+  def use_rvm(rvm_ruby_version)
+    @rvm_ruby_version = rvm_ruby_version
   end
 
   def run(command, world=nil, announce=nil)
-    command.gsub!(/^ruby\s/, "rvm #{@ruby_version} ") if @ruby_version
+    command = detect_ruby(command)
 
     if(announce)
       world ? world.announce(command) : STDOUT.puts(command)
@@ -77,6 +78,18 @@ module Api
       @last_exit_status = $?.exitstatus
     end
     @last_stderr = IO.read(stderr_file.path)
+  end
+
+  def detect_ruby(command)
+    if command =~ /^ruby\s/
+      if @rvm_ruby_version
+        command.gsub(/^ruby\s/, "rvm #{@rvm_ruby_version} ")
+      else
+        command.gsub(/^ruby\s/, "#{File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])} ")
+      end
+    else
+      command
+    end
   end
 end
 end
