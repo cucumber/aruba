@@ -63,7 +63,11 @@ module Api
   end
 
   def use_rvm(rvm_ruby_version)
-    @rvm_ruby_version = rvm_ruby_version
+    if File.exist?('config/aruba-rvm.yml')
+      @rvm_ruby_version = YAML.load_file('config/aruba-rvm.yml')[rvm_ruby_version] || rvm_ruby_version
+    else
+      @rvm_ruby_version = rvm_ruby_version
+    end
   end
 
   def use_rvm_gemset(rvm_gemset)
@@ -90,13 +94,20 @@ module Api
     @last_stderr = IO.read(stderr_file.path)
   end
 
+  RUBY_PATTERN = /^ruby\s/
+  RUBY_SCRIPTS_PATTERN = /^(?:gem|rake)\s/
+
   def detect_ruby(command)
-    if command =~ /^ruby\s/
+    ruby_command = command =~ RUBY_PATTERN
+    ruby_script  = command =~ RUBY_SCRIPTS_PATTERN
+    if ruby_command || ruby_script
       if @rvm_ruby_version
         rvm_ruby_version_with_gemset = @rvm_gemset ? "#{@rvm_ruby_version}%#{@rvm_gemset}" : @rvm_ruby_version
-        command.gsub(/^ruby\s/, "rvm #{rvm_ruby_version_with_gemset} ")
-      else
+        command = "rvm #{rvm_ruby_version_with_gemset} #{command}"
+      elsif ruby_command
         command.gsub(/^ruby\s/, "#{File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])} ")
+      else
+        "#{File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])} -S #{command}"
       end
     else
       command
