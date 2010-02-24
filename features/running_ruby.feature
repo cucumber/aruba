@@ -16,6 +16,18 @@ Feature: Running ruby
       | jruby-1.4.0  | jruby 1.4.0 (ruby 1.8.7 patchlevel 174) | rvm usage |
       | bogus        | Unrecognized command line argument      | XX        |
 
+  Scenario: Specify both rvm and gemset
+    Given I am using rvm "1.9.1"
+    Given I am using rvm gemset "a-gemset-where-nothing-is-installed-except-default-rvm-gems"
+    When I run "ruby -S gem list"
+    Then I should see:
+      """
+
+      rake (0.8.7)
+      rubygems-update (1.3.5)
+
+      """
+
   # To verify this, make sure current rvm is *not* JRuby and run:
   #
   #   ~/.rvm/rubies/jruby-1.4.0/bin/jruby -S cucumber features/running_ruby.feature

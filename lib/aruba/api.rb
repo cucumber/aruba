@@ -60,6 +60,10 @@ module Api
     @rvm_ruby_version = rvm_ruby_version
   end
 
+  def use_rvm_gemset(rvm_gemset)
+    @rvm_gemset = rvm_gemset
+  end
+
   def run(command, world=nil, announce=nil)
     command = detect_ruby(command)
 
@@ -83,7 +87,8 @@ module Api
   def detect_ruby(command)
     if command =~ /^ruby\s/
       if @rvm_ruby_version
-        command.gsub(/^ruby\s/, "rvm #{@rvm_ruby_version} ")
+        rvm_ruby_version_with_gemset = @rvm_gemset ? "#{@rvm_ruby_version}%#{@rvm_gemset}" : @rvm_ruby_version
+        command.gsub(/^ruby\s/, "rvm #{rvm_ruby_version_with_gemset} ")
       else
         command.gsub(/^ruby\s/, "#{File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])} ")
       end

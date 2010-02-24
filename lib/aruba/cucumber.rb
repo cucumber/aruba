@@ -14,6 +14,10 @@ Given /^I am using rvm "([^\"]*)"$/ do |rvm_ruby_version|
   use_rvm(rvm_ruby_version)
 end
 
+Given /^I am using rvm gemset "([^\"]*)"$/ do |rvm_gemset|
+  use_rvm_gemset(rvm_gemset)
+end
+
 Given /^a directory named "([^\"]*)"$/ do |dir_name|
   create_dir(dir_name)
 end

@@ -1,4 +1,5 @@
 == In Git
+* Allow specification of rvm gemsets. (Aslak Hellesøy)
 * Detect ruby commands and use current ruby when rvm is not explicitly used. (Aslak Hellesøy)
 * Added support for rvm, making it possible to choose Ruby interpreter. (Aslak Hellesøy)
 * Added an @announce tag which is useful for seeing what's outputted. (Aslak Hellesøy)
