@@ -1,3 +1,6 @@
+== In Git
+* Added an @announce tag which is useful for seeing what's outputted. (Aslak Hellesøy)
+
 == 0.1.4
 * New step definition for appending to a file (Aslak Hellesøy)
 

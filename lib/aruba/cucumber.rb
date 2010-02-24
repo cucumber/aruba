@@ -6,6 +6,10 @@ Before do
   FileUtils.rm_rf(current_dir)
 end
 
+Before('@announce') do
+  @announce = true
+end
+
 Given /^a directory named "([^\"]*)"$/ do |dir_name|
   create_dir(dir_name)
 end
@@ -23,7 +27,7 @@ When /^I cd to "([^\"]*)"$/ do |dir|
 end
 
 When /^I run "(.*)"$/ do |cmd|
-  run(unescape(cmd))
+  run(unescape(cmd), self, @announce)
 end
 
 Then /^I should see "([^\"]*)"$/ do |partial_output|

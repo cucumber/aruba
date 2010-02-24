@@ -55,7 +55,11 @@ module Api
     @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
   end
 
-  def run(command)
+  def run(command, world=nil, announce=nil)
+    if(announce)
+      world ? world.announce(command) : STDOUT.puts(command)
+    end
+
     stderr_file = Tempfile.new('cucumber')
     stderr_file.close
     in_current_dir do
