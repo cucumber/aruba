@@ -80,18 +80,19 @@ module Api
     @rvm_gemset = rvm_gemset
   end
 
-  def run(command, world=nil, announce=nil)
-#    command = detect_ruby(command)
+  def run(cmd, world=nil, announce=nil)
+    cmd = detect_ruby_script(cmd)
+    cmd = detect_ruby(cmd)
 
     if(announce)
-      world ? world.announce(command) : STDOUT.puts(command)
+      world ? world.announce(cmd) : STDOUT.puts(cmd)
     end
 
     stderr_file = Tempfile.new('cucumber')
     stderr_file.close
     in_current_dir do
       mode = RUBY_VERSION =~ /^1\.9/ ? {:external_encoding=>"UTF-8"} : 'r'
-      IO.popen("#{command} 2> #{stderr_file.path}", mode) do |io|
+      IO.popen("#{cmd} 2> #{stderr_file.path}", mode) do |io|
         @last_stdout = io.read
       end
 
@@ -100,16 +101,28 @@ module Api
     @last_stderr = IO.read(stderr_file.path)
   end
 
-  RUBY_PATTERN = /^ruby\s/
+  def detect_ruby(cmd)
+    if cmd =~ /^ruby\s/
+      cmd.gsub(/^ruby\s/, "#{current_ruby} ")
+    else
+      cmd
+    end
+  end
 
-  def run_ruby(cmd, world=nil, announce=nil)
+  def detect_ruby_script(cmd)
+    if cmd =~ /^(?:gem|rake|cucumber|rails)\s/
+      "ruby -S #{cmd}"
+    else
+      cmd
+    end
+  end
+
+  def current_ruby
     if @rvm_ruby_version
       rvm_ruby_version_with_gemset = @rvm_gemset ? "#{@rvm_ruby_version}%#{@rvm_gemset}" : @rvm_ruby_version
-      run("rvm #{rvm_ruby_version_with_gemset} #{cmd}", world, announce)
-    elsif cmd =~ RUBY_PATTERN
-      run(cmd.gsub(/^ruby\s/, "#{File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])} "), world, announce)
+      "rvm #{rvm_ruby_version_with_gemset} ruby"
     else
-      run("#{File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])} -S #{cmd}", world, announce)
+      File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])
     end
   end
 end
