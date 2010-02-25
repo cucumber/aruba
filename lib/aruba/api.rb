@@ -110,7 +110,7 @@ module Api
   end
 
   def detect_ruby_script(cmd)
-    if cmd =~ /^(?:gem|rake|cucumber|rails)\s/
+    if cmd =~ /^(?:cucumber|gem|jeweler|rails|rake|rspec|spec)\s/
       "ruby -S #{cmd}"
     else
       cmd
