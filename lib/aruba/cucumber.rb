@@ -42,6 +42,11 @@ When /^I run "(.*)"$/ do |cmd|
   run(unescape(cmd), self, @announce)
 end
 
+When /^I successfully run "(.*)"$/ do |cmd|
+  run(unescape(cmd), self, @announce)
+  @last_exit_status.should == 0
+end
+
 Then /^I should see "([^\"]*)"$/ do |partial_output|
   combined_output.should =~ compile_and_escape(partial_output)
 end

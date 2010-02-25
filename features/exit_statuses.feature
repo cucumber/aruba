@@ -12,3 +12,10 @@ Feature: exit statuses
     When I run "ruby -e 'exit 56'"
     Then the exit status should be 56
     And the exit status should not be 0
+
+  Scenario: Successfully run something
+    When I successfully run "ruby -e 'exit 0'"
+
+  Scenario: Unsuccessfully run something
+    When I do aruba I successfully run "ruby -e 'exit 10'"
+    Then aruba should fail with "got: 10"

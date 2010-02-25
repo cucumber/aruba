@@ -97,7 +97,7 @@ module Api
     cmd = detect_ruby(cmd)
 
     if(announce)
-      world ? world.announce(cmd) : STDOUT.puts(cmd)
+      world ? world.announce("$ #{cmd}") : STDOUT.puts("$ #{cmd}")
     end
 
     stderr_file = Tempfile.new('cucumber')
@@ -106,6 +106,9 @@ module Api
       mode = RUBY_VERSION =~ /^1\.9/ ? {:external_encoding=>"UTF-8"} : 'r'
       IO.popen("#{cmd} 2> #{stderr_file.path}", mode) do |io|
         @last_stdout = io.read
+        if(announce)
+          world ? world.announce(@last_stdout) : STDOUT.puts(@last_stdout)
+        end
       end
 
       @last_exit_status = $?.exitstatus
