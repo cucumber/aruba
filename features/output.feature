@@ -8,6 +8,10 @@ Feature: Output
     When I run "ruby -e 'puts \"hello world\"'"
     Then I should see "hello world"
 
+  Scenario: Detect subset of one-line output
+    When I run "echo 'hello world'"
+    Then I should see "hello world"
+
   Scenario: Detect absence of one-line output
     When I run "ruby -e 'puts \"hello world\"'"
     Then I should not see "good-bye"

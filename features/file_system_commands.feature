@@ -64,6 +64,14 @@ Feature: file system commands
       | lorem/ipsum/dolor |
       | lorem/ipsum/amet  |
 
-  Scenario: Check for presence of a subset of files
+  Scenario: Check for absence of files
     Then the following files should not exist:
       | lorem/ipsum/dolor |
+
+  Scenario: Check file contents
+    Given a file named "foo" with:
+      """
+      hello world
+      """
+    Then the file "foo" should contain "hello world"
+    And the file "foo" should not contain "HELLO WORLD"

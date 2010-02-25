@@ -42,10 +42,6 @@ When /^I run "(.*)"$/ do |cmd|
   run(unescape(cmd), self, @announce)
 end
 
-When /^I run ruby script "([^\"]*)"$/ do |script|
-  run_ruby(unescape(script), self, @announce)
-end
-
 Then /^I should see "([^\"]*)"$/ do |partial_output|
   combined_output.should =~ compile_and_escape(partial_output)
 end
@@ -79,12 +75,12 @@ Then /^the exit status should not be (\d+)$/ do |exit_status|
 end
 
 Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
+  Then "I should see:", partial_output
   if pass_fail == 'pass'
     @last_exit_status.should == 0
   else
     @last_exit_status.should_not == 0
   end
-  Then "I should see:", partial_output
 end
 
 Then /^the stderr should contain "([^\"]*)"$/ do |partial_output|
@@ -109,4 +105,12 @@ end
 
 Then /^the following files should not exist:$/ do |files|
   check_file_presence(files.raw.map{|file_row| file_row[0]}, false)
+end
+
+Then /^the file "([^\"]*)" should contain "([^\"]*)"$/ do |file, partial_content|
+  check_file_content(file, partial_content, true)
+end
+
+Then /^the file "([^\"]*)" should not contain "([^\"]*)"$/ do |file, partial_content|
+  check_file_content(file, partial_content, false)
 end

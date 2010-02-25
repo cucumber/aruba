@@ -52,6 +52,18 @@ module Api
     end
   end
 
+  def check_file_content(file, partial_content, expect_match)
+    regexp = compile_and_escape(partial_content)
+    in_current_dir do
+      content = IO.read(file)
+      if expect_match
+        content.should match(regexp)
+      else
+        content.should_not match(regexp)
+      end
+    end
+  end
+
   def _mkdir(dir_name)
     FileUtils.mkdir_p(dir_name) unless File.directory?(dir_name)
   end
