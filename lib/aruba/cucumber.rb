@@ -6,8 +6,17 @@ Before do
   FileUtils.rm_rf(current_dir)
 end
 
+Before('@announce-cmd') do
+  @announce_cmd = true
+end
+
+Before('@announce-stdout') do
+  @announce_stdout = true
+end
+
 Before('@announce') do
-  @announce = true
+  @announce_stdout = true
+  @announce_cmd = true
 end
 
 Given /^I am using rvm "([^\"]*)"$/ do |rvm_ruby_version|
@@ -39,11 +48,11 @@ When /^I cd to "([^\"]*)"$/ do |dir|
 end
 
 When /^I run "(.*)"$/ do |cmd|
-  run(unescape(cmd), self, @announce)
+  run(unescape(cmd))
 end
 
 When /^I successfully run "(.*)"$/ do |cmd|
-  run(unescape(cmd), self, @announce)
+  run(unescape(cmd))
   @last_exit_status.should == 0
 end
 

@@ -43,6 +43,7 @@ Feature: Output
 
       """
 
+  @announce
   Scenario: Match passing exit status and partial output
     When I run "ruby -e 'puts \"hello\\nworld\"'"
     Then it should pass with:
@@ -50,14 +51,15 @@ Feature: Output
       hello
       """
 
-  @announce
+  @announce-stdout
   Scenario: Match failing exit status and partial output
     When I run "ruby -e 'puts \"hello\\nworld\";exit 99'"
     Then it should fail with:
       """
       hello
       """
-      
+
+  @announce-cmd
   Scenario: Match output in stdout
     When I run "ruby -e 'puts \"hello\\nworld\"'"
     Then the stdout should contain "hello"

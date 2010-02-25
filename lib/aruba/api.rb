@@ -92,13 +92,11 @@ module Api
     @rvm_gemset = rvm_gemset
   end
 
-  def run(cmd, world=nil, announce=nil)
+  def run(cmd)
     cmd = detect_ruby_script(cmd)
     cmd = detect_ruby(cmd)
 
-    if(announce)
-      world ? world.announce("$ #{cmd}") : STDOUT.puts("$ #{cmd}")
-    end
+    announce("$ #{cmd}") if @announce_cmd
 
     stderr_file = Tempfile.new('cucumber')
     stderr_file.close
@@ -106,9 +104,8 @@ module Api
       mode = RUBY_VERSION =~ /^1\.9/ ? {:external_encoding=>"UTF-8"} : 'r'
       IO.popen("#{cmd} 2> #{stderr_file.path}", mode) do |io|
         @last_stdout = io.read
-        if(announce)
-          world ? world.announce(@last_stdout) : STDOUT.puts(@last_stdout)
-        end
+
+        announce(@last_stdout) if @announce_stdout
       end
 
       @last_exit_status = $?.exitstatus
