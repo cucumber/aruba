@@ -81,7 +81,7 @@ module Api
   end
 
   def run(command, world=nil, announce=nil)
-    command = detect_ruby(command)
+#    command = detect_ruby(command)
 
     if(announce)
       world ? world.announce(command) : STDOUT.puts(command)
@@ -101,22 +101,15 @@ module Api
   end
 
   RUBY_PATTERN = /^ruby\s/
-  RUBY_SCRIPTS_PATTERN = /^(?:gem|rake)\s/
 
-  def detect_ruby(command)
-    ruby_command = command =~ RUBY_PATTERN
-    ruby_script  = command =~ RUBY_SCRIPTS_PATTERN
-    if ruby_command || ruby_script
-      if @rvm_ruby_version
-        rvm_ruby_version_with_gemset = @rvm_gemset ? "#{@rvm_ruby_version}%#{@rvm_gemset}" : @rvm_ruby_version
-        command = "rvm #{rvm_ruby_version_with_gemset} #{command}"
-      elsif ruby_command
-        command.gsub(/^ruby\s/, "#{File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])} ")
-      else
-        "#{File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])} -S #{command}"
-      end
+  def run_ruby(cmd, world=nil, announce=nil)
+    if @rvm_ruby_version
+      rvm_ruby_version_with_gemset = @rvm_gemset ? "#{@rvm_ruby_version}%#{@rvm_gemset}" : @rvm_ruby_version
+      run("rvm #{rvm_ruby_version_with_gemset} #{cmd}", world, announce)
+    elsif cmd =~ RUBY_PATTERN
+      run(cmd.gsub(/^ruby\s/, "#{File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])} "), world, announce)
     else
-      command
+      run("#{File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])} -S #{cmd}", world, announce)
     end
   end
 end

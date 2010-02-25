@@ -14,6 +14,10 @@ Then /^I should see the JRuby version$/ do
   Then %{I should see "#{JRUBY_VERSION}"}
 end
 
+Then /^I should see the current Ruby version$/ do
+  Then %{I should see "#{RUBY_VERSION}"}
+end
+
 Then /^aruba should fail with "([^\"]*)"$/ do |error_message|
   @aruba_exception.message.should =~ compile_and_escape(error_message)
 end

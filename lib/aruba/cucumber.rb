@@ -42,6 +42,10 @@ When /^I run "(.*)"$/ do |cmd|
   run(unescape(cmd), self, @announce)
 end
 
+When /^I run ruby script "([^\"]*)"$/ do |script|
+  run_ruby(unescape(script), self, @announce)
+end
+
 Then /^I should see "([^\"]*)"$/ do |partial_output|
   combined_output.should =~ compile_and_escape(partial_output)
 end
