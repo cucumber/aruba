@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Aslak Helles\303\270y", "David Chelimsky"]
-  s.date = %q{2010-02-23}
+  s.date = %q{2010-02-26}
   s.description = %q{CLI Steps for Cucumber, hand-crafted for you in Aruba}
   s.email = %q{cukes@groups.google.com}
   s.extra_rdoc_files = [
@@ -24,10 +24,12 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "aruba.gemspec",
+     "config/.gitignore",
      "features/exit_statuses.feature",
      "features/file_system_commands.feature",
      "features/output.feature",
-     "features/step_definitions/aruba_steps.rb",
+     "features/running_ruby.feature",
+     "features/step_definitions/aruba_dev_steps.rb",
      "features/support/env.rb",
      "lib/aruba.rb",
      "lib/aruba/api.rb",
