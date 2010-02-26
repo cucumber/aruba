@@ -121,8 +121,10 @@ module Api
     end
   end
 
+  COMMON_RUBY_SCRIPTS = /^(?:bundle|cucumber|gem|jeweler|rails|rake|rspec|spec)\s/
+
   def detect_ruby_script(cmd)
-    if cmd =~ /^(?:cucumber|gem|jeweler|rails|rake|rspec|spec)\s/
+    if cmd =~ COMMON_RUBY_SCRIPTS
       "ruby -S #{cmd}"
     else
       cmd

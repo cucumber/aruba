@@ -18,4 +18,4 @@ Feature: exit statuses
 
   Scenario: Unsuccessfully run something
     When I do aruba I successfully run "ruby -e 'exit 10'"
-    Then aruba should fail with "got: 10"
+    Then aruba should fail with "Exit status was 10"
