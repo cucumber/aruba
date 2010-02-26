@@ -1,4 +1,4 @@
-== In Git
+== 0.1.5
 * Added ability to map rvm versions to a specific version with config/aruba-rvm.yml. (Aslak Hellesøy)
 * Check for presence of files. (Aslak Hellesøy)
 * Allow specification of rvm gemsets. (Aslak Hellesøy)
