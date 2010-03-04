@@ -111,6 +111,9 @@ module Api
       @last_exit_status = $?.exitstatus
     end
     @last_stderr = IO.read(stderr_file.path)
+
+    announce(@last_stderr) if @announce_stderr
+    @last_stderr
   end
 
   def detect_ruby(cmd)
