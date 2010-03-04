@@ -30,8 +30,10 @@ Then, if you use the step definition:
 
   /^I run "(.*)"$/
 
-.. with a command that starts with "ruby", Aruba will actually invoke the Ruby version (and gemset
-if you specified) instead of just "ruby"
+.. with a command that starts with <tt>ruby</tt>, Aruba will actually invoke the Ruby version (and gemset
+if you specified) instead of just <tt>ruby</tt>. The same goes for commands starting with <tt>bundle</tt>,
+<tt>cucumber</tt>, <tt>gem</tt>, <tt>jeweler</tt>, <tt>rails</tt>, <tt>rake</tt>, <tt>rspec</tt> and <tt>spec</tt> -
+they can all be run with a particular ruby version that you specify.
 
 See features/running_ruby.feature for examples.
 
