@@ -82,6 +82,18 @@ Then /^I should see exactly:$/ do |exact_output|
   combined_output.should == exact_output
 end
 
+# "I should see matching" allows regex in the partial_output, if
+# you don't need regex, use "I should see" instead since
+# that way, you don't have to escape regex characters that
+# appear naturally in the output
+Then /^I should see matching "([^\"]*)"$/ do |partial_output|
+  combined_output.should =~ /#{partial_output}/
+end
+ 
+Then /^I should see matching:$/ do |partial_output|
+  combined_output.should =~ /#{partial_output}/
+end
+
 Then /^the exit status should be (\d+)$/ do |exit_status|
   @last_exit_status.should == exit_status.to_i
 end

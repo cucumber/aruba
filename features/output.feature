@@ -44,6 +44,20 @@ Feature: Output
       """
 
   @announce
+  Scenario: Detect subset of one-line output with regex
+    When I run "ruby --version"
+    Then I should see "ruby"
+    And I should see matching "ruby ([\d]+\.[\d]+\.[\d]+) \(.*$"
+
+  Scenario: Detect subset of multiline output with regex
+    When I run "ruby -e 'puts \"hello\\nworld\"'"
+    Then I should see matching:
+      """
+      he..o
+      wor.d
+      """
+
+  @announce
   Scenario: Match passing exit status and partial output
     When I run "ruby -e 'puts \"hello\\nworld\"'"
     Then it should pass with:
