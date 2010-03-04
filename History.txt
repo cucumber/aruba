@@ -1,3 +1,7 @@
+== In Git
+* New @announce-stderr tag (Robert Wahler)
+* New "I should see matching" steps using Regexp (Robert Wahler)
+
 == 0.1.6
 * When /^I successfully run "(.*)"$/ now prints the combined output if exit status is not 0. (Aslak Hellesøy)
 * Add bundle to list of common ruby scripts. (Aslak Hellesøy)
