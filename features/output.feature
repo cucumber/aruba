@@ -49,12 +49,15 @@ Feature: Output
     Then I should see "ruby"
     And I should see matching "ruby ([\d]+\.[\d]+\.[\d]+) \(.*$"
 
+  @announce
   Scenario: Detect subset of multiline output with regex
-    When I run "ruby -e 'puts \"hello\\nworld\"'"
+    When I run "ruby -e 'puts \"hello\\nworld\\nextra line1\\nextra line2\\nimportant line\"'"
     Then I should see matching:
       """
       he..o
       wor.d
+      .*
+      important line
       """
 
   @announce

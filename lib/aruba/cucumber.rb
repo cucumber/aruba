@@ -91,7 +91,7 @@ Then /^I should see matching "([^\"]*)"$/ do |partial_output|
 end
  
 Then /^I should see matching:$/ do |partial_output|
-  combined_output.should =~ /#{partial_output}/
+  combined_output.should =~ /#{partial_output}/m
 end
 
 Then /^the exit status should be (\d+)$/ do |exit_status|
