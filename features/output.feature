@@ -65,6 +65,7 @@ Feature: Output
     Then the stdout should contain "hello"
     Then the stderr should not contain "hello"
 
+  @announce-stderr
   Scenario: Match output in stderr
     When I run "ruby -e 'STDERR.puts \"hello\\nworld\";exit 99'"
     Then the stderr should contain "hello"

@@ -14,8 +14,13 @@ Before('@announce-stdout') do
   @announce_stdout = true
 end
 
+Before('@announce-stderr') do
+  @announce_stderr = true
+end
+
 Before('@announce') do
   @announce_stdout = true
+  @announce_stderr = true
   @announce_cmd = true
 end
 
