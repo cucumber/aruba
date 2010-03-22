@@ -11,6 +11,7 @@ When /^I do aruba (.*)$/ do |aruba_step|
 end
 
 Then /^I should see the JRuby version$/ do
+  pending "This must be manually run in JRuby" unless defined?(JRUBY_VERSION)
   Then %{I should see "#{JRUBY_VERSION}"}
 end
 

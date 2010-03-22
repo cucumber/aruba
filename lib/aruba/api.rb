@@ -91,7 +91,15 @@ module Api
   def use_rvm_gemset(rvm_gemset)
     @rvm_gemset = rvm_gemset
   end
-
+  
+  def delete_rvm_gemset(rvm_gemset)
+    run "rvm --force gemset delete #{rvm_gemset}"
+  end
+  
+  def create_rvm_gemset(rvm_gemset)
+    run "rvm gemset create #{rvm_gemset}"
+  end
+  
   def run(cmd)
     cmd = detect_ruby_script(cmd)
     cmd = detect_ruby(cmd)

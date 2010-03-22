@@ -18,13 +18,13 @@ Feature: Running ruby
 
   Scenario: Specify both rvm and gemset
     Given I am using rvm "1.9.1"
-    And I am using rvm gemset "a-gemset-where-nothing-is-installed-except-default-rvm-gems"
+    And I am using an empty rvm gemset "a-gemset-where-nothing-is-installed-except-default-rvm-gems"
     When I run "gem list"
     Then I should see:
       """
 
       rake (0.8.7)
-      rubygems-update (1.3.5)
+      rubygems-update (1.3.6)
 
       """
 
@@ -36,7 +36,7 @@ Feature: Running ruby
   Scenario: Find the version of cucumber on ruby 1.9.1
     Given I am using rvm "1.9.1"
     When I run "cucumber --version"
-    Then I should see "0.6.2"
+    Then I should see "0.6.3"
 
   Scenario: Use current ruby
     When I run "ruby --version"
@@ -70,5 +70,5 @@ Feature: Running ruby
   #   ~/.rvm/rubies/jruby-1.4.0/bin/jruby -S cucumber features/running_ruby.feature -n "launched Cucumber"
   @jruby
   Scenario: Don't use rvm, but default to same Ruby as the one that launched Cucumber
-    When I run "ruby -e 'puts JRUBY_VERSION'"
+    When I run "ruby -e 'puts JRUBY_VERSION if defined?(JRUBY_VERSION)'"
     Then I should see the JRuby version
