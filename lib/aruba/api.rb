@@ -144,7 +144,7 @@ module Api
 
   def current_ruby
     if @rvm_ruby_version
-      rvm_ruby_version_with_gemset = @rvm_gemset ? "#{@rvm_ruby_version}%#{@rvm_gemset}" : @rvm_ruby_version
+      rvm_ruby_version_with_gemset = @rvm_gemset ? "#{@rvm_ruby_version}@#{@rvm_gemset}" : @rvm_ruby_version
       "rvm #{rvm_ruby_version_with_gemset} ruby"
     else
       File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])
