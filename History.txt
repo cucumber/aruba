@@ -1,3 +1,6 @@
+== In Git
+* Replace rvm gemset character '%' with '@' for rvm 0.1.24 (#5 Ashley Moran)
+
 == 0.1.7
 * New @announce-stderr tag (Robert Wahler)
 * New "I should see matching" steps using Regexp (Robert Wahler)
