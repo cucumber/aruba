@@ -16,6 +16,19 @@ Feature: Running ruby
     Then I should see "1.4.0"
     And I should not see "rvm usage"
 
+  Scenario: Install gems with bundler
+    Given I am using rvm "1.9.1"
+    And I am using rvm gemset "a-new-gemset-where-no-gems-are-installed" with Gemfile:
+      """
+      gem 'diff-lcs', '1.1.2'
+      """
+    When I run "gem list"
+    Then I should see:
+      """
+      bundler (0.9.16)
+      diff-lcs (1.1.2)
+      """
+
   Scenario: Specify both rvm and gemset
     Given I am using rvm "1.9.1"
     And I am using an empty rvm gemset "a-new-gemset-where-no-gems-are-installed"

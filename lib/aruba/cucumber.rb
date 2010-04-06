@@ -29,11 +29,12 @@ Given /^I am using rvm "([^\"]*)"$/ do |rvm_ruby_version|
 end
 
 Given /^I am using( an empty)? rvm gemset "([^\"]*)"$/ do |empty_gemset, rvm_gemset|
-  if empty_gemset
-    delete_rvm_gemset(rvm_gemset)
-    create_rvm_gemset(rvm_gemset)
-  end
-  use_rvm_gemset(rvm_gemset)
+  use_rvm_gemset(rvm_gemset, empty_gemset)
+end
+
+Given /^I am using rvm gemset "([^\"]*)" with Gemfile:$/ do |rvm_gemset, gemfile|
+  use_rvm_gemset(rvm_gemset, true)
+  install_gems(gemfile)
 end
 
 Given /^a directory named "([^\"]*)"$/ do |dir_name|

@@ -88,8 +88,12 @@ module Api
     end
   end
 
-  def use_rvm_gemset(rvm_gemset)
+  def use_rvm_gemset(rvm_gemset, empty_gemset)
     @rvm_gemset = rvm_gemset
+    if empty_gemset
+      delete_rvm_gemset(rvm_gemset)
+      create_rvm_gemset(rvm_gemset)
+    end
   end
   
   def delete_rvm_gemset(rvm_gemset)
@@ -101,7 +105,13 @@ module Api
     raise "You haven't specified what ruby version rvm should use." if @rvm_ruby_version.nil?
     run "rvm --create #{@rvm_ruby_version}@#{rvm_gemset}"
   end
-  
+
+  def install_gems(gemfile)
+    create_file("Gemfile", gemfile)
+    run("gem install bundler")
+    run("bundle install")
+  end
+
   def run(cmd)
     cmd = detect_ruby_script(cmd)
     cmd = detect_ruby(cmd)
