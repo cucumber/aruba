@@ -18,15 +18,9 @@ Feature: Running ruby
 
   Scenario: Specify both rvm and gemset
     Given I am using rvm "1.9.1"
-    And I am using an empty rvm gemset "a-gemset-where-nothing-is-installed-except-default-rvm-gems"
-    When I run "gem list"
-    Then I should see:
-      """
-
-      rake (0.8.7)
-      rubygems-update (1.3.6)
-
-      """
+    And I am using an empty rvm gemset "a-new-gemset-where-no-gems-are-installed"
+    When I run "gem list | wc -l"
+    Then I should see exactly "       2\n"
 
   Scenario: Find the version of ruby 1.9.1
     Given I am using rvm "1.9.1"

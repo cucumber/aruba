@@ -93,11 +93,13 @@ module Api
   end
   
   def delete_rvm_gemset(rvm_gemset)
-    run "rvm --force gemset delete #{rvm_gemset}"
+    raise "You haven't specified what ruby version rvm should use." if @rvm_ruby_version.nil?
+    run "rvm --force gemset delete #{@rvm_ruby_version}@#{rvm_gemset}"
   end
   
   def create_rvm_gemset(rvm_gemset)
-    run "rvm gemset create #{rvm_gemset}"
+    raise "You haven't specified what ruby version rvm should use." if @rvm_ruby_version.nil?
+    run "rvm --create #{@rvm_ruby_version}@#{rvm_gemset}"
   end
   
   def run(cmd)
