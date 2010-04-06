@@ -112,7 +112,7 @@ module Api
     run("bundle install")
   end
 
-  def run(cmd)
+  def run(cmd, fail_on_error=true)
     cmd = detect_ruby_script(cmd)
     cmd = detect_ruby(cmd)
 
@@ -133,6 +133,11 @@ module Api
     @last_stderr = IO.read(stderr_file.path)
 
     announce(@last_stderr) if @announce_stderr
+
+    if(@last_exit_status != 0 && fail_on_error)
+      fail("Exit status was #{@last_exit_status}. Output:\n#{combined_output}")
+    end
+
     @last_stderr
   end
 

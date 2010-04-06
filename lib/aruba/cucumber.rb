@@ -58,14 +58,11 @@ When /^I cd to "([^\"]*)"$/ do |dir|
 end
 
 When /^I run "(.*)"$/ do |cmd|
-  run(unescape(cmd))
+  run(unescape(cmd), false)
 end
 
 When /^I successfully run "(.*)"$/ do |cmd|
   run(unescape(cmd))
-  if(@last_exit_status != 0)
-    fail("Exit status was #{@last_exit_status}. Output:\n#{combined_output}")
-  end
 end
 
 Then /^I should see "([^\"]*)"$/ do |partial_output|
