@@ -1,4 +1,5 @@
-== In Git
+== 0.1.8
+* Use // instead of "" for "I should see matching" step. (Aslak Hellesøy)
 * Replace rvm gemset character '%' with '@' for rvm 0.1.24 (#5 Ashley Moran)
 * Support gem bundler, making it easier to specify gems. (Aslak Hellesøy)
 

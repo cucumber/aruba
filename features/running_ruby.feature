@@ -23,10 +23,10 @@ Feature: Running ruby
       gem 'diff-lcs', '1.1.2'
       """
     When I run "gem list"
-    Then I should see:
+    Then I should see matching:
       """
-      bundler (0.9.16)
-      diff-lcs (1.1.2)
+      bundler \(\d+\.+\d+\.+\d+\)
+      diff-lcs \(\d+\.+\d+\.+\d+\)
       """
 
   Scenario: Specify both rvm and gemset
@@ -43,7 +43,7 @@ Feature: Running ruby
   Scenario: Find the version of cucumber on ruby 1.9.1
     Given I am using rvm "1.9.1"
     When I run "cucumber --version"
-    Then I should see "0.6.3"
+    Then I should see matching /\d+\.+\d+\.+\d+/
 
   Scenario: Use current ruby
     When I run "ruby --version"

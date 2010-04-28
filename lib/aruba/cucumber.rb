@@ -93,7 +93,7 @@ end
 # you don't need regex, use "I should see" instead since
 # that way, you don't have to escape regex characters that
 # appear naturally in the output
-Then /^I should see matching "([^\"]*)"$/ do |partial_output|
+Then /^I should see matching \/([^\/]*)\/$/ do |partial_output|
   combined_output.should =~ /#{partial_output}/
 end
  

@@ -5,7 +5,7 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.version = "0.1.7"
+    gem.version = "0.1.8"
     gem.name = "aruba"
     gem.summary = %Q{CLI Steps for Cucumber}
     gem.description = %Q{CLI Steps for Cucumber, hand-crafted for you in Aruba}
@@ -13,7 +13,7 @@ begin
     gem.homepage = "http://github.com/aslakhellesoy/aruba"
     gem.authors = ["Aslak Hellesøy", "David Chelimsky"]
     gem.add_development_dependency "rspec", ">= 1.3.0"
-    gem.add_development_dependency "cucumber", ">= 0.6.2"
+    gem.add_development_dependency "cucumber", ">= 0.7.0.beta.6"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
