@@ -90,7 +90,7 @@ module Api
 
   def use_rvm_gemset(rvm_gemset, empty_gemset)
     @rvm_gemset = rvm_gemset
-    if empty_gemset
+    if empty_gemset && ENV['GOTGEMS'].nil?
       delete_rvm_gemset(rvm_gemset)
       create_rvm_gemset(rvm_gemset)
     end
@@ -108,8 +108,10 @@ module Api
 
   def install_gems(gemfile)
     create_file("Gemfile", gemfile)
-    run("gem install bundler")
-    run("bundle install")
+    if ENV['GOTGEMS'].nil?
+      run("gem install bundler")
+      run("bundle install")
+    end
   end
 
   def run(cmd, fail_on_error=true)

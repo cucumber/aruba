@@ -1,3 +1,6 @@
+== 0.1.9
+* If the GOTGEMS environment variable is set, bundler won't run (faster). (Aslak Hellesøy)
+
 == 0.1.8
 * Use // instead of "" for "I should see matching" step. (Aslak Hellesøy)
 * Replace rvm gemset character '%' with '@' for rvm 0.1.24 (#5 Ashley Moran)

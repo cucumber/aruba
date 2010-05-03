@@ -5,7 +5,7 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.version = "0.1.8"
+    gem.version = "0.1.9"
     gem.name = "aruba"
     gem.summary = %Q{CLI Steps for Cucumber}
     gem.description = %Q{CLI Steps for Cucumber, hand-crafted for you in Aruba}
