@@ -49,6 +49,10 @@ Given /^an empty file named "([^\"]*)"$/ do |file_name|
   create_file(file_name, "")
 end
 
+When /^I write to "([^\"]*)" with:$/ do |file_name, file_content|
+  create_file(file_name, file_content)
+end
+
 When /^I append to "([^\"]*)" with:$/ do |file_name, file_content|
   append_to_file(file_name, file_content)
 end
