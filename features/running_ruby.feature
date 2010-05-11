@@ -7,14 +7,14 @@ Feature: Running ruby
   Scenario: Run with ruby 1.9.1
     Given I am using rvm "1.9.1"
     When I run "ruby -e 'puts RUBY_VERSION'"
-    Then I should see "ruby-1.9.1-p378"
-    And I should not see "rvm usage"
+    Then the output should contain "ruby-1.9.1-p378"
+    And the output should not contain "rvm usage"
 
   Scenario: Run with ruby JRuby
     Given I am using rvm "jruby-1.4.0"
     When I run "ruby -e 'puts JRUBY_VERSION'"
-    Then I should see "1.4.0"
-    And I should not see "rvm usage"
+    Then the output should contain "1.4.0"
+    And the output should not contain "rvm usage"
 
   Scenario: Install gems with bundler
     Given I am using rvm "1.9.1"
@@ -23,7 +23,7 @@ Feature: Running ruby
       gem 'diff-lcs', '1.1.2'
       """
     When I run "gem list"
-    Then I should see matching:
+    Then the output should match:
       """
       bundler \(\d+\.+\d+\.+\d+\)
       diff-lcs \(\d+\.+\d+\.+\d+\)
@@ -33,25 +33,25 @@ Feature: Running ruby
     Given I am using rvm "1.9.1"
     And I am using an empty rvm gemset "a-new-gemset-where-no-gems-are-installed"
     When I run "gem list | wc -l"
-    Then I should see exactly "       2\n"
+    Then the output should contain exactly "       2\n"
 
   Scenario: Find the version of ruby 1.9.1
     Given I am using rvm "1.9.1"
     When I run "ruby --version"
-    Then I should see "1.9.1"
+    Then the output should contain "1.9.1"
 
   Scenario: Find the version of cucumber on ruby 1.9.1
     Given I am using rvm "1.9.1"
     When I run "cucumber --version"
-    Then I should see matching /\d+\.+\d+\.+\d+/
+    Then the output should match /\d+\.+\d+\.+\d+/
 
   Scenario: Use current ruby
     When I run "ruby --version"
-    Then I should see the current Ruby version
+    Then the output should contain the current Ruby version
 
   Scenario: Use current ruby and a gem bin file
     When I run "rake --version"
-    Then I should see "rake, version"
+    Then the output should contain "rake, version"
 
   # I have trouble running rvm 1.8.7 in OS X Leopard, which is
   # ruby-1.8.7-p249 (It segfaults rather often). However, a previous
@@ -70,7 +70,7 @@ Feature: Running ruby
       """
     And I am using rvm "1.8.7"
     When I run "ruby --version"
-    Then I should see "patchlevel 174"
+    Then the output should contain "patchlevel 174"
 
   # To verify this, make sure current rvm is *not* JRuby and run:
   #
@@ -78,4 +78,4 @@ Feature: Running ruby
   @jruby
   Scenario: Don't use rvm, but default to same Ruby as the one that launched Cucumber
     When I run "ruby -e 'puts JRUBY_VERSION if defined?(JRUBY_VERSION)'"
-    Then I should see the JRuby version
+    Then the output should contain the JRuby version

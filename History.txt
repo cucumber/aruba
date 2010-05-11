@@ -1,3 +1,32 @@
+== In Git
+
+=== Changed features
+* Several step definitions regarding output have changed. (#1 Aslak Hellesøy)
+
+  - /^I should see "([^\"]*)"$/
+  + /^the output should contain "([^"]*)"$/
+
+  - /^I should not see "([^\"]*)"$/
+  + /^the output should not contain "([^"]*)"$/
+
+  - /^I should see:$/
+  + /^the output should contain:$/
+
+  - /^I should not see:$/
+  + /^the output should not contain:$/
+
+  - /^I should see exactly "([^\"]*)"$/
+  + /^the output should contain exactly "([^"]*)"$/
+
+  - /^I should see exactly:$/
+  + /^the output should contain exactly:$/
+
+  - /^I should see matching \/([^\/]*)\/$/
+  + /^the output should match \/([^\/]*)\/$/
+
+  - /^I should see matching:$/
+  + /^the output should match:$/
+
 == 0.1.9
 * If the GOTGEMS environment variable is set, bundler won't run (faster). (Aslak Hellesøy)
 

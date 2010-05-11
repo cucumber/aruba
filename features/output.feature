@@ -2,41 +2,41 @@ Feature: Output
 
   In order to specify expected output
   As a developer using Cucumber
-  I want to use the "I should see" step
+  I want to use the "the output should contain" step
 
   Scenario: Detect subset of one-line output
     When I run "ruby -e 'puts \"hello world\"'"
-    Then I should see "hello world"
+    Then the output should contain "hello world"
 
   Scenario: Detect subset of one-line output
     When I run "echo 'hello world'"
-    Then I should see "hello world"
+    Then the output should contain "hello world"
 
   Scenario: Detect absence of one-line output
     When I run "ruby -e 'puts \"hello world\"'"
-    Then I should not see "good-bye"
+    Then the output should not contain "good-bye"
 
   Scenario: Detect subset of multiline output
     When I run "ruby -e 'puts \"hello\\nworld\"'"
-    Then I should see:
+    Then the output should contain:
       """
       hello
       """
 
   Scenario: Detect subset of multiline output
     When I run "ruby -e 'puts \"hello\\nworld\"'"
-    Then I should not see:
+    Then the output should not contain:
       """
       good-bye
       """
 
   Scenario: Detect exact one-line output
     When I run "ruby -e 'puts \"hello world\"'"
-    Then I should see exactly "hello world\n"
+    Then the output should contain exactly "hello world\n"
 
   Scenario: Detect exact multiline output
     When I run "ruby -e 'puts \"hello\\nworld\"'"
-    Then I should see exactly:
+    Then the output should contain exactly:
       """
       hello
       world
@@ -46,13 +46,13 @@ Feature: Output
   @announce
   Scenario: Detect subset of one-line output with regex
     When I run "ruby --version"
-    Then I should see "ruby"
-    And I should see matching /ruby ([\d]+\.[\d]+\.[\d]+)(p\d+)? \(.*$/
+    Then the output should contain "ruby"
+    And the output should match /ruby ([\d]+\.[\d]+\.[\d]+)(p\d+)? \(.*$/
 
   @announce
   Scenario: Detect subset of multiline output with regex
     When I run "ruby -e 'puts \"hello\\nworld\\nextra line1\\nextra line2\\nimportant line\"'"
-    Then I should see matching:
+    Then the output should match:
       """
       he..o
       wor.d

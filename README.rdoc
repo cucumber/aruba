@@ -23,8 +23,8 @@ with specific versions of Ruby (regardless of what Ruby version you're using to 
 
 This is done with the follwoing step definitions:
 
-  /^I am using rvm "([^\"]*)"$/
-  /^I am using rvm gemset "([^\"]*)"$/
+  /^I am using rvm "([^"]*)"$/
+  /^I am using rvm gemset "([^"]*)"$/
 
 Then, if you use the step definition:
 

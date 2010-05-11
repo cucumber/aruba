@@ -15,7 +15,7 @@ Feature: file system commands
       puts "hello world"
       """
     When I run "ruby foo/bar/example.rb"
-    Then I should see "hello world"
+    Then the output should contain "hello world"
 
   Scenario: append to a file
     Given a file named "foo/bar/example.rb" with:
@@ -27,13 +27,13 @@ Feature: file system commands
       puts "this was appended"
       """
     When I run "ruby foo/bar/example.rb"
-    Then I should see "hello world"
-    And I should see "this was appended"
+    Then the output should contain "hello world"
+    And the output should contain "this was appended"
 
   Scenario: clean up files generated in previous scenario
     When I run "ruby foo/bar/example.rb"
     Then the exit status should be 1
-    And I should see "No such file or directory -- foo/bar/example.rb"
+    And the output should contain "No such file or directory -- foo/bar/example.rb"
   
   Scenario: change to a subdir
     Given a file named "foo/bar/example.rb" with:
@@ -42,7 +42,7 @@ Feature: file system commands
       """
     When I cd to "foo/bar"
     And I run "ruby example.rb"
-    Then I should see "hello world"
+    Then the output should contain "hello world"
 
   Scenario: Reset current directory from previous scenario
     When I run "ruby example.rb"

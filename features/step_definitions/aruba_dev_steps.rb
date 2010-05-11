@@ -1,4 +1,4 @@
-Given /^I have a local file named "([^\"]*)" with:$/ do |filename, content|
+Given /^I have a local file named "([^"]*)" with:$/ do |filename, content|
   File.open(filename, 'w') {|io| io.write(content)}
 end
 
@@ -10,15 +10,15 @@ When /^I do aruba (.*)$/ do |aruba_step|
   end
 end
 
-Then /^I should see the JRuby version$/ do
+Then /^the output should contain the JRuby version$/ do
   pending "This must be manually run in JRuby" unless defined?(JRUBY_VERSION)
-  Then %{I should see "#{JRUBY_VERSION}"}
+  Then %{the output should contain "#{JRUBY_VERSION}"}
 end
 
-Then /^I should see the current Ruby version$/ do
-  Then %{I should see "#{RUBY_VERSION}"}
+Then /^the output should contain the current Ruby version$/ do
+  Then %{the output should contain "#{RUBY_VERSION}"}
 end
 
-Then /^aruba should fail with "([^\"]*)"$/ do |error_message|
+Then /^aruba should fail with "([^"]*)"$/ do |error_message|
   @aruba_exception.message.should =~ compile_and_escape(error_message)
 end
