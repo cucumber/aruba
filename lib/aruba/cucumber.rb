@@ -6,6 +6,10 @@ Before do
   FileUtils.rm_rf(current_dir)
 end
 
+Before('@puts') do
+  @puts = true
+end
+
 Before('@announce-cmd') do
   @announce_cmd = true
 end
