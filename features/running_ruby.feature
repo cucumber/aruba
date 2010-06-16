@@ -13,7 +13,7 @@ Feature: Running ruby
   Scenario: Run with ruby JRuby
     Given I am using rvm "jruby"
     When I run "ruby -e 'puts JRUBY_VERSION'"
-    Then the output should contain "1.5.0"
+    Then the output should contain "1.5.1"
     And the output should not contain "rvm usage"
 
   Scenario: Install gems with bundler
