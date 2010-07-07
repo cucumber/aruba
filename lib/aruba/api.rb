@@ -63,6 +63,18 @@ module Api
       end
     end
   end
+  
+  def check_directory_presence(paths, expect_presence)
+    in_current_dir do
+      paths.each do |path|
+        if expect_presence
+          File.should be_directory(path)
+        else
+          File.should_not be_directory(path)
+        end
+      end
+    end
+  end
 
   def _mkdir(dir_name)
     FileUtils.mkdir_p(dir_name) unless File.directory?(dir_name)

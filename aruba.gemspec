@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
      "LICENSE",
      "README.rdoc",
      "Rakefile",
+     "aruba.gemspec",
      "config/.gitignore",
      "features/exit_statuses.feature",
      "features/file_system_commands.feature",
