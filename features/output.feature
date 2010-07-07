@@ -4,6 +4,13 @@ Feature: Output
   As a developer using Cucumber
   I want to use the "the output should contain" step
 
+  Scenario: Run unknown command
+    When I run "neverever gonna work"
+    Then the output should contain:
+    """
+    sh: neverever: command not found
+    """
+
   Scenario: Detect subset of one-line output
     When I run "ruby -e 'puts \"hello world\"'"
     Then the output should contain "hello world"
