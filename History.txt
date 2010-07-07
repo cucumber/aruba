@@ -1,5 +1,8 @@
 == In Git
 
+=== New Features
+* Added aruba.gemspec. (David Chelimsky)
+
 === Changed features
 * Several step definitions regarding output have changed. (#1 Aslak Hellesøy)
 
