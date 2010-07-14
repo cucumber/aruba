@@ -57,9 +57,9 @@ module Api
     in_current_dir do
       content = IO.read(file)
       if expect_match
-        content.should match(regexp)
+        content.should =~ regexp
       else
-        content.should_not match(regexp)
+        content.should_not =~ regexp
       end
     end
   end
