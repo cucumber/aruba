@@ -22,3 +22,7 @@ end
 Then /^aruba should fail with "([^"]*)"$/ do |error_message|
   @aruba_exception.message.should =~ compile_and_escape(error_message)
 end
+
+Then /^the following step should fail with Spec::Expectations::ExpectationNotMetError:$/ do |multiline_step|
+  proc {steps multiline_step}.should raise_error(RSpec::Expectations::ExpectationNotMetError)
+end
