@@ -89,7 +89,7 @@ module Api
   end
 
   def combined_output
-    @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
+    @last_stdout + @last_stderr
   end
 
   def use_rvm(rvm_ruby_version)
