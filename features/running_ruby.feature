@@ -5,19 +5,19 @@ Feature: Running ruby
   possibly using a different Ruby than the one I launch Cucumber with.
 
   Scenario: Run with ruby 1.9.1
-    Given I am using rvm "1.9.1"
+    Given I am using rvm "1.9.1-p378"
     When I run "ruby -e 'puts RUBY_VERSION'"
     Then the output should contain "ruby-1.9.1-p378"
     And the output should not contain "rvm usage"
 
   Scenario: Run with ruby JRuby
-    Given I am using rvm "jruby"
+    Given I am using rvm "jruby-1.5.1"
     When I run "ruby -e 'puts JRUBY_VERSION'"
     Then the output should contain "1.5.1"
     And the output should not contain "rvm usage"
 
   Scenario: Install gems with bundler
-    Given I am using rvm "1.9.1"
+    Given I am using rvm "1.9.1-p378"
     And I am using rvm gemset "a-new-gemset-where-no-gems-are-installed" with Gemfile:
       """
       source :gemcutter
