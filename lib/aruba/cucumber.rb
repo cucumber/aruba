@@ -126,6 +126,15 @@ Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
   end
 end
 
+Then /^it should (pass|fail) with regex:$/ do |pass_fail, partial_output|
+  Then "the output should match:", partial_output
+  if pass_fail == 'pass'
+    @last_exit_status.should == 0
+  else
+    @last_exit_status.should_not == 0
+  end
+end
+
 Then /^the stderr should contain "([^"]*)"$/ do |partial_output|
   @last_stderr.should =~ compile_and_escape(partial_output)
 end
