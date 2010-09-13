@@ -122,7 +122,7 @@ module Api
     create_file("Gemfile", gemfile)
     if ENV['GOTGEMS'].nil?
       run("gem install bundler")
-      run("bundle install")
+      run("bundle --no-color install")
     end
   end
 
