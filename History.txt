@@ -1,5 +1,9 @@
 == 0.2.2
 
+=== New Features
+* aruba/rails3 - steps for setting up a Rails3 project. Useful for testing Rails plugins. (Mark Nijhof, Aslak Hellesøy)
+* Richer API making aruba easier to use from Ruby code. (Mark Nijhof, Aslak Hellesøy)
+
 === Removed Features
 * No more support for RVM. Use rvm 1.9.2,1.8.7 exec cucumber .... instead. (Mark Nijhof, Aslak Hellesøy)
 

@@ -22,10 +22,15 @@ Before('@announce-stderr') do
   @announce_stderr = true
 end
 
+Before('@announce-dir') do
+  @announce_dir = true
+end
+
 Before('@announce') do
   @announce_stdout = true
   @announce_stderr = true
   @announce_cmd = true
+  @announce_dir = true
 end
 
 Given /^a directory named "([^"]*)"$/ do |dir_name|
@@ -41,7 +46,11 @@ Given /^an empty file named "([^"]*)"$/ do |file_name|
 end
 
 When /^I write to "([^"]*)" with:$/ do |file_name, file_content|
-  create_file(file_name, file_content)
+  create_file(file_name, file_content, false)
+end
+
+When /^I overwrite "([^"]*)" with:$/ do |file_name, file_content|
+  create_file(file_name, file_content, true)
 end
 
 When /^I append to "([^"]*)" with:$/ do |file_name, file_content|
@@ -61,7 +70,7 @@ When /^I successfully run "(.*)"$/ do |cmd|
 end
 
 Then /^the output should contain "([^"]*)"$/ do |partial_output|
-  combined_output.should =~ compile_and_escape(partial_output)
+  assert_partial_output(partial_output)
 end
 
 Then /^the output should not contain "([^"]*)"$/ do |partial_output|
@@ -105,12 +114,7 @@ Then /^the exit status should not be (\d+)$/ do |exit_status|
 end
 
 Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
-  Then "the output should contain:", partial_output
-  if pass_fail == 'pass'
-    @last_exit_status.should == 0
-  else
-    @last_exit_status.should_not == 0
-  end
+  self.__send__("assert_#{pass_fail}ing_with", partial_output)
 end
 
 Then /^the stderr should contain "([^"]*)"$/ do |partial_output|

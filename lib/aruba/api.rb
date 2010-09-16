@@ -21,8 +21,9 @@ module Aruba
       @dirs ||= ['tmp/aruba']
     end
 
-    def create_file(file_name, file_content)
+    def create_file(file_name, file_content, check_presence = false)
       in_current_dir do
+        raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
         _mkdir(File.dirname(file_name))
         File.open(file_name, 'w') { |f| f << file_content }
       end
@@ -92,6 +93,27 @@ module Aruba
       @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
     end
 
+    def assert_partial_output(partial_output)
+      combined_output.should =~ compile_and_escape(partial_output)
+    end
+
+    def assert_passing_with(partial_output)
+      assert_exit_status_and_partial_output(true, partial_output)
+    end
+
+    def assert_failing_with(partial_output)
+      assert_exit_status_and_partial_output(false, partial_output)
+    end
+
+    def assert_exit_status_and_partial_output(expect_to_pass, partial_output)
+      assert_partial_output(partial_output)
+      if expect_to_pass
+        @last_exit_status.should == 0
+      else
+        @last_exit_status.should_not == 0
+      end
+    end
+    
     def install_gems(gemfile)
       create_file("Gemfile", gemfile)
       if ENV['GOTGEMS'].nil?
@@ -103,15 +125,16 @@ module Aruba
     def run(cmd, fail_on_error=true)
       cmd = detect_ruby(cmd)
 
-      announce_or_puts("$ #{cmd}") if @announce_cmd
-
       stderr_file = Tempfile.new('cucumber')
       stderr_file.close
       in_current_dir do
-        mode = RUBY_VERSION =~ /^1\.9/ ? {:external_encoding=>"UTF-8"} : 'r'
-        IO.popen("#{cmd} 2> #{stderr_file.path}", mode) do |io|
-          @last_stdout = io.read
+        announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
+        announce_or_puts("$ #{cmd}") if @announce_cmd
 
+        mode = RUBY_VERSION =~ /^1\.9/ ? {:external_encoding=>"UTF-8"} : 'r'
+        
+        IO.popen("unset BUNDLE_PATH && unset BUNDLE_BIN_PATH && unset BUNDLE_GEMFILE && #{cmd} 2> #{stderr_file.path}", mode) do |io|
+          @last_stdout = io.read
           announce_or_puts(@last_stdout) if @announce_stdout
         end
 
