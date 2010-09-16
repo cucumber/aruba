@@ -101,7 +101,6 @@ module Aruba
     end
 
     def run(cmd, fail_on_error=true)
-      cmd = detect_ruby_script(cmd)
       cmd = detect_ruby(cmd)
 
       announce_or_puts("$ #{cmd}") if @announce_cmd
@@ -140,16 +139,6 @@ module Aruba
     def detect_ruby(cmd)
       if cmd =~ /^ruby\s/
         cmd.gsub(/^ruby\s/, "#{current_ruby} ")
-      else
-        cmd
-      end
-    end
-
-    COMMON_RUBY_SCRIPTS = /^(?:bundle|cucumber|gem|jeweler|rails|rake|rspec|spec)\s/
-
-    def detect_ruby_script(cmd)
-      if cmd =~ COMMON_RUBY_SCRIPTS
-        "ruby -S #{cmd}"
       else
         cmd
       end

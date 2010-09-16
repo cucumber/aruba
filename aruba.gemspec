@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'cucumber', '~> 0.9.0' unless File.directory?(File.dirname(__FILE__) + '/../cucumber')
   s.add_development_dependency('rspec', "~> 2.0.0.beta.22")
-  s.add_development_dependency 'rcov', '~> 0.9.9'
 
   s.rubygems_version   = "1.3.7"
   s.files            = `git ls-files`.split("\n")

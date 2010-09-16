@@ -24,7 +24,6 @@ GEM
     builder (2.1.2)
     diff-lcs (1.1.2)
     json_pure (1.4.6)
-    rcov (0.9.9)
     rspec (2.0.0.beta.22)
       rspec-core (= 2.0.0.beta.22)
       rspec-expectations (= 2.0.0.beta.22)
@@ -39,11 +38,11 @@ GEM
     trollop (1.16.2)
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES
   aruba!
   cucumber!
   gherkin!
-  rcov (~> 0.9.9)
   rspec (~> 2.0.0.beta.22)
