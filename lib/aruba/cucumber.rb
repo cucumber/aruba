@@ -28,19 +28,6 @@ Before('@announce') do
   @announce_cmd = true
 end
 
-Given /^I am using rvm "([^"]*)"$/ do |rvm_ruby_version|
-  use_rvm(rvm_ruby_version)
-end
-
-Given /^I am using( an empty)? rvm gemset "([^"]*)"$/ do |empty_gemset, rvm_gemset|
-  use_rvm_gemset(rvm_gemset, empty_gemset)
-end
-
-Given /^I am using rvm gemset "([^"]*)" with Gemfile:$/ do |rvm_gemset, gemfile|
-  use_rvm_gemset(rvm_gemset, true)
-  install_gems(gemfile)
-end
-
 Given /^a directory named "([^"]*)"$/ do |dir_name|
   create_dir(dir_name)
 end

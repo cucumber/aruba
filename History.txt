@@ -1,3 +1,8 @@
+== 0.2.2
+
+=== Removed Features
+* No more support for RVM. Use rvm 1.9.2,1.8.7 exec cucumber .... instead. (Mark Nijhof, Aslak Hellesøy)
+
 == 0.2.1
 
 === Bugfixes

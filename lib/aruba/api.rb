@@ -92,32 +92,6 @@ module Api
     @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
   end
 
-  def use_rvm(rvm_ruby_version)
-    if File.exist?('config/aruba-rvm.yml')
-      @rvm_ruby_version = YAML.load_file('config/aruba-rvm.yml')[rvm_ruby_version] || rvm_ruby_version
-    else
-      @rvm_ruby_version = rvm_ruby_version
-    end
-  end
-
-  def use_rvm_gemset(rvm_gemset, empty_gemset)
-    @rvm_gemset = rvm_gemset
-    if empty_gemset && ENV['GOTGEMS'].nil?
-      delete_rvm_gemset(rvm_gemset)
-      create_rvm_gemset(rvm_gemset)
-    end
-  end
-  
-  def delete_rvm_gemset(rvm_gemset)
-    raise "You haven't specified what ruby version rvm should use." if @rvm_ruby_version.nil?
-    run "rvm --force gemset delete #{@rvm_ruby_version}@#{rvm_gemset}"
-  end
-  
-  def create_rvm_gemset(rvm_gemset)
-    raise "You haven't specified what ruby version rvm should use." if @rvm_ruby_version.nil?
-    run "rvm --create #{@rvm_ruby_version}@#{rvm_gemset}"
-  end
-
   def install_gems(gemfile)
     create_file("Gemfile", gemfile)
     if ENV['GOTGEMS'].nil?
@@ -182,12 +156,7 @@ module Api
   end
 
   def current_ruby
-    if @rvm_ruby_version
-      rvm_ruby_version_with_gemset = @rvm_gemset ? "#{@rvm_ruby_version}@#{@rvm_gemset}" : @rvm_ruby_version
-      "rvm #{rvm_ruby_version_with_gemset} ruby"
-    else
-      File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])
-    end
+    File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])
   end
 end
 end
