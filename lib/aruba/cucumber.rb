@@ -3,6 +3,7 @@ require 'aruba/api'
 World(Aruba::Api)
 
 Before do
+  unset_ruby_env_vars
   FileUtils.rm_rf(current_dir)
 end
 
@@ -26,11 +27,24 @@ Before('@announce-dir') do
   @announce_dir = true
 end
 
+Before('@announce-env') do
+  @announce_env = true
+end
+
 Before('@announce') do
   @announce_stdout = true
   @announce_stderr = true
   @announce_cmd = true
   @announce_dir = true
+  @announce_env = true
+end
+
+After do
+  restore_env
+end
+
+Given /^I'm using a clean gemset "([^"]*)"$/ do |gemset|
+  use_clean_gemset(gemset)
 end
 
 Given /^a directory named "([^"]*)"$/ do |dir_name|

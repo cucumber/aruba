@@ -133,7 +133,7 @@ module Aruba
 
         mode = RUBY_VERSION =~ /^1\.9/ ? {:external_encoding=>"UTF-8"} : 'r'
         
-        IO.popen("unset BUNDLE_PATH && unset BUNDLE_BIN_PATH && unset BUNDLE_GEMFILE && #{cmd} 2> #{stderr_file.path}", mode) do |io|
+        IO.popen("#{cmd} 2> #{stderr_file.path}", mode) do |io|
           @last_stdout = io.read
           announce_or_puts(@last_stdout) if @announce_stdout
         end
@@ -169,6 +169,46 @@ module Aruba
 
     def current_ruby
       File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])
+    end
+
+    def use_clean_gemset(gemset)
+      run(%{rvm gemset create "#{gemset}"}, true)
+      if @last_stdout =~ /'#{gemset}' gemset created \((.*)\)\./
+        gem_home = $1
+        set_env('GEM_HOME', gem_home)
+        set_env('GEM_PATH', gem_home)
+        set_env('BUNDLE_PATH', gem_home)
+
+        paths = (ENV['PATH'] || "").split(File::PATH_SEPARATOR)
+        paths.unshift(File.join(gem_home, 'bin'))
+        set_env('PATH', paths.uniq.join(File::PATH_SEPARATOR))
+
+        run("gem install bundler", true)
+      else
+        raise "I didn't understand rvm's output: #{@last_stdout}"
+      end
+    end
+
+    def unset_ruby_env_vars
+      %w[RUBYOPT BUNDLE_PATH BUNDLE_BIN_PATH BUNDLE_GEMFILE].each do |key|
+        set_env(key, nil)
+      end
+    end
+
+    def set_env(key, value)
+      announce_or_puts(%{$ export #{key}="#{value}"}) if @announce_env
+      original_env[key] = ENV.delete(key)
+      ENV[key] = value
+    end
+
+    def restore_env
+      original_env.each do |key, value|
+        ENV[key] = value
+      end
+    end
+    
+    def original_env
+      @original_env ||= {}
     end
   end
 end
