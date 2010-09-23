@@ -91,6 +91,10 @@ When /^I type "([^"]*)" into the session$/ do |input|
   type_interactive(ensure_newline(input))
 end
 
+When /^I stop the session$/ do
+  kill_interactive
+end
+
 Then /^the output should contain "([^"]*)"$/ do |partial_output|
   assert_partial_output(partial_output)
 end
@@ -179,7 +183,7 @@ Then /^the file "([^"]*)" should not contain "([^"]*)"$/ do |file, partial_conte
   check_file_content(file, partial_content, false)
 end
 
-Then /^the session should return "([^"]*)"$/ do |content|
+Then /^the session transcript should be:/ do |content|
   out = read_interactive
   out.should == content
 end

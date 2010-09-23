@@ -163,8 +163,14 @@ module Aruba
       @session.stdin.puts(input)
     end
 
+    def kill_interactive
+      @session.kill("KILL")
+    end
+
     def read_interactive
-      @session.stdout.readlines
+      @session.stdout.readlines.collect do |line|
+        line.strip << "\n"
+      end.join.chomp
     end
 
     def announce_or_puts(msg)

@@ -14,8 +14,12 @@ Feature: Interactive
       """
     When I start an interactive session with "ruby echo.rb"
     And I type "hello, world" into the session
-    And I type "quit" into the session
-    Then the session should return "dlrow ,olleh"
+    And I stop the session
+    Then the session transcript should be:
+      """
+      hello, world
+      dlrow ,olleh
+      """
 
   Scenario: session table
     When I start an interactive session with "ruby echo.rb"
