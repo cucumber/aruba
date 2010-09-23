@@ -1,5 +1,6 @@
 require 'tempfile'
 require 'rbconfig'
+require 'background_process'
 
 module Aruba
   module Api
@@ -151,6 +152,21 @@ module Aruba
       @last_stderr
     end
 
+    def start_interactive(cmd)
+      cmd = detect_ruby(cmd)
+      in_current_dir do
+        @session = PTYBackgroundProcess.run(cmd)
+      end
+    end
+
+    def type_interactive(input)
+      @session.stdin.puts(input)
+    end
+
+    def read_interactive
+      @session.stdout.readlines
+    end
+
     def announce_or_puts(msg)
       if(@puts)
         puts(msg)
@@ -209,6 +225,10 @@ module Aruba
     
     def original_env
       @original_env ||= {}
+    end
+
+    def ensure_newline(str)
+      str.chomp << "\n"
     end
   end
 end

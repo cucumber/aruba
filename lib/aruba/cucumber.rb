@@ -83,6 +83,14 @@ When /^I successfully run "(.*)"$/ do |cmd|
   run(unescape(cmd))
 end
 
+When /^I start an interactive session with "(.*)"$/ do |cmd|
+  start_interactive(unescape(cmd))
+end
+
+When /^I type "([^"]*)" into the session$/ do |input|
+  type_interactive(ensure_newline(input))
+end
+
 Then /^the output should contain "([^"]*)"$/ do |partial_output|
   assert_partial_output(partial_output)
 end
@@ -169,4 +177,9 @@ end
 
 Then /^the file "([^"]*)" should not contain "([^"]*)"$/ do |file, partial_content|
   check_file_content(file, partial_content, false)
+end
+
+Then /^the session should return "([^"]*)"$/ do |content|
+  out = read_interactive
+  out.should == content
 end
