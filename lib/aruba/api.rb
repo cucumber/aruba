@@ -164,7 +164,7 @@ module Aruba
     end
 
     def kill_interactive
-      @session.kill("KILL")
+      @session.kill("TERM")
     end
 
     def read_interactive

@@ -21,9 +21,14 @@ Feature: Interactive
       dlrow ,olleh
       """
 
-  Scenario: session table
-    When I start an interactive session with "ruby echo.rb"
-    And I quit the session with "quit"
-    Then the session transcript should look like this:
-      | input | output |
-      | hello | olleh  |
+  Scenario: bc
+    When I start an interactive session with "bc -q"
+    And I type "4 + 3" into the session
+    And I type "quit" into the session
+    Then the session transcript should be:
+      """
+      4 + 3
+      7
+      quit
+      """
+
