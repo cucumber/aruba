@@ -8,7 +8,7 @@ Feature: Output
     When I run "neverever gonna work"
     Then the output should contain:
     """
-    sh: neverever: command not found
+    No such file or directory - neverever gonna work
     """
 
   Scenario: Detect subset of one-line output
