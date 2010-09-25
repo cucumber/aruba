@@ -137,16 +137,23 @@ module Aruba
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
 
-        mode = RUBY_VERSION =~ /^1\.9/ ? {:external_encoding=>"UTF-8"} : 'r'
+        #mode = RUBY_VERSION =~ /^1\.9/ ? {:external_encoding=>"UTF-8"} : 'r'
         
-        IO.popen("#{cmd} 2> #{stderr_file.path}", mode) do |io|
-          @last_stdout = io.read
-          announce_or_puts(@last_stdout) if @announce_stdout
-        end
+        #IO.popen("#{cmd} 2> #{stderr_file.path}", mode) do |io|
+          #@last_stdout = io.read
+          #announce_or_puts(@last_stdout) if @announce_stdout
+        #end
 
-        @last_exit_status = $?.exitstatus
+        #@last_exit_status = $?.exitstatus
+      #end
+      #@last_stderr = IO.read(stderr_file.path)
+
+        ps = BackgroundProcess.run(cmd)
+        @last_exit_status = ps.exitstatus
+        @last_stdout = ps.stdout.read
+        announce_or_puts(@last_stdout) if @announce_stdout
+        @last_stderr = ps.stderr.read
       end
-      @last_stderr = IO.read(stderr_file.path)
 
       announce_or_puts(@last_stderr) if @announce_stderr
 
