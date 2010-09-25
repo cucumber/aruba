@@ -91,7 +91,12 @@ module Aruba
     end
 
     def combined_output
-      @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
+      combined = @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
+      if @session
+        combined += read_interactive if @session
+      else
+        combined
+      end
     end
 
     def assert_partial_output(partial_output)
@@ -157,6 +162,8 @@ module Aruba
       in_current_dir do
         @session = PTYBackgroundProcess.run(cmd)
       end
+
+      @last_stdout = @last_stderr = ''
     end
 
     def type_interactive(input)

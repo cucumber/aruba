@@ -14,8 +14,8 @@ Feature: Interactive
       """
     When I start an interactive session with "ruby echo.rb"
     And I type "hello, world" into the session
-    And I stop the session
-    Then the session transcript should be:
+    And I type "quit" into the session
+    Then the output should contain:
       """
       hello, world
       dlrow ,olleh
@@ -33,11 +33,23 @@ Feature: Interactive
       """
 
   Scenario: Plain background process
-    When I run "bc -q" interactively with the input:
-      """
-      4 + 3
-      """
-    Then the output should be:
-      """
-      7
-      """
+    #When I run "bc -q"
+    #When I run "bc -q" interactively
+    #When I start a session with "bc -q"
+    #And I type "4 + 3" in the terminal
+    #And I type "quit" in the terminal
+    # if @session.running? terminate the session
+    #Then the output should be "7"
+
+    #When I run "bc -q"
+    #And I type "4 + 3" to "bc -q"
+    #And I type the following in the terminal:
+      #"""
+      #4 + 3
+      #7 - 1
+      #"""
+    #Then the output should contain exactly:
+      #"""
+      #7
+      #6
+      #"""
