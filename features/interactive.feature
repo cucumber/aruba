@@ -32,3 +32,12 @@ Feature: Interactive
       quit
       """
 
+  Scenario: Plain background process
+    When I run "bc -q" interactively with the input:
+      """
+      4 + 3
+      """
+    Then the output should be:
+      """
+      7
+      """
