@@ -91,11 +91,10 @@ module Aruba
     end
 
     def combined_output
-      combined = @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
-      if @session
-        combined += read_interactive if @session
+      if @interactive
+        interactive_output
       else
-        combined
+        @last_stdout + (@last_stderr == '' ? '' : "\n#{'-'*70}\n#{@last_stderr}")
       end
     end
 
@@ -131,8 +130,6 @@ module Aruba
     def run(cmd, fail_on_error=true)
       cmd = detect_ruby(cmd)
 
-      stderr_file = Tempfile.new('cucumber')
-      stderr_file.close
       in_current_dir do
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
@@ -151,27 +148,25 @@ module Aruba
       @last_stderr
     end
 
-    def start_interactive(cmd)
+    def run_interactive(cmd)
       cmd = detect_ruby(cmd)
+
       in_current_dir do
-        @session = PTYBackgroundProcess.run(cmd)
+        @interactive = BackgroundProcess.run(cmd)
       end
-
-      @last_stdout = @last_stderr = ''
     end
 
-    def type_interactive(input)
-      @session.stdin.puts(input)
+    def interactive_output
+      if @interactive
+        @interactive.wait(1) || @interactive.kill('TERM')
+        @interactive.stdout.read
+      else
+        ""
+      end
     end
 
-    def kill_interactive
-      @session.kill("TERM")
-    end
-
-    def read_interactive
-      @session.stdout.readlines.collect do |line|
-        line.strip << "\n"
-      end.join.chomp
+    def write_interactive(input)
+      @interactive.stdin.write(input)
     end
 
     def announce_or_puts(msg)
