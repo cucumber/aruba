@@ -2,8 +2,20 @@ require 'aruba/api'
 
 World(Aruba::Api)
 
+Before('@disable-bundler') do
+  unset_bundler_env_vars
+end
+
+Before('@bin') do
+  @__aruba_original_paths = (ENV['PATH'] || '').split(File::PATH_SEPARATOR)
+  ENV['PATH'] = ([File.expand_path('bin')] + @__aruba_original_paths).join(File::PATH_SEPARATOR)
+end
+
+After('@bin') do
+  ENV['PATH'] = @__aruba_original_paths.join(File::PATH_SEPARATOR)
+end
+
 Before do
-  unset_ruby_env_vars
   FileUtils.rm_rf(current_dir)
 end
 
@@ -169,4 +181,8 @@ end
 
 Then /^the file "([^"]*)" should not contain "([^"]*)"$/ do |file, partial_content|
   check_file_content(file, partial_content, false)
+end
+
+Then /^the file "([^"]*)" should contain exactly:$/ do |file, exact_content|
+  check_exact_file_content(file, exact_content)
 end

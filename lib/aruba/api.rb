@@ -65,6 +65,12 @@ module Aruba
       end
     end
   
+    def check_exact_file_content(file, exact_content)
+      in_current_dir do
+        IO.read(file).should == exact_content
+      end
+    end
+  
     def check_directory_presence(paths, expect_presence)
       in_current_dir do
         paths.each do |path|
@@ -189,7 +195,7 @@ module Aruba
       end
     end
 
-    def unset_ruby_env_vars
+    def unset_bundler_env_vars
       %w[RUBYOPT BUNDLE_PATH BUNDLE_BIN_PATH BUNDLE_GEMFILE].each do |key|
         set_env(key, nil)
       end
