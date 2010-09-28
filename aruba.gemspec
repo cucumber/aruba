@@ -1,9 +1,8 @@
 # -*- encoding: utf-8 -*-
-$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'aruba'
-  s.version     = "0.2.2"
+  s.version     = "0.2.3"
   s.authors     = ["Aslak Hellesøy", "David Chelimsky"]
   s.description = 'CLI Steps for Cucumber, hand-crafted for you in Aruba'
   s.summary     = "aruba-#{s.version}"

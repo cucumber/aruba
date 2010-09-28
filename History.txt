@@ -1,4 +1,4 @@
-== In Git
+== 0.2.3
 
 === Bug fixes
 * Directory should not exist gives false-positive (#13,#15 Nicholas Rutherford)
