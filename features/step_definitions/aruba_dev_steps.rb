@@ -20,5 +20,5 @@ Then /^the output should contain the current Ruby version$/ do
 end
 
 Then /^aruba should fail with "([^"]*)"$/ do |error_message|
-  @aruba_exception.message.should =~ compile_and_escape(error_message)
+  @aruba_exception.message.should =~ regexp(error_message)
 end

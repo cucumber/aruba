@@ -1,6 +1,7 @@
 == In Git
 
 === New Features
+* Added step definitions for comparing file contents with regexps (#9 Aslak Hellesøy)
 * Always put ./bin at the beginning of $PATH to make it easier to run own executables (Aslak Hellesøy)
 * Communication with interactive processes (#4 Mike Sassak)
 * Remove hyphens separating stdout and stderr (Arve Knudsen)

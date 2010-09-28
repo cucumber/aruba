@@ -55,7 +55,7 @@ module Aruba
     end
 
     def check_file_content(file, partial_content, expect_match)
-      regexp = compile_and_escape(partial_content)
+      regexp = regexp(partial_content)
       in_current_dir do
         content = IO.read(file)
         if expect_match
@@ -92,8 +92,8 @@ module Aruba
       eval(%{"#{string}"})
     end
 
-    def compile_and_escape(string)
-      Regexp.compile(Regexp.escape(string))
+    def regexp(string_or_regexp)
+      Regexp === string_or_regexp ? string_or_regexp : Regexp.compile(Regexp.escape(string_or_regexp))
     end
 
     def combined_output
@@ -105,7 +105,7 @@ module Aruba
     end
 
     def assert_partial_output(partial_output)
-      combined_output.should =~ compile_and_escape(partial_output)
+      combined_output.should =~ regexp(partial_output)
     end
 
     def assert_passing_with(partial_output)

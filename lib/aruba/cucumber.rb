@@ -108,15 +108,15 @@ Then /^the output should contain "([^"]*)"$/ do |partial_output|
 end
 
 Then /^the output should not contain "([^"]*)"$/ do |partial_output|
-  combined_output.should_not =~ compile_and_escape(partial_output)
+  combined_output.should_not =~ regexp(partial_output)
 end
 
 Then /^the output should contain:$/ do |partial_output|
-  combined_output.should =~ compile_and_escape(partial_output)
+  combined_output.should =~ regexp(partial_output)
 end
 
 Then /^the output should not contain:$/ do |partial_output|
-  combined_output.should_not =~ compile_and_escape(partial_output)
+  combined_output.should_not =~ regexp(partial_output)
 end
 
 Then /^the output should contain exactly "([^"]*)"$/ do |exact_output|
@@ -151,7 +151,7 @@ Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
   self.__send__("assert_#{pass_fail}ing_with", partial_output)
 end
 
-Then /^it should (pass|fail) with regex:$/ do |pass_fail, partial_output|
+Then /^it should (pass|fail) with regexp?:$/ do |pass_fail, partial_output|
   Then "the output should match:", partial_output
   if pass_fail == 'pass'
     @last_exit_status.should == 0
@@ -161,19 +161,19 @@ Then /^it should (pass|fail) with regex:$/ do |pass_fail, partial_output|
 end
 
 Then /^the stderr should contain "([^"]*)"$/ do |partial_output|
-  @last_stderr.should =~ compile_and_escape(partial_output)
+  @last_stderr.should =~ regexp(partial_output)
 end
 
 Then /^the stdout should contain "([^"]*)"$/ do |partial_output|
-  @last_stdout.should =~ compile_and_escape(partial_output)
+  @last_stdout.should =~ regexp(partial_output)
 end
 
 Then /^the stderr should not contain "([^"]*)"$/ do |partial_output|
-  @last_stderr.should_not =~ compile_and_escape(partial_output)
+  @last_stderr.should_not =~ regexp(partial_output)
 end
 
 Then /^the stdout should not contain "([^"]*)"$/ do |partial_output|
-  @last_stdout.should_not =~ compile_and_escape(partial_output)
+  @last_stdout.should_not =~ regexp(partial_output)
 end
 
 Then /^the following files should exist:$/ do |files|
@@ -202,4 +202,12 @@ end
 
 Then /^the file "([^"]*)" should contain exactly:$/ do |file, exact_content|
   check_exact_file_content(file, exact_content)
+end
+
+Then /^the file "([^"]*)" should match \/([^\/]*)\/$/ do |file, partial_content|
+  check_file_content(file, /#{partial_content}/, true)
+end
+
+Then /^the file "([^"]*)" should not match \/([^\/]*)\/$/ do |file, partial_content|
+  check_file_content(file, /#{partial_content}/, false)
 end

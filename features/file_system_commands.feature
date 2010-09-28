@@ -82,3 +82,11 @@ Feature: file system commands
       """
     Then the file "foo" should contain "hello world"
     And the file "foo" should not contain "HELLO WORLD"
+
+  Scenario: Check file contents
+    Given a file named "foo" with:
+      """
+      hello world
+      """
+    Then the file "foo" should match /hel.o world/
+    And the file "foo" should not match /HELLO WORLD/
