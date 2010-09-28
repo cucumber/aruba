@@ -1,3 +1,8 @@
+== In Git
+
+=== New Features
+* Remove hyphens separating stdout and stderr (Arve Knudsen)
+
 == 0.2.2
 
 === New Features
