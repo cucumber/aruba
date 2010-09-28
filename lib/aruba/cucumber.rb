@@ -6,12 +6,12 @@ Before('@disable-bundler') do
   unset_bundler_env_vars
 end
 
-Before('@bin') do
+Before do
   @__aruba_original_paths = (ENV['PATH'] || '').split(File::PATH_SEPARATOR)
   ENV['PATH'] = ([File.expand_path('bin')] + @__aruba_original_paths).join(File::PATH_SEPARATOR)
 end
 
-After('@bin') do
+After do
   ENV['PATH'] = @__aruba_original_paths.join(File::PATH_SEPARATOR)
 end
 

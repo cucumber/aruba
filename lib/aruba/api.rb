@@ -192,7 +192,7 @@ module Aruba
     end
 
     def current_ruby
-      File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])
+      File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
     end
 
     def use_clean_gemset(gemset)
