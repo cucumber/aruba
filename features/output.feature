@@ -8,7 +8,7 @@ Feature: Output
     When I run "neverever gonna work"
     Then the output should contain:
     """
-    sh: neverever: command not found
+    No such file or directory - neverever gonna work
     """
 
   Scenario: Detect subset of one-line output
@@ -81,6 +81,14 @@ Feature: Output
     Then it should fail with:
       """
       hello
+      """
+
+  @announce-stdout
+  Scenario: Match failing exit status and output with regex
+    When I run "ruby -e 'puts \"hello\\nworld\";exit 99'"
+    Then it should fail with regex:
+      """
+      hello\s*world
       """
 
   @announce-cmd
