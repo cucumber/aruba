@@ -16,28 +16,6 @@ You now have a bunch of step definitions that you can use in your features. Look
 to see all the step definitions. Look at features/*.feature for examples (which are also testing Aruba
 itself).
 
-== Ruby/RVM love
-
-Aruba has a couple of step definitions that make it easier to test your ruby command line program
-with specific versions of Ruby (regardless of what Ruby version you're using to invoke Cucumber).
-
-This is done with the follwoing step definitions:
-
-  /^I am using rvm "([^"]*)"$/
-  /^I am using rvm gemset "([^"]*)"$/
-
-Then, if you use the step definition:
-
-  /^I run "(.*)"$/
-
-.. with a command that starts with <tt>ruby</tt>, Aruba will actually invoke the Ruby version (and gemset
-if you specified) instead of just <tt>ruby</tt>, which would be the one on your <tt>PATH</tt>, which might
-not be the one you want. The same goes for commands starting with <tt>bundle</tt>,
-<tt>cucumber</tt>, <tt>gem</tt>, <tt>jeweler</tt>, <tt>rails</tt>, <tt>rake</tt>, <tt>rspec</tt> and <tt>spec</tt> -
-they can all be run with a particular ruby version that you specify.
-
-See features/running_ruby.feature for examples.
-
 == Getting more output with tags.
 
 Aruba has several tags you can use to see what command actually gets run (useful if you're using the RVM steps),
