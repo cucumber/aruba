@@ -2,8 +2,20 @@ require 'aruba/api'
 
 World(Aruba::Api)
 
+Before('@disable-bundler') do
+  unset_bundler_env_vars
+end
+
+Before('@bin') do
+  @__aruba_original_paths = (ENV['PATH'] || '').split(File::PATH_SEPARATOR)
+  ENV['PATH'] = ([File.expand_path('bin')] + @__aruba_original_paths).join(File::PATH_SEPARATOR)
+end
+
+After('@bin') do
+  ENV['PATH'] = @__aruba_original_paths.join(File::PATH_SEPARATOR)
+end
+
 Before do
-  unset_ruby_env_vars
   FileUtils.rm_rf(current_dir)
 end
 
@@ -139,6 +151,15 @@ Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
   self.__send__("assert_#{pass_fail}ing_with", partial_output)
 end
 
+Then /^it should (pass|fail) with regex:$/ do |pass_fail, partial_output|
+  Then "the output should match:", partial_output
+  if pass_fail == 'pass'
+    @last_exit_status.should == 0
+  else
+    @last_exit_status.should_not == 0
+  end
+end
+
 Then /^the stderr should contain "([^"]*)"$/ do |partial_output|
   @last_stderr.should =~ compile_and_escape(partial_output)
 end
@@ -177,4 +198,8 @@ end
 
 Then /^the file "([^"]*)" should not contain "([^"]*)"$/ do |file, partial_content|
   check_file_content(file, partial_content, false)
+end
+
+Then /^the file "([^"]*)" should contain exactly:$/ do |file, exact_content|
+  check_exact_file_content(file, exact_content)
 end
