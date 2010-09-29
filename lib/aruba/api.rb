@@ -96,20 +96,20 @@ module Aruba
       Regexp === string_or_regexp ? string_or_regexp : Regexp.compile(Regexp.escape(string_or_regexp))
     end
 
-    def last_stdout
+    def simple_stdout
       @last_stdout || ''
     end
 
-    def last_stderr
+    def simple_stderr
       @last_stderr || ''
     end
 
-    def combined_output
-      last_stdout << last_stderr << interactive_output
+    def all_output
+      simple_stdout << simple_stderr << interactive_output
     end
 
     def assert_partial_output(partial_output)
-      combined_output.should =~ regexp(partial_output)
+      all_output.should =~ regexp(partial_output)
     end
 
     def assert_passing_with(partial_output)
@@ -152,7 +152,7 @@ module Aruba
       end
 
       if(@last_exit_status != 0 && fail_on_error)
-        fail("Exit status was #{@last_exit_status}. Output:\n#{combined_output}")
+        fail("Exit status was #{@last_exit_status}. Output:\n#{all_output}")
       end
 
       @last_stderr

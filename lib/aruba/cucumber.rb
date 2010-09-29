@@ -108,23 +108,23 @@ Then /^the output should contain "([^"]*)"$/ do |partial_output|
 end
 
 Then /^the output should not contain "([^"]*)"$/ do |partial_output|
-  combined_output.should_not =~ regexp(partial_output)
+  all_output.should_not =~ regexp(partial_output)
 end
 
 Then /^the output should contain:$/ do |partial_output|
-  combined_output.should =~ regexp(partial_output)
+  all_output.should =~ regexp(partial_output)
 end
 
 Then /^the output should not contain:$/ do |partial_output|
-  combined_output.should_not =~ regexp(partial_output)
+  all_output.should_not =~ regexp(partial_output)
 end
 
 Then /^the output should contain exactly "([^"]*)"$/ do |exact_output|
-  combined_output.should == unescape(exact_output)
+  all_output.should == unescape(exact_output)
 end
 
 Then /^the output should contain exactly:$/ do |exact_output|
-  combined_output.should == exact_output
+  all_output.should == exact_output
 end
 
 # "the output should match" allows regex in the partial_output, if
@@ -132,11 +132,11 @@ end
 # that way, you don't have to escape regex characters that
 # appear naturally in the output
 Then /^the output should match \/([^\/]*)\/$/ do |partial_output|
-  combined_output.should =~ /#{partial_output}/
+  all_output.should =~ /#{partial_output}/
 end
  
 Then /^the output should match:$/ do |partial_output|
-  combined_output.should =~ /#{partial_output}/m
+  all_output.should =~ /#{partial_output}/m
 end
 
 Then /^the exit status should be (\d+)$/ do |exit_status|
