@@ -113,8 +113,15 @@ Feature: Output
       olleh
       """
 
-  Scenario: Detect combined stderr output
+  @wip
   Scenario: Detect combined stdout output
+    When I run "ruby -e 'puts \"hello world!\"'"
+    And I run "ruby -e 'puts gets.chomp.reverse'" interactively
+    And I type "hello"
+    Then the stdout should contain "hello world!\nolleh"
+    And the stderr should not contain "hello world!\nolleh"
+
+  Scenario: Detect combined stderr output
   Scenario: Detect output from named source
   Scenario: Detect stderr from named source
   Scenario: Detect stdout from named source
