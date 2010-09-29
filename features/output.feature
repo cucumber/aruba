@@ -94,3 +94,20 @@ Feature: Output
     When I run "ruby -e 'STDERR.puts \"hello\\nworld\";exit 99'"
     Then the stderr should contain "hello"
     Then the stdout should not contain "hello"
+
+  @wip
+  Scenario: Detect combined output
+    When I run "ruby -e 'puts \"hello world!\"'"
+    And I run "ruby -e 'puts gets.chomp.reverse'" interactively
+    And I type "hello"
+    Then the output should contain exactly:
+      """
+      hello world!
+      ollhe
+      """
+
+  Scenario: Detect combined stderr output
+  Scenario: Detect combined stdout output
+  Scenario: Detect output from named source
+  Scenario: Detect stderr from named source
+  Scenario: Detect stdout from named source
