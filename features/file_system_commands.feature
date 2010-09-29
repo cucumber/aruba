@@ -74,7 +74,17 @@ Feature: file system commands
     Then the following directories should exist:
       | foo/bar |
       | foo/bla |
-
+  
+  Scenario: check for absence of directories
+    Given a directory named "foo/bar"
+    Given a directory named "foo/bla"
+    Then the following step should fail with Spec::Expectations::ExpectationNotMetError:
+    """
+    Then the following directories should not exist:
+      | foo/bar/ |
+      | foo/bla/ |
+    """
+  
   Scenario: Check file contents
     Given a file named "foo" with:
       """
@@ -82,3 +92,11 @@ Feature: file system commands
       """
     Then the file "foo" should contain "hello world"
     And the file "foo" should not contain "HELLO WORLD"
+
+  Scenario: Check file contents
+    Given a file named "foo" with:
+      """
+      hello world
+      """
+    Then the file "foo" should match /hel.o world/
+    And the file "foo" should not match /HELLO WORLD/

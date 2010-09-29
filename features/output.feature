@@ -83,6 +83,14 @@ Feature: Output
       hello
       """
 
+  @announce-stdout
+  Scenario: Match failing exit status and output with regex
+    When I run "ruby -e 'puts \"hello\\nworld\";exit 99'"
+    Then it should fail with regex:
+      """
+      hello\s*world
+      """
+
   @announce-cmd
   Scenario: Match output in stdout
     When I run "ruby -e 'puts \"hello\\nworld\"'"

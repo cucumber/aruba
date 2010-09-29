@@ -1,8 +1,7 @@
 = aruba
 
 Cucumber steps for driving out command line applications. The command line application can be anything,
-a compiled C program, a Java program, a Perl script - anything. There is also special support for various
-Ruby versions (see below).
+a compiled C program, a Java program, a Perl script - anything.
 
 == Usage
 
@@ -18,13 +17,14 @@ itself).
 
 == Getting more output with tags.
 
-Aruba has several tags you can use to see what command actually gets run (useful if you're using the RVM steps),
-STDOUT or STDERR. You can put these tags on individual scenarios, or on a feature. The tags are:
+Aruba has several tags you can use to get more information. You can put these tags on individual scenarios, or on a feature. The tags are:
 
-* <tt>@announce-cmd</tt>
-* <tt>@announce-stdout</tt>
-* <tt>@announce-stderr</tt>
-* <tt>@announce</tt> (does all of the above)
+* <tt>@announce-cmd</tt> - See what command is is run
+* <tt>@announce-stdout</tt> - See the stdout
+* <tt>@announce-stderr</tt> - See the stderr
+* <tt>@announce-dir</tt> - See the current directory
+* <tt>@announce-env</tt> - See environment variables set by Aruba
+* <tt>@announce</tt> - Does all of the above
 
 == Note on Patches/Pull Requests
  
