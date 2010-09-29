@@ -103,7 +103,7 @@ Feature: Output
     Then the stderr should contain "hello"
     Then the stdout should not contain "hello"
 
-  Scenario: Detect combined output
+  Scenario: Detect output from all processes
     When I run "ruby -e 'puts \"hello world!\"'"
     And I run "ruby -e 'puts gets.chomp.reverse'" interactively
     And I type "hello"
@@ -114,14 +114,14 @@ Feature: Output
       """
 
   @wip
-  Scenario: Detect combined stdout output
+  Scenario: Detect stdout from all processes
     When I run "ruby -e 'puts \"hello world!\"'"
     And I run "ruby -e 'puts gets.chomp.reverse'" interactively
     And I type "hello"
     Then the stdout should contain "hello world!\nolleh"
     And the stderr should not contain "hello world!\nolleh"
 
-  Scenario: Detect combined stderr output
+  Scenario: Detect stderr from all processes
   Scenario: Detect output from named source
   Scenario: Detect stderr from named source
   Scenario: Detect stdout from named source
