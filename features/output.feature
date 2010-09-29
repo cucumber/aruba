@@ -103,7 +103,6 @@ Feature: Output
     Then the stderr should contain "hello"
     Then the stdout should not contain "hello"
 
-  @wip
   Scenario: Detect combined output
     When I run "ruby -e 'puts \"hello world!\"'"
     And I run "ruby -e 'puts gets.chomp.reverse'" interactively
@@ -111,7 +110,7 @@ Feature: Output
     Then the output should contain exactly:
       """
       hello world!
-      ollhe
+      olleh
       """
 
   Scenario: Detect combined stderr output

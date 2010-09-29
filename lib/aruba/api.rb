@@ -96,12 +96,16 @@ module Aruba
       Regexp === string_or_regexp ? string_or_regexp : Regexp.compile(Regexp.escape(string_or_regexp))
     end
 
+    def last_stdout
+      @last_stdout || ''
+    end
+
+    def last_stderr
+      @last_stderr || ''
+    end
+
     def combined_output
-      if @interactive
-        interactive_output
-      else
-        @last_stdout + @last_stderr
-      end
+      last_stdout << last_stderr << interactive_output
     end
 
     def assert_partial_output(partial_output)
@@ -165,7 +169,7 @@ module Aruba
     def interactive_output
       if @interactive
         @interactive.wait(1) || @interactive.kill('TERM')
-        @interactive.stdout.read
+        @interactive.stdout.read.chomp
       else
         ""
       end
