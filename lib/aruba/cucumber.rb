@@ -161,7 +161,7 @@ Then /^it should (pass|fail) with regexp?:$/ do |pass_fail, partial_output|
 end
 
 Then /^the stderr should contain "([^"]*)"$/ do |partial_output|
-  @last_stderr.should =~ regexp(partial_output)
+  all_stderr.should include(unescape(partial_output))
 end
 
 Then /^the stdout should contain "([^"]*)"$/ do |partial_output|
@@ -169,11 +169,11 @@ Then /^the stdout should contain "([^"]*)"$/ do |partial_output|
 end
 
 Then /^the stderr should not contain "([^"]*)"$/ do |partial_output|
-  @last_stderr.should_not =~ regexp(partial_output)
+  all_stderr.should_not include(unescape(partial_output))
 end
 
 Then /^the stdout should not contain "([^"]*)"$/ do |partial_output|
-  @last_stdout.should_not =~ regexp(partial_output)
+  all_stdout.should_not include(unescape(partial_output))
 end
 
 Then /^the following files should exist:$/ do |files|

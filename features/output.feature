@@ -121,6 +121,12 @@ Feature: Output
     And the stderr should not contain "hello world!\nolleh"
 
   Scenario: Detect stderr from all processes
+    When I run "ruby -e 'STDERR.puts \"hello world!\"'"
+    And I run "ruby -e 'STDERR.puts gets.chomp.reverse'" interactively
+    And I type "hello"
+    Then the stderr should contain "hello world!\nolleh"
+    And the stdout should not contain "hello world!\nolleh"
+
   Scenario: Detect output from named source
   Scenario: Detect stderr from named source
   Scenario: Detect stdout from named source

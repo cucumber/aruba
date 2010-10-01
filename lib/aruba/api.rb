@@ -105,11 +105,15 @@ module Aruba
     end
 
     def all_output
-      simple_stdout << simple_stderr << interactive_output
+      simple_stdout << simple_stderr << interactive_stdout << interactive_stderr
     end
 
     def all_stdout
       simple_stdout << interactive_stdout
+    end
+
+    def all_stderr
+      simple_stderr << interactive_stderr
     end
 
     def assert_partial_output(partial_output)
@@ -192,10 +196,6 @@ module Aruba
       else
         ""
       end
-    end
-
-    def interactive_output
-      interactive_stdout << interactive_stderr
     end
 
     def write_interactive(input)
