@@ -113,7 +113,6 @@ Feature: Output
       olleh
       """
 
-  @wip
   Scenario: Detect stdout from all processes
     When I run "ruby -e 'puts \"hello world!\"'"
     And I run "ruby -e 'puts gets.chomp.reverse'" interactively

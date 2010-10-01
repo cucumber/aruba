@@ -165,7 +165,7 @@ Then /^the stderr should contain "([^"]*)"$/ do |partial_output|
 end
 
 Then /^the stdout should contain "([^"]*)"$/ do |partial_output|
-  @last_stdout.should =~ regexp(partial_output)
+  all_stdout.should include(unescape(partial_output))
 end
 
 Then /^the stderr should not contain "([^"]*)"$/ do |partial_output|
