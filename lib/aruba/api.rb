@@ -108,6 +108,10 @@ module Aruba
       simple_stdout << simple_stderr << interactive_output
     end
 
+    def all_stdout
+      simple_stdout << interactive_stdout
+    end
+
     def assert_partial_output(partial_output)
       all_output.should =~ regexp(partial_output)
     end
@@ -166,13 +170,32 @@ module Aruba
       end
     end
 
-    def interactive_output
-      if @interactive
+    def stop_interactive
+      if @interactive.running?
         @interactive.wait(1) || @interactive.kill('TERM')
+      end
+    end
+
+    def interactive_stdout
+      if @interactive
+        stop_interactive
         @interactive.stdout.read.chomp
       else
         ""
       end
+    end
+
+    def interactive_stderr
+      if @interactive
+        stop_interactive
+        @interactive.stderr.read.chomp
+      else
+        ""
+      end
+    end
+
+    def interactive_output
+      interactive_stdout << interactive_stderr
     end
 
     def write_interactive(input)
