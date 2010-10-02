@@ -117,7 +117,7 @@ module Aruba
     end
 
     def assert_partial_output(partial_output)
-      all_output.should =~ regexp(partial_output)
+      all_output.should include(unescape(partial_output))
     end
 
     def assert_passing_with(partial_output)

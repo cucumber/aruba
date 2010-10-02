@@ -104,19 +104,19 @@ When /^I type "([^"]*)"$/ do |input|
 end
 
 Then /^the output should contain "([^"]*)"$/ do |partial_output|
-  assert_partial_output(partial_output)
+  assert_partial_output(unescape(partial_output))
 end
 
 Then /^the output should not contain "([^"]*)"$/ do |partial_output|
-  all_output.should_not =~ regexp(partial_output)
+  all_output.should_not include(unescape(partial_output))
 end
 
 Then /^the output should contain:$/ do |partial_output|
-  all_output.should =~ regexp(partial_output)
+  all_output.should include(unescape(partial_output))
 end
 
 Then /^the output should not contain:$/ do |partial_output|
-  all_output.should_not =~ regexp(partial_output)
+  all_output.should_not include(unescape(partial_output))
 end
 
 Then /^the output should contain exactly "([^"]*)"$/ do |exact_output|
@@ -124,7 +124,7 @@ Then /^the output should contain exactly "([^"]*)"$/ do |exact_output|
 end
 
 Then /^the output should contain exactly:$/ do |exact_output|
-  all_output.should == exact_output
+  all_output.should == unescape(exact_output)
 end
 
 # "the output should match" allows regex in the partial_output, if

@@ -7,7 +7,7 @@ When /^I do aruba (.*)$/ do |aruba_step|
 end
 
 Then /^aruba should fail with "([^"]*)"$/ do |error_message|
-  @aruba_exception.message.should =~ regexp(error_message)
+  @aruba_exception.message.should include(unescape(error_message))
 end
 
 Then /^the following step should fail with Spec::Expectations::ExpectationNotMetError:$/ do |multiline_step|
