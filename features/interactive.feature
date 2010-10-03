@@ -28,3 +28,11 @@ Feature: Interactive process control
       """
       7
       """
+
+  Scenario: Directory manipulation in an interactive process
+    Given a directory named "rename_me"
+    When I run "mv rename_me renamed" interactively
+    Then the following directories should exist:
+      | renamed |
+    And the following directories should not exist:
+      | rename_me |
