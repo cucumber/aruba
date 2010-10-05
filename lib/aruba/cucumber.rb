@@ -107,6 +107,14 @@ Then /^the output should contain "([^"]*)"$/ do |partial_output|
   assert_partial_output(unescape(partial_output))
 end
 
+Then /^the output from "([^"]*)" should contain "([^"]*)"$/ do |cmd, partial_output|
+  output_from(cmd).should include(unescape(partial_output))
+end
+
+Then /^the output from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, partial_output|
+  output_from(cmd).should_not include(unescape(partial_output))
+end
+
 Then /^the output should not contain "([^"]*)"$/ do |partial_output|
   all_output.should_not include(unescape(partial_output))
 end

@@ -3,6 +3,22 @@ require 'rbconfig'
 require 'background_process'
 
 module Aruba
+  class ProcessOutput
+    attr_writer :stdout, :stderr
+
+    def output
+      stdout + stderr
+    end
+
+    def stdout
+      @stdout || ''
+    end
+
+    def stderr
+      @stderr || ''
+    end
+  end
+
   module Api
     def in_current_dir(&block)
       _mkdir(current_dir)
@@ -96,6 +112,11 @@ module Aruba
       Regexp === string_or_regexp ? string_or_regexp : Regexp.compile(Regexp.escape(string_or_regexp))
     end
 
+    def output_from(cmd)
+      cmd = detect_ruby(cmd)
+      @processes[cmd].output
+    end
+
     def simple_stdout
       @last_stdout || ''
     end
@@ -147,16 +168,19 @@ module Aruba
 
     def run(cmd, fail_on_error=true)
       cmd = detect_ruby(cmd)
+      @processes ||= {}
 
       in_current_dir do
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
         ps = BackgroundProcess.run(cmd)
+        output = ProcessOutput.new
         @last_exit_status = ps.exitstatus # waits for the process to finish
-        @last_stdout = ps.stdout.read
+        @last_stdout = output.stdout = ps.stdout.read
         announce_or_puts(@last_stdout) if @announce_stdout
-        @last_stderr = ps.stderr.read
+        @last_stderr = output.stderr = ps.stderr.read
         announce_or_puts(@last_stderr) if @announce_stderr
+        @processes[cmd] = output
       end
 
       if(@last_exit_status != 0 && fail_on_error)
@@ -168,9 +192,12 @@ module Aruba
 
     def run_interactive(cmd)
       cmd = detect_ruby(cmd)
+      @processes ||= {}
 
       in_current_dir do
         @interactive = BackgroundProcess.run(cmd)
+        @interactive_output = ProcessOutput.new
+        @processes[cmd] = @interactive_output
       end
     end
 
@@ -183,7 +210,8 @@ module Aruba
     def interactive_stdout
       if @interactive
         stop_interactive
-        @interactive.stdout.read.chomp
+        @interactive_output.stdout = @interactive.stdout.read.chomp
+        @interactive_output.stdout
       else
         ""
       end
