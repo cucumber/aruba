@@ -200,6 +200,14 @@ Then /^the following directories should not exist:$/ do |directories|
   check_directory_presence(directories.raw.map{|directory_row| directory_row[0]}, false)
 end
 
+Then /^a directory named "([^"]*)" should exist$/ do |directory|
+  check_directory_presence(directory, true)
+end
+
+Then /^a directory named "([^"]*)" should not exist$/ do |directory|
+  check_directory_presence(directory, false)
+end
+
 Then /^the file "([^"]*)" should contain "([^"]*)"$/ do |file, partial_content|
   check_file_content(file, partial_content, true)
 end

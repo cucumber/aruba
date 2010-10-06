@@ -81,7 +81,7 @@ Feature: file system commands
     Then the following directories should exist:
       | foo/bar |
       | foo/bla |
-  
+
   Scenario: check for absence of directories
     Given a directory named "foo/bar"
     Given a directory named "foo/bla"
@@ -91,7 +91,18 @@ Feature: file system commands
       | foo/bar/ |
       | foo/bla/ |
     """
-  
+
+  Scenario: Check for presence of a single directory
+    Given a directory named "foo/bar"
+    Then a directory named "foo/bar" should exist
+
+  Scenario: Check for absence of a single directory
+    Given a directory named "foo/bar"
+    Then the following step should fail with Spec::Expectations::ExpectationNotMetError:
+      """
+      Then a directory named "foo/bar" should not exist
+      """
+
   Scenario: Check file contents
     Given a file named "foo" with:
       """
