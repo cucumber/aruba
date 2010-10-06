@@ -67,7 +67,14 @@ Feature: file system commands
   Scenario: Check for absence of files
     Then the following files should not exist:
       | lorem/ipsum/dolor |
-      
+
+  Scenario: Check for presence of a single file
+    Given an empty file named "lorem/ipsum/dolor"
+    Then a file named "lorem/ipsum/dolor" should exist
+
+  Scenario: Check for absence of a single file
+    Then a file named "lorem/ipsum/dolor" should not exist
+
   Scenario: Check for presence of a subset of directories
     Given a directory named "foo/bar"
     Given a directory named "foo/bla"
