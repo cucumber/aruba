@@ -3,7 +3,7 @@ require 'rbconfig'
 require 'background_process'
 
 module Aruba
-  class ProcessOutput
+  class Process
     attr_writer :stdout, :stderr
 
     def output
@@ -118,11 +118,11 @@ module Aruba
     end
 
     def simple_stdout
-      @last_stdout || ''
+      @processes.values.inject("") { |out, ps| out << ps.stdout }
     end
 
     def simple_stderr
-      @last_stderr || ''
+      @processes.values.inject("") { |out, ps| out << ps.stderr }
     end
 
     def all_output
@@ -174,12 +174,12 @@ module Aruba
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
         ps = BackgroundProcess.run(cmd)
-        output = ProcessOutput.new
+        output = Process.new
         @last_exit_status = ps.exitstatus # waits for the process to finish
-        @last_stdout = output.stdout = ps.stdout.read
-        announce_or_puts(@last_stdout) if @announce_stdout
-        @last_stderr = output.stderr = ps.stderr.read
-        announce_or_puts(@last_stderr) if @announce_stderr
+        output.stdout = ps.stdout.read
+        announce_or_puts(output.stdout) if @announce_stdout
+        output.stderr = ps.stderr.read
+        announce_or_puts(output.stderr) if @announce_stderr
         @processes[cmd] = output
       end
 
@@ -196,7 +196,7 @@ module Aruba
 
       in_current_dir do
         @interactive = BackgroundProcess.run(cmd)
-        @interactive_output = ProcessOutput.new
+        @interactive_output = Process.new
         @processes[cmd] = @interactive_output
       end
     end
@@ -220,7 +220,8 @@ module Aruba
     def interactive_stderr
       if @interactive
         stop_interactive
-        @interactive.stderr.read.chomp
+        @interactive_output.stderr = @interactive.stderr.read.chomp
+        @interactive_output.stderr
       else
         ""
       end
