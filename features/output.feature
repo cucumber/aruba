@@ -127,7 +127,6 @@ Feature: Output
     Then the stderr should contain "hello world!\nolleh"
     And the stdout should not contain "hello world!\nolleh"
 
-  @wip
   Scenario: Detect output from named source
     When I run "ruby -e 'puts :simple'"
     And I run "ruby -e 'puts gets.chomp'" interactively
