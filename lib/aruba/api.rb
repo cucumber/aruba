@@ -6,6 +6,10 @@ module Aruba
   class Process
     attr_writer :stdout, :stderr
 
+    def initialize(cmd="")
+      @cmd = cmd
+    end
+
     def output
       stdout + stderr
     end
@@ -16,6 +20,13 @@ module Aruba
 
     def stderr
       @stderr || ''
+    end
+
+    def run!
+      ps = BackgroundProcess.run(@cmd)
+      @stdout = ps.stdout.read
+      @stderr = ps.stderr.read
+      ps.exitstatus # waits for the process to finish
     end
   end
 
@@ -173,14 +184,10 @@ module Aruba
       in_current_dir do
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
-        ps = BackgroundProcess.run(cmd)
-        output = Process.new
-        @last_exit_status = ps.exitstatus # waits for the process to finish
-        output.stdout = ps.stdout.read
-        announce_or_puts(output.stdout) if @announce_stdout
-        output.stderr = ps.stderr.read
-        announce_or_puts(output.stderr) if @announce_stderr
-        @processes[cmd] = output
+        ps = @processes[cmd] = Process.new(cmd)
+        @last_exit_status = ps.run!
+        announce_or_puts(ps.stdout) if @announce_stdout
+        announce_or_puts(ps.stderr) if @announce_stderr
       end
 
       if(@last_exit_status != 0 && fail_on_error)
