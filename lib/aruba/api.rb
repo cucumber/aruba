@@ -10,23 +10,43 @@ module Aruba
       @cmd = cmd
     end
 
+    def stdin
+      @process.stdin
+    end
+
     def output
       stdout + stderr
     end
 
     def stdout
-      @stdout || ''
+      if @process
+        @stdout ||= @process.stdout.read
+      else
+        ''
+      end
     end
 
     def stderr
-      @stderr || ''
+      if @process
+        @stderr ||= @process.stderr.read
+      else
+        ''
+      end
     end
 
-    def run!
-      ps = BackgroundProcess.run(@cmd)
-      @stdout = ps.stdout.read
-      @stderr = ps.stderr.read
-      ps.exitstatus # waits for the process to finish
+    def run!(&block)
+      @process = BackgroundProcess.run(@cmd)
+      yield self if block_given?
+    end
+
+    def exitstatus
+      @process && @process.exitstatus
+    end
+
+    def stop
+      if @process.running?
+        @process.wait(1) || @process.kill('TERM')
+      end
     end
   end
 
@@ -184,10 +204,14 @@ module Aruba
       in_current_dir do
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
-        ps = @processes[cmd] = Process.new(cmd)
-        @last_exit_status = ps.run!
-        announce_or_puts(ps.stdout) if @announce_stdout
-        announce_or_puts(ps.stderr) if @announce_stderr
+        
+        @processes[cmd] = Process.new(cmd)
+
+        @processes[cmd].run! do |process|
+          @last_exit_status = process.exitstatus
+          announce_or_puts(process.stdout) if @announce_stdout
+          announce_or_puts(process.stderr) if @announce_stderr
+        end
       end
 
       if(@last_exit_status != 0 && fail_on_error)
@@ -202,22 +226,19 @@ module Aruba
       @processes ||= {}
 
       in_current_dir do
-        @interactive = BackgroundProcess.run(cmd)
-        @interactive_output = Process.new
+        @interactive_output = Process.new(cmd)
+        @interactive_output.run!
         @processes[cmd] = @interactive_output
       end
     end
 
     def stop_interactive
-      if @interactive.running?
-        @interactive.wait(1) || @interactive.kill('TERM')
-      end
+      @interactive_output.stop
     end
 
     def interactive_stdout
-      if @interactive
-        stop_interactive
-        @interactive_output.stdout = @interactive.stdout.read.chomp
+      if @interactive_output
+        @interactive_output.stop
         @interactive_output.stdout
       else
         ""
@@ -225,9 +246,8 @@ module Aruba
     end
 
     def interactive_stderr
-      if @interactive
-        stop_interactive
-        @interactive_output.stderr = @interactive.stderr.read.chomp
+      if @interactive_output
+        @interactive_output.stop
         @interactive_output.stderr
       else
         ""
@@ -235,7 +255,7 @@ module Aruba
     end
 
     def write_interactive(input)
-      @interactive.stdin.write(input)
+      @interactive_output.stdin.write(input)
     end
 
     def announce_or_puts(msg)
