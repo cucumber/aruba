@@ -148,24 +148,16 @@ module Aruba
       @processes[cmd].output
     end
 
-    def simple_stdout
+    def all_stdout
       @processes.values.inject("") { |out, ps| out << ps.stdout }
     end
 
-    def simple_stderr
+    def all_stderr
       @processes.values.inject("") { |out, ps| out << ps.stderr }
     end
 
     def all_output
-      simple_stdout << simple_stderr << interactive_stdout << interactive_stderr
-    end
-
-    def all_stdout
-      simple_stdout << interactive_stdout
-    end
-
-    def all_stderr
-      simple_stderr << interactive_stderr
+      all_stdout << all_stderr
     end
 
     def assert_partial_output(partial_output)
@@ -229,28 +221,6 @@ module Aruba
         @interactive_output = Process.new(cmd)
         @interactive_output.run!
         @processes[cmd] = @interactive_output
-      end
-    end
-
-    def stop_interactive
-      @interactive_output.stop
-    end
-
-    def interactive_stdout
-      if @interactive_output
-        @interactive_output.stop
-        @interactive_output.stdout
-      else
-        ""
-      end
-    end
-
-    def interactive_stderr
-      if @interactive_output
-        @interactive_output.stop
-        @interactive_output.stderr
-      else
-        ""
       end
     end
 

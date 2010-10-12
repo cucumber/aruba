@@ -111,6 +111,7 @@ Feature: Output
       """
       hello world!
       olleh
+
       """
 
   Scenario: Detect stdout from all processes
