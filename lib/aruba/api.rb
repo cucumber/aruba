@@ -42,12 +42,6 @@ module Aruba
     def exitstatus
       @process && @process.exitstatus
     end
-
-    def stop
-      if @process.running?
-        @process.wait(1) || @process.kill('TERM')
-      end
-    end
   end
 
   module Api
