@@ -103,28 +103,30 @@ When /^I type "([^"]*)"$/ do |input|
   write_interactive(ensure_newline(input))
 end
 
-Then /^the output should contain "([^"]*)"$/ do |partial_output|
-  assert_partial_output(partial_output)
+Then /^the output should(, regardless of case,|) contain "([^"]*)"$/ do |case_insensitive, partial_output|
+  assert_partial_output(partial_output, (case_insensitive == "" ? :case_sensitive : :case_insensitive))
 end
 
-Then /^the output should not contain "([^"]*)"$/ do |partial_output|
-  combined_output.should_not =~ regexp(partial_output)
+Then /^the output should not(, regardless of case,|) contain "([^"]*)"$/ do |case_insensitive, partial_output|
+  combined_output.should_not =~ regexp(partial_output, (case_insensitive == "" ? :case_sensitive : :case_insensitive))
 end
 
-Then /^the output should contain:$/ do |partial_output|
-  combined_output.should =~ regexp(partial_output)
+Then /^the output should(, regardless of case,|) contain:$/ do |case_insensitive, partial_output|
+  combined_output.should =~ regexp(partial_output, (case_insensitive == "" ? :case_sensitive : :case_insensitive))
 end
 
-Then /^the output should not contain:$/ do |partial_output|
-  combined_output.should_not =~ regexp(partial_output)
+Then /^the output should not(, regardless of case,|) contain:$/ do |case_insensitive, partial_output|
+  combined_output.should_not =~ regexp(partial_output, (case_insensitive == "" ? :case_sensitive : :case_insensitive))
 end
 
-Then /^the output should contain exactly "([^"]*)"$/ do |exact_output|
-  combined_output.should == unescape(exact_output)
+Then /^the output should(, regardless of case,|) contain exactly "([^"]*)"$/ do |case_insensitive, exact_output|
+  combined_output.should == unescape(exact_output) if case_insensitive == ""
+  combined_output.downcase.should == unescape(exact_output).downcase if case_insensitive != nil
 end
 
-Then /^the output should contain exactly:$/ do |exact_output|
-  combined_output.should == exact_output
+Then /^the output should(, regardless of case,|) contain exactly:$/ do |case_insensitive, exact_output|
+  combined_output.should == exact_output if case_insensitive == ""  
+  combined_output.downcase.should == exact_output.downcase if case_insensitive == ""  
 end
 
 # "the output should match" allows regex in the partial_output, if
@@ -134,9 +136,25 @@ end
 Then /^the output should match \/([^\/]*)\/$/ do |partial_output|
   combined_output.should =~ /#{partial_output}/
 end
- 
-Then /^the output should match:$/ do |partial_output|
-  combined_output.should =~ /#{partial_output}/m
+
+Then /^the output should match \/([^\/]*)\/i$/ do |partial_output|
+  combined_output.should =~ /#{partial_output}/i
+end
+
+Then /^the output should not match \/([^\/]*)\/$/ do |partial_output|
+  combined_output.should_not =~ /#{partial_output}/
+end
+
+Then /^the output should not match \/([^\/]*)\/i$/ do |partial_output|
+  combined_output.should_not =~ /#{partial_output}/i
+end
+
+Then /^the output should(, regardless of case,|) match:$/ do |case_insensitive, partial_output|
+ combined_output.should =~ (case_insensitive == "" ? /#{partial_output}/m : /#{partial_output}/mi)
+end
+
+Then /^the output should not(, regardless of case,|) match:$/ do |case_insensitive, partial_output|
+ combined_output.should_not =~ (case_insensitive == "" ? /#{partial_output}/m : /#{partial_output}/mi)
 end
 
 Then /^the exit status should be (\d+)$/ do |exit_status|
@@ -147,12 +165,12 @@ Then /^the exit status should not be (\d+)$/ do |exit_status|
   @last_exit_status.should_not == exit_status.to_i
 end
 
-Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
-  self.__send__("assert_#{pass_fail}ing_with", partial_output)
+Then /^it should(, regardless of case,|) (pass|fail) with:$/ do |case_insensitive, pass_fail, partial_output|
+  self.__send__("assert_#{pass_fail}ing_with", partial_output, (case_insensitive == "" ? :case_sensitive : :case_insensitive))
 end
 
-Then /^it should (pass|fail) with regexp?:$/ do |pass_fail, partial_output|
-  Then "the output should match:", partial_output
+Then /^it should(, regardless of case,|) (pass|fail) with regexp?:$/ do |case_insensitive, pass_fail, partial_output|
+  Then "the output should#{case_insensitive} match:", partial_output
   if pass_fail == 'pass'
     @last_exit_status.should == 0
   else
@@ -160,20 +178,20 @@ Then /^it should (pass|fail) with regexp?:$/ do |pass_fail, partial_output|
   end
 end
 
-Then /^the stderr should contain "([^"]*)"$/ do |partial_output|
-  @last_stderr.should =~ regexp(partial_output)
+Then /^the stderr should(, regardless of case,|) contain "([^"]*)"$/ do |case_insensitive, partial_output|
+  @last_stderr.should =~ regexp(partial_output, (case_insensitive == "" ? :case_sensitive : :case_insensitive))
 end
 
-Then /^the stdout should contain "([^"]*)"$/ do |partial_output|
-  @last_stdout.should =~ regexp(partial_output)
+Then /^the stdout should(, regardless of case,|) contain "([^"]*)"$/ do |case_insensitive, partial_output|
+  @last_stdout.should =~ regexp(partial_output, (case_insensitive == "" ? :case_sensitive : :case_insensitive))
 end
 
-Then /^the stderr should not contain "([^"]*)"$/ do |partial_output|
-  @last_stderr.should_not =~ regexp(partial_output)
+Then /^the stderr should not(, regardless of case,|) contain "([^"]*)"$/ do |case_insensitive, partial_output|
+  @last_stderr.should_not =~ regexp(partial_output, (case_insensitive == "" ? :case_sensitive : :case_insensitive))
 end
 
-Then /^the stdout should not contain "([^"]*)"$/ do |partial_output|
-  @last_stdout.should_not =~ regexp(partial_output)
+Then /^the stdout should not(, regardless of case,|) contain "([^"]*)"$/ do |case_insensitive, partial_output|
+  @last_stdout.should_not =~ regexp(partial_output, (case_insensitive == "" ? :case_sensitive : :case_insensitive))
 end
 
 Then /^the following files should exist:$/ do |files|

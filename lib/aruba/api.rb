@@ -92,8 +92,9 @@ module Aruba
       eval(%{"#{string}"})
     end
 
-    def regexp(string_or_regexp)
-      Regexp === string_or_regexp ? string_or_regexp : Regexp.compile(Regexp.escape(string_or_regexp))
+    def regexp(string_or_regexp, case_insensitive = :case_sensitive)
+      #puts "case_insensitive: #{case_insensitive}"
+      Regexp === string_or_regexp ? string_or_regexp : Regexp.compile(Regexp.escape(string_or_regexp), (case_insensitive == :case_insensitive))
     end
 
     def combined_output
@@ -104,20 +105,20 @@ module Aruba
       end
     end
 
-    def assert_partial_output(partial_output)
-      combined_output.should =~ regexp(partial_output)
+    def assert_partial_output(partial_output, case_insensitive = :case_sensitive)
+      combined_output.should =~ regexp(partial_output, case_insensitive)
     end
 
-    def assert_passing_with(partial_output)
-      assert_exit_status_and_partial_output(true, partial_output)
+    def assert_passing_with(partial_output, case_insensitive = :case_sensitive)
+      assert_exit_status_and_partial_output(true, partial_output, case_insensitive)
     end
 
-    def assert_failing_with(partial_output)
-      assert_exit_status_and_partial_output(false, partial_output)
+    def assert_failing_with(partial_output, case_insensitive = :case_sensitive)
+      assert_exit_status_and_partial_output(false, partial_output, case_insensitive)
     end
 
-    def assert_exit_status_and_partial_output(expect_to_pass, partial_output)
-      assert_partial_output(partial_output)
+    def assert_exit_status_and_partial_output(expect_to_pass, partial_output, case_insensitive = :case_sensitive)
+      assert_partial_output(partial_output, case_insensitive)
       if expect_to_pass
         @last_exit_status.should == 0
       else
