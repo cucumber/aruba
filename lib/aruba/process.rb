@@ -6,6 +6,11 @@ module Aruba
       @cmd = cmd
     end
 
+    def run!(&block)
+      @process = BackgroundProcess.run(@cmd)
+      yield self if block_given?
+    end
+
     def stdin
       @process.stdin
     end
@@ -28,11 +33,6 @@ module Aruba
       else
         ''
       end
-    end
-
-    def run!(&block)
-      @process = BackgroundProcess.run(@cmd)
-      yield self if block_given?
     end
 
     def stop
