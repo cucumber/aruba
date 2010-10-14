@@ -2,8 +2,6 @@ require 'background_process'
 
 module Aruba
   class Process
-    attr_writer :stdout, :stderr
-
     def initialize(cmd)
       @cmd = cmd
     end
