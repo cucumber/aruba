@@ -36,7 +36,10 @@ module Aruba
     end
 
     def stop
-      @process && @process.exitstatus
+      if @process
+        status = @process.wait(1)
+        status && status.exitstatus
+      end
     end
   end
 end
