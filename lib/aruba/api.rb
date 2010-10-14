@@ -6,7 +6,7 @@ module Aruba
   class Process
     attr_writer :stdout, :stderr
 
-    def initialize(cmd="")
+    def initialize(cmd)
       @cmd = cmd
     end
 
@@ -39,7 +39,7 @@ module Aruba
       yield self if block_given?
     end
 
-    def exitstatus
+    def stop
       @process && @process.exitstatus
     end
   end
@@ -193,18 +193,16 @@ module Aruba
         
         @processes[cmd] = Process.new(cmd)
 
-        @processes[cmd].run! do |process|
-          @last_exit_status = process.exitstatus
+        @last_exit_status = @processes[cmd].run! do |process|
           announce_or_puts(process.stdout) if @announce_stdout
           announce_or_puts(process.stderr) if @announce_stderr
+          process.stop
         end
       end
 
       if(@last_exit_status != 0 && fail_on_error)
         fail("Exit status was #{@last_exit_status}. Output:\n#{all_output}")
       end
-
-      @last_stderr
     end
 
     def run_interactive(cmd)
