@@ -143,21 +143,9 @@ module Aruba
       end
     end
 
-    def run(cmd, fail_on_error=true)
-      cmd = detect_ruby(cmd)
-      @processes ||= {}
-
-      in_current_dir do
-        announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
-        announce_or_puts("$ #{cmd}") if @announce_cmd
-        
-        @processes[cmd] = Process.new(cmd)
-
-        @last_exit_status = @processes[cmd].run! do |process|
-          announce_or_puts(process.stdout) if @announce_stdout
-          announce_or_puts(process.stderr) if @announce_stderr
-          process.stop
-        end
+    def run_simple(cmd, fail_on_error=true)
+      @last_exit_status = run(cmd) do |process|
+        process.stop
       end
 
       if(@last_exit_status != 0 && fail_on_error)
@@ -166,18 +154,29 @@ module Aruba
     end
 
     def run_interactive(cmd)
+      @interactive = run(cmd)
+    end
+
+    def run(cmd)
       cmd = detect_ruby(cmd)
       @processes ||= {}
 
       in_current_dir do
-        @interactive_output = Process.new(cmd)
-        @interactive_output.run!
-        @processes[cmd] = @interactive_output
+        announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
+        announce_or_puts("$ #{cmd}") if @announce_cmd
+        
+        process = @processes[cmd] = Process.new(cmd)
+        process.run!
+
+        announce_or_puts(process.stdout) if @announce_stdout
+        announce_or_puts(process.stderr) if @announce_stderr
+
+        block_given? ? yield(process) : process
       end
     end
 
     def write_interactive(input)
-      @interactive_output.stdin.write(input)
+      @interactive.stdin.write(input)
     end
 
     def announce_or_puts(msg)

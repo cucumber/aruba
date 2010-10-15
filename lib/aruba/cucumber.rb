@@ -88,11 +88,11 @@ When /^I cd to "([^"]*)"$/ do |dir|
 end
 
 When /^I run "(.*)"$/ do |cmd|
-  run(unescape(cmd), false)
+  run_simple(unescape(cmd), false)
 end
 
 When /^I successfully run "(.*)"$/ do |cmd|
-  run(unescape(cmd))
+  run_simple(unescape(cmd))
 end
 
 When /^I run "([^"]*)" interactively$/ do |cmd|
