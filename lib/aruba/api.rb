@@ -145,6 +145,8 @@ module Aruba
 
     def run_simple(cmd, fail_on_error=true)
       @last_exit_status = run(cmd) do |process|
+        announce_or_puts(process.stdout) if @announce_stdout
+        announce_or_puts(process.stderr) if @announce_stderr
         process.stop
       end
 
@@ -167,9 +169,6 @@ module Aruba
         
         process = @processes[cmd] = Process.new(cmd)
         process.run!
-
-        announce_or_puts(process.stdout) if @announce_stdout
-        announce_or_puts(process.stderr) if @announce_stderr
 
         block_given? ? yield(process) : process
       end
