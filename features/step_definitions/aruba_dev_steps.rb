@@ -6,6 +6,11 @@ When /^I do aruba (.*)$/ do |aruba_step|
   end
 end
 
+# Useful for debugging timing problems
+When /^sleep (\d+)$/ do |time|
+  sleep time.to_i
+end
+
 Then /^aruba should fail with "([^"]*)"$/ do |error_message|
   @aruba_exception.message.should include(unescape(error_message))
 end
