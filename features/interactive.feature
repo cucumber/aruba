@@ -29,13 +29,11 @@ Feature: Interactive process control
       7
       """
 
-  @wip
-  Scenario: Filesystem checks
+  Scenario: Stop processes before checking for filesystem changes 
     See: http://github.com/aslakhellesoy/aruba/issues#issue/17 for context
 
     Given a directory named "rename_me"
     When I run "mv rename_me renamed" interactively
-    And sleep 1
     Then the following directories should exist:
       | renamed |
     And the following directories should not exist:

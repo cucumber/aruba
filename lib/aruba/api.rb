@@ -74,6 +74,8 @@ module Aruba
     end
   
     def check_directory_presence(paths, expect_presence)
+      stop_processes!
+
       in_current_dir do
         paths.each do |path|
           if expect_presence
@@ -143,6 +145,30 @@ module Aruba
       end
     end
 
+    def processes
+      @processes ||= {}
+    end
+
+    def stop_processes!
+      processes.each do |_, process|
+        process.stop
+      end
+    end
+
+    def run(cmd)
+      cmd = detect_ruby(cmd)
+
+      in_current_dir do
+        announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
+        announce_or_puts("$ #{cmd}") if @announce_cmd
+        
+        process = processes[cmd] = Process.new(cmd)
+        process.run!
+
+        block_given? ? yield(process) : process
+      end
+    end
+
     def run_simple(cmd, fail_on_error=true)
       @last_exit_status = run(cmd) do |process|
         announce_or_puts(process.stdout) if @announce_stdout
@@ -157,21 +183,6 @@ module Aruba
 
     def run_interactive(cmd)
       @interactive = run(cmd)
-    end
-
-    def run(cmd)
-      cmd = detect_ruby(cmd)
-      @processes ||= {}
-
-      in_current_dir do
-        announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
-        announce_or_puts("$ #{cmd}") if @announce_cmd
-        
-        process = @processes[cmd] = Process.new(cmd)
-        process.run!
-
-        block_given? ? yield(process) : process
-      end
     end
 
     def write_interactive(input)
