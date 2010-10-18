@@ -1,4 +1,6 @@
 == In Git
+=== New Features
+* @announce, @announce-dir and @announce-cmd for interactive processes (Mike Sassak)
 
 === Bug fixes
 * Outputting large amounts of data causes run steps to hang (#18 Mike Sassak)
