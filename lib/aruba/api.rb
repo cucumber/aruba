@@ -89,11 +89,10 @@ module Aruba
     end
 
     def unescape(string)
-      eval(%{"#{string}"})
+       eval(%{"#{string}"})
     end
 
     def regexp(string_or_regexp, case_insensitive = :case_sensitive)
-      #puts "case_insensitive: #{case_insensitive}"
       Regexp === string_or_regexp ? string_or_regexp : Regexp.compile(Regexp.escape(string_or_regexp), (case_insensitive == :case_insensitive))
     end
 

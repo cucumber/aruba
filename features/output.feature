@@ -46,7 +46,6 @@ Feature: Output
       hello
       """
 
-
   Scenario: Detect subset of multiline output, regardless of case
     When I run "ruby -e 'puts \"hello\\nworld\"'"
     Then the output should, regardless of case, contain:

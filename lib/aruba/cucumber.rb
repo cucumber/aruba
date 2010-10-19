@@ -103,8 +103,13 @@ When /^I type "([^"]*)"$/ do |input|
   write_interactive(ensure_newline(input))
 end
 
-Then /^the output should(, regardless of case,|) contain "([^"]*)"$/ do |case_insensitive, partial_output|
-  assert_partial_output(partial_output, (case_insensitive == "" ? :case_sensitive : :case_insensitive))
+#(\w+ |\".*?\"|'.*?')
+#(\w+)|(?:')(.+)(?:')|(?: )(\w+)|(\w+)(?: )
+
+Then /^the output should(, regardless of case,|) contain "([^"]*)"( each of these|)$/ do |case_insensitive, partial_output, is_array|
+  (is_array == nil ? [partial_output] : partial_output.scan(/(\w+)|(?:')(.+)(?:')/).flatten.compact).each do |partial_output_each|
+    assert_partial_output(partial_output_each, (case_insensitive == "" ? :case_sensitive : :case_insensitive))
+  end
 end
 
 Then /^the output should not(, regardless of case,|) contain "([^"]*)"$/ do |case_insensitive, partial_output|
