@@ -3,6 +3,7 @@
 * @announce, @announce-dir and @announce-cmd for interactive processes (Mike Sassak)
 
 === Bug fixes
+* Stop all processes before verifying filesystem changes to ensure async operations are complete (#17 Mike Sassak)
 * Outputting large amounts of data causes run steps to hang (#18 Mike Sassak)
 
 == 0.2.3
