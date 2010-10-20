@@ -44,9 +44,7 @@ module Aruba
     end
 
     def check_file_presence(paths, expect_presence)
-      stop_processes!
-
-      in_current_dir do
+      prep_for_fs_check do
         paths.each do |path|
           if expect_presence
             File.should be_file(path)
@@ -58,10 +56,8 @@ module Aruba
     end
 
     def check_file_content(file, partial_content, expect_match)
-      stop_processes!
-
       regexp = regexp(partial_content)
-      in_current_dir do
+      prep_for_fs_check do 
         content = IO.read(file)
         if expect_match
           content.should =~ regexp
@@ -72,17 +68,11 @@ module Aruba
     end
   
     def check_exact_file_content(file, exact_content)
-      stop_processes!
-
-      in_current_dir do
-        IO.read(file).should == exact_content
-      end
+      prep_for_fs_check { IO.read(file).should == exact_content }
     end
   
     def check_directory_presence(paths, expect_presence)
-      stop_processes!
-
-      in_current_dir do
+      prep_for_fs_check do
         paths.each do |path|
           if expect_presence
             File.should be_directory(path)
@@ -91,6 +81,11 @@ module Aruba
           end
         end
       end
+    end
+
+    def prep_for_fs_check(&block)
+      stop_processes!
+      in_current_dir{ block.call }
     end
 
     def _mkdir(dir_name)
