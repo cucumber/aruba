@@ -44,6 +44,8 @@ module Aruba
     end
 
     def check_file_presence(paths, expect_presence)
+      stop_processes!
+
       in_current_dir do
         paths.each do |path|
           if expect_presence
@@ -56,6 +58,8 @@ module Aruba
     end
 
     def check_file_content(file, partial_content, expect_match)
+      stop_processes!
+
       regexp = regexp(partial_content)
       in_current_dir do
         content = IO.read(file)
@@ -68,6 +72,8 @@ module Aruba
     end
   
     def check_exact_file_content(file, exact_content)
+      stop_processes!
+
       in_current_dir do
         IO.read(file).should == exact_content
       end
