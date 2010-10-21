@@ -184,6 +184,18 @@ Then /^the stdout should not contain "([^"]*)"$/ do |partial_output|
   all_stdout.should_not include(unescape(partial_output))
 end
 
+Then /^the stdout from "([^"]*)" should contain "([^"]*)"$/ do |cmd, partial_output|
+  stdout_from(cmd).should include(unescape(partial_output))
+end
+
+Then /^the stdout from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, partial_output|
+  stdout_from(cmd).should_not include(unescape(partial_output))
+end
+
+Then /^the stderr from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, partial_output|
+  stderr_from(cmd).should_not include(unescape(partial_output))
+end
+
 Then /^the following files should exist:$/ do |files|
   check_file_presence(files.raw.map{|file_row| file_row[0]}, true)
 end
