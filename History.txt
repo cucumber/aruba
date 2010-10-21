@@ -1,6 +1,7 @@
 == In Git
 === New Features
 * @announce, @announce-dir and @announce-cmd for interactive processes (Mike Sassak)
+* Add step defs for detecting output, stdout and stderr by process name (Mike Sassak)
 
 === Bug fixes
 * Stop all processes before verifying filesystem changes to ensure async operations are complete (#17 Mike Sassak)
