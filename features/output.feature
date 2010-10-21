@@ -142,5 +142,11 @@ Feature: Output
     And the stderr from "ruby -e 'puts :hello'" should not contain "hello"
     And the stdout from "ruby -e 'puts :goodbye'" should not contain "hello"
 
-  Scenario: Detect output from named source with custom name
   Scenario: Detect stderr from named source
+    When I run "ruby -e 'STDERR.puts :hello'"
+    And I run "ruby -e 'puts :goodbye'"
+    Then the stderr from "ruby -e 'STDERR.puts :hello'" should contain "hello"
+    And the stdout from "ruby -e 'STDERR.puts :hello'" should not contain "hello"
+    And the stderr from "ruby -e 'puts :goodbye'" should not contain "hello"
+
+  Scenario: Detect output from named source with custom name

@@ -192,6 +192,10 @@ Then /^the stdout from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, partial
   stdout_from(cmd).should_not include(unescape(partial_output))
 end
 
+Then /^the stderr from "([^"]*)" should contain "([^"]*)"$/ do |cmd, partial_output|
+  stderr_from(cmd).should include(unescape(partial_output))
+end
+
 Then /^the stderr from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, partial_output|
   stderr_from(cmd).should_not include(unescape(partial_output))
 end
