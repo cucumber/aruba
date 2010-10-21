@@ -102,25 +102,25 @@ module Aruba
 
     def output_from(cmd)
       cmd = detect_ruby(cmd)
-      @processes[cmd].output
+      processes[cmd].output
     end
 
     def stdout_from(cmd)
       cmd = detect_ruby(cmd)
-      @processes[cmd].stdout
+      processes[cmd].stdout
     end
 
     def stderr_from(cmd)
       cmd = detect_ruby(cmd)
-      @processes[cmd].stderr
+      processes[cmd].stderr
     end
 
     def all_stdout
-      @processes.values.inject("") { |out, ps| out << ps.stdout }
+      processes.values.inject("") { |out, ps| out << ps.stdout }
     end
 
     def all_stderr
-      @processes.values.inject("") { |out, ps| out << ps.stderr }
+      processes.values.inject("") { |out, ps| out << ps.stderr }
     end
 
     def all_output
