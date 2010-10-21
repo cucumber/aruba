@@ -149,4 +149,5 @@ Feature: Output
     And the stdout from "ruby -e 'STDERR.puts :hello'" should not contain "hello"
     And the stderr from "ruby -e 'puts :goodbye'" should not contain "hello"
 
+  @wip
   Scenario: Detect output from named source with custom name
