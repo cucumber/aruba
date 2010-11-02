@@ -83,6 +83,10 @@ When /^I append to "([^"]*)" with:$/ do |file_name, file_content|
   append_to_file(file_name, file_content)
 end
 
+When /^I remove the file "([^"]*)"$/ do |file_name|
+  remove_file(file_name)
+end
+
 When /^I cd to "([^"]*)"$/ do |dir|
   cd(dir)
 end
@@ -174,6 +178,10 @@ end
 
 Then /^the stdout should not contain "([^"]*)"$/ do |partial_output|
   @last_stdout.should_not =~ regexp(partial_output)
+end
+
+Then /^the file "([^"]*)" should not exist$/ do |file_name|
+  check_file_presence([file_name], false)
 end
 
 Then /^the following files should exist:$/ do |files|
