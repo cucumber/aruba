@@ -1,4 +1,4 @@
-require 'tempfile'
+require 'fileutils'
 require 'rbconfig'
 
 require 'aruba/process'
@@ -28,6 +28,12 @@ module Aruba
         raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
         _mkdir(File.dirname(file_name))
         File.open(file_name, 'w') { |f| f << file_content }
+      end
+    end
+
+    def remove_file(file_name)
+      in_current_dir do
+        FileUtils.rm(file_name)
       end
     end
 

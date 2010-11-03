@@ -93,10 +93,18 @@ Feature: file system commands
     Then the file "foo" should contain "hello world"
     And the file "foo" should not contain "HELLO WORLD"
 
-  Scenario: Check file contents
+  Scenario: Check file contents with regexp
     Given a file named "foo" with:
       """
       hello world
       """
     Then the file "foo" should match /hel.o world/
     And the file "foo" should not match /HELLO WORLD/
+
+  Scenario: Remove file
+    Given a file named "foo" with:
+      """
+      hello world
+      """
+    When I remove the file "foo"
+    Then the file "foo" should not exist
