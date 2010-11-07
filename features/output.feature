@@ -81,6 +81,7 @@ Feature: Output
       """
       hello
       world
+
       """
 
   @announce-stdout
