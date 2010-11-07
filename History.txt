@@ -1,3 +1,8 @@
+== In Git
+
+=== New Features
+* Added /it should pass with exactly:/ (Aslak Hellesøy)
+
 == 0.2.4
 
 === New Features

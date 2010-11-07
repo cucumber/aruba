@@ -75,6 +75,14 @@ Feature: Output
       hello
       """
 
+  Scenario: Match passing exit status and exact output
+    When I run "ruby -e 'puts \"hello\\nworld\"'"
+    Then it should pass with exactly:
+      """
+      hello
+      world
+      """
+
   @announce-stdout
   Scenario: Match failing exit status and partial output
     When I run "ruby -e 'puts \"hello\\nworld\";exit 99'"
