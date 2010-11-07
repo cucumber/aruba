@@ -92,6 +92,15 @@ Feature: Output
       hello
       """
 
+  Scenario: Match failing exit status and exact output
+    When I run "ruby -e 'puts \"hello\\nworld\";exit 99'"
+    Then it should fail with exactly:
+      """
+      hello
+      world
+
+      """
+
   @announce-stdout
   Scenario: Match failing exit status and output with regex
     When I run "ruby -e 'puts \"hello\\nworld\";exit 99'"

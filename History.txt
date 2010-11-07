@@ -1,6 +1,8 @@
 == In Git
 
 === New Features
+* Added /^the stderr should contain exactly:"$/ (Aslak Hellesøy)
+* Added /^the stdout should contain exactly:"$/ (Aslak Hellesøy)
 * Added /it should pass with exactly:/ (Aslak Hellesøy)
 
 == 0.2.4
