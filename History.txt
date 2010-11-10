@@ -1,5 +1,9 @@
 == In Git
+
 === New Features
+* Added /^the stderr should contain exactly:"$/ (Aslak Hellesøy)
+* Added /^the stdout should contain exactly:"$/ (Aslak Hellesøy)
+* Added /it should pass with exactly:/ (Aslak Hellesøy)
 * @announce, @announce-dir and @announce-cmd for interactive processes (Mike Sassak)
 * Add step defs for detecting output, stdout and stderr by process name (Mike Sassak)
 

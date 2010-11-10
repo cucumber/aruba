@@ -163,6 +163,10 @@ Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
   self.__send__("assert_#{pass_fail}ing_with", partial_output)
 end
 
+Then /^it should (pass|fail) with exactly:$/ do |pass_fail, exact_output|
+  assert_exit_status_and_output(pass_fail == "pass", exact_output, true)
+end
+
 Then /^it should (pass|fail) with regexp?:$/ do |pass_fail, partial_output|
   Then "the output should match:", partial_output
   if pass_fail == 'pass'
@@ -176,8 +180,16 @@ Then /^the stderr should contain "([^"]*)"$/ do |partial_output|
   all_stderr.should include(unescape(partial_output))
 end
 
+Then /^the stderr should contain exactly:$/ do |exact_output|
+  @last_stderr.should == exact_output
+end
+
 Then /^the stdout should contain "([^"]*)"$/ do |partial_output|
   all_stdout.should include(unescape(partial_output))
+end
+
+Then /^the stdout should contain exactly:$/ do |exact_output|
+  @stdout.should == exact_output
 end
 
 Then /^the stderr should not contain "([^"]*)"$/ do |partial_output|
