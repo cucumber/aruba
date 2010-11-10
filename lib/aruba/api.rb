@@ -134,7 +134,7 @@ module Aruba
     end
 
     def assert_exact_output(exact_output)
-      combined_output.should == exact_output
+      all_output.should == exact_output
     end
 
     def assert_partial_output(partial_output)
