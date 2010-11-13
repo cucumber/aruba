@@ -1,6 +1,8 @@
 == In Git
 
 === New Features
+* Added 'a file named "whatever" should (not) exist' (Robert Speicher)
+* Added 'a directory named "whatever" should (not) exist' (Robert Speicher)
 * Added /^the stderr should contain exactly:"$/ (Aslak Hellesøy)
 * Added /^the stdout should contain exactly:"$/ (Aslak Hellesøy)
 * Added /it should pass with exactly:/ (Aslak Hellesøy)
