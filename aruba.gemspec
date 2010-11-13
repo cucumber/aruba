@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = 'cukes@googlegroups.com'
   s.homepage    = 'http://github.com/aslakhellesoy/aruba'
 
-  s.add_dependency 'cucumber', '~> 0.9.3'
+  s.add_dependency 'cucumber', '~> 0.9.4'
   s.add_dependency 'background_process' # Can't specify a version - bundler/rubygems chokes on '2.1'
   s.add_development_dependency 'rspec', '~> 2.0.1'
 
