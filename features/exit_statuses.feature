@@ -7,6 +7,10 @@ Feature: exit statuses
   Scenario: exit status of 0
     When I run "ruby -h"
     Then the exit status should be 0
+
+  Scenario: Not explicitly exiting at all
+    When I run "ruby -e '42'"
+    Then the exit status should be 0
     
   Scenario: non-zero exit status
     When I run "ruby -e 'exit 56'"

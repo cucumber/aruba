@@ -181,7 +181,7 @@ Then /^the stderr should contain "([^"]*)"$/ do |partial_output|
 end
 
 Then /^the stderr should contain exactly:$/ do |exact_output|
-  @last_stderr.should == exact_output
+  all_stderr.should == exact_output
 end
 
 Then /^the stdout should contain "([^"]*)"$/ do |partial_output|
@@ -189,7 +189,7 @@ Then /^the stdout should contain "([^"]*)"$/ do |partial_output|
 end
 
 Then /^the stdout should contain exactly:$/ do |exact_output|
-  @stdout.should == exact_output
+  all_stdout.should == exact_output
 end
 
 Then /^the stderr should not contain "([^"]*)"$/ do |partial_output|
