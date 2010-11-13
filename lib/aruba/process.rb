@@ -2,8 +2,9 @@ require 'background_process'
 
 module Aruba
   class Process
-    def initialize(cmd)
+    def initialize(cmd, timeout)
       @cmd = cmd
+      @timeout = timeout
     end
 
     def run!(&block)
@@ -37,7 +38,7 @@ module Aruba
 
     def stop
       if @process
-        status = @process.wait(1)
+        status = @process.wait(@timeout)
         status && status.exitstatus
       end
     end

@@ -196,11 +196,17 @@ module Aruba
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
         
-        process = processes[cmd] = Process.new(cmd)
+        process = processes[cmd] = Process.new(cmd, timeout)
         process.run!
 
         block_given? ? yield(process) : process
       end
+    end
+
+    DEFAULT_TIMEOUT_SECONDS = 1
+
+    def timeout
+      @aruba_timeout_seconds || DEFAULT_TIMEOUT_SECONDS
     end
 
     def run_simple(cmd, fail_on_error=true)
@@ -209,6 +215,7 @@ module Aruba
         announce_or_puts(process.stderr) if @announce_stderr
         process.stop
       end
+      @timed_out = @last_exit_status.nil?
 
       if(@last_exit_status != 0 && fail_on_error)
         fail("Exit status was #{@last_exit_status}. Output:\n#{all_output}")

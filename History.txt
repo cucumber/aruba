@@ -1,5 +1,8 @@
 == 0.2.6
 
+=== New Features
+* You can set @aruba_timeout_seconds in a Before hook to tell Aruba to wait for a process to complete. Default: 1 second. (Aslak Hellesøy)
+
 === Bug fixes
 * Fixed small bug in /^the stdout should contain exactly:$/ (Aslak Hellesøy)
 

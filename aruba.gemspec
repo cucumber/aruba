@@ -2,8 +2,8 @@
 
 Gem::Specification.new do |s|
   s.name        = 'aruba'
-  s.version     = "0.2.5"
-  s.authors     = ["Aslak Hellesøy", "David Chelimsky"]
+  s.version     = "0.2.6"
+  s.authors     = ["Aslak Hellesøy", "David Chelimsky", "Mike Sassak"]
   s.description = 'CLI Steps for Cucumber, hand-crafted for you in Aruba'
   s.summary     = "aruba-#{s.version}"
   s.email       = 'cukes@googlegroups.com'
