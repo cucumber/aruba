@@ -228,12 +228,28 @@ Then /^the following files should not exist:$/ do |files|
   check_file_presence(files.raw.map{|file_row| file_row[0]}, false)
 end
 
+Then /^a file named "([^"]*)" should exist$/ do |file|
+  check_file_presence(file, true)
+end
+
+Then /^a file named "([^"]*)" should not exist$/ do |file|
+  check_file_presence(file, false)
+end
+
 Then /^the following directories should exist:$/ do |directories|
   check_directory_presence(directories.raw.map{|directory_row| directory_row[0]}, true)
 end
 
 Then /^the following directories should not exist:$/ do |directories|
   check_directory_presence(directories.raw.map{|directory_row| directory_row[0]}, false)
+end
+
+Then /^a directory named "([^"]*)" should exist$/ do |directory|
+  check_directory_presence(directory, true)
+end
+
+Then /^a directory named "([^"]*)" should not exist$/ do |directory|
+  check_directory_presence(directory, false)
 end
 
 Then /^the file "([^"]*)" should contain "([^"]*)"$/ do |file, partial_content|
