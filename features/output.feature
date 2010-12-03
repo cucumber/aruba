@@ -1,3 +1,4 @@
+@announce
 Feature: Output
 
   In order to specify expected output
