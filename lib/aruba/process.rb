@@ -54,6 +54,7 @@ module Aruba
         #status = @process.wait(@timeout)
         #status && status.exitstatus
         @process.stop(@timeout)
+        @process.exit_code
       end
     end
   end
