@@ -1,3 +1,11 @@
+== 0.2.7
+
+=== New Features
+* Upgrade to Cucumber 0.10.0. (Aslak Hellesøy)
+
+=== Changed Features
+* require 'aruba' does nothing - you have to require 'aruba/cucumber' now. This is to prevent bundler from loading it when we don't want to. (Aslak Hellesøy)
+
 == 0.2.6
 
 === New Features

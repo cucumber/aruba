@@ -251,8 +251,8 @@ module Aruba
     end
 
     def use_clean_gemset(gemset)
-      run(%{rvm gemset create "#{gemset}"}, true)
-      if @last_stdout =~ /'#{gemset}' gemset created \((.*)\)\./
+      run_simple(%{rvm gemset create "#{gemset}"}, true)
+      if all_stdout =~ /'#{gemset}' gemset created \((.*)\)\./
         gem_home = $1
         set_env('GEM_HOME', gem_home)
         set_env('GEM_PATH', gem_home)
@@ -262,9 +262,9 @@ module Aruba
         paths.unshift(File.join(gem_home, 'bin'))
         set_env('PATH', paths.uniq.join(File::PATH_SEPARATOR))
 
-        run("gem install bundler", true)
+        run_simple("gem install bundler", true)
       else
-        raise "I didn't understand rvm's output: #{@last_stdout}"
+        raise "I didn't understand rvm's output: #{all_stdout}"
       end
     end
 

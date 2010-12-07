@@ -1,5 +1,5 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__) + '/../../lib')
-require 'aruba'
+require 'aruba/cucumber'
 require 'fileutils'
 
 begin
