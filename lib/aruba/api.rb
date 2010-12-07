@@ -1,6 +1,5 @@
 require 'fileutils'
 require 'rbconfig'
-
 require 'aruba/process'
 
 module Aruba
