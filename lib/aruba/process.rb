@@ -38,6 +38,7 @@ module Aruba
 
     def stop
       if @process
+        stdout && stderr # flush output
         status = @process.wait(@timeout)
         status && status.exitstatus
       end
