@@ -26,6 +26,15 @@ Aruba has several tags you can use to get more information. You can put these ta
 * <tt>@announce-env</tt> - See environment variables set by Aruba
 * <tt>@announce</tt> - Does all of the above
 
+== Configuring the working directory
+
+Per default Aruba will create a directory <tt>tmp/aruba</tt> where it performs it's file operations.
+If you want to change this behaviour put this into your <tt>features/support/env.rb</tt>:
+
+  Before do
+    @dirs = ["somewhere/else"]
+  end
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
