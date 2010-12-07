@@ -6,6 +6,9 @@
 === Changed Features
 * require 'aruba' does nothing - you have to require 'aruba/cucumber' now. This is to prevent bundler from loading it when we don't want to. (Aslak Hellesøy)
 
+=== Bug fixes
+* Outputting a lot of data causes process to time out (#30 Mike Sassak)
+
 == 0.2.6
 
 === New Features
