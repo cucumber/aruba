@@ -230,8 +230,6 @@ module Aruba
 
     def write_interactive(input)
       @interactive.stdin.write(input)
-      sleep 1
-      @interactive.stop unless @interactive.running?
     end
 
     def announce_or_puts(msg)

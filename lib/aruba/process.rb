@@ -28,17 +28,15 @@ module Aruba
     end
 
     def stdout
+      sleep 0.1
       @out.rewind
       @out.read
     end
 
     def stderr
+      sleep 0.1
       @err.rewind
       @err.read
-    end
-
-    def running?
-      @process.alive?
     end
 
     def stop
