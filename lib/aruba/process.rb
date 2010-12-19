@@ -15,12 +15,13 @@ module Aruba
     end
 
     def run!(&block)
-      @process.start
+      @process.start{|writer| @writer = writer}
       yield self if block_given?
     end
 
     def stdin
-      @process.io.stdin
+      sleep 0.1
+      @writer
     end
 
     def output
