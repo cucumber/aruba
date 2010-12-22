@@ -5,23 +5,22 @@ module Aruba
   class Process
     def initialize(cmd, timeout)
       @timeout = timeout
-
       @out = Tempfile.new("aruba-out")
       @err = Tempfile.new("aruba-err")
-
       @process = ChildProcess.build(cmd)
       @process.io.stdout = @out
       @process.io.stderr = @err
+      @process.duplex = true
     end
 
     def run!(&block)
-      @process.start{|writer| @writer = writer}
+      @process.start
       yield self if block_given?
     end
 
     def stdin
       sleep 0.1
-      @writer
+      @process.io.stdin
     end
 
     def output

@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://github.com/aslakhellesoy/aruba'
 
   s.add_dependency 'cucumber', '~> 0.9.4'
-  s.add_dependency 'background_process' # Can't specify a version - bundler/rubygems chokes on '2.1'
-  s.add_development_dependency 'rspec', '~> 2.0.1'
+  s.add_dependency 'childprocess', '~> 0.1.6'
+  s.add_development_dependency 'rspec', '~> 2.2.0'
 
   s.rubygems_version   = "1.3.7"
   s.files            = `git ls-files`.split("\n")
