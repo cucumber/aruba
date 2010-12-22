@@ -2,14 +2,14 @@
 
 Gem::Specification.new do |s|
   s.name        = 'aruba'
-  s.version     = "0.2.6"
+  s.version     = '0.2.7'
   s.authors     = ["Aslak Hellesøy", "David Chelimsky", "Mike Sassak"]
   s.description = 'CLI Steps for Cucumber, hand-crafted for you in Aruba'
   s.summary     = "aruba-#{s.version}"
   s.email       = 'cukes@googlegroups.com'
   s.homepage    = 'http://github.com/aslakhellesoy/aruba'
 
-  s.add_dependency 'cucumber', '~> 0.9.4'
+  s.add_dependency 'cucumber', '~> 0.10.0'
   s.add_dependency 'childprocess', '~> 0.1.6'
   s.add_development_dependency 'rspec', '~> 2.2.0'
 

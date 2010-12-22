@@ -14,10 +14,11 @@ Feature: Flushing output
     When I run "ruby -e 'puts :a.to_s * 65536'"
     Then the output should contain "a"
     And the output should be 65536 bytes long
-    # And the exit status should be 0
+    And the exit status should be 0
 
   Scenario: Tons of interactive output
     When I run "ruby -e 'len = gets.chomp; puts :a.to_s * len.to_i'" interactively
     And I type "65536"
     Then the output should contain "a"
     And the output should be 65536 bytes long
+    # And the exit status should be 0

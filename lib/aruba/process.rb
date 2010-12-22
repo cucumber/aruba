@@ -41,6 +41,7 @@ module Aruba
 
     def stop
       if @process
+        stdout && stderr # flush output
         @process.poll_for_exit(@timeout)
         @process.exit_code
       end
