@@ -210,9 +210,11 @@ module Aruba
 
     def run_simple(cmd, fail_on_error=true)
       @last_exit_status = run(cmd) do |process|
+        process.stop
         announce_or_puts(process.stdout) if @announce_stdout
         announce_or_puts(process.stderr) if @announce_stderr
-        process.stop
+        # need to replace with process.exit_code or similar, or remove the block entirely... it doesn't add as much as I thought it would
+        process.stop       
       end
       @timed_out = @last_exit_status.nil?
 

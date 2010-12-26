@@ -1,19 +1,26 @@
-require 'background_process'
+require 'childprocess'
+require 'tempfile'
 
 module Aruba
   class Process
     def initialize(cmd, timeout)
-      @cmd = cmd
       @timeout = timeout
+      @out = Tempfile.new("aruba-out")
+      @err = Tempfile.new("aruba-err")
+      @process = ChildProcess.build(cmd)
+      @process.io.stdout = @out
+      @process.io.stderr = @err
+      @process.duplex = true
     end
 
     def run!(&block)
-      @process = BackgroundProcess.run(@cmd)
+      @process.start
       yield self if block_given?
     end
 
     def stdin
-      @process.stdin
+      sleep 0.1
+      @process.io.stdin
     end
 
     def output
@@ -21,26 +28,22 @@ module Aruba
     end
 
     def stdout
-      if @process
-        @stdout ||= @process.stdout.read
-      else
-        ''
-      end
+      sleep 0.1
+      @out.rewind
+      @out.read
     end
 
     def stderr
-      if @process
-        @stderr ||= @process.stderr.read
-      else
-        ''
-      end
+      sleep 0.1
+      @err.rewind
+      @err.read
     end
 
     def stop
       if @process
         stdout && stderr # flush output
-        status = @process.wait(@timeout)
-        status && status.exitstatus
+        @process.poll_for_exit(@timeout)
+        @process.exit_code
       end
     end
   end
