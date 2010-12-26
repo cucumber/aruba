@@ -1,13 +1,16 @@
 require 'childprocess'
 require 'tempfile'
+require 'shellwords'
 
 module Aruba
   class Process
+    include Shellwords
+
     def initialize(cmd, timeout)
       @timeout = timeout
       @out = Tempfile.new("aruba-out")
       @err = Tempfile.new("aruba-err")
-      @process = ChildProcess.build(cmd)
+      @process = ChildProcess.build(*shellwords(cmd))
       @process.io.stdout = @out
       @process.io.stderr = @err
       @process.duplex = true
