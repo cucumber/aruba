@@ -9,7 +9,7 @@ a compiled C program, a Java program, a Perl script - anything.
 
 Then, just require the library in one of your ruby files under <tt>features/support</tt>
 
-  require 'aruba'
+  require 'aruba/cucumber'
 
 You now have a bunch of step definitions that you can use in your features. Look at aruba/cucumber.rb
 to see all the step definitions. Look at features/*.feature for examples (which are also testing Aruba
