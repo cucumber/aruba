@@ -6,8 +6,10 @@ module Aruba
   class Process
     include Shellwords
 
-    def initialize(cmd, timeout)
-      @timeout = timeout
+    def initialize(cmd, exit_timeout, io_wait)
+      @exit_timeout = exit_timeout
+      @io_wait = io_wait
+
       @out = Tempfile.new("aruba-out")
       @err = Tempfile.new("aruba-err")
       @process = ChildProcess.build(*shellwords(cmd))
@@ -48,7 +50,7 @@ module Aruba
     def stop
       if @process
         stdout && stderr # flush output
-        @process.poll_for_exit(@timeout)
+        @process.poll_for_exit(@exit_timeout)
         @process.exit_code
       end
     end
@@ -56,7 +58,7 @@ module Aruba
     private
 
     def wait_for_io(&block)
-      sleep 0.1 if @process.alive?
+      sleep @io_wait if @process.alive?
       yield
     end
   end

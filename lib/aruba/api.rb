@@ -195,7 +195,7 @@ module Aruba
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
         
-        process = processes[cmd] = Process.new(cmd, timeout)
+        process = processes[cmd] = Process.new(cmd, exit_timeout, io_wait)
         process.run!
 
         block_given? ? yield(process) : process
@@ -204,8 +204,14 @@ module Aruba
 
     DEFAULT_TIMEOUT_SECONDS = 1
 
-    def timeout
+    def exit_timeout
       @aruba_timeout_seconds || DEFAULT_TIMEOUT_SECONDS
+    end
+
+    DEFAULT_IO_WAIT_SECONDS = 0.1
+
+    def io_wait
+      @aruba_io_wait_seconds || DEFAULT_IO_WAIT_SECONDS
     end
 
     def run_simple(cmd, fail_on_error=true)
