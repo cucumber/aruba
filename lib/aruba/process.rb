@@ -22,8 +22,9 @@ module Aruba
     end
 
     def stdin
-      sleep 0.1
-      @process.io.stdin
+      wait_for_io do
+        @process.io.stdin
+      end
     end
 
     def output
@@ -31,15 +32,17 @@ module Aruba
     end
 
     def stdout
-      sleep 0.1
-      @out.rewind
-      @out.read
+      wait_for_io do
+        @out.rewind
+        @out.read
+      end
     end
 
     def stderr
-      sleep 0.1
-      @err.rewind
-      @err.read
+      wait_for_io do
+        @err.rewind
+        @err.read
+      end
     end
 
     def stop
@@ -48,6 +51,13 @@ module Aruba
         @process.poll_for_exit(@timeout)
         @process.exit_code
       end
+    end
+
+    private
+
+    def wait_for_io(&block)
+      sleep 0.1 if @process.alive?
+      yield
     end
   end
 end
