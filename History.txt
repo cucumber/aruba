@@ -1,4 +1,7 @@
-== In Git
+== 0.3.0
+
+=== Bugfixes
+* Remove latency introduced in the 0.2.7 release (#42 Mike Sassak)
 
 === New Features
 * New stepdef Then /^the stdout should contain:$/ do |partial_output| (Aslak Hellesøy)
