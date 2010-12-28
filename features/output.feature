@@ -42,7 +42,7 @@ Feature: Output
     Then the output should contain exactly "hello world\n"
 
   Scenario: Detect exact multiline output
-    When I run "ruby -e 'puts \"hello\\nworld\"'"
+    When I run "ruby -e 'puts "hello\nworld"'"
     Then the output should contain exactly:
       """
       hello
@@ -58,7 +58,7 @@ Feature: Output
 
   @announce
   Scenario: Detect subset of multiline output with regex
-    When I run "ruby -e 'puts \"hello\\nworld\\nextra line1\\nextra line2\\nimportant line\"'"
+    When I run "ruby -e 'puts "hello\nworld\nextra line1\nextra line2\nimportant line"'"
     Then the output should match:
       """
       he..o
@@ -69,14 +69,14 @@ Feature: Output
 
   @announce
   Scenario: Match passing exit status and partial output
-    When I run "ruby -e 'puts \"hello\\nworld\"'"
+    When I run "ruby -e 'puts "hello\nworld"'"
     Then it should pass with:
       """
       hello
       """
 
   Scenario: Match passing exit status and exact output
-    When I run "ruby -e 'puts \"hello\\nworld\"'"
+    When I run "ruby -e 'puts "hello\nworld"'"
     Then it should pass with exactly:
       """
       hello
@@ -93,7 +93,7 @@ Feature: Output
       """
 
   Scenario: Match failing exit status and exact output
-    When I run "ruby -e 'puts \"hello\\nworld\";exit 99'"
+    When I run "ruby -e 'puts "hello\nworld";exit 99'"
     Then it should fail with exactly:
       """
       hello
@@ -121,6 +121,13 @@ Feature: Output
     Then the stdout should contain:
       """
       GET /
+      """
+
+  Scenario: Match output on several lines using quotes
+    When I run "ruby -e 'puts %{GET "/"}'"
+    Then the stdout should contain:
+      """
+      GET "/"
       """
 
   Scenario: Match output in stdout
