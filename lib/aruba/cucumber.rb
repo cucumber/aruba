@@ -188,6 +188,10 @@ Then /^the stdout should contain "([^"]*)"$/ do |partial_output|
   all_stdout.should include(unescape(partial_output))
 end
 
+Then /^the stdout should contain:$/ do |partial_output|
+  all_stdout.should include(unescape(partial_output))
+end
+
 Then /^the stdout should contain exactly:$/ do |exact_output|
   all_stdout.should == exact_output
 end

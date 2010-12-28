@@ -115,11 +115,18 @@ Feature: Output
     Then the stdout should contain "hello"
     Then the stderr should not contain "hello"
 
-  @announce-stderr
-  Scenario: Match output in stderr
-    When I run "ruby -e 'STDERR.puts \"hello\\nworld\";exit 99'"
-    Then the stderr should contain "hello"
-    Then the stdout should not contain "hello"
+  @announce
+  Scenario: Match output on several lines
+    When I run "ruby -e 'puts %{GET /}'"
+    Then the stdout should contain:
+      """
+      GET /
+      """
+
+  Scenario: Match output in stdout
+    When I run "ruby -e 'puts \"hello\\nworld\"'"
+    Then the stdout should contain "hello"
+    Then the stderr should not contain "hello"
 
   Scenario: Detect output from all processes
     When I run "ruby -e 'puts \"hello world!\"'"

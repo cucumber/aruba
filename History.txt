@@ -1,6 +1,7 @@
 == In Git
 
 === New Features
+* New stepdef Then /^the stdout should contain:$/ do |partial_output| (Aslak Hellesøy)
 * Replaced background_process with childprocess, a cross-platform process control library. This will allow Aruba to run on Windows and JRuby in addition to *nix MRI. (#16, #27, #31 Mike Sassak, Jari Bakken, Matt Wynne, Arve Knudsen)
 
 == 0.2.7
