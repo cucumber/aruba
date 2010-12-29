@@ -1,3 +1,8 @@
+== 0.3.1
+
+=== Changed Features
+* Quotes (") and newline (\n) in step arguments are no longer unescaped. (Aslak Hellesøy)
+
 == 0.3.0
 
 === Bugfixes

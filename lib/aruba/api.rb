@@ -106,8 +106,8 @@ module Aruba
     end
 
     def unescape(string)
-      string.gsub('\n', "\n")
-            .gsub('\"', '"')
+      string.gsub('\n', "\n").
+             gsub('\"', '"')
     end
 
     def regexp(string_or_regexp)
