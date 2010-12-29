@@ -1,5 +1,8 @@
 == 0.3.1
 
+=== Bugfixes
+* Broken 0.3.0 release (#43, #44 Mike Sassak)
+
 === Changed Features
 * Quotes (") and newline (\n) in step arguments are no longer unescaped. (Aslak Hellesøy)
 
