@@ -1,3 +1,8 @@
+== 0.3.2
+
+=== Bugfixes
+* Wrong number of args in the When I overwrite step (Aslak Hellesøy)
+
 == 0.3.1
 
 === Bugfixes

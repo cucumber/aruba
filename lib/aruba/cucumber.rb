@@ -76,7 +76,7 @@ When /^I write to "([^"]*)" with:$/ do |file_name, file_content|
 end
 
 When /^I overwrite "([^"]*)" with:$/ do |file_name, file_content|
-  overwrite_file(file_name, file_content, true)
+  overwrite_file(file_name, file_content)
 end
 
 When /^I append to "([^"]*)" with:$/ do |file_name, file_content|
