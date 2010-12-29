@@ -39,7 +39,11 @@ Feature: Output
 
   Scenario: Detect exact one-line output
     When I run "ruby -e 'puts \"hello world\"'"
-    Then the output should contain exactly "hello world\n"
+    Then the output should contain exactly:
+      """
+      hello world
+      
+      """
 
   Scenario: Detect exact multiline output
     When I run "ruby -e 'puts "hello\nworld"'"
@@ -150,15 +154,31 @@ Feature: Output
     When I run "ruby -e 'puts \"hello world!\"'"
     And I run "ruby -e 'puts gets.chomp.reverse'" interactively
     And I type "hello"
-    Then the stdout should contain "hello world!\nolleh"
-    And the stderr should not contain "hello world!\nolleh"
+    Then the stdout should contain:
+      """
+      hello world!
+      olleh
+      """
+    And the stderr should not contain:
+      """
+      hello world!
+      olleh
+      """
 
   Scenario: Detect stderr from all processes
     When I run "ruby -e 'STDERR.puts \"hello world!\"'"
     And I run "ruby -e 'STDERR.puts gets.chomp.reverse'" interactively
     And I type "hello"
-    Then the stderr should contain "hello world!\nolleh"
-    And the stdout should not contain "hello world!\nolleh"
+    Then the stderr should contain:
+      """
+      hello world!
+      olleh
+      """
+    And the stdout should not contain:
+      """
+      hello world!
+      olleh
+      """
 
   Scenario: Detect output from named source
     When I run "ruby -e 'puts :simple'"

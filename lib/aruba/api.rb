@@ -22,7 +22,15 @@ module Aruba
       @dirs ||= ['tmp/aruba']
     end
 
-    def create_file(file_name, file_content, check_presence = false)
+    def write_file(file_name, file_content)
+      _create_file(file_name, file_content, false)
+    end
+
+    def overwrite_file(file_name, file_content)
+      _create_file(file_name, file_content, true)
+    end
+
+    def _create_file(file_name, file_content, check_presence)
       in_current_dir do
         raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
         _mkdir(File.dirname(file_name))
@@ -171,14 +179,6 @@ module Aruba
       end
     end
     
-    def install_gems(gemfile)
-      create_file("Gemfile", gemfile)
-      if ENV['GOTGEMS'].nil?
-        run("gem install bundler")
-        run("bundle --no-color install")
-      end
-    end
-
     def processes
       @processes ||= {}
     end
@@ -234,8 +234,16 @@ module Aruba
       @interactive = run(cmd)
     end
 
-    def write_interactive(input)
+    def type(input)
+      _write_interactive(_ensure_newline(input))
+    end
+
+    def _write_interactive(input)
       @interactive.stdin.write(input)
+    end
+
+    def _ensure_newline(str)
+      str.chomp << "\n"
     end
 
     def announce_or_puts(msg)
@@ -296,10 +304,6 @@ module Aruba
     
     def original_env
       @original_env ||= {}
-    end
-
-    def ensure_newline(str)
-      str.chomp << "\n"
     end
   end
 end
