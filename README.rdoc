@@ -7,7 +7,7 @@ a compiled C program, a Java program, a Perl script - anything.
 
   gem install aruba
 
-Then, just require the library in one of your ruby files under <tt>features/support</tt>
+Then, just require the library in one of your ruby files under <tt>features/support</tt> (e.g. <tt>env.rb</tt>)
 
   require 'aruba/cucumber'
 
