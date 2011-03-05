@@ -1,3 +1,8 @@
+== 0.3.2.1
+
+=== Temporary Fork
+Updated RSpec development requirement to 2.5 so it won't downgrade my project to a lower version when 2.5 works fine.
+
 == 0.3.2
 
 === Bugfixes
