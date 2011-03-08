@@ -204,6 +204,22 @@ Then /^the stderr should contain exactly:$/ do |exact_output|
   all_stderr.should == exact_output
 end
 
+Then /^the stderr from "(.*)" should contain exactly:$/ do |cmd, exact_output|
+  stderr_from(unescape(cmd)).should == exact_output
+end
+
+Then /^the stderr from "([^"]*)" should not contain exactly:$/ do |cmd, exact_output|
+  stderr_from(unescape(cmd)).should_not == exact_output
+end
+
+Then /^the stderr from "([^"]*)" should contain:$/ do |cmd, partial_output|
+  stderr_from(unescape(cmd)).should =~ regexp(partial_output)
+end
+
+Then /^the stderr from "([^"]*)" should not contain:$/ do |cmd, partial_output|
+  stderr_from(unescape(cmd)).should_not =~ regexp(partial_output)
+end
+
 Then /^the stdout should contain "([^"]*)"$/ do |partial_output|
   all_stdout.should include(partial_output)
 end
@@ -214,6 +230,22 @@ end
 
 Then /^the stdout should contain exactly:$/ do |exact_output|
   all_stdout.should == exact_output
+end
+
+Then /^the stdout from "(.*)" should contain exactly:$/ do |cmd, exact_output|
+  stdout_from(unescape(cmd)).should == exact_output
+end
+
+Then /^the stdout from "([^"]*)" should not contain exactly:$/ do |cmd, exact_output|
+  stdout_from(unescape(cmd)).should_not == exact_output
+end
+
+Then /^the stdout from "([^"]*)" should contain:$/ do |cmd, partial_output|
+  stdout_from(unescape(cmd)).should =~ regexp(partial_output)
+end
+
+Then /^the stdout from "([^"]*)" should not contain:$/ do |cmd, partial_output|
+  stdout_from(unescape(cmd)).should_not =~ regexp(partial_output)
 end
 
 Then /^the stderr should not contain "([^"]*)"$/ do |partial_output|

@@ -202,6 +202,19 @@ Feature: Output
     Then the output from "ruby -e 'puts :simple'" should contain "simple"
     And the output from "ruby -e 'puts gets.chomp'" should not contain "simple"
 
+  Scenario: Detect multiline output from named source
+    When I run "ruby -e 'puts :simple'"
+    And I run "ruby -e 'puts gets.chomp'" interactively
+    And I type "interactive"
+    Then the output from "ruby -e 'puts :simple'" should contain:
+    """
+    simple
+    """
+    And the output from "ruby -e 'puts gets.chomp'" should not contain:
+    """
+    simple
+    """
+
   Scenario: Detect stdout from named source
     When I run "ruby -e 'puts :hello'"
     And I run "ruby -e 'puts :goodbye'"
@@ -209,12 +222,44 @@ Feature: Output
     And the stderr from "ruby -e 'puts :hello'" should not contain "hello"
     And the stdout from "ruby -e 'puts :goodbye'" should not contain "hello"
 
+  Scenario: Detect multiline stdout from named source
+    When I run "ruby -e 'puts :hello'"
+    And I run "ruby -e 'puts :goodbye'"
+    Then the stdout from "ruby -e 'puts :hello'" should contain:
+    """
+    hello
+    """
+    And the stderr from "ruby -e 'puts :hello'" should not contain:
+    """
+    hello
+    """
+    And the stdout from "ruby -e 'puts :goodbye'" should not contain:
+    """
+    hello
+    """
+
   Scenario: Detect stderr from named source
     When I run "ruby -e 'STDERR.puts :hello'"
     And I run "ruby -e 'puts :goodbye'"
     Then the stderr from "ruby -e 'STDERR.puts :hello'" should contain "hello"
     And the stdout from "ruby -e 'STDERR.puts :hello'" should not contain "hello"
     And the stderr from "ruby -e 'puts :goodbye'" should not contain "hello"
+
+  Scenario: Detect multiline stderr from named source
+    When I run "ruby -e 'STDERR.puts :hello'"
+    And I run "ruby -e 'puts :goodbye'"
+    Then the stderr from "ruby -e 'STDERR.puts :hello'" should contain:
+    """
+    hello
+    """
+    And the stdout from "ruby -e 'STDERR.puts :hello'" should not contain:
+    """
+    hello
+    """
+    And the stderr from "ruby -e 'puts :goodbye'" should not contain:
+    """
+    hello
+    """
 
   @wip
   Scenario: Detect output from named source with custom name
