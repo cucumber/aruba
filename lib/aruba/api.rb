@@ -140,6 +140,11 @@ module Aruba
       all_stdout << all_stderr
     end
 
+    def all_output_from(cmd)
+      cmd = detect_ruby(cmd)
+      processes[cmd].output
+    end
+
     def assert_exact_output(exact_output)
       all_output.should == exact_output
     end

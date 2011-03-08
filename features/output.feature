@@ -37,6 +37,21 @@ Feature: Output
       good-bye
       """
 
+  Scenario: Detect output from all processes
+    When I run "ruby -e 'puts \"hello world!\"'"
+    And I run "ruby -e 'puts gets.chomp.reverse'" interactively
+    And I type "hello"
+    Then the output from "ruby -e 'puts \"hello world!\"'" should contain exactly:
+      """
+      hello world!
+
+      """
+    And the output from "ruby -e 'puts gets.chomp.reverse'" should contain exactly:
+      """
+      olleh
+
+      """
+
   Scenario: Detect exact one-line output
     When I run "ruby -e 'puts \"hello world\"'"
     Then the output should contain exactly:

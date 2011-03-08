@@ -139,6 +139,22 @@ Then /^the output should contain exactly:$/ do |exact_output|
   all_output.should == exact_output
 end
 
+Then /^the output from "(.*)" should contain exactly:$/ do |cmd, exact_output|
+  all_output_from(unescape(cmd)).should == exact_output
+end
+
+Then /^the output from "([^"]*)" should not contain exactly:$/ do |cmd, exact_output|
+  all_output_from(unescape(cmd)).should_not == exact_output
+end
+
+Then /^the output from "([^"]*)" should contain:$/ do |cmd, partial_output|
+  all_output_from(unescape(cmd)).should =~ regexp(partial_output)
+end
+
+Then /^the output from "([^"]*)" should not contain:$/ do |cmd, partial_output|
+  all_output_from(unescape(cmd)).should_not =~ regexp(partial_output)
+end
+
 # "the output should match" allows regex in the partial_output, if
 # you don't need regex, use "the output should contain" instead since
 # that way, you don't have to escape regex characters that
