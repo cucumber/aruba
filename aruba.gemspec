@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'cucumber', '~> 0.10.0'
   s.add_dependency 'childprocess', '~> 0.1.6'
-  s.add_dependency 'rspec', '~> 2.3.0'
+  s.add_dependency 'rspec', '~> 2.3'
 
   s.rubygems_version   = "1.3.7"
   s.files            = `git ls-files`.split("\n")
