@@ -21,3 +21,4 @@ pkg
 ## PROJECT::SPECIFIC
 tmp
 Gemfile.lock
+.bundle
