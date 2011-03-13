@@ -1,3 +1,8 @@
+== In Git
+
+* Updated RSpec development requirement to 2.5 (Robert Speicher, Mike Sassak, Aslak Hellesøy)
+* Updated RubyGems dependency to 1.6.1 (Robert Speicher)
+
 == 0.3.2
 
 === Bugfixes
