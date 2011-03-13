@@ -132,6 +132,7 @@ module Aruba
       processes.values.inject("") { |out, ps| out << ps.stdout }
     end
 
+    # Note, with pre-1.9 ruby, the ordering of this may change.  Use ruby 1.9.x or later.
     def all_stderr
       processes.values.inject("") { |out, ps| out << ps.stderr }
     end
