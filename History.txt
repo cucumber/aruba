@@ -1,3 +1,8 @@
+== In Git
+
+=== Bugfixes
+* Store processes in an array to ensure order of operations on Ruby 1.8.x (#48 Mike Sassak)
+
 == 0.3.3
 
 * Updated RSpec development requirement to 2.5 (Robert Speicher, Mike Sassak, Aslak Hellesøy)
