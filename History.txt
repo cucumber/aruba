@@ -1,3 +1,7 @@
+== 0.3.4
+
+* Use backticks (`) instead of quotes (") to specify command line. Quote still works, but is deprecated. (Anthony Eden, Aslak Hellesøy)
+
 == 0.3.3
 
 * Updated RSpec development requirement to 2.5 (Robert Speicher, Mike Sassak, Aslak Hellesøy)

@@ -92,6 +92,7 @@ When /^I cd to "([^"]*)"$/ do |dir|
 end
 
 When /^I run "(.*)"$/ do |cmd|
+  warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
   run_simple(unescape(cmd), false)
 end
 
@@ -100,6 +101,7 @@ When /^I run `([^`]*)`$/ do |cmd|
 end
 
 When /^I successfully run "(.*)"$/ do |cmd|
+  warn(%{\e[35m    The  /^I successfully run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
   run_simple(unescape(cmd))
 end
 
@@ -108,6 +110,11 @@ When /^I successfully run `([^`]*)`$/ do |cmd|
 end
 
 When /^I run "([^"]*)" interactively$/ do |cmd|
+  warn(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the `backticks` version\e[0m})
+  run_interactive(unescape(cmd))
+end
+
+When /^I run `([^`]*)` interactively$/ do |cmd|
   run_interactive(unescape(cmd))
 end
 
