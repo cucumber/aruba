@@ -6,7 +6,7 @@ Feature: file system commands
   
   Scenario: create a dir
     Given a directory named "foo/bar"
-    When I run "ruby -e \"puts test ?d, 'foo'\""
+    When I run `ruby -e "puts test ?d, 'foo'"`
     Then the stdout should contain "true"
   
   Scenario: create a file
@@ -14,7 +14,7 @@ Feature: file system commands
       """
       puts "hello world"
       """
-    When I run "ruby foo/bar/example.rb"
+    When I run `ruby foo/bar/example.rb`
     Then the output should contain "hello world"
 
   Scenario: append to a file
@@ -26,12 +26,12 @@ Feature: file system commands
       """
       puts "this was appended"
       """
-    When I run "ruby foo/bar/example.rb"
+    When I run `ruby foo/bar/example.rb`
     Then the output should contain "hello world"
     And the output should contain "this was appended"
 
   Scenario: clean up files generated in previous scenario
-    When I run "ruby foo/bar/example.rb"
+    When I run `ruby foo/bar/example.rb`
     Then the exit status should be 1
     And the output should contain "No such file or directory -- foo/bar/example.rb"
   
@@ -41,11 +41,11 @@ Feature: file system commands
       puts "hello world"
       """
     When I cd to "foo/bar"
-    And I run "ruby example.rb"
+    And I run `ruby example.rb`
     Then the output should contain "hello world"
 
   Scenario: Reset current directory from previous scenario
-    When I run "ruby example.rb"
+    When I run `ruby example.rb`
     Then the exit status should be 1
 
   Scenario: Holler if cd to bad dir
