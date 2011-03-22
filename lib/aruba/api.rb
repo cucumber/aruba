@@ -115,26 +115,25 @@ module Aruba
 
     def output_from(cmd)
       cmd = detect_ruby(cmd)
-      processes[cmd].output
+      get_process(cmd).output
     end
 
     def stdout_from(cmd)
       cmd = detect_ruby(cmd)
-      processes[cmd].stdout
+      get_process(cmd).stdout
     end
 
     def stderr_from(cmd)
       cmd = detect_ruby(cmd)
-      processes[cmd].stderr
+      get_process(cmd).stderr
     end
 
     def all_stdout
-      processes.values.inject("") { |out, ps| out << ps.stdout }
+      only_processes.inject("") { |out, ps| out << ps.stdout }
     end
 
-    # Note, with pre-1.9 ruby, the ordering of this may change.  Use ruby 1.9.x or later.
     def all_stderr
-      processes.values.inject("") { |out, ps| out << ps.stderr }
+      only_processes.inject("") { |out, ps| out << ps.stderr }
     end
 
     def all_output
@@ -180,13 +179,25 @@ module Aruba
     end
     
     def processes
-      @processes ||= {}
+      @processes ||= []
     end
 
     def stop_processes!
       processes.each do |_, process|
         process.stop
       end
+    end
+
+    def register_process(name, process)
+      processes << [name, process]
+    end
+
+    def get_process(wanted)
+      processes.find{ |name, _| name == wanted }[-1]
+    end
+
+    def only_processes
+      processes.collect{ |_, process| process }
     end
 
     def run(cmd)
@@ -196,7 +207,8 @@ module Aruba
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
         
-        process = processes[cmd] = Process.new(cmd, exit_timeout, io_wait)
+        process = Process.new(cmd, exit_timeout, io_wait)
+        register_process(cmd, process)
         process.run!
 
         block_given? ? yield(process) : process
