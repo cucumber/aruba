@@ -1,4 +1,4 @@
-== In Git
+== 0.3.5
 
 === Bugfixes
 * Store processes in an array to ensure order of operations on Ruby 1.8.x (#48 Mike Sassak)
