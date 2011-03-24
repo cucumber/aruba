@@ -16,7 +16,7 @@ After do
 end
 
 Before do
-  FileUtils.rm_rf(current_dir)
+  FileUtils.rm_rf(current_dir) if @dirs[0][/\Atmp\/aruba\Z/]
 end
 
 Before('@puts') do
