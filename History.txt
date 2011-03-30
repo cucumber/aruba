@@ -1,3 +1,8 @@
+== In Git
+
+* Separate hooks and steps to make it easier to build your own steps on top of Aruba's API (Mike Sassak)
+* @no-clobber to prevent cleanup before each scenario (Mike Sassak)
+
 == 0.3.5
 
 === Bugfixes
