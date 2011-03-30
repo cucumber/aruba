@@ -11,7 +11,7 @@ After do
   ENV['PATH'] = @__aruba_original_paths.join(File::PATH_SEPARATOR)
 end
 
-Before do
+Before('~@no-clobber') do
   FileUtils.rm_rf(current_dir)
 end
 
