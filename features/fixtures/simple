@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby -w
+puts "not 1"
+puts "hi what is your name ?"
+name = $stdin.gets.chomp!
+puts "welcome to the mainframe #{name}"
+
