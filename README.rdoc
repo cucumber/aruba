@@ -15,9 +15,11 @@ You now have a bunch of step definitions that you can use in your features. Look
 to see all the step definitions. Look at features/*.feature for examples (which are also testing Aruba
 itself).
 
-== Getting more output with tags.
+== Tags
 
-Aruba has several tags you can use to get more information. You can put these tags on individual scenarios, or on a feature. The tags are:
+Aruba has tags you can put on on individual scenarios, or on a feature.
+
+To get more information use these tags:
 
 * <tt>@announce-cmd</tt> - See what command is is run
 * <tt>@announce-stdout</tt> - See the stdout
@@ -25,6 +27,10 @@ Aruba has several tags you can use to get more information. You can put these ta
 * <tt>@announce-dir</tt> - See the current directory
 * <tt>@announce-env</tt> - See environment variables set by Aruba
 * <tt>@announce</tt> - Does all of the above
+
+To prevent Aruba from removing its working directory before each scenario:
+
+* <tt>@no-clobber</tt> - Don't cleanup before scenarios
 
 == Runtime Configuration
 

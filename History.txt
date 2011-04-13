@@ -1,7 +1,8 @@
-== In Git
+== 0.3.6
 
-=== Changes
 * Changed default value of @aruba_timeout_seconds from 1 to 3. (Aslak Hellesøy)
+* Separate hooks and steps to make it easier to build your own steps on top of Aruba's API (Mike Sassak)
+* @no-clobber to prevent cleanup before each scenario (Mike Sassak)
 
 == 0.3.5
 
