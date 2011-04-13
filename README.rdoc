@@ -41,6 +41,11 @@ If you want to change this behaviour put this into your <tt>features/support/env
     @dirs = ["somewhere/else"]
   end
 
+If testing an executable in your project's `bin` directory, it might not be in the path Aruba 
+uses.  An easy way to set it is to put the following in <tt>features/support/env.rb</tt>:
+
+    ENV['PATH'] += "#{File::PATH_SEPARATOR}#{File.expand_path(File.dirname(__FILE__) + '/../../bin')}"
+
 Set <tt>@aruba_timeout_seconds</tt> to control the amount of time Aruba will wait for a process to 
 finish running before terminating it: 
 
