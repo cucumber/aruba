@@ -12,7 +12,7 @@ Feature: Interactive process control
         puts res.reverse
       end
       """
-    When I run `ruby echo.rb` interactively
+    When I interactively run `ruby echo.rb`
     And I type "hello, world"
     And I type "quit"
     Then the output should contain:
@@ -21,7 +21,7 @@ Feature: Interactive process control
       """
 
   Scenario: Running a native binary interactively
-    When I run `bc -q` interactively
+    When I interactively run `bc -q`
     And I type "4 + 3"
     And I type "quit"
     Then the output should contain:
@@ -29,10 +29,19 @@ Feature: Interactive process control
       7
       """
 
+  Scenario: Running interactively in a directory outside Aruba's scratch
+    When I interactively run `echo 'correct' >discovered.txt` in "/tmp"
+    When I run `cat /tmp/discovered.txt`
+    Then the output should contain:
+      """
+      correct
+      """
+     And a file named "discovered.txt" should not exist
+
   Scenario: Stop processes before checking for filesystem changes 
     See: http://github.com/aslakhellesoy/aruba/issues#issue/17 for context
 
     Given a directory named "rename_me"
-    When I run `mv rename_me renamed` interactively
+    When I interactively run `mv rename_me renamed`
     Then a directory named "renamed" should exist
     And a directory named "rename_me" should not exist
