@@ -25,6 +25,7 @@ module Aruba
 
     def stdin
       wait_for_io do
+        @process.io.stdin.sync = true
         @process.io.stdin
       end
     end
