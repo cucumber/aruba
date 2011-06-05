@@ -11,6 +11,10 @@ When /^sleep (\d+)$/ do |time|
   sleep time.to_i
 end
 
+When /^I set env varibable "(\w+)" to "([^"]*)"$/ do |var, value|
+  ENV[var] = value
+end
+
 Then /^aruba should fail with "([^"]*)"$/ do |error_message|
   @aruba_exception.message.should include(unescape(error_message))
 end
