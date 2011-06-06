@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = 'cukes@googlegroups.com'
   s.homepage    = 'http://github.com/aslakhellesoy/aruba'
 
-  s.add_dependency 'cucumber', '>= 0.10.3'
+  s.add_dependency 'cucumber', '>= 0.10.5'
   s.add_dependency 'childprocess', '>= 0.1.9'
   s.add_dependency 'rspec', '>= 2.6.0'
 

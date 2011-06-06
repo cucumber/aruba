@@ -260,9 +260,9 @@ module Aruba
 
     def announce_or_puts(msg)
       if(@puts)
-        puts(msg)
+        Kernel.puts(msg)
       else
-        announce(msg)
+        puts(msg)
       end
     end
 
