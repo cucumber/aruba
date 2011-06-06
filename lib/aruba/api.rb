@@ -193,7 +193,7 @@ module Aruba
     end
 
     def get_process(wanted)
-      processes.find{ |name, _| name == wanted }[-1]
+      processes.reverse.find{ |name, _| name == wanted }[-1]
     end
 
     def only_processes
