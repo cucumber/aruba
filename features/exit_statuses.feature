@@ -24,6 +24,14 @@ Feature: exit statuses
   Scenario: Successfully run something
     When I successfully run `ruby -e 'exit 0'`
 
+  Scenario: run something somewhere not yet existing outside Aruba's scratch
+    When I successfully run `pwd` in "/tmp/just/created"
+    Then the output should contain:
+      """
+      /tmp/just/created
+      """
+     And I successfully run `rm -rf /tmp/just/created`
+
   Scenario: Successfully run something with `
     When I successfully run `ruby -e 'exit 0'`
 
@@ -35,6 +43,7 @@ Feature: exit statuses
     When I run `does_not_exist`
     Then the exit status should be 1
 
-  Scenario: Try to run something that doesn't exist with `
-    When I run `does_not_exist`
+  Scenario: Try to run something that doesn't exist somewhere that does not exist outside Aruba's scratch
+    When I run `does_not_exist` in "/tmp/in/the/blue/moon"
     Then the exit status should be 1
+    And I successfully run `rm -rf /tmp/in/the/blue/moon`

@@ -141,7 +141,7 @@ Feature: Output
 
   Scenario: Detect output from all processes
     When I run `ruby -e 'puts \"hello world!\"'`
-    And I run `ruby -e 'puts gets.chomp.reverse'` interactively
+    And I interactively run `ruby -e 'puts gets.chomp.reverse'`
     And I type "hello"
     Then the output should contain exactly:
       """
@@ -152,7 +152,7 @@ Feature: Output
 
   Scenario: Detect stdout from all processes
     When I run `ruby -e 'puts \"hello world!\"'`
-    And I run `ruby -e 'puts gets.chomp.reverse'` interactively
+    And I interactively run `ruby -e 'puts gets.chomp.reverse'`
     And I type "hello"
     Then the stdout should contain:
       """
@@ -167,7 +167,7 @@ Feature: Output
 
   Scenario: Detect stderr from all processes
     When I run `ruby -e 'STDERR.puts \"hello world!\"'`
-    And I run `ruby -e 'STDERR.puts gets.chomp.reverse'` interactively
+    And I interactively run `ruby -e 'STDERR.puts gets.chomp.reverse'`
     And I type "hello"
     Then the stderr should contain:
       """
@@ -182,7 +182,7 @@ Feature: Output
 
   Scenario: Detect output from named source
     When I run `ruby -e 'puts :simple'`
-    And I run `ruby -e 'puts gets.chomp'` interactively
+    And I interactively run `ruby -e 'puts gets.chomp'`
     And I type "interactive"
     Then the output from "ruby -e 'puts :simple'" should contain "simple"
     And the output from "ruby -e 'puts gets.chomp'" should not contain "simple"

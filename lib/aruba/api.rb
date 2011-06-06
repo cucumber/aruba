@@ -4,9 +4,9 @@ require 'aruba/process'
 
 module Aruba
   module Api
-    def in_current_dir(&block)
-      _mkdir(current_dir)
-      Dir.chdir(current_dir, &block)
+    def in_dir(dir=current_dir, &block)
+      _mkdir(dir)
+      Dir.chdir(dir, &block)
     end
 
     def current_dir
@@ -31,7 +31,7 @@ module Aruba
     end
 
     def _create_file(file_name, file_content, check_presence)
-      in_current_dir do
+      in_dir do
         raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
         _mkdir(File.dirname(file_name))
         File.open(file_name, 'w') { |f| f << file_content }
@@ -39,19 +39,19 @@ module Aruba
     end
 
     def remove_file(file_name)
-      in_current_dir do
+      in_dir do
         FileUtils.rm(file_name)
       end
     end
 
     def append_to_file(file_name, file_content)
-      in_current_dir do
+      in_dir do
         File.open(file_name, 'a') { |f| f << file_content }
       end
     end
 
     def create_dir(dir_name)
-      in_current_dir do
+      in_dir do
         _mkdir(dir_name)
       end
     end
@@ -98,7 +98,7 @@ module Aruba
 
     def prep_for_fs_check(&block)
       stop_processes!
-      in_current_dir{ block.call }
+      in_dir{ block.call }
     end
 
     def _mkdir(dir_name)
@@ -200,10 +200,10 @@ module Aruba
       processes.collect{ |_, process| process }
     end
 
-    def run(cmd)
+    def run(cmd, dir=current_dir)
       cmd = detect_ruby(cmd)
 
-      in_current_dir do
+      in_dir(dir) do
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
         
@@ -227,8 +227,8 @@ module Aruba
       @aruba_io_wait_seconds || DEFAULT_IO_WAIT_SECONDS
     end
 
-    def run_simple(cmd, fail_on_error=true)
-      @last_exit_status = run(cmd) do |process|
+    def run_simple(cmd, dir=current_dir, fail_on_error=true)
+      @last_exit_status = run(cmd, dir) do |process|
         process.stop
         announce_or_puts(process.stdout) if @announce_stdout
         announce_or_puts(process.stderr) if @announce_stderr
@@ -242,8 +242,8 @@ module Aruba
       end
     end
 
-    def run_interactive(cmd)
-      @interactive = run(cmd)
+    def run_interactive(cmd, dir=current_dir)
+      @interactive = run(cmd, dir)
     end
 
     def type(input)

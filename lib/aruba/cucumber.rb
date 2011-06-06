@@ -45,7 +45,11 @@ When /^I run "(.*)"$/ do |cmd|
 end
 
 When /^I run `([^`]*)`$/ do |cmd|
-  run_simple(unescape(cmd), false)
+  run_simple(unescape(cmd), current_dir, false)
+end
+
+When /^I run `([^`]*)` in "([^"]*)"$/ do |cmd, dir|
+  run_simple(unescape(cmd), dir, false)
 end
 
 When /^I successfully run "(.*)"$/ do |cmd|
@@ -57,13 +61,26 @@ When /^I successfully run `([^`]*)`$/ do |cmd|
   run_simple(unescape(cmd))
 end
 
+When /^I successfully run `([^`]*)` in "([^"]*)"$/ do |cmd, dir|
+  run_simple(unescape(cmd), dir)
+end
+
 When /^I run "([^"]*)" interactively$/ do |cmd|
-  warn(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the `backticks` version\e[0m})
+  warn(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the I interactively run `backticks` version\e[0m})
   run_interactive(unescape(cmd))
 end
 
 When /^I run `([^`]*)` interactively$/ do |cmd|
+  warn(%{\e[35m    The /^I run `([^"]*)` interactively$/ step definition is deprecated. Please use the I interactively run `backticks` version\e[0m})
   run_interactive(unescape(cmd))
+end
+
+When /^I interactively run `([^`]*)`$/ do |cmd|
+  run_interactive(unescape(cmd))
+end
+
+When /^I interactively run `([^`]*)` in "([^"]*)"$/ do |cmd, dir|
+  run_interactive(unescape(cmd), dir)
 end
 
 When /^I type "([^"]*)"$/ do |input|

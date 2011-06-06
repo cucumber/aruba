@@ -23,3 +23,19 @@ Feature: No clobber
 
   Scenario: Cleanup and verify the previous scenario
     Then a file named "foo/bar/baz.txt" should not exist
+
+  # use bash or ruby due to GH issue #69
+  Scenario: Do not change the filesystem
+    Given I successfully run `bash -c 'echo "I will survive!" >baz.txt'` in "/tmp/foo/bar"
+     When I run `cat baz.txt` in "/tmp/foo/bar"
+     Then the output should contain "I will survive!"
+
+  Scenario: Once more verify nothing was clobbered
+    Given I run `cat baz.txt` in "/tmp/foo/bar"
+    Then the output should contain "I will survive!"
+
+  Scenario: Adults cleanup after themselves
+    Given I run `rm baz.txt` in "/tmp/foo/bar"
+     When I run `cat baz.txt` in "/tmp/foo/bar"
+    Then the output should not contain "I will survive!"
+
