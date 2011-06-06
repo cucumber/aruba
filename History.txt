@@ -1,5 +1,7 @@
-== In Git
+== 0.3.7
 
+* Make Aruba::Api#get_process return the last executed process with passed cmd (Potapov Sergey)
+* Replace announce with puts to comply with cucumber 0.10.6 (Aslak Hellesøy)
 * Fix childprocess STDIN to be synchronous (#40, #71 Tim Ekl)
 
 == 0.3.6
