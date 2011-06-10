@@ -33,39 +33,59 @@ if(ENV['ARUBA_REPORT_DIR'])
         _mkdir(File.dirname(path))
         path
       end
+      
+      def clean_snapshot_dir(scenario)
+        @snapshot_dir = File.join($aruba_report_dir, "#{scenario.feature.file}:#{scenario.line}")
+        FileUtils.rm_rf(@snapshot_dir) if File.directory?(@snapshot_dir)
+        _mkdir(@snapshot_dir)
+      end
+      
+      def write_title(scenario)
+        File.open(aruba_report_file('title.txt'), 'w') do |io|
+          io.puts(scenario.title)
+        end
+      end
+
+      def write_description(scenario)
+        File.open(aruba_report_file('description.html'), 'w') do |io|
+          unescaped_description = scenario.description.gsub(/^(\s*)\\/, '\1')
+          markdown = RDiscount.new(unescaped_description)
+          io.puts(markdown.to_html)
+        end
+      end
+
+      def write_all_stdout
+        File.open(File.join(@snapshot_dir, 'stdout.html'), 'w') do |io|
+          html = Bcat::ANSI.new(all_stdout).to_html
+          html.gsub!(/style='color:#A00'/, 'class="red"')
+          html.gsub!(/style='color:#0AA'/, 'class="yellow"')
+          html.gsub!(/style='color:#555'/, 'class="grey"')
+          html.gsub!(/style='color:#0A0'/, 'class="green"')
+          # TODO: Do all a2h colours
+          io.write(html)
+        end
+      end
+
+      def pygmentize_files
+        in_current_dir do
+          Dir['**/*'].select{|f| File.file?(f)}.each do |f|
+            pygmentize(@snapshot_dir, f)
+          end
+        end
+      end
     end
   end
   World(Aruba::Reporting)
 
   Before do |scenario|
-    @snapshot_dir = File.join($aruba_report_dir, "#{scenario.feature.file}:#{scenario.line}")
-    FileUtils.rm_rf(@snapshot_dir) if File.directory?(@snapshot_dir)
-    _mkdir(@snapshot_dir)
-    File.open(aruba_report_file('title.txt'), 'w') do |io|
-      io.puts(scenario.title) # TODO: pass through RDiscount
-    end
-    File.open(aruba_report_file('description.html'), 'w') do |io|
-      unescaped_description = scenario.description.gsub(/^(\s*)\\/, '\1')
-      markdown = RDiscount.new(unescaped_description)
-      io.puts(markdown.to_html)
-    end
+    clean_snapshot_dir(scenario)
+    write_title(scenario)
+    write_description(scenario)
   end
 
-  After do |scenario|
-    File.open(File.join(@snapshot_dir, 'stdout.html'), 'w') do |io|
-      html = Bcat::ANSI.new(all_stdout).to_html
-      html.gsub!(/style='color:#A00'/, 'class="red"')
-      html.gsub!(/style='color:#0AA'/, 'class="yellow"')
-      html.gsub!(/style='color:#555'/, 'class="grey"')
-      html.gsub!(/style='color:#0A0'/, 'class="green"')
-      # TODO: Do all a2h colours
-      io.write(html)
-    end
-    in_current_dir do
-      Dir['**/*'].select{|f| File.file?(f)}.each do |f|
-        pygmentize(@snapshot_dir, f)
-      end
-    end
+  After do
+    write_all_stdout
+    pygmentize_files
   end
 end
 
