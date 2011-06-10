@@ -29,14 +29,16 @@ Feature: file system commands
     Given a file named "foo/bar/example.rb" with:
       """
       puts "hello world"
+
       """
     When I append to "foo/bar/example.rb" with:
       """
       puts "this was appended"
+
       """
     When I run `ruby foo/bar/example.rb`
-    Then the output should contain "hello world"
-    And the output should contain "this was appended"
+    Then the stdout should contain "hello world"
+    And the stdout should contain "this was appended"
 
   Scenario: clean up files generated in previous scenario
     When I run `ruby foo/bar/example.rb`

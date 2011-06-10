@@ -28,10 +28,14 @@ if(ENV['ARUBA_REPORT_DIR'])
         end
       end
 
-      def aruba_report_file(path)
+      def aruba_report_file(path, &proc)
         path = File.join(@snapshot_dir, path)
         _mkdir(File.dirname(path))
-        path
+        if block_given?
+          File.open(path, 'w', &proc)
+        else
+          path
+        end
       end
       
       def clean_snapshot_dir(scenario)
@@ -41,13 +45,13 @@ if(ENV['ARUBA_REPORT_DIR'])
       end
       
       def write_title(scenario)
-        File.open(aruba_report_file('title.txt'), 'w') do |io|
+        aruba_report_file('_meta/title.txt') do |io|
           io.puts(scenario.title)
         end
       end
 
       def write_description(scenario)
-        File.open(aruba_report_file('description.html'), 'w') do |io|
+        aruba_report_file('_meta/description.html') do |io|
           unescaped_description = scenario.description.gsub(/^(\s*)\\/, '\1')
           markdown = RDiscount.new(unescaped_description)
           io.puts(markdown.to_html)
@@ -55,7 +59,7 @@ if(ENV['ARUBA_REPORT_DIR'])
       end
 
       def write_all_stdout
-        File.open(File.join(@snapshot_dir, 'stdout.html'), 'w') do |io|
+        aruba_report_file('_meta/stdout.html') do |io|
           html = Bcat::ANSI.new(all_stdout).to_html
           html.gsub!(/style='color:#A00'/, 'class="red"')
           html.gsub!(/style='color:#0AA'/, 'class="yellow"')
@@ -73,6 +77,14 @@ if(ENV['ARUBA_REPORT_DIR'])
           end
         end
       end
+
+      def combine_all
+        descend(@snapshot_dir, 0)
+      end
+
+      def descend(dir, depth)
+        Dir[]
+      end
     end
   end
   World(Aruba::Reporting)
@@ -86,6 +98,7 @@ if(ENV['ARUBA_REPORT_DIR'])
   After do
     write_all_stdout
     pygmentize_files
+    combine_all
   end
 end
 

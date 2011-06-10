@@ -201,6 +201,12 @@ module Aruba
     end
 
     def run(cmd)
+      if @snapshot_dir
+        File.open(aruba_report_file('_meta/commands.txt'), 'a+') do |io|
+          io.puts(cmd)
+        end
+      end
+
       cmd = detect_ruby(cmd)
 
       in_current_dir do
@@ -228,12 +234,6 @@ module Aruba
     end
 
     def run_simple(cmd, fail_on_error=true)
-      if @snapshot_dir
-        File.open(aruba_report_file('commands.txt'), 'a+') do |io|
-          io.puts(cmd)
-        end
-      end
-
       @last_exit_status = run(cmd) do |process|
         process.stop
         announce_or_puts(process.stdout) if @announce_stdout
