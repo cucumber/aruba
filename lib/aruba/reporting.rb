@@ -45,7 +45,8 @@ if(ENV['ARUBA_REPORT_DIR'])
       io.puts(scenario.title) # TODO: pass through RDiscount
     end
     File.open(aruba_report_file('description.html'), 'w') do |io|
-      markdown = RDiscount.new(scenario.description)
+      unescaped_description = scenario.description.gsub(/^(\s*)\\/, '\1')
+      markdown = RDiscount.new(unescaped_description)
       io.puts(markdown.to_html)
     end
   end
