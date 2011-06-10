@@ -227,7 +227,19 @@ module Aruba
       @aruba_io_wait_seconds || DEFAULT_IO_WAIT_SECONDS
     end
 
+    def aruba_report_file(path)
+      path = File.join(@snapshot_dir, path)
+      _mkdir(File.dirname(path))
+      path
+    end
+
     def run_simple(cmd, fail_on_error=true)
+      if @snapshot_dir
+        File.open(aruba_report_file('commands.txt'), 'a+') do |io|
+          io.puts(cmd)
+        end
+      end
+
       @last_exit_status = run(cmd) do |process|
         process.stop
         announce_or_puts(process.stdout) if @announce_stdout
