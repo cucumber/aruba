@@ -1,6 +1,7 @@
 if(ENV['ARUBA_REPORT_DIR'])
   require 'fileutils'
   require 'bcat/ansi'
+  require 'rdiscount'
   require 'aruba/process'
   $aruba_report_dir = File.expand_path(ENV['ARUBA_REPORT_DIR'])
 
@@ -40,8 +41,12 @@ if(ENV['ARUBA_REPORT_DIR'])
     @snapshot_dir = File.join($aruba_report_dir, "#{scenario.feature.file}:#{scenario.line}")
     FileUtils.rm_rf(@snapshot_dir) if File.directory?(@snapshot_dir)
     _mkdir(@snapshot_dir)
-    File.open(aruba_report_file('description.txt'), 'w') do |io|
-      io.puts(scenario.name) # TODO: pass through RDiscount
+    File.open(aruba_report_file('title.txt'), 'w') do |io|
+      io.puts(scenario.title) # TODO: pass through RDiscount
+    end
+    File.open(aruba_report_file('description.html'), 'w') do |io|
+      markdown = RDiscount.new(scenario.description)
+      io.puts(markdown.to_html)
     end
   end
 

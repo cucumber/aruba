@@ -78,7 +78,14 @@ Reporting is off by default, but you can enable it by defining a special environ
 The generated HTML pages are meant to be included in other pages, so they do not contain html or body tags, or any css.
 This gives you the liberty to embed the HTML in other pages and style them as you like.
 
-TODO: Run description through Markdown (RDiscount)
+=== Prerequisites
+
+Aruba doesn't bundle all of the tools needed for report generation. You have to add these yourself to your project:
+
+* bcat (gem)
+* rdiscount (gem)
+* pygments
+
 TODO: post-process the files and put it all in one HTML file.
 TODO: add a mechanism to add a layout template
 
