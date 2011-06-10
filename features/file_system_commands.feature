@@ -18,6 +18,11 @@ Feature: file system commands
     Then the output should contain "hello world"
 
   Scenario: append to a file
+    We like appending to files:
+    
+    1. Disk space is cheap
+    1. It's completely safe
+
     Given a file named "foo/bar/example.rb" with:
       """
       puts "hello world"

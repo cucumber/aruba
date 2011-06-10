@@ -62,6 +62,26 @@ before reading or writing to the process if it is still running. You can control
     @aruba_io_wait_seconds = 5
   end
 
+== Reporting
+
+Aruba can generate a HTML page for each scenario that contains:
+
+* The description from the scenario (You can use textile here. Escape * and # at beginning of line with \)
+* The command(s) that were run
+* The output from those commands (in colour if the output uses ANSI escapes)
+* The files that were created (in colour - syntax highlighted by [Pygments](http://pygments.org/))
+
+Reporting is off by default, but you can enable it by defining a special environment variable where reports are written:
+
+    ARUBA_REPORT_DIR=doc cucumber features
+
+The generated HTML pages are meant to be included in other pages, so they do not contain html or body tags, or any css.
+This gives you the liberty to embed the HTML in other pages and style them as you like.
+
+TODO: Run description through Markdown (RDiscount)
+TODO: post-process the files and put it all in one HTML file.
+TODO: add a mechanism to add a layout template
+
 == Note on Patches/Pull Requests
  
 * Fork the project.
