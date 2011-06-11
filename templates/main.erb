@@ -1,3 +1,14 @@
+<!doctype html> 
+
+<html>
+<head>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="../css/earth-pygments.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../css/console.css" type="text/css" media="screen, projection" />
+  <link rel="stylesheet" href="../css/filesystem.css" type="text/css" media="screen, projection" />
+</head>
+<body>
+
 <h2><%= title %></h2>
 
 <div class="description">
@@ -5,13 +16,15 @@
 </div>
 
 <h3>Files</h3>
-<div class="files">
+<div class="filesystem">
   <%= files %>
 </div>
 
-<pre class="shell">
+<pre class="console">
 <% commands.each do |cmd| -%>
 $ <%= cmd %>
 <% end -%>
 <%= output %>
 </pre>
+
+</body>

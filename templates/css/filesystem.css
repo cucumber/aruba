@@ -1,0 +1,15 @@
+.filesystem li.folder {
+	list-style-image: url('../images/folder.png');
+}
+
+.filesystem li.feature {
+	list-style-image: url('../images/cucumber.png');
+}
+
+.filesystem li.rb {
+	list-style-image: url('../images/ruby.png');
+}
+
+.filesystem .content {
+	display: block;
+}

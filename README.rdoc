@@ -78,7 +78,10 @@ where reports are written:
 
     ARUBA_REPORT_TEMPLATES=templates ARUBA_REPORT_DIR=doc cucumber features
 
-The templates directory must contain a `main.erb` and `files.erb` template. See the templates directory for a sample.
+The templates directory must contain a `main.erb` and `files.erb` template. This directory can also contain other assets such
+as css, javascript and images. All of these files will be copied over as well.
+
+See the templates directory for a sample.
 
 === Escaping Markdown
 
@@ -113,8 +116,14 @@ Aruba doesn't bundle all of the tools needed for report generation. You have to 
 * rdiscount (gem)
 * pygments
 
-TODO: post-process the files and put it all in one HTML file.
-TODO: add a mechanism to add a layout template
+=== Reporting TODO
+* #depth function for template so we can refer to CSS path properly
+* Map all a2h colours in reporting.rb and console.css
+* Make a nicer looking pygments css
+* Javascript for expand/collapse of files (easing?)
+* Folder Icons
+* Styling: padding, slightly round corners
+* Download .tgz and .zip option
 
 == Note on Patches/Pull Requests
  

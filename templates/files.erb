@@ -1,7 +1,9 @@
 <% if children(file).any? %>
   <ul>
-    <% children(file).each do |child| -%>
-      <li><%= File.basename(child) -%>
+    <% children(file).each do |child| 
+        css_class = File.directory?(child) ? 'folder' : File.extname(child) == '' ? 'unknown' : File.extname(child)[1..-1]
+    -%>
+      <li class="<%= css_class %>"><%= File.basename(child) -%>
         <% if File.file?(child) %>
           <%= pygmentize(child) %>
         <% end %>

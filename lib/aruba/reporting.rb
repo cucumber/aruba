@@ -42,7 +42,6 @@ if(ENV['ARUBA_REPORT_DIR'])
         html.gsub!(/style='color:#0AA'/, 'class="yellow"')
         html.gsub!(/style='color:#555'/, 'class="grey"')
         html.gsub!(/style='color:#0A0'/, 'class="green"')
-        # TODO: Do all a2h colours
         html
       end
 
@@ -82,6 +81,9 @@ if(ENV['ARUBA_REPORT_DIR'])
     File.open(report_file, 'w') do |io|
       io.write(report)
     end
+
+    FileUtils.cp_r(File.join(ENV['ARUBA_REPORT_TEMPLATES'], '.'), ENV['ARUBA_REPORT_DIR'])
+    Dir["#{ENV['ARUBA_REPORT_DIR']}/**/*.erb"].each{|f| FileUtils.rm(f)}
   end
 end
 
