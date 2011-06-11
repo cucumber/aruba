@@ -1,0 +1,9 @@
+<% if children(file).any? %>
+<ul>
+<% children(file).each do |child| -%>
+<li><%= File.basename(child) -%>
+<% again(erb, _erbout, child) -%>
+</li>
+<% end -%>
+</ul>
+<% end -%>

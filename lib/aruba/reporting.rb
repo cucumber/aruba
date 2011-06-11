@@ -1,5 +1,6 @@
 if(ENV['ARUBA_REPORT_DIR'])
   require 'fileutils'
+  require 'erb'
   require 'bcat/ansi'
   require 'rdiscount'
   require 'aruba/process'
@@ -79,11 +80,25 @@ if(ENV['ARUBA_REPORT_DIR'])
       end
 
       def combine_all
-        descend(@snapshot_dir, 0)
+        Kernel.puts filesystem_html
+      end
+      
+      def filesystem_html
+        erb = ERB.new(template('files.erb'), nil, '-')
+        file = @snapshot_dir
+        erb.result(binding)
+      end
+      
+      def again(erb, _erbout, file)
+        _erbout.concat(erb.result(binding))
       end
 
-      def descend(dir, depth)
-        Dir[]
+      def children(dir)
+        Dir["#{dir}/*"].reject{|p| p =~ /_meta$/}.sort
+      end
+
+      def template(path)
+        IO.read(File.join(ENV['ARUBA_REPORT_TEMPLATES'], path))
       end
     end
   end

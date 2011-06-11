@@ -72,9 +72,11 @@ Aruba can generate a HTML page for each scenario that contains:
 * The output from those commands (in colour if the output uses ANSI escapes)
 * The files that were created (in colour - syntax highlighted by [Pygments](http://pygments.org/))
 
-Reporting is off by default, but you can enable it by defining a special environment variable where reports are written:
+Reporting is off by default, but you can enable it by defining two special environment variables.
+The `ARUBA_REPORT_TEMPLATES` variable defines the location of your templates, and `ARUBA_REPORT_DIR` defines 
+where reports are written:
 
-    ARUBA_REPORT_DIR=doc cucumber features
+    ARUBA_REPORT_TEMPLATES=templates ARUBA_REPORT_DIR=doc cucumber features
 
 The generated HTML pages are meant to be included in other pages, so they do not contain html or body tags, or any css.
 This gives you the liberty to embed the HTML in other pages and style them as you like.

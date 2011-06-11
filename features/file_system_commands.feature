@@ -136,3 +136,8 @@ Feature: file system commands
       """
     When I remove the file "foo"
     Then the file "foo" should not exist
+
+  Scenario: Just a dummy for reporting
+    Given an empty file named "a/b.txt"
+    Given an empty file named "a/b/c.txt"
+    Given an empty file named "a/b/c/d.txt"

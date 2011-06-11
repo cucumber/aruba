@@ -9,7 +9,9 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
-    builder (3.0.0)
+    bcat (0.6.1)
+      rack (~> 1.0)
+    builder (2.1.2)
     childprocess (0.1.9)
       ffi (~> 1.0.6)
     cucumber (0.10.6)
@@ -23,6 +25,8 @@ GEM
     gherkin (2.4.0)
       json (>= 1.4.6)
     json (1.5.1)
+    rack (1.2.3)
+    rdiscount (1.6.8)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -38,3 +42,5 @@ PLATFORMS
 
 DEPENDENCIES
   aruba!
+  bcat (>= 0.6.1)
+  rdiscount (>= 1.6.8)
