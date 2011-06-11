@@ -117,10 +117,10 @@ Aruba doesn't bundle all of the tools needed for report generation. You have to 
 * pygments
 
 === Reporting TODO
-* #depth function for template so we can refer to CSS path properly
 * Map all a2h colours in reporting.rb and console.css
 * Make a nicer looking pygments css
 * Javascript for expand/collapse of files (easing?)
+* Use a cooler unicode symbol for prompt
 * Folder Icons
 * Styling: padding, slightly round corners
 * Download .tgz and .zip option

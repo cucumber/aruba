@@ -61,11 +61,15 @@ if(ENV['ARUBA_REPORT_DIR'])
       end
 
       def children(dir)
-        Dir["#{dir}/*"].reject{|p| p =~ /_meta$/}.sort
+        Dir["#{dir}/*"].sort
       end
 
       def template(path)
         IO.read(File.join(ENV['ARUBA_REPORT_TEMPLATES'], path))
+      end
+
+      def depth
+        File.dirname(@scenario.feature.file).split('/').length
       end
     end
   end
