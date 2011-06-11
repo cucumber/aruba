@@ -38,10 +38,9 @@ if(ENV['ARUBA_REPORT_DIR'])
 
       def output
         html = Bcat::ANSI.new(all_stdout).to_html
-        html.gsub!(/style='color:#A00'/, 'class="red"')
-        html.gsub!(/style='color:#0AA'/, 'class="yellow"')
-        html.gsub!(/style='color:#555'/, 'class="grey"')
-        html.gsub!(/style='color:#0A0'/, 'class="green"')
+        Bcat::ANSI::STYLES.each do |name, style|
+          html.gsub!(/style='#{style}'/, %{class="xterm_#{name}"})
+        end
         html
       end
 
