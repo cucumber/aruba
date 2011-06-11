@@ -4,7 +4,6 @@ if(ENV['ARUBA_REPORT_DIR'])
   require 'bcat/ansi'
   require 'rdiscount'
   require 'aruba/process'
-  $aruba_report_dir = File.expand_path(ENV['ARUBA_REPORT_DIR'])
 
   module Aruba
     module Reporting
@@ -23,61 +22,36 @@ if(ENV['ARUBA_REPORT_DIR'])
         end
       end
 
-      def aruba_report_file(path, &proc)
-        path = File.join(@snapshot_dir, path)
-        _mkdir(File.dirname(path))
-        if block_given?
-          File.open(path, 'w', &proc)
-        else
-          path
-        end
+      def title
+        @scenario.title
+      end
+
+      def description
+        unescaped_description = @scenario.description.gsub(/^(\s*)\\/, '\1')
+        markdown = RDiscount.new(unescaped_description)
+        markdown.to_html
+      end
+
+      def commands
+        @commands
+      end
+
+      def output
+        html = Bcat::ANSI.new(all_stdout).to_html
+        html.gsub!(/style='color:#A00'/, 'class="red"')
+        html.gsub!(/style='color:#0AA'/, 'class="yellow"')
+        html.gsub!(/style='color:#555'/, 'class="grey"')
+        html.gsub!(/style='color:#0A0'/, 'class="green"')
+        # TODO: Do all a2h colours
+        html
+      end
+
+      def report
+        erb = ERB.new(template('main.erb'), nil, '-')
+        erb.result(binding)
       end
       
-      def clean_snapshot_dir(scenario)
-        @snapshot_dir = File.join($aruba_report_dir, "#{scenario.feature.file}:#{scenario.line}")
-        FileUtils.rm_rf(@snapshot_dir) if File.directory?(@snapshot_dir)
-        _mkdir(@snapshot_dir)
-      end
-      
-      def write_title(scenario)
-        aruba_report_file('_meta/title.txt') do |io|
-          io.puts(scenario.title)
-        end
-      end
-
-      def write_description(scenario)
-        aruba_report_file('_meta/description.html') do |io|
-          unescaped_description = scenario.description.gsub(/^(\s*)\\/, '\1')
-          markdown = RDiscount.new(unescaped_description)
-          io.puts(markdown.to_html)
-        end
-      end
-
-      def write_all_stdout
-        aruba_report_file('_meta/stdout.html') do |io|
-          html = Bcat::ANSI.new(all_stdout).to_html
-          html.gsub!(/style='color:#A00'/, 'class="red"')
-          html.gsub!(/style='color:#0AA'/, 'class="yellow"')
-          html.gsub!(/style='color:#555'/, 'class="grey"')
-          html.gsub!(/style='color:#0A0'/, 'class="green"')
-          # TODO: Do all a2h colours
-          io.write(html)
-        end
-      end
-
-      def pygmentize_files
-        in_current_dir do
-          Dir['**/*'].select{|f| File.file?(f)}.each do |f|
-            pygmentize(@snapshot_dir, f)
-          end
-        end
-      end
-
-      def combine_all
-        Kernel.puts filesystem_html
-      end
-      
-      def filesystem_html
+      def files
         erb = ERB.new(template('files.erb'), nil, '-')
         file = current_dir
         erb.result(binding)
@@ -99,15 +73,15 @@ if(ENV['ARUBA_REPORT_DIR'])
   World(Aruba::Reporting)
 
   Before do |scenario|
-    clean_snapshot_dir(scenario)
-    write_title(scenario)
-    write_description(scenario)
+    @scenario = scenario
   end
 
   After do
-    write_all_stdout
-#    pygmentize_files
-    combine_all
+    report_file = File.join(ENV['ARUBA_REPORT_DIR'], "#{@scenario.feature.file}:#{@scenario.line}.html")
+    _mkdir(File.dirname(report_file))
+    File.open(report_file, 'w') do |io|
+      io.write(report)
+    end
   end
 end
 

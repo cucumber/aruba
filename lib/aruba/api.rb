@@ -201,11 +201,8 @@ module Aruba
     end
 
     def run(cmd)
-      if @snapshot_dir
-        File.open(aruba_report_file('_meta/commands.txt'), 'a+') do |io|
-          io.puts(cmd)
-        end
-      end
+      @commands ||= []
+      @commands << cmd
 
       cmd = detect_ruby(cmd)
 

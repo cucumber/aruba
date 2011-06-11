@@ -78,8 +78,7 @@ where reports are written:
 
     ARUBA_REPORT_TEMPLATES=templates ARUBA_REPORT_DIR=doc cucumber features
 
-The generated HTML pages are meant to be included in other pages, so they do not contain html or body tags, or any css.
-This gives you the liberty to embed the HTML in other pages and style them as you like.
+The templates directory must contain a `main.erb` and `files.erb` template. See the templates directory for a sample.
 
 === Escaping Markdown
 

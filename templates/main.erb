@@ -1,0 +1,17 @@
+<h2><%= title %></h2>
+
+<div class="description">
+<%= description %>
+</div>
+
+<h3>Files</h3>
+<div class="files">
+  <%= files %>
+</div>
+
+<pre class="shell">
+<% commands.each do |cmd| -%>
+$ <%= cmd %>
+<% end -%>
+<%= output %>
+</pre>
