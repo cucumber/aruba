@@ -12,7 +12,7 @@ Feature: file system commands
   Scenario: create a file
     Given a file named "foo/bar/example.rb" with:
       """
-      puts "\e[31mhello world\e[0m"
+      puts "hello world"
       """
     When I run `ruby foo/bar/example.rb`
     Then the output should contain "hello world"
@@ -28,7 +28,7 @@ Feature: file system commands
 
     Given a file named "foo/bar/example.rb" with:
       """
-      puts "hello world"
+      puts "\e[31mhello world\e[0m"
 
       """
     When I append to "foo/bar/example.rb" with:

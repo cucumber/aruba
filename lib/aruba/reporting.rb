@@ -8,20 +8,14 @@ if(ENV['ARUBA_REPORT_DIR'])
 
   module Aruba
     module Reporting
-      def pygmentize(dir, file)
-        out = File.join(dir, file + '.html')
-        _mkdir(File.dirname(out))
+      def pygmentize(file)
         pygmentize = Process.new(%{pygmentize -f html -O encoding=utf-8 "#{file}"}, 3, 0.5)
         pygmentize.run! do |p|
           exit_status = p.stop
           if(exit_status == 0)
-            File.open(out, 'w') do |io|
-              io.write(p.stdout)
-            end
+            p.stdout
           elsif(p.stderr =~ /no lexer/) # Pygment's didn't recognize it
-            File.open(out, 'w') do |io|
-              io.write(IO.read(file))
-            end
+            IO.read(file)
           else
             STDERR.puts "\e[31m#{p.stderr} - is pygments installed?\e[0m"
             exit $?.exitstatus
@@ -85,7 +79,7 @@ if(ENV['ARUBA_REPORT_DIR'])
       
       def filesystem_html
         erb = ERB.new(template('files.erb'), nil, '-')
-        file = @snapshot_dir
+        file = current_dir
         erb.result(binding)
       end
       
@@ -112,7 +106,7 @@ if(ENV['ARUBA_REPORT_DIR'])
 
   After do
     write_all_stdout
-    pygmentize_files
+#    pygmentize_files
     combine_all
   end
 end
