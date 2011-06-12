@@ -1,7 +1,8 @@
-= aruba
+Aruba is Cucumber extension for Command line applications written in any programming language. Features at a glance:
 
-Cucumber steps for driving out command line applications. The command line application can be anything,
-a compiled C program, a Java program, a Perl script - anything.
+* Test any command line application
+* Manipulate the file system
+* Create great HTML documentation based on your own Cucumber scenarios
 
 == Usage
 
