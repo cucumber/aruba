@@ -37,14 +37,14 @@ module Aruba
     def stdout
       wait_for_io do
         @out.rewind
-        @out.read
+        remove_ansi_escapes(@out.read)
       end
     end
 
     def stderr
       wait_for_io do
         @err.rewind
-        @err.read
+        remove_ansi_escapes(@err.read)
       end
     end
 
@@ -61,6 +61,11 @@ module Aruba
     def wait_for_io(&block)
       sleep @io_wait if @process.alive?
       yield
+    end
+
+    def remove_ansi_escapes(out)
+      out.gsub(/\e\[\d+(?>(;\d+)*)m/, '')
+      out
     end
   end
 end

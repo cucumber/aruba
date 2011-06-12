@@ -106,7 +106,7 @@ module Aruba
     end
 
     def unescape(string)
-      string.gsub('\n', "\n").gsub('\"', '"')
+      string.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e")
     end
 
     def regexp(string_or_regexp)
@@ -144,8 +144,8 @@ module Aruba
       all_output.should == exact_output
     end
 
-    def assert_partial_output(partial_output)
-      all_output.should include(unescape(partial_output))
+    def assert_partial_output(partial_output, expected_output)
+      unescape(expected_output).should include(unescape(partial_output))
     end
 
     def assert_passing_with(partial_output)
@@ -157,7 +157,7 @@ module Aruba
     end
 
     def assert_exit_status_and_partial_output(expect_to_pass, partial_output)
-      assert_partial_output(partial_output)
+      assert_partial_output(partial_output, all_stdout)
       assert_exiting_with(expect_to_pass)
     end
 

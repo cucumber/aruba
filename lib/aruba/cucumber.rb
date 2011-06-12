@@ -72,11 +72,11 @@ When /^I type "([^"]*)"$/ do |input|
 end
 
 Then /^the output should contain "([^"]*)"$/ do |partial_output|
-  assert_partial_output(partial_output)
+  assert_partial_output(partial_output, all_output)
 end
 
 Then /^the output from "([^"]*)" should contain "([^"]*)"$/ do |cmd, partial_output|
-  output_from(cmd).should include(partial_output)
+  assert_partial_output(partial_output, output_from(cmd))
 end
 
 Then /^the output from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, partial_output|
@@ -88,7 +88,7 @@ Then /^the output should not contain "([^"]*)"$/ do |partial_output|
 end
 
 Then /^the output should contain:$/ do |partial_output|
-  all_output.should include(partial_output)
+  assert_partial_output(partial_output, all_output)
 end
 
 Then /^the output should not contain:$/ do |partial_output|
@@ -153,11 +153,11 @@ Then /^the stderr should contain exactly:$/ do |exact_output|
 end
 
 Then /^the stdout should contain "([^"]*)"$/ do |partial_output|
-  all_stdout.should include(partial_output)
+  assert_partial_output(partial_output, all_stdout)
 end
 
 Then /^the stdout should contain:$/ do |partial_output|
-  all_stdout.should include(partial_output)
+  assert_partial_output(partial_output, all_stdout)
 end
 
 Then /^the stdout should contain exactly:$/ do |exact_output|
