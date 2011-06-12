@@ -111,7 +111,7 @@ as css, javascript and images. All of these files will be copied over to the rep
 ### Escaping Markdown
 
 There are some edge cases where Gherkin and Markdown don't agree. Bullet lists using `*` is one example. The `*` is also an alias for
-step keywords in Gherkin. Markdown headers (the kind starting with a #) is another example. They are parsed as comments by Gherkin. To use either of these, just escape them with a backslash. So instead of writing:
+step keywords in Gherkin. Markdown headers (the kind starting with a `#`) is another example. They are parsed as comments by Gherkin. To use either of these, just escape them with a backslash. So instead of writing:
 
     Scenario: Make tea
       ## Making tea
