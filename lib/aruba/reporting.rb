@@ -3,6 +3,7 @@ if(ENV['ARUBA_REPORT_DIR'])
   
   require 'fileutils'
   require 'erb'
+  require 'cgi'
   require 'bcat/ansi'
   require 'rdiscount'
   require 'aruba/process'
@@ -40,7 +41,8 @@ if(ENV['ARUBA_REPORT_DIR'])
 
       def output
         @aruba_keep_ansi = true # We want the output coloured!
-        html = Bcat::ANSI.new(all_stdout).to_html
+        escaped_stdout = CGI.escape_html(all_stdout)
+        html = Bcat::ANSI.new(escaped_stdout).to_html
         Bcat::ANSI::STYLES.each do |name, style|
           html.gsub!(/style='#{style}'/, %{class="xterm_#{name}"})
         end
