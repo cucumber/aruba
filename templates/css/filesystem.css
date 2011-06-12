@@ -1,5 +1,5 @@
 .filesystem ul {
-  background: #F8F8F8;
+  background: #FFFFFF;
   margin: 0;
   padding: 0;
 }
@@ -12,7 +12,7 @@
 
 .filesystem li .highlight {
   display: block;
-  border: 1px solid #000000;
+  border: 1px solid #CCCCCC;
   margin-top: 4px;
 }
 
