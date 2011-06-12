@@ -1,15 +1,27 @@
+.filesystem ul {
+  margin: 0;
+  padding: 0;
+}
+
+.filesystem li {
+  background: #F8F8F8;
+  list-style-type: none;
+  padding-left: 20px;
+  margin-top: 4px;
+}
+
 .filesystem li.folder {
-	list-style-image: url('../images/folder.png');
+  background: url('../images/folder.png') no-repeat;
 }
 
 .filesystem li.feature {
-	list-style-image: url('../images/cucumber.png');
+  background: url('../images/page_white_gherkin.png') no-repeat;
 }
 
 .filesystem li.rb {
-	list-style-image: url('../images/ruby.png');
+  background: url('../images/page_white_ruby.png') no-repeat;
 }
 
-.filesystem .content {
-	display: block;
+.filesystem li.unknown {
+  background: url('../images/page_white.png') no-repeat;
 }

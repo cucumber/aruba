@@ -26,7 +26,12 @@ Feature: file system commands
     - One
     - Two
 
-    Given a file named "foo/bar/example.rb" with:
+    Given a file named "foo/bar/example.feature" with:
+      """
+      Feature: Example
+        Hello World
+      """
+    And a file named "foo/bar/example.rb" with:
       """
       puts "\e[31mhello world\e[0m"
 
