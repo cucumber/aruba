@@ -12,9 +12,9 @@ if(ENV['ARUBA_REPORT_DIR'])
       def pygmentize(file)
         pygmentize = Process.new(%{pygmentize -f html -O encoding=utf-8 "#{file}"}, 3, 0.5)
         pygmentize.run! do |p|
-          exit_status = p.stop
+          exit_status = p.stop(false)
           if(exit_status == 0)
-            p.stdout
+            p.stdout(false)
           elsif(p.stderr =~ /no lexer/) # Pygment's didn't recognize it
             IO.read(file)
           else
