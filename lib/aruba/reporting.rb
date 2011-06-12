@@ -14,7 +14,7 @@ if(ENV['ARUBA_REPORT_DIR'])
         pygmentize.run! do |p|
           exit_status = p.stop(false)
           if(exit_status == 0)
-            p.stdout(false)
+            p.stdout(true)
           elsif(p.stderr =~ /no lexer/) # Pygment's didn't recognize it
             IO.read(file)
           else
