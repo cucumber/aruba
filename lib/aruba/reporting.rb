@@ -15,7 +15,7 @@ if(ENV['ARUBA_REPORT_DIR'])
           exit_status = p.stop(false)
           if(exit_status == 0)
             p.stdout(false)
-          elsif(p.stderr =~ /no lexer/) # Pygment's didn't recognize it
+          elsif(p.stderr(false) =~ /no lexer/) # Pygment's didn't recognize it
             IO.read(file)
           else
             STDERR.puts "\e[31m#{p.stderr} - is pygments installed?\e[0m"
@@ -35,7 +35,7 @@ if(ENV['ARUBA_REPORT_DIR'])
       end
 
       def commands
-        @commands
+        @commands || []
       end
 
       def output

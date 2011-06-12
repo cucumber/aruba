@@ -148,19 +148,20 @@ module Aruba
       unescape(actual).should include(unescape(expected))
     end
 
-    def assert_passing_with(partial_output)
-      assert_exit_status_and_partial_output(true, partial_output)
+    def assert_passing_with(expected)
+      assert_exit_status_and_partial_output(true, expected)
     end
 
-    def assert_failing_with(partial_output)
-      assert_exit_status_and_partial_output(false, partial_output)
+    def assert_failing_with(expected)
+      assert_exit_status_and_partial_output(false, expected)
     end
 
-    def assert_exit_status_and_partial_output(expect_to_pass, partial_output)
-      assert_partial_output(partial_output, all_stdout)
+    def assert_exit_status_and_partial_output(expect_to_pass, expected)
+      assert_partial_output(expected, all_output)
       assert_exiting_with(expect_to_pass)
     end
 
+    # TODO: Remove this. Call more methods elsewhere instead. Reveals more intent.
     def assert_exit_status_and_output(expect_to_pass, expected_output, expect_exact_output)
       if expect_exact_output
         assert_exact_output(expected_output, all_output)

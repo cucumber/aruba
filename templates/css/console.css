@@ -11,6 +11,10 @@
   color: #00ff00;
 }
 
+.console .xterm_ef3 { /* yellow */ 
+  color: #ffff00;
+}
+
 .console .xterm_ef6 { /* cyan */ 
   color: #00ffff;
 }
@@ -18,6 +22,3 @@
 .console .xterm_ef8 { /* gray */ 
   color: #888888;
 }
-
-
-/* We'll add other colors as we need them. They have names I can't remember... */
