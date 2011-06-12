@@ -42,7 +42,7 @@ Feature: file system commands
 
       """
     When I run `ruby foo/bar/example.rb`
-    Then the stdout should contain "\e[31mhello world\e[0m"
+    Then the stdout should contain "hello world"
     And the stdout should contain "this was appended"
 
   Scenario: clean up files generated in previous scenario

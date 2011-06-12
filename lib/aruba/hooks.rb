@@ -47,6 +47,10 @@ Before('@announce') do
   @announce_env = true
 end
 
+Before('@ansi') do
+  @aruba_keep_ansi = true
+end
+
 After do
   restore_env
 end

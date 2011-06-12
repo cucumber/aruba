@@ -32,6 +32,10 @@ To prevent Aruba from removing its working directory before each scenario:
 
 * <tt>@no-clobber</tt> - Don't cleanup before scenarios
 
+Aruba strips away ANSI escapes from the stdout and stderr of spawned children by default. If you want to override this behaviour
+and leave the ANSI escape characters intact, just tag your scenario with <tt>@ansi</tt>. Alternatively you can add your own Before
+hook that sets @aruba_keep_ansi=true
+
 == Runtime Configuration
 
 Per default Aruba will create a directory <tt>tmp/aruba</tt> where it performs it's file operations.

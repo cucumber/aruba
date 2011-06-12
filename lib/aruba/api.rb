@@ -115,37 +115,37 @@ module Aruba
 
     def output_from(cmd)
       cmd = detect_ruby(cmd)
-      get_process(cmd).output
+      get_process(cmd).output(@aruba_keep_ansi)
     end
 
     def stdout_from(cmd)
       cmd = detect_ruby(cmd)
-      get_process(cmd).stdout
+      get_process(cmd).stdout(@aruba_keep_ansi)
     end
 
     def stderr_from(cmd)
       cmd = detect_ruby(cmd)
-      get_process(cmd).stderr
+      get_process(cmd).stderr(@aruba_keep_ansi)
     end
 
     def all_stdout
-      only_processes.inject("") { |out, ps| out << ps.stdout }
+      only_processes.inject("") { |out, ps| out << ps.stdout(@aruba_keep_ansi) }
     end
 
     def all_stderr
-      only_processes.inject("") { |out, ps| out << ps.stderr }
+      only_processes.inject("") { |out, ps| out << ps.stderr(@aruba_keep_ansi) }
     end
 
     def all_output
       all_stdout << all_stderr
     end
 
-    def assert_exact_output(exact_output, expected_output)
-      unescape(expected_output).should == unescape(exact_output)
+    def assert_exact_output(expected, actual)
+      unescape(actual).should == unescape(expected)
     end
 
-    def assert_partial_output(partial_output, expected_output)
-      unescape(expected_output).should include(unescape(partial_output))
+    def assert_partial_output(expected, actual)
+      unescape(actual).should include(unescape(expected))
     end
 
     def assert_passing_with(partial_output)
@@ -184,7 +184,7 @@ module Aruba
 
     def stop_processes!
       processes.each do |_, process|
-        process.stop
+        process.stop(@aruba_keep_ansi)
       end
     end
 
@@ -232,11 +232,11 @@ module Aruba
 
     def run_simple(cmd, fail_on_error=true)
       @last_exit_status = run(cmd) do |process|
-        process.stop
-        announce_or_puts(process.stdout) if @announce_stdout
-        announce_or_puts(process.stderr) if @announce_stderr
+        process.stop(@aruba_keep_ansi)
+        announce_or_puts(process.stdout(@aruba_keep_ansi)) if @announce_stdout
+        announce_or_puts(process.stderr(@aruba_keep_ansi)) if @announce_stderr
         # need to replace with process.exit_code or similar, or remove the block entirely... it doesn't add as much as I thought it would
-        process.stop       
+        process.stop(@aruba_keep_ansi)
       end
       @timed_out = @last_exit_status.nil?
 

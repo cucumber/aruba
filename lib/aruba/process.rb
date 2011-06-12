@@ -30,27 +30,27 @@ module Aruba
       end
     end
 
-    def output
-      stdout + stderr
+    def output(keep_ansi)
+      stdout(keep_ansi) + stderr(keep_ansi)
     end
 
-    def stdout
+    def stdout(keep_ansi)
       wait_for_io do
         @out.rewind
-        remove_ansi_escapes(@out.read)
+        filter_ansi(@out.read, keep_ansi)
       end
     end
 
-    def stderr
+    def stderr(keep_ansi)
       wait_for_io do
         @err.rewind
-        remove_ansi_escapes(@err.read)
+        filter_ansi(@err.read, keep_ansi)
       end
     end
 
-    def stop
+    def stop(keep_ansi)
       if @process
-        stdout && stderr # flush output
+        stdout(keep_ansi) && stderr(keep_ansi) # flush output
         @process.poll_for_exit(@exit_timeout)
         @process.exit_code
       end
@@ -63,9 +63,9 @@ module Aruba
       yield
     end
 
-    def remove_ansi_escapes(out)
-      out.gsub(/\e\[\d+(?>(;\d+)*)m/, '')
-      out
+    def filter_ansi(string, keep_ansi)
+      keep_ansi ? string : string.gsub(/\e\[\d+(?>(;\d+)*)m/, '')
     end
+
   end
 end

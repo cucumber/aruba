@@ -71,12 +71,12 @@ When /^I type "([^"]*)"$/ do |input|
   type(input)
 end
 
-Then /^the output should contain "([^"]*)"$/ do |partial_output|
-  assert_partial_output(partial_output, all_output)
+Then /^the output should contain "([^"]*)"$/ do |expected|
+  assert_partial_output(expected, all_output)
 end
 
-Then /^the output from "([^"]*)" should contain "([^"]*)"$/ do |cmd, partial_output|
-  assert_partial_output(partial_output, output_from(cmd))
+Then /^the output from "([^"]*)" should contain "([^"]*)"$/ do |cmd, expected|
+  assert_partial_output(expected, output_from(cmd))
 end
 
 Then /^the output from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, partial_output|
@@ -87,20 +87,20 @@ Then /^the output should not contain "([^"]*)"$/ do |partial_output|
   all_output.should_not include(partial_output)
 end
 
-Then /^the output should contain:$/ do |partial_output|
-  assert_partial_output(partial_output, all_output)
+Then /^the output should contain:$/ do |expected|
+  assert_partial_output(expected, all_output)
 end
 
 Then /^the output should not contain:$/ do |partial_output|
   all_output.should_not include(partial_output)
 end
 
-Then /^the output should contain exactly "([^"]*)"$/ do |exact_output|
-  assert_exact_output(exact_output, all_output)
+Then /^the output should contain exactly "([^"]*)"$/ do |expected|
+  assert_exact_output(expected, all_output)
 end
 
-Then /^the output should contain exactly:$/ do |exact_output|
-  assert_exact_output(exact_output, all_output)
+Then /^the output should contain exactly:$/ do |expected|
+  assert_exact_output(expected, all_output)
 end
 
 # "the output should match" allows regex in the partial_output, if
@@ -152,12 +152,12 @@ Then /^the stderr should contain exactly:$/ do |exact_output|
   all_stderr.should == exact_output
 end
 
-Then /^the stdout should contain "([^"]*)"$/ do |partial_output|
-  assert_partial_output(partial_output, all_stdout)
+Then /^the stdout should contain "([^"]*)"$/ do |expected|
+  assert_partial_output(expected, all_stdout)
 end
 
-Then /^the stdout should contain:$/ do |partial_output|
-  assert_partial_output(partial_output, all_stdout)
+Then /^the stdout should contain:$/ do |expected|
+  assert_partial_output(expected, all_stdout)
 end
 
 Then /^the stdout should contain exactly:$/ do |exact_output|
