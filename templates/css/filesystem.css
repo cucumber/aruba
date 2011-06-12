@@ -15,6 +15,14 @@
   margin-bottom: 4px;
 }
 
+.filesystem li .highlight {
+  display: block;
+}
+
+.filesystem li.file {
+  cursor: pointer;
+}
+
 .filesystem li.folder {
   background: url('../images/folder.png') no-repeat;
 }
