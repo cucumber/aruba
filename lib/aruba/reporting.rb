@@ -14,7 +14,7 @@ if(ENV['ARUBA_REPORT_DIR'])
         pygmentize.run! do |p|
           exit_status = p.stop(false)
           if(exit_status == 0)
-            p.stdout(true)
+            p.stdout(false)
           elsif(p.stderr =~ /no lexer/) # Pygment's didn't recognize it
             IO.read(file)
           else
@@ -39,6 +39,7 @@ if(ENV['ARUBA_REPORT_DIR'])
       end
 
       def output
+        @aruba_keep_ansi = true # We want the output coloured!
         html = Bcat::ANSI.new(all_stdout).to_html
         Bcat::ANSI::STYLES.each do |name, style|
           html.gsub!(/style='#{style}'/, %{class="xterm_#{name}"})
