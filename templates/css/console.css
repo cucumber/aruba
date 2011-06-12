@@ -1,24 +1,10 @@
-.console { 
-	background-color: #000000;
-	color: #ffffff;
+.console {
+  background-color: #000000;
+  color: #ffffff;
 }
 
-.console .red { 
-	color: #ff0000;
+.console .xterm_ef1 { 
+  color: #ff0000;
 }
 
-.console .green { 
-	color: #00ff00;
-}
-
-.console .cyan { 
-	color: #00aaaa;
-}
-
-.console .grey { 
-	color: #777777;
-}
-
-.console .yellow { 
-	color: #aa5500;
-}
+/* We'll add other colors as we need them. They have names I can't remember... */

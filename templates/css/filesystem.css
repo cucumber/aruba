@@ -1,8 +1,3 @@
-.filesystem pre {
-  margin: 2px;
-  padding: 2px;
-}
-
 .filesystem ul {
   background: #F8F8F8;
   margin: 0;
@@ -17,6 +12,12 @@
 
 .filesystem li .highlight {
   display: block;
+  border: 1px solid #000000;
+}
+
+.filesystem li .highlight pre, pre.console {
+  margin: 2px;
+  padding: 2px;
 }
 
 .filesystem li.file {
