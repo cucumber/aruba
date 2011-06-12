@@ -13,6 +13,7 @@
 .filesystem li .highlight {
   display: block;
   border: 1px solid #000000;
+  margin-top: 4px;
 }
 
 .filesystem li .highlight pre, pre.console {
