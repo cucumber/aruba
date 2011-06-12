@@ -45,6 +45,15 @@ Feature: Output
       
       """
 
+  @ansi
+  Scenario: Detect exact one-line output with ANSI output
+    When I run `ruby -e 'puts \"\e[36mhello world\e[0m\"'`
+    Then the output should contain exactly:
+      """
+      \e[36mhello world\e[0m
+
+      """
+
   Scenario: Detect exact multiline output
     When I run `ruby -e 'puts "hello\nworld"'`
     Then the output should contain exactly:

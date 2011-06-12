@@ -140,8 +140,8 @@ module Aruba
       all_stdout << all_stderr
     end
 
-    def assert_exact_output(exact_output)
-      all_output.should == exact_output
+    def assert_exact_output(exact_output, expected_output)
+      unescape(expected_output).should == unescape(exact_output)
     end
 
     def assert_partial_output(partial_output, expected_output)
@@ -161,11 +161,11 @@ module Aruba
       assert_exiting_with(expect_to_pass)
     end
 
-    def assert_exit_status_and_output(expect_to_pass, output, expect_exact_output)
+    def assert_exit_status_and_output(expect_to_pass, expected_output, expect_exact_output)
       if expect_exact_output
-        assert_exact_output(output)
+        assert_exact_output(expected_output, all_output)
       else
-        assert_partial_output(output)
+        assert_partial_output(expected_output, all_output)
       end
       assert_exiting_with(expect_to_pass)
     end

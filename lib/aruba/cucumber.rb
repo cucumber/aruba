@@ -96,11 +96,11 @@ Then /^the output should not contain:$/ do |partial_output|
 end
 
 Then /^the output should contain exactly "([^"]*)"$/ do |exact_output|
-  all_output.should == exact_output
+  assert_exact_output(exact_output, all_output)
 end
 
 Then /^the output should contain exactly:$/ do |exact_output|
-  all_output.should == exact_output
+  assert_exact_output(exact_output, all_output)
 end
 
 # "the output should match" allows regex in the partial_output, if
