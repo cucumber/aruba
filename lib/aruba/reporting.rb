@@ -1,4 +1,6 @@
 if(ENV['ARUBA_REPORT_DIR'])
+  ENV['ARUBA_REPORT_TEMPLATES'] ||= File.dirname(__FILE__) + '/../../templates'
+  
   require 'fileutils'
   require 'erb'
   require 'bcat/ansi'

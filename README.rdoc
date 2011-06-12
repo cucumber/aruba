@@ -76,22 +76,22 @@ Aruba can generate a HTML page for each scenario that contains:
 * The output from those commands (in colour if the output uses ANSI escapes)
 * The files that were created (in colour - syntax highlighted by [Pygments](http://pygments.org/))
 
-Reporting is off by default, but you can enable it by defining two special environment variables.
-The `ARUBA_REPORT_TEMPLATES` variable defines the location of your templates, and `ARUBA_REPORT_DIR` defines 
-where reports are written:
+Reporting is off by default, but you can enable it by defining the`ARUBA_REPORT_DIR` environment variable, giving it the value
+where reports should be written:
+
+    ARUBA_REPORT_DIR=doc cucumber features
+
+This will use Aruba's built-in template by default (See the `templates` folder). If you want to use your own template you can override its location:
 
     ARUBA_REPORT_TEMPLATES=templates ARUBA_REPORT_DIR=doc cucumber features
 
-The templates directory must contain a `main.erb` and `files.erb` template. This directory can also contain other assets such
-as css, javascript and images. All of these files will be copied over as well.
-
-See the templates directory for a sample.
+The templates directory must contain a `main.erb` and `files.erb` template. It can also contain other assets such
+as css, javascript and images. All of these files will be copied over to the report dir well.
 
 === Escaping Markdown
 
-There are some edge cases where Gherkin and Markdown don't agree. Bullet lists is one example. They are aliases for step keywords
-in Gherkin. Markdown headers (the kind starting with a #) is another example. They are parsed as comments by Gherkin. To use either
-of these, just escape them with a backslash. So instead of writing:
+There are some edge cases where Gherkin and Markdown don't agree. Bullet lists using `*` is one example. The `*` is also an alias for
+step keywords in Gherkin. Markdown headers (the kind starting with a #) is another example. They are parsed as comments by Gherkin. To use either of these, just escape them with a backslash. So instead of writing:
 
     Scenario: Make tea
       ## Making tea
@@ -112,6 +112,16 @@ You'd write:
 This way Gherkin won't recognize these lines as special tokens, and the reporter will render them as Markdown. (The reporter strips
 away any leading the backslashes before handing it off to the Markdown parser).
 
+Another option is to use alternative Markdown syntax and omit conflicts and escaping altogether:
+
+    Scenario: Make tea
+      Making tea
+      ==========
+      - Get a pot
+      - And some hot water
+  
+      Given...
+
 === Prerequisites
 
 Aruba doesn't bundle all of the tools needed for report generation. You have to add these yourself to your project:
@@ -119,9 +129,6 @@ Aruba doesn't bundle all of the tools needed for report generation. You have to 
 * bcat (gem)
 * rdiscount (gem)
 * pygments
-
-=== Reporting TODO
-* Make a nicer looking pygments css
 
 == Note on Patches/Pull Requests
  
