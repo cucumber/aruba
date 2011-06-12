@@ -12,9 +12,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'cucumber', '>= 0.10.5'
   s.add_dependency 'childprocess', '>= 0.1.9'
   s.add_dependency 'rspec', '>= 2.6.0'
-  s.add_development_dependency 'bcat', '>= 0.6.1'
-  s.add_development_dependency 'rdiscount', '>= 1.6.8'
-  s.add_development_dependency 'rake', '= 0.8.7'
+  s.add_dependency 'bcat', '>= 0.6.1'
+  s.add_dependency 'rdiscount', '>= 1.6.8'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = `git ls-files`.split("\n")
