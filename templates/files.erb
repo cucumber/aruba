@@ -5,6 +5,7 @@
     -%>
       <li class="<%= css_class %>"><span class="filename"><%= File.basename(child) -%></span>
         <% if File.file?(child) %>
+          <%= pygmentize(child) %>
         <% end %>
         <% again(erb, _erbout, child) -%>
       </li>

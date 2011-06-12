@@ -1,13 +1,18 @@
+.filesystem pre {
+  margin: 2px;
+  padding: 2px;
+}
+
 .filesystem ul {
+  background: #F8F8F8;
   margin: 0;
   padding: 0;
 }
 
 .filesystem li {
-  background: #F8F8F8;
   list-style-type: none;
   padding-left: 20px;
-  margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 .filesystem li.folder {
