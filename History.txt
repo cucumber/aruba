@@ -1,3 +1,8 @@
+== 0.4.0
+
+* New, awesome HTML reporting feature that captures everything that happens during a scenario. (Aslak Hellesøy)
+* ANSI escapes from output are stripped by default. Override this with the @ansi tag. (Aslak Hellesøy)
+
 == 0.3.7
 
 * Make Aruba::Api#get_process return the last executed process with passed cmd (Potapov Sergey)
