@@ -118,8 +118,6 @@ Aruba doesn't bundle all of the tools needed for report generation. You have to 
 
 === Reporting TODO
 * Make a nicer looking pygments css
-* Styling: padding, slightly round corners
-* Download .tgz and .zip option
 
 == Note on Patches/Pull Requests
  
