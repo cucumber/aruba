@@ -136,7 +136,7 @@ Another option is to use alternative Markdown syntax and omit conflicts and esca
 
     Scenario: Make tea
       Making tea
-      ==========
+      ----------
       - Get a pot
       - And some hot water
   
