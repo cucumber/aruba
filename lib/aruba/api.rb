@@ -148,6 +148,14 @@ module Aruba
       unescape(actual).should include(unescape(expected))
     end
 
+    def assert_matching_output(expected, actual)
+      unescape(actual).should =~ /#{unescape(expected)}/m
+    end
+
+    def assert_no_partial_output(unexpected, actual)
+      actual.should_not include(unexpected)
+    end
+
     def assert_passing_with(expected)
       assert_exit_status_and_partial_output(true, expected)
     end
@@ -158,7 +166,7 @@ module Aruba
 
     def assert_exit_status_and_partial_output(expect_to_pass, expected)
       assert_partial_output(expected, all_output)
-      assert_exiting_with(expect_to_pass)
+      assert_success(expect_to_pass)
     end
 
     # TODO: Remove this. Call more methods elsewhere instead. Reveals more intent.
@@ -168,15 +176,19 @@ module Aruba
       else
         assert_partial_output(expected_output, all_output)
       end
-      assert_exiting_with(expect_to_pass)
+      assert_success(expect_to_pass)
     end
 
-    def assert_exiting_with(expect_to_pass)
-      if expect_to_pass
-        @last_exit_status.should == 0
-      else
-        @last_exit_status.should_not == 0
-      end
+    def assert_success(success)
+      success ? assert_exit_status(0) : assert_not_exit_status(0)
+    end
+
+    def assert_exit_status(status)
+      @last_exit_status.should == status
+    end
+
+    def assert_not_exit_status(status)
+      @last_exit_status.should_not == status
     end
     
     def processes

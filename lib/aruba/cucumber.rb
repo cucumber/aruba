@@ -79,20 +79,20 @@ Then /^the output from "([^"]*)" should contain "([^"]*)"$/ do |cmd, expected|
   assert_partial_output(expected, output_from(cmd))
 end
 
-Then /^the output from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, partial_output|
-  output_from(cmd).should_not include(partial_output)
+Then /^the output from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, unexpected|
+  assert_no_partial_output(unexpected, output_from(cmd))
 end
 
-Then /^the output should not contain "([^"]*)"$/ do |partial_output|
-  all_output.should_not include(partial_output)
+Then /^the output should not contain "([^"]*)"$/ do |unexpected|
+  assert_no_partial_output(unexpected, all_output)
 end
 
 Then /^the output should contain:$/ do |expected|
   assert_partial_output(expected, all_output)
 end
 
-Then /^the output should not contain:$/ do |partial_output|
-  all_output.should_not include(partial_output)
+Then /^the output should not contain:$/ do |unexpected|
+  assert_no_partial_output(unexpected, all_output)
 end
 
 Then /^the output should contain exactly "([^"]*)"$/ do |expected|
@@ -107,20 +107,20 @@ end
 # you don't need regex, use "the output should contain" instead since
 # that way, you don't have to escape regex characters that
 # appear naturally in the output
-Then /^the output should match \/([^\/]*)\/$/ do |partial_output|
-  all_output.should =~ /#{partial_output}/
+Then /^the output should match \/([^\/]*)\/$/ do |expected|
+  assert_matching_output(expected, all_output)
 end
  
-Then /^the output should match:$/ do |partial_output|
-  all_output.should =~ /#{partial_output}/m
+Then /^the output should match:$/ do |expected|
+  assert_matching_output(expected, all_output)
 end
 
 Then /^the exit status should be (\d+)$/ do |exit_status|
-  @last_exit_status.should == exit_status.to_i
+  assert_exit_status(exit_status.to_i)
 end
 
 Then /^the exit status should not be (\d+)$/ do |exit_status|
-  @last_exit_status.should_not == exit_status.to_i
+  assert_not_exit_status(exit_status.to_i)
 end
 
 Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
@@ -131,25 +131,21 @@ Then /^it should (pass|fail) with exactly:$/ do |pass_fail, exact_output|
   assert_exit_status_and_output(pass_fail == "pass", exact_output, true)
 end
 
-Then /^it should (pass|fail) with regexp?:$/ do |pass_fail, partial_output|
-  Then "the output should match:", partial_output
-  if pass_fail == 'pass'
-    @last_exit_status.should == 0
-  else
-    @last_exit_status.should_not == 0
-  end
+Then /^it should (pass|fail) with regexp?:$/ do |pass_fail, expected|
+  assert_matching_output(expected, all_output)
+  assert_success(pass_fail == 'pass')
 end
 
-Then /^the stderr should contain "([^"]*)"$/ do |partial_output|
-  all_stderr.should include(partial_output)
+Then /^the stderr should contain "([^"]*)"$/ do |expected|
+  assert_partial_output(expected, all_stderr)
 end
 
-Then /^the stderr should contain:$/ do |partial_output|
-  all_stderr.should include(partial_output)
+Then /^the stderr should contain:$/ do |expected|
+  assert_partial_output(expected, all_stderr)
 end
 
-Then /^the stderr should contain exactly:$/ do |exact_output|
-  all_stderr.should == exact_output
+Then /^the stderr should contain exactly:$/ do |expected|
+  assert_exact_output(expected, all_stderr)
 end
 
 Then /^the stdout should contain "([^"]*)"$/ do |expected|
@@ -160,40 +156,40 @@ Then /^the stdout should contain:$/ do |expected|
   assert_partial_output(expected, all_stdout)
 end
 
-Then /^the stdout should contain exactly:$/ do |exact_output|
-  all_stdout.should == exact_output
+Then /^the stdout should contain exactly:$/ do |expected|
+  assert_exact_output(expected, all_stdout)
 end
 
-Then /^the stderr should not contain "([^"]*)"$/ do |partial_output|
-  all_stderr.should_not include(partial_output)
+Then /^the stderr should not contain "([^"]*)"$/ do |unexpected|
+  assert_no_partial_output(unexpected, all_stderr)
 end
 
-Then /^the stderr should not contain:$/ do |partial_output|
-  all_stderr.should_not include(partial_output)
+Then /^the stderr should not contain:$/ do |unexpected|
+  assert_no_partial_output(unexpected, all_stderr)
 end
 
-Then /^the stdout should not contain "([^"]*)"$/ do |partial_output|
-  all_stdout.should_not include(partial_output)
+Then /^the stdout should not contain "([^"]*)"$/ do |unexpected|
+  assert_no_partial_output(unexpected, all_stdout)
 end
 
-Then /^the stdout should not contain:$/ do |partial_output|
-  all_stdout.should_not include(partial_output)
+Then /^the stdout should not contain:$/ do |unexpected|
+  assert_no_partial_output(unexpected, all_stdout)
 end
 
-Then /^the stdout from "([^"]*)" should contain "([^"]*)"$/ do |cmd, partial_output|
-  stdout_from(cmd).should include(partial_output)
+Then /^the stdout from "([^"]*)" should contain "([^"]*)"$/ do |cmd, expected|
+  assert_partial_output(expected, stdout_from(cmd))
 end
 
-Then /^the stdout from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, partial_output|
-  stdout_from(cmd).should_not include(partial_output)
+Then /^the stdout from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, unexpected|
+  assert_no_partial_output(unexpected, stdout_from(cmd))
 end
 
-Then /^the stderr from "([^"]*)" should contain "([^"]*)"$/ do |cmd, partial_output|
-  stderr_from(cmd).should include(partial_output)
+Then /^the stderr from "([^"]*)" should contain "([^"]*)"$/ do |cmd, expected|
+  assert_partial_output(expected, stderr_from(cmd))
 end
 
-Then /^the stderr from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, partial_output|
-  stderr_from(cmd).should_not include(partial_output)
+Then /^the stderr from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, unexpected|
+  assert_no_partial_output(unexpected, stderr_from(cmd))
 end
 
 Then /^the file "([^"]*)" should not exist$/ do |file_name|
