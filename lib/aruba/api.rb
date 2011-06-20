@@ -46,6 +46,7 @@ module Aruba
 
     def append_to_file(file_name, file_content)
       in_current_dir do
+        _mkdir(File.dirname(file_name))
         File.open(file_name, 'a') { |f| f << file_content }
       end
     end

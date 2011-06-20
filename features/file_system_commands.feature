@@ -45,6 +45,11 @@ Feature: file system commands
     Then the stdout should contain "hello world"
     And the stdout should contain "this was appended"
 
+  Scenario: Append to a new file
+    When I append to "thedir/thefile" with "x"
+    And I append to "thedir/thefile" with "y"
+    Then the file "thedir/thefile" should contain "xy"
+
   Scenario: clean up files generated in previous scenario
     When I run `ruby foo/bar/example.rb`
     Then the exit status should be 1

@@ -32,6 +32,10 @@ When /^I append to "([^"]*)" with:$/ do |file_name, file_content|
   append_to_file(file_name, file_content)
 end
 
+When /^I append to "([^"]*)" with "([^"]*)"$/ do |file_name, file_content|
+  append_to_file(file_name, file_content)
+end
+
 When /^I remove the file "([^"]*)"$/ do |file_name|
   remove_file(file_name)
 end
