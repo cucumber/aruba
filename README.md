@@ -96,6 +96,7 @@ Aruba can generate a HTML page for each scenario that contains:
 * The output from those commands (in colour if the output uses ANSI escapes)
 * The files that were created (syntax highlighted in in colour)
 
+In addition to this, it creates an `index.html` file with links to all individual report files.
 Reporting is off by default, but you can enable it by defining the `ARUBA_REPORT_DIR` environment variable, giving it the value
 where reports should be written:
 

@@ -10,6 +10,14 @@ if(ENV['ARUBA_REPORT_DIR'])
 
   module Aruba
     module Reporting
+      class << self
+        def reports
+          @reports ||= Hash.new do |hash, feature|
+            hash[feature] = []
+          end
+        end
+      end
+      
       def pygmentize(file)
         pygmentize = Process.new(%{pygmentize -f html -O encoding=utf-8 "#{file}"}, 3, 0.5)
         pygmentize.run! do |p|
@@ -75,23 +83,40 @@ if(ENV['ARUBA_REPORT_DIR'])
       def depth
         File.dirname(@scenario.feature.file).split('/').length
       end
+
+      def index
+        erb = ERB.new(template('index.erb'), nil, '-')
+        erb.result(binding)
+      end
+
+      def index_title
+        "Examples"
+      end
     end
   end
   World(Aruba::Reporting)
 
-  Before do |scenario|
+  After do |scenario|
     @scenario = scenario
-  end
-
-  After do
-    report_file = File.join(ENV['ARUBA_REPORT_DIR'], "#{@scenario.feature.file}:#{@scenario.line}.html")
+    html_file = "#{scenario.feature.file}:#{scenario.line}.html"
+    report_file = File.join(ENV['ARUBA_REPORT_DIR'], html_file)
     _mkdir(File.dirname(report_file))
     File.open(report_file, 'w') do |io|
       io.write(report)
     end
 
+    Aruba::Reporting.reports[scenario.feature] << [scenario, html_file]
+
     FileUtils.cp_r(File.join(ENV['ARUBA_REPORT_TEMPLATES'], '.'), ENV['ARUBA_REPORT_DIR'])
     Dir["#{ENV['ARUBA_REPORT_DIR']}/**/*.erb"].each{|f| FileUtils.rm(f)}
+  end
+
+  at_exit do
+    index_file = File.join(ENV['ARUBA_REPORT_DIR'], "index.html")
+    extend(Aruba::Reporting)
+    File.open(index_file, 'w') do |io|
+      io.write(index)
+    end
   end
 end
 

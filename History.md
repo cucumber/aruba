@@ -1,3 +1,7 @@
+## [v0.4.3](https://github.com/cucumber/aruba/compare/v0.4.2...v0.4.3)
+
+* Aruba reporting now creates an index file for reports, linking them all together. (Aslak Hellesøy)
+
 ## [v0.4.2](https://github.com/cucumber/aruba/compare/v0.4.1...v0.4.2)
 
 * Appending to a file creates the parent directory if it doesn't exist. (Aslak Hellesøy)
