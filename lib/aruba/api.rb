@@ -166,18 +166,18 @@ module Aruba
     end
 
     def assert_exit_status_and_partial_output(expect_to_pass, expected)
-      assert_partial_output(expected, all_output)
       assert_success(expect_to_pass)
+      assert_partial_output(expected, all_output)
     end
 
     # TODO: Remove this. Call more methods elsewhere instead. Reveals more intent.
     def assert_exit_status_and_output(expect_to_pass, expected_output, expect_exact_output)
+      assert_success(expect_to_pass)
       if expect_exact_output
         assert_exact_output(expected_output, all_output)
       else
         assert_partial_output(expected_output, all_output)
       end
-      assert_success(expect_to_pass)
     end
 
     def assert_success(success)
