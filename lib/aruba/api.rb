@@ -185,20 +185,20 @@ module Aruba
     end
 
     def assert_exit_status(status)
-      @last_exit_status.should == status
+      last_exit_status.should == status
     end
 
     def assert_not_exit_status(status)
-      @last_exit_status.should_not == status
+      last_exit_status.should_not == status
     end
-    
+
     def processes
       @processes ||= []
     end
 
     def stop_processes!
       processes.each do |_, process|
-        process.stop(@aruba_keep_ansi)
+        @last_exit_status = process.stop(@aruba_keep_ansi)
       end
     end
 
@@ -334,5 +334,15 @@ module Aruba
     def original_env
       @original_env ||= {}
     end
+
+  # TODO: move some more methods under here!
+  private
+
+    def last_exit_status
+      return @last_exit_status if @last_exit_status
+      stop_processes!
+      @last_exit_status
+    end
+
   end
 end
