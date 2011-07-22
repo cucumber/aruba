@@ -80,11 +80,11 @@ module Aruba
         end
       end
     end
-  
+
     def check_exact_file_content(file, exact_content)
       prep_for_fs_check { IO.read(file).should == exact_content }
     end
-  
+
     def check_directory_presence(paths, expect_presence)
       prep_for_fs_check do
         paths.each do |path|
@@ -198,7 +198,7 @@ module Aruba
 
     def stop_processes!
       processes.each do |_, process|
-        @last_exit_status = process.stop(@aruba_keep_ansi)
+        stop_process(process)
       end
     end
 
@@ -223,7 +223,7 @@ module Aruba
       in_current_dir do
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
-        
+
         process = Process.new(cmd, exit_timeout, io_wait)
         register_process(cmd, process)
         process.run!
@@ -245,12 +245,8 @@ module Aruba
     end
 
     def run_simple(cmd, fail_on_error=true)
-      @last_exit_status = run(cmd) do |process|
-        process.stop(@aruba_keep_ansi)
-        announce_or_puts(process.stdout(@aruba_keep_ansi)) if @announce_stdout
-        announce_or_puts(process.stderr(@aruba_keep_ansi)) if @announce_stderr
-        # need to replace with process.exit_code or similar, or remove the block entirely... it doesn't add as much as I thought it would
-        process.stop(@aruba_keep_ansi)
+      run(cmd) do |process|
+        stop_process(process)
       end
       @timed_out = @last_exit_status.nil?
 
@@ -330,7 +326,7 @@ module Aruba
         ENV[key] = value
       end
     end
-    
+
     def original_env
       @original_env ||= {}
     end
@@ -342,6 +338,12 @@ module Aruba
       return @last_exit_status if @last_exit_status
       stop_processes!
       @last_exit_status
+    end
+
+    def stop_process(process)
+      @last_exit_status = process.stop(@aruba_keep_ansi)
+      announce_or_puts(process.stdout(@aruba_keep_ansi)) if @announce_stdout
+      announce_or_puts(process.stderr(@aruba_keep_ansi)) if @announce_stderr
     end
 
   end
