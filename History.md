@@ -1,3 +1,7 @@
+## [v0.4.4](https://github.com/cucumber/aruba/compare/v0.4.3...v0.4.4)
+
+* Fix various bugs with interative processes. (Matt Wynne)
+
 ## [v0.4.3](https://github.com/cucumber/aruba/compare/v0.4.2...v0.4.3)
 
 * Aruba reporting now creates an index file for reports, linking them all together. (Aslak Hellesøy)
