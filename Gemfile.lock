@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    aruba (0.4.4)
+    aruba (0.4.5)
       bcat (>= 0.6.1)
       childprocess (>= 0.1.9)
       cucumber (>= 0.10.7)
