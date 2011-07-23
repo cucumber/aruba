@@ -185,11 +185,17 @@ module Aruba
     end
 
     def assert_exit_status(status)
-      last_exit_status.should == status
+      last_exit_status.should eq(status),
+        append_output_to("Exit status was #{last_exit_status} but expected it to be #{status}.")
     end
 
     def assert_not_exit_status(status)
-      last_exit_status.should_not == status
+      last_exit_status.should_not eq(status),
+        append_output_to("Exit status was #{last_exit_status} which was not expected.")
+    end
+
+    def append_output_to(message)
+      "#{message} Output:\n\n#{all_output}\n"
     end
 
     def processes
@@ -248,11 +254,8 @@ module Aruba
       run(cmd) do |process|
         stop_process(process)
       end
-      @timed_out = @last_exit_status.nil?
-
-      if(@last_exit_status != 0 && fail_on_error)
-        fail("Exit status was #{@last_exit_status}. Output:\n#{all_output}")
-      end
+      @timed_out = last_exit_status.nil?
+      assert_exit_status(0) if fail_on_error
     end
 
     def run_interactive(cmd)
