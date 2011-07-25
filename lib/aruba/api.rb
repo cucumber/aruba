@@ -130,10 +130,12 @@ module Aruba
     end
 
     def all_stdout
+      stop_processes!
       only_processes.inject("") { |out, ps| out << ps.stdout(@aruba_keep_ansi) }
     end
 
     def all_stderr
+      stop_processes!
       only_processes.inject("") { |out, ps| out << ps.stderr(@aruba_keep_ansi) }
     end
 
