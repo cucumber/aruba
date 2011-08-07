@@ -154,7 +154,11 @@ module Aruba
     end
 
     def assert_no_partial_output(unexpected, actual)
-      actual.should_not include(unexpected)
+      if Regexp === unexpected
+        unescape(actual).should_not =~ unexpected
+      else
+        unescape(actual).should_not include(unexpected)
+      end
     end
 
     def assert_passing_with(expected)

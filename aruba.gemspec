@@ -9,11 +9,12 @@ Gem::Specification.new do |s|
   s.email       = 'cukes@googlegroups.com'
   s.homepage    = 'http://github.com/aslakhellesoy/aruba'
 
-  s.add_dependency 'cucumber', '>= 0.10.7'
-  s.add_dependency 'childprocess', '>= 0.1.9'
+  s.add_dependency 'cucumber', '>= 1.0.2'
+  s.add_dependency 'childprocess', '>= 0.2.0'
   s.add_dependency 'rspec', '>= 2.6.0'
   s.add_dependency 'bcat', '>= 0.6.1'
   s.add_dependency 'rdiscount', '>= 1.6.8'
+  s.add_development_dependency 'rake', '>= 0.9.2'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = `git ls-files`.split("\n")
