@@ -1,3 +1,8 @@
+## [v0.4.6](https://github.com/cucumber/aruba/compare/v0.4.5...v0.4.6)
+
+* Upgraded deps to latest gems. (Aslak Hellesøy)
+* Added Regexp support to Aruba::Api#assert_no_partial_output  (Aslak Hellesøy)
+
 ## [v0.4.5](https://github.com/cucumber/aruba/compare/v0.4.4...v0.4.5)
 
 * Better assertion failure message when an exit code is not as expected. (Matt Wynne)
