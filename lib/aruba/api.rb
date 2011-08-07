@@ -80,11 +80,11 @@ module Aruba
         end
       end
     end
-  
+
     def check_exact_file_content(file, exact_content)
       prep_for_fs_check { IO.read(file).should == exact_content }
     end
-  
+
     def check_directory_presence(paths, expect_presence)
       prep_for_fs_check do
         paths.each do |path|
@@ -130,10 +130,12 @@ module Aruba
     end
 
     def all_stdout
+      stop_processes!
       only_processes.inject("") { |out, ps| out << ps.stdout(@aruba_keep_ansi) }
     end
 
     def all_stderr
+      stop_processes!
       only_processes.inject("") { |out, ps| out << ps.stderr(@aruba_keep_ansi) }
     end
 
@@ -170,18 +172,18 @@ module Aruba
     end
 
     def assert_exit_status_and_partial_output(expect_to_pass, expected)
-      assert_partial_output(expected, all_output)
       assert_success(expect_to_pass)
+      assert_partial_output(expected, all_output)
     end
 
     # TODO: Remove this. Call more methods elsewhere instead. Reveals more intent.
     def assert_exit_status_and_output(expect_to_pass, expected_output, expect_exact_output)
+      assert_success(expect_to_pass)
       if expect_exact_output
         assert_exact_output(expected_output, all_output)
       else
         assert_partial_output(expected_output, all_output)
       end
-      assert_success(expect_to_pass)
     end
 
     def assert_success(success)
@@ -189,20 +191,26 @@ module Aruba
     end
 
     def assert_exit_status(status)
-      @last_exit_status.should == status
+      last_exit_status.should eq(status),
+        append_output_to("Exit status was #{last_exit_status} but expected it to be #{status}.")
     end
 
     def assert_not_exit_status(status)
-      @last_exit_status.should_not == status
+      last_exit_status.should_not eq(status),
+        append_output_to("Exit status was #{last_exit_status} which was not expected.")
     end
-    
+
+    def append_output_to(message)
+      "#{message} Output:\n\n#{all_output}\n"
+    end
+
     def processes
       @processes ||= []
     end
 
     def stop_processes!
       processes.each do |_, process|
-        process.stop(@aruba_keep_ansi)
+        stop_process(process)
       end
     end
 
@@ -227,7 +235,7 @@ module Aruba
       in_current_dir do
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
-        
+
         process = Process.new(cmd, exit_timeout, io_wait)
         register_process(cmd, process)
         process.run!
@@ -249,18 +257,11 @@ module Aruba
     end
 
     def run_simple(cmd, fail_on_error=true)
-      @last_exit_status = run(cmd) do |process|
-        process.stop(@aruba_keep_ansi)
-        announce_or_puts(process.stdout(@aruba_keep_ansi)) if @announce_stdout
-        announce_or_puts(process.stderr(@aruba_keep_ansi)) if @announce_stderr
-        # need to replace with process.exit_code or similar, or remove the block entirely... it doesn't add as much as I thought it would
-        process.stop(@aruba_keep_ansi)
+      run(cmd) do |process|
+        stop_process(process)
       end
-      @timed_out = @last_exit_status.nil?
-
-      if(@last_exit_status != 0 && fail_on_error)
-        fail("Exit status was #{@last_exit_status}. Output:\n#{all_output}")
-      end
+      @timed_out = last_exit_status.nil?
+      assert_exit_status(0) if fail_on_error
     end
 
     def run_interactive(cmd)
@@ -334,9 +335,25 @@ module Aruba
         ENV[key] = value
       end
     end
-    
+
     def original_env
       @original_env ||= {}
     end
+
+  # TODO: move some more methods under here!
+  private
+
+    def last_exit_status
+      return @last_exit_status if @last_exit_status
+      stop_processes!
+      @last_exit_status
+    end
+
+    def stop_process(process)
+      @last_exit_status = process.stop(@aruba_keep_ansi)
+      announce_or_puts(process.stdout(@aruba_keep_ansi)) if @announce_stdout
+      announce_or_puts(process.stderr(@aruba_keep_ansi)) if @announce_stderr
+    end
+
   end
 end

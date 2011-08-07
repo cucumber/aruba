@@ -15,7 +15,7 @@ Feature: Interactive process control
     When I run `ruby echo.rb` interactively
     And I type "hello, world"
     And I type "quit"
-    Then the output should contain:
+    Then it should pass with:
       """
       dlrow ,olleh
       """
