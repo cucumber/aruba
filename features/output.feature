@@ -222,9 +222,9 @@ Feature: Output
   Scenario: Detect output from named source with custom name
 
   Scenario: Detect second output from named source with custom name
-    When I set env varibable "ARUBA_TEST_VAR" to "first"
+    When I set env variable "ARUBA_TEST_VAR" to "first"
     And I run `ruby -e 'puts ENV[%q(ARUBA_TEST_VAR)]'`
     Then the output from "ruby -e 'puts ENV[%q(ARUBA_TEST_VAR)]'" should contain "first"
-    When I set env varibable "ARUBA_TEST_VAR" to "second"
+    When I set env variable "ARUBA_TEST_VAR" to "second"
     And I run `ruby -e 'puts ENV[%q(ARUBA_TEST_VAR)]'`
     Then the output from "ruby -e 'puts ENV[%q(ARUBA_TEST_VAR)]'" should contain "second"
