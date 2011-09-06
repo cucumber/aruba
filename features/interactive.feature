@@ -20,6 +20,7 @@ Feature: Interactive process control
       dlrow ,olleh
       """
 
+  @posix
   Scenario: Running a native binary interactively
     When I run `bc -q` interactively
     And I type "4 + 3"
@@ -29,6 +30,7 @@ Feature: Interactive process control
       7
       """
 
+  @posix
   Scenario: Stop processes before checking for filesystem changes 
     See: http://github.com/aslakhellesoy/aruba/issues#issue/17 for context
 
