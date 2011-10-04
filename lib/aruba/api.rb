@@ -26,6 +26,10 @@ module Aruba
       _create_file(file_name, file_content, false)
     end
 
+    def write_fixed_size_file(file_name, file_size)
+      _create_fixed_size_file(file_name, file_size, false)
+    end
+
     def overwrite_file(file_name, file_content)
       _create_file(file_name, file_content, true)
     end
@@ -35,6 +39,14 @@ module Aruba
         raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
         _mkdir(File.dirname(file_name))
         File.open(file_name, 'w') { |f| f << file_content }
+      end
+    end
+
+    def _create_fixed_size_file(file_name, file_size, check_presence)
+      in_current_dir do
+        raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
+        _mkdir(File.dirname(file_name))
+        File.open(file_name, "wb"){ |f| f.seek(file_size - 1); f.write("\0") }
       end
     end
 
@@ -65,6 +77,14 @@ module Aruba
           else
             File.should_not be_file(path)
           end
+        end
+      end
+    end
+
+    def check_file_size(paths_and_sizes)
+      prep_for_fs_check do
+        paths_and_sizes.each do |path, size|
+          File.size(path).should == size
         end
       end
     end

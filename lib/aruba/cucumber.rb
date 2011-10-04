@@ -16,6 +16,10 @@ Given /^a file named "([^"]*)" with:$/ do |file_name, file_content|
   write_file(file_name, file_content)
 end
 
+Given /^a (\d+) byte file named "([^"]*)"$/ do |file_size, file_name|
+  write_fixed_size_file(file_name, file_size.to_i)
+end
+
 Given /^an empty file named "([^"]*)"$/ do |file_name|
   write_file(file_name, "")
 end
@@ -214,6 +218,10 @@ end
 
 Then /^a file named "([^"]*)" should not exist$/ do |file|
   check_file_presence([file], false)
+end
+
+Then /^a (\d+) byte file named "([^"]*)" should exist$/ do |file_size, file_name|
+  check_file_size([[file_name, file_size.to_i]])
 end
 
 Then /^the following directories should exist:$/ do |directories|

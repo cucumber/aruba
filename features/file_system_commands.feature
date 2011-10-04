@@ -17,6 +17,10 @@ Feature: file system commands
     When I run `ruby foo/bar/example.rb`
     Then the output should contain "hello world"
 
+  Scenario: create a fixed sized file
+    Given a 1048576 byte file named "test.txt"
+    Then a 1048576 byte file named "test.txt" should exist
+
   Scenario: Append to a file
     \### We like appending to files:
     1. Disk space is cheap
