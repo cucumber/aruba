@@ -75,7 +75,7 @@ Feature: Output
   Scenario: Detect subset of one-line output with regex
     When I run `ruby --version`
     Then the output should contain "ruby"
-    And the output should match /ruby ([\d]+\.[\d]+\.[\d]+)(p\d+)? \(.*$/
+    And the output should match /ruby ([\d]+\.[\d]+\.[\d]+)(\w*\d*)? \(.*$/
 
   @announce
   Scenario: Detect subset of multiline output with regex
