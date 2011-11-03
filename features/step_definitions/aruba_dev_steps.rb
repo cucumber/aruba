@@ -11,7 +11,7 @@ When /^sleep (\d+)$/ do |time|
   sleep time.to_i
 end
 
-When /^I set env varibable "(\w+)" to "([^"]*)"$/ do |var, value|
+When /^I set env variable "(\w+)" to "([^"]*)"$/ do |var, value|
   ENV[var] = value
 end
 
