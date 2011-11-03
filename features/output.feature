@@ -4,6 +4,7 @@ Feature: Output
   As a developer using Cucumber
   I want to use the "the output should contain" step
 
+  @posix
   Scenario: Run unknown command
     When I run `neverever gonna work`
     Then the output should contain:
@@ -11,10 +12,12 @@ Feature: Output
       No such file or directory - neverever
       """
 
+  @posix
   Scenario: Detect subset of one-line output
     When I run `ruby -e 'puts \"hello world\"'`
     Then the output should contain "hello world"
 
+  @posix
   Scenario: Detect subset of one-line output
     When I run `echo 'hello world'`
     Then the output should contain "hello world"
@@ -37,6 +40,7 @@ Feature: Output
       good-bye
       """
 
+  @posix
   Scenario: Detect exact one-line output
     When I run `ruby -e 'puts \"hello world\"'`
     Then the output should contain exactly:
@@ -46,6 +50,7 @@ Feature: Output
       """
 
   @ansi
+  @posix
   Scenario: Detect exact one-line output with ANSI output
     When I run `ruby -e 'puts \"\e[36mhello world\e[0m\"'`
     Then the output should contain exactly:
@@ -54,6 +59,7 @@ Feature: Output
 
       """
 
+  @posix
   Scenario: Detect exact one-line output with ANSI output stripped by default
     When I run `ruby -e 'puts \"\e[36mhello world\e[0m\"'`
     Then the output should contain exactly:
@@ -61,7 +67,7 @@ Feature: Output
       hello world
 
       """
-
+  @posix
   Scenario: Detect exact multiline output
     When I run `ruby -e 'puts "hello\nworld"'`
     Then the output should contain exactly:
@@ -78,6 +84,7 @@ Feature: Output
     And the output should match /ruby ([\d]+\.[\d]+\.[\d]+)(p\d+)? \(.*$/
 
   @announce
+  @posix
   Scenario: Detect subset of multiline output with regex
     When I run `ruby -e 'puts "hello\nworld\nextra line1\nextra line2\nimportant line"'`
     Then the output should match:
@@ -89,6 +96,7 @@ Feature: Output
       """
 
   @announce
+  @posix
   Scenario: Match passing exit status and partial output
     When I run `ruby -e 'puts "hello\nworld"'`
     Then it should pass with:
@@ -96,6 +104,7 @@ Feature: Output
       hello
       """
 
+  @posix
   Scenario: Match passing exit status and exact output
     When I run `ruby -e 'puts "hello\nworld"'`
     Then it should pass with exactly:
@@ -113,6 +122,7 @@ Feature: Output
       hello
       """
 
+  @posix
   Scenario: Match failing exit status and exact output
     When I run `ruby -e 'puts "hello\nworld";exit 99'`
     Then it should fail with exactly:
@@ -123,6 +133,7 @@ Feature: Output
       """
 
   @announce-stdout
+  @posix
   Scenario: Match failing exit status and output with regex
     When I run `ruby -e 'puts \"hello\\nworld\";exit 99'`
     Then it should fail with regex:
@@ -131,6 +142,7 @@ Feature: Output
       """
 
   @announce-cmd
+  @posix
   Scenario: Match output in stdout
     When I run `ruby -e 'puts \"hello\\nworld\"'`
     Then the stdout should contain "hello"
@@ -144,6 +156,7 @@ Feature: Output
       GET /
       """
 
+  @posix
   Scenario: Match output on several lines using quotes
     When I run `ruby -e 'puts %{GET "/"}'`
     Then the stdout should contain:
@@ -151,11 +164,14 @@ Feature: Output
       GET "/"
       """
 
+  @posix
   Scenario: Match output in stdout
     When I run `ruby -e 'puts \"hello\\nworld\"'`
     Then the stdout should contain "hello"
     Then the stderr should not contain "hello"
 
+
+  @posix
   Scenario: Detect output from all processes
     When I run `ruby -e 'puts \"hello world!\"'`
     And I run `ruby -e 'puts gets.chomp.reverse'` interactively
@@ -167,6 +183,7 @@ Feature: Output
 
       """
 
+  @posix
   Scenario: Detect stdout from all processes
     When I run `ruby -e 'puts \"hello world!\"'`
     And I run `ruby -e 'puts gets.chomp.reverse'` interactively
@@ -182,6 +199,7 @@ Feature: Output
       olleh
       """
 
+  @posix
   Scenario: Detect stderr from all processes
     When I run `ruby -e 'STDERR.puts \"hello world!\"'`
     And I run `ruby -e 'STDERR.puts gets.chomp.reverse'` interactively
