@@ -26,7 +26,7 @@ describe Aruba::Api  do
         it "should announce to stdout exactly once" do
           @aruba.should_receive(:announce_or_puts).once
           @aruba.set_tag(:announce_stdout, true)
-          @aruba.run("ruby -e 'puts \"hello world\"'")
+          @aruba.run_simple("ruby -e 'puts \"hello world\"'", false)
           @aruba.all_output.should match(/hello world/)
         end
       end
@@ -35,7 +35,7 @@ describe Aruba::Api  do
         it "should not announce to stdout" do
           @aruba.should_not_receive(:announce_or_puts)
           @aruba.set_tag(:announce_stdout, false)
-          @aruba.run("ruby -e 'puts \"hello world\"'")
+          @aruba.run_simple("ruby -e 'puts \"hello world\"'", false)
           @aruba.all_output.should match(/hello world/)
         end
       end
