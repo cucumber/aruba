@@ -1,3 +1,8 @@
+## [v0.4.7](https://github.com/cucumber/aruba/compare/v0.4.6...v0.4.7)
+
+* Remove rdiscount dependency. (#85 Aslak Hellesøy)
+* Pin to ffi 1.0.9 since 1.0.10 is broken. (Aslak Hellesøy)
+
 ## [v0.4.6](https://github.com/cucumber/aruba/compare/v0.4.5...v0.4.6)
 
 * Upgraded deps to latest gems. (Aslak Hellesøy)
