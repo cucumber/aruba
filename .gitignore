@@ -22,3 +22,4 @@ pkg
 tmp
 .bundle
 doc
+Gemfile.lock
