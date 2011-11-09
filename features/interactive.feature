@@ -20,7 +20,7 @@ Feature: Interactive process control
       dlrow ,olleh
       """
 
-  @posix
+  @posix @fails-on-travis
   Scenario: Running a native binary interactively
     When I run `bc -q` interactively
     And I type "4 + 3"

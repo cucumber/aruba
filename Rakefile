@@ -7,7 +7,9 @@ Bundler::GemHelper.install_tasks
 require 'cucumber/rake/task'
 
 Cucumber::Rake::Task.new do |t|
-  t.cucumber_opts = %w{--tags ~@jruby} unless defined?(JRUBY_VERSION)
+  opts = defined?(JRUBY_VERSION) ? %w{--tags ~@jruby} : []
+  opts += %w{--tags ~@fails-on-travis} if ENV['TRAVIS']
+  t.cucumber_opts = opts 
 end
 
 task :default => :cucumber

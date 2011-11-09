@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/cucumber/aruba.png)](http://travis-ci.org/cucumber/aruba)
+
 Aruba is Cucumber extension for Command line applications written in any programming language. Features at a glance:
 
 * Test any command line application
