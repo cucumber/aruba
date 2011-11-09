@@ -2,6 +2,7 @@
 
 * Remove rdiscount dependency. (#85 Aslak Hellesøy)
 * Pin to ffi 1.0.9 since 1.0.10 is broken. (Aslak Hellesøy)
+* Added file size specific steps to the Aruba API. (#89 Hector Castro)
 
 ## [v0.4.6](https://github.com/cucumber/aruba/compare/v0.4.5...v0.4.6)
 
