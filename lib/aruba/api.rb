@@ -1,9 +1,13 @@
 require 'fileutils'
 require 'rbconfig'
 require 'aruba/process'
+require 'aruba/config'
+require 'rspec/expectations'
 
 module Aruba
   module Api
+    include RSpec::Matchers
+    
     def in_current_dir(&block)
       _mkdir(current_dir)
       Dir.chdir(current_dir, &block)
@@ -253,6 +257,8 @@ module Aruba
       cmd = detect_ruby(cmd)
 
       in_current_dir do
+        Aruba.config.hooks.execute(:before_run, cmd)
+        
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd
 

@@ -1,5 +1,5 @@
 require 'aruba/api'
-require 'aruba/hooks'
+require 'aruba/cucumber/hooks'
 require 'aruba/reporting'
 
 World(Aruba::Api)
