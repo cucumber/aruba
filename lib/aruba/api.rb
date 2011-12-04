@@ -3,12 +3,12 @@ require 'rbconfig'
 require 'rspec/expectations'
 require 'aruba/process'
 require 'aruba/config'
-require 'aruba/jruby'
+require 'aruba/jruby' if RUBY_PLATFORM == 'java'
 
 module Aruba
   module Api
     include RSpec::Matchers
-    
+
     def in_current_dir(&block)
       _mkdir(current_dir)
       Dir.chdir(current_dir, &block)
