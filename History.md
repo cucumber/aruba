@@ -1,5 +1,6 @@
 ## In Git
 * Add before_run hook (Matt Wynne)
+* Add JRuby performance tweaks (#93 Myron Marston / Matt Wynne)
 
 ## [v0.4.7](https://github.com/cucumber/aruba/compare/v0.4.6...v0.4.7)
 
