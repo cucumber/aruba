@@ -1,6 +1,8 @@
-## In Git
+## [v0.4.8](https://github.com/cucumber/aruba/compare/v0.4.7...v0.4.8)
+
 * Add before_run hook (Matt Wynne)
 * Add JRuby performance tweaks (#93 Myron Marston / Matt Wynne)
+* Invalid/Corrupt spec file for 0.4.7 - undefined method call for nil:Nilclass (#47 Aslak Hellesøy)
 
 ## [v0.4.7](https://github.com/cucumber/aruba/compare/v0.4.6...v0.4.7)
 
