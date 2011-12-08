@@ -24,9 +24,9 @@ module Aruba
       @store[label] << block
     end
     
-    def execute(label, command, context)
+    def execute(label, context, *args)
       @store[label].each do |block|
-        context.instance_exec(command, &block)
+        context.instance_exec(*args, &block)
       end
     end
   end

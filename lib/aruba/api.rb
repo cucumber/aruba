@@ -258,7 +258,7 @@ module Aruba
       cmd = detect_ruby(cmd)
 
       in_current_dir do
-        Aruba.config.hooks.execute(:before_run, cmd, self)
+        Aruba.config.hooks.execute(:before_run, self, cmd)
         
         announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
         announce_or_puts("$ #{cmd}") if @announce_cmd

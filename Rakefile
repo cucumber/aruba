@@ -12,4 +12,8 @@ Cucumber::Rake::Task.new do |t|
   t.cucumber_opts = opts 
 end
 
-task :default => :cucumber
+task :spec do
+  sh('rspec --color')
+end
+
+task :default => [:spec, :cucumber]
