@@ -1,3 +1,7 @@
+## [v0.4.9](https://github.com/cucumber/aruba/compare/v0.4.8...v0.4.9)
+* Rename before_run hook to before_cmd (Matt Wynne)
+* Fix 1.8.7 compatibility (#95 Dave Copeland)
+
 ## [v0.4.8](https://github.com/cucumber/aruba/compare/v0.4.7...v0.4.8)
 
 * Add before_run hook (Matt Wynne)
