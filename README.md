@@ -75,6 +75,18 @@ To get more information on what Aruba is doing, use these tags:
 * `@announce-env` - See environment variables set by Aruba
 * `@announce` - Does all of the above
 
+### Adding Hooks
+
+You can hook into Aruba's lifecycle just before it runs a command:
+
+```
+Aruba.configure do |config|
+  config.before_cmd do |cmd|
+    puts "About to run '#{cmd}'
+  end
+end
+```
+
 #### Keep files around with `@no-clobber`
 
 Aruba clobbers all files in its working directory before each scenario. -Unless you tag it with `@no-clobber`
