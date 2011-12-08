@@ -7,8 +7,8 @@ module Aruba
     end
     
     # Register a hook to be called before Aruba runs a command
-    def before_run(&block)
-      @hooks.append(:before_run, block)
+    def before_cmd(&block)
+      @hooks.append(:before_cmd, block)
     end
   end
   

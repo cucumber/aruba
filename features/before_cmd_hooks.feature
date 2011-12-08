@@ -1,4 +1,4 @@
-Feature: before_run hooks
+Feature: before_cmd hooks
 
   You can configure Aruba to run blocks of code before it runs
   each command.
@@ -12,7 +12,7 @@ Feature: before_run hooks
       require 'aruba/api'
       
       Aruba.configure do |config|
-        config.before_run do |cmd|
+        config.before_cmd do |cmd|
           puts "about to run `#{cmd}`"
         end
       end
@@ -36,7 +36,7 @@ Feature: before_run hooks
       require 'aruba/api'
 
       Aruba.configure do |config|
-        config.before_run do |cmd|
+        config.before_cmd do |cmd|
           puts "I can see @your_context=#{@your_context}"
         end
       end
