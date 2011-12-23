@@ -56,6 +56,14 @@ module Aruba
       end
     end
 
+    def terminate(keep_ansi)
+      if @process
+        stdout(keep_ansi) && stderr(keep_ansi) # flush output
+        @process.stop
+        stdout(keep_ansi) && stderr(keep_ansi) # flush output
+      end
+    end
+
     private
 
     def wait_for_io(&block)
