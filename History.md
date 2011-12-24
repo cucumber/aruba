@@ -1,5 +1,6 @@
 ## [v0.4.10](https://github.com/cucumber/aruba/compare/v0.4.9...v0.4.10)
-* Fix broken JRuby file following rename of hook
+* Fix broken JRuby file following rename of hook (Thomas Reynolds)
+* Add terminate method to API (Taylor Carpenter)
 
 ## [v0.4.9](https://github.com/cucumber/aruba/compare/v0.4.8...v0.4.9)
 * Rename before_run hook to before_cmd (Matt Wynne)
