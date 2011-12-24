@@ -1,3 +1,6 @@
+## In Git
+* Fix #91 (duplicated output) (Robert Wahler, Matt Wynne)
+
 ## [v0.4.10](https://github.com/cucumber/aruba/compare/v0.4.9...v0.4.10)
 * Fix broken JRuby file following rename of hook (Thomas Reynolds)
 * Add terminate method to API (Taylor Carpenter)
