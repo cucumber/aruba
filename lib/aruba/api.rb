@@ -239,6 +239,13 @@ module Aruba
       end
     end
 
+    def terminate_processes!
+      processes.each do |_, process|
+        terminate_process(process)
+        stop_process(process)
+      end
+    end
+
     def register_process(name, process)
       processes << [name, process]
     end
@@ -382,5 +389,8 @@ module Aruba
       announce_or_puts(process.stderr(@aruba_keep_ansi)) if @announce_stderr
     end
 
+    def terminate_process(process)
+      process.terminate(@aruba_keep_ansi)
+    end
   end
 end
