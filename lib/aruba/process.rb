@@ -48,15 +48,17 @@ module Aruba
       end
     end
 
-    def stop(keep_ansi)
-      if @process
-        stdout(keep_ansi) && stderr(keep_ansi) # flush output
+    def stop(reader, keep_ansi)
+      return unless @process
+      unless @process.exited?
+        reader.stdout stdout(keep_ansi)
+        reader.stderr stderr(keep_ansi)
         @process.poll_for_exit(@exit_timeout)
-        @process.exit_code
       end
+      @process.exit_code
     end
 
-    private
+  private
 
     def wait_for_io(&block)
       sleep @io_wait if @process.alive?

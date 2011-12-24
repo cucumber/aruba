@@ -350,9 +350,28 @@ module Aruba
     end
 
     def stop_process(process)
-      @last_exit_status = process.stop(@aruba_keep_ansi)
-      announce_or_puts(process.stdout(@aruba_keep_ansi)) if @announce_stdout
-      announce_or_puts(process.stderr(@aruba_keep_ansi)) if @announce_stderr
+      @last_exit_status = process.stop(announcer, @aruba_keep_ansi)
+    end
+
+    def announcer
+      Announcer.new(self, :stdout => @announce_stdout, :stderr => @announce_stderr)
+    end
+
+    class Announcer
+      def initialize(session, options = {})
+        @session, @options = session, options
+      end
+
+      def stdout(content)
+        return unless @options[:stdout]
+        @session.announce_or_puts(content)
+      end
+
+      def stderr(content)
+        return unless @options[:stderr]
+        @session.announce_or_puts(content)
+      end
+
     end
 
   end

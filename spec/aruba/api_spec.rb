@@ -9,6 +9,10 @@ describe Aruba::Api  do
       def set_tag(tag_name, value)
         self.instance_variable_set "@#{tag_name.to_s}", value
       end
+
+      def announce_or_puts(*args)
+        p caller[0..2]
+      end
     }
     @aruba = klass.new
   end
