@@ -267,8 +267,8 @@ module Aruba
       in_current_dir do
         Aruba.config.hooks.execute(:before_cmd, self, cmd)
 
-        announce_or_puts("$ cd #{Dir.pwd}") if @announce_dir
-        announce_or_puts("$ #{cmd}") if @announce_cmd
+        announcer.dir(Dir.pwd)
+        announcer.cmd(cmd)
 
         process = Process.new(cmd, exit_timeout, io_wait)
         register_process(cmd, process)
@@ -359,7 +359,7 @@ module Aruba
     end
 
     def set_env(key, value)
-      announce_or_puts(%{$ export #{key}="#{value}"}) if @announce_env
+      announcer.env(key, value)
       original_env[key] = ENV.delete(key)
       ENV[key] = value
     end
@@ -387,8 +387,17 @@ module Aruba
       @last_exit_status = process.stop(announcer, @aruba_keep_ansi)
     end
 
+    def terminate_process(process)
+      process.terminate(@aruba_keep_ansi)
+    end
+
     def announcer
-      Announcer.new(self, :stdout => @announce_stdout, :stderr => @announce_stderr)
+      Announcer.new(self, 
+                    :stdout => @announce_stdout, 
+                    :stderr => @announce_stderr,
+                    :dir => @announce_dir,
+                    :cmd => @announce_cmd,
+                    :env => @announce_env)
     end
 
     class Announcer
@@ -398,18 +407,35 @@ module Aruba
 
       def stdout(content)
         return unless @options[:stdout]
-        @session.announce_or_puts(content)
+        print content
       end
 
       def stderr(content)
         return unless @options[:stderr]
-        @session.announce_or_puts(content)
+        print content
       end
 
+      def dir(dir)
+        return unless @options[:dir]
+        print "$ cd #{dir}"
+      end
+
+      def cmd(cmd)
+        return unless @options[:cmd]
+        print "$ #{cmd}"
+      end
+
+      def env(key, value)
+        return unless @options[:env]
+        print %{$ export #{key}="#{value}"}
+      end
+
+      private
+
+      def print(message)
+        @session.announce_or_puts(message)
+      end
     end
 
-    def terminate_process(process)
-      process.terminate(@aruba_keep_ansi)
-    end
   end
 end
