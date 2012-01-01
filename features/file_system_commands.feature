@@ -143,6 +143,20 @@ Feature: file system commands
     Then the file "foo" should match /hel.o world/
     And the file "foo" should not match /HELLO WORLD/
 
+  Scenario: Check file contents with docstring
+    Given a file named "foo" with:
+      """
+      foo
+      bar
+      baz
+      foobar
+      """
+    Then the file "foo" should contain:
+      """
+      bar
+      baz
+      """
+
   Scenario: Remove file
     Given a file named "foo" with:
       """

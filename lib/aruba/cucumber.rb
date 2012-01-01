@@ -248,6 +248,10 @@ Then /^the file "([^"]*)" should not contain "([^"]*)"$/ do |file, partial_conte
   check_file_content(file, partial_content, false)
 end
 
+Then /^the file "([^"]*)" should contain:$/ do |file, partial_content|
+  check_file_content(file, partial_content, true)
+end
+
 Then /^the file "([^"]*)" should contain exactly:$/ do |file, exact_content|
   check_exact_file_content(file, exact_content)
 end
