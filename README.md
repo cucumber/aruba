@@ -98,6 +98,29 @@ make assertions about coloured output. Still, there might be cases where you wan
 scenario with `@ansi`. Alternatively you can add your own Before
 hook that sets `@aruba_keep_ansi = true`.
 
+### JRuby Tips
+
+Improve startup time by disabling JIT and forcing client JVM mode.  This can be accomplished by adding
+
+    require 'aruba/java'
+
+or setting a hook like this example:
+
+```
+    Aruba.configure do |config|
+      config.before_cmd do |cmd|
+        set_env('JRUBY_OPTS', "-X-C #{ENV['JRUBY_OPTS']}") # disable JIT since these processes are so short lived
+        set_env('JAVA_OPTS', "-d32 #{ENV['JAVA_OPTS']}") # force jRuby to use client JVM for faster startup times
+      end
+    end if RUBY_PLATFORM == 'java'
+```
+
+*Note* - no conflict resolution on the JAVA/JRuby environment options is
+done; only merging.  For more complex settings please manually set the
+environment variables in the hook or externally.
+
+Refer to http://blog.headius.com/2010/03/jruby-startup-time-tips.html for other tips on startup time.
+
 ## Reporting
 
 *Important* - you need [Pygments](http://pygments.org/) installed to use this feature.
