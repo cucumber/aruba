@@ -39,6 +39,11 @@ describe Aruba::Api  do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         @aruba.check_file_size([[@file_name, @file_size]])
       end
+
+      it "should check an existing file size and fail" do
+        @aruba.write_fixed_size_file(@file_name, @file_size)
+        lambda { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.should raise_error
+      end
     end
   end
 
