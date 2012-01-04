@@ -15,11 +15,30 @@ describe Aruba::Api  do
       end
     }
     @aruba = klass.new
+
+    @file_name = "test.txt"
+    @file_size = 256
+    @file_path = File.join(@aruba.current_dir, @file_name)
   end
 
   describe 'current_dir' do
     it "should return the current dir as 'tmp/aruba'" do
       @aruba.current_dir.should match(/^tmp\/aruba$/)
+    end
+  end
+
+  describe 'files' do
+    context 'fixed size' do
+      it "should write a fixed sized file" do
+        @aruba.write_fixed_size_file(@file_name, @file_size)
+        File.exist?(@file_path).should == true
+        File.size(@file_path).should == @file_size
+      end
+
+      it "should check an existing file size" do
+        @aruba.write_fixed_size_file(@file_name, @file_size)
+        @aruba.check_file_size([[@file_name, @file_size]])
+      end
     end
   end
 
