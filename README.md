@@ -119,6 +119,14 @@ or setting a hook like this example:
 done; only merging.  For more complex settings please manually set the
 environment variables in the hook or externally.
 
+A larger process timeout for java may be needed
+
+```
+    Before do
+      @aruba_timeout_seconds = RUBY_PLATFORM == 'java' ? 60 : 10
+    end
+```
+
 Refer to http://blog.headius.com/2010/03/jruby-startup-time-tips.html for other tips on startup time.
 
 ## Reporting
