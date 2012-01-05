@@ -48,6 +48,13 @@ module Aruba
       end
     end
 
+    def read_stdout(keep_ansi)
+      wait_for_io do
+        @process.io.stdout.flush
+        content = filter_ansi(open(@out.path).read, keep_ansi)
+      end
+    end
+
     def stop(reader, keep_ansi)
       return unless @process
       unless @process.exited?

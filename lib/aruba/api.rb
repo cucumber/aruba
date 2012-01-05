@@ -188,6 +188,10 @@ module Aruba
       end
     end
 
+    def assert_partial_output_interactive(expected)
+      unescape(_read_interactive).include?(unescape(expected)) ? true : false
+    end
+
     def assert_passing_with(expected)
       assert_exit_status_and_partial_output(true, expected)
     end
@@ -308,6 +312,10 @@ module Aruba
 
     def _write_interactive(input)
       @interactive.stdin.write(input)
+    end
+
+    def _read_interactive
+      @interactive.read_stdout(@aruba_keep_ansi)
     end
 
     def _ensure_newline(str)
