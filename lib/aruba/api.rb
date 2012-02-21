@@ -94,6 +94,13 @@ module Aruba
       end
     end
 
+    def with_file_content(file, &block)
+      prep_for_fs_check do 
+        content = IO.read(file)
+        yield(content)
+      end
+    end
+
     def check_file_content(file, partial_content, expect_match)
       regexp = regexp(partial_content)
       prep_for_fs_check do 
