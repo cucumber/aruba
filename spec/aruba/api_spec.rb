@@ -68,6 +68,38 @@ describe Aruba::Api  do
         end
       end
     end
+  end
+
+  describe "#check_file_content" do
+    before :each do
+      @aruba.write_file(@file_name, "foo bar baz")
+    end
+
+    it "checks the file's content against the partial content" do
+      @aruba.check_file_content(@file_name, /foo/, true)
+      @aruba.check_file_content(@file_name, /zoo/, false)
+    end
+
+    it "checks the file's content by the given block" do
+      @aruba.check_file_content(@file_name, true) do |content|
+        content =~ /foo/
+      end
+      @aruba.check_file_content(@file_name, false) do |content|
+        content =~ /zoo/
+      end
+      @aruba.check_file_content(@file_name, true) do |content|
+        content.match(/(foo)/)[1].should == "foo"
+      end
+    end
+
+    it "raises an ArgumentError when given neither partial_content nor block" do
+      expect {@aruba.check_file_content(@file_name, true)}.to raise_error(ArgumentError)
+    end
+
+    it "raises an ArgumentError when given both partial_content and block" do
+      expect {@aruba.check_file_content(@file_name, /zoo/, true) {|c| true } }.to raise_error(ArgumentError)
+    end
+
 
   end
 end
