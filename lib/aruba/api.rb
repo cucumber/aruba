@@ -94,14 +94,19 @@ module Aruba
       end
     end
 
-    def check_file_content(file, partial_content, expect_match)
-      regexp = regexp(partial_content)
-      prep_for_fs_check do 
+    def check_file_content(file, partial_content=nil, expect_match, &block)
+      raise ArgumentError, "Should be given either partial content or a block" unless !partial_content.nil? ^ block_given?
+      prep_for_fs_check do
         content = IO.read(file)
-        if expect_match
-          content.should =~ regexp
+        if block_given?
+          (yield content).should (expect_match ? be_true : be_false)
         else
-          content.should_not =~ regexp
+          regexp = regexp(partial_content)
+          if expect_match
+            content.should =~ regexp
+          else
+            content.should_not =~ regexp
+          end
         end
       end
     end
