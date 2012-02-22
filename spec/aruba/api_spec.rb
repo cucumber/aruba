@@ -80,15 +80,47 @@ describe Aruba::Api  do
       @aruba.check_file_content(@file_name, /zoo/, false)
     end
 
-    it "checks the file's content by the given block" do
-      @aruba.check_file_content(@file_name, true) do |content|
-        content =~ /foo/
+    context "doing true/false assertions and tests within the block" do
+      it "checks the file's content by the given block" do
+        @aruba.check_file_content(@file_name, true) do |content|
+          content =~ /foo/
+        end
+
+        @aruba.check_file_content(@file_name, false) do |content|
+          content =~ /zoo/
+        end
+
+        expect do
+          @aruba.check_file_content(@file_name, true) do |content|
+            content =~ /zoo/
+          end
+        end .to raise_error RSpec::Expectations::ExpectationNotMetError
       end
-      @aruba.check_file_content(@file_name, false) do |content|
-        content =~ /zoo/
-      end
-      @aruba.check_file_content(@file_name, true) do |content|
-        content.match(/(foo)/)[1].should == "foo"
+    end
+
+    context "using a matcher within the block" do
+      it "follows the block's inner assertion logic" do
+        @aruba.check_file_content(@file_name, true) do |content|
+          content.match(/(foo)/)[1].should == "foo"
+        end
+
+        expect do
+          @aruba.check_file_content(@file_name, false) do |content|
+            content.match(/(foo)/)[1].should == "zoo"
+          end
+        end .to raise_error RSpec::Expectations::ExpectationNotMetError
+
+        expect do
+          @aruba.check_file_content(@file_name, true) do |content|
+            content.match(/(foo)/)[1].should == "zoo"
+          end
+        end .to raise_error RSpec::Expectations::ExpectationNotMetError
+
+        expect do
+          @aruba.check_file_content(@file_name, true) do |content|
+            content.match(/(foo)/)[1].should_not == "zoo"
+          end
+        end .to raise_error RSpec::Expectations::ExpectationNotMetError
       end
     end
 
