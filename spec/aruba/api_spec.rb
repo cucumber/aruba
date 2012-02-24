@@ -68,6 +68,39 @@ describe Aruba::Api  do
         end
       end
     end
-
   end
-end
+
+  describe "#with_file_content" do
+    before :each do
+      @aruba.write_file(@file_name, "foo bar baz")
+    end
+
+    it "checks the given file's full content against the expectations in the passed block" do
+       @aruba.with_file_content @file_name do |full_content|
+         full_content.should == "foo bar baz"
+       end
+    end
+
+    context "checking the file's content against the expectations in the block" do
+      it "is successful when the inner expectations match" do
+        expect do
+          @aruba.with_file_content @file_name do |full_content|
+            full_content.should     match /foo/
+            full_content.should_not match /zoo/
+          end
+        end . not_to raise_error RSpec::Expectations::ExpectationNotMetError
+      end
+
+      it "raises RSpec::Expectations::ExpectationNotMetError when the inner expectations don't match"  do
+        expect do
+          @aruba.with_file_content @file_name do |full_content|
+            full_content.should     match /zoo/
+            full_content.should_not match /foo/
+          end
+        end . to raise_error RSpec::Expectations::ExpectationNotMetError
+      end
+    end
+
+  end #with_file_content
+
+end # Aruba::Api
