@@ -1,5 +1,5 @@
 ## In Git
-* Add #with_file_content to the DSL (Pavel Argentov)
+* Add #with_file_content to the DSL (#110 Pavel Argentov)
 
 ## [v0.4.11](https://github.com/cucumber/aruba/compare/v0.4.10...v0.4.11)
 * Fix duplicated output (#91 Robert Wahler, Matt Wynne)
