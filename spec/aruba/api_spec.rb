@@ -103,4 +103,19 @@ describe Aruba::Api  do
 
   end #with_file_content
 
+  describe "#assert_not_matching_output" do
+    before :each do
+      @aruba.run_simple("echo foo", false)
+    end
+
+    it "passes when the output doesn't match a regexp" do
+      @aruba.assert_not_matching_output "bar", @aruba.all_output
+    end
+    it "fails when the output does match a regexp" do
+      expect do
+        @aruba.assert_not_matching_output "foo", @aruba.all_output
+      end . to raise_error RSpec::Expectations::ExpectationNotMetError
+    end
+  end
+
 end # Aruba::Api

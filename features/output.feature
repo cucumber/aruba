@@ -96,6 +96,25 @@ Feature: Output
       """
 
   @announce
+  Scenario: Negative matching of one-line output with regex
+    When I run `ruby --version`
+    Then the output should contain "ruby"
+    And the output should not match /ruby is a better perl$/
+
+  @announce
+  @posix
+  Scenario: Negative matching of multiline output with regex
+    When I run `ruby -e 'puts "hello\nworld\nextra line1\nextra line2\nimportant line"'`
+    Then the output should not match:
+      """
+      ruby
+      is
+      a
+      .*
+      perl
+      """
+
+  @announce
   @posix
   Scenario: Match passing exit status and partial output
     When I run `ruby -e 'puts "hello\nworld"'`
