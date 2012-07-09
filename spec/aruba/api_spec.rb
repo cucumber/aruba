@@ -19,11 +19,24 @@ describe Aruba::Api  do
     @file_name = "test.txt"
     @file_size = 256
     @file_path = File.join(@aruba.current_dir, @file_name)
+    @directory_name = 'test_dir'
+    @directory_path = File.join(@aruba.current_dir, @directory_name)
+
+    Dir.mkdir(@directory_path) if File.exist?(@directory_path)
   end
 
   describe 'current_dir' do
     it "should return the current dir as 'tmp/aruba'" do
       @aruba.current_dir.should match(/^tmp\/aruba$/)
+    end
+  end
+
+  describe 'directories' do
+    context 'delete directory' do
+      it 'should delete directory' do
+        @aruba.remove_dir(@directory_name)
+        File.exist?(@directory_path).should == false
+      end
     end
   end
 
@@ -43,6 +56,11 @@ describe Aruba::Api  do
       it "should check an existing file size and fail" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         lambda { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.should raise_error
+      end
+
+      it "should delete file" do
+        @aruba.remove_file(@file_name)
+        File.exist?(@file_path).should == false
       end
     end
   end
