@@ -36,10 +36,13 @@ If you want to change this behaviour put this into your `features/support/env.rb
 
 ### Modify the PATH
 
-If testing an executable in your project's `bin` directory, it might not be in the `PATH` Aruba 
-uses.  An easy way to set it is to put the following in `features/support/env.rb`:
+Aruba will automatically add the `bin` directory of your project to the `PATH` environment variable for 
+the duration of each Cucumber scenario. So if you're developing a Ruby gem with a binary command, you
+can test those commands as though the gem were already installed.
 
-    ENV['PATH'] = "#{File.expand_path(File.dirname(__FILE__) + '/../../bin')}#{File::PATH_SEPARATOR}#{ENV['PATH']}"
+If you need other directories to be added to the `PATH`, you can put the following in `features/support/env.rb`:
+
+    ENV['PATH'] = "/my/special/bin/path')}#{File::PATH_SEPARATOR}#{ENV['PATH']}"
 
 ### Increasing timeouts
 
