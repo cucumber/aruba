@@ -27,6 +27,13 @@ Feature: exit statuses
   Scenario: Successfully run something with `
     When I successfully run `ruby -e 'exit 0'`
 
+  Scenario: Successfully run something for a long time
+    When I successfully run `ruby -e 'sleep 4'` for up to 5 seconds
+
+  Scenario: Unsuccessfully run something that takes too long
+    When I do aruba I successfully run `ruby -e 'sleep 4'`
+    Then aruba should fail with "process still alive after 3 seconds"
+
   Scenario: Unsuccessfully run something
     When I do aruba I successfully run `ruby -e 'exit 10'`
     Then aruba should fail with "Exit status was 10"

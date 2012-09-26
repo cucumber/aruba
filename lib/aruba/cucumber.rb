@@ -62,8 +62,10 @@ When /^I successfully run "(.*)"$/ do |cmd|
   run_simple(unescape(cmd))
 end
 
-When /^I successfully run `([^`]*)`$/ do |cmd|
-  run_simple(unescape(cmd))
+## I successfully run `echo -n "Hello"`
+## I successfully run `sleep 29` for up to 30 seconds
+When /^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/ do |cmd, secs|
+  run_simple(unescape(cmd), true, secs && secs.to_i)
 end
 
 When /^I run "([^"]*)" interactively$/ do |cmd|
