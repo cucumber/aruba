@@ -220,12 +220,24 @@ Feature: Output
     And I run `ruby -e 'puts gets.chomp'` interactively
     And I type "interactive"
     Then the output from "ruby -e 'puts :simple'" should contain "simple"
+    And the output from "ruby -e 'puts :simple'" should contain exactly "simple\n"
+    And the output from "ruby -e 'puts :simple'" should contain exactly:
+      """
+      simple
+
+      """
     And the output from "ruby -e 'puts gets.chomp'" should not contain "simple"
 
   Scenario: Detect stdout from named source
     When I run `ruby -e 'puts :hello'`
     And I run `ruby -e 'puts :goodbye'`
     Then the stdout from "ruby -e 'puts :hello'" should contain "hello"
+    And the stdout from "ruby -e 'puts :hello'" should contain exactly "hello\n"
+    And the stdout from "ruby -e 'puts :hello'" should contain exactly:
+      """
+      hello
+
+      """
     And the stderr from "ruby -e 'puts :hello'" should not contain "hello"
     And the stdout from "ruby -e 'puts :goodbye'" should not contain "hello"
 
@@ -233,6 +245,12 @@ Feature: Output
     When I run `ruby -e 'STDERR.puts :hello'`
     And I run `ruby -e 'puts :goodbye'`
     Then the stderr from "ruby -e 'STDERR.puts :hello'" should contain "hello"
+    And the stderr from "ruby -e 'STDERR.puts :hello'" should contain exactly "hello\n"
+    And the stderr from "ruby -e 'STDERR.puts :hello'" should contain exactly:
+      """
+      hello
+
+      """
     And the stdout from "ruby -e 'STDERR.puts :hello'" should not contain "hello"
     And the stderr from "ruby -e 'puts :goodbye'" should not contain "hello"
 
