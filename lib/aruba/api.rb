@@ -186,6 +186,10 @@ module Aruba
       unescape(actual).should =~ /#{unescape(expected)}/m
     end
 
+    def assert_not_matching_output(expected, actual)
+      unescape(actual).should_not =~ /#{unescape(expected)}/m
+    end
+
     def assert_no_partial_output(unexpected, actual)
       if Regexp === unexpected
         unescape(actual).should_not =~ unexpected
