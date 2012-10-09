@@ -1,25 +1,21 @@
 require 'rspec/core'
 require 'aruba/api'
 
-RSpec.configure do |config|
-  config.filter_run :focus => true
-  config.run_all_when_everything_filtered = true
-  config.treat_symbols_as_metadata_keys_with_true_values = true
-end
-
-# http://digitaldumptruck.jotabout.com/?p=551
-def with_constants(constants, &block)
-  saved_constants = {}
-  constants.each do |constant, val|
-    saved_constants[ constant ] = Object.const_get( constant )
-    Kernel::silence_warnings { Object.const_set( constant, val ) }
-  end
- 
-  begin
-    block.call
-  ensure
+module ManipulatesConstants
+  # http://digitaldumptruck.jotabout.com/?p=551
+  def with_constants(constants, &block)
+    saved_constants = {}
     constants.each do |constant, val|
-      Kernel::silence_warnings { Object.const_set( constant, saved_constants[ constant ] ) }
+      saved_constants[ constant ] = Object.const_get( constant )
+      Kernel::silence_warnings { Object.const_set( constant, val ) }
+    end
+
+    begin
+      block.call
+    ensure
+      constants.each do |constant, val|
+        Kernel::silence_warnings { Object.const_set( constant, saved_constants[ constant ] ) }
+      end
     end
   end
 end
@@ -38,3 +34,10 @@ module Kernel
     $VERBOSE = old_verbose
   end
 end unless Kernel.respond_to? :silence_warnings
+
+RSpec.configure do |config|
+  config.filter_run :focus => true
+  config.run_all_when_everything_filtered = true
+  config.treat_symbols_as_metadata_keys_with_true_values = true
+  config.include(ManipulatesConstants)
+end
