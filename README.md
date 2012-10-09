@@ -82,10 +82,10 @@ To get more information on what Aruba is doing, use these tags:
 
 You can hook into Aruba's lifecycle just before it runs a command:
 
-```
+```ruby
 Aruba.configure do |config|
   config.before_cmd do |cmd|
-    puts "About to run '#{cmd}'
+    puts "About to run '#{cmd}'"
   end
 end
 ```
