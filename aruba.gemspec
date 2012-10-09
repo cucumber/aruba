@@ -12,10 +12,11 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'cucumber', '>= 1.1.1'
   s.add_runtime_dependency 'childprocess', '= 0.2.3'
   s.add_runtime_dependency 'ffi', '>= 1.0.11'
-  s.add_runtime_dependency 'rspec', '>= 2.7.0'
+  s.add_runtime_dependency 'rspec-expectations', '>= 2.7.0'
   s.add_development_dependency 'bcat', '>= 0.6.1'
   s.add_development_dependency 'rdiscount', '>= 1.6.8'
   s.add_development_dependency 'rake', '>= 0.9.2'
+  s.add_development_dependency 'rspec', '>= 2.7.0'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = `git ls-files`.split("\n")
