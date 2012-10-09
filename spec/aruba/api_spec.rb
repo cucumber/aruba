@@ -22,7 +22,7 @@ describe Aruba::Api  do
     @directory_name = 'test_dir'
     @directory_path = File.join(@aruba.current_dir, @directory_name)
 
-    Dir.mkdir(@directory_path) if File.exist?(@directory_path)
+    Dir.mkdir(@directory_path) unless File.exist?(@directory_path)
   end
 
   describe 'current_dir' do
