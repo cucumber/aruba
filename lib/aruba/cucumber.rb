@@ -127,9 +127,18 @@ end
 Then /^the output should match \/([^\/]*)\/$/ do |expected|
   assert_matching_output(expected, all_output)
 end
- 
+
 Then /^the output should match:$/ do |expected|
   assert_matching_output(expected, all_output)
+end
+
+# The previous two steps antagonists
+Then /^the output should not match \/([^\/]*)\/$/ do |expected|
+  assert_not_matching_output(expected, all_output)
+end
+
+Then /^the output should not match:$/ do |expected|
+  assert_not_matching_output(expected, all_output)
 end
 
 Then /^the exit status should be (\d+)$/ do |exit_status|
