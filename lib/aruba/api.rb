@@ -73,6 +73,12 @@ module Aruba
       end
     end
 
+    def remove_dir(directory_name)
+      in_current_dir do
+        FileUtils.rmdir(directory_name)
+      end
+    end
+
     def check_file_presence(paths, expect_presence)
       prep_for_fs_check do
         paths.each do |path|
