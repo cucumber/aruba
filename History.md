@@ -2,7 +2,7 @@
 * Add #with_file_content to the DSL (#110 Pavel Argentov)
 * Make JRuby performance tweaks optional (#102 Taylor Carpenter, #125 Andy Lindeman)
 * Add assert_partial_output_interactive so you can peek at the output from a running process (#104 Taylor Carpenter)
-
+* Add assert_not_matching_output (#111 Pavel Argentov)
 
 ## [v0.4.11](https://github.com/cucumber/aruba/compare/v0.4.10...v0.4.11)
 * Fix duplicated output (#91 Robert Wahler, Matt Wynne)
