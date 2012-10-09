@@ -3,7 +3,6 @@ require 'rbconfig'
 require 'rspec/expectations'
 require 'aruba/process'
 require 'aruba/config'
-require 'aruba/jruby' if RUBY_PLATFORM == 'java'
 
 module Aruba
   module Api
