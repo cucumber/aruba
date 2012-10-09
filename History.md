@@ -3,6 +3,7 @@
 * Make JRuby performance tweaks optional (#102 Taylor Carpenter, #125 Andy Lindeman)
 * Add assert_partial_output_interactive so you can peek at the output from a running process (#104 Taylor Carpenter)
 * Add assert_not_matching_output (#111 Pavel Argentov)
+* Add remove_dir (#121 Piotr Niełacny)
 
 ## [v0.4.11](https://github.com/cucumber/aruba/compare/v0.4.10...v0.4.11)
 * Fix duplicated output (#91 Robert Wahler, Matt Wynne)
