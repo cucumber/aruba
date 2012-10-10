@@ -4,6 +4,10 @@ require 'aruba/reporting'
 
 World(Aruba::Api)
 
+Given /The default aruba timeout is (\d+) seconds/ do |seconds|
+  @aruba_timeout_seconds = seconds.to_i
+end
+
 Given /^I'm using a clean gemset "([^"]*)"$/ do |gemset|
   use_clean_gemset(gemset)
 end

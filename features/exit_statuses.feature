@@ -28,11 +28,13 @@ Feature: exit statuses
     When I successfully run `ruby -e 'exit 0'`
 
   Scenario: Successfully run something for a long time
-    When I successfully run `ruby -e 'sleep 4'` for up to 5 seconds
+    Given The default aruba timeout is 0 seconds
+    When I successfully run `ruby -e 'sleep 1'` for up to 2 seconds
 
   Scenario: Unsuccessfully run something that takes too long
-    When I do aruba I successfully run `ruby -e 'sleep 4'`
-    Then aruba should fail with "process still alive after 3 seconds"
+    Given The default aruba timeout is 0 seconds
+    When I do aruba I successfully run `ruby -e 'sleep 1'`
+    Then aruba should fail with "process still alive after 0 seconds"
 
   Scenario: Unsuccessfully run something
     When I do aruba I successfully run `ruby -e 'exit 10'`
