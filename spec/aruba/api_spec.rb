@@ -13,6 +13,10 @@ describe Aruba::Api  do
       def announce_or_puts(*args)
         p caller[0..2]
       end
+
+      def exit_timeout
+        10 ##This is necessary for jruby
+      end
     }
     @aruba = klass.new
 
