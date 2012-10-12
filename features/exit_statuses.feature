@@ -30,13 +30,3 @@ Feature: exit statuses
   Scenario: Unsuccessfully run something
     When I do aruba I successfully run `ruby -e 'exit 10'`
     Then aruba should fail with "Exit status was 10"
-
-  @posix
-  Scenario: Try to run something that doesn't exist
-    When I run `does_not_exist`
-    Then the exit status should be 1
-
-  @posix
-  Scenario: Try to run something that doesn't exist with `
-    When I run `does_not_exist`
-    Then the exit status should be 1

@@ -5,14 +5,6 @@ Feature: Output
   I want to use the "the output should contain" step
 
   @posix
-  Scenario: Run unknown command
-    When I run `neverever gonna work`
-    Then the output should contain:
-      """
-      No such file or directory - neverever
-      """
-
-  @posix
   Scenario: Detect subset of one-line output
     When I run `ruby -e 'puts \"hello world\"'`
     Then the output should contain "hello world"
