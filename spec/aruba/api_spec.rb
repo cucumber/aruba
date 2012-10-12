@@ -19,10 +19,14 @@ describe Aruba::Api  do
     @file_name = "test.txt"
     @file_size = 256
     @file_path = File.join(@aruba.current_dir, @file_name)
-    @directory_name = 'test_dir'
-    @directory_path = File.join(@aruba.current_dir, @directory_name)
 
-    Dir.mkdir(@directory_path) unless File.exist?(@directory_path)
+    (@aruba.dirs.length-1).times do |depth| #Ensure all parent dirs exists
+      dir = File.join(*@aruba.dirs[0..depth])
+      Dir.mkdir(dir) unless File.exist?(dir)
+    end
+    raise "We must work with relative paths, everything else is dangerous" if ?/ == @aruba.current_dir[0]
+    FileUtils.rm_rf(@aruba.current_dir)
+    Dir.mkdir(@aruba.current_dir)
   end
 
   describe 'current_dir' do
@@ -33,6 +37,11 @@ describe Aruba::Api  do
 
   describe 'directories' do
     context 'delete directory' do
+      before(:each) do
+        @directory_name = 'test_dir'
+        @directory_path = File.join(@aruba.current_dir, @directory_name)
+        Dir.mkdir(@directory_path)
+      end
       it 'should delete directory' do
         @aruba.remove_dir(@directory_name)
         File.exist?(@directory_path).should == false
@@ -57,7 +66,9 @@ describe Aruba::Api  do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         lambda { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.should raise_error
       end
-
+    end
+    context 'existing' do
+      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
       it "should delete file" do
         @aruba.remove_file(@file_name)
         File.exist?(@file_path).should == false
