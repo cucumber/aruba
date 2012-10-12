@@ -23,7 +23,7 @@ module Aruba
     end
 
     def dirs
-      @dirs ||= ['tmp/aruba']
+      @dirs ||= ['tmp', 'aruba']
     end
 
     def write_file(file_name, file_content)
