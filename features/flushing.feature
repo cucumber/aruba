@@ -16,6 +16,7 @@ Feature: Flushing output
     And the output should be 65536 bytes long
     And the exit status should be 0
 
+  @wip-jruby
   Scenario: Tons of interactive output
     When I run `ruby -e 'len = gets.chomp; puts :a.to_s * len.to_i'` interactively
     And I type "65536"

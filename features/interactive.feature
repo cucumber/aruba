@@ -4,6 +4,7 @@ Feature: Interactive process control
   As a developer using Cucumber
   I want to use the interactive session steps
 
+  @wip-jruby
   Scenario: Running ruby interactively
     Given a file named "echo.rb" with:
       """
@@ -20,7 +21,7 @@ Feature: Interactive process control
       dlrow ,olleh
       """
 
-  @posix @fails-on-travis
+  @posix @fails-on-travis @wip-jruby
   Scenario: Running a native binary interactively
     When I run `bc -q` interactively
     And I type "4 + 3"

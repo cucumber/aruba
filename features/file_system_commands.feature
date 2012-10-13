@@ -55,9 +55,7 @@ Feature: file system commands
     Then the file "thedir/thefile" should contain "xy"
 
   Scenario: clean up files generated in previous scenario
-    When I run `ruby foo/bar/example.rb`
-    Then the exit status should be 1
-    And the output should contain "No such file or directory -- foo/bar/example.rb"
+    Then the file "foo/bar/example.rb" should not exist
   
   Scenario: change to a subdir
     Given a file named "foo/bar/example.rb" with:

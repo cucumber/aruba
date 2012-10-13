@@ -182,7 +182,7 @@ Feature: Output
     Then the stderr should not contain "hello"
 
 
-  @posix
+  @posix @wip-jruby
   Scenario: Detect output from all processes
     When I run `ruby -e 'puts \"hello world!\"'`
     And I run `ruby -e 'puts gets.chomp.reverse'` interactively
@@ -194,7 +194,7 @@ Feature: Output
 
       """
 
-  @posix
+  @posix @wip-jruby
   Scenario: Detect stdout from all processes
     When I run `ruby -e 'puts \"hello world!\"'`
     And I run `ruby -e 'puts gets.chomp.reverse'` interactively
@@ -210,7 +210,7 @@ Feature: Output
       olleh
       """
 
-  @posix
+  @posix @wip-jruby
   Scenario: Detect stderr from all processes
     When I run `ruby -e 'STDERR.puts \"hello world!\"'`
     And I run `ruby -e 'STDERR.puts gets.chomp.reverse'` interactively
