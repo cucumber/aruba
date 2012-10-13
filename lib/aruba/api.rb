@@ -298,7 +298,7 @@ module Aruba
       end
     end
 
-    DEFAULT_TIMEOUT_SECONDS = 5
+    DEFAULT_TIMEOUT_SECONDS = 8
 
     def exit_timeout
       @aruba_timeout_seconds || DEFAULT_TIMEOUT_SECONDS
