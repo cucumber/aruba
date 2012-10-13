@@ -155,7 +155,7 @@ describe Aruba::Api  do
       @aruba.all_output.should == "Hello\n"
     end
 
-    it "respond to input" do
+    it "respond to eot" do
       @aruba.type "Hello"
       @aruba.eot
       @aruba.all_output.should == "Hello\n"
