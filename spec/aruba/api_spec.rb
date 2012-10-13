@@ -78,7 +78,7 @@ describe Aruba::Api  do
 
   describe 'tags' do
     describe '@announce_stdout' do
-
+      after(:each){@aruba.stop_processes!}
       context 'enabled' do
         it "should announce to stdout exactly once" do
           @aruba.should_receive(:announce_or_puts).once
@@ -133,9 +133,8 @@ describe Aruba::Api  do
   end #with_file_content
 
   describe "#assert_not_matching_output" do
-    before :each do
-      @aruba.run_simple("echo foo", false)
-    end
+    before(:each){ @aruba.run_simple("echo foo", false) }
+    after(:each){ @aruba.stop_processes! }
 
     it "passes when the output doesn't match a regexp" do
       @aruba.assert_not_matching_output "bar", @aruba.all_output
@@ -144,6 +143,22 @@ describe Aruba::Api  do
       expect do
         @aruba.assert_not_matching_output "foo", @aruba.all_output
       end . to raise_error RSpec::Expectations::ExpectationNotMetError
+    end
+  end
+
+  describe "#run_interactive" do
+    before(:each){@aruba.run_interactive "cat"}
+    after(:each){@aruba.stop_processes!}
+    it "respond to input" do
+      @aruba.type "Hello"
+      @aruba.type ""
+      @aruba.all_output.should == "Hello\n"
+    end
+
+    it "respond to input" do
+      @aruba.type "Hello"
+      @aruba.eot
+      @aruba.all_output.should == "Hello\n"
     end
   end
 

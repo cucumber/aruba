@@ -21,14 +21,14 @@ Feature: Interactive process control
       dlrow ,olleh
       """
 
-  @posix @fails-on-travis @wip-jruby
+  @posix @wip-jruby
   Scenario: Running a native binary interactively
-    When I run `bc -q` interactively
-    And I type "4 + 3"
-    And I type "quit"
+    When I run `cat` interactively
+    And I type "Hello, world"
+    And I type ""
     Then the output should contain:
       """
-      7
+      Hello, world
       """
 
   @posix

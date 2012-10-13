@@ -323,7 +323,12 @@ module Aruba
     end
 
     def type(input)
+      return eot if ? == input ##If on Windows it is actually  (26 == 0x1A)
       _write_interactive(_ensure_newline(input))
+    end
+
+    def eot
+      @interactive.stdin.close
     end
 
     def _write_interactive(input)
