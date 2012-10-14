@@ -9,6 +9,10 @@ require 'cucumber/rake/task'
 Cucumber::Rake::Task.new do |t|
 end
 
+Cucumber::Rake::Task.new(:cucumber_wip) do |t|
+  t.cucumber_opts = "-p wip"
+end
+
 require 'rspec/core/rake_task'
 desc "Run RSpec"
 RSpec::Core::RakeTask.new do |spec|
@@ -17,6 +21,6 @@ RSpec::Core::RakeTask.new do |spec|
 end
 
 desc "Run tests, both RSpec and Cucumber"
-task :test => [:spec, :cucumber]
+task :test => [:spec, :cucumber, :cucumber_wip]
 
 task :default => :test
