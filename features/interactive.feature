@@ -21,7 +21,7 @@ Feature: Interactive process control
       dlrow ,olleh
       """
 
-  @posix @wip-jruby
+  @posix
   Scenario: Running a native binary interactively
     When I run `cat` interactively
     And I type "Hello, world"

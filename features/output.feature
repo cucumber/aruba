@@ -71,9 +71,9 @@ Feature: Output
 
   @announce
   Scenario: Detect subset of one-line output with regex
-    When I run `ruby --version`
+    When I run `ruby -e 'puts "hello, ruby"'`
     Then the output should contain "ruby"
-    And the output should match /ruby ([\d]+\.[\d]+\.[\d]+)(\w*\d*)? \(.*$/
+    And the output should match /^hello(, world)?/
 
   @announce
   @posix
@@ -249,6 +249,7 @@ Feature: Output
 
   @wip
   Scenario: Detect output from named source with custom name
+    When was this introduced and when will it be implemented.
 
   Scenario: Detect second output from named source with custom name
     When I set env variable "ARUBA_TEST_VAR" to "first"
