@@ -6,27 +6,22 @@ Feature: Output
 
   @posix
   Scenario: Detect subset of one-line output
-    When I run `ruby -e 'puts \"hello world\"'`
-    Then the output should contain "hello world"
-
-  @posix
-  Scenario: Detect subset of one-line output
     When I run `echo 'hello world'`
     Then the output should contain "hello world"
 
   Scenario: Detect absence of one-line output
-    When I run `ruby -e 'puts \"hello world\"'`
+    When I run `echo "hello world"`
     Then the output should not contain "good-bye"
 
   Scenario: Detect subset of multiline output
-    When I run `ruby -e 'puts \"hello\\nworld\"'`
+    When I run `echo -e "hello\nworld"`
     Then the output should contain:
       """
       hello
       """
 
-  Scenario: Detect subset of multiline output
-    When I run `ruby -e 'puts \"hello\\nworld\"'`
+  Scenario: Detect absence of multiline output
+    When I run `echo "hello\nworld"`
     Then the output should not contain:
       """
       good-bye
@@ -34,7 +29,7 @@ Feature: Output
 
   @posix
   Scenario: Detect exact one-line output
-    When I run `ruby -e 'puts \"hello world\"'`
+    When I run `echo "hello world"`
     Then the output should contain exactly:
       """
       hello world
@@ -44,7 +39,7 @@ Feature: Output
   @ansi
   @posix
   Scenario: Detect exact one-line output with ANSI output
-    When I run `ruby -e 'puts \"\e[36mhello world\e[0m\"'`
+    When I run `echo -e "\e[36mhello world\e[0m"`
     Then the output should contain exactly:
       """
       \e[36mhello world\e[0m
@@ -53,7 +48,7 @@ Feature: Output
 
   @posix
   Scenario: Detect exact one-line output with ANSI output stripped by default
-    When I run `ruby -e 'puts \"\e[36mhello world\e[0m\"'`
+    When I run `echo -e "\e[36mhello world\e[0m"`
     Then the output should contain exactly:
       """
       hello world
@@ -61,7 +56,7 @@ Feature: Output
       """
   @posix
   Scenario: Detect exact multiline output
-    When I run `ruby -e 'puts "hello\nworld"'`
+    When I run `echo -e "hello\nworld"`
     Then the output should contain exactly:
       """
       hello
@@ -71,14 +66,14 @@ Feature: Output
 
   @announce
   Scenario: Detect subset of one-line output with regex
-    When I run `ruby -e 'puts "hello, ruby"'`
+    When I run `echo -e "hello, ruby"`
     Then the output should contain "ruby"
     And the output should match /^hello(, world)?/
 
   @announce
   @posix
   Scenario: Detect subset of multiline output with regex
-    When I run `ruby -e 'puts "hello\nworld\nextra line1\nextra line2\nimportant line"'`
+    When I run `echo -e "hello\nworld\nextra line1\nextra line2\nimportant line"`
     Then the output should match:
       """
       he..o
@@ -89,14 +84,14 @@ Feature: Output
 
   @announce
   Scenario: Negative matching of one-line output with regex
-    When I run `ruby --version`
+    When I run `echo "hello, ruby"`
     Then the output should contain "ruby"
     And the output should not match /ruby is a better perl$/
 
   @announce
   @posix
   Scenario: Negative matching of multiline output with regex
-    When I run `ruby -e 'puts "hello\nworld\nextra line1\nextra line2\nimportant line"'`
+    When I run `echo -e "hello\nworld\nextra line1\nextra line2\nimportant line"`
     Then the output should not match:
       """
       ruby
@@ -109,7 +104,7 @@ Feature: Output
   @announce
   @posix
   Scenario: Match passing exit status and partial output
-    When I run `ruby -e 'puts "hello\nworld"'`
+    When I run `echo -e "hello\nworld"`
     Then it should pass with:
       """
       hello
@@ -117,7 +112,7 @@ Feature: Output
 
   @posix
   Scenario: Match passing exit status and exact output
-    When I run `ruby -e 'puts "hello\nworld"'`
+    When I run `echo -e "hello\nworld"`
     Then it should pass with exactly:
       """
       hello
@@ -127,7 +122,7 @@ Feature: Output
 
   @announce-stdout
   Scenario: Match failing exit status and partial output
-    When I run `ruby -e 'puts \"hello\\nworld\";exit 99'`
+    When I run `bash -c '(echo -e "hello\nworld";exit 99)'`
     Then it should fail with:
       """
       hello
@@ -135,7 +130,7 @@ Feature: Output
 
   @posix
   Scenario: Match failing exit status and exact output
-    When I run `ruby -e 'puts "hello\nworld";exit 99'`
+    When I run `bash -c '(echo -e "hello\nworld";exit 99)'`
     Then it should fail with exactly:
       """
       hello
@@ -146,7 +141,7 @@ Feature: Output
   @announce-stdout
   @posix
   Scenario: Match failing exit status and output with regex
-    When I run `ruby -e 'puts \"hello\\nworld\";exit 99'`
+    When I run `bash -c '(echo -e "hello\nworld";exit 99)'`
     Then it should fail with regex:
       """
       hello\s*world
@@ -155,13 +150,13 @@ Feature: Output
   @announce-cmd
   @posix
   Scenario: Match output in stdout
-    When I run `ruby -e 'puts \"hello\\nworld\"'`
+    When I run `echo -e "hello\nworld"`
     Then the stdout should contain "hello"
     Then the stderr should not contain "hello"
 
   @announce
   Scenario: Match output on several lines
-    When I run `ruby -e 'puts %{GET /}'`
+    When I run `echo 'GET /'`
     Then the stdout should contain:
       """
       GET /
@@ -169,83 +164,80 @@ Feature: Output
 
   @posix
   Scenario: Match output on several lines using quotes
-    When I run `ruby -e 'puts %{GET "/"}'`
+    When I run `echo 'GET "/"'`
     Then the stdout should contain:
       """
       GET "/"
       """
 
   @posix
-  Scenario: Match output in stdout
-    When I run `ruby -e 'puts \"hello\\nworld\"'`
-    Then the stdout should contain "hello"
-    Then the stderr should not contain "hello"
-
-
-  @posix @wip-jruby
   Scenario: Detect output from all processes
-    When I run `ruby -e 'puts \"hello world!\"'`
-    And I run `ruby -e 'puts gets.chomp.reverse'` interactively
-    And I type "hello"
+    When I run `echo "hello world!"`
+    And I run `cat` interactively
+    And I type "hola"
+    And I type ""
     Then the output should contain exactly:
       """
       hello world!
-      olleh
+      hola
 
       """
 
-  @posix @wip-jruby
+  @posix
   Scenario: Detect stdout from all processes
-    When I run `ruby -e 'puts \"hello world!\"'`
-    And I run `ruby -e 'puts gets.chomp.reverse'` interactively
-    And I type "hello"
+    When I run `echo "hello world!"`
+    And I run `cat` interactively
+    And I type "hola"
+    And I type ""
     Then the stdout should contain:
       """
       hello world!
-      olleh
+      hola
       """
     And the stderr should not contain:
       """
       hello world!
-      olleh
+      hola
       """
 
-  @posix @wip-jruby
+  @posix
   Scenario: Detect stderr from all processes
-    When I run `ruby -e 'STDERR.puts \"hello world!\"'`
-    And I run `ruby -e 'STDERR.puts gets.chomp.reverse'` interactively
-    And I type "hello"
+    When I run `bash -c 'echo "hello world!" >&2'`
+    And I run `bash -c 'cat >&2 '` interactively
+    And I type "hola"
+    And I type ""
     Then the stderr should contain:
       """
       hello world!
-      olleh
+      hola
       """
     And the stdout should not contain:
       """
       hello world!
-      olleh
+      hola
       """
 
   Scenario: Detect output from named source
-    When I run `ruby -e 'puts :simple'`
-    And I run `ruby -e 'puts gets.chomp'` interactively
+    When I run `echo 'simple'`
+    And I run `cat` interactively
     And I type "interactive"
-    Then the output from "ruby -e 'puts :simple'" should contain "simple"
-    And the output from "ruby -e 'puts gets.chomp'" should not contain "simple"
+    And I type ""
+    Then the output from "echo 'simple'" should contain "simple"
+    And the output from "cat" should not contain "simple"
 
   Scenario: Detect stdout from named source
-    When I run `ruby -e 'puts :hello'`
-    And I run `ruby -e 'puts :goodbye'`
-    Then the stdout from "ruby -e 'puts :hello'" should contain "hello"
-    And the stderr from "ruby -e 'puts :hello'" should not contain "hello"
-    And the stdout from "ruby -e 'puts :goodbye'" should not contain "hello"
+    When I run `echo 'hello'`
+    And I run `echo 'goodbye'`
+    Then the stdout from "echo 'hello'" should contain "hello"
+    And the stderr from "echo 'hello'" should not contain "hello"
+    And the stdout from "echo 'goodbye'" should not contain "hello"
 
   Scenario: Detect stderr from named source
-    When I run `ruby -e 'STDERR.puts :hello'`
-    And I run `ruby -e 'puts :goodbye'`
-    Then the stderr from "ruby -e 'STDERR.puts :hello'" should contain "hello"
-    And the stdout from "ruby -e 'STDERR.puts :hello'" should not contain "hello"
-    And the stderr from "ruby -e 'puts :goodbye'" should not contain "hello"
+    When I run `bash -c 'echo hello >&2'`
+    And I run `echo goodbye`
+    Then the stderr from "bash -c 'echo hello >&2'" should contain "hello"
+    And the stdout from "bash -c 'echo hello >&2'" should not contain "hello"
+    And the stderr from "echo goodbye" should not contain "hello"
 
   @wip
   Scenario: Detect output from named source with custom name
@@ -253,8 +245,8 @@ Feature: Output
 
   Scenario: Detect second output from named source with custom name
     When I set env variable "ARUBA_TEST_VAR" to "first"
-    And I run `ruby -e 'puts ENV[%q(ARUBA_TEST_VAR)]'`
-    Then the output from "ruby -e 'puts ENV[%q(ARUBA_TEST_VAR)]'" should contain "first"
+    And I run `bash -c 'echo $ARUBA_TEST_VAR'`
+    Then the output from "bash -c 'echo $ARUBA_TEST_VAR'" should contain "first"
     When I set env variable "ARUBA_TEST_VAR" to "second"
-    And I run `ruby -e 'puts ENV[%q(ARUBA_TEST_VAR)]'`
-    Then the output from "ruby -e 'puts ENV[%q(ARUBA_TEST_VAR)]'" should contain "second"
+    And I run `bash -c 'echo $ARUBA_TEST_VAR'`
+    Then the output from "bash -c 'echo $ARUBA_TEST_VAR'" should contain "second"

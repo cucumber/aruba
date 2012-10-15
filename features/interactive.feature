@@ -4,7 +4,7 @@ Feature: Interactive process control
   As a developer using Cucumber
   I want to use the interactive session steps
 
-  @wip-jruby
+#The line with `sleep 3` is to avoid a bug in jruby (see http://jira.codehaus.org/browse/JRUBY-6942)
   Scenario: Running ruby interactively
     Given a file named "echo.rb" with:
       """
@@ -14,6 +14,7 @@ Feature: Interactive process control
       end
       """
     When I run `ruby echo.rb` interactively
+    And I run `sleep 3`
     And I type "hello, world"
     And I type "quit"
     Then it should pass with:

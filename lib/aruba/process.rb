@@ -33,10 +33,7 @@ module Aruba
     end
 
     def stdin
-      wait_for_io do
-        @process.io.stdin.sync = true
-        @process.io.stdin
-      end
+      @process.io.stdin
     end
 
     def output(keep_ansi)

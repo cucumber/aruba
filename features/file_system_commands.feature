@@ -6,16 +6,16 @@ Feature: file system commands
   
   Scenario: create a dir
     Given a directory named "foo/bar"
-    When I run `ruby -e "puts test ?d, 'foo'"`
-    Then the stdout should contain "true"
+    When I run `file foo/bar`
+    Then the stdout should contain "foo/bar: directory"
   
   Scenario: create a file
-    Given a file named "foo/bar/example.rb" with:
+    Given a file named "foo/bar/example.txt" with:
       """
-      puts "hello world"
+      hello world
       """
-    When I run `ruby foo/bar/example.rb`
-    Then the output should contain "hello world"
+    When I run `cat foo/bar/example.txt`
+    Then the output should contain exactly "hello world"
 
   Scenario: create a fixed sized file
     Given a 1048576 byte file named "test.txt"
@@ -30,22 +30,17 @@ Feature: file system commands
     - One
     - Two
 
-    Given a file named "foo/bar/example.feature" with:
+    Given a file named "foo/bar/example.txt" with:
       """
-      Feature: Example
-        Hello World
+      hello world
+      
       """
-    And a file named "foo/bar/example.rb" with:
+    When I append to "foo/bar/example.txt" with:
       """
-      puts "\e[31mhello world\e[0m"
-
+      this was appended
+      
       """
-    When I append to "foo/bar/example.rb" with:
-      """
-      puts "this was appended"
-
-      """
-    When I run `ruby foo/bar/example.rb`
+    When I run `cat foo/bar/example.txt`
     Then the stdout should contain "hello world"
     And the stdout should contain "this was appended"
 
@@ -55,26 +50,23 @@ Feature: file system commands
     Then the file "thedir/thefile" should contain "xy"
 
   Scenario: clean up files generated in previous scenario
-    Then the file "foo/bar/example.rb" should not exist
+    Then the file "foo/bar/example.txt" should not exist
   
   Scenario: change to a subdir
-    Given a file named "foo/bar/example.rb" with:
+    Given a file named "foo/bar/example.txt" with:
       """
-      puts "hello world"
+      hello world
+      
       """
     When I cd to "foo/bar"
-    And I run `ruby example.rb`
+    And I run `cat example.txt`
     Then the output should contain "hello world"
 
   Scenario: Reset current directory from previous scenario
-    When I run `ruby example.rb`
-    Then the exit status should be 1
+    When I run `pwd`
+    Then the output should match /\057tmp\057aruba$/
 
   Scenario: Holler if cd to bad dir
-    Given a file named "foo/bar/example.rb" with:
-      """
-      puts "hello world"
-      """
     When I do aruba I cd to "foo/nonexistant"
     Then aruba should fail with "tmp/aruba/foo/nonexistant is not a directory"
 
