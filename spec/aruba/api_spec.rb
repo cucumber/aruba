@@ -13,10 +13,6 @@ describe Aruba::Api  do
       def announce_or_puts(*args)
         p caller[0..2]
       end
-
-      def exit_timeout
-        10 ##This is necessary for jruby
-      end
     }
     @aruba = klass.new
 
@@ -82,12 +78,12 @@ describe Aruba::Api  do
 
   describe 'tags' do
     describe '@announce_stdout' do
-
+      after(:each){@aruba.stop_processes!}
       context 'enabled' do
         it "should announce to stdout exactly once" do
           @aruba.should_receive(:announce_or_puts).once
           @aruba.set_tag(:announce_stdout, true)
-          @aruba.run_simple("ruby -e 'puts \"hello world\"'", false)
+          @aruba.run_simple('echo "hello world"', false)
           @aruba.all_output.should match(/hello world/)
         end
       end
@@ -96,7 +92,7 @@ describe Aruba::Api  do
         it "should not announce to stdout" do
           @aruba.should_not_receive(:announce_or_puts)
           @aruba.set_tag(:announce_stdout, false)
-          @aruba.run_simple("ruby -e 'puts \"hello world\"'", false)
+          @aruba.run_simple('echo "hello world"', false)
           @aruba.all_output.should match(/hello world/)
         end
       end
@@ -137,9 +133,8 @@ describe Aruba::Api  do
   end #with_file_content
 
   describe "#assert_not_matching_output" do
-    before :each do
-      @aruba.run_simple("echo foo", false)
-    end
+    before(:each){ @aruba.run_simple("echo foo", false) }
+    after(:each){ @aruba.stop_processes! }
 
     it "passes when the output doesn't match a regexp" do
       @aruba.assert_not_matching_output "bar", @aruba.all_output
@@ -148,6 +143,22 @@ describe Aruba::Api  do
       expect do
         @aruba.assert_not_matching_output "foo", @aruba.all_output
       end . to raise_error RSpec::Expectations::ExpectationNotMetError
+    end
+  end
+
+  describe "#run_interactive" do
+    before(:each){@aruba.run_interactive "cat"}
+    after(:each){@aruba.stop_processes!}
+    it "respond to input" do
+      @aruba.type "Hello"
+      @aruba.type ""
+      @aruba.all_output.should == "Hello\n"
+    end
+
+    it "respond to eot" do
+      @aruba.type "Hello"
+      @aruba.eot
+      @aruba.all_output.should == "Hello\n"
     end
   end
 

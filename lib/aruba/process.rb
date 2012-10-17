@@ -1,6 +1,7 @@
 require 'childprocess'
 require 'tempfile'
 require 'shellwords'
+require 'aruba/errors'
 
 module Aruba
   class Process
@@ -23,15 +24,16 @@ module Aruba
       @process.io.stderr = @err
       @process.duplex = true
       @exit_code = nil
-      @process.start
+      begin
+        @process.start
+      rescue ChildProcess::LaunchError => e
+        raise LaunchError.new(e.message)
+      end
       yield self if block_given?
     end
 
     def stdin
-      wait_for_io do
-        @process.io.stdin.sync = true
-        @process.io.stdin
-      end
+      @process.io.stdin
     end
 
     def output(keep_ansi)

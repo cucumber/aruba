@@ -29,5 +29,15 @@ module Aruba
       end
     end
 
+    describe "#run!" do
+      context "upon process launch error" do
+        let(:process_failure) { Process.new('does_not_exists', 1, 1) }
+
+        it "raises a Aruba::LaunchError" do
+          lambda{process_failure.run!}.should raise_error(::Aruba::LaunchError)
+        end
+      end
+    end
+
   end
 end
