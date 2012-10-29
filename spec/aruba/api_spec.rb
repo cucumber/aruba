@@ -19,11 +19,33 @@ describe Aruba::Api  do
     @file_name = "test.txt"
     @file_size = 256
     @file_path = File.join(@aruba.current_dir, @file_name)
+
+    (@aruba.dirs.length-1).times do |depth| #Ensure all parent dirs exists
+      dir = File.join(*@aruba.dirs[0..depth])
+      Dir.mkdir(dir) unless File.exist?(dir)
+    end
+    raise "We must work with relative paths, everything else is dangerous" if ?/ == @aruba.current_dir[0]
+    FileUtils.rm_rf(@aruba.current_dir)
+    Dir.mkdir(@aruba.current_dir)
   end
 
   describe 'current_dir' do
     it "should return the current dir as 'tmp/aruba'" do
       @aruba.current_dir.should match(/^tmp\/aruba$/)
+    end
+  end
+
+  describe 'directories' do
+    context 'delete directory' do
+      before(:each) do
+        @directory_name = 'test_dir'
+        @directory_path = File.join(@aruba.current_dir, @directory_name)
+        Dir.mkdir(@directory_path)
+      end
+      it 'should delete directory' do
+        @aruba.remove_dir(@directory_name)
+        File.exist?(@directory_path).should == false
+      end
     end
   end
 
@@ -45,16 +67,23 @@ describe Aruba::Api  do
         lambda { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.should raise_error
       end
     end
+    context 'existing' do
+      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
+      it "should delete file" do
+        @aruba.remove_file(@file_name)
+        File.exist?(@file_path).should == false
+      end
+    end
   end
 
   describe 'tags' do
     describe '@announce_stdout' do
-
+      after(:each){@aruba.stop_processes!}
       context 'enabled' do
         it "should announce to stdout exactly once" do
           @aruba.should_receive(:announce_or_puts).once
           @aruba.set_tag(:announce_stdout, true)
-          @aruba.run_simple("ruby -e 'puts \"hello world\"'", false)
+          @aruba.run_simple('echo "hello world"', false)
           @aruba.all_output.should match(/hello world/)
         end
       end
@@ -63,7 +92,7 @@ describe Aruba::Api  do
         it "should not announce to stdout" do
           @aruba.should_not_receive(:announce_or_puts)
           @aruba.set_tag(:announce_stdout, false)
-          @aruba.run_simple("ruby -e 'puts \"hello world\"'", false)
+          @aruba.run_simple('echo "hello world"', false)
           @aruba.all_output.should match(/hello world/)
         end
       end
@@ -102,5 +131,35 @@ describe Aruba::Api  do
     end
 
   end #with_file_content
+
+  describe "#assert_not_matching_output" do
+    before(:each){ @aruba.run_simple("echo foo", false) }
+    after(:each){ @aruba.stop_processes! }
+
+    it "passes when the output doesn't match a regexp" do
+      @aruba.assert_not_matching_output "bar", @aruba.all_output
+    end
+    it "fails when the output does match a regexp" do
+      expect do
+        @aruba.assert_not_matching_output "foo", @aruba.all_output
+      end . to raise_error RSpec::Expectations::ExpectationNotMetError
+    end
+  end
+
+  describe "#run_interactive" do
+    before(:each){@aruba.run_interactive "cat"}
+    after(:each){@aruba.stop_processes!}
+    it "respond to input" do
+      @aruba.type "Hello"
+      @aruba.type ""
+      @aruba.all_output.should == "Hello\n"
+    end
+
+    it "respond to eot" do
+      @aruba.type "Hello"
+      @aruba.eot
+      @aruba.all_output.should == "Hello\n"
+    end
+  end
 
 end # Aruba::Api

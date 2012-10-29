@@ -1,6 +1,7 @@
 require 'childprocess'
 require 'tempfile'
 require 'shellwords'
+require 'aruba/errors'
 
 module Aruba
   class Process
@@ -10,24 +11,29 @@ module Aruba
       @exit_timeout = exit_timeout
       @io_wait = io_wait
 
-      @out = Tempfile.new("aruba-out")
-      @err = Tempfile.new("aruba-err")
-      @process = ChildProcess.build(*shellwords(cmd))
-      @process.io.stdout = @out
-      @process.io.stderr = @err
-      @process.duplex = true
+      @cmd = cmd
+      @process = nil
+      @exit_code = nil
     end
 
     def run!(&block)
-      @process.start
+      @process = ChildProcess.build(*shellwords(@cmd))
+      @out = Tempfile.new("aruba-out")
+      @err = Tempfile.new("aruba-err")
+      @process.io.stdout = @out
+      @process.io.stderr = @err
+      @process.duplex = true
+      @exit_code = nil
+      begin
+        @process.start
+      rescue ChildProcess::LaunchError => e
+        raise LaunchError.new(e.message)
+      end
       yield self if block_given?
     end
 
     def stdin
-      wait_for_io do
-        @process.io.stdin.sync = true
-        @process.io.stdin
-      end
+      @process.io.stdin
     end
 
     def output(keep_ansi)
@@ -48,14 +54,23 @@ module Aruba
       end
     end
 
+    def read_stdout(keep_ansi)
+      wait_for_io do
+        @process.io.stdout.flush
+        content = filter_ansi(open(@out.path).read, keep_ansi)
+      end
+    end
+
     def stop(reader, keep_ansi)
-      return unless @process
+      return @exit_code unless @process
       unless @process.exited?
-        reader.stdout stdout(keep_ansi)
-        reader.stderr stderr(keep_ansi)
         @process.poll_for_exit(@exit_timeout)
       end
-      @process.exit_code
+      reader.stdout stdout(keep_ansi)
+      reader.stderr stderr(keep_ansi)
+      @exit_code = @process.exit_code
+      @process = nil
+      @exit_code
     end
 
     def terminate(keep_ansi)
@@ -69,7 +84,7 @@ module Aruba
     private
 
     def wait_for_io(&block)
-      sleep @io_wait if @process.alive?
+      sleep @io_wait if @process
       yield
     end
 

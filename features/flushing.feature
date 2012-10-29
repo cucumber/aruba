@@ -5,19 +5,19 @@ Feature: Flushing output
   I want to make sure that large amounts of output aren't buffered
 
   Scenario: A little output
-    When I run `ruby -e 'puts :a.to_s * 256'`
+    When I run `bash -c 'for ((c=0; c<256; c = c+1)); do echo -n "a"; done'`
     Then the output should contain "a"
     And the output should be 256 bytes long
     And the exit status should be 0
 
   Scenario: Tons of output
-    When I run `ruby -e 'puts :a.to_s * 65536'`
+    When I run `bash -c 'for ((c=0; c<65536; c = c+1)); do echo -n "a"; done'`
     Then the output should contain "a"
     And the output should be 65536 bytes long
     And the exit status should be 0
 
   Scenario: Tons of interactive output
-    When I run `ruby -e 'len = gets.chomp; puts :a.to_s * len.to_i'` interactively
+    When I run `bash -c 'read size; for ((c=0; c<$size; c = c+1)); do echo -n "a"; done'` interactively
     And I type "65536"
     Then the output should contain "a"
     And the output should be 65536 bytes long

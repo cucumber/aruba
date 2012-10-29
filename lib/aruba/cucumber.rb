@@ -85,6 +85,15 @@ When /^I type "([^"]*)"$/ do |input|
   type(input)
 end
 
+When /^I wait for (?:output|stdout) to contain "([^"]*)"$/ do |expected|
+  Timeout::timeout(exit_timeout) do
+    loop do
+      break if assert_partial_output_interactive(expected)
+      sleep 0.1
+    end
+  end
+end
+
 Then /^the output should contain "([^"]*)"$/ do |expected|
   assert_partial_output(expected, all_output)
 end
@@ -128,9 +137,18 @@ end
 Then /^the output should match \/([^\/]*)\/$/ do |expected|
   assert_matching_output(expected, all_output)
 end
- 
+
 Then /^the output should match:$/ do |expected|
   assert_matching_output(expected, all_output)
+end
+
+# The previous two steps antagonists
+Then /^the output should not match \/([^\/]*)\/$/ do |expected|
+  assert_not_matching_output(expected, all_output)
+end
+
+Then /^the output should not match:$/ do |expected|
+  assert_not_matching_output(expected, all_output)
 end
 
 Then /^the exit status should be (\d+)$/ do |exit_status|

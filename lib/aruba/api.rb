@@ -3,7 +3,6 @@ require 'rbconfig'
 require 'rspec/expectations'
 require 'aruba/process'
 require 'aruba/config'
-require 'aruba/jruby' if RUBY_PLATFORM == 'java'
 
 module Aruba
   module Api
@@ -24,7 +23,7 @@ module Aruba
     end
 
     def dirs
-      @dirs ||= ['tmp/aruba']
+      @dirs ||= ['tmp', 'aruba']
     end
 
     def write_file(file_name, file_content)
@@ -71,6 +70,12 @@ module Aruba
     def create_dir(dir_name)
       in_current_dir do
         _mkdir(dir_name)
+      end
+    end
+
+    def remove_dir(directory_name)
+      in_current_dir do
+        FileUtils.rmdir(directory_name)
       end
     end
 
@@ -187,12 +192,20 @@ module Aruba
       unescape(actual).should =~ /#{unescape(expected)}/m
     end
 
+    def assert_not_matching_output(expected, actual)
+      unescape(actual).should_not =~ /#{unescape(expected)}/m
+    end
+
     def assert_no_partial_output(unexpected, actual)
       if Regexp === unexpected
         unescape(actual).should_not =~ unexpected
       else
         unescape(actual).should_not include(unexpected)
       end
+    end
+
+    def assert_partial_output_interactive(expected)
+      unescape(_read_interactive).include?(unescape(expected)) ? true : false
     end
 
     def assert_passing_with(expected)
@@ -311,11 +324,21 @@ module Aruba
     end
 
     def type(input)
+      return eot if "" == input ##If on Windows it is actually  (26 == 0x1A)
       _write_interactive(_ensure_newline(input))
+    end
+
+    def eot
+      @interactive.stdin.close
     end
 
     def _write_interactive(input)
       @interactive.stdin.write(input)
+      @interactive.stdin.flush
+    end
+
+    def _read_interactive
+      @interactive.read_stdout(@aruba_keep_ansi)
     end
 
     def _ensure_newline(str)

@@ -82,10 +82,10 @@ To get more information on what Aruba is doing, use these tags:
 
 You can hook into Aruba's lifecycle just before it runs a command:
 
-```
+```ruby
 Aruba.configure do |config|
   config.before_cmd do |cmd|
-    puts "About to run '#{cmd}'
+    puts "About to run '#{cmd}'"
   end
 end
 ```
@@ -100,6 +100,37 @@ Aruba strips away ANSI escapes from the stdout and stderr of spawned child proce
 make assertions about coloured output. Still, there might be cases where you want to leave the ANSI escapes intact. Just tag your
 scenario with `@ansi`. Alternatively you can add your own Before
 hook that sets `@aruba_keep_ansi = true`.
+
+### JRuby Tips
+
+Improve startup time by disabling JIT and forcing client JVM mode.  This can be accomplished by adding
+
+    require 'aruba/java'
+
+or setting a hook like this example:
+
+```
+    Aruba.configure do |config|
+      config.before_cmd do |cmd|
+        set_env('JRUBY_OPTS', "-X-C #{ENV['JRUBY_OPTS']}") # disable JIT since these processes are so short lived
+        set_env('JAVA_OPTS', "-d32 #{ENV['JAVA_OPTS']}") # force jRuby to use client JVM for faster startup times
+      end
+    end if RUBY_PLATFORM == 'java'
+```
+
+*Note* - no conflict resolution on the JAVA/JRuby environment options is
+done; only merging.  For more complex settings please manually set the
+environment variables in the hook or externally.
+
+A larger process timeout for java may be needed
+
+```
+    Before do
+      @aruba_timeout_seconds = RUBY_PLATFORM == 'java' ? 60 : 10
+    end
+```
+
+Refer to http://blog.headius.com/2010/03/jruby-startup-time-tips.html for other tips on startup time.
 
 ## Reporting
 
