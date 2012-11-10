@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/cucumber/aruba.png)](http://travis-ci.org/cucumber/aruba)
+[![Build Status](https://secure.travis-ci.org/cucumber/aruba.png)](http://travis-ci.org/cucumber/aruba) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/cucumber/aruba)
 
 Aruba is Cucumber extension for Command line applications written in any programming language. Features at a glance:
 
@@ -71,7 +71,7 @@ Aruba defines several tags that you can put on on individual scenarios, or on a 
 
 To get more information on what Aruba is doing, use these tags:
 
-* `@announce-cmd` - See what command is is run
+* `@announce-cmd` - See what command is run
 * `@announce-stdout` - See the stdout
 * `@announce-stderr` - See the stderr
 * `@announce-dir` - See the current directory
@@ -119,7 +119,7 @@ or setting a hook like this example:
 ```
 
 *Note* - no conflict resolution on the JAVA/JRuby environment options is
-done; only merging.  For more complex settings please manually set the
+done; only merging. For more complex settings please manually set the
 environment variables in the hook or externally.
 
 A larger process timeout for java may be needed
