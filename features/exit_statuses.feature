@@ -16,6 +16,15 @@ Feature: exit statuses
   Scenario: Successfully run something
     When I successfully run `true`
 
+  Scenario: Successfully run something for a long time
+    Given The default aruba timeout is 0 seconds
+    When I successfully run `ruby -e 'sleep 1'` for up to 2 seconds
+
+  Scenario: Unsuccessfully run something that takes too long
+    Given The default aruba timeout is 0 seconds
+    When I do aruba I successfully run `ruby -e 'sleep 1'`
+    Then aruba should fail with "process still alive after 0 seconds"
+
   Scenario: Unsuccessfully run something
     When I do aruba I successfully run `false`
     Then aruba should fail with ""

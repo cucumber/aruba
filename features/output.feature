@@ -223,12 +223,24 @@ Feature: Output
     And I type "interactive"
     And I type ""
     Then the output from "echo 'simple'" should contain "simple"
+    And the output from "echo 'simple'" should contain exactly "simple\n"
+    And the output from "echo 'simple'" should contain exactly:
+      """
+      simple
+
+      """
     And the output from "cat" should not contain "simple"
 
   Scenario: Detect stdout from named source
     When I run `echo 'hello'`
     And I run `echo 'goodbye'`
     Then the stdout from "echo 'hello'" should contain "hello"
+    And the stdout from "echo 'hello'" should contain exactly "hello\n"
+    And the stdout from "echo 'hello'" should contain exactly:
+      """
+      hello
+
+      """
     And the stderr from "echo 'hello'" should not contain "hello"
     And the stdout from "echo 'goodbye'" should not contain "hello"
 
@@ -236,6 +248,12 @@ Feature: Output
     When I run `bash -c 'echo hello >&2'`
     And I run `echo goodbye`
     Then the stderr from "bash -c 'echo hello >&2'" should contain "hello"
+    And the stderr from "bash -c 'echo hello >&2'" should contain exactly "hello\n"
+    And the stderr from "bash -c 'echo hello >&2'" should contain exactly:
+      """
+      hello
+
+      """
     And the stdout from "bash -c 'echo hello >&2'" should not contain "hello"
     And the stderr from "echo goodbye" should not contain "hello"
 

@@ -4,6 +4,10 @@ require 'aruba/reporting'
 
 World(Aruba::Api)
 
+Given /The default aruba timeout is (\d+) seconds/ do |seconds|
+  @aruba_timeout_seconds = seconds.to_i
+end
+
 Given /^I'm using a clean gemset "([^"]*)"$/ do |gemset|
   use_clean_gemset(gemset)
 end
@@ -62,8 +66,10 @@ When /^I successfully run "(.*)"$/ do |cmd|
   run_simple(unescape(cmd))
 end
 
-When /^I successfully run `([^`]*)`$/ do |cmd|
-  run_simple(unescape(cmd))
+## I successfully run `echo -n "Hello"`
+## I successfully run `sleep 29` for up to 30 seconds
+When /^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/ do |cmd, secs|
+  run_simple(unescape(cmd), true, secs && secs.to_i)
 end
 
 When /^I run "([^"]*)" interactively$/ do |cmd|
@@ -112,12 +118,16 @@ Then /^the output should not contain:$/ do |unexpected|
   assert_no_partial_output(unexpected, all_output)
 end
 
-Then /^the output should contain exactly "([^"]*)"$/ do |expected|
-  assert_exact_output(expected, all_output)
+## the output should contain exactly "output"
+## the output from `echo -n "Hello"` should contain exactly "Hello"
+Then /^the output(?: from "(.*?)")? should contain exactly "(.*?)"$/ do |cmd, expected|
+  assert_exact_output(expected, cmd ? output_from(cmd) : all_output)
 end
 
-Then /^the output should contain exactly:$/ do |expected|
-  assert_exact_output(expected, all_output)
+## the output should contain exactly:
+## the output from `echo -n "Hello"` should contain exactly:
+Then /^the output(?: from "(.*?)")? should contain exactly:$/ do |cmd, expected|
+  assert_exact_output(expected, cmd ? output_from(cmd) : all_output)
 end
 
 # "the output should match" allows regex in the partial_output, if
@@ -162,28 +172,52 @@ Then /^it should (pass|fail) with regexp?:$/ do |pass_fail, expected|
   assert_success(pass_fail == 'pass')
 end
 
-Then /^the stderr should contain "([^"]*)"$/ do |expected|
-  assert_partial_output(expected, all_stderr)
+## the stderr should contain "hello"
+## the stderr from "echo -n 'Hello'" should contain "hello"
+## the stderr should contain exactly:
+## the stderr from "echo -n 'Hello'" should contain exactly:
+Then /^the stderr(?: from "(.*?)")? should contain( exactly)? "(.*?)"$/ do |cmd, exact, expected|
+  if exact
+    assert_exact_output(expected, cmd ? stderr_from(cmd) : all_stderr)
+  else
+    assert_partial_output(expected, cmd ? stderr_from(cmd) : all_stderr)
+  end
 end
 
-Then /^the stderr should contain:$/ do |expected|
-  assert_partial_output(expected, all_stderr)
+## the stderr should contain:
+## the stderr from "echo -n 'Hello'" should contain:
+## the stderr should contain exactly:
+## the stderr from "echo -n 'Hello'" should contain exactly:
+Then /^the stderr(?: from "(.*?)")? should contain( exactly)?:$/ do |cmd, exact, expected|
+  if exact
+    assert_exact_output(expected, cmd ? stderr_from(cmd) : all_stderr)
+  else
+    assert_partial_output(expected, cmd ? stderr_from(cmd) : all_stderr)
+  end
 end
 
-Then /^the stderr should contain exactly:$/ do |expected|
-  assert_exact_output(expected, all_stderr)
+## the stdout should contain "hello"
+## the stdout from "echo -n 'Hello'" should contain "hello"
+## the stdout should contain exactly:
+## the stdout from "echo -n 'Hello'" should contain exactly:
+Then /^the stdout(?: from "(.*?)")? should contain( exactly)? "(.*?)"$/ do |cmd, exact, expected|
+  if exact
+    assert_exact_output(expected, cmd ? stdout_from(cmd) : all_stdout)
+  else
+    assert_partial_output(expected, cmd ? stdout_from(cmd) : all_stdout)
+  end
 end
 
-Then /^the stdout should contain "([^"]*)"$/ do |expected|
-  assert_partial_output(expected, all_stdout)
-end
-
-Then /^the stdout should contain:$/ do |expected|
-  assert_partial_output(expected, all_stdout)
-end
-
-Then /^the stdout should contain exactly:$/ do |expected|
-  assert_exact_output(expected, all_stdout)
+## the stdout should contain:
+## the stdout from "echo -n 'Hello'" should contain:
+## the stdout should contain exactly:
+## the stdout from "echo -n 'Hello'" should contain exactly:
+Then /^the stdout(?: from "(.*?)")? should contain( exactly)?:$/ do |cmd, exact, expected|
+  if exact
+    assert_exact_output(expected, cmd ? stdout_from(cmd) : all_stdout)
+  else
+    assert_partial_output(expected, cmd ? stdout_from(cmd) : all_stdout)
+  end
 end
 
 Then /^the stderr should not contain "([^"]*)"$/ do |unexpected|
@@ -202,16 +236,8 @@ Then /^the stdout should not contain:$/ do |unexpected|
   assert_no_partial_output(unexpected, all_stdout)
 end
 
-Then /^the stdout from "([^"]*)" should contain "([^"]*)"$/ do |cmd, expected|
-  assert_partial_output(expected, stdout_from(cmd))
-end
-
 Then /^the stdout from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, unexpected|
   assert_no_partial_output(unexpected, stdout_from(cmd))
-end
-
-Then /^the stderr from "([^"]*)" should contain "([^"]*)"$/ do |cmd, expected|
-  assert_partial_output(expected, stderr_from(cmd))
 end
 
 Then /^the stderr from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, unexpected|

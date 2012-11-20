@@ -278,7 +278,8 @@ module Aruba
       processes.collect{ |_, process| process }
     end
 
-    def run(cmd)
+    def run(cmd, timeout = nil)
+      timeout ||= exit_timeout
       @commands ||= []
       @commands << cmd
 
@@ -290,7 +291,7 @@ module Aruba
         announcer.dir(Dir.pwd)
         announcer.cmd(cmd)
 
-        process = Process.new(cmd, exit_timeout, io_wait)
+        process = Process.new(cmd, timeout, io_wait)
         register_process(cmd, process)
         process.run!
 
@@ -310,8 +311,8 @@ module Aruba
       @aruba_io_wait_seconds || DEFAULT_IO_WAIT_SECONDS
     end
 
-    def run_simple(cmd, fail_on_error=true)
-      run(cmd) do |process|
+    def run_simple(cmd, fail_on_error=true, timeout = nil)
+      run(cmd, timeout) do |process|
         stop_process(process)
       end
       @timed_out = last_exit_status.nil?
