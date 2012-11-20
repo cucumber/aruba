@@ -242,10 +242,6 @@ Feature: Output
     And the stdout from "bash -c 'printf hello >&2'" should not contain "hello"
     And the stderr from "printf goodbye" should not contain "hello"
 
-  @wip
-  Scenario: Detect output from named source with custom name
-    When was this introduced and when will it be implemented.
-
   Scenario: Detect second output from named source with custom name
     When I set env variable "ARUBA_TEST_VAR" to "first"
     And I run `bash -c 'printf $ARUBA_TEST_VAR'`
