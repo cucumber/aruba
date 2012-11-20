@@ -1,3 +1,7 @@
+## [v0.5.1](https://github.com/cucumber/aruba/compare/v0.5..v0.5.1)
+* Individual timeout settings when running commands (#124 Jarl Friis)
+* Varous fixes for JRuby tests, should now work on more versions of JRuby
+
 ## [v0.5](https://github.com/cucumber/aruba/compare/v0.4.10..v0.5)
 * Add #with_file_content to the DSL (#110 Pavel Argentov)
 * Make JRuby performance tweaks optional (#102 Taylor Carpenter, #125 Andy Lindeman)
