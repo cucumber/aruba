@@ -228,6 +228,11 @@ Then /^the stderr should not contain:$/ do |unexpected|
   assert_no_partial_output(unexpected, all_stderr)
 end
 
+Then /^the (stderr|stdout) should not contain anything$/ do |stream_name|
+  stream = self.send("all_#{stream_name}")
+  stream.should be_empty
+end
+
 Then /^the stdout should not contain "([^"]*)"$/ do |unexpected|
   assert_no_partial_output(unexpected, all_stdout)
 end
