@@ -53,4 +53,5 @@ end
 
 After do
   restore_env
+  processes.clear
 end
