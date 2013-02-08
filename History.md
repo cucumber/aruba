@@ -1,3 +1,6 @@
+## In git
+* Fix memory leak when several commands are executed in a single run (#144 @y-higuchi)
+
 ## [v0.5.1](https://github.com/cucumber/aruba/compare/v0.5..v0.5.1)
 * Individual timeout settings when running commands (#124 Jarl Friis)
 * Varous fixes for JRuby tests, should now work on more versions of JRuby
