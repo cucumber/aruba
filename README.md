@@ -42,7 +42,7 @@ can test those commands as though the gem were already installed.
 
 If you need other directories to be added to the `PATH`, you can put the following in `features/support/env.rb`:
 
-    ENV['PATH'] = "/my/special/bin/path')}#{File::PATH_SEPARATOR}#{ENV['PATH']}"
+    ENV['PATH'] = "/my/special/bin/path#{File::PATH_SEPARATOR}#{ENV['PATH']}"
 
 ### Increasing timeouts
 
