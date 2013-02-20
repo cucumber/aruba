@@ -1,9 +1,9 @@
 <%
 std_opts = "--color --tags ~@wip"
-std_opts << " --tags ~@wip-jruby-1.6" if defined?(JRUBY_VERSION) && (JRUBY_VERSION < '1.7.0')
+std_opts << " --tags ~@wip-jruby" if defined?(JRUBY_VERSION)
 
 wip_opts = "--color --tags @wip:3"
-wip_opts = "--color --tags @wip:3,@wip-jruby-1.6:3" if defined?(JRUBY_VERSION) && (JRUBY_VERSION < '1.7.0')
+wip_opts = "--color --tags @wip:3,@wip-jruby:3" if defined?(JRUBY_VERSION)
 %>
 default: <%= std_opts %>
 wip: --wip <%= wip_opts %>
