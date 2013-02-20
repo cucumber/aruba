@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'childprocess', '~> 0.3.6'
   s.add_runtime_dependency 'rspec-expectations', '>= 2.7.0'
   s.add_development_dependency 'bcat', '>= 0.6.1'
-  s.add_development_dependency 'rdiscount', '>= 1.6.8'
+  s.add_development_dependency 'kramdown', '~> 0.14'
   s.add_development_dependency 'rake', '>= 0.9.2'
   s.add_development_dependency 'rspec', '>= 2.7.0'
 
