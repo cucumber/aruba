@@ -4,7 +4,7 @@ Feature: Interactive process control
   As a developer using Cucumber
   I want to use the interactive session steps
 
-  @wip-jruby
+  @wip-jruby-1.6
   Scenario: Running ruby interactively
     Given a file named "echo.rb" with:
       """
