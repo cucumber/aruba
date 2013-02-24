@@ -20,11 +20,10 @@ module Aruba
     end
 
     describe "#stop" do
-      before { process.run! }
-
       it "sends any output to the reader" do
         reader = stub.as_null_object
         reader.should_receive(:stdout).with("yo\n")
+        process.run!
         process.stop(reader, false)
       end
     end
