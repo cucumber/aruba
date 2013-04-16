@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'rbconfig'
 require 'rspec/expectations'
+require 'aruba'
 require 'aruba/process'
 require 'aruba/config'
 
@@ -144,7 +145,9 @@ module Aruba
     end
 
     def unescape(string)
-      string.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e")
+      string = string.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e")
+      string = string.gsub(/\e\[\d+(?>(;\d+)*)m/, '') unless @aruba_keep_ansi
+      string
     end
 
     def regexp(string_or_regexp)
@@ -153,27 +156,27 @@ module Aruba
 
     def output_from(cmd)
       cmd = detect_ruby(cmd)
-      get_process(cmd).output(@aruba_keep_ansi)
+      get_process(cmd).output
     end
 
     def stdout_from(cmd)
       cmd = detect_ruby(cmd)
-      get_process(cmd).stdout(@aruba_keep_ansi)
+      get_process(cmd).stdout
     end
 
     def stderr_from(cmd)
       cmd = detect_ruby(cmd)
-      get_process(cmd).stderr(@aruba_keep_ansi)
+      get_process(cmd).stderr
     end
 
     def all_stdout
       stop_processes!
-      only_processes.inject("") { |out, ps| out << ps.stdout(@aruba_keep_ansi) }
+      only_processes.inject("") { |out, ps| out << ps.stdout }
     end
 
     def all_stderr
       stop_processes!
-      only_processes.inject("") { |out, ps| out << ps.stderr(@aruba_keep_ansi) }
+      only_processes.inject("") { |out, ps| out << ps.stderr }
     end
 
     def all_output
@@ -291,7 +294,7 @@ module Aruba
         announcer.dir(Dir.pwd)
         announcer.cmd(cmd)
 
-        process = Process.new(cmd, timeout, io_wait)
+        process = Aruba.process.new(cmd, timeout, io_wait)
         register_process(cmd, process)
         process.run!
 
@@ -338,7 +341,7 @@ module Aruba
     end
 
     def _read_interactive
-      @interactive.read_stdout(@aruba_keep_ansi)
+      @interactive.read_stdout
     end
 
     def _ensure_newline(str)
@@ -415,11 +418,11 @@ module Aruba
     end
 
     def stop_process(process)
-      @last_exit_status = process.stop(announcer, @aruba_keep_ansi)
+      @last_exit_status = process.stop(announcer)
     end
 
     def terminate_process(process)
-      process.terminate(@aruba_keep_ansi)
+      process.terminate
     end
 
     def announcer

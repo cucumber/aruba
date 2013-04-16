@@ -36,48 +36,48 @@ module Aruba
       @process.io.stdin
     end
 
-    def output(keep_ansi)
-      stdout(keep_ansi) + stderr(keep_ansi)
+    def output
+      stdout + stderr
     end
 
-    def stdout(keep_ansi)
+    def stdout
       wait_for_io do
         @out.rewind
-        filter_ansi(@out.read, keep_ansi)
+        @out.read
       end
     end
 
-    def stderr(keep_ansi)
+    def stderr
       wait_for_io do
         @err.rewind
-        filter_ansi(@err.read, keep_ansi)
+        @err.read
       end
     end
 
-    def read_stdout(keep_ansi)
+    def read_stdout
       wait_for_io do
         @process.io.stdout.flush
-        content = filter_ansi(open(@out.path).read, keep_ansi)
+        open(@out.path).read
       end
     end
 
-    def stop(reader, keep_ansi)
+    def stop(reader)
       return @exit_code unless @process
       unless @process.exited?
         @process.poll_for_exit(@exit_timeout)
       end
-      reader.stdout stdout(keep_ansi)
-      reader.stderr stderr(keep_ansi)
+      reader.stdout stdout
+      reader.stderr stderr
       @exit_code = @process.exit_code
       @process = nil
       @exit_code
     end
 
-    def terminate(keep_ansi)
+    def terminate
       if @process
-        stdout(keep_ansi) && stderr(keep_ansi) # flush output
+        stdout && stderr # flush output
         @process.stop
-        stdout(keep_ansi) && stderr(keep_ansi) # flush output
+        stdout && stderr # flush output
       end
     end
 
@@ -86,10 +86,6 @@ module Aruba
     def wait_for_io(&block)
       sleep @io_wait if @process
       yield
-    end
-
-    def filter_ansi(string, keep_ansi)
-      keep_ansi ? string : string.gsub(/\e\[\d+(?>(;\d+)*)m/, '')
     end
 
   end

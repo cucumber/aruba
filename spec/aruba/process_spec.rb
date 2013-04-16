@@ -9,12 +9,12 @@ module Aruba
       before { process.run! }
 
       it "returns the stdout" do
-        process.stdout(false).should == "yo\n"
+        process.stdout.should == "yo\n"
       end
 
       it "returns all the stdout, every time you call it" do
-        process.stdout(false).should == "yo\n"
-        process.stdout(false).should == "yo\n"
+        process.stdout.should == "yo\n"
+        process.stdout.should == "yo\n"
       end
 
     end
@@ -25,7 +25,7 @@ module Aruba
       it "sends any output to the reader" do
         reader = stub.as_null_object
         reader.should_receive(:stdout).with("yo\n")
-        process.stop(reader, false)
+        process.stop(reader)
       end
     end
 
