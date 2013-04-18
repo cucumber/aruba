@@ -101,6 +101,47 @@ make assertions about coloured output. Still, there might be cases where you wan
 scenario with `@ansi`. Alternatively you can add your own Before
 hook that sets `@aruba_keep_ansi = true`.
 
+### Testing Ruby CLI programs without spawning a new Ruby process.
+
+If your CLI program is written in Ruby you can speed up your suite of scenarios by running
+your CLI in the same process as Cucumber/Aruba itself. In order to be able to do this, the
+entry point for your CLI application must be a class that has a constructor with a particular
+signature and an `execute!` method:
+
+```ruby
+class MyMain
+  def initialize(argv, stdout, stderr, kernel)
+    @argv, @stdout, @stderr, @kernel = argv, stdout, stderr, kernel
+  end
+
+  def execute!
+    # your code here, assign a value to exitstatus
+    @kernel.exit(exitstatus)
+  end
+end
+```
+
+Your `bin/something` executable would look something like the following:
+
+```ruby
+require 'my_main'
+MyMain.new(ARGV.dup, STDOUT, STDERR, Kernel).execute!
+```
+
+Then wire it all up in your `features/support/env.rb` file:
+
+```
+require 'aruba'
+require 'aruba/in_process'
+
+Aruba::InProcess.main_class = MyMain
+Aruba.process = Aruba::InProcess
+```
+
+That's it! Everything will now run inside the same ruby process, making your suite
+a lot faster. Cucumber itself uses this approach to test itself, so check out the
+Cucumber source code for an example.
+
 ### JRuby Tips
 
 Improve startup time by disabling JIT and forcing client JVM mode.  This can be accomplished by adding

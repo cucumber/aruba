@@ -6,7 +6,7 @@ if(ENV['ARUBA_REPORT_DIR'])
   require 'cgi'
   require 'bcat/ansi'
   require 'rdiscount'
-  require 'aruba/process'
+  require 'aruba/spawn_process'
 
   module Aruba
     module Reporting
@@ -19,7 +19,7 @@ if(ENV['ARUBA_REPORT_DIR'])
       end
       
       def pygmentize(file)
-        pygmentize = Process.new(%{pygmentize -f html -O encoding=utf-8 "#{file}"}, 3, 0.5)
+        pygmentize = SpawnProcess.new(%{pygmentize -f html -O encoding=utf-8 "#{file}"}, 3, 0.5)
         pygmentize.run! do |p|
           exit_status = p.stop(false)
           if(exit_status == 0)

@@ -6,7 +6,7 @@ Feature: Custom Ruby Process
   Aruba lets you plug in your own process class that can
   run a command in the same ruby process as Cucumber/Aruba.
 
-  @custom-reversing-process
+  @in-process
   Scenario: Run a passing custom process
     When I run `reverse olleh dlrow`
     Then the output should contain "hello world"

@@ -4,7 +4,7 @@ require 'shellwords'
 require 'aruba/errors'
 
 module Aruba
-  class Process
+  class SpawnProcess
     include Shellwords
 
     def initialize(cmd, exit_timeout, io_wait)

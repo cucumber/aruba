@@ -1,9 +1,9 @@
-require 'aruba/process'
+require 'aruba/spawn_process'
 
 module Aruba
-  describe Process do
+  describe SpawnProcess do
 
-    let(:process) { Process.new('echo "yo"', 0.1, 0.1) }
+    let(:process) { SpawnProcess.new('echo "yo"', 0.1, 0.1) }
 
     describe "#stdout" do
       before { process.run! }
@@ -31,7 +31,7 @@ module Aruba
 
     describe "#run!" do
       context "upon process launch error" do
-        let(:process_failure) { Process.new('does_not_exists', 1, 1) }
+        let(:process_failure) { SpawnProcess.new('does_not_exists', 1, 1) }
 
         it "raises a Aruba::LaunchError" do
           lambda{process_failure.run!}.should raise_error(::Aruba::LaunchError)

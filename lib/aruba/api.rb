@@ -2,7 +2,6 @@ require 'fileutils'
 require 'rbconfig'
 require 'rspec/expectations'
 require 'aruba'
-require 'aruba/process'
 require 'aruba/config'
 
 module Aruba
