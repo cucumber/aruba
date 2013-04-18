@@ -117,8 +117,8 @@ signature and an `execute!` method:
 
 ```ruby
 class MyMain
-  def initialize(argv, stdout=STDOUT, stderr=STDERR, kernel=Kernel)
-    @argv, @stdout, @stderr, @kernel = argv, stdout, stderr, kernel
+  def initialize(argv, stdin=STDIN, stdout=STDOUT, stderr=STDERR, kernel=Kernel)
+    @argv, @stdin, @stdout, @stderr, @kernel = argv, stdin, stdout, stderr, kernel
   end
 
   def execute!
@@ -132,7 +132,7 @@ Your `bin/something` executable would look something like the following:
 
 ```ruby
 require 'my_main'
-MyMain.new(ARGV.dup, STDOUT, STDERR, Kernel).execute!
+MyMain.new(ARGV.dup).execute!
 ```
 
 Then wire it all up in your `features/support/env.rb` file:
