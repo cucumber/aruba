@@ -5,8 +5,8 @@ require 'shellwords'
 require 'stringio'
 
 class CustomMain
-  def initialize(argv, stdout, stderr, kernel)
-    @argv, @stdout, @stderr, @kernel = argv, stdout, stderr, kernel
+  def initialize(argv, stdin, stdout, stderr, kernel)
+    @argv, @stdin, @stdout, @stderr, @kernel = argv, stdin, stdout, stderr, kernel
   end
 
   def execute!

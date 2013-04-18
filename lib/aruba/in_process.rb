@@ -24,6 +24,7 @@ module Aruba
     def initialize(cmd, exit_timeout, io_wait)
       args = shellwords(cmd)
       @argv = args[1..-1]
+      @stdin = StringIO.new
       @stdout = StringIO.new
       @stderr = StringIO.new
       @kernel = FakeKernel.new
@@ -31,7 +32,7 @@ module Aruba
 
     def run!(&block)
       raise "You need to call Aruba::InProcess.main_class = YourMainClass" unless @@main_class
-      @@main_class.new(@argv, @stdout, @stderr, @kernel).execute!
+      @@main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
       yield self if block_given?
     end
 
