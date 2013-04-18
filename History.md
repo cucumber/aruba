@@ -1,11 +1,13 @@
-## In git
+## [v0.5.2](https://github.com/cucumber/aruba/compare/v0.5.1..v0.5.2)
+
+* Plugin API for greater speed. Test Ruby CLI programs in a single Ruby process (#148 Aslak Hellesøy)
 * Fix memory leak when several commands are executed in a single run (#144 @y-higuchi)
 
-## [v0.5.1](https://github.com/cucumber/aruba/compare/v0.5..v0.5.1)
+## [v0.5.1](https://github.com/cucumber/aruba/compare/v0.5.0..v0.5.1)
 * Individual timeout settings when running commands (#124 Jarl Friis)
 * Varous fixes for JRuby tests, should now work on more versions of JRuby
 
-## [v0.5](https://github.com/cucumber/aruba/compare/v0.4.10..v0.5)
+## [v0.5.0](https://github.com/cucumber/aruba/compare/v0.4.10..v0.5.0)
 * Add #with_file_content to the DSL (#110 Pavel Argentov)
 * Make JRuby performance tweaks optional (#102 Taylor Carpenter, #125 Andy Lindeman)
 * Add assert_partial_output_interactive so you can peek at the output from a running process (#104 Taylor Carpenter)
