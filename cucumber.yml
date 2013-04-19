@@ -1,9 +1,10 @@
 <%
+java_version = RUBY_DESCRIPTION.match(/.*?on.*?(1\.[67]\..*? )/)[1]
 std_opts = "--color --tags ~@wip"
-std_opts << " --tags ~@wip-jruby-1.6" if defined?(JRUBY_VERSION) && (JRUBY_VERSION < '1.7.0')
+std_opts << " --tags ~@wip-jruby-java-1.6" if defined?(JRUBY_VERSION) && (java_version < '1.7.0')
 
 wip_opts = "--color --tags @wip:3"
-wip_opts = "--color --tags @wip:3,@wip-jruby-1.6:3" if defined?(JRUBY_VERSION) && (JRUBY_VERSION < '1.7.0')
+wip_opts = "--color --tags @wip:3,@wip-jruby-java-1.6:3" if defined?(JRUBY_VERSION) && (java_version < '1.7.0')
 %>
 default: <%= std_opts %>
 wip: --wip <%= wip_opts %>
