@@ -39,5 +39,19 @@ module Aruba
       end
     end
 
+    describe '#close_io!' do
+      before { process.run! }
+
+      it 'closes std out' do
+        process.close_io!
+        lambda{ process.stdout }.should raise_error(IOError)
+      end
+
+      it 'closes std err' do
+        process.close_io!
+        lambda{ process.stderr }.should raise_error(IOError)
+      end
+    end
+
   end
 end

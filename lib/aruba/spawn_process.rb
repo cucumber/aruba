@@ -81,6 +81,11 @@ module Aruba
       end
     end
 
+    def close_io!
+      @out.close
+      @err.close
+    end
+
     private
 
     def wait_for_io(&block)
