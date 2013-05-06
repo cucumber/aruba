@@ -53,5 +53,6 @@ end
 
 After do
   restore_env
+  only_processes.each { |process| process.close_io! }
   processes.clear
 end
