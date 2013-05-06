@@ -47,5 +47,10 @@ module Aruba
     def stderr
       @stderr.string
     end
+
+    def close_io!
+      @stdout.close
+      @stderr.close
+    end
   end
 end
