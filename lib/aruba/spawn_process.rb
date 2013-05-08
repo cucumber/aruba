@@ -43,21 +43,11 @@ module Aruba
     end
 
     def stdout
-      wait_for_io do
-        @out.rewind
-        @output_cache = @out.read
-      end
-    rescue IOError
-      @output_cache
+      wait_for_io { read(@out) } || @output_cache
     end
 
     def stderr
-      wait_for_io do
-        @err.rewind
-        @error_cache = @err.read
-      end
-    rescue IOError
-      @error_cache
+      wait_for_io { read(@err) } || @error_cache
     end
 
     def read_stdout
@@ -76,8 +66,8 @@ module Aruba
       reader.stderr stderr
       @exit_code = @process.exit_code
       @process = nil
-      @out.close
-      @err.close
+      close_and_cache_out
+      close_and_cache_err
       @exit_code
     end
 
@@ -92,8 +82,27 @@ module Aruba
     private
 
     def wait_for_io(&block)
-      sleep @io_wait if @process
-      yield
+      if @process
+        sleep @io_wait
+        yield
+      end
+    end
+
+    def read(io)
+      io.rewind
+      io.read
+    end
+
+    def close_and_cache_out
+      @output_cache = read @out
+      @out.close
+      @out = nil
+    end
+
+    def close_and_cache_err
+      @error_cache = read @err
+      @err.close
+      @err = nil
     end
 
   end
