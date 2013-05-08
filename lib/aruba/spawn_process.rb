@@ -14,6 +14,8 @@ module Aruba
       @cmd = cmd
       @process = nil
       @exit_code = nil
+      @output_cache = nil
+      @error_cache = nil
     end
 
     def run!(&block)
@@ -43,15 +45,19 @@ module Aruba
     def stdout
       wait_for_io do
         @out.rewind
-        @out.read
+        @output_cache = @out.read
       end
+    rescue IOError
+      @output_cache
     end
 
     def stderr
       wait_for_io do
         @err.rewind
-        @err.read
+        @error_cache = @err.read
       end
+    rescue IOError
+      @error_cache
     end
 
     def read_stdout
