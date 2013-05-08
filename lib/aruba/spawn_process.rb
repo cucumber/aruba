@@ -14,6 +14,8 @@ module Aruba
       @cmd = cmd
       @process = nil
       @exit_code = nil
+      @output_cache = nil
+      @error_cache = nil
     end
 
     def run!(&block)
@@ -41,17 +43,11 @@ module Aruba
     end
 
     def stdout
-      wait_for_io do
-        @out.rewind
-        @out.read
-      end
+      wait_for_io { read(@out) } || @output_cache
     end
 
     def stderr
-      wait_for_io do
-        @err.rewind
-        @err.read
-      end
+      wait_for_io { read(@err) } || @error_cache
     end
 
     def read_stdout
@@ -66,26 +62,48 @@ module Aruba
       unless @process.exited?
         @process.poll_for_exit(@exit_timeout)
       end
-      reader.stdout stdout
-      reader.stderr stderr
       @exit_code = @process.exit_code
       @process = nil
+      close_and_cache_out
+      close_and_cache_err
+      if reader
+        reader.stdout stdout
+        reader.stderr stderr
+      end
       @exit_code
     end
 
     def terminate
       if @process
-        stdout && stderr # flush output
         @process.stop
-        stdout && stderr # flush output
+        stop nil
       end
     end
 
     private
 
     def wait_for_io(&block)
-      sleep @io_wait if @process
-      yield
+      if @process
+        sleep @io_wait
+        yield
+      end
+    end
+
+    def read(io)
+      io.rewind
+      io.read
+    end
+
+    def close_and_cache_out
+      @output_cache = read @out
+      @out.close
+      @out = nil
+    end
+
+    def close_and_cache_err
+      @error_cache = read @err
+      @err.close
+      @err = nil
     end
 
   end
