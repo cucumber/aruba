@@ -62,20 +62,21 @@ module Aruba
       unless @process.exited?
         @process.poll_for_exit(@exit_timeout)
       end
-      reader.stdout stdout
-      reader.stderr stderr
       @exit_code = @process.exit_code
       @process = nil
       close_and_cache_out
       close_and_cache_err
+      if reader
+        reader.stdout stdout
+        reader.stderr stderr
+      end
       @exit_code
     end
 
     def terminate
       if @process
-        stdout && stderr # flush output
         @process.stop
-        stdout && stderr # flush output
+        stop nil
       end
     end
 
