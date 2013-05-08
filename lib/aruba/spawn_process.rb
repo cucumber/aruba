@@ -70,6 +70,8 @@ module Aruba
       reader.stderr stderr
       @exit_code = @process.exit_code
       @process = nil
+      @out.close
+      @err.close
       @exit_code
     end
 
