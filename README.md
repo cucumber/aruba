@@ -1,6 +1,6 @@
 [![Build Status](https://secure.travis-ci.org/cucumber/aruba.png)](http://travis-ci.org/cucumber/aruba) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/cucumber/aruba)
 
-Aruba is Cucumber extension for Command line applications written in any programming language. Features at a glance:
+Aruba is Cucumber extension for testing command line applications written in any programming language. Features at a glance:
 
 * Test any command line application
 * Manipulate the file system
