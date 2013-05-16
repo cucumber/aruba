@@ -183,6 +183,7 @@ module Aruba
     end
 
     def assert_exact_output(expected, actual)
+      actual.force_encoding(expected.encoding)
       unescape(actual).should == unescape(expected)
     end
 
