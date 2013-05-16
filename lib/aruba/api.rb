@@ -183,22 +183,27 @@ module Aruba
     end
 
     def assert_exact_output(expected, actual)
+      actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
       unescape(actual).should == unescape(expected)
     end
 
     def assert_partial_output(expected, actual)
+      actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
       unescape(actual).should include(unescape(expected))
     end
 
     def assert_matching_output(expected, actual)
+      actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
       unescape(actual).should =~ /#{unescape(expected)}/m
     end
 
     def assert_not_matching_output(expected, actual)
+      actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
       unescape(actual).should_not =~ /#{unescape(expected)}/m
     end
 
     def assert_no_partial_output(unexpected, actual)
+      actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
       if Regexp === unexpected
         unescape(actual).should_not =~ unexpected
       else
