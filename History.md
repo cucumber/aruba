@@ -1,4 +1,6 @@
-## [master](https://github.com/cucumber/aruba/compare/v0.5.2...master)
+## [master](https://github.com/cucumber/aruba/compare/v0.5.3...master)
+
+## [v0.5.3](https://github.com/cucumber/aruba/compare/v0.5.2...v0.5.3)
 * Fix for UTF-8 support (#151 Matt Wynne, Jarl Friis)
 * Fix for open file leakage (#150 @JonRowe)
 
