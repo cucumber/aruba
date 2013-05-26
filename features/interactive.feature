@@ -47,7 +47,7 @@ Feature: Interactive process control
       """
 
   @posix
-  Scenario: Running a native binary interactively
+  Scenario: Close stdin stream
     When I run `cat` interactively
     And I type "Hello, world"
     And I close the stdin stream
