@@ -92,12 +92,12 @@ module Aruba
     end
 
     def pipe_in_file(file)
-      prep_for_fs_check do
+      in_current_dir do
         File.open(file, 'r').each_line do |line|
           _write_interactive(line)
         end
 
-        @interactive.eot
+        eot
       end
     end
 
