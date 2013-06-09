@@ -1,7 +1,9 @@
 source "http://rubygems.org"
 gemspec
 
-gem 'fuubar'
+group :development do
+ gem 'fuubar'
+end
 
 # Use source from sibling folders (if available) instead of gems
 # %w[cucumber].each do |g|
