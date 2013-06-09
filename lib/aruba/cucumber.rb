@@ -85,6 +85,16 @@ When /^I type "([^"]*)"$/ do |input|
   type(input)
 end
 
+When /^I close the stdin stream$/ do
+  eot
+end
+
+When /^I pipe in the file "([^"]*)"$/ do |file|
+  pipe_in_file(file)
+
+  eot
+end
+
 When /^I wait for (?:output|stdout) to contain "([^"]*)"$/ do |expected|
   Timeout::timeout(exit_timeout) do
     loop do
@@ -312,3 +322,4 @@ end
 Then /^the file "([^"]*)" should not match \/([^\/]*)\/$/ do |file, partial_content|
   check_file_content(file, /#{partial_content}/, false)
 end
+
