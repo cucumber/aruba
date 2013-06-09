@@ -86,7 +86,7 @@ When /^I type "([^"]*)"$/ do |input|
 end
 
 When /^I close the stdin stream$/ do
-  @interactive.stdin.close()
+  @interactive.eot
 end
 
 When /^I pipe in the file "([^"]*)"$/ do |file|
