@@ -348,6 +348,7 @@ module Aruba
     def eot
       @interactive.stdin.close
     end
+    alias_method :close_input, :eot
 
     def _write_interactive(input)
       @interactive.stdin.write(input)
