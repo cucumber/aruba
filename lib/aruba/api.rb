@@ -96,8 +96,6 @@ module Aruba
         File.open(file, 'r').each_line do |line|
           _write_interactive(line)
         end
-
-        eot
       end
     end
 

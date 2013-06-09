@@ -86,11 +86,13 @@ When /^I type "([^"]*)"$/ do |input|
 end
 
 When /^I close the stdin stream$/ do
-  @interactive.eot
+  eot
 end
 
 When /^I pipe in the file "([^"]*)"$/ do |file|
   pipe_in_file(file)
+
+  eot
 end
 
 When /^I wait for (?:output|stdout) to contain "([^"]*)"$/ do |expected|
