@@ -90,15 +90,8 @@ When /^I close the stdin stream$/ do
 end
 
 When /^I pipe in the file "([^"]*)"$/ do |file|
-  in_current_dir do
-    File.open(file, 'r').each_line do |line|
-      _write_interactive(line)
-    end
-  end
-
-  @interactive.stdin.close()
+  pipe_in_file(file)
 end
-
 
 When /^I wait for (?:output|stdout) to contain "([^"]*)"$/ do |expected|
   Timeout::timeout(exit_timeout) do
