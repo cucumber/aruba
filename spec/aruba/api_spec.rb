@@ -163,11 +163,11 @@ describe Aruba::Api  do
   end
 
   describe "#run_simple" do
-    before(:each){@aruba.run "env"}
     after(:each){@aruba.stop_processes!}
     it "runs with different env" do
       @aruba.set_cmd_env 'LONG_LONG_ENV_VARIABLE', 'true'
-      @aruba.all_output.should == "LONG_LONG_ENV_VARIABLE\n"
+      @aruba.run "env"
+      @aruba.all_output.should include("LONG_LONG_ENV_VARIABLE")
     end
 
   end
