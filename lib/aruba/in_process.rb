@@ -21,7 +21,7 @@ module Aruba
       @@main_class = main_class
     end
 
-    def initialize(cmd, exit_timeout, io_wait)
+    def initialize(cmd, exit_timeout, io_wait, environment)
       args = shellwords(cmd)
       @argv = args[1..-1]
       @stdin = StringIO.new
