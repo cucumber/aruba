@@ -46,9 +46,16 @@ module Aruba
       end
     end
 
-    def chmod(mode, file_name)
+    def chmod(mode, name)
       in_current_dir do
-        FileUtils.chmod(mode,file_name)
+        raise "expected #{name} to be present" unless FileTest.exists?(name)
+        FileUtils.chmod(mode.to_i(8),name)
+      end
+    end
+
+    def mod?(mode, name)
+      in_current_dir do
+        mode == sprintf( "%o", File::Stat.new(name).mode )[-4,4].to_i(8)
       end
     end
 
