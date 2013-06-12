@@ -48,8 +48,6 @@ module Aruba
 
     def chmod(mode, file_name)
       in_current_dir do
-        raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
-
         FileUtils.chmod(mode,file_name)
       end
     end
