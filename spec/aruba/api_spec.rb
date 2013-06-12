@@ -73,6 +73,21 @@ describe Aruba::Api  do
         @aruba.remove_file(@file_name)
         File.exist?(@file_path).should == false
       end
+
+      it "should change a file's mode" do
+        @aruba.chmod(0644, @file_name)
+        result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
+        expect(result).to eq('0644')
+
+        @aruba.chmod(0655, @file_name)
+        result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
+        expect(result).to eq('0655')
+      end
+
+      it "should check the mode of a file" do
+        @aruba.chmod(0666, @file_name)
+        expect(@aruba.mod?(0666, @file_name) ).to eq(true)
+      end
     end
   end
 
