@@ -160,6 +160,13 @@ describe Aruba::Api  do
       @aruba.eot
       @aruba.all_output.should == "Hello\n"
     end
+
+    it "pipes data" do
+      @aruba.write_file(@file_name, "Hello\nWorld!")
+      @aruba.pipe_in_file(@file_name)
+      @aruba.eot
+      @aruba.all_output.should == "Hello\nWorld!"
+    end
   end
 
 end # Aruba::Api

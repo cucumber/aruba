@@ -91,6 +91,14 @@ module Aruba
       end
     end
 
+    def pipe_in_file(file)
+      in_current_dir do
+        File.open(file, 'r').each_line do |line|
+          _write_interactive(line)
+        end
+      end
+    end
+
     def check_file_size(paths_and_sizes)
       prep_for_fs_check do
         paths_and_sizes.each do |path, size|
