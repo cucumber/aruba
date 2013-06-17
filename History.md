@@ -1,4 +1,5 @@
 ## [master](https://github.com/cucumber/aruba/compare/v0.5.3...master)
+* Added support for piping in files (#154 maxmeyer)
 
 ## [v0.5.3](https://github.com/cucumber/aruba/compare/v0.5.2...v0.5.3)
 * Fix for UTF-8 support (#151 Matt Wynne, Jarl Friis)
