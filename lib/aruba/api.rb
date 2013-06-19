@@ -339,7 +339,7 @@ module Aruba
     end
 
     def type(input)
-      return eot if "" == input
+      return close_input if "" == input
       _write_interactive(_ensure_newline(input))
     end
 
