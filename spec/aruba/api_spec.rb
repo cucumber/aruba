@@ -155,16 +155,16 @@ describe Aruba::Api  do
       @aruba.all_output.should == "Hello\n"
     end
 
-    it "respond to eot" do
+    it "respond to close_input" do
       @aruba.type "Hello"
-      @aruba.eot
+      @aruba.close_input
       @aruba.all_output.should == "Hello\n"
     end
 
     it "pipes data" do
       @aruba.write_file(@file_name, "Hello\nWorld!")
       @aruba.pipe_in_file(@file_name)
-      @aruba.eot
+      @aruba.close_input
       @aruba.all_output.should == "Hello\nWorld!"
     end
   end
