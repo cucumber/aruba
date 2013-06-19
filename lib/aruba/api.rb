@@ -290,8 +290,6 @@ module Aruba
       @commands ||= []
       @commands << cmd
 
-      command_environment = @command_environment || {}
-
       cmd = detect_ruby(cmd)
 
       in_current_dir do
@@ -300,7 +298,7 @@ module Aruba
         announcer.dir(Dir.pwd)
         announcer.cmd(cmd)
 
-        process = Aruba.process.new(cmd, timeout, io_wait, command_environment)
+        process = Aruba.process.new(cmd, timeout, io_wait)
         register_process(cmd, process)
         process.run!
 
@@ -320,12 +318,7 @@ module Aruba
       @aruba_io_wait_seconds || DEFAULT_IO_WAIT_SECONDS
     end
 
-    def set_cmd_env(key,value)
-      @command_environment ||= {}
-      @command_environment[key.to_s] = value
-    end
-
-    def run_simple(cmd, fail_on_error=true, timeout = nil, environment={})
+    def run_simple(cmd, fail_on_error=true, timeout = nil)
       run(cmd, timeout) do |process|
         stop_process(process)
       end
