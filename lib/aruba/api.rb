@@ -343,8 +343,13 @@ module Aruba
       _write_interactive(_ensure_newline(input))
     end
 
-    def eot
+    def close_input
       @interactive.stdin.close
+    end
+
+    def eot
+      warn(%{\e[35m    The \"#eot\"-method is deprecated. It will be deleted with the next major version. Please use \"#close_input\"-method instead.\e[0m})
+      close_input
     end
 
     def _write_interactive(input)
