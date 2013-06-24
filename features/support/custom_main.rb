@@ -23,7 +23,7 @@ end
 class Cli < Thor
   desc 'reverse', 'Reverse the given string args'
   def reverse(*args)
-    puts args.map(&:reverse).join(' ')
+    puts args.map { |arg| arg.reverse }.join(' ')
   end
 
   desc 'mimic', 'Say what I say'
