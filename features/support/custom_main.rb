@@ -3,6 +3,7 @@ require 'aruba/spawn_process'
 require 'aruba/in_process'
 require 'shellwords'
 require 'stringio'
+require 'thor'
 
 class CustomMain
   def initialize(argv, stdin, stdout, stderr, kernel)
@@ -10,7 +11,25 @@ class CustomMain
   end
 
   def execute!
-    @stdout.puts(@argv.map{|arg| arg.reverse}.join(' '))
+    $stdin  = @stdin
+    $stdout = @stdout
+    $stderr = @stderr
+
+    Cli.start(@argv)
+    @kernel.exit(0)
+  end
+end
+
+class Cli < Thor
+  desc 'reverse', 'Reverse the given string args'
+  def reverse(*args)
+    puts args.map(&:reverse).join(' ')
+  end
+
+  desc 'mimic', 'Say what I say'
+  def minic
+    sentence = gets.chomp
+    puts sentence
   end
 end
 

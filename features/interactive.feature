@@ -57,10 +57,19 @@ Feature: Interactive process control
       """
 
   @posix
-  Scenario: Stop processes before checking for filesystem changes 
+  Scenario: Stop processes before checking for filesystem changes
     See: http://github.com/aslakhellesoy/aruba/issues#issue/17 for context
 
     Given a directory named "rename_me"
     When I run `mv rename_me renamed` interactively
     Then a directory named "renamed" should exist
     And a directory named "rename_me" should not exist
+
+  @in-process
+  Scenario: Accepting user input from $stdin
+    When I run `cli mimic` interactively
+    And I type "bacon"
+    Then the output should contain:
+      """
+      bacon
+      """
