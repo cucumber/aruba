@@ -40,6 +40,10 @@ module Aruba
       @kernel.exitstatus
     end
 
+    def stdin
+      @stdin
+    end
+
     def stdout
       @stdout.string
     end
