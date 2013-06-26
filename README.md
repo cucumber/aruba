@@ -70,6 +70,17 @@ Before('@slow_process') do
 end
 ```
 
+If you are testing output from an interactive process, your test may time out and fail if the process
+continues to run after outputting. To prevent this, you should run the "I close the stdin stream" step
+before testing the output:
+
+```gherkin
+When I run `cat` interactively
+And I type "hello"
+And I close the stdin stream
+Then the stdout should contain "hello"
+```
+
 ### Tags
 
 Aruba defines several tags that you can put on on individual scenarios, or on a feature.
