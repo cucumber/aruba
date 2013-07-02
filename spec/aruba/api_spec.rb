@@ -82,6 +82,10 @@ describe Aruba::Api  do
         @aruba.chmod(0655, @file_name)
         result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
         expect(result).to eq('0655')
+
+        @aruba.chmod("0655", @file_name)
+        result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
+        expect(result).to eq('0655')
       end
 
       it "should check the mode of a file" do

@@ -49,7 +49,11 @@ module Aruba
     def chmod(mode, name)
       in_current_dir do
         raise "expected #{name} to be present" unless FileTest.exists?(name)
-        FileUtils.chmod(mode.to_i(8),name)
+        if mode.kind_of? String
+          FileUtils.chmod(mode.to_i(8),name)
+        else
+          FileUtils.chmod(mode,name)
+        end
       end
     end
 
