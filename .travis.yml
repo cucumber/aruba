@@ -9,6 +9,9 @@ rvm:
 matrix:
   allow_failures:
     - rvm: rbx
+
+before_install: "sudo easy_install Pygments"
+
 notifications:
   email:
     - cukes-devs@googlegroups.com

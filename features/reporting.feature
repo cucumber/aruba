@@ -7,6 +7,7 @@ Feature: Reporting
   - The output from those commands (in colour if the output uses ANSI escapes)
   - The files that were created (syntax highlighted in in colour)
 
+  @wip-jruby-java-1.6
   Scenario: Running a simple Aruba feature with reporting on should not error
     When I run `cucumber ../../features/before_cmd_hooks.feature ARUBA_REPORT_DIR=doc`
     Then the exit status should be 0

@@ -1,6 +1,6 @@
 if(ENV['ARUBA_REPORT_DIR'])
   ENV['ARUBA_REPORT_TEMPLATES'] ||= File.dirname(__FILE__) + '/../../templates'
-  
+
   require 'fileutils'
   require 'erb'
   require 'cgi'
@@ -17,14 +17,14 @@ if(ENV['ARUBA_REPORT_DIR'])
           end
         end
       end
-      
+
       def pygmentize(file)
         pygmentize = SpawnProcess.new(%{pygmentize -f html -O encoding=utf-8 "#{file}"}, 3, 0.5)
         pygmentize.run! do |p|
           exit_status = p.stop(false)
           if(exit_status == 0)
-            p.stdout(false)
-          elsif(p.stderr(false) =~ /no lexer/) # Pygment's didn't recognize it
+            p.stdout
+          elsif(p.stderr =~ /no lexer/) # Pygment's didn't recognize it
             IO.read(file)
           else
             STDERR.puts "\e[31m#{p.stderr} - is pygments installed?\e[0m"
@@ -61,13 +61,13 @@ if(ENV['ARUBA_REPORT_DIR'])
         erb = ERB.new(template('main.erb'), nil, '-')
         erb.result(binding)
       end
-      
+
       def files
         erb = ERB.new(template('files.erb'), nil, '-')
         file = current_dir
         erb.result(binding)
       end
-      
+
       def again(erb, _erbout, file)
         _erbout.concat(erb.result(binding))
       end
