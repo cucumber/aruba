@@ -73,6 +73,20 @@ describe Aruba::Api  do
         @aruba.remove_file(@file_name)
         File.exist?(@file_path).should == false
       end
+
+      it "should check existence using regex" do
+        file_name = 'nested/dir/hello_world.txt'
+        file_path = File.join(@aruba.current_dir, file_name)
+
+        FileUtils.mkdir_p File.dirname( file_path )
+        File.open(file_path, 'w') { |f| f << "" }
+
+        @aruba.check_file_presence_with_regex([ /test/ ], true )
+        @aruba.check_file_presence_with_regex([ /test123/ ], false )
+        @aruba.check_file_presence_with_regex([ /hello_world.txt$/ ], true )
+        @aruba.check_file_presence_with_regex([ /dir/ ], true )
+        @aruba.check_file_presence_with_regex([ %r{nested/.+/} ], true )
+      end
     end
   end
 
