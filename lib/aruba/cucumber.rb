@@ -303,6 +303,14 @@ Then /^a file named "([^"]*)" should not exist$/ do |file|
   check_file_presence([file], false)
 end
 
+Then %r{^a file matching %r<([^>]*)> should exist$} do |regex|
+  check_file_presence([ Regexp.new( regex ) ], true )
+end
+
+Then %r{^a file matching %r<([^>]*)> should not exist$} do |regex|
+  check_file_presence([ Regexp.new( regex ) ], false )
+end
+
 Then /^a (\d+) byte file named "([^"]*)" should exist$/ do |file_size, file_name|
   check_file_size([[file_name, file_size.to_i]])
 end

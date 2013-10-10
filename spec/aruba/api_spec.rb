@@ -107,6 +107,42 @@ describe Aruba::Api  do
         @aruba.chmod(0666, @file_name)
         expect(@aruba.mod?(0666, @file_name) ).to eq(true)
       end
+
+      it "should check existence using plain match" do
+        file_name = 'nested/dir/hello_world.txt'
+        file_path = File.join(@aruba.current_dir, file_name)
+
+        FileUtils.mkdir_p File.dirname( file_path )
+        File.open(file_path, 'w') { |f| f << "" }
+
+        @aruba.check_file_presence( [ file_name ], true )
+        @aruba.check_file_presence( [ 'asdf' ] , false )
+      end
+
+      it "should check existence using regex" do
+        file_name = 'nested/dir/hello_world.txt'
+        file_path = File.join(@aruba.current_dir, file_name)
+
+        FileUtils.mkdir_p File.dirname( file_path )
+        File.open(file_path, 'w') { |f| f << "" }
+
+        @aruba.check_file_presence([ /test123/ ], false )
+        @aruba.check_file_presence([ /hello_world.txt$/ ], true )
+        @aruba.check_file_presence([ /dir/ ], true )
+        @aruba.check_file_presence([ %r{nested/.+/} ], true )
+      end
+
+      it "is no problem to mix both" do
+        file_name = 'nested/dir/hello_world.txt'
+        file_path = File.join(@aruba.current_dir, file_name)
+
+        FileUtils.mkdir_p File.dirname( file_path )
+        File.open(file_path, 'w') { |f| f << "" }
+
+        @aruba.check_file_presence([ file_name, /nested/  ], true )
+        @aruba.check_file_presence([ /test123/, 'asdf' ], false )
+      end
+
     end
   end
 
