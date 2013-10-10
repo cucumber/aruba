@@ -103,9 +103,18 @@ describe Aruba::Api  do
         expect(result).to eq('0655')
       end
 
-      it "should check the mode of a file" do
-        @aruba.chmod(0666, @file_name)
-        expect(@aruba.mod?(0666, @file_name) ).to eq(true)
+      it "should check existence using regex" do
+        file_name = 'nested/dir/hello_world.txt'
+        file_path = File.join(@aruba.current_dir, file_name)
+
+        FileUtils.mkdir_p File.dirname( file_path )
+        File.open(file_path, 'w') { |f| f << "" }
+
+        @aruba.check_file_presence_with_regex([ /test/ ], true )
+        @aruba.check_file_presence_with_regex([ /test123/ ], false )
+        @aruba.check_file_presence_with_regex([ /hello_world.txt$/ ], true )
+        @aruba.check_file_presence_with_regex([ /dir/ ], true )
+        @aruba.check_file_presence_with_regex([ %r{nested/.+/} ], true )
       end
     end
   end
