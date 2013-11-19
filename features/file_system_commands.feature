@@ -159,3 +159,18 @@ Feature: file system commands
     Given an empty file named "a/b.txt"
     Given an empty file named "a/b/c.txt"
     Given an empty file named "a/b/c/d.txt"
+
+  Scenario: Change mode of empty file
+    Given an empty file named "test.txt" with mode "0666"
+    Then the mode of filesystem object "test.txt" should match "0666"
+
+  Scenario: Change mode of a directory
+    Given a directory named "test.d" with mode "0666"
+    Then the mode of filesystem object "test.d" should match "0666"
+
+  Scenario: Change mode of file
+    Given a file named "test.txt" with mode "0666" and with:
+    """
+    asdf
+    """
+    Then the mode of filesystem object "test.txt" should match "0666"
