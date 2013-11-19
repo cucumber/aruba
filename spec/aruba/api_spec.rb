@@ -169,4 +169,20 @@ describe Aruba::Api  do
     end
   end
 
+  describe "#run_simple" do
+    before(:each){@aruba.run_simple "true"}
+    after(:each){@aruba.stop_processes!}
+    describe "get_process" do
+      it "returns a process" do
+        @aruba.get_process("true").should_not be(nil)
+      end
+
+      it "raises a descriptive exception" do
+        expect do
+          @aruba.get_process("false").should_not be(nil)
+        end.to raise_error(ArgumentError, "No process named 'false' has been started")
+      end
+    end
+  end
+
 end # Aruba::Api

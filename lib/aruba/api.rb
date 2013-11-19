@@ -108,7 +108,7 @@ module Aruba
     end
 
     def with_file_content(file, &block)
-      prep_for_fs_check do 
+      prep_for_fs_check do
         content = IO.read(file)
         yield(content)
       end
@@ -116,7 +116,7 @@ module Aruba
 
     def check_file_content(file, partial_content, expect_match)
       regexp = regexp(partial_content)
-      prep_for_fs_check do 
+      prep_for_fs_check do
         content = IO.read(file)
         if expect_match
           content.should =~ regexp
@@ -286,7 +286,9 @@ module Aruba
     end
 
     def get_process(wanted)
-      processes.reverse.find{ |name, _| name == wanted }[-1]
+      matching_processes = processes.reverse.find{ |name, _| name == wanted }
+      raise ArgumentError.new("No process named '#{wanted}' has been started") unless matching_processes
+      matching_processes.last
     end
 
     def only_processes
@@ -443,8 +445,8 @@ module Aruba
     end
 
     def announcer
-      Announcer.new(self, 
-                    :stdout => @announce_stdout, 
+      Announcer.new(self,
+                    :stdout => @announce_stdout,
                     :stderr => @announce_stderr,
                     :dir => @announce_dir,
                     :cmd => @announce_cmd,
