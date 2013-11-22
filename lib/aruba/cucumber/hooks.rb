@@ -12,7 +12,7 @@ After do
 end
 
 Before('~@no-clobber') do
-  FileUtils.rm_rf(current_dir)
+  clean_current_dir
 end
 
 Before('@puts') do
