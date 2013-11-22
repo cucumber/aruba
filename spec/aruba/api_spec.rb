@@ -121,11 +121,11 @@ describe Aruba::Api  do
         FileUtils.mkdir_p File.dirname( file_path )
         File.open(file_path, 'w') { |f| f << "" }
 
-        @aruba.check_file_presence_with_regex([ /test/ ], true )
-        @aruba.check_file_presence_with_regex([ /test123/ ], false )
-        @aruba.check_file_presence_with_regex([ /hello_world.txt$/ ], true )
-        @aruba.check_file_presence_with_regex([ /dir/ ], true )
-        @aruba.check_file_presence_with_regex([ %r{nested/.+/} ], true )
+        @aruba.check_file_presence([ /test/ ], true )
+        @aruba.check_file_presence([ /test123/ ], false )
+        @aruba.check_file_presence([ /hello_world.txt$/ ], true )
+        @aruba.check_file_presence([ /dir/ ], true )
+        @aruba.check_file_presence([ %r{nested/.+/} ], true )
       end
     end
   end
