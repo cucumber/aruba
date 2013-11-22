@@ -117,7 +117,7 @@ describe Aruba::Api  do
             full_content.should     match /foo/
             full_content.should_not match /zoo/
           end
-        end . not_to raise_error RSpec::Expectations::ExpectationNotMetError
+        end . not_to raise_error
       end
 
       it "raises RSpec::Expectations::ExpectationNotMetError when the inner expectations don't match"  do
