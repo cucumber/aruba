@@ -10,11 +10,9 @@ describe Aruba::Matchers::FileSimpleMatcher do
       end
     end
 
-    it 'checks if file is present' do
-      write_file( 'file' , 'hello world')
-
+    it 'checks if file is absent' do
       in_current_dir do
-        Aruba::Matchers::FileSimpleMatcher.new( true ).check( 'file' )
+        Aruba::Matchers::FileSimpleMatcher.new( false ).check( 'file' )
       end
     end
   end
