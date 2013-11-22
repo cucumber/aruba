@@ -1,6 +1,9 @@
 module Aruba
   module Matchers
     class FileRegexMatcher
+      include RSpec::Expectations
+      include RSpec::Matchers
+
       def initialize( expect_presence )
         @expect_presence = expect_presence
       end
