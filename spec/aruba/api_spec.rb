@@ -33,6 +33,21 @@ describe Aruba::Api  do
     it "should return the current dir as 'tmp/aruba'" do
       @aruba.current_dir.should match(/^tmp\/aruba$/)
     end
+
+    it "can be cleared" do
+      write_file( 'test', 'test test test' )
+
+      in_current_dir do
+        expect( File.exist? 'test' ).to be_true
+      end
+
+      clean_current_dir
+
+      in_current_dir do
+        expect( File.exist? 'test' ).to be_false
+      end
+
+    end
   end
 
   describe 'directories' do
