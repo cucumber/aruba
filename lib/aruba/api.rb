@@ -103,30 +103,14 @@ module Aruba
       end
     end
 
-    def check_file_presence(paths, expect_presence)
-      prep_for_fs_check do
-        paths.each do |path|
-          if expect_presence
-            File.should be_file(path)
-          else
-            File.should_not be_file(path)
-          end
-        end
+    def check_file_presence(objects, expect_presence)
+      if objects.first.kind_of? Regexp
+        matcher = Aruba::Matchers::FileRegexMatcher.new(expect_presence)
+      else
+        matcher = Aruba::Matchers::FileSimpleMatcher.new(expect_presence)
       end
-    end
 
-    def check_file_presence_with_regex( expressions, expect_presence )
-      prep_for_fs_check do
-        expressions.each do |expr|
-          files = Dir.glob('**/*').grep( Regexp.new( expr ) )
-
-          if expect_presence
-            files.should_not be_empty
-          else
-            files.should be_empty
-          end
-        end
-      end
+      prep_for_fs_check { matcher.check( objects ) }
     end
 
     def pipe_in_file(file)
