@@ -4,6 +4,8 @@ require 'rspec/expectations'
 require 'aruba'
 require 'aruba/config'
 
+Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).each { |rb| require rb }
+
 module Aruba
   module Api
     include RSpec::Matchers
