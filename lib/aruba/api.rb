@@ -46,6 +46,23 @@ module Aruba
       end
     end
 
+    def chmod(mode, name)
+      in_current_dir do
+        raise "expected #{name} to be present" unless FileTest.exists?(name)
+        if mode.kind_of? String
+          FileUtils.chmod(mode.to_i(8),name)
+        else
+          FileUtils.chmod(mode,name)
+        end
+      end
+    end
+
+    def mod?(mode, name)
+      in_current_dir do
+        mode == sprintf( "%o", File::Stat.new(name).mode )[-4,4].to_i(8)
+      end
+    end
+
     def _create_fixed_size_file(file_name, file_size, check_presence)
       in_current_dir do
         raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
@@ -91,6 +108,14 @@ module Aruba
       end
     end
 
+    def pipe_in_file(file)
+      in_current_dir do
+        File.open(file, 'r').each_line do |line|
+          _write_interactive(line)
+        end
+      end
+    end
+
     def check_file_size(paths_and_sizes)
       prep_for_fs_check do
         paths_and_sizes.each do |path, size|
@@ -100,7 +125,7 @@ module Aruba
     end
 
     def with_file_content(file, &block)
-      prep_for_fs_check do 
+      prep_for_fs_check do
         content = IO.read(file)
         yield(content)
       end
@@ -108,7 +133,7 @@ module Aruba
 
     def check_file_content(file, partial_content, expect_match)
       regexp = regexp(partial_content)
-      prep_for_fs_check do 
+      prep_for_fs_check do
         content = IO.read(file)
         if expect_match
           content.should =~ regexp
@@ -278,7 +303,9 @@ module Aruba
     end
 
     def get_process(wanted)
-      processes.reverse.find{ |name, _| name == wanted }[-1]
+      matching_processes = processes.reverse.find{ |name, _| name == wanted }
+      raise ArgumentError.new("No process named '#{wanted}' has been started") unless matching_processes
+      matching_processes.last
     end
 
     def only_processes
@@ -338,12 +365,17 @@ module Aruba
     end
 
     def type(input)
-      return eot if "" == input
+      return close_input if "" == input
       _write_interactive(_ensure_newline(input))
     end
 
-    def eot
+    def close_input
       @interactive.stdin.close
+    end
+
+    def eot
+      warn(%{\e[35m    The \"#eot\"-method is deprecated. It will be deleted with the next major version. Please use \"#close_input\"-method instead.\e[0m})
+      close_input
     end
 
     def _write_interactive(input)
@@ -437,8 +469,8 @@ module Aruba
     end
 
     def announcer
-      Announcer.new(self, 
-                    :stdout => @announce_stdout, 
+      Announcer.new(self,
+                    :stdout => @announce_stdout,
                     :stderr => @announce_stderr,
                     :dir => @announce_dir,
                     :cmd => @announce_cmd,

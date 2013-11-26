@@ -30,7 +30,7 @@ module Aruba
       @kernel = FakeKernel.new
     end
 
-    def run!(&block)
+    def run!
       raise "You need to call Aruba::InProcess.main_class = YourMainClass" unless @@main_class
       @@main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
       yield self if block_given?

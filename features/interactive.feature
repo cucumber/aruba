@@ -32,6 +32,31 @@ Feature: Interactive process control
       """
 
   @posix
+  Scenario: Pipe in a file
+    Given a file named "test.txt" with:
+      """
+      line1
+      line2
+      """
+    When I run `cat` interactively
+    And I pipe in the file "test.txt"
+    Then the output should contain:
+      """
+      line1
+      line2
+      """
+
+  @posix
+  Scenario: Close stdin stream
+    When I run `cat` interactively
+    And I type "Hello, world"
+    And I close the stdin stream
+    Then the output should contain:
+      """
+      Hello, world
+      """
+
+  @posix
   Scenario: Stop processes before checking for filesystem changes 
     See: http://github.com/aslakhellesoy/aruba/issues#issue/17 for context
 
