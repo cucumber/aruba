@@ -113,6 +113,25 @@ describe Aruba::Api  do
         @aruba.check_file_presence([ /dir/ ], true )
         @aruba.check_file_presence([ %r{nested/.+/} ], true )
       end
+
+      it "should change a file's mode" do
+        @aruba.chmod(0644, @file_name)
+        result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
+        expect(result).to eq('0644')
+
+        @aruba.chmod(0655, @file_name)
+        result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
+        expect(result).to eq('0655')
+
+        @aruba.chmod("0655", @file_name)
+        result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
+        expect(result).to eq('0655')
+      end
+
+      it "should check the mode of a file" do
+        @aruba.chmod(0666, @file_name)
+        expect(@aruba.mod?(0666, @file_name) ).to eq(true)
+      end
     end
   end
 
@@ -206,6 +225,22 @@ describe Aruba::Api  do
       @aruba.pipe_in_file(@file_name)
       @aruba.close_input
       @aruba.all_output.should == "Hello\nWorld!"
+    end
+  end
+
+  describe "#run_simple" do
+    before(:each){@aruba.run_simple "true"}
+    after(:each){@aruba.stop_processes!}
+    describe "get_process" do
+      it "returns a process" do
+        @aruba.get_process("true").should_not be(nil)
+      end
+
+      it "raises a descriptive exception" do
+        expect do
+          @aruba.get_process("false").should_not be(nil)
+        end.to raise_error(ArgumentError, "No process named 'false' has been started")
+      end
     end
   end
 
