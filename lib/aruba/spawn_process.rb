@@ -7,10 +7,9 @@ module Aruba
   class SpawnProcess
     include Shellwords
 
-    def initialize(cmd, exit_timeout, io_wait, environment)
+    def initialize(cmd, exit_timeout, io_wait)
       @exit_timeout = exit_timeout
       @io_wait = io_wait
-      @environment = environment
 
       @cmd = cmd
       @process = nil
@@ -26,7 +25,6 @@ module Aruba
       @process.io.stdout = @out
       @process.io.stderr = @err
       @process.duplex = true
-      @process.environment.merge! @environment
       @exit_code = nil
       begin
         @process.start

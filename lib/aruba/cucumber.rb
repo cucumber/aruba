@@ -72,7 +72,7 @@ Given /^I set the environment variables to:/ do |table|
     variable = row['variable'].to_s.upcase
     value = row['value'].to_s
 
-    set_cmd_env(variable, value)
+    set_env(variable, value)
   end
 end
 
