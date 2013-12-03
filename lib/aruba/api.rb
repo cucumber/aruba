@@ -114,9 +114,9 @@ module Aruba
             end
           else
             if expect_presence
-              File.should be_file( path )
+              path.should be_an_existing_file
             else
-              File.should_not be_file( path )
+              path.should_not be_an_existing_file
             end
           end
         end
