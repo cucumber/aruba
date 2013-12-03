@@ -2,7 +2,6 @@ module Aruba
   module Matchers
     class FileSimpleMatcher
       include RSpec::Expectations
-      include RSpec::Matchers
 
       def initialize( expect_presence )
         @expect_presence = expect_presence
@@ -11,9 +10,9 @@ module Aruba
       def check(paths)
         Array( paths ).each do |p|
           if @expect_presence
-            expect( File.exists? p ).to be_true
+            expect( p ).to be_an_existing_file
           else
-            expect( File.exists? p ).not_to be_true
+            expect( p ).not_to be_an_existing_file
           end
         end
       end
