@@ -89,6 +89,17 @@ Feature: file system commands
   Scenario: Check for absence of a single file
     Then a file named "lorem/ipsum/dolor" should not exist
 
+  Scenario: Check for absence of a single file using a regex
+    Then a file matching %r<^ipsum> should not exist
+
+  Scenario: Check for presence of a single file using a regex
+    Given an empty file named "lorem/ipsum/dolor"
+    Then a file matching %r<dolor$> should exist
+
+  Scenario: Check for presence of a single file using a more complicated regex
+    Given an empty file named "lorem/ipsum/dolor"
+    Then a file matching %r<ipsum/dolor> should exist
+
   Scenario: Check for presence of a subset of directories
     Given a directory named "foo/bar"
     Given a directory named "foo/bla"
