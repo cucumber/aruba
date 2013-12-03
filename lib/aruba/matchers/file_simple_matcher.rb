@@ -2,6 +2,7 @@ module Aruba
   module Matchers
     class FileSimpleMatcher
       include RSpec::Expectations
+      include RSpec::Matchers
 
       def self.check(path, expect_presence)
         if expect_presence

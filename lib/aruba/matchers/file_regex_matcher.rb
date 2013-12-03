@@ -2,6 +2,7 @@ module Aruba
   module Matchers
     class FileRegexMatcher
       include RSpec::Expectations
+      include RSpec::Matchers
 
       def self.check(regex, expect_presence)
         if expect_presence
