@@ -103,6 +103,11 @@ describe Aruba::Api  do
         expect(result).to eq('0655')
       end
 
+      it "should check the mode of a file" do
+        @aruba.chmod(0666, @file_name)
+        expect(@aruba.mod?(0666, @file_name) ).to eq(true)
+      end
+
       it "should check existence using plain match" do
         file_name = 'nested/dir/hello_world.txt'
         file_path = File.join(@aruba.current_dir, file_name)
