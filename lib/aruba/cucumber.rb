@@ -303,11 +303,11 @@ Then /^a file named "([^"]*)" should not exist$/ do |file|
   check_file_presence([file], false)
 end
 
-Then %r{^a file matching %r<([^>]*)> should exist$} do |regex|
+Then /^a file matching %r<(.*?)> should exist$/ do |regex|
   check_file_presence([ Regexp.new( regex ) ], true )
 end
 
-Then %r{^a file matching %r<([^>]*)> should not exist$} do |regex|
+Then /^a file matching %r<(.*?)> should not exist$/ do |regex|
   check_file_presence([ Regexp.new( regex ) ], false )
 end
 
