@@ -126,12 +126,23 @@ describe Aruba::Api  do
         FileUtils.mkdir_p File.dirname( file_path )
         File.open(file_path, 'w') { |f| f << "" }
 
-        @aruba.check_file_presence([ /test/ ], true )
         @aruba.check_file_presence([ /test123/ ], false )
         @aruba.check_file_presence([ /hello_world.txt$/ ], true )
         @aruba.check_file_presence([ /dir/ ], true )
         @aruba.check_file_presence([ %r{nested/.+/} ], true )
       end
+
+      it "is no problem to mix both" do
+        file_name = 'nested/dir/hello_world.txt'
+        file_path = File.join(@aruba.current_dir, file_name)
+
+        FileUtils.mkdir_p File.dirname( file_path )
+        File.open(file_path, 'w') { |f| f << "" }
+
+        @aruba.check_file_presence([ file_name, /nested/  ], true )
+        @aruba.check_file_presence([ /test123/, 'asdf' ], false )
+      end
+
     end
   end
 
