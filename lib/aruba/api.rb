@@ -107,9 +107,21 @@ module Aruba
       prep_for_fs_check do
         objects.each do |o|
           if o.kind_of? Regexp
-            Aruba::Matchers::FileRegexMatcher.check( o, expect_presence )
+
+            if expect_presence
+              expect( Dir.glob( '**/*' ) ).to include_file_matching( o )
+            else
+              expect( Dir.glob( '**/*' ) ).not_to include_file_matching( o )
+            end
+
           else
-            Aruba::Matchers::FileSimpleMatcher.check( o, expect_presence )
+
+            if expect_presence
+              expect( o ).to be_an_existing_file
+            else
+              expect( o ).not_to be_an_existing_file
+            end
+
           end
         end
       end
