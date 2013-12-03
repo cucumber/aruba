@@ -23,8 +23,10 @@ module Aruba
       before { process.run! }
 
       it "sends any output to the reader" do
-        reader = stub.as_null_object
-        reader.should_receive(:stdout).with("yo\n")
+        reader = double( 'null_object' )
+        allow( reader ).to receive( :stderr )
+        expect( reader ).to receive( :stdout ).with("yo\n")
+
         process.stop(reader)
       end
     end
