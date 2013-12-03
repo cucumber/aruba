@@ -6,13 +6,13 @@ describe Aruba::Matchers::FileRegexMatcher do
       write_file( 'file123file' , 'hello world')
 
       in_current_dir do
-        Aruba::Matchers::FileRegexMatcher.new( true ).check( /\d{3}/ )
+        Aruba::Matchers::FileRegexMatcher.check( /\d{3}/, true )
       end
     end
 
     it 'checks if file is absent' do
       in_current_dir do
-        Aruba::Matchers::FileRegexMatcher.new( false ).check( /\d{6}/ )
+        Aruba::Matchers::FileRegexMatcher.check( /\d{6}/, false )
       end
     end
   end
