@@ -3,17 +3,11 @@ module Aruba
     class FileRegexMatcher
       include RSpec::Expectations
 
-      def initialize( expect_presence )
-        @expect_presence = expect_presence
-      end
-
-      def check(regexes)
-        Array( regexes ).each do |r|
-          if @expect_presence
-            expect( Dir.glob('**/*') ).to include_file_matching( r )
-          else
-            expect( Dir.glob('**/*') ).not_to include_file_matching( r )
-          end
+      def self.check(regex, expect_presence)
+        if expect_presence
+          expect( Dir.glob('**/*') ).to include_file_matching( regex )
+        else
+          expect( Dir.glob('**/*') ).not_to include_file_matching( regex )
         end
       end
 
