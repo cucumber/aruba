@@ -104,13 +104,15 @@ module Aruba
     end
 
     def check_file_presence(objects, expect_presence)
-      if objects.first.kind_of? Regexp
-        matcher = Aruba::Matchers::FileRegexMatcher.new(expect_presence)
-      else
-        matcher = Aruba::Matchers::FileSimpleMatcher.new(expect_presence)
+      prep_for_fs_check do
+        objects.each do |o|
+          if o.kind_of? Regexp
+            Aruba::Matchers::FileRegexMatcher.check( o, expect_presence )
+          else
+            Aruba::Matchers::FileSimpleMatcher.check( o, expect_presence )
+          end
+        end
       end
-
-      prep_for_fs_check { matcher.check( objects ) }
     end
 
     def pipe_in_file(file)
