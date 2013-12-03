@@ -89,6 +89,31 @@ describe Aruba::Api  do
         File.exist?(@file_path).should == false
       end
 
+      it "should check existence using plain match" do
+        file_name = 'nested/dir/hello_world.txt'
+        file_path = File.join(@aruba.current_dir, file_name)
+
+        FileUtils.mkdir_p File.dirname( file_path )
+        File.open(file_path, 'w') { |f| f << "" }
+
+        @aruba.check_file_presence( [ file_name ], true )
+        @aruba.check_file_presence( [ 'asdf' ] , false )
+      end
+
+      it "should check existence using regex" do
+        file_name = 'nested/dir/hello_world.txt'
+        file_path = File.join(@aruba.current_dir, file_name)
+
+        FileUtils.mkdir_p File.dirname( file_path )
+        File.open(file_path, 'w') { |f| f << "" }
+
+        @aruba.check_file_presence([ /test/ ], true )
+        @aruba.check_file_presence([ /test123/ ], false )
+        @aruba.check_file_presence([ /hello_world.txt$/ ], true )
+        @aruba.check_file_presence([ /dir/ ], true )
+        @aruba.check_file_presence([ %r{nested/.+/} ], true )
+      end
+
       it "should change a file's mode" do
         @aruba.chmod(0644, @file_name)
         result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]

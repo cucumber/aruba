@@ -4,6 +4,8 @@ require 'rspec/expectations'
 require 'aruba'
 require 'aruba/config'
 
+Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).each { |rb| require rb }
+
 module Aruba
   module Api
     include RSpec::Matchers
@@ -101,16 +103,14 @@ module Aruba
       end
     end
 
-    def check_file_presence(paths, expect_presence)
-      prep_for_fs_check do
-        paths.each do |path|
-          if expect_presence
-            File.should be_file(path)
-          else
-            File.should_not be_file(path)
-          end
-        end
+    def check_file_presence(objects, expect_presence)
+      if objects.first.kind_of? Regexp
+        matcher = Aruba::Matchers::FileRegexMatcher.new(expect_presence)
+      else
+        matcher = Aruba::Matchers::FileSimpleMatcher.new(expect_presence)
       end
+
+      prep_for_fs_check { matcher.check( objects ) }
     end
 
     def pipe_in_file(file)
