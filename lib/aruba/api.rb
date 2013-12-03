@@ -13,6 +13,11 @@ module Aruba
       Dir.chdir(current_dir, &block)
     end
 
+    def clean_current_dir
+      _rm_rf(current_dir)
+      _mkdir(current_dir)
+    end
+
     def current_dir
       File.join(*dirs)
     end
@@ -166,6 +171,10 @@ module Aruba
 
     def _mkdir(dir_name)
       FileUtils.mkdir_p(dir_name) unless File.directory?(dir_name)
+    end
+
+    def _rm_rf(dir_name)
+      FileUtils.rm_rf(dir_name)
     end
 
     def unescape(string)
