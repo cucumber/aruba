@@ -103,25 +103,21 @@ module Aruba
       end
     end
 
-    def check_file_presence(objects, expect_presence)
+    def check_file_presence(paths, expect_presence)
       prep_for_fs_check do
-        objects.each do |o|
-          if o.kind_of? Regexp
-
+        paths.each do |path|
+          if path.kind_of? Regexp
             if expect_presence
-              expect( Dir.glob( '**/*' ) ).to include_file_matching( o )
+              Dir.glob( '**/*' ).should include_file_matching( path )
             else
-              expect( Dir.glob( '**/*' ) ).not_to include_file_matching( o )
+              Dir.glob( '**/*' ).should_not include_file_matching( path )
             end
-
           else
-
             if expect_presence
-              expect( o ).to be_an_existing_file
+              File.should be_file( path )
             else
-              expect( o ).not_to be_an_existing_file
+              File.should_not be_file( path )
             end
-
           end
         end
       end
