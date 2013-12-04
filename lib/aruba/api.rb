@@ -108,15 +108,15 @@ module Aruba
         paths.each do |path|
           if path.kind_of? Regexp
             if expect_presence
-              Dir.glob('**/*').should include_regexp(path)
+              expect(Dir.glob('**/*')).to include_regexp(path)
             else
-              Dir.glob('**/*').should_not include_regexp(path)
+              expect(Dir.glob('**/*')).not_to include_regexp(path)
             end
           else
             if expect_presence
-              File.should be_file(path)
+              expect(File).to be_file(path)
             else
-              File.should_not be_file(path)
+              expect(File).not_to be_file(path)
             end
           end
         end
@@ -134,7 +134,7 @@ module Aruba
     def check_file_size(paths_and_sizes)
       prep_for_fs_check do
         paths_and_sizes.each do |path, size|
-          File.size(path).should == size
+          expect(File.size(path)).to eq size
         end
       end
     end
@@ -151,24 +151,24 @@ module Aruba
       prep_for_fs_check do
         content = IO.read(file)
         if expect_match
-          content.should =~ regexp
+          expect(content).to match regexp
         else
-          content.should_not =~ regexp
+          expect(content).not_to match regexp
         end
       end
     end
 
     def check_exact_file_content(file, exact_content)
-      prep_for_fs_check { IO.read(file).should == exact_content }
+      prep_for_fs_check { expect(IO.read(file)).to eq exact_content }
     end
 
     def check_directory_presence(paths, expect_presence)
       prep_for_fs_check do
         paths.each do |path|
           if expect_presence
-            File.should be_directory(path)
+            expect(File).to be_directory(path)
           else
-            File.should_not be_directory(path)
+            expect(File).not_to be_directory(path)
           end
         end
       end
@@ -228,30 +228,30 @@ module Aruba
 
     def assert_exact_output(expected, actual)
       actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-      unescape(actual).should == unescape(expected)
+      expect(unescape(actual)).to eq unescape(expected)
     end
 
     def assert_partial_output(expected, actual)
       actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-      unescape(actual).should include(unescape(expected))
+      expect(unescape(actual)).to include(unescape(expected))
     end
 
     def assert_matching_output(expected, actual)
       actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-      unescape(actual).should =~ /#{unescape(expected)}/m
+      expect(unescape(actual)).to match /#{unescape(expected)}/m
     end
 
     def assert_not_matching_output(expected, actual)
       actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-      unescape(actual).should_not =~ /#{unescape(expected)}/m
+      expect(unescape(actual)).not_to match /#{unescape(expected)}/m
     end
 
     def assert_no_partial_output(unexpected, actual)
       actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
       if Regexp === unexpected
-        unescape(actual).should_not =~ unexpected
+        expect(unescape(actual)).not_to match unexpected
       else
-        unescape(actual).should_not include(unexpected)
+        expect(unescape(actual)).not_to include(unexpected)
       end
     end
 
@@ -287,12 +287,12 @@ module Aruba
     end
 
     def assert_exit_status(status)
-      last_exit_status.should eq(status),
+      expect(last_exit_status).to eq(status),
         append_output_to("Exit status was #{last_exit_status} but expected it to be #{status}.")
     end
 
     def assert_not_exit_status(status)
-      last_exit_status.should_not eq(status),
+      expect(last_exit_status).not_to eq(status),
         append_output_to("Exit status was #{last_exit_status} which was not expected.")
     end
 

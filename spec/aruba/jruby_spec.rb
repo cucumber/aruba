@@ -17,8 +17,8 @@ describe "Aruba JRuby Startup Helper"  do
     with_constants :ENV => @fake_env, :RUBY_PLATFORM => 'x86_64-chocolate' do
       load 'aruba/jruby.rb'
       Aruba.config.hooks.execute :before_cmd, self
-      ENV['JRUBY_OPTS'].should  == "--1.9"
-      ENV['JAVA_OPTS'].should  == "-Xdebug"
+      expect(ENV['JRUBY_OPTS']).to eq "--1.9"
+      expect(ENV['JAVA_OPTS']).to eq "-Xdebug"
     end
   end
 
@@ -27,8 +27,8 @@ describe "Aruba JRuby Startup Helper"  do
       RbConfig::CONFIG.stub(:[] => 'solaris')
       load 'aruba/jruby.rb'
       Aruba.config.hooks.execute :before_cmd, self
-      ENV['JRUBY_OPTS'].should  == "-X-C --1.9"
-      ENV['JAVA_OPTS'].should  == "-d32 -Xdebug"
-    end 
+      expect(ENV['JRUBY_OPTS']).to eq "-X-C --1.9"
+      expect(ENV['JAVA_OPTS']).to eq "-d32 -Xdebug"
+    end
   end
 end

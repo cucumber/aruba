@@ -31,7 +31,7 @@ describe Aruba::Api  do
 
   describe 'current_dir' do
     it "should return the current dir as 'tmp/aruba'" do
-      @aruba.current_dir.should match(/^tmp\/aruba$/)
+      expect(@aruba.current_dir).to match(/^tmp\/aruba$/)
     end
 
     it "can be cleared" do
@@ -59,7 +59,7 @@ describe Aruba::Api  do
       end
       it 'should delete directory' do
         @aruba.remove_dir(@directory_name)
-        File.exist?(@directory_path).should == false
+        expect(File.exist?(@directory_path)).to eq false
       end
     end
   end
@@ -68,8 +68,8 @@ describe Aruba::Api  do
     context 'fixed size' do
       it "should write a fixed sized file" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
-        File.exist?(@file_path).should == true
-        File.size(@file_path).should == @file_size
+        expect(File.exist?(@file_path)).to eq true
+        expect(File.size(@file_path)).to eq @file_size
       end
 
       it "should check an existing file size" do
@@ -79,14 +79,14 @@ describe Aruba::Api  do
 
       it "should check an existing file size and fail" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
-        lambda { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.should raise_error
+        expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error
       end
     end
     context 'existing' do
       before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
       it "should delete file" do
         @aruba.remove_file(@file_name)
-        File.exist?(@file_path).should == false
+        expect(File.exist?(@file_path)).to eq false
       end
 
       it "should change a file's mode" do
@@ -151,19 +151,19 @@ describe Aruba::Api  do
       after(:each){@aruba.stop_processes!}
       context 'enabled' do
         it "should announce to stdout exactly once" do
-          @aruba.should_receive(:announce_or_puts).once
+          expect(@aruba).to receive(:announce_or_puts).once
           @aruba.set_tag(:announce_stdout, true)
           @aruba.run_simple('echo "hello world"', false)
-          @aruba.all_output.should match(/hello world/)
+          expect(@aruba.all_output).to match(/hello world/)
         end
       end
 
       context 'disabled' do
         it "should not announce to stdout" do
-          @aruba.should_not_receive(:announce_or_puts)
+          expect(@aruba).not_to receive(:announce_or_puts)
           @aruba.set_tag(:announce_stdout, false)
           @aruba.run_simple('echo "hello world"', false)
-          @aruba.all_output.should match(/hello world/)
+          expect(@aruba.all_output).to match(/hello world/)
         end
       end
     end
@@ -176,7 +176,7 @@ describe Aruba::Api  do
 
     it "checks the given file's full content against the expectations in the passed block" do
        @aruba.with_file_content @file_name do |full_content|
-         full_content.should == "foo bar baz"
+         expect(full_content).to eq "foo bar baz"
        end
     end
 
@@ -184,8 +184,8 @@ describe Aruba::Api  do
       it "is successful when the inner expectations match" do
         expect do
           @aruba.with_file_content @file_name do |full_content|
-            full_content.should     match /foo/
-            full_content.should_not match /zoo/
+            expect(full_content).to     match /foo/
+            expect(full_content).not_to match /zoo/
           end
         end . not_to raise_error
       end
@@ -193,8 +193,8 @@ describe Aruba::Api  do
       it "raises RSpec::Expectations::ExpectationNotMetError when the inner expectations don't match"  do
         expect do
           @aruba.with_file_content @file_name do |full_content|
-            full_content.should     match /zoo/
-            full_content.should_not match /foo/
+            expect(full_content).to     match /zoo/
+            expect(full_content).not_to match /foo/
           end
         end . to raise_error RSpec::Expectations::ExpectationNotMetError
       end
@@ -222,20 +222,20 @@ describe Aruba::Api  do
     it "respond to input" do
       @aruba.type "Hello"
       @aruba.type ""
-      @aruba.all_output.should == "Hello\n"
+      expect(@aruba.all_output).to eq  "Hello\n"
     end
 
     it "respond to close_input" do
       @aruba.type "Hello"
       @aruba.close_input
-      @aruba.all_output.should == "Hello\n"
+      expect(@aruba.all_output).to eq  "Hello\n"
     end
 
     it "pipes data" do
       @aruba.write_file(@file_name, "Hello\nWorld!")
       @aruba.pipe_in_file(@file_name)
       @aruba.close_input
-      @aruba.all_output.should == "Hello\nWorld!"
+      expect(@aruba.all_output).to eq  "Hello\nWorld!"
     end
   end
 
@@ -244,12 +244,12 @@ describe Aruba::Api  do
     after(:each){@aruba.stop_processes!}
     describe "get_process" do
       it "returns a process" do
-        @aruba.get_process("true").should_not be(nil)
+        expect(@aruba.get_process("true")).not_to be(nil)
       end
 
       it "raises a descriptive exception" do
         expect do
-          @aruba.get_process("false").should_not be(nil)
+          expect(@aruba.get_process("false")).not_to be(nil)
         end.to raise_error(ArgumentError, "No process named 'false' has been started")
       end
     end
@@ -260,7 +260,7 @@ describe Aruba::Api  do
     it "runs with different env" do
       @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.run "env"
-      @aruba.all_output.should include("LONG_LONG_ENV_VARIABLE")
+      expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE")
     end
 
   end
