@@ -9,12 +9,12 @@ module Aruba
       before { process.run! }
 
       it "returns the stdout" do
-        process.stdout.should == "yo\n"
+        expect(process.stdout).to eq "yo\n"
       end
 
       it "returns all the stdout, every time you call it" do
-        process.stdout.should == "yo\n"
-        process.stdout.should == "yo\n"
+        expect(process.stdout).to eq "yo\n"
+        expect(process.stdout).to eq "yo\n"
       end
 
     end
@@ -36,7 +36,7 @@ module Aruba
         let(:process_failure) { SpawnProcess.new('does_not_exists', 1, 1) }
 
         it "raises a Aruba::LaunchError" do
-          lambda{process_failure.run!}.should raise_error(::Aruba::LaunchError)
+          expect{process_failure.run!}.to raise_error(::Aruba::LaunchError)
         end
       end
     end
