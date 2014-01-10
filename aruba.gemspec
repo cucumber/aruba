@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'aruba'
-  s.version     = '0.5.3'
+  s.version     = '0.5.4'
   s.authors     = ["Aslak Hellesøy", "David Chelimsky", "Mike Sassak", "Matt Wynne"]
   s.description = 'CLI Steps for Cucumber, hand-crafted for you in Aruba'
   s.summary     = "aruba-#{s.version}"
@@ -26,4 +26,3 @@ Gem::Specification.new do |s|
   s.rdoc_options     = ["--charset=UTF-8"]
   s.require_path     = "lib"
 end
-

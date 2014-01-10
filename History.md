@@ -1,8 +1,9 @@
-## [master](https://github.com/cucumber/aruba/compare/v0.5.3...master)
+## [master](https://github.com/cucumber/aruba/compare/v0.5.4...master)
+
+## [v0.5.4](https://github.com/cucumber/aruba/compare/v0.5.3...v0.5.4)
 * Added support for piping in files (#154 maxmeyer, dg-vrnetze)
 * Added cucumber steps for environment variables (#156 dg-vrnetze)
 * Added support for file mode (#157 maxmeyer, dg-vrnetze)
-
 
 ## [v0.5.3](https://github.com/cucumber/aruba/compare/v0.5.2...v0.5.3)
 * Fix for UTF-8 support (#151 Matt Wynne, Jarl Friis)
