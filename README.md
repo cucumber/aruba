@@ -18,8 +18,8 @@ Then, `require` the library in one of your ruby files under `features/support` (
 require 'aruba/cucumber'
 ```
 
-You now have a bunch of step definitions that you can use in your features. Look at `lib/aruba/cucumber.rb`
-to see them all. Look at `features/*.feature` for examples (which are also testing Aruba
+You now have a bunch of step definitions that you can use in your features. Look at [`lib/aruba/cucumber.rb`](lib/aruba/cucumber.rb)
+to see them all. Look at [`features/*.feature`](features/) for examples (which are also testing Aruba
 itself).
 
 ## Configuration
