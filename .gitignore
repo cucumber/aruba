@@ -24,3 +24,7 @@ tmp
 .bundle
 doc
 Gemfile.lock
+
+## RVM and RBENV
+.rvmrc
+.ruby-version
