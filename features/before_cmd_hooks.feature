@@ -22,7 +22,7 @@ Feature: before_cmd hooks
       puts all_stdout
       """
     When I run `ruby test.rb`
-    Then it should pass with:
+    Then it should fail with:
       """
       about to run `echo 'running'`
       running
