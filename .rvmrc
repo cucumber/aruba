@@ -1,1 +1,1 @@
-rvm @cucumber
+rvm use 1.9.3-p545@cucumber --create
