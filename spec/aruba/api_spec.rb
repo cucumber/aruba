@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Aruba::Api  do
-
   before(:each) do
     klass = Class.new {
       include Aruba::Api
@@ -30,11 +29,11 @@ describe Aruba::Api  do
   end
 
   describe 'current_dir' do
-    it "should return the current dir as 'tmp/aruba'" do
+    it "returns the current dir as 'tmp/aruba'" do
       expect(@aruba.current_dir).to match(/^tmp\/aruba$/)
     end
 
-    it "can be cleared" do
+    it "is cleared" do
       write_file( 'test', 'test test test' )
 
       in_current_dir do
@@ -46,7 +45,6 @@ describe Aruba::Api  do
       in_current_dir do
         expect( File.exist? 'test' ).to be_false
       end
-
     end
   end
 
@@ -57,39 +55,42 @@ describe Aruba::Api  do
         @directory_path = File.join(@aruba.current_dir, @directory_name)
         Dir.mkdir(@directory_path)
       end
-      it 'should delete directory' do
+
+      it 'deletes directory' do
         @aruba.remove_dir(@directory_name)
-        expect(File.exist?(@directory_path)).to eq false
+        expect(File.exist?(@directory_path)).to be_false
       end
     end
   end
 
   describe 'files' do
     context 'fixed size' do
-      it "should write a fixed sized file" do
+      it "writes a fixed sized file" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         expect(File.exist?(@file_path)).to eq true
         expect(File.size(@file_path)).to eq @file_size
       end
 
-      it "should check an existing file size" do
+      it "checks an existing file size" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         @aruba.check_file_size([[@file_name, @file_size]])
       end
 
-      it "should check an existing file size and fail" do
+      it "checks an existing file size and fail" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error
       end
     end
+
     context 'existing' do
       before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
+
       it "should delete file" do
         @aruba.remove_file(@file_name)
-        expect(File.exist?(@file_path)).to eq false
+        expect(File.exist?(@file_path)).to be_false
       end
 
-      it "should change a file's mode" do
+      it "changes a file's mode" do
         @aruba.chmod(0644, @file_name)
         result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
         expect(result).to eq('0644')
@@ -103,12 +104,12 @@ describe Aruba::Api  do
         expect(result).to eq('0655')
       end
 
-      it "should check the mode of a file" do
+      it "checks the mode of a file" do
         @aruba.chmod(0666, @file_name)
-        expect(@aruba.mod?(0666, @file_name) ).to eq(true)
+        expect(@aruba.mod?(0666, @file_name)).to be_true
       end
 
-      it "should check existence using plain match" do
+      it "checks existence using plain match" do
         file_name = 'nested/dir/hello_world.txt'
         file_path = File.join(@aruba.current_dir, file_name)
 
@@ -119,7 +120,7 @@ describe Aruba::Api  do
         @aruba.check_file_presence( [ 'asdf' ] , false )
       end
 
-      it "should check existence using regex" do
+      it "checks existence using regex" do
         file_name = 'nested/dir/hello_world.txt'
         file_path = File.join(@aruba.current_dir, file_name)
 
@@ -142,15 +143,15 @@ describe Aruba::Api  do
         @aruba.check_file_presence([ file_name, /nested/  ], true )
         @aruba.check_file_presence([ /test123/, 'asdf' ], false )
       end
-
     end
   end
 
   describe 'tags' do
     describe '@announce_stdout' do
-      after(:each){@aruba.stop_processes!}
+      after(:each) { @aruba.stop_processes! }
+
       context 'enabled' do
-        it "should announce to stdout exactly once" do
+        it "announces to stdout exactly once" do
           expect(@aruba).to receive(:announce_or_puts).once
           @aruba.set_tag(:announce_stdout, true)
           @aruba.run_simple('echo "hello world"', false)
@@ -159,7 +160,7 @@ describe Aruba::Api  do
       end
 
       context 'disabled' do
-        it "should not announce to stdout" do
+        it "does not announce to stdout" do
           expect(@aruba).not_to receive(:announce_or_puts)
           @aruba.set_tag(:announce_stdout, false)
           @aruba.run_simple('echo "hello world"', false)
@@ -170,9 +171,7 @@ describe Aruba::Api  do
   end
 
   describe "#with_file_content" do
-    before :each do
-      @aruba.write_file(@file_name, "foo bar baz")
-    end
+    before (:each) { @aruba.write_file(@file_name, "foo bar baz") }
 
     it "checks the given file's full content against the expectations in the passed block" do
        @aruba.with_file_content @file_name do |full_content|
@@ -187,7 +186,7 @@ describe Aruba::Api  do
             expect(full_content).to     match /foo/
             expect(full_content).not_to match /zoo/
           end
-        end . not_to raise_error
+        end.not_to raise_error
       end
 
       it "raises RSpec::Expectations::ExpectationNotMetError when the inner expectations don't match"  do
@@ -196,29 +195,30 @@ describe Aruba::Api  do
             expect(full_content).to     match /zoo/
             expect(full_content).not_to match /foo/
           end
-        end . to raise_error RSpec::Expectations::ExpectationNotMetError
+        end.to raise_error RSpec::Expectations::ExpectationNotMetError
       end
     end
-
   end #with_file_content
 
   describe "#assert_not_matching_output" do
-    before(:each){ @aruba.run_simple("echo foo", false) }
-    after(:each){ @aruba.stop_processes! }
+    before(:each) { @aruba.run_simple("echo foo", false) }
+    after(:each)  { @aruba.stop_processes! }
 
     it "passes when the output doesn't match a regexp" do
       @aruba.assert_not_matching_output "bar", @aruba.all_output
     end
+
     it "fails when the output does match a regexp" do
       expect do
         @aruba.assert_not_matching_output "foo", @aruba.all_output
-      end . to raise_error RSpec::Expectations::ExpectationNotMetError
+      end.to raise_error RSpec::Expectations::ExpectationNotMetError
     end
   end
 
   describe "#run_interactive" do
-    before(:each){@aruba.run_interactive "cat"}
-    after(:each){@aruba.stop_processes!}
+    before(:each) { @aruba.run_interactive "cat" }
+    after(:each)  { @aruba.stop_processes! }
+
     it "respond to input" do
       @aruba.type "Hello"
       @aruba.type ""
@@ -240,29 +240,29 @@ describe Aruba::Api  do
   end
 
   describe "#run_simple" do
-    before(:each){@aruba.run_simple "true"}
-    after(:each){@aruba.stop_processes!}
+    before(:each) { @aruba.run_simple "true" }
+    after(:each)  { @aruba.stop_processes! }
+
     describe "get_process" do
       it "returns a process" do
-        expect(@aruba.get_process("true")).not_to be(nil)
+        expect(@aruba.get_process("true")).not_to be_nil
       end
 
       it "raises a descriptive exception" do
         expect do
-          expect(@aruba.get_process("false")).not_to be(nil)
+          expect(@aruba.get_process("false")).not_to be_nil
         end.to raise_error(ArgumentError, "No process named 'false' has been started")
       end
     end
   end
 
   describe "#run_simple" do
-    after(:each){@aruba.stop_processes!}
+    after(:each) { @aruba.stop_processes! }
+
     it "runs with different env" do
       @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.run "env"
       expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE")
     end
-
   end
-
 end # Aruba::Api
