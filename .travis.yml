@@ -1,14 +1,14 @@
 language: ruby
 rvm:
-- 2.1.0
-- 2.0.0
-- 1.9.3
-- jruby-19mode
-- jruby-20mode
-- rbx
+  - 2.1.0
+  - 2.0.0
+  - 1.9.3
+  - jruby-19mode
+  - jruby-head
+  - rbx-2
 matrix:
   allow_failures:
-  - rvm: rbx
+  - rvm: rbx-2
 notifications:
   email:
   - cukes-devs@googlegroups.com
