@@ -5,7 +5,9 @@ rvm:
   - 1.9.3
   - jruby-19mode
   - jruby-head
-  - rbx-2
+matrix:
+  allow_failures:
+  - rvm: rbx-2
 notifications:
   email:
   - cukes-devs@googlegroups.com
