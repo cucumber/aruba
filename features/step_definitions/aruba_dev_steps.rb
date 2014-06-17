@@ -1,7 +1,7 @@
 When /^I do aruba (.*)$/ do |aruba_step|
   begin
     step(aruba_step)
-  rescue => e
+  rescue Exception => e
     @aruba_exception = e
   end
 end
