@@ -463,6 +463,14 @@ module Aruba
       @original_env ||= {}
     end
 
+    def with_env(env = {}, &block)
+      env.each do |k,v|
+        set_env k, v
+        block.call
+        restore_env
+      end
+    end
+
   # TODO: move some more methods under here!
   private
 
