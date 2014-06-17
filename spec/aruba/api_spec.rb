@@ -51,12 +51,13 @@ describe Aruba::Api  do
   end
 
   describe 'directories' do
-    context 'delete directory' do
+    context '#remove_dir' do
       before(:each) do
         @directory_name = 'test_dir'
         @directory_path = File.join(@aruba.current_dir, @directory_name)
         Dir.mkdir(@directory_path)
       end
+
       it 'should delete directory' do
         @aruba.remove_dir(@directory_name)
         expect(File.exist?(@directory_path)).to eq false
@@ -65,29 +66,28 @@ describe Aruba::Api  do
   end
 
   describe 'files' do
-    context 'fixed size' do
+    context '#write_fixed_size_file' do
       it "should write a fixed sized file" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         expect(File.exist?(@file_path)).to eq true
         expect(File.size(@file_path)).to eq @file_size
       end
 
-      it "should check an existing file size" do
-        @aruba.write_fixed_size_file(@file_name, @file_size)
-        @aruba.check_file_size([[@file_name, @file_size]])
-      end
+      context '#check_file_size' do
+        it "should check an existing file size" do
+          @aruba.write_fixed_size_file(@file_name, @file_size)
+          @aruba.check_file_size([[@file_name, @file_size]])
+        end
 
-      it "should check an existing file size and fail" do
-        @aruba.write_fixed_size_file(@file_name, @file_size)
-        expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error
+        it "should check an existing file size and fail" do
+          @aruba.write_fixed_size_file(@file_name, @file_size)
+          expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error
+        end
       end
     end
-    context 'existing' do
+
+    context '#chmod' do
       before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
-      it "should delete file" do
-        @aruba.remove_file(@file_name)
-        expect(File.exist?(@file_path)).to eq false
-      end
 
       it "should change a file's mode" do
         @aruba.chmod(0644, @file_name)
@@ -107,6 +107,18 @@ describe Aruba::Api  do
         @aruba.chmod(0666, @file_name)
         expect(@aruba.mod?(0666, @file_name) ).to eq(true)
       end
+
+    context '#remove_file' do
+      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
+
+      it "should delete file" do
+        @aruba.remove_file(@file_name)
+        expect(File.exist?(@file_path)).to eq false
+      end
+    end
+
+    context '#check_file_presence' do
+      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
 
       it "should check existence using plain match" do
         file_name = 'nested/dir/hello_world.txt'
@@ -169,7 +181,21 @@ describe Aruba::Api  do
     end
   end
 
-  describe "#with_file_content" do
+  context "#check_file_content" do
+    before :each do
+      @aruba.write_file(@file_name, "foo bar baz")
+    end
+
+    it "succeeds if file content matches" do
+      @aruba.check_file_content(@file_name, "foo bar baz", true)
+    end
+
+    it "succeeds if file content does not match" do
+      @aruba.check_file_content(@file_name, "hello world", false)
+    end
+  end
+
+  context "#with_file_content" do
     before :each do
       @aruba.write_file(@file_name, "foo bar baz")
     end
