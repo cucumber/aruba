@@ -5,7 +5,7 @@ describe Aruba::Hooks do
     hook_was_run = false
     subject.append :hook_label, lambda { hook_was_run = true }
     subject.execute :hook_label, self
-    expect(hook_was_run).to be_true
+    expect(hook_was_run).to be_truthy
   end
 
   it 'executes a stored hook that takes multiple arguments' do

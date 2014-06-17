@@ -38,13 +38,13 @@ describe Aruba::Api  do
       write_file( 'test', 'test test test' )
 
       in_current_dir do
-        expect( File.exist? 'test' ).to be_true
+        expect( File.exist? 'test' ).to be_truthy
       end
 
       clean_current_dir
 
       in_current_dir do
-        expect( File.exist? 'test' ).to be_false
+        expect( File.exist? 'test' ).to be_falsey
       end
 
     end
