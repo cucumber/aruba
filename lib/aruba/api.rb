@@ -27,7 +27,7 @@ module Aruba
 
     # Get access to current dir
     #
-    # @return 
+    # @return
     #   Current directory
     def current_dir
       File.join(*dirs)
@@ -90,7 +90,10 @@ module Aruba
 
     def _create_file(file_name, file_content, check_presence)
       in_current_dir do
+        file_name = File.expand_path(file_name)
+
         raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
+
         _mkdir(File.dirname(file_name))
         File.open(file_name, 'w') { |f| f << file_content }
       end
@@ -101,15 +104,17 @@ module Aruba
     # @param [Octal] mode
     #   File system mode, eg. 0755
     #
-    # @param [String] name
+    # @param [String] file_name
     #   Name of file to be modified. This file needs to be present to succeed
-    def chmod(mode, name)
+    def chmod(mode, file_name)
       in_current_dir do
-        raise "expected #{name} to be present" unless FileTest.exists?(name)
+        file_name = File.expand_path(file_name)
+
+        raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
         if mode.kind_of? String
-          FileUtils.chmod(mode.to_i(8),name)
+          FileUtils.chmod(mode.to_i(8),file_name)
         else
-          FileUtils.chmod(mode,name)
+          FileUtils.chmod(mode, file_name)
         end
       end
     end
@@ -118,15 +123,19 @@ module Aruba
     #
     # @param [Octal] mode
     #   Expected file system permissions, e.g. 0755
-    # @param [String] name
-    def mod?(mode, name)
+    # @param [String] file_name
+    def mod?(mode, file_name)
       in_current_dir do
-        mode == sprintf( "%o", File::Stat.new(name).mode )[-4,4].to_i(8)
+        file_name = File.expand_path(file_name)
+
+        mode == sprintf( "%o", File::Stat.new(file_name).mode )[-4,4].to_i(8)
       end
     end
 
     def _create_fixed_size_file(file_name, file_size, check_presence)
       in_current_dir do
+        file_name = File.expand_path(file_name)
+
         raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
         _mkdir(File.dirname(file_name))
         File.open(file_name, "wb"){ |f| f.seek(file_size - 1); f.write("\0") }
@@ -139,6 +148,8 @@ module Aruba
     #    The file which should be deleted in current directory
     def remove_file(file_name)
       in_current_dir do
+        file_name = File.expand_path(file_name)
+
         FileUtils.rm(file_name)
       end
     end
@@ -152,6 +163,8 @@ module Aruba
     #   The content which should be appended to file
     def append_to_file(file_name, file_content)
       in_current_dir do
+        file_name = File.expand_path(file_name)
+
         _mkdir(File.dirname(file_name))
         File.open(file_name, 'a') { |f| f << file_content }
       end
@@ -159,11 +172,11 @@ module Aruba
 
     # Create a directory in current directory
     #
-    # @param [String] dir_name
+    # @param [String] directory_name
     #   The name of the directory which should be created
-    def create_dir(dir_name)
+    def create_dir(directory_name)
       in_current_dir do
-        _mkdir(dir_name)
+        _mkdir(directory_name)
       end
     end
 
@@ -173,6 +186,8 @@ module Aruba
     #   The name of the directory which should be removed
     def remove_dir(directory_name)
       in_current_dir do
+        directory_name = File.expand_path(directory_name)
+
         FileUtils.rmdir(directory_name)
       end
     end
@@ -194,6 +209,8 @@ module Aruba
               expect(Dir.glob('**/*')).not_to include_regexp(path)
             end
           else
+            path = File.expand_path(path)
+
             if expect_presence
               expect(File).to be_file(path)
             else
@@ -206,11 +223,13 @@ module Aruba
 
     # Pipe data in file
     #
-    # @param [String] file
+    # @param [String] file_name
     #   The file which should be used to pipe in data
-    def pipe_in_file(file)
+    def pipe_in_file(file_name)
       in_current_dir do
-        File.open(file, 'r').each_line do |line|
+        file_name = File.expand_path(file_name)
+
+        File.open(file_name, 'r').each_line do |line|
           _write_interactive(line)
         end
       end
@@ -226,12 +245,14 @@ module Aruba
     #   paths_and_sizes = {
     #     'file' => 10
     #   }
-    #   
+    #
     #   check_file_size(paths_and_sizes)
     #
     def check_file_size(paths_and_sizes)
       prep_for_fs_check do
         paths_and_sizes.each do |path, size|
+          path = File.expand_path(path)
+
           expect(File.size(path)).to eq size
         end
       end
@@ -246,6 +267,8 @@ module Aruba
     #   Pass the content of the given file to this block
     def with_file_content(file, &block)
       prep_for_fs_check do
+        file = File.expand_path(file)
+
         content = IO.read(file)
         yield(content)
       end
@@ -267,7 +290,9 @@ module Aruba
     def check_file_content(file, partial_content, expect_match)
       regexp = regexp(partial_content)
       prep_for_fs_check do
+        file = File.expand_path(file)
         content = IO.read(file)
+
         if expect_match
           expect(content).to match regexp
         else
@@ -297,6 +322,8 @@ module Aruba
     def check_directory_presence(paths, expect_presence)
       prep_for_fs_check do
         paths.each do |path|
+          path = File.expand_path(path)
+
           if expect_presence
             expect(File).to be_directory(path)
           else
@@ -312,10 +339,14 @@ module Aruba
     end
 
     def _mkdir(dir_name)
+      dir_name = File.expand_path(dir_name)
+
       FileUtils.mkdir_p(dir_name) unless File.directory?(dir_name)
     end
 
     def _rm_rf(dir_name)
+      dir_name = File.expand_path(dir_name)
+
       FileUtils.rm_rf(dir_name)
     end
 
