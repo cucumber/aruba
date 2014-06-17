@@ -12,6 +12,7 @@ matrix:
   allow_failures:
   - rvm: rbx
   - rvm: jruby-20mode
+  - rvm: jruby-21mode
 notifications:
   email:
   - cukes-devs@googlegroups.com
