@@ -264,7 +264,7 @@ end
 
 Then /^the (stderr|stdout) should not contain anything$/ do |stream_name|
   stream = self.send("all_#{stream_name}")
-  stream.should be_empty
+  expect(stream).to be_empty
 end
 
 Then /^the stdout should not contain "([^"]*)"$/ do |unexpected|

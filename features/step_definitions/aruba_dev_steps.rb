@@ -24,5 +24,5 @@ Then /^the following step should fail with Spec::Expectations::ExpectationNotMet
 end
 
 Then /^the output should be (\d+) bytes long$/ do |length|
-  expect(all_output.length).to equal(length.to_i)
+  expect(all_output.length).to eq length.to_i
 end
