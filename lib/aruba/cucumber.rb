@@ -358,3 +358,15 @@ end
 Then /^the mode of filesystem object "([^"]*)" should match "([^"]*)"$/ do |name, mode|
   mod?(mode, name)
 end
+
+Given /^a mocked home directory$/ do
+  @old_home = ENV['HOME']
+  ENV['HOME'] = current_dir
+end
+
+after do
+  if @old_home
+    ENV['HOME'] = @old_home 
+    @old_home = nil
+  end
+end
