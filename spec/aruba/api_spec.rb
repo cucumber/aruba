@@ -65,6 +65,31 @@ describe Aruba::Api  do
     end
   end
 
+  context '#random_string' do
+    it 'generates a random file name' do
+      names = []
+      names << random_string
+      names << random_string
+
+      expect(names[0]).not_to eq names[1]
+    end
+
+    it 'supports a prefix' do
+      expect(random_string(prefix: 'prefix')).to match /^prefix/
+    end
+
+    it 'supports a suffix' do
+      expect(random_string(suffix: 'suffix')).to match /suffix$/
+    end
+
+    it 'supports both a suffix and a prefix' do
+      file_name = random_string(suffix: 'suffix', prefix: 'prefix')
+
+      expect(file_name).to match /^prefix/
+      expect(file_name).to match /suffix$/
+    end
+  end
+
   describe 'files' do
     context '#write_fixed_size_file' do
       it "should write a fixed sized file" do
@@ -84,7 +109,6 @@ describe Aruba::Api  do
           expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error
         end
       end
-    end
 
     context '#chmod' do
       before(:each) { File.open(@file_path, 'w') { |f| f << "" } }

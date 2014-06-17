@@ -1,5 +1,6 @@
 require 'rspec/core'
 require 'aruba/api'
+require 'securerandom'
 
 module ManipulatesConstants
   # http://digitaldumptruck.jotabout.com/?p=551
