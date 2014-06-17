@@ -244,6 +244,73 @@ describe Aruba::Api  do
         end
       end
     end
+
+    context "#check_file_content" do
+      before :each do
+        @aruba.write_file(@file_name, "foo bar baz")
+      end
+
+      it "succeeds if file content matches" do
+        @aruba.check_file_content(@file_name, "foo bar baz", true)
+      end
+
+      it "succeeds if file content does not match" do
+        @aruba.check_file_content(@file_name, "hello world", false)
+      end
+
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          @aruba.write_file(file_path, "foo bar baz")
+          @aruba.check_file_content(file_path, "hello world", false)
+        end
+      end
+    end
+
+    context "#with_file_content" do
+      before :each do
+        @aruba.write_file(@file_name, "foo bar baz")
+      end
+
+      it "checks the given file's full content against the expectations in the passed block" do
+        @aruba.with_file_content @file_name do |full_content|
+          expect(full_content).to eq "foo bar baz"
+        end
+      end
+
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          @aruba.write_file(file_path, "foo bar baz")
+
+          @aruba.with_file_content file_path do |full_content|
+            expect(full_content).to eq "foo bar baz"
+          end
+        end
+      end
+
+      context "checking the file's content against the expectations in the block" do
+        it "is successful when the inner expectations match" do
+          expect do
+            @aruba.with_file_content @file_name do |full_content|
+              expect(full_content).to     match /foo/
+              expect(full_content).not_to match /zoo/
+            end
+          end . not_to raise_error
+        end
+
+        it "raises RSpec::Expectations::ExpectationNotMetError when the inner expectations don't match"  do
+          expect do
+            @aruba.with_file_content @file_name do |full_content|
+              expect(full_content).to     match /zoo/
+              expect(full_content).not_to match /foo/
+            end
+          end . to raise_error RSpec::Expectations::ExpectationNotMetError
+        end
+      end
+    end #with_file_content
   end
 
   describe 'tags' do
@@ -268,74 +335,6 @@ describe Aruba::Api  do
       end
     end
   end
-
-  context "#check_file_content" do
-    before :each do
-      @aruba.write_file(@file_name, "foo bar baz")
-    end
-
-    it "succeeds if file content matches" do
-      @aruba.check_file_content(@file_name, "foo bar baz", true)
-    end
-
-    it "succeeds if file content does not match" do
-      @aruba.check_file_content(@file_name, "hello world", false)
-    end
-
-    it "works with ~ in path name" do
-      file_path = File.join('~', random_string)
-
-      with_env 'HOME' => File.expand_path(current_dir) do
-        @aruba.write_file(file_path, "foo bar baz")
-        @aruba.check_file_content(file_path, "hello world", false)
-      end
-    end
-  end
-
-  context "#with_file_content" do
-    before :each do
-      @aruba.write_file(@file_name, "foo bar baz")
-    end
-
-    it "checks the given file's full content against the expectations in the passed block" do
-       @aruba.with_file_content @file_name do |full_content|
-         expect(full_content).to eq "foo bar baz"
-       end
-    end
-
-    it "works with ~ in path name" do
-      file_path = File.join('~', random_string)
-
-      with_env 'HOME' => File.expand_path(current_dir) do
-        @aruba.write_file(file_path, "foo bar baz")
-
-        @aruba.with_file_content file_path do |full_content|
-          expect(full_content).to eq "foo bar baz"
-        end
-      end
-    end
-
-    context "checking the file's content against the expectations in the block" do
-      it "is successful when the inner expectations match" do
-        expect do
-          @aruba.with_file_content @file_name do |full_content|
-            expect(full_content).to     match /foo/
-            expect(full_content).not_to match /zoo/
-          end
-        end . not_to raise_error
-      end
-
-      it "raises RSpec::Expectations::ExpectationNotMetError when the inner expectations don't match"  do
-        expect do
-          @aruba.with_file_content @file_name do |full_content|
-            expect(full_content).to     match /zoo/
-            expect(full_content).not_to match /foo/
-          end
-        end . to raise_error RSpec::Expectations::ExpectationNotMetError
-      end
-    end
-
-  end #with_file_content
 
   describe "#assert_not_matching_output" do
     before(:each){ @aruba.run_simple("echo foo", false) }
