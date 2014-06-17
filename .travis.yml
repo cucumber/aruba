@@ -8,9 +8,8 @@ rvm:
 - rbx
 matrix:
   allow_failures:
-  - rvm: 
-    - rbx
-    - jruby-20mode
+  - rvm: rbx
+  - rvm: jruby-20mode
 notifications:
   email:
   - cukes-devs@googlegroups.com
