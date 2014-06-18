@@ -146,6 +146,21 @@ describe Aruba::Api  do
     end
   end
 
+  describe 'process environment' do
+    context '#with_env' do
+      it 'modifies env for block' do
+        variable = 'THIS_IS_A_ENV_VAR'
+        ENV[variable] = '1'
+
+        with_env variable => '0' do
+          expect(ENV[variable]).to eq '0'
+        end
+
+        expect(ENV[variable]).to eq '1'
+      end
+    end
+  end
+
   describe 'tags' do
     describe '@announce_stdout' do
       after(:each){@aruba.stop_processes!}
