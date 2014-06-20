@@ -5,14 +5,10 @@ rvm:
 - 2.0.0
 - 1.9.3
 - jruby-19mode
-- jruby-20mode
-- jruby-21mode
 - rbx
 matrix:
   allow_failures:
   - rvm: rbx
-  - rvm: jruby-20mode
-  - rvm: jruby-21mode
 notifications:
   email:
   - cukes-devs@googlegroups.com
