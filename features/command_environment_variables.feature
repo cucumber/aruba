@@ -13,3 +13,19 @@ Feature: Command environment variables
       """
       long_value
       """
+
+  Scenario: Mocked home directory
+    Given a mocked home directory
+    When I run `/usr/bin/env`
+    Then the output should contain:
+    """
+    tmp/aruba
+    """
+
+  @mocked_home_directory
+  Scenario: Mocked home directory
+    When I run `/usr/bin/env`
+    Then the output should contain:
+    """
+    tmp/aruba
+    """
