@@ -360,13 +360,13 @@ Then /^the mode of filesystem object "([^"]*)" should match "([^"]*)"$/ do |name
 end
 
 Given /^a mocked home directory$/ do
-  @old_home = ENV['HOME']
-  ENV['HOME'] = current_dir
+  set_env 'HOME', File.expand_path(current_dir)
+end
+
+Before '@mocked_home_directory' do
+  set_env 'HOME', File.expand_path(current_dir)
 end
 
 After do
-  if @old_home
-    ENV['HOME'] = @old_home 
-    @old_home = nil
-  end
+  restore_env
 end
