@@ -364,7 +364,7 @@ Given /^a mocked home directory$/ do
   ENV['HOME'] = current_dir
 end
 
-after do
+After do
   if @old_home
     ENV['HOME'] = @old_home 
     @old_home = nil
