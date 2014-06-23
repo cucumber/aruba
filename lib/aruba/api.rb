@@ -199,6 +199,10 @@ module Aruba
       end
     end
 
+    # Pipe data in file
+    #
+    # @param [String] file
+    #   The file which should be used to pipe in data
     def pipe_in_file(file)
       in_current_dir do
         File.open(file, 'r').each_line do |line|
@@ -207,6 +211,19 @@ module Aruba
       end
     end
 
+    # Check the file size of paths
+    #
+    # @params [Hash] paths_and_sizes
+    #   A hash containing the path (key) and the expected size (value)
+    #
+    # @example
+    #
+    #   paths_and_sizes = {
+    #     'file' => 10
+    #   }
+    #   
+    #   check_file_size(paths_and_sizes)
+    #
     def check_file_size(paths_and_sizes)
       prep_for_fs_check do
         paths_and_sizes.each do |path, size|
@@ -215,6 +232,13 @@ module Aruba
       end
     end
 
+    # Read content of file and yield the content to block
+    #
+    # @param [String) file
+    #   The name of file which should be read from
+    #
+    # @yield
+    #   Pass the content of the given file to this block
     def with_file_content(file, &block)
       prep_for_fs_check do
         content = IO.read(file)
@@ -222,6 +246,19 @@ module Aruba
       end
     end
 
+    # Check the content of file
+    #
+    # It supports partial content as well. And it is up to you to decided if
+    # the content must be there or not.
+    #
+    # @param [String] file
+    #   The file to be checked
+    #
+    # @param [String] partial_content
+    #   The content which must/must not be in the file
+    #
+    # @param [true, false] expect_match
+    #   Must the content be in the file or not
     def check_file_content(file, partial_content, expect_match)
       regexp = regexp(partial_content)
       prep_for_fs_check do
@@ -234,10 +271,24 @@ module Aruba
       end
     end
 
+    # Check if the exact content can be found in file
+    #
+    # @param [String] file
+    #   The file to be checked
+    #
+    # @param [String] exact_content
+    #   The content of the file
     def check_exact_file_content(file, exact_content)
       prep_for_fs_check { expect(IO.read(file)).to eq exact_content }
     end
 
+    # Check presence of a directory
+    #
+    # @param [Array] paths
+    #   The paths to be checked
+    #
+    # @param [true, false] expect_presence
+    #   Should the directory be there or should the directory not be there
     def check_directory_presence(paths, expect_presence)
       prep_for_fs_check do
         paths.each do |path|
@@ -263,6 +314,13 @@ module Aruba
       FileUtils.rm_rf(dir_name)
     end
 
+    # Unescape string
+    #
+    # @param [String] string
+    #   The string which should be unescaped, e.g. the output of a command
+    #
+    # @return
+    #   The string stripped from escape sequences
     def unescape(string)
       string = string.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e")
       string = string.gsub(/\e\[\d+(?>(;\d+)*)m/, '') unless @aruba_keep_ansi
@@ -273,16 +331,28 @@ module Aruba
       Regexp === string_or_regexp ? string_or_regexp : Regexp.compile(Regexp.escape(string_or_regexp))
     end
 
+    # Fetch output (stdout, stderr) from command
+    #
+    # @param [String] cmd
+    #   The comand
     def output_from(cmd)
       cmd = detect_ruby(cmd)
       get_process(cmd).output
     end
 
+    # Fetch stdout from command
+    #
+    # @param [String] cmd
+    #   The comand
     def stdout_from(cmd)
       cmd = detect_ruby(cmd)
       get_process(cmd).stdout
     end
 
+    # Fetch stderr from command
+    #
+    # @param [String] cmd
+    #   The comand
     def stderr_from(cmd)
       cmd = detect_ruby(cmd)
       get_process(cmd).stderr
@@ -407,6 +477,13 @@ module Aruba
       processes.collect{ |_, process| process }
     end
 
+    # Run given command and stop it if timeout is reached
+    #
+    # @param [String] cmd
+    #   The command which should be executed
+    #
+    # @param [Integer] timeout
+    #   If the timeout is reached the command will be killed
     def run(cmd, timeout = nil)
       timeout ||= exit_timeout
       @commands ||= []
@@ -448,15 +525,24 @@ module Aruba
       assert_exit_status(0) if fail_on_error
     end
 
+    # Run a command interactively
+    #
+    # @param [String] cmd
+    #   The command to by run
     def run_interactive(cmd)
       @interactive = run(cmd)
     end
 
+    # Provide data to command via stdin
+    #
+    # @param [String] input
+    #   The input for the command
     def type(input)
       return close_input if "" == input
       _write_interactive(_ensure_newline(input))
     end
 
+    # Close stdin
     def close_input
       @interactive.stdin.close
     end
@@ -523,12 +609,20 @@ module Aruba
       end
     end
 
+    # Set environment variable
+    #
+    # @param [String] key
+    #   The name of the environment variable as string, e.g. 'HOME'
+    #
+    # @param [String] value
+    #   The value of the environment variable. Needs to be a string.
     def set_env(key, value)
       announcer.env(key, value)
       original_env[key] = ENV.delete(key)
       ENV[key] = value
     end
 
+    # Restore original process environment
     def restore_env
       original_env.each do |key, value|
         ENV[key] = value
