@@ -53,20 +53,23 @@ module Aruba
       end
     end
 
-    def chmod(mode, name)
+    def filesystem_permissions(mode, file_name)
       in_current_dir do
-        raise "expected #{name} to be present" unless FileTest.exists?(name)
+        raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
+
         if mode.kind_of? String
-          FileUtils.chmod(mode.to_i(8),name)
+          FileUtils.chmod(mode.to_i(8),file_name)
         else
-          FileUtils.chmod(mode,name)
+          FileUtils.chmod(mode, file_name)
         end
       end
     end
 
-    def mod?(mode, name)
+    def check_filesystem_permissions(mode, file_name)
       in_current_dir do
-        mode == sprintf( "%o", File::Stat.new(name).mode )[-4,4].to_i(8)
+        raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
+
+        mode == sprintf( "%o", File::Stat.new(file_name).mode )[-4,4].to_i(8)
       end
     end
 

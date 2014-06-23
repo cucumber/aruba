@@ -23,7 +23,7 @@ end
 
 Given /^a directory named "([^"]*)" with mode "([^"]*)"$/ do |dir_name, dir_mode|
   create_dir(dir_name)
-  chmod(dir_mode, dir_name)
+  filesystem_permissions(dir_mode, dir_name)
 end
 
 Given /^a file named "([^"]*)" with:$/ do |file_name, file_content|
@@ -32,7 +32,7 @@ end
 
 Given /^a file named "([^"]*)" with mode "([^"]*)" and with:$/ do |file_name, file_mode, file_content|
   write_file(file_name, file_content)
-  chmod(file_mode, file_name)
+  filesystem_permissions(file_mode, file_name)
 end
 
 Given /^a (\d+) byte file named "([^"]*)"$/ do |file_size, file_name|
@@ -45,7 +45,7 @@ end
 
 Given /^an empty file named "([^"]*)" with mode "([^"]*)"$/ do |file_name, file_mode|
   write_file(file_name, "")
-  chmod(file_mode, file_name)
+  filesystem_permissions(file_mode, file_name)
 end
 
 When /^I write to "([^"]*)" with:$/ do |file_name, file_content|
@@ -361,5 +361,5 @@ Then /^the file "([^"]*)" should not match \/([^\/]*)\/$/ do |file, partial_cont
 end
 
 Then /^the mode of filesystem object "([^"]*)" should match "([^"]*)"$/ do |name, mode|
-  mod?(mode, name)
+  check_filesystem_permissions(mode, name)
 end
