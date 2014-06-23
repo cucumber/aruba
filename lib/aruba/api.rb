@@ -10,20 +10,33 @@ module Aruba
   module Api
     include RSpec::Matchers
 
+    # Execute block in current directory
+    #
+    # @yield
+    #   The block which should be run in current directory
     def in_current_dir(&block)
       _mkdir(current_dir)
       Dir.chdir(current_dir, &block)
     end
 
+    # Clean the current directory
     def clean_current_dir
       _rm_rf(current_dir)
       _mkdir(current_dir)
     end
 
+    # Get access to current dir
+    #
+    # @return 
+    #   Current directory
     def current_dir
       File.join(*dirs)
     end
 
+    # Switch to directory
+    #
+    # @param [String] dir
+    #   The directory
     def cd(dir)
       dirs << dir
       raise "#{current_dir} is not a directory." unless File.directory?(current_dir)
@@ -33,14 +46,39 @@ module Aruba
       @dirs ||= ['tmp', 'aruba']
     end
 
+    # Create a file with given content
+    #
+    # The method does not check if file already exists. If the file name is a
+    # path the method will create all neccessary directories.
+    #
+    # @param [String] file_name
+    #   The name of the file
+    #
+    # @param [String] file_content
+    #   The content which should be written to the file
     def write_file(file_name, file_content)
       _create_file(file_name, file_content, false)
     end
 
+    # Create a file with the given size
+    #
+    # The method does not check if file already exists. If the file name is a
+    # path the method will create all neccessary directories.
+    #
+    # @param [String] file_name
+    #   The name of the file
+    #
+    # @param [Integer] file_size
+    #   The size of the file
     def write_fixed_size_file(file_name, file_size)
       _create_fixed_size_file(file_name, file_size, false)
     end
 
+    # Create a file with given content
+    #
+    # The method does check if file already exists and fails if the file is
+    # missing. If the file name is a path the method will create all neccessary
+    # directories.
     def overwrite_file(file_name, file_content)
       _create_file(file_name, file_content, true)
     end
@@ -53,6 +91,13 @@ module Aruba
       end
     end
 
+    # Change file system  permissions of file
+    #
+    # @param [Octal] mode
+    #   File system mode, eg. 0755
+    #
+    # @param [String] name
+    #   Name of file to be modified. This file needs to be present to succeed
     def chmod(mode, name)
       in_current_dir do
         raise "expected #{name} to be present" unless FileTest.exists?(name)
@@ -64,6 +109,11 @@ module Aruba
       end
     end
 
+    # Check file system permissions of file
+    #
+    # @param [Octal] mode
+    #   Expected file system permissions, e.g. 0755
+    # @param [String] name
     def mod?(mode, name)
       in_current_dir do
         mode == sprintf( "%o", File::Stat.new(name).mode )[-4,4].to_i(8)
@@ -78,12 +128,23 @@ module Aruba
       end
     end
 
+    # Remove file
+    #
+    # @param [String] file_name
+    #    The file which should be deleted in current directory
     def remove_file(file_name)
       in_current_dir do
         FileUtils.rm(file_name)
       end
     end
 
+    # Append data to file
+    #
+    # @param [String] file_name
+    #   The name of the file to be used
+    #
+    # @param [String] file_content
+    #   The content which should be appended to file
     def append_to_file(file_name, file_content)
       in_current_dir do
         _mkdir(File.dirname(file_name))
@@ -91,18 +152,33 @@ module Aruba
       end
     end
 
+    # Create a directory in current directory
+    #
+    # @param [String] dir_name
+    #   The name of the directory which should be created
     def create_dir(dir_name)
       in_current_dir do
         _mkdir(dir_name)
       end
     end
 
+    # Remove directory
+    #
+    # @param [String] directory_name
+    #   The name of the directory which should be removed
     def remove_dir(directory_name)
       in_current_dir do
         FileUtils.rmdir(directory_name)
       end
     end
 
+    # Check if paths are present
+    #
+    # @param [#each] paths
+    #   The paths which should be checked
+    #
+    # @param [true,false] expect_presence
+    #   Should the given paths be present (true) or absent (false)
     def check_file_presence(paths, expect_presence)
       prep_for_fs_check do
         paths.each do |path|
