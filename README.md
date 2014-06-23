@@ -183,6 +183,17 @@ That's it! Everything will now run inside the same ruby process, making your sui
 a lot faster. Cucumber itself uses this approach to test itself, so check out the
 Cucumber source code for an example.
 
+*Pros*:
+
+* Very fast compared to spawning processes
+* You can use libraries like
+  [simplecov](https://github.com/colszowka/simplecov) more easily, because
+  there is only one "process" which adds data to `simplecov`'s database
+
+*Cons*:
+* You might oversee some bugs: You might forget to require libraries in your
+  "production" code, because you have required them in your testing code
+
 ### JRuby Tips
 
 Improve startup time by disabling JIT and forcing client JVM mode.  This can be accomplished by adding
