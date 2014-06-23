@@ -129,22 +129,22 @@ describe Aruba::Api  do
       before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
 
       it "should change a file's mode" do
-        @aruba.chmod(0644, @file_name)
+        @aruba.filesystem_permissions(0644, @file_name)
         result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
         expect(result).to eq('0644')
 
-        @aruba.chmod(0655, @file_name)
+        @aruba.filesystem_permissions(0655, @file_name)
         result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
         expect(result).to eq('0655')
 
-        @aruba.chmod("0655", @file_name)
+        @aruba.filesystem_permissions("0655", @file_name)
         result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
         expect(result).to eq('0655')
       end
 
       it "should check the mode of a file" do
-        @aruba.chmod(0666, @file_name)
-        expect(@aruba.mod?(0666, @file_name) ).to eq(true)
+        @aruba.filesystem_permissions(0666, @file_name)
+        expect(@aruba.check_filesystem_permissions(0666, @file_name) ).to eq(true)
       end
 
       it "works with ~ in path name" do

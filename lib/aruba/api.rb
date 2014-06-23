@@ -106,7 +106,7 @@ module Aruba
     #
     # @param [String] file_name
     #   Name of file to be modified. This file needs to be present to succeed
-    def chmod(mode, file_name)
+    def filesystem_permissions(mode, file_name)
       in_current_dir do
         file_name = File.expand_path(file_name)
 
@@ -124,10 +124,11 @@ module Aruba
     # @param [Octal] mode
     #   Expected file system permissions, e.g. 0755
     # @param [String] file_name
-    def mod?(mode, file_name)
+    def check_filesystem_permissions(mode, file_name)
       in_current_dir do
         file_name = File.expand_path(file_name)
 
+        raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
         mode == sprintf( "%o", File::Stat.new(file_name).mode )[-4,4].to_i(8)
       end
     end
