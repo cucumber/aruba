@@ -124,12 +124,27 @@ module Aruba
     # @param [Octal] mode
     #   Expected file system permissions, e.g. 0755
     # @param [String] file_name
-    def check_filesystem_permissions(mode, file_name)
+    #   Expected file system permissions, e.g. 0755
+    # @param [Boolean] expect_permissions
+    #   Are the permissions expected to be mode or are they expected not to be mode?
+    def check_filesystem_permissions(mode, file_name, expect_permissions)
       in_current_dir do
         file_name = File.expand_path(file_name)
 
         raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
-        mode == sprintf( "%o", File::Stat.new(file_name).mode )[-4,4].to_i(8)
+        if mode.kind_of? Integer
+          expected_mode = mode.to_s(8)
+        else
+          expected_mode = mode.gsub(/^0*/, '')
+        end
+
+        file_mode = sprintf( "%o", File::Stat.new(file_name).mode )[-4,4].gsub(/^0*/, '')
+
+        if expect_permissions
+          expect(file_mode).to eq expected_mode
+        else
+          expect(file_mode).not_to eq expected_mode
+        end
       end
     end
 
