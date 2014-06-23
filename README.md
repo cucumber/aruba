@@ -298,4 +298,4 @@ Please see the `CONTRIBUTING.md`.
 
 ## Copyright
 
-Copyright (c) 2010,2011,2012,2013 Aslak Hellesøy, David Chelimsky and Mike Sassak. See LICENSE for details.
+Copyright (c) 2010,2011,2012,2013,2014 Aslak Hellesøy, David Chelimsky and Mike Sassak. See LICENSE for details.
