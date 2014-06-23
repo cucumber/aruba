@@ -142,9 +142,33 @@ describe Aruba::Api  do
         expect(result).to eq('0655')
       end
 
-      it "should check the mode of a file" do
+      it "supports a string representation of permission as well" do
         @aruba.filesystem_permissions(0666, @file_name)
-        expect(@aruba.check_filesystem_permissions(0666, @file_name) ).to eq(true)
+        @aruba.check_filesystem_permissions('0666', @file_name, true)
+      end
+
+      it "should succeed if mode does not match but is expected to be different" do
+        @aruba.filesystem_permissions(0666, @file_name)
+        @aruba.check_filesystem_permissions(0755, @file_name, false)
+      end
+
+      it "should fail if mode matches and is expected to be different" do
+        @aruba.filesystem_permissions(0666, @file_name)
+        expect {
+          @aruba.check_filesystem_permissions(0666, @file_name, false)
+        }.to raise_error
+      end
+
+      it "should fail if mode does not match but is expected to be equal" do
+        @aruba.filesystem_permissions(0666, @file_name)
+        expect {
+          @aruba.check_filesystem_permissions(0755, @file_name, true)
+        }.to raise_error
+      end
+
+      it "should succeed if mode matches and is expected to be equal" do
+        @aruba.filesystem_permissions(0666, @file_name)
+        @aruba.check_filesystem_permissions(0666, @file_name, true)
       end
 
       it "works with ~ in path name" do
