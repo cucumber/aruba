@@ -8,6 +8,8 @@ Aruba is Cucumber extension for testing command line applications written in any
 
 ## Usage
 
+### Cucumber
+
 If you have a `Gemfile`, add `aruba`. Otherwise, install it like this:
 
     gem install aruba
@@ -21,6 +23,38 @@ require 'aruba/cucumber'
 You now have a bunch of step definitions that you can use in your features. Look at [`lib/aruba/cucumber.rb`](lib/aruba/cucumber.rb)
 to see them all. Look at [`features/*.feature`](features/) for examples (which are also testing Aruba
 itself).
+
+### RSpec
+
+Originally written for `cucumber`, `aruba` can be helpful in other contexts as
+well. One might want to use it together with `rspec`.
+
+1. Create a directory named `spec/support`
+2. Create a file named `spec/support/aruba.rb` with:
+
+   ```
+   require 'aruba/api
+   require 'aruba/reporting'
+
+    RSpec.configure do |c|
+      c.include Aruba::Api
+      c.after(:each) do
+        restore_env
+      end
+    end
+   ```
+
+## API
+
+`aruba` provides a wonderfull api to be used in your tests:
+
+* Creating files/directories
+* Deleting files/directories
+* Checking file size
+* Checking file existence/absence
+* ...
+
+A full documentation of the api can be found [here](http://www.rubydoc.info/github/cucumber/aruba/master/frames).
 
 ## Configuration
 
