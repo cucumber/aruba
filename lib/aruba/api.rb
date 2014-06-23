@@ -65,11 +65,23 @@ module Aruba
       end
     end
 
-    def check_filesystem_permissions(mode, file_name)
+    def check_filesystem_permissions(mode, file_name, expect_permissions)
       in_current_dir do
         raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
 
-        mode == sprintf( "%o", File::Stat.new(file_name).mode )[-4,4].to_i(8)
+        if mode.kind_of? Integer
+          expected_mode = mode.to_s(8)
+        else
+          expected_mode = mode.gsub(/^0*/, '')
+        end
+
+        file_mode = sprintf( "%o", File::Stat.new(file_name).mode )[-4,4].gsub(/^0*/, '')
+
+        if expect_permissions
+          expect(file_mode).to eq expected_mode
+        else
+          expect(file_mode).not_to eq expected_mode
+        end
       end
     end
 
