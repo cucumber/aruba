@@ -8,6 +8,8 @@ Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).
 
 module Aruba
   module Api
+    DEFAULT_INTERACTIVE_NAME = :unnamed
+
     include RSpec::Matchers
 
     def in_current_dir(&block)
@@ -255,7 +257,8 @@ module Aruba
       end
     end
 
-    def assert_partial_output_interactive(expected)
+    def assert_partial_output_interactive(expected, name = DEFAULT_INTERACTIVE_NAME)
+      _swap_interactive(name)
       unescape(_read_interactive).include?(unescape(expected)) ? true : false
     end
 
@@ -372,22 +375,29 @@ module Aruba
       assert_exit_status(0) if fail_on_error
     end
 
-    def run_interactive(cmd)
-      @interactive = run(cmd)
+    def run_interactive(cmd, name = DEFAULT_INTERACTIVE_NAME)
+      @interactive_by_name ||= Hash.new
+      @interactive_by_name[name] = @interactive = run(cmd)
     end
 
-    def type(input)
+    def type(input, name = DEFAULT_INTERACTIVE_NAME)
+      _swap_interactive(name)
       return close_input if "" == input
       _write_interactive(_ensure_newline(input))
     end
 
-    def close_input
+    def close_input(name = DEFAULT_INTERACTIVE_NAME)
+      _swap_interactive(name)
       @interactive.stdin.close
     end
 
     def eot
       warn(%{\e[35m    The \"#eot\"-method is deprecated. It will be deleted with the next major version. Please use \"#close_input\"-method instead.\e[0m})
       close_input
+    end
+
+    def _swap_interactive(name)
+      @interactive = @interactive_by_name[name]
     end
 
     def _write_interactive(input)
