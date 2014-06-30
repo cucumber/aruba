@@ -1,4 +1,9 @@
-## [master](https://github.com/cucumber/aruba/compare/v0.5.4...master)
+## [master](https://github.com/cucumber/aruba/compare/v0.6.0...master)
+
+## [v0.6.0](https://github.com/cucumber/aruba/compare/v0.5.4...v0.6.0)
+* Dropped support for ruby 1.8
+* Added support for ruby 2.1.0
+* Added rspec 3.0.0 support
 
 ## [v0.5.4](https://github.com/cucumber/aruba/compare/v0.5.3...v0.5.4)
 * Added support for piping in files (#154 maxmeyer, dg-vrnetze)
