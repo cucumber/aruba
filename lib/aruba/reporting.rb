@@ -23,8 +23,8 @@ if(ENV['ARUBA_REPORT_DIR'])
         pygmentize.run! do |p|
           exit_status = p.stop(false)
           if(exit_status == 0)
-            p.stdout(false)
-          elsif(p.stderr(false) =~ /no lexer/) # Pygment's didn't recognize it
+            p.stdout
+          elsif(p.stderr =~ /no lexer/) # Pygment's didn't recognize it
             IO.read(file)
           else
             STDERR.puts "\e[31m#{p.stderr} - is pygments installed?\e[0m"
