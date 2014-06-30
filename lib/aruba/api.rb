@@ -307,6 +307,10 @@ module Aruba
       @processes ||= []
     end
 
+    def processes_by_nickname
+      @processes_by_nickname ||= Hash.new
+    end
+
     def stop_processes!
       processes.each do |_, process|
         stop_process(process)
@@ -320,8 +324,9 @@ module Aruba
       end
     end
 
-    def register_process(name, process)
+    def register_process(name, process, nickname = nil)
       processes << [name, process]
+      processes_by_nickname.store(nickname, process) unless nickname.nil?
     end
 
     def get_process(wanted)
@@ -330,11 +335,17 @@ module Aruba
       matching_processes.last
     end
 
+    def get_process_by_nickname(nickname)
+      processes_by_nickname.fetch(nickname) do
+        raise ArgumentError.new("No process nicknamed '#{nickname}' has been started")
+      end
+    end
+
     def only_processes
       processes.collect{ |_, process| process }
     end
 
-    def run(cmd, timeout = nil)
+    def run(cmd, timeout = nil, nickname = nil)
       timeout ||= exit_timeout
       @commands ||= []
       @commands << cmd
@@ -348,7 +359,7 @@ module Aruba
         announcer.cmd(cmd)
 
         process = Aruba.process.new(cmd, timeout, io_wait)
-        register_process(cmd, process)
+        register_process(cmd, process, nickname)
         process.run!
 
         block_given? ? yield(process) : process
@@ -367,27 +378,26 @@ module Aruba
       @aruba_io_wait_seconds || DEFAULT_IO_WAIT_SECONDS
     end
 
-    def run_simple(cmd, fail_on_error=true, timeout = nil)
-      run(cmd, timeout) do |process|
+    def run_simple(cmd, fail_on_error = true, timeout = nil, nickname = nil)
+      run(cmd, timeout, nickname) do |process|
         stop_process(process)
       end
       @timed_out = last_exit_status.nil?
       assert_exit_status(0) if fail_on_error
     end
 
-    def run_interactive(cmd, name = DEFAULT_INTERACTIVE_NAME)
-      @interactive_by_name ||= Hash.new
-      @interactive_by_name[name] = @interactive = run(cmd)
+    def run_interactive(cmd, nickname = DEFAULT_INTERACTIVE_NAME)
+      @interactive = run(cmd, nil, nickname)
     end
 
-    def type(input, name = DEFAULT_INTERACTIVE_NAME)
-      _swap_interactive(name)
+    def type(input, nickname = DEFAULT_INTERACTIVE_NAME)
+      _swap_interactive(nickname)
       return close_input if "" == input
       _write_interactive(_ensure_newline(input))
     end
 
-    def close_input(name = DEFAULT_INTERACTIVE_NAME)
-      _swap_interactive(name)
+    def close_input(nickname = DEFAULT_INTERACTIVE_NAME)
+      _swap_interactive(nickname)
       @interactive.stdin.close
     end
 
@@ -396,8 +406,8 @@ module Aruba
       close_input
     end
 
-    def _swap_interactive(name)
-      @interactive = @interactive_by_name[name]
+    def _swap_interactive(nickname)
+      @interactive = processes_by_nickname[nickname]
     end
 
     def _write_interactive(input)
