@@ -88,3 +88,14 @@ Feature: Interactive process control
     And I type "cat b" to "catb"
     When I wait for output to contain "cat b" from "catb"
     And I type "\C-D" to "catb"
+
+  @announce
+  Scenario: Run two commands at the same time with interleaved steps
+    When I run `cat` interactively as "cata"
+    When I run `cat` interactively as "catb"
+    And I type "cat a" to "cata"
+    And I type "cat b" to "catb"
+    When I wait for output to contain "cat a" from "cata"
+    When I wait for output to contain "cat b" from "catb"
+    And I type "\C-D" to "cata"
+    And I type "\C-D" to "catb"
