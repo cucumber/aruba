@@ -24,7 +24,10 @@ describe "Aruba JRuby Startup Helper"  do
 
   it 'configuration loads for java and merges existing environment variables' do
     with_constants :ENV => @fake_env, :RUBY_PLATFORM => 'java'  do
-      RbConfig::CONFIG.stub(:[] => 'solaris')
+      rb_config = double('rb_config')
+      allow(rb_config).to receive(:[]).and_return('solaris')
+      stub_const 'RbConfig::CONFIG', rb_config
+
       load 'aruba/jruby.rb'
       Aruba.config.hooks.execute :before_cmd, self
       expect(ENV['JRUBY_OPTS']).to eq "-X-C --1.9"

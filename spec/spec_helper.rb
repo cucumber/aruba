@@ -38,7 +38,6 @@ end unless Kernel.respond_to? :silence_warnings
 RSpec.configure do |config|
   config.filter_run :focus => true
   config.run_all_when_everything_filtered = true
-  config.treat_symbols_as_metadata_keys_with_true_values = true
   config.include(ManipulatesConstants)
   config.expect_with :rspec do |c|
     c.syntax = :expect

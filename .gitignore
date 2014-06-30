@@ -24,3 +24,4 @@ tmp
 .bundle
 doc
 Gemfile.lock
+cucumber-pro.log
