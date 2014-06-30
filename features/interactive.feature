@@ -99,3 +99,13 @@ Feature: Interactive process control
     When I wait for output to contain "cat b" from "catb"
     And I type "\C-D" to "cata"
     And I type "\C-D" to "catb"
+
+  @announce
+  Scenario: Run two commands that talk to eachother over the network
+    When I run `nc -l 60000` interactively as "nc server"
+    When I run `nc localhost 60000` interactively as "nc client"
+    And I type "calling the server" to "nc client"
+    When I wait for output to contain "calling the server" from "nc server"
+    And I type "calling the client" to "nc server"
+    When I wait for output to contain "calling the client" from "nc client"
+    And I type "\C-D" to "nc client"
