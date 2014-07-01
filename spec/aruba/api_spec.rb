@@ -51,27 +51,77 @@ describe Aruba::Api  do
   end
 
   describe 'directories' do
-    context 'delete directory' do
+    context '#remove_dir' do
       before(:each) do
         @directory_name = 'test_dir'
         @directory_path = File.join(@aruba.current_dir, @directory_name)
         Dir.mkdir(@directory_path)
       end
+
       it 'should delete directory' do
         @aruba.remove_dir(@directory_name)
         expect(File.exist?(@directory_path)).to eq false
       end
+
+      it "works with ~ in path name" do
+        directory_path = File.join('~', random_string)
+        
+        with_env 'HOME' => File.expand_path(current_dir) do
+          Dir.mkdir(File.expand_path(directory_path))
+          @aruba.remove_dir(directory_path)
+
+          expect(File.exist?(File.expand_path(directory_path))).to eq false
+        end
+      end
+    end
+  end
+
+  context '#random_string' do
+    it 'generates a random file name' do
+      names = []
+      names << random_string
+      names << random_string
+
+      expect(names[0]).not_to eq names[1]
+    end
+
+    it 'supports a prefix' do
+      expect(random_string(prefix: 'prefix')).to match /^prefix/
+    end
+
+    it 'supports a suffix' do
+      expect(random_string(suffix: 'suffix')).to match /suffix$/
+    end
+
+    it 'supports both a suffix and a prefix' do
+      file_name = random_string(suffix: 'suffix', prefix: 'prefix')
+
+      expect(file_name).to match /^prefix/
+      expect(file_name).to match /suffix$/
     end
   end
 
   describe 'files' do
-    context 'fixed size' do
+    context '#write_fixed_size_file' do
       it "should write a fixed sized file" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         expect(File.exist?(@file_path)).to eq true
         expect(File.size(@file_path)).to eq @file_size
       end
 
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          @aruba.write_fixed_size_file(file_path, @file_size)
+
+          expect(File.exist?(File.expand_path(file_path))).to eq true
+          expect(File.size(File.expand_path(file_path))).to eq @file_size
+        end
+      end
+    end
+
+    context '#check_file_size' do
       it "should check an existing file size" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         @aruba.check_file_size([[@file_name, @file_size]])
@@ -81,13 +131,19 @@ describe Aruba::Api  do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error
       end
-    end
-    context 'existing' do
-      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
-      it "should delete file" do
-        @aruba.remove_file(@file_name)
-        expect(File.exist?(@file_path)).to eq false
+
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          @aruba.write_fixed_size_file(file_path, @file_size)
+          @aruba.check_file_size([[file_path, @file_size]])
+        end
       end
+    end
+
+    context '#chmod' do
+      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
 
       it "should change a file's mode" do
         @aruba.chmod(0644, @file_name)
@@ -107,6 +163,40 @@ describe Aruba::Api  do
         @aruba.chmod(0666, @file_name)
         expect(@aruba.mod?(0666, @file_name) ).to eq(true)
       end
+
+      it "works with ~ in path name" do
+        file_name = "~/test_file"
+        
+        with_env 'HOME' => File.expand_path(current_dir) do
+          File.open(File.expand_path(file_name), 'w') { |f| f << "" }
+
+          @aruba.chmod(0666, file_name)
+          expect(@aruba.mod?(0666, file_name) ).to eq(true)
+        end
+      end
+    end
+
+    context '#remove_file' do
+      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
+
+      it "should delete file" do
+        @aruba.remove_file(@file_name)
+        expect(File.exist?(@file_path)).to eq false
+      end
+
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          File.open(File.expand_path(file_path), 'w') { |f| f << "" }
+          @aruba.remove_file(file_path)
+          expect(File.exist?(file_path)).to eq false
+        end
+      end
+    end
+
+    context '#check_file_presence' do
+      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
 
       it "should check existence using plain match" do
         file_name = 'nested/dir/hello_world.txt'
@@ -143,7 +233,84 @@ describe Aruba::Api  do
         @aruba.check_file_presence([ /test123/, 'asdf' ], false )
       end
 
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          FileUtils.mkdir_p File.dirname(File.expand_path(file_path))
+          File.open(File.expand_path(file_path), 'w') { |f| f << "" }
+
+          @aruba.check_file_presence( [ file_path ], true )
+        end
+      end
     end
+
+    context "#check_file_content" do
+      before :each do
+        @aruba.write_file(@file_name, "foo bar baz")
+      end
+
+      it "succeeds if file content matches" do
+        @aruba.check_file_content(@file_name, "foo bar baz", true)
+      end
+
+      it "succeeds if file content does not match" do
+        @aruba.check_file_content(@file_name, "hello world", false)
+      end
+
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          @aruba.write_file(file_path, "foo bar baz")
+          @aruba.check_file_content(file_path, "hello world", false)
+        end
+      end
+    end
+
+    context "#with_file_content" do
+      before :each do
+        @aruba.write_file(@file_name, "foo bar baz")
+      end
+
+      it "checks the given file's full content against the expectations in the passed block" do
+        @aruba.with_file_content @file_name do |full_content|
+          expect(full_content).to eq "foo bar baz"
+        end
+      end
+
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          @aruba.write_file(file_path, "foo bar baz")
+
+          @aruba.with_file_content file_path do |full_content|
+            expect(full_content).to eq "foo bar baz"
+          end
+        end
+      end
+
+      context "checking the file's content against the expectations in the block" do
+        it "is successful when the inner expectations match" do
+          expect do
+            @aruba.with_file_content @file_name do |full_content|
+              expect(full_content).to     match /foo/
+              expect(full_content).not_to match /zoo/
+            end
+          end . not_to raise_error
+        end
+
+        it "raises RSpec::Expectations::ExpectationNotMetError when the inner expectations don't match"  do
+          expect do
+            @aruba.with_file_content @file_name do |full_content|
+              expect(full_content).to     match /zoo/
+              expect(full_content).not_to match /foo/
+            end
+          end . to raise_error RSpec::Expectations::ExpectationNotMetError
+        end
+      end
+    end #with_file_content
   end
 
   describe 'tags' do
@@ -168,39 +335,6 @@ describe Aruba::Api  do
       end
     end
   end
-
-  describe "#with_file_content" do
-    before :each do
-      @aruba.write_file(@file_name, "foo bar baz")
-    end
-
-    it "checks the given file's full content against the expectations in the passed block" do
-       @aruba.with_file_content @file_name do |full_content|
-         expect(full_content).to eq "foo bar baz"
-       end
-    end
-
-    context "checking the file's content against the expectations in the block" do
-      it "is successful when the inner expectations match" do
-        expect do
-          @aruba.with_file_content @file_name do |full_content|
-            expect(full_content).to     match /foo/
-            expect(full_content).not_to match /zoo/
-          end
-        end . not_to raise_error
-      end
-
-      it "raises RSpec::Expectations::ExpectationNotMetError when the inner expectations don't match"  do
-        expect do
-          @aruba.with_file_content @file_name do |full_content|
-            expect(full_content).to     match /zoo/
-            expect(full_content).not_to match /foo/
-          end
-        end . to raise_error RSpec::Expectations::ExpectationNotMetError
-      end
-    end
-
-  end #with_file_content
 
   describe "#assert_not_matching_output" do
     before(:each){ @aruba.run_simple("echo foo", false) }

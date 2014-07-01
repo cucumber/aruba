@@ -363,3 +363,15 @@ end
 Then /^the mode of filesystem object "([^"]*)" should match "([^"]*)"$/ do |name, mode|
   mod?(mode, name)
 end
+
+Given /^a mocked home directory$/ do
+  set_env 'HOME', File.expand_path(current_dir)
+end
+
+Before '@mocked_home_directory' do
+  set_env 'HOME', File.expand_path(current_dir)
+end
+
+After do
+  restore_env
+end
