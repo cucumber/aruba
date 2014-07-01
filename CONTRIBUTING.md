@@ -44,6 +44,8 @@ Now release it
     git commit -m "Release X.Y.Z"
     rake release
 
+Now email cukes@googlegroups.com with details of the new release. Just a copy / paste from the History.md file is normally fine.
+
 ## Gaining Release Karma
 
 To become a release manager, create a pull request adding your name to the list below, and include your Rubygems email address in the ticket. One of the existing Release managers will then add you.
