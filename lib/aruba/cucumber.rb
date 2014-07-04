@@ -110,12 +110,24 @@ When /^I run `([^`]*)` interactively$/ do |cmd|
   run_interactive(unescape(cmd))
 end
 
+When /^I run `([^`]*)` interactively as "([^"]*)"$/ do |cmd, name|
+  run_interactive(unescape(cmd), name)
+end
+
 When /^I type "([^"]*)"$/ do |input|
   type(input)
 end
 
+When /^I type "([^"]*)" to "([^"]*)"$/ do |input, name|
+  type(input, name)
+end
+
 When /^I close the stdin stream$/ do
   close_input
+end
+
+When /^I close the stdin stream of "([^"]*)"$/ do |name|
+  close_input(name)
 end
 
 When /^I pipe in the file "([^"]*)"$/ do |file|
@@ -128,6 +140,15 @@ When /^I wait for (?:output|stdout) to contain "([^"]*)"$/ do |expected|
   Timeout::timeout(exit_timeout) do
     loop do
       break if assert_partial_output_interactive(expected)
+      sleep 0.1
+    end
+  end
+end
+
+When /^I wait for (?:output|stdout) to contain "([^"]*)" from "([^"]*)"$/ do |expected, name|
+  Timeout::timeout(exit_timeout) do
+    loop do
+      break if assert_partial_output_interactive(expected, name)
       sleep 0.1
     end
   end

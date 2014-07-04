@@ -64,3 +64,48 @@ Feature: Interactive process control
     When I run `mv rename_me renamed` interactively
     Then a directory named "renamed" should exist
     And a directory named "rename_me" should not exist
+
+  Scenario: Running another native binary interactively
+    When I run `cat` interactively
+    And I type "cat a"
+    And I type ""
+    When I run `cat` interactively
+    And I type "cat b"
+    And I type ""
+    Then the output should contain:
+      """
+      cat a
+      cat b
+      """
+
+  @announce
+  Scenario: Run two commands at the same time
+    When I run `cat` interactively as "cata"
+    And I type "cat a" to "cata"
+    And I type "\C-D" to "cata"
+    When I wait for output to contain "cat a" from "cata"
+    When I run `cat` interactively as "catb"
+    And I type "cat b" to "catb"
+    When I wait for output to contain "cat b" from "catb"
+    And I type "\C-D" to "catb"
+
+  @announce
+  Scenario: Run two commands at the same time with interleaved steps
+    When I run `cat` interactively as "cata"
+    When I run `cat` interactively as "catb"
+    And I type "cat a" to "cata"
+    And I type "cat b" to "catb"
+    When I wait for output to contain "cat a" from "cata"
+    When I wait for output to contain "cat b" from "catb"
+    And I type "\C-D" to "cata"
+    And I type "\C-D" to "catb"
+
+  @announce
+  Scenario: Run two commands that talk to eachother over the network
+    When I run `nc -l 60000` interactively as "nc server"
+    When I run `nc localhost 60000` interactively as "nc client"
+    And I type "calling the server" to "nc client"
+    When I wait for output to contain "calling the server" from "nc server"
+    And I type "calling the client" to "nc server"
+    When I wait for output to contain "calling the client" from "nc client"
+    And I type "\C-D" to "nc client"
