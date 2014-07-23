@@ -682,7 +682,9 @@ module Aruba
     #   The value of the environment variable. Needs to be a string.
     def set_env(key, value)
       announcer.env(key, value)
-      original_env[key] = ENV.delete(key)
+
+      # store only the first value overwritten
+      original_env[key] = ENV.delete(key) unless original_env.key? key
       ENV[key] = value
     end
 
