@@ -74,10 +74,12 @@ end
 
 Given /^I set the environment variables to:/ do |table|
   table.hashes.each do |row|
-    variable = row['variable'].to_s.upcase
-    value = row['value'].to_s
+    args = []
+    args << row['variable'].to_s.upcase
+    args << row['value'].to_s
+    args << row['action'].to_s.to_sym unless row['action'].nil? or row['action'].empty?
 
-    set_env(variable, value)
+    set_env(*args)
   end
 end
 
