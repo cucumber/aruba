@@ -680,12 +680,20 @@ module Aruba
     #
     # @param [String] value
     #   The value of the environment variable. Needs to be a string.
-    def set_env(key, value)
+    def set_env(key, value, action = :set)
       announcer.env(key, value)
 
       # store only the first value overwritten
       original_env[key] = ENV.delete(key) unless original_env.key? key
-      ENV[key] = value
+
+      if action == :set or action == :'='
+        ENV[key] = value
+      elsif action == :append or action == :+
+        ENV[key] = ENV[key].to_s + value
+      else
+        raise ArgumentError, "Invalid action \"#{action}\" given, allowed are \"set\" and \"append\"."
+      end
+
     end
 
     # Restore original process environment
