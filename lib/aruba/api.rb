@@ -690,6 +690,8 @@ module Aruba
         ENV[key] = value
       elsif action == :append or action == :+
         ENV[key] = ENV[key].to_s + value
+      elsif action == :prepend or action == :'.'
+        ENV[key] = value + ENV[key].to_s
       else
         raise ArgumentError, "Invalid action \"#{action}\" given, allowed are \"set\" and \"append\"."
       end

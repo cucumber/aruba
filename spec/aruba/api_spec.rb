@@ -454,6 +454,20 @@ describe Aruba::Api  do
 
       expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=:1")
     end
+
+    it 'prepend data to variable' do
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '2:', :prepend
+      @aruba.run "env"
+      expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=2:1")
+    end
+
+    it 'prepend data to variable (short)' do
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '2:', :'.'
+      @aruba.run "env"
+      expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=2:1")
+    end
   end
 
 end # Aruba::Api
