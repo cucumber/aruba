@@ -306,6 +306,10 @@ module Aruba
       end
     end
 
+    def random_string(options = {})
+      options[:prefix].to_s + SecureRandom.hex + options[:suffix].to_s
+    end
+
     def prep_for_fs_check(&block)
       stop_processes!
       in_current_dir{ block.call }
