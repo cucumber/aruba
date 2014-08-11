@@ -1,6 +1,11 @@
 require 'spec_helper'
+require 'securerandom'
 
 describe Aruba::Api  do
+
+  def random_string(options = {})
+    options[:prefix].to_s + SecureRandom.hex + options[:suffix].to_s
+  end
 
   before(:each) do
     klass = Class.new {
