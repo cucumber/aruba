@@ -67,6 +67,17 @@ describe Aruba::Api  do
         @aruba.remove_dir(@directory_name)
         expect(File.exist?(@directory_path)).to eq false
       end
+
+      it "works with ~ in path name" do
+        directory_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          Dir.mkdir(File.expand_path(directory_path))
+          @aruba.remove_dir(directory_path)
+
+          expect(File.exist?(File.expand_path(directory_path))).to eq false
+        end
+      end
     end
   end
 
@@ -77,11 +88,36 @@ describe Aruba::Api  do
         expect(File.exist?(@file_path)).to eq true
         expect(File.size(@file_path)).to eq @file_size
       end
+
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          @aruba.write_fixed_size_file(file_path, @file_size)
+
+          expect(File.exist?(File.expand_path(file_path))).to eq true
+          expect(File.size(File.expand_path(file_path))).to eq @file_size
+        end
+      end
     end
     context '#check_file_size' do
       it "should check an existing file size" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         @aruba.check_file_size([[@file_name, @file_size]])
+      end
+
+      it "should check an existing file size and fail" do
+        @aruba.write_fixed_size_file(@file_name, @file_size)
+        expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error
+      end
+
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          @aruba.write_fixed_size_file(file_path, @file_size)
+          @aruba.check_file_size([[file_path, @file_size]])
+        end
       end
 
       it "should check an existing file size and fail" do
@@ -110,6 +146,17 @@ describe Aruba::Api  do
         @aruba.chmod(0666, @file_name)
         expect(@aruba.mod?(0666, @file_name) ).to eq(true)
       end
+
+      it "works with ~ in path name" do
+        file_name = "~/test_file"
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          File.open(File.expand_path(file_name), 'w') { |f| f << "" }
+
+          @aruba.chmod(0666, file_name)
+          expect(@aruba.mod?(0666, file_name) ).to eq(true)
+        end
+      end
     end
     context '#remove_file' do
       before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
@@ -117,6 +164,16 @@ describe Aruba::Api  do
       it "should delete file" do
         @aruba.remove_file(@file_name)
         expect(File.exist?(@file_path)).to eq false
+      end
+
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          File.open(File.expand_path(file_path), 'w') { |f| f << "" }
+          @aruba.remove_file(file_path)
+          expect(File.exist?(file_path)).to eq false
+        end
       end
     end
 
@@ -158,6 +215,16 @@ describe Aruba::Api  do
         @aruba.check_file_presence([ /test123/, 'asdf' ], false )
       end
 
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          FileUtils.mkdir_p File.dirname(File.expand_path(file_path))
+          File.open(File.expand_path(file_path), 'w') { |f| f << "" }
+
+          @aruba.check_file_presence( [ file_path ], true )
+        end
+      end
     end
   end
 
@@ -211,6 +278,15 @@ describe Aruba::Api  do
     it "succeeds if file content does not match" do
       @aruba.check_file_content(@file_name, "hello world", false)
     end
+
+    it "works with ~ in path name" do
+      file_path = File.join('~', random_string)
+
+      with_env 'HOME' => File.expand_path(current_dir) do
+        @aruba.write_file(file_path, "foo bar baz")
+        @aruba.check_file_content(file_path, "hello world", false)
+      end
+    end
   end
 
   context "#with_file_content" do
@@ -222,6 +298,18 @@ describe Aruba::Api  do
        @aruba.with_file_content @file_name do |full_content|
          expect(full_content).to eq "foo bar baz"
        end
+    end
+
+    it "works with ~ in path name" do
+      file_path = File.join('~', random_string)
+
+      with_env 'HOME' => File.expand_path(current_dir) do
+        @aruba.write_file(file_path, "foo bar baz")
+
+        @aruba.with_file_content file_path do |full_content|
+          expect(full_content).to eq "foo bar baz"
+        end
+      end
     end
 
     context "checking the file's content against the expectations in the block" do
