@@ -106,11 +106,12 @@ module Aruba
     #
     # @param [String] file_name
     #   Name of file to be modified. This file needs to be present to succeed
-    def chmod(mode, file_name)
+    def filesystem_permissions(mode, file_name)
       in_current_dir do
         file_name = File.expand_path(file_name)
 
         raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
+
         if mode.kind_of? String
           FileUtils.chmod(mode.to_i(8),file_name)
         else
@@ -119,17 +120,45 @@ module Aruba
       end
     end
 
+    # @private
+    def chmod(*args, &block)
+      warn('The use of "chmod" is deprecated. Use "filesystem_permissions" instead')
+
+      filesystem_permissions(*args, &block)
+    end
+
     # Check file system permissions of file
     #
     # @param [Octal] mode
     #   Expected file system permissions, e.g. 0755
     # @param [String] file_name
-    def mod?(mode, file_name)
+    def check_filesystem_permissions(mode, file_name, expect_permissions)
       in_current_dir do
         file_name = File.expand_path(file_name)
 
-        mode == sprintf( "%o", File::Stat.new(file_name).mode )[-4,4].to_i(8)
+        raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
+
+        if mode.kind_of? Integer
+          expected_mode = mode.to_s(8)
+        else
+          expected_mode = mode.gsub(/^0*/, '')
+        end
+
+        file_mode = sprintf( "%o", File::Stat.new(file_name).mode )[-4,4].gsub(/^0*/, '')
+
+        if expect_permissions
+          expect(file_mode).to eq expected_mode
+        else
+          expect(file_mode).not_to eq expected_mode
+        end
       end
+    end
+
+    # @private
+    def mod?(*args, &block)
+      warn('The use of "mod?" is deprecated. Use "check_filesystem_permissions" instead')
+
+      check_filesystem_permissions(*args, &block)
     end
 
     def _create_fixed_size_file(file_name, file_size, check_presence)
