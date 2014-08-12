@@ -10,51 +10,106 @@ module Aruba
   module Api
     include RSpec::Matchers
 
+    # Execute block in current directory
+    #
+    # @yield
+    #   The block which should be run in current directory
     def in_current_dir(&block)
       _mkdir(current_dir)
       Dir.chdir(current_dir, &block)
     end
 
+    # Clean the current directory
     def clean_current_dir
       _rm_rf(current_dir)
       _mkdir(current_dir)
     end
 
+    # Get access to current dir
+    #
+    # @return
+    #   Current directory
     def current_dir
       File.join(*dirs)
     end
 
+    # Switch to directory
+    #
+    # @param [String] dir
+    #   The directory
     def cd(dir)
       dirs << dir
       raise "#{current_dir} is not a directory." unless File.directory?(current_dir)
     end
 
+    # The path to the directory which should contain all your test data
+    # You might want to overwrite this method to place your data else where.
+    #
+    # @return [Array]
+    #   The directory path: Each subdirectory is a member of an array
     def dirs
       @dirs ||= ['tmp', 'aruba']
     end
 
+    # Create a file with given content
+    #
+    # The method does not check if file already exists. If the file name is a
+    # path the method will create all neccessary directories.
+    #
+    # @param [String] file_name
+    #   The name of the file
+    #
+    # @param [String] file_content
+    #   The content which should be written to the file
     def write_file(file_name, file_content)
       _create_file(file_name, file_content, false)
     end
 
+    # Create a file with the given size
+    #
+    # The method does not check if file already exists. If the file name is a
+    # path the method will create all neccessary directories.
+    #
+    # @param [String] file_name
+    #   The name of the file
+    #
+    # @param [Integer] file_size
+    #   The size of the file
     def write_fixed_size_file(file_name, file_size)
       _create_fixed_size_file(file_name, file_size, false)
     end
 
+    # Create a file with given content
+    #
+    # The method does check if file already exists and fails if the file is
+    # missing. If the file name is a path the method will create all neccessary
+    # directories.
     def overwrite_file(file_name, file_content)
       _create_file(file_name, file_content, true)
     end
 
     def _create_file(file_name, file_content, check_presence)
       in_current_dir do
+        file_name = File.expand_path(file_name)
+
         raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
+
         _mkdir(File.dirname(file_name))
         File.open(file_name, 'w') { |f| f << file_content }
       end
     end
 
+    # Change file system  permissions of file
+    #
+    # @param [Octal] mode
+    #   File system mode, eg. 0755
+    #
+    # @param [String] file_name
+    #   Name of file to be modified. This file needs to be present to succeed
     def filesystem_permissions(mode, file_name)
       in_current_dir do
+        file_name = File.expand_path(file_name)
+
         raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
 
         if mode.kind_of? String
@@ -65,14 +120,22 @@ module Aruba
       end
     end
 
+    # @private
     def chmod(*args, &block)
       warn('The use of "chmod" is deprecated. Use "filesystem_permissions" instead')
 
       filesystem_permissions(*args, &block)
     end
 
+    # Check file system permissions of file
+    #
+    # @param [Octal] mode
+    #   Expected file system permissions, e.g. 0755
+    # @param [String] file_name
     def check_filesystem_permissions(mode, file_name, expect_permissions)
       in_current_dir do
+        file_name = File.expand_path(file_name)
+
         raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
 
         if mode.kind_of? Integer
@@ -91,6 +154,7 @@ module Aruba
       end
     end
 
+    # @private
     def mod?(*args, &block)
       warn('The use of "mod?" is deprecated. Use "check_filesystem_permissions" instead')
 
@@ -99,37 +163,71 @@ module Aruba
 
     def _create_fixed_size_file(file_name, file_size, check_presence)
       in_current_dir do
+        file_name = File.expand_path(file_name)
+
         raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
         _mkdir(File.dirname(file_name))
         File.open(file_name, "wb"){ |f| f.seek(file_size - 1); f.write("\0") }
       end
     end
 
+    # Remove file
+    #
+    # @param [String] file_name
+    #    The file which should be deleted in current directory
     def remove_file(file_name)
       in_current_dir do
+        file_name = File.expand_path(file_name)
+
         FileUtils.rm(file_name)
       end
     end
 
+    # Append data to file
+    #
+    # @param [String] file_name
+    #   The name of the file to be used
+    #
+    # @param [String] file_content
+    #   The content which should be appended to file
     def append_to_file(file_name, file_content)
       in_current_dir do
+        file_name = File.expand_path(file_name)
+
         _mkdir(File.dirname(file_name))
         File.open(file_name, 'a') { |f| f << file_content }
       end
     end
 
-    def create_dir(dir_name)
+    # Create a directory in current directory
+    #
+    # @param [String] directory_name
+    #   The name of the directory which should be created
+    def create_dir(directory_name)
       in_current_dir do
-        _mkdir(dir_name)
+        _mkdir(directory_name)
       end
     end
 
+    # Remove directory
+    #
+    # @param [String] directory_name
+    #   The name of the directory which should be removed
     def remove_dir(directory_name)
       in_current_dir do
+        directory_name = File.expand_path(directory_name)
+
         FileUtils.rmdir(directory_name)
       end
     end
 
+    # Check if paths are present
+    #
+    # @param [#each] paths
+    #   The paths which should be checked
+    #
+    # @param [true,false] expect_presence
+    #   Should the given paths be present (true) or absent (false)
     def check_file_presence(paths, expect_presence)
       prep_for_fs_check do
         paths.each do |path|
@@ -140,6 +238,8 @@ module Aruba
               expect(Dir.glob('**/*')).not_to include_regexp(path)
             end
           else
+            path = File.expand_path(path)
+
             if expect_presence
               expect(File).to be_file(path)
             else
@@ -150,33 +250,78 @@ module Aruba
       end
     end
 
-    def pipe_in_file(file)
+    # Pipe data in file
+    #
+    # @param [String] file_name
+    #   The file which should be used to pipe in data
+    def pipe_in_file(file_name)
       in_current_dir do
-        File.open(file, 'r').each_line do |line|
+        file_name = File.expand_path(file_name)
+
+        File.open(file_name, 'r').each_line do |line|
           _write_interactive(line)
         end
       end
     end
 
+    # Check the file size of paths
+    #
+    # @params [Hash] paths_and_sizes
+    #   A hash containing the path (key) and the expected size (value)
+    #
+    # @example
+    #
+    #   paths_and_sizes = {
+    #     'file' => 10
+    #   }
+    #
+    #   check_file_size(paths_and_sizes)
+    #
     def check_file_size(paths_and_sizes)
       prep_for_fs_check do
         paths_and_sizes.each do |path, size|
+          path = File.expand_path(path)
+
           expect(File.size(path)).to eq size
         end
       end
     end
 
+    # Read content of file and yield the content to block
+    #
+    # @param [String) file
+    #   The name of file which should be read from
+    #
+    # @yield
+    #   Pass the content of the given file to this block
     def with_file_content(file, &block)
       prep_for_fs_check do
+        file = File.expand_path(file)
+
         content = IO.read(file)
         yield(content)
       end
     end
 
+    # Check the content of file
+    #
+    # It supports partial content as well. And it is up to you to decided if
+    # the content must be there or not.
+    #
+    # @param [String] file
+    #   The file to be checked
+    #
+    # @param [String] partial_content
+    #   The content which must/must not be in the file
+    #
+    # @param [true, false] expect_match
+    #   Must the content be in the file or not
     def check_file_content(file, partial_content, expect_match)
       regexp = regexp(partial_content)
       prep_for_fs_check do
+        file = File.expand_path(file)
         content = IO.read(file)
+
         if expect_match
           expect(content).to match regexp
         else
@@ -185,13 +330,29 @@ module Aruba
       end
     end
 
+    # Check if the exact content can be found in file
+    #
+    # @param [String] file
+    #   The file to be checked
+    #
+    # @param [String] exact_content
+    #   The content of the file
     def check_exact_file_content(file, exact_content)
       prep_for_fs_check { expect(IO.read(file)).to eq exact_content }
     end
 
+    # Check presence of a directory
+    #
+    # @param [Array] paths
+    #   The paths to be checked
+    #
+    # @param [true, false] expect_presence
+    #   Should the directory be there or should the directory not be there
     def check_directory_presence(paths, expect_presence)
       prep_for_fs_check do
         paths.each do |path|
+          path = File.expand_path(path)
+
           if expect_presence
             expect(File).to be_directory(path)
           else
@@ -207,13 +368,24 @@ module Aruba
     end
 
     def _mkdir(dir_name)
+      dir_name = File.expand_path(dir_name)
+
       FileUtils.mkdir_p(dir_name) unless File.directory?(dir_name)
     end
 
     def _rm_rf(dir_name)
+      dir_name = File.expand_path(dir_name)
+
       FileUtils.rm_rf(dir_name)
     end
 
+    # Unescape string
+    #
+    # @param [String] string
+    #   The string which should be unescaped, e.g. the output of a command
+    #
+    # @return
+    #   The string stripped from escape sequences
     def unescape(string)
       string = string.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e")
       string = string.gsub(/\e\[\d+(?>(;\d+)*)m/, '') unless @aruba_keep_ansi
@@ -224,16 +396,28 @@ module Aruba
       Regexp === string_or_regexp ? string_or_regexp : Regexp.compile(Regexp.escape(string_or_regexp))
     end
 
+    # Fetch output (stdout, stderr) from command
+    #
+    # @param [String] cmd
+    #   The comand
     def output_from(cmd)
       cmd = detect_ruby(cmd)
       get_process(cmd).output
     end
 
+    # Fetch stdout from command
+    #
+    # @param [String] cmd
+    #   The comand
     def stdout_from(cmd)
       cmd = detect_ruby(cmd)
       get_process(cmd).stdout
     end
 
+    # Fetch stderr from command
+    #
+    # @param [String] cmd
+    #   The comand
     def stderr_from(cmd)
       cmd = detect_ruby(cmd)
       get_process(cmd).stderr
@@ -358,6 +542,13 @@ module Aruba
       processes.collect{ |_, process| process }
     end
 
+    # Run given command and stop it if timeout is reached
+    #
+    # @param [String] cmd
+    #   The command which should be executed
+    #
+    # @param [Integer] timeout
+    #   If the timeout is reached the command will be killed
     def run(cmd, timeout = nil)
       timeout ||= exit_timeout
       @commands ||= []
@@ -399,15 +590,24 @@ module Aruba
       assert_exit_status(0) if fail_on_error
     end
 
+    # Run a command interactively
+    #
+    # @param [String] cmd
+    #   The command to by run
     def run_interactive(cmd)
       @interactive = run(cmd)
     end
 
+    # Provide data to command via stdin
+    #
+    # @param [String] input
+    #   The input for the command
     def type(input)
       return close_input if "" == input
       _write_interactive(_ensure_newline(input))
     end
 
+    # Close stdin
     def close_input
       @interactive.stdin.close
     end
@@ -474,12 +674,20 @@ module Aruba
       end
     end
 
+    # Set environment variable
+    #
+    # @param [String] key
+    #   The name of the environment variable as string, e.g. 'HOME'
+    #
+    # @param [String] value
+    #   The value of the environment variable. Needs to be a string.
     def set_env(key, value)
       announcer.env(key, value)
       original_env[key] = ENV.delete(key)
       ENV[key] = value
     end
 
+    # Restore original process environment
     def restore_env
       original_env.each do |key, value|
         ENV[key] = value
@@ -488,6 +696,14 @@ module Aruba
 
     def original_env
       @original_env ||= {}
+    end
+
+    def with_env(env = {}, &block)
+      env.each do |k,v|
+        set_env k, v
+        block.call
+        restore_env
+      end
     end
 
   # TODO: move some more methods under here!

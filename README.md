@@ -8,6 +8,8 @@ Aruba is Cucumber extension for testing command line applications written in any
 
 ## Usage
 
+### Cucumber
+
 If you have a `Gemfile`, add `aruba`. Otherwise, install it like this:
 
     gem install aruba
@@ -21,6 +23,38 @@ require 'aruba/cucumber'
 You now have a bunch of step definitions that you can use in your features. Look at [`lib/aruba/cucumber.rb`](lib/aruba/cucumber.rb)
 to see them all. Look at [`features/*.feature`](features/) for examples (which are also testing Aruba
 itself).
+
+### RSpec
+
+Originally written for `cucumber`, `aruba` can be helpful in other contexts as
+well. One might want to use it together with `rspec`.
+
+1. Create a directory named `spec/support`
+2. Create a file named `spec/support/aruba.rb` with:
+
+   ```
+   require 'aruba/api
+   require 'aruba/reporting'
+
+    RSpec.configure do |c|
+      c.include Aruba::Api
+      c.after(:each) do
+        restore_env
+      end
+    end
+   ```
+
+## API
+
+`aruba` provides a wonderfull api to be used in your tests:
+
+* Creating files/directories
+* Deleting files/directories
+* Checking file size
+* Checking file existence/absence
+* ...
+
+A full documentation of the api can be found [here](http://www.rubydoc.info/github/cucumber/aruba/master/frames).
 
 ## Configuration
 
@@ -149,6 +183,17 @@ That's it! Everything will now run inside the same ruby process, making your sui
 a lot faster. Cucumber itself uses this approach to test itself, so check out the
 Cucumber source code for an example.
 
+*Pros*:
+
+* Very fast compared to spawning processes
+* You can use libraries like
+  [simplecov](https://github.com/colszowka/simplecov) more easily, because
+  there is only one "process" which adds data to `simplecov`'s database
+
+*Cons*:
+* You might oversee some bugs: You might forget to require libraries in your
+  "production" code, because you have required them in your testing code
+
 ### JRuby Tips
 
 Improve startup time by disabling JIT and forcing client JVM mode.  This can be accomplished by adding
@@ -247,16 +292,10 @@ Scenario: Make tea
   Given...
 ```
 
-## Note on Patches/Pull Requests
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.  Note: the existing tests may fail
-* Commit, do not mess with Rakefile, gemspec or History.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+## Contributing
+
+Please see the `CONTRIBUTING.md`.
 
 ## Copyright
 
-Copyright (c) 2010,2011,2012,2013 Aslak Hellesøy, David Chelimsky and Mike Sassak. See LICENSE for details.
+Copyright (c) 2010,2011,2012,2013,2014 Aslak Hellesøy, David Chelimsky and Mike Sassak. See LICENSE for details.

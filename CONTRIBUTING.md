@@ -59,4 +59,3 @@ Current release managers:
 To grant release karma, issue the following command:
 
     gem owner cucumber --add <NEW OWNER RUBYGEMS EMAIL>
-
