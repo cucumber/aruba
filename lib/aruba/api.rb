@@ -154,8 +154,8 @@ module Aruba
       end
     end
 
-    def chmod?(*args, &block)
-      warn('The use of "chmod?" is deprecated. Use "check_filesystem_permissions" instead')
+    def mod?(*args, &block)
+      warn('The use of "mod?" is deprecated. Use "check_filesystem_permissions" instead')
 
       check_filesystem_permissions(*args, &block)
     end
