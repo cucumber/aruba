@@ -125,7 +125,7 @@ describe Aruba::Api  do
         expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error
       end
     end
-    context '#chmod' do
+    context '#filesystem_permissions' do
       before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
 
       it "should change a file's mode" do
@@ -177,8 +177,8 @@ describe Aruba::Api  do
         with_env 'HOME' => File.expand_path(current_dir) do
           File.open(File.expand_path(file_name), 'w') { |f| f << "" }
 
-          @aruba.chmod(0666, file_name)
-          expect(@aruba.mod?(0666, file_name) ).to eq(true)
+          @aruba.filesystem_permissions(0666, file_name)
+          expect(@aruba.check_filesystem_permissions(0666, file_name, true) ).to eq(true)
         end
       end
     end
