@@ -65,6 +65,12 @@ module Aruba
       end
     end
 
+    def chmod(*args, &block)
+      warn('The use of "chmod" is deprecated. Use "filesystem_permissions" instead')
+
+      filesystem_permissions(*args, &block)
+    end
+
     def check_filesystem_permissions(mode, file_name, expect_permissions)
       in_current_dir do
         raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
@@ -83,6 +89,12 @@ module Aruba
           expect(file_mode).not_to eq expected_mode
         end
       end
+    end
+
+    def chmod?(*args, &block)
+      warn('The use of "chmod?" is deprecated. Use "check_filesystem_permissions" instead')
+
+      check_filesystem_permissions(*args, &block)
     end
 
     def _create_fixed_size_file(file_name, file_size, check_presence)
