@@ -693,7 +693,7 @@ module Aruba
       elsif action == :prepend or action == :'.'
         ENV[key] = value + ENV[key].to_s
       else
-        raise ArgumentError, "Invalid action \"#{action}\" given, allowed are \"set\" and \"append\"."
+        raise ArgumentError, "Invalid action \"#{action}\" given, allowed are \"set\", \"append\" or \"prepend\"."
       end
 
     end
