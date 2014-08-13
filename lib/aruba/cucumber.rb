@@ -68,6 +68,10 @@ When /^I remove the file "([^"]*)"$/ do |file_name|
   remove_file(file_name)
 end
 
+When(/^I remove the directory "(.*?)"$/) do |directory_name|
+  remove_dir(directory_name)
+end
+
 When /^I cd to "([^"]*)"$/ do |dir|
   cd(dir)
 end
