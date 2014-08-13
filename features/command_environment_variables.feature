@@ -29,3 +29,56 @@ Feature: Command environment variables
     """
     tmp/aruba
     """
+
+  Scenario: Append value to environment variable
+    Given I set the environment variables to:
+      | variable           | value      | action |
+      | LONG_LONG_VARIABLE | long_value |        |
+      | LONG_LONG_VARIABLE | append     | +      |
+    When I run `/usr/bin/env`
+    Then the output should contain:
+      """
+      LONG_LONG_VARIABLE=long_valueappend
+      """
+
+  Scenario: Prepend value to environment variable
+    Given I set the environment variables to:
+      | variable           | value      | action |
+      | LONG_LONG_VARIABLE | long_value |        |
+      | LONG_LONG_VARIABLE | prepend    | .      |
+    When I run `/usr/bin/env`
+    Then the output should contain:
+      """
+      LONG_LONG_VARIABLE=prependlong_value
+      """
+
+  Scenario: Set value of environment variable
+    Given I set the environment variables to:
+      | variable           | value      | action |
+      | LONG_LONG_VARIABLE | long_value |        |
+    When I run `/usr/bin/env`
+    Then the output should contain:
+      """
+      LONG_LONG_VARIABLE=long_value
+      """
+
+  Scenario: Set value of environment variable
+    Given I set the environment variables to:
+      | variable           | value      | action |
+      | LONG_LONG_VARIABLE | long_value | =      |
+    When I run `/usr/bin/env`
+    Then the output should contain:
+      """
+      LONG_LONG_VARIABLE=long_value
+      """
+
+  Scenario: Overwrite value of environment variable
+    Given I set the environment variables to:
+      | variable           | value      | action |
+      | LONG_LONG_VARIABLE | long_value |        |
+      | LONG_LONG_VARIABLE | value      | =      |
+    When I run `/usr/bin/env`
+    Then the output should contain:
+      """
+      LONG_LONG_VARIABLE=value
+      """

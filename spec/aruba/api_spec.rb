@@ -410,14 +410,64 @@ describe Aruba::Api  do
     end
   end
 
-  describe "#run_simple" do
-    after(:each){@aruba.stop_processes!}
-    it "runs with different env" do
+  describe "#set_env" do
+    after(:each) do 
+      restore_env
+      @aruba.stop_processes!
+    end
+
+    it "sets environment variable (default)" do
       @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.run "env"
       expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE")
     end
 
+    it "sets environment variable (long)" do
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true', :set
+      @aruba.run "env"
+      expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE")
+    end
+
+    it "sets environment variable (short)" do
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true', :'='
+      @aruba.run "env"
+      expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE")
+    end
+
+    it 'appends data to variable' do
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', ':1', :append
+      @aruba.run "env"
+      expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=1:1")
+    end
+
+    it 'appends data to variable (short)' do
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', ':1', :+
+      @aruba.run "env"
+      expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=1:1")
+    end
+
+    it 'appends data to non existing variable' do
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', ':1', :append
+      @aruba.run "env"
+
+      expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=:1")
+    end
+
+    it 'prepend data to variable' do
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '2:', :prepend
+      @aruba.run "env"
+      expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=2:1")
+    end
+
+    it 'prepend data to variable (short)' do
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '2:', :'.'
+      @aruba.run "env"
+      expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=2:1")
+    end
   end
 
 end # Aruba::Api
