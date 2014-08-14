@@ -682,14 +682,18 @@ module Aruba
     #   The value of the environment variable. Needs to be a string.
     def set_env(key, value)
       announcer.env(key, value)
-      original_env[key] = ENV.delete(key)
+      original_env[key] = ENV.delete(key) unless original_env.key? key
       ENV[key] = value
     end
 
     # Restore original process environment
     def restore_env
       original_env.each do |key, value|
-        ENV[key] = value
+        if value
+          ENV[key] = value
+        else
+          ENV.delete key
+        end
       end
     end
 
