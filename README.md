@@ -36,10 +36,12 @@ well. One might want to use it together with `rspec`.
    require 'aruba/api
    require 'aruba/reporting'
 
-    RSpec.configure do |c|
-      c.include Aruba::Api
-      c.after(:each) do
+    RSpec.configure do |config|
+      config.include Aruba::Api
+
+      config.before(:each) do
         restore_env
+        clean_current_dir
       end
     end
    ```
