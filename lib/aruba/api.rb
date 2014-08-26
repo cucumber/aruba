@@ -470,14 +470,18 @@ module Aruba
     end
 
     def assert_passing_with(expected)
-      assert_exit_status_and_partial_output(true, expected)
+      assert_success(true)
+      assert_partial_output(expected, all_output)
     end
 
     def assert_failing_with(expected)
-      assert_exit_status_and_partial_output(false, expected)
+      assert_success(false)
+      assert_partial_output(expected, all_output)
     end
 
     def assert_exit_status_and_partial_output(expect_to_pass, expected)
+      warn('The use of "assert_exit_status_and_partial_output" is deprecated. Use "#assert_access" and "#assert_partial_output" instead.')
+
       assert_success(expect_to_pass)
       assert_partial_output(expected, all_output)
     end
