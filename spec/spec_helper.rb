@@ -43,7 +43,6 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  config.before( :each ) {
-    clean_current_dir
-  }
+  config.include Aruba::Api
+  config.before(:each) { clean_current_dir }
 end
