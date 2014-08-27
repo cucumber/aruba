@@ -88,6 +88,7 @@ module Aruba
       _create_file(file_name, file_content, true)
     end
 
+    # @private
     def _create_file(file_name, file_content, check_presence)
       in_current_dir do
         file_name = File.expand_path(file_name)
@@ -119,6 +120,8 @@ module Aruba
       end
     end
 
+    # @private
+    # @deprecated
     def chmod(*args, &block)
       warn('The use of "chmod" is deprecated. Use "filesystem_permissions" instead')
 
@@ -154,12 +157,15 @@ module Aruba
       end
     end
 
+    # @private
+    # @deprecated
     def mod?(*args, &block)
       warn('The use of "mod?" is deprecated. Use "check_filesystem_permissions" instead')
 
       check_filesystem_permissions(*args, &block)
     end
 
+    # @private
     def _create_fixed_size_file(file_name, file_size, check_presence)
       in_current_dir do
         file_name = File.expand_path(file_name)
@@ -361,17 +367,20 @@ module Aruba
       end
     end
 
+    # @private
     def prep_for_fs_check(&block)
       stop_processes!
       in_current_dir{ block.call }
     end
 
+    # @private
     def _mkdir(dir_name)
       dir_name = File.expand_path(dir_name)
 
       FileUtils.mkdir_p(dir_name) unless File.directory?(dir_name)
     end
 
+    # @private
     def _rm_rf(dir_name)
       dir_name = File.expand_path(dir_name)
 
@@ -422,40 +431,72 @@ module Aruba
       get_process(cmd).stderr
     end
 
+    # Get stdout of all processes
+    #
+    # @return [String]
+    #   The stdout of all process which have run before
     def all_stdout
       stop_processes!
       only_processes.inject("") { |out, ps| out << ps.stdout }
     end
 
+    # Get stderr of all processes
+    #
+    # @return [String]
+    #   The stderr of all process which have run before
     def all_stderr
       stop_processes!
       only_processes.inject("") { |out, ps| out << ps.stderr }
     end
 
+    # Get stderr and stdout of all processes
+    #
+    # @return [String]
+    #   The stderr and stdout of all process which have run before
     def all_output
       all_stdout << all_stderr
     end
 
+    # Full compare arg1 and arg2
+    #
+    # @return [TrueClass, FalseClass]
+    #   If arg1 is exactly the same as arg2 return true, otherwise false
     def assert_exact_output(expected, actual)
       actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
       expect(unescape(actual)).to eq unescape(expected)
     end
 
+    # Partial compare arg1 and arg2
+    #
+    # @return [TrueClass, FalseClass]
+    #   If arg2 contains arg1 return true, otherwise false
     def assert_partial_output(expected, actual)
       actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
       expect(unescape(actual)).to include(unescape(expected))
     end
 
+    # Regex Compare arg1 and arg2
+    #
+    # @return [TrueClass, FalseClass]
+    #   If arg2 matches arg1 return true, otherwise false
     def assert_matching_output(expected, actual)
       actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
       expect(unescape(actual)).to match /#{unescape(expected)}/m
     end
 
+    # Negative regex compare arg1 and arg2
+    #
+    # @return [TrueClass, FalseClass]
+    #   If arg2 does not match arg1 return true, otherwise false
     def assert_not_matching_output(expected, actual)
       actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-      expect(unescape(actual)).not_to match /#{unescape(expected)}/m
+      expect(unescape(actual)).not_to match(/#{unescape(expected)}/m)
     end
 
+    # Negative partial compare arg1 and arg2
+    #
+    # @return [TrueClass, FalseClass]
+    #   If arg2 does not match/include arg1 return true, otherwise false
     def assert_no_partial_output(unexpected, actual)
       actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
       if Regexp === unexpected
@@ -465,24 +506,40 @@ module Aruba
       end
     end
 
+    # Partial compare output of interactive command and arg1
+    #
+    # @return [TrueClass, FalseClass]
+    #   If output of interactive command includes arg1 return true, otherwise false
     def assert_partial_output_interactive(expected)
       unescape(_read_interactive).include?(unescape(expected)) ? true : false
     end
 
+    # Check if command succeeded and if arg1 is included in output
+    #
+    # @return [TrueClass, FalseClass]
+    #   If exit status is 0 and arg1 is included in output return true, otherwise false
     def assert_passing_with(expected)
       assert_exit_status_and_partial_output(true, expected)
     end
 
+    # Check if command failed and if arg1 is included in output
+    #
+    # @return [TrueClass, FalseClass]
+    #   If exit status is not equal 0 and arg1 is included in output return true, otherwise false
     def assert_failing_with(expected)
       assert_exit_status_and_partial_output(false, expected)
     end
 
+    # @private
+    # @deprecated
     def assert_exit_status_and_partial_output(expect_to_pass, expected)
       assert_success(expect_to_pass)
       assert_partial_output(expected, all_output)
     end
 
     # TODO: Remove this. Call more methods elsewhere instead. Reveals more intent.
+    # @private
+    # @deprecated
     def assert_exit_status_and_output(expect_to_pass, expected_output, expect_exact_output)
       assert_success(expect_to_pass)
       if expect_exact_output
@@ -492,34 +549,45 @@ module Aruba
       end
     end
 
+    # Check exit status of process
+    #
+    # @return [TrueClass, FalseClass]
+    #   If arg1 is true, return true if command was successful
+    #   If arg1 is false, return true if command failed
     def assert_success(success)
       success ? assert_exit_status(0) : assert_not_exit_status(0)
     end
 
+    # @private
     def assert_exit_status(status)
       expect(last_exit_status).to eq(status),
         append_output_to("Exit status was #{last_exit_status} but expected it to be #{status}.")
     end
 
+    # @private
     def assert_not_exit_status(status)
       expect(last_exit_status).not_to eq(status),
         append_output_to("Exit status was #{last_exit_status} which was not expected.")
     end
 
+    # @private
     def append_output_to(message)
       "#{message} Output:\n\n#{all_output}\n"
     end
 
+    # @private
     def processes
       @processes ||= []
     end
 
+    # @private
     def stop_processes!
       processes.each do |_, process|
         stop_process(process)
       end
     end
 
+    # Terminate all running processes
     def terminate_processes!
       processes.each do |_, process|
         terminate_process(process)
@@ -527,16 +595,19 @@ module Aruba
       end
     end
 
+    # @private
     def register_process(name, process)
       processes << [name, process]
     end
 
+    # @private
     def get_process(wanted)
       matching_processes = processes.reverse.find{ |name, _| name == wanted }
       raise ArgumentError.new("No process named '#{wanted}' has been started") unless matching_processes
       matching_processes.last
     end
 
+    # @private
     def only_processes
       processes.collect{ |_, process| process }
     end
@@ -571,16 +642,37 @@ module Aruba
 
     DEFAULT_TIMEOUT_SECONDS = 3
 
+    # Default exit timeout for running commands with aruba
+    #
+    # Overwrite this method if you want a different timeout or set
+    # `@aruba_timeout_seconds`.
     def exit_timeout
       @aruba_timeout_seconds || DEFAULT_TIMEOUT_SECONDS
     end
 
     DEFAULT_IO_WAIT_SECONDS = 0.1
 
+    # Default io wait timeout
+    #
+    # Overwrite this method if you want a different timeout or set
+    # `@aruba_io_wait_seconds
     def io_wait
       @aruba_io_wait_seconds || DEFAULT_IO_WAIT_SECONDS
     end
 
+    # Run a command with aruba
+    #
+    # Checks for error during command execution and checks the output to detect
+    # an timeout error.
+    #
+    # @param [String] cmd
+    #   The command to be executed
+    #
+    # @param [TrueClass,FalseClass] fail_on_error
+    #   Should aruba fail on error?
+    #
+    # @param [Integer] timeout
+    #   Timeout for execution
     def run_simple(cmd, fail_on_error=true, timeout = nil)
       run(cmd, timeout) do |process|
         stop_process(process)
@@ -593,6 +685,8 @@ module Aruba
     #
     # @param [String] cmd
     #   The command to by run
+    #
+    # @see #cmd
     def run_interactive(cmd)
       @interactive = run(cmd)
     end
@@ -611,24 +705,30 @@ module Aruba
       @interactive.stdin.close
     end
 
+    # @deprecated
+    # @private
     def eot
       warn(%{\e[35m    The \"#eot\"-method is deprecated. It will be deleted with the next major version. Please use \"#close_input\"-method instead.\e[0m})
       close_input
     end
 
+    # @private
     def _write_interactive(input)
       @interactive.stdin.write(input)
       @interactive.stdin.flush
     end
 
+    # @private
     def _read_interactive
       @interactive.read_stdout
     end
 
+    # @private
     def _ensure_newline(str)
       str.chomp << "\n"
     end
 
+    # @private
     def announce_or_puts(msg)
       if(@puts)
         Kernel.puts(msg)
@@ -637,6 +737,7 @@ module Aruba
       end
     end
 
+    # @private
     def detect_ruby(cmd)
       if cmd =~ /^ruby\s/
         cmd.gsub(/^ruby\s/, "#{current_ruby} ")
@@ -645,10 +746,17 @@ module Aruba
       end
     end
 
+    # @private
     def current_ruby
       File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
     end
 
+    # Use a clean rvm gemset
+    #
+    # Please make sure that you've got [rvm](http://rvm.io/) installed.
+    #
+    # @param [String] gemset
+    #   The name of the gemset to be used
     def use_clean_gemset(gemset)
       run_simple(%{rvm gemset create "#{gemset}"}, true)
       if all_stdout =~ /'#{gemset}' gemset created \((.*)\)\./
@@ -667,6 +775,7 @@ module Aruba
       end
     end
 
+    # Unset variables used by bundler
     def unset_bundler_env_vars
       %w[RUBYOPT BUNDLE_PATH BUNDLE_BIN_PATH BUNDLE_GEMFILE].each do |key|
         set_env(key, nil)
@@ -697,10 +806,18 @@ module Aruba
       end
     end
 
+    # @private
     def original_env
       @original_env ||= {}
     end
 
+    # Run block with environment
+    #
+    # @param [Hash] env
+    #   The variables to be used for block.
+    #
+    # @yield
+    #   The block of code which should be run with the modified environment variables
     def with_env(env = {}, &block)
       env.each do |k,v|
         set_env k, v
