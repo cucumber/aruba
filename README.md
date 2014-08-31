@@ -33,7 +33,7 @@ well. One might want to use it together with `rspec`.
 2. Create a file named `spec/support/aruba.rb` with:
 
    ```
-   require 'aruba/api
+   require 'aruba/api'
    require 'aruba/reporting'
 
     RSpec.configure do |c|
