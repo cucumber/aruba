@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec', '>= 3.0.0'
   s.add_development_dependency 'fuubar', '>= 1.1.1'
   s.add_development_dependency 'cucumber-pro', '~> 0.0'
+  s.add_development_dependency 'rubocop', '~> 0.26.0'
 
   s.rubygems_version = ">= 1.6.1"
   s.files            = `git ls-files`.split("\n")

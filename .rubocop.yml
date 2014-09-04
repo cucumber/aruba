@@ -1,0 +1,3 @@
+inherit_from:
+  - config/rubocop/include.yml
+  - config/rubocop/exclude.yml
