@@ -46,7 +46,7 @@ well. One might want to use it together with `rspec`.
 
 ## API
 
-`aruba` provides a wonderfull api to be used in your tests:
+`aruba` provides a wonderful API to be used in your tests:
 
 * Creating files/directories
 * Deleting files/directories
@@ -54,7 +54,7 @@ well. One might want to use it together with `rspec`.
 * Checking file existence/absence
 * ...
 
-A full documentation of the api can be found [here](http://www.rubydoc.info/github/cucumber/aruba/master/frames).
+A full documentation of the API can be found [here](http://www.rubydoc.info/github/cucumber/aruba/master/frames).
 
 ## Configuration
 
