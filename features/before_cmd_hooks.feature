@@ -5,6 +5,7 @@ Feature: before_cmd hooks
   
   The command will be passed to the block.
   
+  @slow-process
   Scenario: Run a simple command with a before hook
     Given a file named "test.rb" with:
       """
@@ -29,6 +30,7 @@ Feature: before_cmd hooks
       """
   
   # This should move into a spec
+  @slow-process
   Scenario: Use something from the context where the command was run
     Given a file named "test.rb" with:
       """

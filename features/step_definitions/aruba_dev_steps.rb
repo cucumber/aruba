@@ -26,3 +26,7 @@ end
 Then /^the output should be (\d+) bytes long$/ do |length|
   expect(all_output.length).to eq length.to_i
 end
+
+Before '@slow-process' do
+  @aruba_timeout_seconds = 30
+end
