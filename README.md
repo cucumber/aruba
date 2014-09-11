@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/cucumber/aruba.png)](http://travis-ci.org/cucumber/aruba) [![Code Climate](https://codeclimate.com/github/cucumber/aruba.png)](https://codeclimate.com/github/cucumber/aruba)
+[![Build Status](https://travis-ci.org/cucumber/aruba.png)](http://travis-ci.org/cucumber/aruba)
+[![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
+[![Dependency Status)](https://gemnasium.com/cucumber/aruba.png)](https://gemnasium.com/cucumber/aruba.png)
+[![Code Climate](https://codeclimate.com/github/cucumber/aruba.png)](https://codeclimate.com/github/cucumber/aruba)
 
 Aruba is Cucumber extension for testing command line applications written in any programming language. Features at a glance:
 
@@ -75,7 +78,7 @@ end
 
 ### Modify the PATH
 
-Aruba will automatically add the `bin` directory of your project to the `PATH` environment variable for 
+Aruba will automatically add the `bin` directory of your project to the `PATH` environment variable for
 the duration of each Cucumber scenario. So if you're developing a Ruby gem with a binary command, you
 can test those commands as though the gem were already installed.
 
@@ -85,7 +88,7 @@ If you need other directories to be added to the `PATH`, you can put the followi
 
 ### Increasing timeouts
 
-A process sometimes takes longer than expected to terminate, and Aruba will kill them off (and fail your scenario) if it is still alive after 3 seconds. If you need more time you can modify the timeout by assigning a different value to `@aruba_timeout_seconds` in a `Before` block: 
+A process sometimes takes longer than expected to terminate, and Aruba will kill them off (and fail your scenario) if it is still alive after 3 seconds. If you need more time you can modify the timeout by assigning a different value to `@aruba_timeout_seconds` in a `Before` block:
 
 ```ruby
 Before do
@@ -264,7 +267,7 @@ Scenario: Make tea
   ## Making tea
   * Get a pot
   * And some hot water
-  
+
   Given...
 ```
 
