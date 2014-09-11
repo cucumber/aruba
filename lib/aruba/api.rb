@@ -281,7 +281,7 @@ module Aruba
     #   Should the given paths be present (true) or absent (false)
     def check_file_presence(paths, expect_presence = true)
       prep_for_fs_check do
-        paths.each do |path|
+        Array(paths).each do |path|
           if path.kind_of? Regexp
             if expect_presence
               expect(Dir.glob('**/*')).to include_regexp(path)
