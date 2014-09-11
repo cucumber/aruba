@@ -40,26 +40,36 @@ describe Aruba::Api  do
     end
 
     it "can be cleared" do
-      write_file( 'test', 'test test test' )
+      write_file('test', 'test test test')
 
       in_current_dir do
-        expect( File.exist? 'test' ).to be_truthy
+        expect(File.exist?('test')).to be_truthy
       end
 
       clean_current_dir
 
       in_current_dir do
-        expect( File.exist? 'test' ).to be_falsey
+        expect(File.exist?('test')).to be_falsey
       end
 
     end
   end
 
   describe 'directories' do
+    before(:each) do
+      @directory_name = 'test_dir'
+      @directory_path = File.join(@aruba.current_dir, @directory_name)
+    end
+
+    context '#create_dir' do
+      it 'creates a directory' do
+        @arub.create_dir @directory_name
+        expect(File.exist?(File.expand_path(@directory_path))).to be_truthy
+      end
+    end
+
     context '#remove_dir' do
-      before(:each) do
-        @directory_name = 'test_dir'
-        @directory_path = File.join(@aruba.current_dir, @directory_name)
+      before :each do
         Dir.mkdir(@directory_path)
       end
 
@@ -107,6 +117,32 @@ describe Aruba::Api  do
       end
     end
 
+    context '#absolute_path' do
+      it 'expands and returns path' do
+        expect(@aruba.absolute_path(@file_name)).to eq File.expand_path(@file_path)
+      end
+
+      it 'removes "."' do
+        expect(@aruba.absolute_path('.')).to eq File.expand_path(current_dir)
+      end
+
+      it 'removes ".."' do
+        expect(@aruba.absolute_path('..')).to eq File.expand_path(File.join(current_dir, '..'))
+      end
+
+      it 'joins multiple arguments' do
+        expect(@aruba.absolute_path('path', @file_name)).to eq File.expand_path(File.join(current_dir, 'path', @file_name))
+      end
+    end
+
+    context '#write_file' do
+      it 'writes file' do
+        @aruba.write_file(@file_name, '')
+
+        expect(File.exist?(@file_path)).to eq true
+      end
+    end
+
     context '#write_fixed_size_file' do
       it "should write a fixed sized file" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
@@ -125,6 +161,7 @@ describe Aruba::Api  do
         end
       end
     end
+
     context '#check_file_size' do
       it "should check an existing file size" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
@@ -150,6 +187,7 @@ describe Aruba::Api  do
         expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error
       end
     end
+
     context '#filesystem_permissions' do
       before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
 
@@ -326,8 +364,8 @@ describe Aruba::Api  do
         it "is successful when the inner expectations match" do
           expect do
             @aruba.with_file_content @file_name do |full_content|
-              expect(full_content).to     match /foo/
-              expect(full_content).not_to match /zoo/
+              expect(full_content).to     match(/foo/)
+              expect(full_content).not_to match(/zoo/)
             end
           end . not_to raise_error
         end
@@ -335,8 +373,8 @@ describe Aruba::Api  do
         it "raises RSpec::Expectations::ExpectationNotMetError when the inner expectations don't match"  do
           expect do
             @aruba.with_file_content @file_name do |full_content|
-              expect(full_content).to     match /zoo/
-              expect(full_content).not_to match /foo/
+              expect(full_content).to     match(/zoo/)
+              expect(full_content).not_to match(/foo/)
             end
           end . to raise_error RSpec::Expectations::ExpectationNotMetError
         end
@@ -469,5 +507,4 @@ describe Aruba::Api  do
       expect(@aruba.all_output).not_to include("LONG_LONG_ENV_VARIABLE")
     end
   end
-
 end # Aruba::Api

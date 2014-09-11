@@ -10,6 +10,33 @@ module Aruba
   module Api
     include RSpec::Matchers
 
+    # Expand file name
+    #
+    # @param [String] file_name
+    #   Name of file
+    #
+    # @return [String]
+    #   The full path
+    #
+    # @example Single file name
+    #
+    #   # => <path>/tmp/aruba/file
+    #   absolute_path('file')
+    #
+    # @example Single Dot
+    #
+    #   # => <path>/tmp/aruba
+    #   absolute_path('.')
+    #
+    # @example Join and Expand path
+    #
+    #   # => <path>/tmp/aruba/path/file
+    #   absolute_path('path', 'file')
+    #
+    def absolute_path(*args)
+      in_current_dir { File.expand_path File.join(*args) }
+    end
+
     # Execute block in current directory
     #
     # @yield
@@ -113,6 +140,8 @@ module Aruba
         _mkdir(File.dirname(file_name))
         File.open(file_name, 'w') { |f| f << file_content }
       end
+
+      self
     end
 
     # Change file system  permissions of file
@@ -227,6 +256,8 @@ module Aruba
       in_current_dir do
         _mkdir(directory_name)
       end
+
+      self
     end
 
     # Remove directory
