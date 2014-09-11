@@ -65,6 +65,21 @@ module Aruba
       _create_file(file_name, file_content, false)
     end
 
+    # Create an empty file
+    #
+    # @param [String] file_name
+    #   The name of the file
+    def touch_file(file_name)
+      in_current_dir do
+        file_name = File.expand_path(file_name)
+        _mkdir(File.dirname(file_name))
+
+        FileUtils.touch file_name
+      end
+
+      self
+    end
+
     # Create a file with the given size
     #
     # The method does not check if file already exists. If the file name is a

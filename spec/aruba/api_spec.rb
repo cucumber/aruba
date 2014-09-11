@@ -82,6 +82,31 @@ describe Aruba::Api  do
   end
 
   describe 'files' do
+    context '#touch_file' do
+      it 'creates an empty file' do
+        @aruba.touch_file(@file_name)
+        expect(File.exist?(@file_path)).to eq true
+        expect(File.size(@file_path)).to eq 0
+      end
+
+      it 'supports an unexisting directory in path' do
+        path = 'directory/test'
+        full_path = File.join(@aruba.current_dir, path)
+        @aruba.touch_file(path)
+
+        expect(File.exist?(full_path)).to eq true
+      end
+
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          @aruba.touch_file(file_path)
+          expect(File.exist?(File.expand_path(file_path))).to eq true
+        end
+      end
+    end
+
     context '#write_fixed_size_file' do
       it "should write a fixed sized file" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
