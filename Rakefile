@@ -23,7 +23,10 @@ RSpec::Core::RakeTask.new do |spec|
   spec.rspec_opts = ['--color', '--format documentation']
 end
 
+require 'rubocop/rake_task'
+RuboCop::RakeTask.new
+
 desc "Run tests, both RSpec and Cucumber"
-task :test => [:spec, :cucumber, :cucumber_wip]
+task :test => [ :rubocop, :spec, :cucumber, :cucumber_wip]
 
 task :default => :test
