@@ -274,8 +274,9 @@ describe Aruba::Api  do
         FileUtils.mkdir_p File.dirname( file_path )
         File.open(file_path, 'w') { |f| f << "" }
 
-        @aruba.check_file_presence( [ file_name ], true )
-        @aruba.check_file_presence( [ 'asdf' ] , false )
+        @aruba.check_file_presence([file_name])
+        @aruba.check_file_presence([file_name], true)
+        @aruba.check_file_presence(['asdf'], false)
       end
 
       it "should check existence using regex" do
