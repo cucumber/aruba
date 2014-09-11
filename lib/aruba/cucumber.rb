@@ -40,11 +40,11 @@ Given /^a (\d+) byte file named "([^"]*)"$/ do |file_size, file_name|
 end
 
 Given /^an empty file named "([^"]*)"$/ do |file_name|
-  write_file(file_name, "")
+  write_file(file_name, '')
 end
 
 Given /^an empty file named "([^"]*)" with mode "([^"]*)"$/ do |file_name, file_mode|
-  write_file(file_name, "")
+  write_file(file_name, '')
   filesystem_permissions(file_mode, file_name)
 end
 
@@ -129,7 +129,7 @@ When /^I pipe in the file "([^"]*)"$/ do |file|
 end
 
 When /^I wait for (?:output|stdout) to contain "([^"]*)"$/ do |expected|
-  Timeout::timeout(exit_timeout) do
+  Timeout.timeout(exit_timeout) do
     loop do
       break if assert_partial_output_interactive(expected)
       sleep 0.1
@@ -203,11 +203,11 @@ Then /^the exit status should not be (\d+)$/ do |exit_status|
 end
 
 Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
-  self.__send__("assert_#{pass_fail}ing_with", partial_output)
+  __send__("assert_#{pass_fail}ing_with", partial_output)
 end
 
 Then /^it should (pass|fail) with exactly:$/ do |pass_fail, exact_output|
-  assert_exit_status_and_output(pass_fail == "pass", exact_output, true)
+  assert_exit_status_and_output(pass_fail == 'pass', exact_output, true)
 end
 
 Then /^it should (pass|fail) with regexp?:$/ do |pass_fail, expected|
@@ -272,7 +272,7 @@ Then /^the stderr should not contain:$/ do |unexpected|
 end
 
 Then /^the (stderr|stdout) should not contain anything$/ do |stream_name|
-  stream = self.send("all_#{stream_name}")
+  stream = send("all_#{stream_name}")
   expect(stream).to be_empty
 end
 
@@ -297,11 +297,11 @@ Then /^the file "([^"]*)" should not exist$/ do |file_name|
 end
 
 Then /^the following files should exist:$/ do |files|
-  check_file_presence(files.raw.map{|file_row| file_row[0]}, true)
+  check_file_presence(files.raw.map { |file_row| file_row[0] }, true)
 end
 
 Then /^the following files should not exist:$/ do |files|
-  check_file_presence(files.raw.map{|file_row| file_row[0]}, false)
+  check_file_presence(files.raw.map { |file_row| file_row[0] }, false)
 end
 
 Then /^a file named "([^"]*)" should exist$/ do |file|
@@ -313,11 +313,11 @@ Then /^a file named "([^"]*)" should not exist$/ do |file|
 end
 
 Then /^a file matching %r<(.*?)> should exist$/ do |regex|
-  check_file_presence([ Regexp.new( regex ) ], true )
+  check_file_presence([Regexp.new(regex)], true)
 end
 
 Then /^a file matching %r<(.*?)> should not exist$/ do |regex|
-  check_file_presence([ Regexp.new( regex ) ], false )
+  check_file_presence([Regexp.new(regex)], false)
 end
 
 Then /^a (\d+) byte file named "([^"]*)" should exist$/ do |file_size, file_name|
@@ -325,11 +325,11 @@ Then /^a (\d+) byte file named "([^"]*)" should exist$/ do |file_size, file_name
 end
 
 Then /^the following directories should exist:$/ do |directories|
-  check_directory_presence(directories.raw.map{|directory_row| directory_row[0]}, true)
+  check_directory_presence(directories.raw.map { |directory_row| directory_row[0] }, true)
 end
 
 Then /^the following directories should not exist:$/ do |directories|
-  check_directory_presence(directories.raw.map{|directory_row| directory_row[0]}, false)
+  check_directory_presence(directories.raw.map { |directory_row| directory_row[0] }, false)
 end
 
 Then /^a directory named "([^"]*)" should exist$/ do |directory|

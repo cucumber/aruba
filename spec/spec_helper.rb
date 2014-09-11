@@ -6,15 +6,15 @@ module ManipulatesConstants
   def with_constants(constants, &block)
     saved_constants = {}
     constants.each do |constant, val|
-      saved_constants[ constant ] = Object.const_get( constant )
-      Kernel::silence_warnings { Object.const_set( constant, val ) }
+      saved_constants[constant] = Object.const_get(constant)
+      Kernel.silence_warnings { Object.const_set(constant, val) }
     end
 
     begin
       block.call
     ensure
-      constants.each do |constant, val|
-        Kernel::silence_warnings { Object.const_set( constant, saved_constants[ constant ] ) }
+      constants.each do |constant, _val|
+        Kernel.silence_warnings { Object.const_set(constant, saved_constants[constant]) }
       end
     end
   end
@@ -36,7 +36,7 @@ module Kernel
 end unless Kernel.respond_to? :silence_warnings
 
 RSpec.configure do |config|
-  config.filter_run :focus => true
+  config.filter_run focus: true
   config.run_all_when_everything_filtered = true
   config.include(ManipulatesConstants)
   config.expect_with :rspec do |c|

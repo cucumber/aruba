@@ -10,7 +10,7 @@ class CustomMain
   end
 
   def execute!
-    @stdout.puts(@argv.map{|arg| arg.reverse}.join(' '))
+    @stdout.puts(@argv.map(&:reverse).join(' '))
   end
 end
 

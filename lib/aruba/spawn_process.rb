@@ -18,10 +18,10 @@ module Aruba
       @error_cache = nil
     end
 
-    def run!(&block)
+    def run!(&_block)
       @process = ChildProcess.build(*shellwords(@cmd))
-      @out = Tempfile.new("aruba-out")
-      @err = Tempfile.new("aruba-err")
+      @out = Tempfile.new('aruba-out')
+      @err = Tempfile.new('aruba-err')
       @process.io.stdout = @out
       @process.io.stderr = @err
       @process.duplex = true
@@ -82,7 +82,7 @@ module Aruba
 
     private
 
-    def wait_for_io(&block)
+    def wait_for_io(&_block)
       if @process
         sleep @io_wait
         yield
@@ -105,6 +105,5 @@ module Aruba
       @err.close
       @err = nil
     end
-
   end
 end
