@@ -40,26 +40,36 @@ describe Aruba::Api  do
     end
 
     it "can be cleared" do
-      write_file( 'test', 'test test test' )
+      write_file('test', 'test test test')
 
       in_current_dir do
-        expect( File.exist? 'test' ).to be_truthy
+        expect(File.exist?('test')).to be_truthy
       end
 
       clean_current_dir
 
       in_current_dir do
-        expect( File.exist? 'test' ).to be_falsey
+        expect(File.exist?('test')).to be_falsey
       end
 
     end
   end
 
   describe 'directories' do
+    before(:each) do
+      @directory_name = 'test_dir'
+      @directory_path = File.join(@aruba.current_dir, @directory_name)
+    end
+
+    context '#create_dir' do
+      it 'creates a directory' do
+        @arub.create_dir @directory_name
+        expect(File.exist?(File.expand_path(@directory_path))).to be_truthy
+      end
+    end
+
     context '#remove_dir' do
-      before(:each) do
-        @directory_name = 'test_dir'
-        @directory_path = File.join(@aruba.current_dir, @directory_name)
+      before :each do
         Dir.mkdir(@directory_path)
       end
 
@@ -122,6 +132,14 @@ describe Aruba::Api  do
 
       it 'joins multiple arguments' do
         expect(@aruba.absolute_path('path', @file_name)).to eq File.expand_path(File.join(current_dir, 'path', @file_name))
+      end
+    end
+
+    context '#write_file' do
+      it 'writes file' do
+        @aruba.write_file(@file_name, '')
+
+        expect(File.exist?(@file_path)).to eq true
       end
     end
 
