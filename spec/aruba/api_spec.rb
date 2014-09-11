@@ -320,6 +320,7 @@ describe Aruba::Api  do
       end
 
       it "succeeds if file content matches" do
+        @aruba.check_file_content(@file_name, "foo bar baz")
         @aruba.check_file_content(@file_name, "foo bar baz", true)
       end
 
