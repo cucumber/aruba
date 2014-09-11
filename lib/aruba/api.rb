@@ -140,6 +140,8 @@ module Aruba
         _mkdir(File.dirname(file_name))
         File.open(file_name, 'w') { |f| f << file_content }
       end
+
+      self
     end
 
     # Change file system  permissions of file
@@ -254,6 +256,8 @@ module Aruba
       in_current_dir do
         _mkdir(directory_name)
       end
+
+      self
     end
 
     # Remove directory
