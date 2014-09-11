@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/cucumber/aruba.png)](http://travis-ci.org/cucumber/aruba)
 [![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
-[![Dependency Status)](https://gemnasium.com/cucumber/aruba.png)](https://gemnasium.com/cucumber/aruba.png)
+[![Dependency Status](https://gemnasium.com/cucumber/aruba.png)](https://gemnasium.com/cucumber/aruba.png)
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.png)](https://codeclimate.com/github/cucumber/aruba)
 
 Aruba is Cucumber extension for testing command line applications written in any programming language. Features at a glance:
