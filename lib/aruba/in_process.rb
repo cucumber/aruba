@@ -21,7 +21,7 @@ module Aruba
       @@main_class = main_class
     end
 
-    def initialize(cmd, exit_timeout, io_wait)
+    def initialize(cmd, _exit_timeout, _io_wait)
       args = shellwords(cmd)
       @argv = args[1..-1]
       @stdin = StringIO.new
@@ -31,12 +31,12 @@ module Aruba
     end
 
     def run!
-      raise "You need to call Aruba::InProcess.main_class = YourMainClass" unless @@main_class
+      fail 'You need to call Aruba::InProcess.main_class = YourMainClass' unless @@main_class
       @@main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
       yield self if block_given?
     end
 
-    def stop(reader)
+    def stop(_reader)
       @kernel.exitstatus
     end
 

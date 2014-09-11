@@ -4,7 +4,7 @@ require 'rspec/expectations'
 require 'aruba'
 require 'aruba/config'
 
-Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).each { |rb| require rb }
+Dir.glob(File.join(File.expand_path('../matchers', __FILE__), '*.rb')).each { |rb| require rb }
 
 module Aruba
   module Api
@@ -39,7 +39,7 @@ module Aruba
     #   The directory
     def cd(dir)
       dirs << dir
-      raise "#{current_dir} is not a directory." unless File.directory?(current_dir)
+      fail "#{current_dir} is not a directory." unless File.directory?(current_dir)
     end
 
     # The path to the directory which should contain all your test data
@@ -48,7 +48,7 @@ module Aruba
     # @return [Array]
     #   The directory path: Each subdirectory is a member of an array
     def dirs
-      @dirs ||= ['tmp', 'aruba']
+      @dirs ||= %w(tmp aruba)
     end
 
     # Create a file with given content
@@ -93,7 +93,7 @@ module Aruba
       in_current_dir do
         file_name = File.expand_path(file_name)
 
-        raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
+        fail "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
 
         _mkdir(File.dirname(file_name))
         File.open(file_name, 'w') { |f| f << file_content }
@@ -111,9 +111,9 @@ module Aruba
       in_current_dir do
         file_name = File.expand_path(file_name)
 
-        raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
-        if mode.kind_of? String
-          FileUtils.chmod(mode.to_i(8),file_name)
+        fail "expected #{file_name} to be present" unless FileTest.exists?(file_name)
+        if mode.is_a? String
+          FileUtils.chmod(mode.to_i(8), file_name)
         else
           FileUtils.chmod(mode, file_name)
         end
@@ -140,14 +140,14 @@ module Aruba
       in_current_dir do
         file_name = File.expand_path(file_name)
 
-        raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
-        if mode.kind_of? Integer
+        fail "expected #{file_name} to be present" unless FileTest.exists?(file_name)
+        if mode.is_a? Integer
           expected_mode = mode.to_s(8)
         else
           expected_mode = mode.gsub(/^0*/, '')
         end
 
-        file_mode = sprintf( "%o", File::Stat.new(file_name).mode )[-4,4].gsub(/^0*/, '')
+        file_mode = sprintf('%o', File::Stat.new(file_name).mode)[-4, 4].gsub(/^0*/, '')
 
         if expect_permissions
           expect(file_mode).to eq expected_mode
@@ -170,9 +170,9 @@ module Aruba
       in_current_dir do
         file_name = File.expand_path(file_name)
 
-        raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
+        fail "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
         _mkdir(File.dirname(file_name))
-        File.open(file_name, "wb"){ |f| f.seek(file_size - 1); f.write("\0") }
+        File.open(file_name, 'wb') { |f| f.seek(file_size - 1); f.write("\0") }
       end
     end
 
@@ -236,7 +236,7 @@ module Aruba
     def check_file_presence(paths, expect_presence)
       prep_for_fs_check do
         paths.each do |path|
-          if path.kind_of? Regexp
+          if path.is_a? Regexp
             if expect_presence
               expect(Dir.glob('**/*')).to include_regexp(path)
             else
@@ -299,7 +299,7 @@ module Aruba
     #
     # @yield
     #   Pass the content of the given file to this block
-    def with_file_content(file, &block)
+    def with_file_content(file, &_block)
       prep_for_fs_check do
         file = File.expand_path(file)
 
@@ -370,7 +370,7 @@ module Aruba
     # @private
     def prep_for_fs_check(&block)
       stop_processes!
-      in_current_dir{ block.call }
+      in_current_dir { block.call }
     end
 
     # @private
@@ -437,7 +437,7 @@ module Aruba
     #   The stdout of all process which have run before
     def all_stdout
       stop_processes!
-      only_processes.inject("") { |out, ps| out << ps.stdout }
+      only_processes.reduce('') { |out, ps| out << ps.stdout }
     end
 
     # Get stderr of all processes
@@ -446,7 +446,7 @@ module Aruba
     #   The stderr of all process which have run before
     def all_stderr
       stop_processes!
-      only_processes.inject("") { |out, ps| out << ps.stderr }
+      only_processes.reduce('') { |out, ps| out << ps.stderr }
     end
 
     # Get stderr and stdout of all processes
@@ -462,7 +462,7 @@ module Aruba
     # @return [TrueClass, FalseClass]
     #   If arg1 is exactly the same as arg2 return true, otherwise false
     def assert_exact_output(expected, actual)
-      actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
+      actual.force_encoding(expected.encoding) if RUBY_VERSION >= '1.9'
       expect(unescape(actual)).to eq unescape(expected)
     end
 
@@ -471,7 +471,7 @@ module Aruba
     # @return [TrueClass, FalseClass]
     #   If arg2 contains arg1 return true, otherwise false
     def assert_partial_output(expected, actual)
-      actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
+      actual.force_encoding(expected.encoding) if RUBY_VERSION >= '1.9'
       expect(unescape(actual)).to include(unescape(expected))
     end
 
@@ -480,7 +480,7 @@ module Aruba
     # @return [TrueClass, FalseClass]
     #   If arg2 matches arg1 return true, otherwise false
     def assert_matching_output(expected, actual)
-      actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
+      actual.force_encoding(expected.encoding) if RUBY_VERSION >= '1.9'
       expect(unescape(actual)).to match /#{unescape(expected)}/m
     end
 
@@ -489,7 +489,7 @@ module Aruba
     # @return [TrueClass, FalseClass]
     #   If arg2 does not match arg1 return true, otherwise false
     def assert_not_matching_output(expected, actual)
-      actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
+      actual.force_encoding(expected.encoding) if RUBY_VERSION >= '1.9'
       expect(unescape(actual)).not_to match(/#{unescape(expected)}/m)
     end
 
@@ -498,7 +498,7 @@ module Aruba
     # @return [TrueClass, FalseClass]
     #   If arg2 does not match/include arg1 return true, otherwise false
     def assert_no_partial_output(unexpected, actual)
-      actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
+      actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= '1.9'
       if Regexp === unexpected
         expect(unescape(actual)).not_to match unexpected
       else
@@ -565,13 +565,13 @@ module Aruba
     # @private
     def assert_exit_status(status)
       expect(last_exit_status).to eq(status),
-        append_output_to("Exit status was #{last_exit_status} but expected it to be #{status}.")
+                                  append_output_to("Exit status was #{last_exit_status} but expected it to be #{status}.")
     end
 
     # @private
     def assert_not_exit_status(status)
       expect(last_exit_status).not_to eq(status),
-        append_output_to("Exit status was #{last_exit_status} which was not expected.")
+                                      append_output_to("Exit status was #{last_exit_status} which was not expected.")
     end
 
     # @private
@@ -606,14 +606,14 @@ module Aruba
 
     # @private
     def get_process(wanted)
-      matching_processes = processes.reverse.find{ |name, _| name == wanted }
-      raise ArgumentError.new("No process named '#{wanted}' has been started") unless matching_processes
+      matching_processes = processes.reverse.find { |name, _| name == wanted }
+      fail ArgumentError.new("No process named '#{wanted}' has been started") unless matching_processes
       matching_processes.last
     end
 
     # @private
     def only_processes
-      processes.collect{ |_, process| process }
+      processes.map { |_, process| process }
     end
 
     # Run given command and stop it if timeout is reached
@@ -677,7 +677,7 @@ module Aruba
     #
     # @param [Integer] timeout
     #   Timeout for execution
-    def run_simple(cmd, fail_on_error=true, timeout = nil)
+    def run_simple(cmd, fail_on_error = true, timeout = nil)
       run(cmd, timeout) do |process|
         stop_process(process)
       end
@@ -700,7 +700,7 @@ module Aruba
     # @param [String] input
     #   The input for the command
     def type(input)
-      return close_input if "" == input
+      return close_input if '' == input
       _write_interactive(_ensure_newline(input))
     end
 
@@ -712,7 +712,7 @@ module Aruba
     # @deprecated
     # @private
     def eot
-      warn(%{\e[35m    The \"#eot\"-method is deprecated. It will be deleted with the next major version. Please use \"#close_input\"-method instead.\e[0m})
+      warn(%([35m    The "#eot"-method is deprecated. It will be deleted with the next major version. Please use "#close_input"-method instead.[0m))
       close_input
     end
 
@@ -734,7 +734,7 @@ module Aruba
 
     # @private
     def announce_or_puts(msg)
-      if(@puts)
+      if @puts
         Kernel.puts(msg)
       else
         puts(msg)
@@ -762,26 +762,26 @@ module Aruba
     # @param [String] gemset
     #   The name of the gemset to be used
     def use_clean_gemset(gemset)
-      run_simple(%{rvm gemset create "#{gemset}"}, true)
+      run_simple(%(rvm gemset create "#{gemset}"), true)
       if all_stdout =~ /'#{gemset}' gemset created \((.*)\)\./
-        gem_home = $1
+        gem_home = Regexp.last_match[1]
         set_env('GEM_HOME', gem_home)
         set_env('GEM_PATH', gem_home)
         set_env('BUNDLE_PATH', gem_home)
 
-        paths = (ENV['PATH'] || "").split(File::PATH_SEPARATOR)
+        paths = (ENV['PATH'] || '').split(File::PATH_SEPARATOR)
         paths.unshift(File.join(gem_home, 'bin'))
         set_env('PATH', paths.uniq.join(File::PATH_SEPARATOR))
 
-        run_simple("gem install bundler", true)
+        run_simple('gem install bundler', true)
       else
-        raise "I didn't understand rvm's output: #{all_stdout}"
+        fail "I didn't understand rvm's output: #{all_stdout}"
       end
     end
 
     # Unset variables used by bundler
     def unset_bundler_env_vars
-      %w[RUBYOPT BUNDLE_PATH BUNDLE_BIN_PATH BUNDLE_GEMFILE].each do |key|
+      %w(RUBYOPT BUNDLE_PATH BUNDLE_BIN_PATH BUNDLE_GEMFILE).each do |key|
         set_env(key, nil)
       end
     end
@@ -823,15 +823,16 @@ module Aruba
     # @yield
     #   The block of code which should be run with the modified environment variables
     def with_env(env = {}, &block)
-      env.each do |k,v|
+      env.each do |k, v|
         set_env k, v
         block.call
         restore_env
       end
     end
 
-  # TODO: move some more methods under here!
-  private
+    # TODO: move some more methods under here!
+
+    private
 
     def last_exit_status
       return @last_exit_status if @last_exit_status
@@ -849,11 +850,11 @@ module Aruba
 
     def announcer
       Announcer.new(self,
-                    :stdout => @announce_stdout,
-                    :stderr => @announce_stderr,
-                    :dir => @announce_dir,
-                    :cmd => @announce_cmd,
-                    :env => @announce_env)
+                    stdout: @announce_stdout,
+                    stderr: @announce_stderr,
+                    dir: @announce_dir,
+                    cmd: @announce_cmd,
+                    env: @announce_env)
     end
 
     class Announcer
@@ -883,7 +884,7 @@ module Aruba
 
       def env(key, value)
         return unless @options[:env]
-        print %{$ export #{key}="#{value}"}
+        print %($ export #{key}="#{value}")
       end
 
       private
@@ -892,6 +893,5 @@ module Aruba
         @session.announce_or_puts(message)
       end
     end
-
   end
 end

@@ -1,6 +1,6 @@
-if(ENV['ARUBA_REPORT_DIR'])
+if ENV['ARUBA_REPORT_DIR']
   ENV['ARUBA_REPORT_TEMPLATES'] ||= File.dirname(__FILE__) + '/../../templates'
-  
+
   require 'fileutils'
   require 'erb'
   require 'cgi'
@@ -17,18 +17,18 @@ if(ENV['ARUBA_REPORT_DIR'])
           end
         end
       end
-      
+
       def pygmentize(file)
-        pygmentize = SpawnProcess.new(%{pygmentize -f html -O encoding=utf-8 "#{file}"}, 3, 0.5)
+        pygmentize = SpawnProcess.new(%(pygmentize -f html -O encoding=utf-8 "#{file}"), 3, 0.5)
         pygmentize.run! do |p|
           exit_status = p.stop(false)
-          if(exit_status == 0)
+          if (exit_status == 0)
             p.stdout(false)
-          elsif(p.stderr(false) =~ /no lexer/) # Pygment's didn't recognize it
+          elsif p.stderr(false) =~ /no lexer/ # Pygment's didn't recognize it
             IO.read(file)
           else
             STDERR.puts "\e[31m#{p.stderr} - is pygments installed?\e[0m"
-            exit $?.exitstatus
+            exit $CHILD_STATUS.exitstatus
           end
         end
       end
@@ -52,7 +52,7 @@ if(ENV['ARUBA_REPORT_DIR'])
         escaped_stdout = CGI.escapeHTML(all_stdout)
         html = Bcat::ANSI.new(escaped_stdout).to_html
         Bcat::ANSI::STYLES.each do |name, style|
-          html.gsub!(/style='#{style}'/, %{class="xterm_#{name}"})
+          html.gsub!(/style='#{style}'/, %(class="xterm_#{name}"))
         end
         html
       end
@@ -61,14 +61,14 @@ if(ENV['ARUBA_REPORT_DIR'])
         erb = ERB.new(template('main.erb'), nil, '-')
         erb.result(binding)
       end
-      
+
       def files
         erb = ERB.new(template('files.erb'), nil, '-')
         file = current_dir
         erb.result(binding)
       end
-      
-      def again(erb, _erbout, file)
+
+      def again(erb, _erbout, _file)
         _erbout.concat(erb.result(binding))
       end
 
@@ -90,7 +90,7 @@ if(ENV['ARUBA_REPORT_DIR'])
       end
 
       def index_title
-        "Examples"
+        'Examples'
       end
     end
   end
@@ -108,15 +108,14 @@ if(ENV['ARUBA_REPORT_DIR'])
     Aruba::Reporting.reports[scenario.feature] << [scenario, html_file]
 
     FileUtils.cp_r(File.join(ENV['ARUBA_REPORT_TEMPLATES'], '.'), ENV['ARUBA_REPORT_DIR'])
-    Dir["#{ENV['ARUBA_REPORT_DIR']}/**/*.erb"].each{|f| FileUtils.rm(f)}
+    Dir["#{ENV['ARUBA_REPORT_DIR']}/**/*.erb"].each { |f| FileUtils.rm(f) }
   end
 
   at_exit do
-    index_file = File.join(ENV['ARUBA_REPORT_DIR'], "index.html")
+    index_file = File.join(ENV['ARUBA_REPORT_DIR'], 'index.html')
     extend(Aruba::Reporting)
     File.open(index_file, 'w') do |io|
       io.write(index)
     end
   end
 end
-

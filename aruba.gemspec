@@ -3,7 +3,7 @@
 Gem::Specification.new do |s|
   s.name        = 'aruba'
   s.version     = '0.6.1'
-  s.authors     = ["Aslak Hellesøy", "David Chelimsky", "Mike Sassak", "Matt Wynne"]
+  s.authors     = ['Aslak Hellesøy', 'David Chelimsky', 'Mike Sassak', 'Matt Wynne']
   s.description = 'CLI Steps for Cucumber, hand-crafted for you in Aruba'
   s.summary     = "aruba-#{s.version}"
   s.license     = 'MIT'
@@ -21,10 +21,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'cucumber-pro', '~> 0.0'
   s.add_development_dependency 'rubocop', '~> 0.26.0'
 
-  s.rubygems_version = ">= 1.6.1"
+  s.rubygems_version = '>= 1.6.1'
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {spec,features}/*`.split("\n")
-  s.executables      = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.rdoc_options     = ["--charset=UTF-8"]
-  s.require_path     = "lib"
+  s.executables      = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
+  s.rdoc_options     = ['--charset=UTF-8']
+  s.require_path     = 'lib'
 end
