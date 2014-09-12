@@ -367,7 +367,7 @@ module Aruba
     #
     # @param [true, false] expect_match
     #   Must the content be in the file or not
-    def check_file_content(file, partial_content, expect_match)
+    def check_file_content(file, partial_content, expect_match = true)
       regexp = regexp(partial_content)
       prep_for_fs_check do
         file = File.expand_path(file)
