@@ -34,22 +34,20 @@ well. One might want to use it together with `rspec`.
 
 1. Create a directory named `spec/support`
 2. Create a file named `spec/support/aruba.rb` with:
+  ```
+  require 'aruba/api'
+  require 'aruba/reporting'
 
-   ```
-   require 'aruba/api'
-   require 'aruba/reporting'
+  RSpec.configure do |config|
+    config.include Aruba::Api
 
-    RSpec.configure do |config|
-      config.include Aruba::Api
-
-      config.before(:each) do
-        restore_env
-        clean_current_dir
-      end
+    config.before(:each) do
+      restore_env
+      clean_current_dir
     end
-   ```
+  end
+  ```
 3. Add the following to your `spec/spec_helper.rb`
-
   ```
   Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
   ```
