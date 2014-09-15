@@ -47,7 +47,7 @@ well. One might want to use it together with `rspec`.
     end
   end
   ```
-3. Add the following to your `spec/spec_helper.rb`
+3. Add the following to your `spec/spec_helper.rb` :
   ```
   Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
   ```
