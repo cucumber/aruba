@@ -136,6 +136,13 @@ Feature: file system commands
     Then the file "foo" should contain "hello world"
     And the file "foo" should not contain "HELLO WORLD"
 
+  Scenario: Check file md5 hash
+    Given a file named "foo" with:
+      """
+      hello world
+      """
+    Then the file "foo" should contain fingerprint "5eb63bbbe01eeed093cb22bb8f5acdc3"
+
   Scenario: Check file contents with regexp
     Given a file named "foo" with:
       """

@@ -392,6 +392,17 @@ module Aruba
       prep_for_fs_check { expect(IO.read(file)).to eq exact_content }
     end
 
+    # Check if the file has exact md5 hash
+    #
+    # @param [String] file
+    #   The file to be checked
+    #
+    # @param [String] md5 hash
+    #   The md5 hash of the file
+    def check_exact_file_hash(file, md5_hash)
+      prep_for_fs_check { expect(Digest::MD5.file(file).to_s).to eq md5_hash }
+    end
+
     # Check presence of a directory
     #
     # @param [Array] paths

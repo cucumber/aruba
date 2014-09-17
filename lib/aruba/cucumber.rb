@@ -356,6 +356,10 @@ Then /^the file "([^"]*)" should contain exactly:$/ do |file, exact_content|
   check_exact_file_content(file, exact_content)
 end
 
+Then(/^the file "(.*?)" should contain fingerprint "(.*?)"$/) do |file, exact_hash|
+  check_exact_file_hash(file, exact_hash)
+end
+
 Then /^the file "([^"]*)" should match \/([^\/]*)\/$/ do |file, partial_content|
   check_file_content(file, /#{partial_content}/, true)
 end
