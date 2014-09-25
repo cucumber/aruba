@@ -10,7 +10,14 @@ class CustomMain
   end
 
   def execute!
-    @stdout.puts(@argv.map{|arg| arg.reverse}.join(' '))
+    case @argv.shift
+    when 'reverse'
+      @stdout.puts args.map { |arg| arg.reverse }.join(' ')
+    when 'mimic'
+      sen = @stdin.gets.chomp
+      @stdout.puts sen
+    end
+    @kernel.exit(0)
   end
 end
 

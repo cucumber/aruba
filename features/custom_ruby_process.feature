@@ -8,5 +8,5 @@ Feature: Custom Ruby Process
 
   @in-process
   Scenario: Run a passing custom process
-    When I run `reverse olleh dlrow`
+    When I run `cli reverse olleh dlrow`
     Then the output should contain "hello world"
