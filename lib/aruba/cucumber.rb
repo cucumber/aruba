@@ -356,7 +356,7 @@ Then /^the file "([^"]*)" should contain exactly:$/ do |file, exact_content|
   check_exact_file_content(file, exact_content)
 end
 
-Then(/^the file "(.*?)" should contain fingerprint "(.*?)"$/) do |file, exact_hash|
+Then(/^the file "(.*?)" should have a fingerprint "(.*?)"$/) do |file, exact_hash|
   check_exact_file_hash(file, exact_hash)
 end
 
