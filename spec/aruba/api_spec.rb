@@ -383,6 +383,30 @@ describe Aruba::Api  do
         end
       end
     end #with_file_content
+    
+    context "#check_file_fingerprint" do
+      before :each do
+        @aruba.write_file(@file_name, "foo bar baz")
+        @expected_hash = "dbd318c1c462aee872f41109a4dfd3048871a03dedd0fe0e757ced57dad6f2d7"
+      end
+
+      it "succeeds if file fingerprint matches" do
+        @aruba.check_exact_file_hash(@file_name, @expected_hash)
+      end
+
+      it "succeeds if file fingerprint does not match" do
+        expect { @aruba.check_exact_file_hash(@file_name, "foo bar baz") }.to raise_error
+      end
+      
+      it "works with ~ in path name" do
+        file_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          @aruba.write_file(file_path, "foo bar baz")
+          @aruba.check_exact_file_hash(file_path, @expected_hash)
+        end
+      end
+    end
   end
 
   describe 'process environment' do

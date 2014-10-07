@@ -400,7 +400,10 @@ module Aruba
     # @param [String] SHA256 hash
     #   The SHA256 hash of the file
     def check_exact_file_hash(file, sha256_hash)
-      prep_for_fs_check { expect(Digest::SHA256.file(file).to_s).to eq sha256_hash }
+      prep_for_fs_check do
+        file = File.expand_path(file)
+        expect(Digest::SHA256.file(file).to_s).to eq sha256_hash
+      end
     end
 
     # Check presence of a directory
