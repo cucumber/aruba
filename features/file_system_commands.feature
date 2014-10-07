@@ -136,6 +136,13 @@ Feature: file system commands
     Then the file "foo" should contain "hello world"
     And the file "foo" should not contain "HELLO WORLD"
 
+  Scenario: Check file fingerprint
+    Given a file named "foo" with:
+      """
+      hello world
+      """
+    Then the file "foo" should have a fingerprint "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+
   Scenario: Check file contents with regexp
     Given a file named "foo" with:
       """
