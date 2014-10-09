@@ -294,6 +294,8 @@ module Aruba
     #
     # @param [true,false] expect_presence
     #   Should the given paths be present (true) or absent (false)
+    # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/MethodLength
     def check_file_presence(*paths, expect_presence)
       expect_presence = true if expect_presence.nil?
 
@@ -317,6 +319,8 @@ module Aruba
         end
       end
     end
+    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/MethodLength
 
     # Pipe data in file
     #
@@ -553,7 +557,7 @@ module Aruba
     #   If arg2 matches arg1 return true, otherwise false
     def assert_matching_output(expected, actual)
       actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-      expect(unescape(actual)).to match /#{unescape(expected)}/m
+      expect(unescape(actual)).to match(/#{unescape(expected)}/m)
     end
 
     # Negative regex compare arg1 and arg2
@@ -964,6 +968,5 @@ module Aruba
         @session.announce_or_puts(message)
       end
     end
-
   end
 end
