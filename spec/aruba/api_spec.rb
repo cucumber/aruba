@@ -63,8 +63,25 @@ describe Aruba::Api  do
 
     context '#create_dir' do
       it 'creates a directory' do
-        @arub.create_dir @directory_name
+        @aruba.create_dir @directory_name
         expect(File.exist?(File.expand_path(@directory_path))).to be_truthy
+      end
+
+      it "works with ~ in path name" do
+        directory_path = File.join('~', random_string)
+
+        with_env 'HOME' => File.expand_path(current_dir) do
+          @aruba.create_dir directory_path
+
+          expect(File.exist?(File.expand_path(directory_path))).to be true
+        end
+      end
+
+      it 'creates multiple directories' do
+        @aruba.create_dir(@directory_name + '1', @directory_name + '2')
+
+        expect(File.exist?(File.expand_path(@directory_path + '1'))).to be_truthy
+        expect(File.exist?(File.expand_path(@directory_path + '2'))).to be_truthy
       end
     end
 
@@ -76,6 +93,16 @@ describe Aruba::Api  do
       it 'should delete directory' do
         @aruba.remove_dir(@directory_name)
         expect(File.exist?(@directory_path)).to eq false
+      end
+
+      it 'should delete directory' do
+        Dir.mkdir(@directory_path + '1')
+        Dir.mkdir(@directory_path + '2')
+
+        @aruba.remove_dir(@directory_name + '1', @directory_name + '2')
+
+        expect(File.exist?(@directory_path + '1')).to eq false
+        expect(File.exist?(@directory_path + '2')).to eq false
       end
 
       it "works with ~ in path name" do
@@ -95,8 +122,16 @@ describe Aruba::Api  do
     context '#touch_file' do
       it 'creates an empty file' do
         @aruba.touch_file(@file_name)
+
         expect(File.exist?(@file_path)).to eq true
         expect(File.size(@file_path)).to eq 0
+      end
+
+      it 'creates multiple empty files' do
+        @aruba.touch_file(@file_name + '1', @file_name + '2')
+
+        expect(File.exist?(@file_path + '1')).to eq true
+        expect(File.exist?(@file_path + '2')).to eq true
       end
 
       it 'supports an unexisting directory in path' do
@@ -141,6 +176,13 @@ describe Aruba::Api  do
 
         expect(File.exist?(@file_path)).to eq true
       end
+
+      it 'creates multiple files with content' do
+        @aruba.write_file(@file_name + '1', @file_name + '2', '')
+
+        expect(File.exist?(@file_path + '1')).to eq true
+        expect(File.exist?(@file_path + '2')).to eq true
+      end
     end
 
     context '#write_fixed_size_file' do
@@ -148,6 +190,13 @@ describe Aruba::Api  do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         expect(File.exist?(@file_path)).to eq true
         expect(File.size(@file_path)).to eq @file_size
+      end
+
+      it 'creates multiple files' do
+        @aruba.write_fixed_size_file(@file_name + '1', @file_name + '2', @file_size)
+
+        expect(File.exist?(@file_path + '1')).to eq true
+        expect(File.exist?(@file_path + '2')).to eq true
       end
 
       it "works with ~ in path name" do
@@ -166,6 +215,13 @@ describe Aruba::Api  do
       it "should check an existing file size" do
         @aruba.write_fixed_size_file(@file_name, @file_size)
         @aruba.check_file_size([[@file_name, @file_size]])
+      end
+
+      it 'checks multiple files' do
+        @aruba.write_fixed_size_file(@file_name + '1', @file_name + '2', @file_size)
+
+        @aruba.check_file_size([[@file_name + '1', @file_size]])
+        @aruba.check_file_size([[@file_name + '2', @file_size]])
       end
 
       it "should check an existing file size and fail" do
@@ -203,6 +259,19 @@ describe Aruba::Api  do
         @aruba.filesystem_permissions("0655", @file_name)
         result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
         expect(result).to eq('0655')
+      end
+
+      it 'modifies multiple files' do
+        File.open(@file_path + '1', 'w') { |f| f << "" }
+        File.open(@file_path + '2', 'w') { |f| f << "" }
+
+        @aruba.filesystem_permissions(0777, @file_name + '1', @file_name + '2')
+
+        result = sprintf( "%o" , File::Stat.new(@file_path + '1').mode )[-4,4]
+        expect(result).to eq('0777')
+
+        result = sprintf( "%o" , File::Stat.new(@file_path + '2').mode )[-4,4]
+        expect(result).to eq('0777')
       end
 
       it "supports a string representation of permission as well" do
@@ -245,12 +314,23 @@ describe Aruba::Api  do
         end
       end
     end
+
     context '#remove_file' do
       before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
 
       it "should delete file" do
         @aruba.remove_file(@file_name)
         expect(File.exist?(@file_path)).to eq false
+      end
+
+      it 'deletes multiple files' do
+        File.open(@file_path + '1', 'w') { |f| f << "" }
+        File.open(@file_path + '2', 'w') { |f| f << "" }
+
+        @aruba.remove_file(@file_name + '1', @file_name + '2')
+
+        expect(File.exist?(@file_path + '1')).to eq false
+        expect(File.exist?(@file_path + '2')).to eq false
       end
 
       it "works with ~ in path name" do
@@ -268,6 +348,10 @@ describe Aruba::Api  do
       before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
 
       it "should check existence using plain match" do
+        @aruba.check_file_presence(@file_name)
+      end
+
+      it "should check existence with nested directory" do
         file_name = 'nested/dir/hello_world.txt'
         file_path = File.join(@aruba.current_dir, file_name)
 
@@ -275,9 +359,13 @@ describe Aruba::Api  do
         File.open(file_path, 'w') { |f| f << "" }
 
         @aruba.check_file_presence(file_name)
-        @aruba.check_file_presence([file_name])
-        @aruba.check_file_presence([file_name], true)
-        @aruba.check_file_presence(['asdf'], false)
+      end
+
+      it 'checks multiple files' do
+        File.open(@file_path + '1', 'w') { |f| f << "" }
+        File.open(@file_path + '2', 'w') { |f| f << "" }
+
+        @aruba.check_file_presence(@file_name + '1', @file_name + '2')
       end
 
       it "should check existence using regex" do
@@ -318,7 +406,7 @@ describe Aruba::Api  do
 
     context "#check_file_content" do
       before :each do
-        @aruba.write_file(@file_name, "foo bar baz")
+        File.open(@file_path, 'w') { |f| f <<  "foo bar baz" }
       end
 
       it "succeeds if file content matches" do
@@ -328,6 +416,13 @@ describe Aruba::Api  do
 
       it "succeeds if file content does not match" do
         @aruba.check_file_content(@file_name, "hello world", false)
+      end
+
+      it 'checks multiple files' do
+        File.open(@file_path + '1', 'w') { |f| f <<  "foo bar baz" }
+        File.open(@file_path + '2', 'w') { |f| f <<  "foo bar baz" }
+
+        @aruba.check_file_content(@file_name + '1', @file_name + '2', "foo bar baz", true)
       end
 
       it "works with ~ in path name" do
