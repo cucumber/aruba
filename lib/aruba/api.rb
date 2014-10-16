@@ -273,6 +273,46 @@ module Aruba
       self
     end
 
+    # Copy a file and/or directory
+    #
+    # @param [String, Array] source
+    #   A single file or directory, multiple files or directories or multiple
+    #   files and directories. If multiple sources are given the destination
+    #   needs to be a directory
+    #
+    # @param [String] destination
+    #   A file or directory name. If multiple sources are given the destination
+    #   needs to be a directory
+    #
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
+    def copy(*source, destination)
+      source = source.flatten
+
+      source.each do |s|
+        raise ArgumentError, %(The following source "#{s}" does not exist.) unless exist? s
+      end
+
+      raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported" if destination.start_with? FIXTURES_PATH_PREFIX
+      raise ArgumentError, "Multiples sources can only be copied to a directory" if source.count > 1 && exist?(destination) && !directory?(destination)
+
+      source_paths     = source.map { |f| expand_path(f) }
+      destination_path = expand_path(destination)
+
+      if source_paths.count > 1
+        _mkdir(destination_path)
+      else
+        _mkdir(File.dirname(destination_path))
+        source_paths = source_paths.first
+      end
+
+      FileUtils.cp_r source_paths, destination_path
+
+      self
+    end
+    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/CyclomaticComplexity
+
     # Create a file with the given size
     #
     # The method does not check if file already exists. If the file name is a
