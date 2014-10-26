@@ -224,11 +224,15 @@ module Aruba
     #
     # @param [String] file_name
     #    The file which should be deleted in current directory
-    def remove_file(file_name)
+    def remove_file(file_name, force = false)
       in_current_dir do
         file_name = File.expand_path(file_name)
 
-        FileUtils.rm(file_name)
+        if force
+          FileUtils.rm_f(file_name)
+        else
+          FileUtils.rm(file_name)
+        end
       end
     end
 
@@ -264,11 +268,15 @@ module Aruba
     #
     # @param [String] directory_name
     #   The name of the directory which should be removed
-    def remove_dir(directory_name)
+    def remove_dir(directory_name, force = true)
       in_current_dir do
         directory_name = File.expand_path(directory_name)
 
-        FileUtils.rmdir(directory_name)
+        if force
+          FileUtils.rm_rf(directory_name)
+        else
+          FileUtils.rm_r(directory_name)
+        end
       end
     end
 

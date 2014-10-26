@@ -91,13 +91,13 @@ describe Aruba::Api  do
 
       it "fails if directory does not exist" do
         expect {
-          @aruba.remove_dir(@directory_name + '1', force: false)
+          @aruba.remove_dir(@directory_name + '1', false)
         }.to raise_error Errno::ENOENT
       end
 
       it "does not care if directory exists" do
         expect {
-          @aruba.remove_dir(@directory_name + '1', force: true)
+          @aruba.remove_dir(@directory_name + '1', true)
         }.not_to raise_error
       end
     end
@@ -278,13 +278,13 @@ describe Aruba::Api  do
 
       it "fails if file does not exist" do
         expect {
-          @aruba.remove_file(@file_name + '1', force: false)
+          @aruba.remove_file(@file_name + '1', false)
         }.to raise_error Errno::ENOENT
       end
 
       it "does not care if file exist" do
         expect {
-          @aruba.remove_file(@file_name + '1', force: true)
+          @aruba.remove_file(@file_name + '1', true)
         }.not_to raise_error
       end
     end
