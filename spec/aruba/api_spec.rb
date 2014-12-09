@@ -321,6 +321,23 @@ describe Aruba::Api  do
         @aruba.write_file(@file_name, "foo bar baz")
       end
 
+      context "#check_binary_file_content" do
+        it "succeeds if file content matches" do
+          @aruba.write_file("fixture", "foo bar baz")
+          @aruba.check_binary_file_content(@file_name, "fixture")
+          @aruba.check_binary_file_content(@file_name, "fixture", true)
+        end
+
+        it "succeeds if file content does not match" do
+          @aruba.write_file("wrong_fixture", "bar")
+          @aruba.check_binary_file_content(@file_name, "wrong_fixture", false)
+        end
+
+        it "raises if file does not exist" do
+          expect{@aruba.check_binary_file_content(@file_name, "non_existing", false)}.to raise_error
+        end
+      end
+
       context "#check_file_content" do
         context "with regexp" do
           let(:matching_content){/bar/}
