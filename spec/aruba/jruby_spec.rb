@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'aruba/config'
 require 'aruba/api'
-include Aruba::Api
 
 describe "Aruba JRuby Startup Helper"  do
   before(:all) do
