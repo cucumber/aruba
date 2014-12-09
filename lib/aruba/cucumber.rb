@@ -332,36 +332,24 @@ Then /^the following directories should not exist:$/ do |directories|
   check_directory_presence(directories.raw.map{|directory_row| directory_row[0]}, false)
 end
 
-Then /^a directory named "([^"]*)" should exist$/ do |directory|
-  check_directory_presence([directory], true)
+Then /^a directory named "([^"]*)" should (not )?exist$/ do |directory, expect_match|
+  check_directory_presence([directory], !expect_match)
 end
 
-Then /^a directory named "([^"]*)" should not exist$/ do |directory|
-  check_directory_presence([directory], false)
+Then /^the file "([^"]*)" should (not )?contain "([^"]*)"$/ do |file, expect_match, partial_content|
+  check_file_content(file, Regexp.compile(Regexp.escape(partial_content)), !expect_match)
 end
 
-Then /^the file "([^"]*)" should contain "([^"]*)"$/ do |file, partial_content|
-  check_file_content(file, partial_content, true)
+Then /^the file "([^"]*)" should (not )?contain:$/ do |file, expect_match, partial_content|
+  check_file_content(file, Regexp.compile(Regexp.escape(partial_content)), !expect_match)
 end
 
-Then /^the file "([^"]*)" should not contain "([^"]*)"$/ do |file, partial_content|
-  check_file_content(file, partial_content, false)
+Then /^the file "([^"]*)" should (not )?contain exactly:$/ do |file, expect_match, exact_content|
+  check_file_content(file, exact_content, !expect_match)
 end
 
-Then /^the file "([^"]*)" should contain:$/ do |file, partial_content|
-  check_file_content(file, partial_content, true)
-end
-
-Then /^the file "([^"]*)" should contain exactly:$/ do |file, exact_content|
-  check_exact_file_content(file, exact_content)
-end
-
-Then /^the file "([^"]*)" should match \/([^\/]*)\/$/ do |file, partial_content|
-  check_file_content(file, /#{partial_content}/, true)
-end
-
-Then /^the file "([^"]*)" should not match \/([^\/]*)\/$/ do |file, partial_content|
-  check_file_content(file, /#{partial_content}/, false)
+Then /^the file "([^"]*)" should (not )?match \/([^\/]*)\/$/ do |file, expect_match, partial_content|
+  check_file_content(file, /#{partial_content}/, !expect_match)
 end
 
 Then /^the file "([^"]*)" should (not )?be equal to file "([^"]*)"/ do |file, expect_match, reference_file|

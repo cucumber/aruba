@@ -362,43 +362,36 @@ module Aruba
     # @param [String] file
     #   The file to be checked
     #
-    # @param [String] partial_content
-    #   The content which must/must not be in the file
+    # @param [String, Regexp] content
+    #   The content which must/must not be in the file. If content is
+    #   a String exact match is done, if content is a Regexp then file
+    #   is matched using regular expression
     #
     # @param [true, false] expect_match
     #   Must the content be in the file or not
-    def check_file_content(file, partial_content, expect_match = true)
-      regexp = regexp(partial_content)
+    def check_file_content(file, content, expect_match = true)
+      match_content =
+        if(Regexp === content)
+          match(content)
+        else
+          eq(content)
+        end
       prep_for_fs_check do
         content = IO.read(File.expand_path(file))
-
         if expect_match
-          expect(content).to match regexp
+          expect(content).to match_content
         else
-          expect(content).not_to match regexp
+          expect(content).not_to match_content
         end
       end
     end
 
-    # Check if the exact content can be found in file
-    #
-    # @param [String] file
-    #   The file to be checked
-    #
-    # @param [String] exact_content_or_file
-    #   The content of the file or an IO
-    #
-    # @param [true, false] expect_match
-    #   Must the content be in the file or not
+    # @private
+    # @deprecated
     def check_exact_file_content(file, exact_content, expect_match = true)
-      prep_for_fs_check do
-        content = IO.read(File.expand_path(file))
-        if expect_match
-          expect(content).to eq exact_content
-        else
-          expect(content).not_to eq exact_content
-        end
-      end
+      warn('The use of "check_exact_file_content" is deprecated. Use "#check_file_content" with a string instead instead.')
+
+      check_file_content(file, exact_content, expect_match = true)
     end
 
     # Check if the content of file against the content of a reference file
@@ -474,10 +467,6 @@ module Aruba
       string = string.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e")
       string = string.gsub(/\e\[\d+(?>(;\d+)*)m/, '') unless @aruba_keep_ansi
       string
-    end
-
-    def regexp(string_or_regexp)
-      Regexp === string_or_regexp ? string_or_regexp : Regexp.compile(Regexp.escape(string_or_regexp))
     end
 
     # Fetch output (stdout, stderr) from command

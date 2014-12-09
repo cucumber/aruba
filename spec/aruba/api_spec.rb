@@ -316,26 +316,53 @@ describe Aruba::Api  do
       end
     end
 
-    context "#check_file_content" do
-      before :each do
+    context "check file content" do
+      before :example do
         @aruba.write_file(@file_name, "foo bar baz")
       end
 
-      it "succeeds if file content matches" do
-        @aruba.check_file_content(@file_name, "foo bar baz")
-        @aruba.check_file_content(@file_name, "foo bar baz", true)
-      end
+      context "#check_file_content" do
+        context "with regexp" do
+          let(:matching_content){/bar/}
+          let(:non_matching_content){/nothing/}
+          it "succeeds if file content matches" do
+            @aruba.check_file_content(@file_name, matching_content)
+            @aruba.check_file_content(@file_name, matching_content, true)
+          end
 
-      it "succeeds if file content does not match" do
-        @aruba.check_file_content(@file_name, "hello world", false)
-      end
+          it "succeeds if file content does not match" do
+            @aruba.check_file_content(@file_name, non_matching_content, false)
+          end
 
-      it "works with ~ in path name" do
-        file_path = File.join('~', random_string)
+          it "works with ~ in path name" do
+            file_path = File.join('~', random_string)
 
-        with_env 'HOME' => File.expand_path(current_dir) do
-          @aruba.write_file(file_path, "foo bar baz")
-          @aruba.check_file_content(file_path, "hello world", false)
+            with_env 'HOME' => File.expand_path(current_dir) do
+              @aruba.write_file(file_path, "foo bar baz")
+              @aruba.check_file_content(file_path, non_matching_content, false)
+            end
+          end
+        end
+        context "with string" do
+          let(:matching_content){"foo bar baz"}
+          let(:non_matching_content){"bar"}
+          it "succeeds if file content matches" do
+            @aruba.check_file_content(@file_name, matching_content)
+            @aruba.check_file_content(@file_name, matching_content, true)
+          end
+
+          it "succeeds if file content does not match" do
+            @aruba.check_file_content(@file_name, non_matching_content, false)
+          end
+
+          it "works with ~ in path name" do
+            file_path = File.join('~', random_string)
+
+            with_env 'HOME' => File.expand_path(current_dir) do
+              @aruba.write_file(file_path, "foo bar baz")
+              @aruba.check_file_content(file_path, non_matching_content, false)
+            end
+          end
         end
       end
     end
