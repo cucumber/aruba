@@ -370,8 +370,7 @@ module Aruba
     def check_file_content(file, partial_content, expect_match = true)
       regexp = regexp(partial_content)
       prep_for_fs_check do
-        file = File.expand_path(file)
-        content = IO.read(file)
+        content = IO.read(File.expand_path(file))
 
         if expect_match
           expect(content).to match regexp
@@ -386,10 +385,20 @@ module Aruba
     # @param [String] file
     #   The file to be checked
     #
-    # @param [String] exact_content
-    #   The content of the file
-    def check_exact_file_content(file, exact_content)
-      prep_for_fs_check { expect(IO.read(file)).to eq exact_content }
+    # @param [String] exact_content_or_file
+    #   The content of the file or an IO
+    #
+    # @param [true, false] expect_match
+    #   Must the content be in the file or not
+    def check_exact_file_content(file, exact_content, expect_match = true)
+      prep_for_fs_check do
+        content = IO.read(File.expand_path(file))
+        if expect_match
+          expect(content).to eq exact_content
+        else
+          expect(content).not_to eq exact_content
+        end
+      end
     end
 
     # Check presence of a directory
