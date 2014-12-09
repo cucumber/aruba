@@ -3,12 +3,12 @@ Feature: file system commands
   In order to specify commands that load files
   As a developer using Cucumber
   I want to create temporary files
-  
+
   Scenario: create a dir
     Given a directory named "foo/bar"
     When I run `file foo/bar`
     Then the stdout should contain "foo/bar: directory"
-  
+
   Scenario: create a file
     Given a file named "foo/bar/example.txt" with:
       """
@@ -33,12 +33,12 @@ Feature: file system commands
     Given a file named "foo/bar/example.txt" with:
       """
       hello world
-      
+
       """
     When I append to "foo/bar/example.txt" with:
       """
       this was appended
-      
+
       """
     When I run `cat foo/bar/example.txt`
     Then the stdout should contain "hello world"
@@ -51,12 +51,12 @@ Feature: file system commands
 
   Scenario: clean up files generated in previous scenario
     Then the file "foo/bar/example.txt" should not exist
-  
+
   Scenario: change to a subdir
     Given a file named "foo/bar/example.txt" with:
       """
       hello world
-      
+
       """
     When I cd to "foo/bar"
     And I run `cat example.txt`
