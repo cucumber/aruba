@@ -63,7 +63,7 @@ describe Aruba::Api  do
 
     context '#create_dir' do
       it 'creates a directory' do
-        @arub.create_dir @directory_name
+        @aruba.create_dir @directory_name
         expect(File.exist?(File.expand_path(@directory_path))).to be_truthy
       end
     end
