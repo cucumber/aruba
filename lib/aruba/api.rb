@@ -401,6 +401,27 @@ module Aruba
       end
     end
 
+    # Check if the content of file against the content of a reference file
+    #
+    # @param [String] file
+    #   The file to be checked
+    #
+    # @param [String] reference_file
+    #   The reference file
+    #
+    # @param [true, false] expect_match
+    #   Must the content be in the file or not
+    def check_binary_file_content(file, reference_file, expect_match = true)
+      prep_for_fs_check do
+        identical = FileUtils.compare_file(file, reference_file)
+        if expect_match
+          expect(identical).to be(true), "The file \"#{file}\" differs from file \"#{reference_file}\""
+        else
+          expect(identical).not_to be(true), "The file \"#{file}\" is identical to file \"#{reference_file}\""
+        end
+      end
+    end
+
     # Check presence of a directory
     #
     # @param [Array] paths

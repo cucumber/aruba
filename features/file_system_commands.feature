@@ -128,7 +128,7 @@ Feature: file system commands
       Then a directory named "foo/bar" should not exist
       """
 
-  Scenario: Check file contents
+  Scenario: Check file contents with text
     Given a file named "foo" with:
       """
       hello world
@@ -157,6 +157,22 @@ Feature: file system commands
       bar
       baz
       """
+
+  Scenario: Check file contents with another file
+    Given a file named "foo" with:
+      """
+      hello world
+      """
+    And a file named "bar" with:
+      """
+      hello world
+      """
+    And a file named "nonbar" with:
+      """
+      hello another world
+      """
+    Then the file "foo" should be equal to file "bar"
+    And the file "foo" should not be equal to file "nonbar"
 
   Scenario: Remove file
     Given a file named "foo" with:

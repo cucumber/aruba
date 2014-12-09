@@ -364,6 +364,10 @@ Then /^the file "([^"]*)" should not match \/([^\/]*)\/$/ do |file, partial_cont
   check_file_content(file, /#{partial_content}/, false)
 end
 
+Then /^the file "([^"]*)" should (not )?be equal to file "([^"]*)"/ do |file, expect_match, reference_file|
+  check_binary_file_content(file, reference_file, !expect_match)
+end
+
 Then /^the mode of filesystem object "([^"]*)" should match "([^"]*)"$/ do |file, mode|
   check_filesystem_permissions(mode, file, true)
 end
