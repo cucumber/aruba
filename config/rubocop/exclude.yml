@@ -201,7 +201,3 @@ Style/TrailingBlankLines:
 # Configuration parameters: ExactNameMatch, AllowPredicates, AllowDSLWriters, Whitelist.
 Style/TrivialAccessors:
   Enabled: false
-
-# Cop supports --auto-correct.
-Style/WordArray:
-  MinSize: 2

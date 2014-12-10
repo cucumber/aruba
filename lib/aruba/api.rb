@@ -75,7 +75,7 @@ module Aruba
     # @return [Array]
     #   The directory path: Each subdirectory is a member of an array
     def dirs
-      @dirs ||= ['tmp', 'aruba']
+      @dirs ||= %w(tmp aruba)
     end
 
     # Create a file with given content
