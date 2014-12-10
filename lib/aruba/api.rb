@@ -742,7 +742,7 @@ module Aruba
     #
     # @param [Integer] timeout
     #   Timeout for execution
-    def run_simple(cmd, fail_on_error=true, timeout = nil)
+    def run_simple(cmd, fail_on_error = true, timeout = nil)
       run(cmd, timeout) do |process|
         stop_process(process)
       end
