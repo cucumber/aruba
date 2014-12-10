@@ -896,6 +896,7 @@ module Aruba
     end
 
   # TODO: move some more methods under here!
+
   private
 
     def last_exit_status
