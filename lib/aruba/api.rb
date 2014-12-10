@@ -391,7 +391,7 @@ module Aruba
     def check_exact_file_content(file, exact_content, expect_match = true)
       warn('The use of "check_exact_file_content" is deprecated. Use "#check_file_content" with a string instead instead.')
 
-      check_file_content(file, exact_content, expect_match = true)
+      check_file_content(file, exact_content, expect_match)
     end
 
     # Check if the content of file against the content of a reference file
