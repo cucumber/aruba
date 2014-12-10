@@ -11,10 +11,6 @@ Lint/RescueException:
   Enabled: false
 
 # Cop supports --auto-correct.
-Lint/StringConversionInInterpolation:
-  Enabled: false
-
-# Cop supports --auto-correct.
 Lint/UnusedBlockArgument:
   Enabled: false
 

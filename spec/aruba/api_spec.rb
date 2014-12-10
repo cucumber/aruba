@@ -12,7 +12,7 @@ describe Aruba::Api  do
       include Aruba::Api
 
       def set_tag(tag_name, value)
-        self.instance_variable_set "@#{tag_name.to_s}", value
+        self.instance_variable_set "@#{tag_name}", value
       end
 
       def announce_or_puts(*args)
