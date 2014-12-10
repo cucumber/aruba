@@ -14,9 +14,6 @@ Lint/RescueException:
 Lint/StringConversionInInterpolation:
   Enabled: false
 
-Lint/UnderscorePrefixedVariableName:
-  Enabled: false
-
 # Cop supports --auto-correct.
 Lint/UnusedBlockArgument:
   Enabled: false

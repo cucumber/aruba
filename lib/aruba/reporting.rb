@@ -68,8 +68,8 @@ if(ENV['ARUBA_REPORT_DIR'])
         erb.result(binding)
       end
 
-      def again(erb, _erbout, file)
-        _erbout.concat(erb.result(binding))
+      def again(erb, erbout, file)
+        erbout.concat(erb.result(binding))
       end
 
       def children(dir)
