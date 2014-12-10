@@ -119,4 +119,3 @@ if(ENV['ARUBA_REPORT_DIR'])
     end
   end
 end
-
