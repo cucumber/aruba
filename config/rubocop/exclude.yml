@@ -101,10 +101,6 @@ Style/LeadingCommentSpace:
 Style/PercentLiteralDelimiters:
   Enabled: false
 
-# Cop supports --auto-correct.
-Style/PerlBackrefs:
-  Enabled: false
-
 # Configuration parameters: SupportedStyles.
 Style/RaiseArgs:
   EnforcedStyle: compact

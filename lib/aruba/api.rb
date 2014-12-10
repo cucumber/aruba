@@ -829,7 +829,7 @@ module Aruba
     def use_clean_gemset(gemset)
       run_simple(%{rvm gemset create "#{gemset}"}, true)
       if all_stdout =~ /'#{gemset}' gemset created \((.*)\)\./
-        gem_home = $1
+        gem_home = Regexp.last_match[1]
         set_env('GEM_HOME', gem_home)
         set_env('GEM_PATH', gem_home)
         set_env('BUNDLE_PATH', gem_home)
