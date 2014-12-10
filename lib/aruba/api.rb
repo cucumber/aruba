@@ -389,7 +389,7 @@ module Aruba
     # @private
     # @deprecated
     def check_exact_file_content(file, exact_content, expect_match = true)
-      warn('The use of "check_exact_file_content" is deprecated. Use "#check_file_content" with a string instead instead.')
+      warn('The use of "check_exact_file_content" is deprecated. Use "#check_file_content" with a string instead.')
 
       check_file_content(file, exact_content, expect_match)
     end
