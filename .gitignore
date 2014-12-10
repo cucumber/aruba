@@ -28,3 +28,6 @@ tmp
 doc
 Gemfile.lock
 cucumber-pro.log
+
+## Ruby versioniser
+.ruby-version
