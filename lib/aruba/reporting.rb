@@ -28,7 +28,7 @@ if(ENV['ARUBA_REPORT_DIR'])
             IO.read(file)
           else
             STDERR.puts "\e[31m#{p.stderr} - is pygments installed?\e[0m"
-            exit $?.exitstatus
+            exit $CHILD_STATUS.exitstatus
           end
         end
       end
