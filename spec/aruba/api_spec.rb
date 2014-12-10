@@ -25,7 +25,7 @@ describe Aruba::Api  do
     @file_size = 256
     @file_path = File.join(@aruba.current_dir, @file_name)
 
-    (@aruba.dirs.length-1).times do |depth| #Ensure all parent dirs exists
+    (@aruba.dirs.length - 1).times do |depth| #Ensure all parent dirs exists
       dir = File.join(*@aruba.dirs[0..depth])
       Dir.mkdir(dir) unless File.exist?(dir)
     end
