@@ -129,7 +129,7 @@ When /^I pipe in the file "([^"]*)"$/ do |file|
 end
 
 When /^I wait for (?:output|stdout) to contain "([^"]*)"$/ do |expected|
-  Timeout::timeout(exit_timeout) do
+  Timeout.timeout(exit_timeout) do
     loop do
       break if assert_partial_output_interactive(expected)
       sleep 0.1
