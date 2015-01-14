@@ -1,4 +1,7 @@
-## [master](https://github.com/cucumber/aruba/compare/v0.6.1...master)
+## [master](https://github.com/cucumber/aruba/compare/v0.6.2...master)
+
+## [v0.6.2](https://github.com/cucumber/aruba/compare/v0.6.1...v0.6.2)
+* Fixed minor issue #223)
 * Added support for ruby 2.1.3 -- 2.1.5
 * Added support for comparison to a fixture file
 
