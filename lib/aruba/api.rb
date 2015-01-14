@@ -890,9 +890,9 @@ module Aruba
     def with_env(env = {}, &block)
       env.each do |k,v|
         set_env k, v
-        block.call
-        restore_env
       end
+      block.call
+      restore_env
     end
 
     # TODO: move some more methods under here!
