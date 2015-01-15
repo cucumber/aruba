@@ -64,7 +64,7 @@ if(ENV['ARUBA_REPORT_DIR'])
 
       def files
         erb = ERB.new(template('files.erb'), nil, '-')
-        file = current_dir
+        file = current_directory
         erb.result(binding)
       end
 

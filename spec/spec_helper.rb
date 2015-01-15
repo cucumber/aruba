@@ -9,7 +9,7 @@ RSpec.configure do |config|
   end
 
   config.include Aruba::Api
-  config.before(:each) { clean_current_dir }
+  config.before(:each) { clean_current_directory }
 end
 
 Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }

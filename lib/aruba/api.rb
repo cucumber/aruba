@@ -34,30 +34,51 @@ module Aruba
     #   absolute_path('path', 'file')
     #
     def absolute_path(*args)
-      in_current_dir { File.expand_path File.join(*args) }
+      in_current_directory { File.expand_path File.join(*args) }
     end
 
     # Execute block in current directory
     #
     # @yield
     #   The block which should be run in current directory
-    def in_current_dir(&block)
-      _mkdir(current_dir)
-      Dir.chdir(current_dir, &block)
+    def in_current_directory(&block)
+      _mkdir(current_directory)
+      Dir.chdir(current_directory, &block)
+    end
+
+    # @deprecated
+    # @private
+    def in_current_dir(*args, &block)
+      warn('The use of "in_current_dir" is deprecated. Use "in_current_directory" instead')
+      in_current_directory(*args, &block)
     end
 
     # Clean the current directory
-    def clean_current_dir
-      _rm_rf(current_dir)
-      _mkdir(current_dir)
+    def clean_current_directory
+      _rm_rf(current_directory)
+      _mkdir(current_directory)
+    end
+
+    # @deprecated
+    # @private
+    def clean_current_dir(*args, &block)
+      warn('The use of "clean_current_dir" is deprecated. Use "clean_current_directory" instead')
+      clean_current_directory(*args, &block)
     end
 
     # Get access to current dir
     #
     # @return
     #   Current directory
-    def current_dir
+    def current_directory
       File.join(*dirs)
+    end
+
+    # @deprecated
+    # @private
+    def current_dir(*args, &block)
+      warn('The use of "current_dir" is deprecated. Use "current_directory" instead')
+      current_directory(*args, &block)
     end
 
     # Switch to directory
@@ -66,7 +87,7 @@ module Aruba
     #   The directory
     def cd(dir)
       dirs << dir
-      raise "#{current_dir} is not a directory." unless File.directory?(current_dir)
+      raise "#{current_directory} is not a directory." unless File.directory?(current_directory)
     end
 
     # The path to the directory which should contain all your test data
@@ -138,7 +159,7 @@ module Aruba
 
     # @private
     def _create_file(file_name, file_content, check_presence)
-      in_current_dir do
+      in_current_directory do
         file_name = File.expand_path(file_name)
 
         raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
@@ -226,7 +247,7 @@ module Aruba
 
     # @private
     def _create_fixed_size_file(file_name, file_size, check_presence)
-      in_current_dir do
+      in_current_directory do
         file_name = File.expand_path(file_name)
 
         raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
@@ -261,7 +282,7 @@ module Aruba
     # @param [String] file_content
     #   The content which should be appended to file
     def append_to_file(file_name, file_content)
-      in_current_dir do
+      in_current_directory do
         file_name = File.expand_path(file_name)
 
         _mkdir(File.dirname(file_name))
@@ -273,19 +294,26 @@ module Aruba
     #
     # @param [String] directory_name
     #   The name of the directory which should be created
-    def create_dir(directory_name)
-      in_current_dir do
+    def create_directory(directory_name)
+      in_current_directory do
         _mkdir(directory_name)
       end
 
       self
     end
 
+    # @private
+    # @deprecated
+    def create_dir(*args)
+      warn('The use of "create_dir" is deprecated. Use "create_directory" instead')
+      create_directory(*args)
+    end
+
     # Remove directory
     #
     # @param [String] directory_name
     #   The name of the directory which should be removed
-    def remove_dir(*args)
+    def remove_directory(*args)
       args = args.flatten
 
       options = if args.last.kind_of? Hash
@@ -297,6 +325,13 @@ module Aruba
       args = args.map { |p| absolute_path(p) }
 
       FileUtils.rm_r(args, options)
+    end
+
+    # @private
+    # @deprecated
+    def remove_dir(*args)
+      warn('The use of "remove_dir" is deprecated. Use "remove_directory" instead')
+      remove_directory(*args)
     end
 
     # Check if paths are present
@@ -333,7 +368,7 @@ module Aruba
     # @param [String] file_name
     #   The file which should be used to pipe in data
     def pipe_in_file(file_name)
-      in_current_dir do
+      in_current_directory do
         file_name = File.expand_path(file_name)
 
         File.open(file_name, 'r').each_line do |line|
@@ -463,7 +498,7 @@ module Aruba
     # @private
     def prep_for_fs_check(&block)
       stop_processes!
-      in_current_dir{ block.call }
+      in_current_directory{ block.call }
     end
 
     # @private
@@ -719,7 +754,7 @@ module Aruba
 
       cmd = detect_ruby(cmd)
 
-      in_current_dir do
+      in_current_directory do
         Aruba.config.hooks.execute(:before_cmd, self, cmd)
 
         announcer.dir(Dir.pwd)
