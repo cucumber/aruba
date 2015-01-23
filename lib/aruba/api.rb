@@ -96,12 +96,12 @@ module Aruba
     #
     # @param [String] file_name
     #   The name of the file
-    def touch_file(file_name)
+    def touch_file(file_name, options = {})
       in_current_dir do
         file_name = File.expand_path(file_name)
         _mkdir(File.dirname(file_name))
 
-        FileUtils.touch file_name
+        FileUtils.touch file_name, options
       end
 
       self
