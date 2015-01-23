@@ -115,6 +115,12 @@ describe Aruba::Api  do
           expect(File.exist?(File.expand_path(file_path))).to eq true
         end
       end
+
+      it "sets mtime if given" do
+        time = Time.parse('2014-01-01 10:00:00')
+        @aruba.touch_file(@file_name, mtime: time)
+        expect(File.mtime(@file_path)).to eq time
+      end
     end
 
     context '#absolute_path' do
