@@ -448,20 +448,38 @@ describe Aruba::Api  do
         @aruba.write_file(@file_name, "foo bar baz")
       end
 
-      context "#check_binary_file_content" do
-        it "succeeds if file content matches" do
-          @aruba.write_file("fixture", "foo bar baz")
-          @aruba.check_binary_file_content(@file_name, "fixture")
-          @aruba.check_binary_file_content(@file_name, "fixture", true)
+      describe "#check_binary_file_content" do
+        let(:file_name) { @file_name }
+        let(:file_path) { @file_path }
+
+        let(:reference_file) { 'fixture' }
+        let(:reference_file_content) { 'foo bar baz' }
+
+        before :each do
+          @aruba.write_file(reference_file, reference_file_content)
         end
 
-        it "succeeds if file content does not match" do
-          @aruba.write_file("wrong_fixture", "bar")
-          @aruba.check_binary_file_content(@file_name, "wrong_fixture", false)
+        context 'when files are the same' do
+          context 'and this is expected' do
+            it { @aruba.check_binary_file_content(file_name, reference_file) }
+            it { @aruba.check_binary_file_content(file_name, reference_file, true) }
+          end
+
+          context 'and this is not expected' do
+            it { expect { @aruba.check_binary_file_content(file_name, reference_file, false) }.to raise_error }
+          end
         end
 
-        it "raises if file does not exist" do
-          expect{@aruba.check_binary_file_content(@file_name, "non_existing", false)}.to raise_error
+        context 'when files are not the same' do
+          let(:reference_file_content) { 'bar' }
+
+          context 'and this is expected' do
+            it { @aruba.check_binary_file_content(file_name, reference_file, false) }
+          end
+
+          context 'and this is not expected' do
+            it { expect { @aruba.check_binary_file_content(file_name, reference_file, true) }.to raise_error }
+          end
         end
       end
 
