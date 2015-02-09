@@ -157,17 +157,28 @@ module Aruba
     #
     # @param [String] file_name
     #   Name of file to be modified. This file needs to be present to succeed
-    def filesystem_permissions(mode, file_name)
-      in_current_dir do
-        file_name = File.expand_path(file_name)
+    def filesystem_permissions(*args)
+      args = args.flatten
 
-        raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
-        if mode.kind_of? String
-          FileUtils.chmod(mode.to_i(8),file_name)
-        else
-          FileUtils.chmod(mode, file_name)
-        end
-      end
+      options = if args.last.kind_of? Hash
+                  args.pop
+                else
+                  {}
+                end
+
+      mode = args.shift
+      mode = if mode.kind_of? String
+               mode.to_i(8)
+             else
+               mode
+             end
+
+      args = args.map { |p| absolute_path(p) }
+      args.each { |p| raise "Expected #{p} to be present" unless FileTest.exists?(p) }
+
+      FileUtils.chmod(mode, args, options)
+
+      self
     end
 
     # @private
@@ -180,29 +191,27 @@ module Aruba
 
     # Check file system permissions of file
     #
-    # @param [Octal] mode
+    # @param [Octal] expected_permissions
     #   Expected file system permissions, e.g. 0755
-    # @param [String] file_name
-    #   Expected file system permissions, e.g. 0755
-    # @param [Boolean] expect_permissions
+    # @param [String] file_names
+    #   The file name(s)
+    # @param [Boolean] expected_result
     #   Are the permissions expected to be mode or are they expected not to be mode?
-    def check_filesystem_permissions(mode, file_name, expect_permissions)
-      in_current_dir do
-        file_name = File.expand_path(file_name)
+    def check_filesystem_permissions(*args)
+      args = args.flatten
 
-        raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
-        if mode.kind_of? Integer
-          expected_mode = mode.to_s(8)
+      expected_permissions = args.shift
+      expected_result      = args.pop
+
+      args = args.map { |p| absolute_path(p) }
+
+      args.each do |p|
+        raise "Expected #{p} to be present" unless FileTest.exists?(p)
+
+        if expected_result
+          expect(p).to have_permissions expected_permissions
         else
-          expected_mode = mode.gsub(/^0*/, '')
-        end
-
-        file_mode = sprintf( "%o", File::Stat.new(file_name).mode )[-4,4].gsub(/^0*/, '')
-
-        if expect_permissions
-          expect(file_mode).to eq expected_mode
-        else
-          expect(file_mode).not_to eq expected_mode
+          expect(p).not_to have_permissions expected_permissions
         end
       end
     end

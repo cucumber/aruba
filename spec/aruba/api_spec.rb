@@ -213,63 +213,104 @@ describe Aruba::Api  do
       end
     end
 
-    context '#filesystem_permissions' do
-      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
-
-      it "should change a file's mode" do
-        @aruba.filesystem_permissions(0644, @file_name)
-        result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
-        expect(result).to eq('0644')
-
-        @aruba.filesystem_permissions(0655, @file_name)
-        result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
-        expect(result).to eq('0655')
-
-        @aruba.filesystem_permissions("0655", @file_name)
-        result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
-        expect(result).to eq('0655')
+    describe '#filesystem_permissions' do
+      def actuctual_permissions
+        sprintf( "%o" , File::Stat.new(file_path).mode )[-4,4]
       end
 
-      it "supports a string representation of permission as well" do
-        @aruba.filesystem_permissions(0666, @file_name)
-        @aruba.check_filesystem_permissions('0666', @file_name, true)
+      let(:file_name) { @file_name }
+      let(:file_path) { @file_path }
+      let(:permissions) { '0655' }
+
+      before(:each) do
+        File.open(file_path, 'w') { |f| f << "" }
       end
 
-      it "should succeed if mode does not match but is expected to be different" do
-        @aruba.filesystem_permissions(0666, @file_name)
-        @aruba.check_filesystem_permissions(0755, @file_name, false)
+      before(:each) do
+        @aruba.filesystem_permissions(permissions, file_name)
       end
 
-      it "should fail if mode matches and is expected to be different" do
-        @aruba.filesystem_permissions(0666, @file_name)
-        expect {
-          @aruba.check_filesystem_permissions(0666, @file_name, false)
-        }.to raise_error
-      end
+      context 'when file exists' do
+        context 'and permissions are given as string' do
+          it { expect(actuctual_permissions).to eq('0655') }
+        end
 
-      it "should fail if mode does not match but is expected to be equal" do
-        @aruba.filesystem_permissions(0666, @file_name)
-        expect {
-          @aruba.check_filesystem_permissions(0755, @file_name, true)
-        }.to raise_error
-      end
+        context 'and permissions are given as octal number' do
+          let(:permissions) { 0655 }
+          it { expect(actuctual_permissions).to eq('0655') }
+        end
 
-      it "should succeed if mode matches and is expected to be equal" do
-        @aruba.filesystem_permissions(0666, @file_name)
-        @aruba.check_filesystem_permissions(0666, @file_name, true)
-      end
+        context 'and path has ~ in it' do
+          let(:string) { random_string }
+          let(:file_name) { File.join('~', string) }
+          let(:file_path) { File.join(@aruba.current_dir, string) }
 
-      it "works with ~ in path name" do
-        file_name = "~/test_file"
-
-        with_env 'HOME' => File.expand_path(current_dir) do
-          File.open(File.expand_path(file_name), 'w') { |f| f << "" }
-
-          @aruba.filesystem_permissions(0666, file_name)
-          expect(@aruba.check_filesystem_permissions(0666, file_name, true) ).to eq(true)
+          it { expect(actuctual_permissions).to eq('0655') }
         end
       end
     end
+
+    describe '#check_filesystem_permissions' do
+      let(:file_name) { @file_name }
+      let(:file_path) { @file_path }
+
+      let(:permissions) { '0655' }
+
+      before :each do
+        set_env 'HOME',  File.expand_path(@aruba.current_dir)
+      end
+
+      before(:each) do
+        File.open(file_path, 'w') { |f| f << "" }
+      end
+
+      before(:each) do
+        @aruba.filesystem_permissions(permissions, file_name)
+      end
+
+      context 'when file exists' do
+        context 'and should have permissions' do
+          context 'and permissions are given as string' do
+            it { @aruba.check_filesystem_permissions(permissions, file_name, true) }
+          end
+
+          context 'and permissions are given as octal number' do
+            let(:permissions) { 0666 }
+
+            it { @aruba.check_filesystem_permissions(permissions, file_name, true) }
+          end
+
+          context 'and path includes ~' do
+            let(:string) { random_string }
+            let(:file_name) { File.join('~', string) }
+            let(:file_path) { File.join(@aruba.current_dir, string) }
+
+            it { @aruba.check_filesystem_permissions(permissions, file_name, true) }
+          end
+
+          context 'but fails because the permissions are different' do
+            let(:expected_permissions) { 0666 }
+
+            it { expect { @aruba.check_filesystem_permissions(expected_permissions, file_name, true) }.to raise_error }
+          end
+        end
+
+        context 'and should not have permissions' do
+          context 'and succeeds when the difference is expected and permissions are different' do
+            let(:different_permissions) { 0666 }
+
+            it { @aruba.check_filesystem_permissions(different_permissions, file_name, false) }
+          end
+
+          context 'and fails because the permissions are the same although they should be different' do
+            let(:different_permissions) { 0655 }
+
+            it { expect { @aruba.check_filesystem_permissions(different_permissions, file_name, false) }.to raise_error }
+          end
+        end
+      end
+    end
+
     context '#remove_file' do
       before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
 
