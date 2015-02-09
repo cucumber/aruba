@@ -432,13 +432,10 @@ module Aruba
     # @param [true, false] expect_match
     #   Must the content be in the file or not
     def check_binary_file_content(file, reference_file, expect_match = true)
-      prep_for_fs_check do
-        identical = FileUtils.compare_file(file, reference_file)
-        if expect_match
-          expect(identical).to be(true), "The file \"#{file}\" differs from file \"#{reference_file}\""
-        else
-          expect(identical).not_to be(true), "The file \"#{file}\" is identical to file \"#{reference_file}\""
-        end
+      if expect_match
+        expect(file).to have_same_file_content_like reference_file
+      else
+        expect(file).not_to have_same_file_content_like reference_file
       end
     end
 
