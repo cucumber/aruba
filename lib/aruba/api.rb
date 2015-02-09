@@ -239,12 +239,18 @@ module Aruba
     #
     # @param [String] file_name
     #    The file which should be deleted in current directory
-    def remove_file(file_name)
-      in_current_dir do
-        file_name = File.expand_path(file_name)
+    def remove_file(*args)
+      args = args.flatten
 
-        FileUtils.rm(file_name)
-      end
+      options = if args.last.kind_of? Hash
+                  args.pop
+                else
+                  {}
+                end
+
+      args = args.map { |p| absolute_path(p) }
+
+      FileUtils.rm(args, options)
     end
 
     # Append data to file

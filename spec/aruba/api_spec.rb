@@ -311,21 +311,53 @@ describe Aruba::Api  do
       end
     end
 
-    context '#remove_file' do
-      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
+    describe '#remove_file' do
+      let(:file_name) { @file_name }
+      let(:file_path) { @file_path }
+      let(:options) { {} }
 
-      it "should delete file" do
-        @aruba.remove_file(@file_name)
-        expect(File.exist?(@file_path)).to eq false
+      before :each do
+        set_env 'HOME',  File.expand_path(@aruba.current_dir)
       end
 
-      it "works with ~ in path name" do
-        file_path = File.join('~', random_string)
+      context 'when file exists' do
+        before :each do
+          Array(file_path).each { |p| File.open(File.expand_path(p), 'w') { |f| f << "" } }
+        end
 
-        with_env 'HOME' => File.expand_path(current_dir) do
-          File.open(File.expand_path(file_path), 'w') { |f| f << "" }
-          @aruba.remove_file(file_path)
-          expect(File.exist?(file_path)).to eq false
+        before :each do
+          @aruba.remove_file(file_name, options)
+        end
+
+        context 'when is a single file' do
+          it_behaves_like 'a non-existing file'
+        end
+
+        context 'when are multiple files' do
+          let(:file_name) { %w(file1 file2 file3) }
+          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_dir, p) } }
+
+          it_behaves_like 'a non-existing file'
+        end
+
+        context 'when path contains ~' do
+          let(:string) { random_string }
+          let(:file_name) { File.join('~', string) }
+          let(:file_path) { File.join(@aruba.current_dir, string) }
+
+          it_behaves_like 'a non-existing file'
+        end
+      end
+
+      context 'when file does not exist' do
+        before :each do
+          @aruba.remove_file(file_name, options)
+        end
+
+        context 'when is forced to delete file' do
+          let(:options) { { force: true } }
+
+          it_behaves_like 'a non-existing file'
         end
       end
     end
