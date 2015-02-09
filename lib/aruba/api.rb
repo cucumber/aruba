@@ -96,13 +96,19 @@ module Aruba
     #
     # @param [String] file_name
     #   The name of the file
-    def touch_file(file_name, options = {})
-      in_current_dir do
-        file_name = File.expand_path(file_name)
-        _mkdir(File.dirname(file_name))
+    def touch_file(*args)
+      args = args.flatten
 
-        FileUtils.touch file_name, options
-      end
+      options = if args.last.kind_of? Hash
+                  args.pop
+                else
+                  {}
+                end
+
+      args = args.map { |p| absolute_path(p) }
+      args.each { |p| _mkdir(File.dirname(p)) }
+
+      FileUtils.touch(args, options)
 
       self
     end
