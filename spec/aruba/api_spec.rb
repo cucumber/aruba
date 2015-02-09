@@ -88,6 +88,18 @@ describe Aruba::Api  do
           expect(File.exist?(File.expand_path(directory_path))).to eq false
         end
       end
+
+      it "fails if directory does not exist" do
+        expect {
+          @aruba.remove_dir(@directory_name + '1', false)
+        }.to raise_error Errno::ENOENT
+      end
+
+      it "does not care if directory exists" do
+        expect {
+          @aruba.remove_dir(@directory_name + '1', true)
+        }.not_to raise_error
+      end
     end
   end
 
@@ -245,6 +257,7 @@ describe Aruba::Api  do
         end
       end
     end
+
     context '#remove_file' do
       before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
 
@@ -261,6 +274,18 @@ describe Aruba::Api  do
           @aruba.remove_file(file_path)
           expect(File.exist?(file_path)).to eq false
         end
+      end
+
+      it "fails if file does not exist" do
+        expect {
+          @aruba.remove_file(@file_name + '1', false)
+        }.to raise_error Errno::ENOENT
+      end
+
+      it "does not care if file exist" do
+        expect {
+          @aruba.remove_file(@file_name + '1', true)
+        }.not_to raise_error
       end
     end
 
