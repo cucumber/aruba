@@ -285,12 +285,18 @@ module Aruba
     #
     # @param [String] directory_name
     #   The name of the directory which should be removed
-    def remove_dir(directory_name)
-      in_current_dir do
-        directory_name = File.expand_path(directory_name)
+    def remove_dir(*args)
+      args = args.flatten
 
-        FileUtils.rmdir(directory_name)
-      end
+      options = if args.last.kind_of? Hash
+                  args.pop
+                else
+                  {}
+                end
+
+      args = args.map { |p| absolute_path(p) }
+
+      FileUtils.rm_r(args, options)
     end
 
     # Check if paths are present

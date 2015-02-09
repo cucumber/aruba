@@ -68,24 +68,53 @@ describe Aruba::Api  do
       end
     end
 
-    context '#remove_dir' do
+    describe '#remove_dir' do
+      let(:directory_name) { @directory_name }
+      let(:directory_path) { @directory_path }
+      let(:options) { {} }
+
       before :each do
-        Dir.mkdir(@directory_path)
+        set_env 'HOME',  File.expand_path(@aruba.current_dir)
       end
 
-      it 'should delete directory' do
-        @aruba.remove_dir(@directory_name)
-        expect(File.exist?(@directory_path)).to eq false
+      context 'when directory exists' do
+        before :each do
+          Array(directory_path).each { |p| Dir.mkdir p }
+        end
+
+        before :each do
+          @aruba.remove_dir(directory_name, options)
+        end
+
+        context 'when is a single directory' do
+          it_behaves_like 'a non-existing directory'
+        end
+
+        context 'when are multiple directorys' do
+          let(:directory_name) { %w(directory1 directory2 directory3) }
+          let(:directory_path) { %w(directory1 directory2 directory3).map { |p| File.join(@aruba.current_dir, p) } }
+
+          it_behaves_like 'a non-existing directory'
+        end
+
+        context 'when path contains ~' do
+          let(:string) { random_string }
+          let(:directory_name) { File.join('~', string) }
+          let(:directory_path) { File.join(@aruba.current_dir, string) }
+
+          it_behaves_like 'a non-existing directory'
+        end
       end
 
-      it "works with ~ in path name" do
-        directory_path = File.join('~', random_string)
+      context 'when directory does not exist' do
+        before :each do
+          @aruba.remove_dir(directory_name, options)
+        end
 
-        with_env 'HOME' => File.expand_path(current_dir) do
-          Dir.mkdir(File.expand_path(directory_path))
-          @aruba.remove_dir(directory_path)
+        context 'when is forced to delete directory' do
+          let(:options) { { force: true } }
 
-          expect(File.exist?(File.expand_path(directory_path))).to eq false
+          it_behaves_like 'a non-existing directory'
         end
       end
     end
