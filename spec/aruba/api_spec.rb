@@ -92,34 +92,53 @@ describe Aruba::Api  do
   end
 
   describe 'files' do
-    context '#touch_file' do
-      it 'creates an empty file' do
-        @aruba.touch_file(@file_name)
-        expect(File.exist?(@file_path)).to eq true
-        expect(File.size(@file_path)).to eq 0
+    describe '#touch_file' do
+      let(:file_name) { @file_name }
+      let(:file_path) { @file_path }
+      let(:options) { {} }
+
+      before :each do
+        set_env 'HOME',  File.expand_path(@aruba.current_dir)
       end
 
-      it 'supports an unexisting directory in path' do
-        path = 'directory/test'
-        full_path = File.join(@aruba.current_dir, path)
-        @aruba.touch_file(path)
-
-        expect(File.exist?(full_path)).to eq true
+      before :each do
+        @aruba.touch_file(file_name, options)
       end
 
-      it "works with ~ in path name" do
-        file_path = File.join('~', random_string)
-
-        with_env 'HOME' => File.expand_path(current_dir) do
-          @aruba.touch_file(file_path)
-          expect(File.exist?(File.expand_path(file_path))).to eq true
+      context 'when file does not exist' do
+        context 'and should be created in existing directory' do
+          it { expect(File.size(file_path)).to eq 0 }
+          it_behaves_like 'an existing file'
         end
-      end
 
-      it "sets mtime if given" do
-        time = Time.parse('2014-01-01 10:00:00')
-        @aruba.touch_file(@file_name, mtime: time)
-        expect(File.mtime(@file_path)).to eq time
+        context 'and should be created in non-existing directory' do
+          let(:file_name) { 'directory/test' }
+          let(:file_path) { File.join(@aruba.current_dir, 'directory/test') }
+
+          it_behaves_like 'an existing file'
+        end
+
+        context 'and path includes ~' do
+          let(:string) { random_string }
+          let(:file_name) { File.join('~', string) }
+          let(:file_path) { File.join(@aruba.current_dir, string) }
+
+          it_behaves_like 'an existing file'
+        end
+
+        context 'and the mtime should be set statically' do
+          let(:time) { Time.parse('2014-01-01 10:00:00') }
+          let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
+
+          it_behaves_like 'an existing file'
+          it { expect(File.mtime(file_path)).to eq time }
+        end
+
+        context 'and multiple file names are given' do
+          let(:file_name) { %w(file1 file2 file3) }
+          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_dir, p) } }
+          it_behaves_like 'an existing file'
+        end
       end
     end
 
