@@ -472,7 +472,7 @@ module Aruba
     # Fetch output (stdout, stderr) from command
     #
     # @param [String] cmd
-    #   The comand
+    #   The command
     def output_from(cmd)
       cmd = detect_ruby(cmd)
       get_process(cmd).output
@@ -481,7 +481,7 @@ module Aruba
     # Fetch stdout from command
     #
     # @param [String] cmd
-    #   The comand
+    #   The command
     def stdout_from(cmd)
       cmd = detect_ruby(cmd)
       get_process(cmd).stdout
@@ -490,7 +490,7 @@ module Aruba
     # Fetch stderr from command
     #
     # @param [String] cmd
-    #   The comand
+    #   The command
     def stderr_from(cmd)
       cmd = detect_ruby(cmd)
       get_process(cmd).stderr
