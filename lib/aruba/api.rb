@@ -96,13 +96,19 @@ module Aruba
     #
     # @param [String] file_name
     #   The name of the file
-    def touch_file(file_name)
-      in_current_dir do
-        file_name = File.expand_path(file_name)
-        _mkdir(File.dirname(file_name))
+    def touch_file(*args)
+      args = args.flatten
 
-        FileUtils.touch file_name
-      end
+      options = if args.last.kind_of? Hash
+                  args.pop
+                else
+                  {}
+                end
+
+      args = args.map { |p| absolute_path(p) }
+      args.each { |p| _mkdir(File.dirname(p)) }
+
+      FileUtils.touch(args, options)
 
       self
     end
@@ -151,17 +157,28 @@ module Aruba
     #
     # @param [String] file_name
     #   Name of file to be modified. This file needs to be present to succeed
-    def filesystem_permissions(mode, file_name)
-      in_current_dir do
-        file_name = File.expand_path(file_name)
+    def filesystem_permissions(*args)
+      args = args.flatten
 
-        raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
-        if mode.kind_of? String
-          FileUtils.chmod(mode.to_i(8),file_name)
-        else
-          FileUtils.chmod(mode, file_name)
-        end
-      end
+      options = if args.last.kind_of? Hash
+                  args.pop
+                else
+                  {}
+                end
+
+      mode = args.shift
+      mode = if mode.kind_of? String
+               mode.to_i(8)
+             else
+               mode
+             end
+
+      args = args.map { |p| absolute_path(p) }
+      args.each { |p| raise "Expected #{p} to be present" unless FileTest.exists?(p) }
+
+      FileUtils.chmod(mode, args, options)
+
+      self
     end
 
     # @private
@@ -174,29 +191,27 @@ module Aruba
 
     # Check file system permissions of file
     #
-    # @param [Octal] mode
+    # @param [Octal] expected_permissions
     #   Expected file system permissions, e.g. 0755
-    # @param [String] file_name
-    #   Expected file system permissions, e.g. 0755
-    # @param [Boolean] expect_permissions
+    # @param [String] file_names
+    #   The file name(s)
+    # @param [Boolean] expected_result
     #   Are the permissions expected to be mode or are they expected not to be mode?
-    def check_filesystem_permissions(mode, file_name, expect_permissions)
-      in_current_dir do
-        file_name = File.expand_path(file_name)
+    def check_filesystem_permissions(*args)
+      args = args.flatten
 
-        raise "expected #{file_name} to be present" unless FileTest.exists?(file_name)
-        if mode.kind_of? Integer
-          expected_mode = mode.to_s(8)
+      expected_permissions = args.shift
+      expected_result      = args.pop
+
+      args = args.map { |p| absolute_path(p) }
+
+      args.each do |p|
+        raise "Expected #{p} to be present" unless FileTest.exists?(p)
+
+        if expected_result
+          expect(p).to have_permissions expected_permissions
         else
-          expected_mode = mode.gsub(/^0*/, '')
-        end
-
-        file_mode = sprintf( "%o", File::Stat.new(file_name).mode )[-4,4].gsub(/^0*/, '')
-
-        if expect_permissions
-          expect(file_mode).to eq expected_mode
-        else
-          expect(file_mode).not_to eq expected_mode
+          expect(p).not_to have_permissions expected_permissions
         end
       end
     end
@@ -224,12 +239,18 @@ module Aruba
     #
     # @param [String] file_name
     #    The file which should be deleted in current directory
-    def remove_file(file_name)
-      in_current_dir do
-        file_name = File.expand_path(file_name)
+    def remove_file(*args)
+      args = args.flatten
 
-        FileUtils.rm(file_name)
-      end
+      options = if args.last.kind_of? Hash
+                  args.pop
+                else
+                  {}
+                end
+
+      args = args.map { |p| absolute_path(p) }
+
+      FileUtils.rm(args, options)
     end
 
     # Append data to file
@@ -264,12 +285,18 @@ module Aruba
     #
     # @param [String] directory_name
     #   The name of the directory which should be removed
-    def remove_dir(directory_name)
-      in_current_dir do
-        directory_name = File.expand_path(directory_name)
+    def remove_dir(*args)
+      args = args.flatten
 
-        FileUtils.rmdir(directory_name)
-      end
+      options = if args.last.kind_of? Hash
+                  args.pop
+                else
+                  {}
+                end
+
+      args = args.map { |p| absolute_path(p) }
+
+      FileUtils.rm_r(args, options)
     end
 
     # Check if paths are present
@@ -405,13 +432,10 @@ module Aruba
     # @param [true, false] expect_match
     #   Must the content be in the file or not
     def check_binary_file_content(file, reference_file, expect_match = true)
-      prep_for_fs_check do
-        identical = FileUtils.compare_file(file, reference_file)
-        if expect_match
-          expect(identical).to be(true), "The file \"#{file}\" differs from file \"#{reference_file}\""
-        else
-          expect(identical).not_to be(true), "The file \"#{file}\" is identical to file \"#{reference_file}\""
-        end
+      if expect_match
+        expect(file).to have_same_file_content_like reference_file
+      else
+        expect(file).not_to have_same_file_content_like reference_file
       end
     end
 

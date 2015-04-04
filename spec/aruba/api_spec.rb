@@ -68,51 +68,105 @@ describe Aruba::Api  do
       end
     end
 
-    context '#remove_dir' do
+    describe '#remove_dir' do
+      let(:directory_name) { @directory_name }
+      let(:directory_path) { @directory_path }
+      let(:options) { {} }
+
       before :each do
-        Dir.mkdir(@directory_path)
+        set_env 'HOME',  File.expand_path(@aruba.current_dir)
       end
 
-      it 'should delete directory' do
-        @aruba.remove_dir(@directory_name)
-        expect(File.exist?(@directory_path)).to eq false
+      context 'when directory exists' do
+        before :each do
+          Array(directory_path).each { |p| Dir.mkdir p }
+        end
+
+        before :each do
+          @aruba.remove_dir(directory_name, options)
+        end
+
+        context 'when is a single directory' do
+          it_behaves_like 'a non-existing directory'
+        end
+
+        context 'when are multiple directorys' do
+          let(:directory_name) { %w(directory1 directory2 directory3) }
+          let(:directory_path) { %w(directory1 directory2 directory3).map { |p| File.join(@aruba.current_dir, p) } }
+
+          it_behaves_like 'a non-existing directory'
+        end
+
+        context 'when path contains ~' do
+          let(:string) { random_string }
+          let(:directory_name) { File.join('~', string) }
+          let(:directory_path) { File.join(@aruba.current_dir, string) }
+
+          it_behaves_like 'a non-existing directory'
+        end
       end
 
-      it "works with ~ in path name" do
-        directory_path = File.join('~', random_string)
+      context 'when directory does not exist' do
+        before :each do
+          @aruba.remove_dir(directory_name, options)
+        end
 
-        with_env 'HOME' => File.expand_path(current_dir) do
-          Dir.mkdir(File.expand_path(directory_path))
-          @aruba.remove_dir(directory_path)
+        context 'when is forced to delete directory' do
+          let(:options) { { force: true } }
 
-          expect(File.exist?(File.expand_path(directory_path))).to eq false
+          it_behaves_like 'a non-existing directory'
         end
       end
     end
   end
 
   describe 'files' do
-    context '#touch_file' do
-      it 'creates an empty file' do
-        @aruba.touch_file(@file_name)
-        expect(File.exist?(@file_path)).to eq true
-        expect(File.size(@file_path)).to eq 0
+    describe '#touch_file' do
+      let(:file_name) { @file_name }
+      let(:file_path) { @file_path }
+      let(:options) { {} }
+
+      before :each do
+        set_env 'HOME',  File.expand_path(@aruba.current_dir)
       end
 
-      it 'supports an unexisting directory in path' do
-        path = 'directory/test'
-        full_path = File.join(@aruba.current_dir, path)
-        @aruba.touch_file(path)
-
-        expect(File.exist?(full_path)).to eq true
+      before :each do
+        @aruba.touch_file(file_name, options)
       end
 
-      it "works with ~ in path name" do
-        file_path = File.join('~', random_string)
+      context 'when file does not exist' do
+        context 'and should be created in existing directory' do
+          it { expect(File.size(file_path)).to eq 0 }
+          it_behaves_like 'an existing file'
+        end
 
-        with_env 'HOME' => File.expand_path(current_dir) do
-          @aruba.touch_file(file_path)
-          expect(File.exist?(File.expand_path(file_path))).to eq true
+        context 'and should be created in non-existing directory' do
+          let(:file_name) { 'directory/test' }
+          let(:file_path) { File.join(@aruba.current_dir, 'directory/test') }
+
+          it_behaves_like 'an existing file'
+        end
+
+        context 'and path includes ~' do
+          let(:string) { random_string }
+          let(:file_name) { File.join('~', string) }
+          let(:file_path) { File.join(@aruba.current_dir, string) }
+
+          it_behaves_like 'an existing file'
+        end
+
+        context 'and the mtime should be set statically' do
+          let(:time) { Time.parse('2014-01-01 10:00:00') }
+          let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
+
+          it_behaves_like 'an existing file'
+          it { expect(File.mtime(file_path)).to eq time }
+        end
+
+        context 'and multiple file names are given' do
+          let(:file_name) { %w(file1 file2 file3) }
+          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_dir, p) } }
+          it_behaves_like 'an existing file'
         end
       end
     end
@@ -188,78 +242,151 @@ describe Aruba::Api  do
       end
     end
 
-    context '#filesystem_permissions' do
-      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
-
-      it "should change a file's mode" do
-        @aruba.filesystem_permissions(0644, @file_name)
-        result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
-        expect(result).to eq('0644')
-
-        @aruba.filesystem_permissions(0655, @file_name)
-        result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
-        expect(result).to eq('0655')
-
-        @aruba.filesystem_permissions("0655", @file_name)
-        result = sprintf( "%o" , File::Stat.new(@file_path).mode )[-4,4]
-        expect(result).to eq('0655')
+    describe '#filesystem_permissions' do
+      def actuctual_permissions
+        sprintf( "%o" , File::Stat.new(file_path).mode )[-4,4]
       end
 
-      it "supports a string representation of permission as well" do
-        @aruba.filesystem_permissions(0666, @file_name)
-        @aruba.check_filesystem_permissions('0666', @file_name, true)
+      let(:file_name) { @file_name }
+      let(:file_path) { @file_path }
+      let(:permissions) { '0655' }
+
+      before(:each) do
+        File.open(file_path, 'w') { |f| f << "" }
       end
 
-      it "should succeed if mode does not match but is expected to be different" do
-        @aruba.filesystem_permissions(0666, @file_name)
-        @aruba.check_filesystem_permissions(0755, @file_name, false)
+      before(:each) do
+        @aruba.filesystem_permissions(permissions, file_name)
       end
 
-      it "should fail if mode matches and is expected to be different" do
-        @aruba.filesystem_permissions(0666, @file_name)
-        expect {
-          @aruba.check_filesystem_permissions(0666, @file_name, false)
-        }.to raise_error
-      end
+      context 'when file exists' do
+        context 'and permissions are given as string' do
+          it { expect(actuctual_permissions).to eq('0655') }
+        end
 
-      it "should fail if mode does not match but is expected to be equal" do
-        @aruba.filesystem_permissions(0666, @file_name)
-        expect {
-          @aruba.check_filesystem_permissions(0755, @file_name, true)
-        }.to raise_error
-      end
+        context 'and permissions are given as octal number' do
+          let(:permissions) { 0655 }
+          it { expect(actuctual_permissions).to eq('0655') }
+        end
 
-      it "should succeed if mode matches and is expected to be equal" do
-        @aruba.filesystem_permissions(0666, @file_name)
-        @aruba.check_filesystem_permissions(0666, @file_name, true)
-      end
+        context 'and path has ~ in it' do
+          let(:string) { random_string }
+          let(:file_name) { File.join('~', string) }
+          let(:file_path) { File.join(@aruba.current_dir, string) }
 
-      it "works with ~ in path name" do
-        file_name = "~/test_file"
-
-        with_env 'HOME' => File.expand_path(current_dir) do
-          File.open(File.expand_path(file_name), 'w') { |f| f << "" }
-
-          @aruba.filesystem_permissions(0666, file_name)
-          expect(@aruba.check_filesystem_permissions(0666, file_name, true) ).to eq(true)
+          it { expect(actuctual_permissions).to eq('0655') }
         end
       end
     end
-    context '#remove_file' do
-      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
 
-      it "should delete file" do
-        @aruba.remove_file(@file_name)
-        expect(File.exist?(@file_path)).to eq false
+    describe '#check_filesystem_permissions' do
+      let(:file_name) { @file_name }
+      let(:file_path) { @file_path }
+
+      let(:permissions) { '0655' }
+
+      before :each do
+        set_env 'HOME',  File.expand_path(@aruba.current_dir)
       end
 
-      it "works with ~ in path name" do
-        file_path = File.join('~', random_string)
+      before(:each) do
+        File.open(file_path, 'w') { |f| f << "" }
+      end
 
-        with_env 'HOME' => File.expand_path(current_dir) do
-          File.open(File.expand_path(file_path), 'w') { |f| f << "" }
-          @aruba.remove_file(file_path)
-          expect(File.exist?(file_path)).to eq false
+      before(:each) do
+        @aruba.filesystem_permissions(permissions, file_name)
+      end
+
+      context 'when file exists' do
+        context 'and should have permissions' do
+          context 'and permissions are given as string' do
+            it { @aruba.check_filesystem_permissions(permissions, file_name, true) }
+          end
+
+          context 'and permissions are given as octal number' do
+            let(:permissions) { 0666 }
+
+            it { @aruba.check_filesystem_permissions(permissions, file_name, true) }
+          end
+
+          context 'and path includes ~' do
+            let(:string) { random_string }
+            let(:file_name) { File.join('~', string) }
+            let(:file_path) { File.join(@aruba.current_dir, string) }
+
+            it { @aruba.check_filesystem_permissions(permissions, file_name, true) }
+          end
+
+          context 'but fails because the permissions are different' do
+            let(:expected_permissions) { 0666 }
+
+            it { expect { @aruba.check_filesystem_permissions(expected_permissions, file_name, true) }.to raise_error }
+          end
+        end
+
+        context 'and should not have permissions' do
+          context 'and succeeds when the difference is expected and permissions are different' do
+            let(:different_permissions) { 0666 }
+
+            it { @aruba.check_filesystem_permissions(different_permissions, file_name, false) }
+          end
+
+          context 'and fails because the permissions are the same although they should be different' do
+            let(:different_permissions) { 0655 }
+
+            it { expect { @aruba.check_filesystem_permissions(different_permissions, file_name, false) }.to raise_error }
+          end
+        end
+      end
+    end
+
+    describe '#remove_file' do
+      let(:file_name) { @file_name }
+      let(:file_path) { @file_path }
+      let(:options) { {} }
+
+      before :each do
+        set_env 'HOME',  File.expand_path(@aruba.current_dir)
+      end
+
+      context 'when file exists' do
+        before :each do
+          Array(file_path).each { |p| File.open(File.expand_path(p), 'w') { |f| f << "" } }
+        end
+
+        before :each do
+          @aruba.remove_file(file_name, options)
+        end
+
+        context 'when is a single file' do
+          it_behaves_like 'a non-existing file'
+        end
+
+        context 'when are multiple files' do
+          let(:file_name) { %w(file1 file2 file3) }
+          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_dir, p) } }
+
+          it_behaves_like 'a non-existing file'
+        end
+
+        context 'when path contains ~' do
+          let(:string) { random_string }
+          let(:file_name) { File.join('~', string) }
+          let(:file_path) { File.join(@aruba.current_dir, string) }
+
+          it_behaves_like 'a non-existing file'
+        end
+      end
+
+      context 'when file does not exist' do
+        before :each do
+          @aruba.remove_file(file_name, options)
+        end
+
+        context 'when is forced to delete file' do
+          let(:options) { { force: true } }
+
+          it_behaves_like 'a non-existing file'
         end
       end
     end
@@ -321,20 +448,38 @@ describe Aruba::Api  do
         @aruba.write_file(@file_name, "foo bar baz")
       end
 
-      context "#check_binary_file_content" do
-        it "succeeds if file content matches" do
-          @aruba.write_file("fixture", "foo bar baz")
-          @aruba.check_binary_file_content(@file_name, "fixture")
-          @aruba.check_binary_file_content(@file_name, "fixture", true)
+      describe "#check_binary_file_content" do
+        let(:file_name) { @file_name }
+        let(:file_path) { @file_path }
+
+        let(:reference_file) { 'fixture' }
+        let(:reference_file_content) { 'foo bar baz' }
+
+        before :each do
+          @aruba.write_file(reference_file, reference_file_content)
         end
 
-        it "succeeds if file content does not match" do
-          @aruba.write_file("wrong_fixture", "bar")
-          @aruba.check_binary_file_content(@file_name, "wrong_fixture", false)
+        context 'when files are the same' do
+          context 'and this is expected' do
+            it { @aruba.check_binary_file_content(file_name, reference_file) }
+            it { @aruba.check_binary_file_content(file_name, reference_file, true) }
+          end
+
+          context 'and this is not expected' do
+            it { expect { @aruba.check_binary_file_content(file_name, reference_file, false) }.to raise_error }
+          end
         end
 
-        it "raises if file does not exist" do
-          expect{@aruba.check_binary_file_content(@file_name, "non_existing", false)}.to raise_error
+        context 'when files are not the same' do
+          let(:reference_file_content) { 'bar' }
+
+          context 'and this is expected' do
+            it { @aruba.check_binary_file_content(file_name, reference_file, false) }
+          end
+
+          context 'and this is not expected' do
+            it { expect { @aruba.check_binary_file_content(file_name, reference_file, true) }.to raise_error }
+          end
         end
       end
 
