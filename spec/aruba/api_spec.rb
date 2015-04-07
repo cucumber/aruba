@@ -55,6 +55,10 @@ describe Aruba::Api  do
     end
   end
 
+  describe '#root_directory' do
+    it { expect(@aruba.root_directory).to eq Dir.getwd }
+  end
+
   describe 'directories' do
     before(:each) do
       @directory_name = 'test_dir'
