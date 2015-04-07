@@ -238,6 +238,69 @@ end
 
 Refer to http://blog.headius.com/2010/03/jruby-startup-time-tips.html for other tips on startup time.
 
+## Fixtures
+
+Sometimes your tests need existing files to work - e.g binary data files you
+cannot create programmatically. Since `aruba` >= 0.6.3 includes some basic
+support for fixtures. All you need to do is the following:
+
+1. Create a `fixtures`-directory
+2. Create fixture files in this directory
+
+The `expand_path`-helper will expand `%` to the path of your fixtures
+directory:
+
+```ruby
+expand_path('%/song.mp3')
+# => /home/user/projects/my_project/fixtures/song.mp3
+```
+
+*Example*
+
+1. Create fixtures directory
+
+  ```bash
+  cd project
+  
+  mkdir -p fixtures/
+  # or
+  mkdir -p test/fixtures/
+  # or
+  mkdir -p spec/fixtures/
+  # or
+  mkdir -p features/fixtures/
+  ```
+
+2. Store `song.mp3` in `fixtures`-directory
+
+  ```bash
+  cp song.mp3 fixtures/
+  ```
+
+3. Add fixture to vcs-repository - e.g. `git`, `mercurial`
+
+4. Create test
+
+  ```ruby
+  RSpec.describe 'My Feature' do
+    describe '#read_music_file' do
+      context 'when the file exists' do
+        let(:path) { expand_path('%/song.mp3') }
+
+        before :each do
+          in_current_directory { FileUtils.cp path, 'file.mp3' }
+        end
+
+        before :each do
+          run 'my_command'
+        end
+
+        it { expect(all_stdout).to include('Rate is 128 KB') }
+      end
+    end
+  end
+  ```
+
 ## Reporting
 
 *Important* - you need [Pygments](http://pygments.org/) installed to use this feature.
