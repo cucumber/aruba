@@ -2,8 +2,8 @@
 RSpec::Matchers.define :have_same_file_content_like do |expected|
   match do |actual|
     FileUtils.compare_file(
-      absolute_path(actual),
-      absolute_path(expected)
+      expand_path(actual),
+      expand_path(expected)
     )
   end
 

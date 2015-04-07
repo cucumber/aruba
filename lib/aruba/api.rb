@@ -3,6 +3,8 @@ require 'rbconfig'
 require 'rspec/expectations'
 require 'aruba'
 require 'aruba/config'
+require 'ostruct'
+require 'pathname'
 
 Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).each { |rb| require rb }
 
@@ -21,20 +23,32 @@ module Aruba
     # @example Single file name
     #
     #   # => <path>/tmp/aruba/file
-    #   absolute_path('file')
+    #   expand_path('file')
     #
     # @example Single Dot
     #
     #   # => <path>/tmp/aruba
-    #   absolute_path('.')
+    #   expand_path('.')
     #
     # @example Join and Expand path
     #
     #   # => <path>/tmp/aruba/path/file
-    #   absolute_path('path', 'file')
+    #   expand_path('path', 'file')
     #
+    def expand_path(*args)
+      if %r{^#{fixtures_path_prefix}/} === args.first
+        File.join fixtures_directory, args.shift.sub(%r{^#{fixtures_path_prefix}/}, ''), *args
+      else
+        in_current_directory { File.expand_path File.join(*args) }
+      end
+    end
+
+    # @private
+    # @deprecated
     def absolute_path(*args)
-      in_current_directory { File.expand_path File.join(*args) }
+      warn('The use of "absolute_path" is deprecated. Use "expand_path" instead')
+
+      expand_path(*args)
     end
 
     # Execute block in current directory
@@ -126,7 +140,7 @@ module Aruba
                   {}
                 end
 
-      args = args.map { |p| absolute_path(p) }
+      args = args.map { |p| expand_path(p) }
       args.each { |p| _mkdir(File.dirname(p)) }
 
       FileUtils.touch(args, options)
@@ -194,7 +208,7 @@ module Aruba
                mode
              end
 
-      args = args.map { |p| absolute_path(p) }
+      args = args.map { |p| expand_path(p) }
       args.each { |p| raise "Expected #{p} to be present" unless FileTest.exists?(p) }
 
       FileUtils.chmod(mode, args, options)
@@ -224,7 +238,7 @@ module Aruba
       expected_permissions = args.shift
       expected_result      = args.pop
 
-      args = args.map { |p| absolute_path(p) }
+      args = args.map { |p| expand_path(p) }
 
       args.each do |p|
         raise "Expected #{p} to be present" unless FileTest.exists?(p)
@@ -269,7 +283,7 @@ module Aruba
                   {}
                 end
 
-      args = args.map { |p| absolute_path(p) }
+      args = args.map { |p| expand_path(p) }
 
       FileUtils.rm(args, options)
     end
@@ -322,7 +336,7 @@ module Aruba
                   {}
                 end
 
-      args = args.map { |p| absolute_path(p) }
+      args = args.map { |p| expand_path(p) }
 
       FileUtils.rm_r(args, options)
     end
@@ -786,6 +800,40 @@ module Aruba
     # `@aruba_io_wait_seconds
     def io_wait
       @aruba_io_wait_seconds || DEFAULT_IO_WAIT_SECONDS
+    end
+
+    DEFAULT_ROOT_DIRECTORY = Dir.getwd
+
+    # The root directory of aruba
+    def root_directory
+      @aruba_root_directory ||= DEFAULT_ROOT_DIRECTORY
+    end
+
+    # Path prefix for fixtures
+    def fixtures_path_prefix
+      '%'
+    end
+
+    DEFAULT_FIXTURES_DIRECTORY = 'fixtures'
+
+    # The path to the directory which contains fixtures
+    # You might want to overwrite this method to place your data else where.
+    #
+    # @return [String]
+    #   The directory to where your fixtures are stored
+    def fixtures_directory
+      return @fixtures_directory if @fixtures_directory
+
+      default_path = proc { File.join(root_directory, DEFAULT_FIXTURES_DIRECTORY) }
+
+      candidates   = %w(
+        fixtures
+        spec/fixtures
+        features/fixtures
+        test/fixtures
+      ).map { |dir| File.join(root_directory, dir) }
+
+      @fixtures_directory = candidates.find(default_path) { |dir| File.directory? dir }
     end
 
     # Run a command with aruba
