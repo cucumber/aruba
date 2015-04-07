@@ -61,9 +61,9 @@ describe Aruba::Api  do
       @directory_path = File.join(@aruba.current_directory, @directory_name)
     end
 
-    context '#create_dir' do
+    context '#create_directory' do
       it 'creates a directory' do
-        @aruba.create_dir @directory_name
+        @aruba.create_directory @directory_name
         expect(File.exist?(File.expand_path(@directory_path))).to be_truthy
       end
     end
@@ -171,21 +171,37 @@ describe Aruba::Api  do
       end
     end
 
-    context '#absolute_path' do
+    context '#expand_path' do
       it 'expands and returns path' do
-        expect(@aruba.absolute_path(@file_name)).to eq File.expand_path(@file_path)
+        expect(@aruba.expand_path(@file_name)).to eq File.expand_path(@file_path)
       end
 
       it 'removes "."' do
-        expect(@aruba.absolute_path('.')).to eq File.expand_path(current_directory)
+        expect(@aruba.expand_path('.')).to eq File.expand_path(current_directory)
       end
 
       it 'removes ".."' do
-        expect(@aruba.absolute_path('..')).to eq File.expand_path(File.join(current_directory, '..'))
+        expect(@aruba.expand_path('..')).to eq File.expand_path(File.join(current_directory, '..'))
       end
 
       it 'joins multiple arguments' do
-        expect(@aruba.absolute_path('path', @file_name)).to eq File.expand_path(File.join(current_directory, 'path', @file_name))
+        expect(@aruba.expand_path('path', @file_name)).to eq File.expand_path(File.join(current_directory, 'path', @file_name))
+      end
+
+      it 'resolves fixtures path' do
+        klass = Class.new do
+          include Aruba::Api
+
+          def root_directory
+            File.expand_path(current_directory)
+          end
+        end
+
+        aruba = klass.new
+
+        aruba.touch_file 'fixtures/file1'
+
+        expect(aruba.expand_path('%/file1')).to eq File.expand_path(File.join(current_directory, 'fixtures', 'file1'))
       end
     end
 
@@ -662,6 +678,50 @@ describe Aruba::Api  do
           expect(@aruba.get_process("false")).not_to be(nil)
         end.to raise_error(ArgumentError, "No process named 'false' has been started")
       end
+    end
+  end
+
+  describe 'fixtures' do
+    let(:aruba) do
+      klass = Class.new do
+        include Aruba::Api
+
+        def root_directory
+          expand_path('.')
+        end
+      end
+
+      klass.new
+    end
+
+    describe '#fixtures_directory' do
+      context 'when "/fixtures"-directory exist' do
+        before(:each) { aruba.create_directory('fixtures') }
+
+        it { expect(aruba.fixtures_directory).to eq expand_path('fixtures') }
+      end
+
+      context 'when "/features/fixtures"-directory exist' do
+        before(:each) { aruba.create_directory('features/fixtures') }
+
+        it { expect(aruba.fixtures_directory).to eq expand_path('features/fixtures') }
+      end
+
+      context 'when "/spec/fixtures"-directory exist' do
+        before(:each) { aruba.create_directory('spec/fixtures') }
+
+        it { expect(aruba.fixtures_directory).to eq expand_path('spec/fixtures') }
+      end
+
+      context 'when "/test/fixtures"-directory exist' do
+        before(:each) { aruba.create_directory('test/fixtures') }
+
+        it { expect(aruba.fixtures_directory).to eq expand_path('test/fixtures') }
+      end
+    end
+
+    context '#fixture_path_prefix' do
+      it { expect(@aruba.fixtures_path_prefix).to eq '%' }
     end
   end
 
