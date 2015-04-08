@@ -184,8 +184,8 @@ describe Aruba::Api  do
         expect(@aruba.expand_path('..')).to eq File.expand_path(File.join(current_directory, '..'))
       end
 
-      it 'joins multiple arguments' do
-        expect(@aruba.expand_path('path', @file_name)).to eq File.expand_path(File.join(current_directory, 'path', @file_name))
+      it 'expands from another directory' do
+        expect(@aruba.expand_path(@file_name, 'path')).to eq File.expand_path(File.join(current_directory, 'path', @file_name))
       end
 
       it 'resolves fixtures path' do
@@ -199,9 +199,9 @@ describe Aruba::Api  do
 
         aruba = klass.new
 
-        aruba.touch_file 'fixtures/file1'
+        aruba.touch_file 'spec/fixtures/file1'
 
-        expect(aruba.expand_path('%/file1')).to eq File.expand_path(File.join(current_directory, 'fixtures', 'file1'))
+        expect(aruba.expand_path('%/file1')).to eq File.expand_path(File.join(current_directory, 'spec', 'fixtures', 'file1'))
       end
     end
 
@@ -695,10 +695,10 @@ describe Aruba::Api  do
     end
 
     describe '#fixtures_directory' do
-      context 'when "/fixtures"-directory exist' do
-        before(:each) { aruba.create_directory('fixtures') }
-
-        it { expect(aruba.fixtures_directory).to eq expand_path('fixtures') }
+      context 'when no fixtures directories exist' do
+        it "should raise exception" do
+          expect { aruba.fixtures_directory }.to raise_error
+        end
       end
 
       context 'when "/features/fixtures"-directory exist' do
@@ -720,9 +720,6 @@ describe Aruba::Api  do
       end
     end
 
-    context '#fixture_path_prefix' do
-      it { expect(@aruba.fixtures_path_prefix).to eq '%' }
-    end
   end
 
   describe "#set_env" do

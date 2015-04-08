@@ -17,6 +17,9 @@ module Aruba
     # @param [String] file_name
     #   Name of file
     #
+    # @param [String] dir_string
+    #   Name of directory to use as starting point, otherwise current directory is used.
+    #
     # @return [String]
     #   The full path
     #
@@ -30,16 +33,21 @@ module Aruba
     #   # => <path>/tmp/aruba
     #   expand_path('.')
     #
-    # @example Join and Expand path
+    # @example using home directory
     #
-    #   # => <path>/tmp/aruba/path/file
-    #   expand_path('path', 'file')
+    #   # => <path>/home/<name>/file
+    #   expand_path('~/file')
     #
-    def expand_path(*args)
-      if %r{^#{fixtures_path_prefix}/} === args.first
-        File.join fixtures_directory, args.shift.sub(%r{^#{fixtures_path_prefix}/}, ''), *args
+    # @example using fixtures directory
+    #
+    #   # => <path>/test/fixtures/file
+    #   expand_path('%/file')
+    #
+    def expand_path(file_name, dir_string = nil)
+      if FIXTURES_PATH_PREFIX == file_name[0]
+        File.join fixtures_directory, file_name[1..-1]
       else
-        in_current_directory { File.expand_path File.join(*args) }
+        in_current_directory { File.expand_path file_name, dir_string }
       end
     end
 
@@ -619,7 +627,7 @@ module Aruba
     #   If arg2 matches arg1 return true, otherwise false
     def assert_matching_output(expected, actual)
       actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-      expect(unescape(actual)).to match /#{unescape(expected)}/m
+      expect(unescape(actual)).to match(/#{unescape(expected)}/m)
     end
 
     # Negative regex compare arg1 and arg2
@@ -806,15 +814,17 @@ module Aruba
 
     # The root directory of aruba
     def root_directory
-      @aruba_root_directory ||= DEFAULT_ROOT_DIRECTORY
+      @aruba_root_directory || DEFAULT_ROOT_DIRECTORY
     end
 
     # Path prefix for fixtures
-    def fixtures_path_prefix
-      '%'
-    end
+    FIXTURES_PATH_PREFIX = ?%
 
-    DEFAULT_FIXTURES_DIRECTORY = 'fixtures'
+    DEFAULT_FIXTURES_DIRECTORIES = %w(
+      features/fixtures
+      spec/fixtures
+      test/fixtures
+    )
 
     # The path to the directory which contains fixtures
     # You might want to overwrite this method to place your data else where.
@@ -822,18 +832,13 @@ module Aruba
     # @return [String]
     #   The directory to where your fixtures are stored
     def fixtures_directory
-      return @fixtures_directory if @fixtures_directory
-
-      default_path = proc { File.join(root_directory, DEFAULT_FIXTURES_DIRECTORY) }
-
-      candidates   = %w(
-        fixtures
-        spec/fixtures
-        features/fixtures
-        test/fixtures
-      ).map { |dir| File.join(root_directory, dir) }
-
-      @fixtures_directory = candidates.find(default_path) { |dir| File.directory? dir }
+      unless @fixtures_directory
+        candidates = DEFAULT_FIXTURES_DIRECTORIES.map { |dir| File.join(root_directory, dir) }
+        @fixtures_directory = candidates.find { |dir| File.directory? dir }
+        raise "No fixtures directories are found" unless @fixtures_directory
+      end
+      raise "#{@fixtures_directory} is not a directory" unless File.directory?(@fixtures_directory)
+      @fixtures_directory
     end
 
     # Run a command with aruba
