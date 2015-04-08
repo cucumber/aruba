@@ -12,7 +12,7 @@ After do
 end
 
 Before('~@no-clobber') do
-  clean_current_dir
+  clean_current_directory
 end
 
 Before('@puts') do

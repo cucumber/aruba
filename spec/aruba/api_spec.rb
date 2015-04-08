@@ -23,32 +23,32 @@ describe Aruba::Api  do
 
     @file_name = "test.txt"
     @file_size = 256
-    @file_path = File.join(@aruba.current_dir, @file_name)
+    @file_path = File.join(@aruba.current_directory, @file_name)
 
     (@aruba.dirs.length - 1).times do |depth| #Ensure all parent dirs exists
       dir = File.join(*@aruba.dirs[0..depth])
       Dir.mkdir(dir) unless File.exist?(dir)
     end
-    raise "We must work with relative paths, everything else is dangerous" if ?/ == @aruba.current_dir[0]
-    FileUtils.rm_rf(@aruba.current_dir)
-    Dir.mkdir(@aruba.current_dir)
+    raise "We must work with relative paths, everything else is dangerous" if ?/ == @aruba.current_directory[0]
+    FileUtils.rm_rf(@aruba.current_directory)
+    Dir.mkdir(@aruba.current_directory)
   end
 
-  describe 'current_dir' do
+  describe 'current_directory' do
     it "should return the current dir as 'tmp/aruba'" do
-      expect(@aruba.current_dir).to match(/^tmp\/aruba$/)
+      expect(@aruba.current_directory).to match(/^tmp\/aruba$/)
     end
 
     it "can be cleared" do
       write_file('test', 'test test test')
 
-      in_current_dir do
+      in_current_directory do
         expect(File.exist?('test')).to be_truthy
       end
 
-      clean_current_dir
+      clean_current_directory
 
-      in_current_dir do
+      in_current_directory do
         expect(File.exist?('test')).to be_falsey
       end
 
@@ -58,7 +58,7 @@ describe Aruba::Api  do
   describe 'directories' do
     before(:each) do
       @directory_name = 'test_dir'
-      @directory_path = File.join(@aruba.current_dir, @directory_name)
+      @directory_path = File.join(@aruba.current_directory, @directory_name)
     end
 
     context '#create_dir' do
@@ -68,13 +68,13 @@ describe Aruba::Api  do
       end
     end
 
-    describe '#remove_dir' do
+    describe '#remove_directory' do
       let(:directory_name) { @directory_name }
       let(:directory_path) { @directory_path }
       let(:options) { {} }
 
       before :each do
-        set_env 'HOME',  File.expand_path(@aruba.current_dir)
+        set_env 'HOME',  File.expand_path(@aruba.current_directory)
       end
 
       context 'when directory exists' do
@@ -83,7 +83,7 @@ describe Aruba::Api  do
         end
 
         before :each do
-          @aruba.remove_dir(directory_name, options)
+          @aruba.remove_directory(directory_name, options)
         end
 
         context 'when is a single directory' do
@@ -92,7 +92,7 @@ describe Aruba::Api  do
 
         context 'when are multiple directorys' do
           let(:directory_name) { %w(directory1 directory2 directory3) }
-          let(:directory_path) { %w(directory1 directory2 directory3).map { |p| File.join(@aruba.current_dir, p) } }
+          let(:directory_path) { %w(directory1 directory2 directory3).map { |p| File.join(@aruba.current_directory, p) } }
 
           it_behaves_like 'a non-existing directory'
         end
@@ -100,7 +100,7 @@ describe Aruba::Api  do
         context 'when path contains ~' do
           let(:string) { random_string }
           let(:directory_name) { File.join('~', string) }
-          let(:directory_path) { File.join(@aruba.current_dir, string) }
+          let(:directory_path) { File.join(@aruba.current_directory, string) }
 
           it_behaves_like 'a non-existing directory'
         end
@@ -108,7 +108,7 @@ describe Aruba::Api  do
 
       context 'when directory does not exist' do
         before :each do
-          @aruba.remove_dir(directory_name, options)
+          @aruba.remove_directory(directory_name, options)
         end
 
         context 'when is forced to delete directory' do
@@ -127,7 +127,7 @@ describe Aruba::Api  do
       let(:options) { {} }
 
       before :each do
-        set_env 'HOME',  File.expand_path(@aruba.current_dir)
+        set_env 'HOME',  File.expand_path(@aruba.current_directory)
       end
 
       before :each do
@@ -142,7 +142,7 @@ describe Aruba::Api  do
 
         context 'and should be created in non-existing directory' do
           let(:file_name) { 'directory/test' }
-          let(:file_path) { File.join(@aruba.current_dir, 'directory/test') }
+          let(:file_path) { File.join(@aruba.current_directory, 'directory/test') }
 
           it_behaves_like 'an existing file'
         end
@@ -150,7 +150,7 @@ describe Aruba::Api  do
         context 'and path includes ~' do
           let(:string) { random_string }
           let(:file_name) { File.join('~', string) }
-          let(:file_path) { File.join(@aruba.current_dir, string) }
+          let(:file_path) { File.join(@aruba.current_directory, string) }
 
           it_behaves_like 'an existing file'
         end
@@ -165,7 +165,7 @@ describe Aruba::Api  do
 
         context 'and multiple file names are given' do
           let(:file_name) { %w(file1 file2 file3) }
-          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_dir, p) } }
+          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_directory, p) } }
           it_behaves_like 'an existing file'
         end
       end
@@ -177,15 +177,15 @@ describe Aruba::Api  do
       end
 
       it 'removes "."' do
-        expect(@aruba.absolute_path('.')).to eq File.expand_path(current_dir)
+        expect(@aruba.absolute_path('.')).to eq File.expand_path(current_directory)
       end
 
       it 'removes ".."' do
-        expect(@aruba.absolute_path('..')).to eq File.expand_path(File.join(current_dir, '..'))
+        expect(@aruba.absolute_path('..')).to eq File.expand_path(File.join(current_directory, '..'))
       end
 
       it 'joins multiple arguments' do
-        expect(@aruba.absolute_path('path', @file_name)).to eq File.expand_path(File.join(current_dir, 'path', @file_name))
+        expect(@aruba.absolute_path('path', @file_name)).to eq File.expand_path(File.join(current_directory, 'path', @file_name))
       end
     end
 
@@ -207,7 +207,7 @@ describe Aruba::Api  do
       it "works with ~ in path name" do
         file_path = File.join('~', random_string)
 
-        with_env 'HOME' => File.expand_path(current_dir) do
+        with_env 'HOME' => File.expand_path(current_directory) do
           @aruba.write_fixed_size_file(file_path, @file_size)
 
           expect(File.exist?(File.expand_path(file_path))).to eq true
@@ -230,7 +230,7 @@ describe Aruba::Api  do
       it "works with ~ in path name" do
         file_path = File.join('~', random_string)
 
-        with_env 'HOME' => File.expand_path(current_dir) do
+        with_env 'HOME' => File.expand_path(current_directory) do
           @aruba.write_fixed_size_file(file_path, @file_size)
           @aruba.check_file_size([[file_path, @file_size]])
         end
@@ -272,7 +272,7 @@ describe Aruba::Api  do
         context 'and path has ~ in it' do
           let(:string) { random_string }
           let(:file_name) { File.join('~', string) }
-          let(:file_path) { File.join(@aruba.current_dir, string) }
+          let(:file_path) { File.join(@aruba.current_directory, string) }
 
           it { expect(actuctual_permissions).to eq('0655') }
         end
@@ -286,7 +286,7 @@ describe Aruba::Api  do
       let(:permissions) { '0655' }
 
       before :each do
-        set_env 'HOME',  File.expand_path(@aruba.current_dir)
+        set_env 'HOME',  File.expand_path(@aruba.current_directory)
       end
 
       before(:each) do
@@ -312,7 +312,7 @@ describe Aruba::Api  do
           context 'and path includes ~' do
             let(:string) { random_string }
             let(:file_name) { File.join('~', string) }
-            let(:file_path) { File.join(@aruba.current_dir, string) }
+            let(:file_path) { File.join(@aruba.current_directory, string) }
 
             it { @aruba.check_filesystem_permissions(permissions, file_name, true) }
           end
@@ -346,7 +346,7 @@ describe Aruba::Api  do
       let(:options) { {} }
 
       before :each do
-        set_env 'HOME',  File.expand_path(@aruba.current_dir)
+        set_env 'HOME',  File.expand_path(@aruba.current_directory)
       end
 
       context 'when file exists' do
@@ -364,7 +364,7 @@ describe Aruba::Api  do
 
         context 'when are multiple files' do
           let(:file_name) { %w(file1 file2 file3) }
-          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_dir, p) } }
+          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_directory, p) } }
 
           it_behaves_like 'a non-existing file'
         end
@@ -372,7 +372,7 @@ describe Aruba::Api  do
         context 'when path contains ~' do
           let(:string) { random_string }
           let(:file_name) { File.join('~', string) }
-          let(:file_path) { File.join(@aruba.current_dir, string) }
+          let(:file_path) { File.join(@aruba.current_directory, string) }
 
           it_behaves_like 'a non-existing file'
         end
@@ -396,7 +396,7 @@ describe Aruba::Api  do
 
       it "should check existence using plain match" do
         file_name = 'nested/dir/hello_world.txt'
-        file_path = File.join(@aruba.current_dir, file_name)
+        file_path = File.join(@aruba.current_directory, file_name)
 
         FileUtils.mkdir_p File.dirname( file_path )
         File.open(file_path, 'w') { |f| f << "" }
@@ -409,7 +409,7 @@ describe Aruba::Api  do
 
       it "should check existence using regex" do
         file_name = 'nested/dir/hello_world.txt'
-        file_path = File.join(@aruba.current_dir, file_name)
+        file_path = File.join(@aruba.current_directory, file_name)
 
         FileUtils.mkdir_p File.dirname( file_path )
         File.open(file_path, 'w') { |f| f << "" }
@@ -422,7 +422,7 @@ describe Aruba::Api  do
 
       it "is no problem to mix both" do
         file_name = 'nested/dir/hello_world.txt'
-        file_path = File.join(@aruba.current_dir, file_name)
+        file_path = File.join(@aruba.current_directory, file_name)
 
         FileUtils.mkdir_p File.dirname( file_path )
         File.open(file_path, 'w') { |f| f << "" }
@@ -434,7 +434,7 @@ describe Aruba::Api  do
       it "works with ~ in path name" do
         file_path = File.join('~', random_string)
 
-        with_env 'HOME' => File.expand_path(current_dir) do
+        with_env 'HOME' => File.expand_path(current_directory) do
           FileUtils.mkdir_p File.dirname(File.expand_path(file_path))
           File.open(File.expand_path(file_path), 'w') { |f| f << "" }
 
@@ -499,7 +499,7 @@ describe Aruba::Api  do
           it "works with ~ in path name" do
             file_path = File.join('~', random_string)
 
-            with_env 'HOME' => File.expand_path(current_dir) do
+            with_env 'HOME' => File.expand_path(current_directory) do
               @aruba.write_file(file_path, "foo bar baz")
               @aruba.check_file_content(file_path, non_matching_content, false)
             end
@@ -520,7 +520,7 @@ describe Aruba::Api  do
           it "works with ~ in path name" do
             file_path = File.join('~', random_string)
 
-            with_env 'HOME' => File.expand_path(current_dir) do
+            with_env 'HOME' => File.expand_path(current_directory) do
               @aruba.write_file(file_path, "foo bar baz")
               @aruba.check_file_content(file_path, non_matching_content, false)
             end
@@ -543,7 +543,7 @@ describe Aruba::Api  do
       it "works with ~ in path name" do
         file_path = File.join('~', random_string)
 
-        with_env 'HOME' => File.expand_path(current_dir) do
+        with_env 'HOME' => File.expand_path(current_directory) do
           @aruba.write_file(file_path, "foo bar baz")
 
           @aruba.with_file_content file_path do |full_content|
