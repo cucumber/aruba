@@ -17,35 +17,43 @@ Given /^I'm using a clean gemset "([^"]*)"$/ do |gemset|
   use_clean_gemset(gemset)
 end
 
-Given /^a directory named "([^"]*)"$/ do |dir_name|
+Given /^(?:a|the) directory(?: named)? "([^"]*)"$/ do |dir_name|
   create_dir(dir_name)
 end
 
-Given /^a directory named "([^"]*)" with mode "([^"]*)"$/ do |dir_name, dir_mode|
+Given /^(?:a|the) directory(?: named)? "([^"]*)" with mode "([^"]*)"$/ do |dir_name, dir_mode|
   create_dir(dir_name)
   filesystem_permissions(dir_mode, dir_name)
 end
 
-Given /^a file named "([^"]*)" with:$/ do |file_name, file_content|
+Given /^(?:a|the) file(?: named)? "([^"]*)" with:$/ do |file_name, file_content|
   write_file(file_name, file_content)
 end
 
-Given /^a file named "([^"]*)" with mode "([^"]*)" and with:$/ do |file_name, file_mode, file_content|
+Given /^(?:a|the) file(?: named)? "([^"]*)" with mode "([^"]*)" and with:$/ do |file_name, file_mode, file_content|
   write_file(file_name, file_content)
   filesystem_permissions(file_mode, file_name)
 end
 
-Given /^a (\d+) byte file named "([^"]*)"$/ do |file_size, file_name|
+Given /^(?:a|the) (\d+) byte file(?: named)? "([^"]*)"$/ do |file_size, file_name|
   write_fixed_size_file(file_name, file_size.to_i)
 end
 
-Given /^an empty file named "([^"]*)"$/ do |file_name|
+Given /^(?:an|the) empty file(?: named)? "([^"]*)"$/ do |file_name|
   write_file(file_name, "")
 end
 
-Given /^an empty file named "([^"]*)" with mode "([^"]*)"$/ do |file_name, file_mode|
+Given /^(?:an|the) empty file(?: named)? "([^"]*)" with mode "([^"]*)"$/ do |file_name, file_mode|
   write_file(file_name, "")
   filesystem_permissions(file_mode, file_name)
+end
+
+Given /^a mocked home directory$/ do
+  set_env 'HOME', File.expand_path(current_dir)
+end
+
+Given /^(?:a|the) directory(?: named)? "([^"]*)" does not exist$/ do |directory_name|
+  remove_directory(directory_name, force: true)
 end
 
 When /^I write to "([^"]*)" with:$/ do |file_name, file_content|
@@ -64,11 +72,15 @@ When /^I append to "([^"]*)" with "([^"]*)"$/ do |file_name, file_content|
   append_to_file(file_name, file_content)
 end
 
-When /^I remove the file "([^"]*)"$/ do |file_name|
+When /^I remove (?:a|the) file(?: named)? "([^"]*)"$/ do |file_name|
   remove_file(file_name)
 end
 
-When(/^I remove the directory "(.*?)"$/) do |directory_name|
+Given /^(?:a|the) file(?: named)? "([^"]*)" does not exist$/ do |file_name|
+  remove_file(file_name, force: true)
+end
+
+When(/^I remove (?:a|the) directory(?: named)? "(.*?)"$/) do |directory_name|
   remove_directory(directory_name)
 end
 
@@ -122,7 +134,7 @@ When /^I close the stdin stream$/ do
   close_input
 end
 
-When /^I pipe in the file "([^"]*)"$/ do |file|
+When /^I pipe in (?:a|the) file(?: named)? "([^"]*)"$/ do |file|
   pipe_in_file(file)
 
   close_input
@@ -292,76 +304,52 @@ Then /^the stderr from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, unexpec
   assert_no_partial_output(unexpected, stderr_from(cmd))
 end
 
-Then /^the file "([^"]*)" should not exist$/ do |file_name|
-  check_file_presence([file_name], false)
+Then /^the following files should (not )?exist:$/ do |expect_match, files|
+  check_file_presence(files.raw.map{|file_row| file_row[0]}, !expect_match)
 end
 
-Then /^the following files should exist:$/ do |files|
-  check_file_presence(files.raw.map{|file_row| file_row[0]}, true)
+Then /^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist$/ do |file, expect_match|
+  check_file_presence([file], !expect_match)
 end
 
-Then /^the following files should not exist:$/ do |files|
-  check_file_presence(files.raw.map{|file_row| file_row[0]}, false)
+Then /^(?:a|the) file matching %r<(.*?)> should (not )?exist$/ do |regex, expect_match|
+  check_file_presence([ Regexp.new( regex ) ], !expect_match)
 end
 
-Then /^a file named "([^"]*)" should exist$/ do |file|
-  check_file_presence([file], true)
-end
-
-Then /^a file named "([^"]*)" should not exist$/ do |file|
-  check_file_presence([file], false)
-end
-
-Then /^a file matching %r<(.*?)> should exist$/ do |regex|
-  check_file_presence([ Regexp.new( regex ) ], true )
-end
-
-Then /^a file matching %r<(.*?)> should not exist$/ do |regex|
-  check_file_presence([ Regexp.new( regex ) ], false )
-end
-
-Then /^a (\d+) byte file named "([^"]*)" should exist$/ do |file_size, file_name|
+Then /^(?:a|the) (\d+) byte file(?: named)? "([^"]*)" should exist$/ do |file_size, file_name|
   check_file_size([[file_name, file_size.to_i]])
 end
 
-Then /^the following directories should exist:$/ do |directories|
-  check_directory_presence(directories.raw.map{|directory_row| directory_row[0]}, true)
+Then /^the following directories should (not )?exist:$/ do |expect_match, directories|
+  check_directory_presence(directories.raw.map{|directory_row| directory_row[0]}, !expect_match)
 end
 
-Then /^the following directories should not exist:$/ do |directories|
-  check_directory_presence(directories.raw.map{|directory_row| directory_row[0]}, false)
-end
-
-Then /^a directory named "([^"]*)" should (not )?exist$/ do |directory, expect_match|
+Then /^(?:a|the) directory(?: named)? "([^"]*)" should (not )?exist$/ do |directory, expect_match|
   check_directory_presence([directory], !expect_match)
 end
 
-Then /^the file "([^"]*)" should (not )?contain "([^"]*)"$/ do |file, expect_match, partial_content|
+Then /^(?:a|the) file "([^"]*)" should (not )?contain "([^"]*)"$/ do |file, expect_match, partial_content|
   check_file_content(file, Regexp.compile(Regexp.escape(partial_content)), !expect_match)
 end
 
-Then /^the file "([^"]*)" should (not )?contain:$/ do |file, expect_match, partial_content|
+Then /^(?:a|the) file "([^"]*)" should (not )?contain:$/ do |file, expect_match, partial_content|
   check_file_content(file, Regexp.compile(Regexp.escape(partial_content)), !expect_match)
 end
 
-Then /^the file "([^"]*)" should (not )?contain exactly:$/ do |file, expect_match, exact_content|
+Then /^(?:a|the) file "([^"]*)" should (not )?contain exactly:$/ do |file, expect_match, exact_content|
   check_file_content(file, exact_content, !expect_match)
 end
 
-Then /^the file "([^"]*)" should (not )?match \/([^\/]*)\/$/ do |file, expect_match, partial_content|
+Then /^(?:a|the) file "([^"]*)" should (not )?match \/([^\/]*)\/$/ do |file, expect_match, partial_content|
   check_file_content(file, /#{partial_content}/, !expect_match)
 end
 
-Then /^the file "([^"]*)" should (not )?be equal to file "([^"]*)"/ do |file, expect_match, reference_file|
+Then /^(?:a|the) file "([^"]*)" should (not )?be equal to file "([^"]*)"/ do |file, expect_match, reference_file|
   check_binary_file_content(file, reference_file, !expect_match)
 end
 
-Then /^the mode of filesystem object "([^"]*)" should match "([^"]*)"$/ do |file, mode|
-  check_filesystem_permissions(mode, file, true)
-end
-
-Given /^a mocked home directory$/ do
-  set_env 'HOME', File.expand_path(current_dir)
+Then /^the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)"$/ do |file, expect_match, mode|
+  check_filesystem_permissions(mode, file, !expect_match)
 end
 
 Before '@mocked_home_directory' do
