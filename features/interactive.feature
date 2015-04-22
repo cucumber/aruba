@@ -62,5 +62,5 @@ Feature: Interactive process control
 
     Given a directory named "rename_me"
     When I run `mv rename_me renamed` interactively
-    Then a directory named "renamed" should exist
-    And a directory named "rename_me" should not exist
+    Then the directory "renamed" should exist
+    And the directory "rename_me" should not exist
