@@ -21,6 +21,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'cucumber-pro', '~> 0.0'
   s.add_development_dependency 'rubocop', '~> 0.26.0'
 
+
+  s.add_development_dependency 'license_finder', '~> 2.0.4'
+
   s.rubygems_version = ">= 1.6.1"
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {spec,features}/*`.split("\n")

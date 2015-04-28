@@ -1,0 +1,16 @@
+---
+- - :whitelist
+  - MIT
+  - :who: 
+    :why: 
+    :when: 2015-04-28 13:38:19.583103100 Z
+- - :ignore_group
+  - development
+  - :who: 
+    :why: 
+    :when: 2015-04-28 13:39:28.340867782 Z
+- - :whitelist
+  - BSD
+  - :who: 
+    :why: 
+    :when: 2015-04-28 13:39:40.984464786 Z
