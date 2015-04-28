@@ -1,3 +1,22 @@
+# @!method have_same_file_content_like(file_name)
+#   This matchers checks if <file1> has the same content like <file2>
+#
+#   @param [String] file_name
+#     The name of the file which should be compared with the file in the
+#     `expect()`-call.
+#
+#   @return [TrueClass, FalseClass] The result
+#
+#     false:
+#     * if file1 is not equal file2
+#     true:
+#     * if file1 is equal file2
+#
+#   @example Use matcher
+#
+#     RSpec.describe do
+#       it { expect(file1).to have_same_file_content_like(file2) }
+#     end
 RSpec::Matchers.define :have_same_file_content_like do |expected|
   match do |actual|
     FileUtils.compare_file(
@@ -15,6 +34,21 @@ RSpec::Matchers.define :have_same_file_content_like do |expected|
   end
 end
 
+# @!method be_existing_file
+#   This matchers checks if <file> exists in filesystem
+#
+#   @return [TrueClass, FalseClass] The result
+#
+#     false:
+#     * if file does not exist
+#     true:
+#     * if file exists
+#
+#   @example Use matcher
+#
+#     RSpec.describe do
+#       it { expect(file1).to be_existing_file(file2) }
+#     end
 RSpec::Matchers.define :be_existing_file do |_|
   match do |actual|
     File.file?(absolute_path(actual))
@@ -29,6 +63,34 @@ RSpec::Matchers.define :be_existing_file do |_|
   end
 end
 
+# @!method have_content(content)
+#   This matchers checks if <file> has content. It checks exactly if `'string'`
+#   is given and does a substring check if `/regexp/` is given.
+#
+#   @param [String, Regexp] content
+#     The content of the file
+#
+#   @return [TrueClass, FalseClass] The result
+#
+#     false:
+#     * if file does not exist
+#     * if file content is not equal string
+#     * if file content does not include regexp
+#     true:
+#     * if file content includes regexp
+#     * if file content is equal string
+#
+#   @example Use matcher with string
+#
+#     RSpec.describe do
+#       it { expect(file1).to have_content('a') }
+#     end
+#
+#   @example Use matcher with regexp
+#
+#     RSpec.describe do
+#       it { expect(file1).to have_content(/a/) }
+#     end
 RSpec::Matchers.define :have_content do |expected|
   match do |actual|
     path = absolute_path(actual)
