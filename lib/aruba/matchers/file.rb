@@ -1,4 +1,3 @@
-# @private
 RSpec::Matchers.define :have_same_file_content_like do |expected|
   match do |actual|
     FileUtils.compare_file(
