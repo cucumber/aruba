@@ -8,6 +8,8 @@ rvm:
 - 2.1.1
 - 2.1.0
 - 2.0.0
+- jruby-20mode
+- jruby-21mode
 - rbx
 matrix:
   allow_failures:
