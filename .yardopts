@@ -1,0 +1,8 @@
+--output doc/yard
+--exclude features/
+--verbose
+--markup-provider kramdown
+--markup markdown
+-
+LICENSE
+README.md
