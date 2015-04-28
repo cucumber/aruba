@@ -1,4 +1,3 @@
-# @private
 RSpec::Matchers.define :have_permissions do |expected|
   expected_permissions = if expected.kind_of? Integer
                            expected.to_s(8)
