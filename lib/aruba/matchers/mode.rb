@@ -1,3 +1,27 @@
+# @!method have_permissions(permissions)
+#   This matchers checks if <file> has <perm> permissions
+#
+#   @param [Fixnum, String] permissions
+#     The permissions as octal number, e.g. `0700`, or String, e.g. `'0700'`
+#
+#   @return [TrueClass, FalseClass] The result
+#
+#     false:
+#     * if file has permissions
+#     true:
+#     * if file does not have permissions
+#
+#   @example Use matcher with octal number
+#
+#     RSpec.describe do
+#       it { expect(file).to have_permissions(0700) }
+#     end
+#
+#   @example Use matcher with string
+#
+#     RSpec.describe do
+#       it { expect(file).to have_permissions('0700') }
+#     end
 RSpec::Matchers.define :have_permissions do |expected|
   expected_permissions = if expected.kind_of? Integer
                            expected.to_s(8)
