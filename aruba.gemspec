@@ -30,6 +30,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'license_finder', '~> 2.0.4'
 
   s.rubygems_version = ">= 1.6.1"
+  # s.required_ruby_version = '>= 2.0'
+  s.post_install_message = 'From aruba > 2.0 ruby 1.9.3-support is discontinued'
+
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {spec,features}/*`.split("\n")
   s.executables      = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
