@@ -68,6 +68,14 @@ module Aruba
       Dir.chdir(current_directory, &block)
     end
 
+    # Check if file or directory exist
+    #
+    # @param [String] file_or_directory
+    #   The file/directory which should exist
+    def exist?(file_or_directory)
+      File.exist? expand_path(file_or_directory)
+    end
+
     # @deprecated
     # @private
     def in_current_dir(*args, &block)
