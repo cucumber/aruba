@@ -51,7 +51,7 @@ end
 #     end
 RSpec::Matchers.define :be_existing_file do |_|
   match do |actual|
-    File.file?(absolute_path(actual))
+    exist?(actual)
   end
 
   failure_message do |actual|
