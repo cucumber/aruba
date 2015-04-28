@@ -29,3 +29,28 @@ RSpec::Matchers.define :be_existing_file do |_|
     format("expected that file \"%s\" does not exist", actual)
   end
 end
+
+RSpec::Matchers.define :have_content do |expected|
+  match do |actual|
+    path = absolute_path(actual)
+
+    next false unless File.file? path
+
+    content = File.read(path).chomp
+    next expected === content if expected.is_a? Regexp
+
+    content == expected.chomp
+  end
+
+  failure_message do |actual|
+    next format("expected that file \"%s\" contains:\n%s", actual, expected) if expected.is_a? Regexp
+
+    format("expected that file \"%s\" contains exactly:\n%s", actual, expected)
+  end
+
+  failure_message_when_negated do |actual|
+    next format("expected that file \"%s\" does not contain:\n%s", actual, expected) if expected.is_a? Regexp
+
+    format("expected that file \"%s\" does not contains exactly:\n%s", actual, expected)
+  end
+end
