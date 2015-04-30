@@ -562,7 +562,7 @@ module Aruba
     # @private
     def prep_for_fs_check(&block)
       stop_processes!
-      in_current_directory{ block.call }
+      in_current_directory { block.call }
     end
 
     # @private
