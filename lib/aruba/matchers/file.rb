@@ -15,3 +15,17 @@ RSpec::Matchers.define :have_same_file_content_like do |expected|
     format("expected that file \"%s\" differs from file \"%s\".", actual, expected)
   end
 end
+
+RSpec::Matchers.define :be_existing_file do |_|
+  match do |actual|
+    file?(actual)
+  end
+
+  failure_message do |actual|
+    format("expected that file \"%s\" exists", actual)
+  end
+
+  failure_message_when_negated do |actual|
+    format("expected that file \"%s\" does not exist", actual)
+  end
+end
