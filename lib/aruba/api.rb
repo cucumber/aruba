@@ -55,9 +55,9 @@ module Aruba
     # @private
     # @deprecated
     def absolute_path(*args)
-      warn('The use of "absolute_path" is deprecated. Use "expand_path" instead')
+      warn('The use of "absolute_path" is deprecated. Use "expand_path" instead. But be aware that "expand_path" uses a different implementation.')
 
-      expand_path(*args)
+      in_current_directory { File.expand_path File.join(*args) }
     end
 
     # Execute block in current directory
