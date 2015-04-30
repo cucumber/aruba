@@ -354,36 +354,39 @@ describe Aruba::Api  do
     end
 
     context '#expand_path' do
-      it 'expands and returns path' do
-        expect(@aruba.expand_path(@file_name)).to eq File.expand_path(@file_path)
+      context 'when file_name is given' do
+        it { expect(@aruba.expand_path(@file_name)).to eq File.expand_path(@file_path) }
       end
 
-      it 'removes "."' do
-        expect(@aruba.expand_path('.')).to eq File.expand_path(current_directory)
+      context 'when path contains "."' do
+        it { expect(@aruba.expand_path('.')).to eq File.expand_path(current_directory) }
       end
 
-      it 'removes ".."' do
-        expect(@aruba.expand_path('..')).to eq File.expand_path(File.join(current_directory, '..'))
+      context 'when path contains ".."' do
+        it { expect(@aruba.expand_path('..')).to eq File.expand_path(File.join(current_directory, '..')) }
       end
 
-      it 'expands from another directory' do
-        expect(@aruba.expand_path(@file_name, 'path')).to eq File.expand_path(File.join(current_directory, 'path', @file_name))
+      context 'when dir_path is given similar to File.expand_path ' do
+        it { expect(@aruba.expand_path(@file_name, 'path')).to eq File.expand_path(File.join(current_directory, 'path', @file_name)) }
       end
 
-      it 'resolves fixtures path' do
-        klass = Class.new do
-          include Aruba::Api
+      context 'when file_name contains fixtures "%" string' do
+        let(:klass) do
+          Class.new do
+            include Aruba::Api
 
-          def root_directory
-            File.expand_path(current_directory)
+            def root_directory
+              File.expand_path(current_directory)
+            end
           end
         end
 
-        aruba = klass.new
+        before :each do
+          @aruba = klass.new
+          @aruba.touch_file 'spec/fixtures/file1'
+        end
 
-        aruba.touch 'spec/fixtures/file1'
-
-        expect(aruba.expand_path('%/file1')).to eq File.expand_path(File.join(current_directory, 'spec', 'fixtures', 'file1'))
+        it { expect(@aruba.expand_path('%/file1')).to eq File.expand_path(File.join(current_directory, 'spec', 'fixtures', 'file1')) }
       end
     end
 
