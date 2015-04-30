@@ -25,6 +25,34 @@ describe Aruba::Api  do
     end
   end
 
+  describe '#all_paths' do
+    let(:name) { @file_name }
+    let(:path) { @file_path }
+
+    context 'when file exist' do
+      before :each do
+        File.write(path, '')
+      end
+
+      it { expect(all_paths).to include expand_path(name) }
+    end
+
+    context 'when directory exist' do
+      let(:name) { 'test_dir' }
+      let(:path) { File.join(@aruba.current_directory, name) }
+
+      before :each do
+        FileUtils.mkdir_p path
+      end
+
+      it { expect(all_paths).to include expand_path(name) }
+    end
+
+    context 'when nothing exist' do
+      it { expect(all_paths).to eq [] }
+    end
+  end
+
   describe 'directories' do
     before(:each) do
       @directory_name = 'test_dir'
