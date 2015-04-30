@@ -565,6 +565,8 @@ module Aruba
 
     # @private
     def prep_for_fs_check(&block)
+      warn('The use of "prep_for_fs_check" is deprecated. It will be removed soon.')
+
       stop_processes!
       in_current_directory { block.call }
     end
