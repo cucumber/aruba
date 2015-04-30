@@ -63,7 +63,7 @@ RSpec::Matchers.define :be_existing_file do |_|
   end
 end
 
-# @!method have_content(content)
+# @!method have_file_content(content)
 #   This matchers checks if <file> has content. It checks exactly if `'string'`
 #   is given and does a substring check if `/regexp/` is given.
 #
@@ -83,15 +83,15 @@ end
 #   @example Use matcher with string
 #
 #     RSpec.describe do
-#       it { expect(file1).to have_content('a') }
+#       it { expect(file1).to have_file_content('a') }
 #     end
 #
 #   @example Use matcher with regexp
 #
 #     RSpec.describe do
-#       it { expect(file1).to have_content(/a/) }
+#       it { expect(file1).to have_file_content(/a/) }
 #     end
-RSpec::Matchers.define :have_content do |expected|
+RSpec::Matchers.define :have_file_content do |expected|
   match do |actual|
     path = absolute_path(actual)
 
