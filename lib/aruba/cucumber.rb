@@ -367,7 +367,7 @@ Then /^the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)"$/ d
 end
 
 Before '@mocked_home_directory' do
-  set_env 'HOME', File.expand_path(current_dir)
+  set_env 'HOME', expand_path('.')
 end
 
 After do
