@@ -474,12 +474,12 @@ module Aruba
     # @yield
     #   Pass the content of the given file to this block
     def with_file_content(file, &block)
-      prep_for_fs_check do
-        file = File.expand_path(file)
+      stop_processes!
 
-        content = IO.read(file)
-        yield(content)
-      end
+      file = expand_path(file)
+      content = IO.read(file)
+
+      yield(content)
     end
 
     # Check the content of file
