@@ -388,6 +388,8 @@ module Aruba
       remove_directory(*args)
     end
 
+    # @deprecated
+    #
     # Check if paths are present
     #
     # @param [#each] paths
@@ -396,22 +398,20 @@ module Aruba
     # @param [true,false] expect_presence
     #   Should the given paths be present (true) or absent (false)
     def check_file_presence(paths, expect_presence = true)
-      prep_for_fs_check do
-        Array(paths).each do |path|
-          if path.kind_of? Regexp
-            if expect_presence
-              expect(Dir.glob('**/*')).to include_regexp(path)
-            else
-              expect(Dir.glob('**/*')).not_to include_regexp(path)
-            end
-          else
-            path = File.expand_path(path)
+      warn('The use of "check_file_presence" is deprecated. Use "expect().to be_existing_file or expect(all_paths).to match_path_pattern() instead" ')
 
-            if expect_presence
-              expect(File).to be_file(path)
-            else
-              expect(File).not_to be_file(path)
-            end
+      Array(paths).each do |path|
+        if path.kind_of? Regexp
+          if expect_presence
+            expect(all_paths).to match_path_pattern(path)
+          else
+            expect(all_paths).not_to match_path_pattern(path)
+          end
+        else
+          if expect_presence
+            expect(path).to be_existing_file
+          else
+            expect(path).not_to be_existing_file
           end
         end
       end

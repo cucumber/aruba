@@ -293,31 +293,31 @@ Then /^the stderr from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, unexpec
 end
 
 Then /^the file "([^"]*)" should not exist$/ do |file_name|
-  check_file_presence([file_name], false)
+  expect(file_name).not_to be_existing_file
 end
 
 Then /^the following files should exist:$/ do |files|
-  check_file_presence(files.raw.map{|file_row| file_row[0]}, true)
+  files.raw.map { |file_row| expect(file_row[0]).to be_existing_file }
 end
 
 Then /^the following files should not exist:$/ do |files|
-  check_file_presence(files.raw.map{|file_row| file_row[0]}, false)
+  files.raw.map { |file_row| expect(file_row[0]).not_to be_existing_file }
 end
 
-Then /^a file named "([^"]*)" should exist$/ do |file|
-  check_file_presence([file], true)
+Then /^a file named "([^"]*)" should exist$/ do |file_name|
+  expect(file_name).to be_existing_file
 end
 
-Then /^a file named "([^"]*)" should not exist$/ do |file|
-  check_file_presence([file], false)
+Then /^a file named "([^"]*)" should not exist$/ do |file_name|
+  expect(file_name).not_to be_existing_file
 end
 
-Then /^a file matching %r<(.*?)> should exist$/ do |regex|
-  check_file_presence([ Regexp.new( regex ) ], true )
+Then /^a file matching %r<(.*?)> should exist$/ do |pattern|
+  expect(all_paths).to match_path_pattern(Regexp.new(pattern))
 end
 
-Then /^a file matching %r<(.*?)> should not exist$/ do |regex|
-  check_file_presence([ Regexp.new( regex ) ], false )
+Then /^a file matching %r<(.*?)> should not exist$/ do |pattern|
+  expect(all_paths).not_to match_path_pattern(Regexp.new(pattern))
 end
 
 Then /^a (\d+) byte file named "([^"]*)" should exist$/ do |file_size, file_name|
