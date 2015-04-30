@@ -226,14 +226,12 @@ module Aruba
 
     # @private
     def _create_file(file_name, file_content, check_presence)
-      in_current_directory do
-        file_name = File.expand_path(file_name)
+      file_name = expand_path(file_name)
 
-        raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
+      raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
 
-        _mkdir(File.dirname(file_name))
-        File.open(file_name, 'w') { |f| f << file_content }
-      end
+      _mkdir(File.dirname(file_name))
+      File.open(file_name, 'w') { |f| f << file_content }
 
       self
     end
@@ -314,13 +312,11 @@ module Aruba
 
     # @private
     def _create_fixed_size_file(file_name, file_size, check_presence)
-      in_current_directory do
-        file_name = File.expand_path(file_name)
+      file_name = expand_path(file_name)
 
-        raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
-        _mkdir(File.dirname(file_name))
-        File.open(file_name, "wb"){ |f| f.seek(file_size - 1); f.write("\0") }
-      end
+      raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
+      _mkdir(File.dirname(file_name))
+      File.open(file_name, "wb"){ |f| f.seek(file_size - 1); f.write("\0") }
     end
 
     # @private
@@ -343,12 +339,10 @@ module Aruba
     # @param [String] file_content
     #   The content which should be appended to file
     def append_to_file(file_name, file_content)
-      in_current_directory do
-        file_name = File.expand_path(file_name)
+      file_name = expand_path(file_name)
 
-        _mkdir(File.dirname(file_name))
-        File.open(file_name, 'a') { |f| f << file_content }
-      end
+      _mkdir(File.dirname(file_name))
+      File.open(file_name, 'a') { |f| f << file_content }
     end
 
     # Create a directory in current directory
@@ -440,12 +434,10 @@ module Aruba
     # @param [String] file_name
     #   The file which should be used to pipe in data
     def pipe_in_file(file_name)
-      in_current_directory do
-        file_name = File.expand_path(file_name)
+      file_name = expand_path(file_name)
 
-        File.open(file_name, 'r').each_line do |line|
-          _write_interactive(line)
-        end
+      File.open(file_name, 'r').each_line do |line|
+        _write_interactive(line)
       end
     end
 
