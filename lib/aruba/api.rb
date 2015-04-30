@@ -92,6 +92,14 @@ module Aruba
       File.directory? expand_path(file)
     end
 
+    # Return all existing paths (directories, files) in current dir
+    #
+    # @return [Array]
+    #   List of files and directories
+    def all_paths
+      Dir.glob(expand_path('**/*'))
+    end
+
     # @deprecated
     # @private
     def in_current_dir(*args, &block)
