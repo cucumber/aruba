@@ -410,9 +410,9 @@ module Aruba
     # @param [true,false] expect_presence
     #   Should the given paths be present (true) or absent (false)
     def check_file_presence(paths, expect_presence = true)
-      stop_processes!
-
       warn('The use of "check_file_presence" is deprecated. Use "expect().to be_existing_file or expect(all_paths).to match_path_pattern() instead" ')
+
+      stop_processes!
 
       Array(paths).each do |path|
         if path.kind_of? Regexp
@@ -550,15 +550,15 @@ module Aruba
     # @param [true, false] expect_presence
     #   Should the directory be there or should the directory not be there
     def check_directory_presence(paths, expect_presence)
-      prep_for_fs_check do
-        paths.each do |path|
-          path = File.expand_path(path)
+      stop_processes!
 
-          if expect_presence
-            expect(File).to be_directory(path)
-          else
-            expect(File).not_to be_directory(path)
-          end
+      paths.each do |path|
+        path = expand_path(path)
+
+        if expect_presence
+          expect(File).to be_directory(path)
+        else
+          expect(File).not_to be_directory(path)
         end
       end
     end
