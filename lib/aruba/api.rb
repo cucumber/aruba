@@ -76,6 +76,14 @@ module Aruba
       File.exist? expand_path(file_or_directory)
     end
 
+    # Check if file exist and is file
+    #
+    # @param [String] file
+    #   The file/directory which should exist
+    def file?(file)
+      File.file? expand_path(file)
+    end
+
     # @deprecated
     # @private
     def in_current_dir(*args, &block)
