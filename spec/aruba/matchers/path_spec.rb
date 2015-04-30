@@ -36,4 +36,37 @@ RSpec.describe 'Path Matchers' do
       end
     end
   end
+
+  describe 'to_be_existing_path' do
+    context 'when file' do
+      context 'exists' do
+        before :each do
+          File.write(@file_path, '')
+        end
+
+        it { expect(@file_name).to be_existing_path }
+      end
+
+      context 'does not exist' do
+        it { expect(@file_name).not_to be_existing_path }
+      end
+    end
+
+    context 'when directory' do
+      let(:name) { 'test.d' }
+      let(:path) { File.join(@aruba.current_directory, name) }
+
+      context 'exists' do
+        before :each do
+          FileUtils.mkdir_p path
+        end
+
+        it { expect(name).to be_existing_path }
+      end
+
+      context 'does not exist' do
+        it { expect(name).not_to be_existing_path }
+      end
+    end
+  end
 end
