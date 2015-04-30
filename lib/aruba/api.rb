@@ -457,12 +457,12 @@ module Aruba
     #   check_file_size(paths_and_sizes)
     #
     def check_file_size(paths_and_sizes)
-      prep_for_fs_check do
-        paths_and_sizes.each do |path, size|
-          path = File.expand_path(path)
+      stop_processes!
 
-          expect(File.size(path)).to eq size
-        end
+      paths_and_sizes.each do |path, size|
+        path = expand_path(path)
+
+        expect(File.size(path)).to eq size
       end
     end
 
