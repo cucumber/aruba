@@ -498,19 +498,21 @@ module Aruba
     # @param [true, false] expect_match
     #   Must the content be in the file or not
     def check_file_content(file, content, expect_match = true)
+      stop_processes!
+
       match_content =
         if(Regexp === content)
           match(content)
         else
           eq(content)
         end
-      prep_for_fs_check do
-        content = IO.read(File.expand_path(file))
-        if expect_match
-          expect(content).to match_content
-        else
-          expect(content).not_to match_content
-        end
+
+      content = IO.read(expand_path(file))
+
+      if expect_match
+        expect(content).to match_content
+      else
+        expect(content).not_to match_content
       end
     end
 
