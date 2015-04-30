@@ -410,6 +410,8 @@ module Aruba
     # @param [true,false] expect_presence
     #   Should the given paths be present (true) or absent (false)
     def check_file_presence(paths, expect_presence = true)
+      stop_processes!
+
       warn('The use of "check_file_presence" is deprecated. Use "expect().to be_existing_file or expect(all_paths).to match_path_pattern() instead" ')
 
       Array(paths).each do |path|
