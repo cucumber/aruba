@@ -65,23 +65,70 @@ describe Aruba::Api  do
         expect(File.exist?(File.expand_path(@directory_path))).to be_truthy
       end
     end
+  end
 
-    describe '#remove_directory' do
-      let(:directory_name) { @directory_name }
-      let(:directory_path) { @directory_path }
-      let(:options) { {} }
+  describe '#remove' do
+    let(:name) { 'test.txt'}
+    let(:path) { File.join(@aruba.current_directory, name) }
+    let(:options) { {} }
 
-      before :each do
-        set_env 'HOME',  File.expand_path(@aruba.current_directory)
-      end
+    before :each do
+      set_env 'HOME',  File.expand_path(@aruba.current_directory)
+    end
 
-      context 'when directory exists' do
+    context 'when file' do
+      context 'when exists' do
         before :each do
-          Array(directory_path).each { |p| Dir.mkdir p }
+          Array(path).each { |p| File.open(File.expand_path(p), 'w') { |f| f << "" } }
         end
 
         before :each do
-          @aruba.remove_directory(directory_name, options)
+          @aruba.remove(name, options)
+        end
+
+        context 'when is a single file' do
+          it_behaves_like 'a non-existing file'
+        end
+
+        context 'when are multiple files' do
+          let(:file_name) { %w(file1 file2 file3) }
+          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_directory, p) } }
+
+          it_behaves_like 'a non-existing file'
+        end
+
+        context 'when path contains ~' do
+          let(:string) { random_string }
+          let(:file_name) { File.join('~', string) }
+          let(:file_path) { File.join(@aruba.current_directory, string) }
+
+          it_behaves_like 'a non-existing file'
+        end
+      end
+
+      context 'when does not exist' do
+        before :each do
+          @aruba.remove(name, options)
+        end
+
+        context 'when is forced to delete file' do
+          let(:options) { { force: true } }
+
+          it_behaves_like 'a non-existing file'
+        end
+      end
+    end
+
+    context 'when is directory' do
+      let(:name) { 'test.d' }
+
+      context 'when exists' do
+        before :each do
+          Array(path).each { |p| Dir.mkdir p }
+        end
+
+        before :each do
+          @aruba.remove(name, options)
         end
 
         context 'when is a single directory' do
@@ -104,9 +151,9 @@ describe Aruba::Api  do
         end
       end
 
-      context 'when directory does not exist' do
+      context 'when does not exist' do
         before :each do
-          @aruba.remove_directory(directory_name, options)
+          @aruba.remove(name, options)
         end
 
         context 'when is forced to delete directory' do
@@ -458,57 +505,6 @@ describe Aruba::Api  do
 
             it { expect { @aruba.check_filesystem_permissions(different_permissions, file_name, false) }.to raise_error }
           end
-        end
-      end
-    end
-
-    describe '#remove_file' do
-      let(:file_name) { @file_name }
-      let(:file_path) { @file_path }
-      let(:options) { {} }
-
-      before :each do
-        set_env 'HOME',  File.expand_path(@aruba.current_directory)
-      end
-
-      context 'when file exists' do
-        before :each do
-          Array(file_path).each { |p| File.open(File.expand_path(p), 'w') { |f| f << "" } }
-        end
-
-        before :each do
-          @aruba.remove_file(file_name, options)
-        end
-
-        context 'when is a single file' do
-          it_behaves_like 'a non-existing file'
-        end
-
-        context 'when are multiple files' do
-          let(:file_name) { %w(file1 file2 file3) }
-          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_directory, p) } }
-
-          it_behaves_like 'a non-existing file'
-        end
-
-        context 'when path contains ~' do
-          let(:string) { random_string }
-          let(:file_name) { File.join('~', string) }
-          let(:file_path) { File.join(@aruba.current_directory, string) }
-
-          it_behaves_like 'a non-existing file'
-        end
-      end
-
-      context 'when file does not exist' do
-        before :each do
-          @aruba.remove_file(file_name, options)
-        end
-
-        context 'when is forced to delete file' do
-          let(:options) { { force: true } }
-
-          it_behaves_like 'a non-existing file'
         end
       end
     end

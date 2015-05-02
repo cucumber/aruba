@@ -311,22 +311,16 @@ module Aruba
       end
     end
 
+    # @private
+    # @deprecated
     # Remove file
     #
     # @param [String] file_name
     #    The file which should be deleted in current directory
     def remove_file(*args)
-      args = args.flatten
+      warn('The use of "remove_file" is deprecated. Use "remove" instead')
 
-      options = if args.last.kind_of? Hash
-                  args.pop
-                else
-                  {}
-                end
-
-      args = args.map { |p| expand_path(p) }
-
-      FileUtils.rm(args, options)
+      remove(*args)
     end
 
     # Append data to file
@@ -364,11 +358,11 @@ module Aruba
       create_directory(*args)
     end
 
-    # Remove directory
+    # Remove file or directory
     #
-    # @param [String] directory_name
-    #   The name of the directory which should be removed
-    def remove_directory(*args)
+    # @param [Array, String] name
+    #   The name of the file / directory which should be removed
+    def remove(*args)
       args = args.flatten
 
       options = if args.last.kind_of? Hash
@@ -384,9 +378,20 @@ module Aruba
 
     # @private
     # @deprecated
+    # Remove directory
+    #
+    # @param [String] directory_name
+    #   The name of the directory which should be removed
+    def remove_directory(*args)
+      warn('The use of "remove_directory" is deprecated. Use "remove" instead')
+      remove(*args)
+    end
+
+    # @private
+    # @deprecated
     def remove_dir(*args)
-      warn('The use of "remove_dir" is deprecated. Use "remove_directory" instead')
-      remove_directory(*args)
+      warn('The use of "remove_dir" is deprecated. Use "remove" instead')
+      remove(*args)
     end
 
     # @deprecated
