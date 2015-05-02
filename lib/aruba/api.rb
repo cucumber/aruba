@@ -3,6 +3,7 @@ require 'rbconfig'
 require 'rspec/expectations'
 require 'aruba'
 require 'aruba/config'
+require 'aruba/errors'
 require 'ostruct'
 require 'pathname'
 
