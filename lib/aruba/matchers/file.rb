@@ -115,3 +115,36 @@ RSpec::Matchers.define :have_file_content do |expected|
     format("expected that file \"%s\" does not contains exactly:\n%s", actual, expected)
   end
 end
+
+# @!method have_file_size(size)
+#   This matchers checks if path has file size
+#
+#   @param [Fixnum] size
+#     The size to check
+#
+#   @return [TrueClass, FalseClass] The result
+#
+#     false:
+#     * if path does not have size
+#     true:
+#     * if path has size
+#
+#   @example Use matcher
+#
+#     RSpec.describe do
+#       it { expect('file.txt').to have_file_size(0) }
+#     end
+RSpec::Matchers.define :have_file_size do |expected|
+  match do |actual|
+    next false unless File.file? expand_path(actual)
+    File.size(expand_path(actual)) == expected
+  end
+
+  failure_message do |actual|
+    format("expected that file \"%s\" has size \"%s\"", actual)
+  end
+
+  failure_message_when_negated do |actual|
+    format("expected that file \"%s\" does not have size \"%s\"", actual)
+  end
+end

@@ -48,4 +48,24 @@ RSpec.describe 'File Matchers' do
       it { expect(@file_name).not_to have_file_content('a') }
     end
   end
+
+  describe 'to_have_file_size' do
+    context 'when file exists' do
+      before :each do
+        File.write(@file_path, '')
+      end
+
+      context 'and file size is equal' do
+        it { expect(@file_name).to have_file_size(0) }
+      end
+
+      context 'and file size is not equal' do
+        it { expect(@file_name).not_to have_file_size(1) }
+      end
+    end
+
+    context 'when file does not exist' do
+      it { expect(@file_name).not_to have_file_size(0) }
+    end
+  end
 end
