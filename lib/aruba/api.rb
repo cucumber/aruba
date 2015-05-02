@@ -168,11 +168,23 @@ module Aruba
       _create_file(file_name, file_content, false)
     end
 
+    # @private
+    # @deprecated
     # Create an empty file
     #
     # @param [String] file_name
     #   The name of the file
     def touch_file(*args)
+      warn('The use of "touch_file" is deprecated. Use "touch" instead')
+
+      touch(*args)
+    end
+
+    # Create an empty file
+    #
+    # @param [String] file_name
+    #   The name of the file
+    def touch(*args)
       args = args.flatten
 
       options = if args.last.kind_of? Hash
