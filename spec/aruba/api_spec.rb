@@ -363,7 +363,15 @@ describe Aruba::Api  do
       end
 
       context 'when path contains ".."' do
-        it { expect(@aruba.expand_path('..')).to eq File.expand_path(File.join(current_directory, '..')) }
+        it { expect(@aruba.expand_path('path/..')).to eq File.expand_path(File.join(current_directory)) }
+      end
+
+      context 'when path is nil' do
+        it { expect { @aruba.expand_path(nil) }.to raise_error ArgumentError }
+      end
+
+      context 'when path is empty' do
+        it { expect { @aruba.expand_path('') }.to raise_error ArgumentError }
       end
 
       context 'when dir_path is given similar to File.expand_path ' do
