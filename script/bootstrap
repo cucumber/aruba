@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+
+info_msg="\e[0;32m[INFO]\e[0;30m"
+error_msg="\e[0;31mFAILED\e[0;30m"
+
+function output_error_log {
+  [[ -f error.log ]] && ( cat error.log >&2; rm error.log)
+}
+
+echo -ne "$info_msg Checking if ruby installed? "
+which 'ruby' >/dev/null 2>error.log || ( echo -e "$error_msg\n\nCould not find \`ruby\`. Please install ruby or add it to PATH"; output_error_log; exit 1 )
+echo OK
+
+echo -en "$info_msg rubygem \"bundler\" "
+gem install bundler >/dev/null 2>error.log || ( echo -e "$error_msg\n\nAn error occurred during installation of bundler. Run \`gem install bundler\` yourself."; output_error_log; exit 1 )
+echo OK
+
+echo -en "$info_msg \"bundle install\" "
+bundle install --without debug >/dev/null 2>error.log || ( echo -e "$error_msg\n\nAn error occurred during bundle install. Run \`bundle install\` yourself."; output_error_log; exit 1 )
+echo OK
