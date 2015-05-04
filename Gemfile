@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 gemspec
 
+group :development, :test do
+  gem 'simplecov'
+end
+
 platforms :rbx do
   gem 'rubysl', '~> 2.0'
   gem 'rubinius-developer_tools'
