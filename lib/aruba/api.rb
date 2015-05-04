@@ -4,6 +4,7 @@ require 'rspec/expectations'
 require 'aruba'
 require 'aruba/config'
 require 'aruba/errors'
+require 'aruba/announcer'
 require 'ostruct'
 require 'pathname'
 
@@ -840,8 +841,8 @@ module Aruba
 
       Aruba.config.hooks.execute(:before_cmd, self, cmd)
 
-      announcer.dir(Dir.pwd)
-      announcer.cmd(cmd)
+      announcer.announce(:directory, Dir.pwd)
+      announcer.announce(:command, cmd)
 
       process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'))
       register_process(cmd, process)
@@ -1042,7 +1043,7 @@ module Aruba
     # @param [String] value
     #   The value of the environment variable. Needs to be a string.
     def set_env(key, value)
-      announcer.env(key, value)
+      announcer.announce(:environment, key, value)
       original_env[key] = ENV.delete(key) unless original_env.key? key
       ENV[key] = value
     end
@@ -1078,6 +1079,22 @@ module Aruba
       restore_env
     end
 
+    # Access to announcer
+    def announcer
+      @announcer ||= Announcer.new(
+        self,
+        :stdout => @announce_stdout,
+        :stderr => @announce_stderr,
+        :dir    => @announce_dir,
+        :cmd    => @announce_cmd,
+        :env    => @announce_env
+      )
+
+      @announcer
+    end
+
+    module_function :announcer
+
     # TODO: move some more methods under here!
 
     private
@@ -1094,53 +1111,6 @@ module Aruba
 
     def terminate_process(process)
       process.terminate
-    end
-
-    def announcer
-      Announcer.new(self,
-                    :stdout => @announce_stdout,
-                    :stderr => @announce_stderr,
-                    :dir => @announce_dir,
-                    :cmd => @announce_cmd,
-                    :env => @announce_env)
-    end
-
-    class Announcer
-      def initialize(session, options = {})
-        @session = session
-        @options = options
-      end
-
-      def stdout(content)
-        return unless @options[:stdout]
-        print content
-      end
-
-      def stderr(content)
-        return unless @options[:stderr]
-        print content
-      end
-
-      def dir(dir)
-        return unless @options[:dir]
-        print "$ cd #{dir}"
-      end
-
-      def cmd(cmd)
-        return unless @options[:cmd]
-        print "$ #{cmd}"
-      end
-
-      def env(key, value)
-        return unless @options[:env]
-        print %{$ export #{key}="#{value}"}
-      end
-
-      private
-
-      def print(message)
-        @session.announce_or_puts(message)
-      end
     end
   end
 end
