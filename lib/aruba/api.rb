@@ -5,6 +5,7 @@ require 'aruba'
 require 'aruba/config'
 require 'aruba/errors'
 require 'aruba/process_monitor'
+require 'aruba/utils'
 require 'aruba/announcer'
 require 'ostruct'
 require 'pathname'
@@ -14,6 +15,7 @@ Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).
 module Aruba
   module Api
     include RSpec::Matchers
+    include Aruba::Utils
 
     # Expand file name
     #
@@ -1078,7 +1080,7 @@ module Aruba
 
     # @private
     def _ensure_newline(str)
-      str.chomp << "\n"
+      Utils.ensure_newline(str)
     end
 
     # @private
@@ -1088,20 +1090,6 @@ module Aruba
       else
         puts(msg)
       end
-    end
-
-    # @private
-    def detect_ruby(cmd)
-      if cmd =~ /^ruby\s/
-        cmd.gsub(/^ruby\s/, "#{current_ruby} ")
-      else
-        cmd
-      end
-    end
-
-    # @private
-    def current_ruby
-      File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
     end
 
     # Use a clean rvm gemset
