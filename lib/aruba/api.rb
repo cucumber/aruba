@@ -4,6 +4,7 @@ require 'rspec/expectations'
 require 'aruba'
 require 'aruba/config'
 require 'aruba/errors'
+require 'aruba/process_monitor'
 require 'aruba/announcer'
 require 'ostruct'
 require 'pathname'
@@ -571,8 +572,8 @@ module Aruba
     def prep_for_fs_check(&block)
       warn('The use of "prep_for_fs_check" is deprecated. It will be removed soon.')
 
-      stop_processes!
-      in_current_directory { block.call }
+      process_monitor.stop_processes!
+      in_current_directory{ block.call }
     end
 
     # @private
@@ -607,8 +608,7 @@ module Aruba
     # @param [String] cmd
     #   The command
     def output_from(cmd)
-      cmd = detect_ruby(cmd)
-      get_process(cmd).output
+      process_monitor.output_from(cmd)
     end
 
     # Fetch stdout from command
@@ -616,8 +616,7 @@ module Aruba
     # @param [String] cmd
     #   The command
     def stdout_from(cmd)
-      cmd = detect_ruby(cmd)
-      get_process(cmd).stdout
+      process_monitor.stdout_from(cmd)
     end
 
     # Fetch stderr from command
@@ -625,8 +624,7 @@ module Aruba
     # @param [String] cmd
     #   The command
     def stderr_from(cmd)
-      cmd = detect_ruby(cmd)
-      get_process(cmd).stderr
+      process_monitor.stderr_from(cmd)
     end
 
     # Get stdout of all processes
@@ -634,8 +632,7 @@ module Aruba
     # @return [String]
     #   The stdout of all process which have run before
     def all_stdout
-      stop_processes!
-      only_processes.inject("") { |out, ps| out << ps.stdout }
+      process_monitor.all_stdout
     end
 
     # Get stderr of all processes
@@ -643,8 +640,7 @@ module Aruba
     # @return [String]
     #   The stderr of all process which have run before
     def all_stderr
-      stop_processes!
-      only_processes.inject("") { |out, ps| out << ps.stderr }
+      process_monitor.all_stderr
     end
 
     # Get stderr and stdout of all processes
@@ -652,7 +648,7 @@ module Aruba
     # @return [String]
     #   The stderr and stdout of all process which have run before
     def all_output
-      all_stdout << all_stderr
+      process_monitor.all_output
     end
 
     # Full compare arg1 and arg2
@@ -780,24 +776,23 @@ module Aruba
       "#{message} Output:\n\n#{all_output}\n"
     end
 
+    def process_monitor
+      @process_monitor ||= ProcessMonitor.new(announcer)
+    end
+
     # @private
     def processes
-      @processes ||= []
+      process_monitor.send(:processes)
     end
 
     # @private
     def stop_processes!
-      processes.each do |_, process|
-        stop_process(process)
-      end
+      process_monitor.stop_processes!
     end
 
     # Terminate all running processes
     def terminate_processes!
-      processes.each do |_, process|
-        terminate_process(process)
-        stop_process(process)
-      end
+      process_monitor.terminate_processes!
     end
 
     # @private
@@ -806,20 +801,18 @@ module Aruba
     end
 
     # @private
-    def register_process(name, process)
-      processes << [name, process]
+    def register_process(*args)
+      process_monitor.register_process(*args)
     end
 
     # @private
     def get_process(wanted)
-      matching_processes = processes.reverse.find{ |name, _| name == wanted }
-      raise ArgumentError.new("No process named '#{wanted}' has been started") unless matching_processes
-      matching_processes.last
+      process_monitor.get_process(wanted)
     end
 
     # @private
     def only_processes
-      processes.collect{ |_, process| process }
+      process_monitor.only_processes
     end
 
     # Run given command and stop it if timeout is reached
@@ -845,7 +838,7 @@ module Aruba
       announcer.announce(:command, cmd)
 
       process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'))
-      register_process(cmd, process)
+      process_monitor.register_process(cmd, process)
       process.run!
 
       block_given? ? yield(process) : process
@@ -917,7 +910,7 @@ module Aruba
     #   Timeout for execution
     def run_simple(cmd, fail_on_error = true, timeout = nil)
       command = run(cmd, timeout) do |process|
-        stop_process(process)
+        process_monitor.stop_process(process)
 
         process
       end
@@ -1100,17 +1093,15 @@ module Aruba
     private
 
     def last_exit_status
-      return @last_exit_status if @last_exit_status
-      stop_processes!
-      @last_exit_status
+      process_monitor.last_exit_status
     end
 
     def stop_process(process)
-      @last_exit_status = process.stop(announcer)
+      process_monitor.stop_process(process)
     end
 
     def terminate_process(process)
-      process.terminate
+      process_monitor.terminate_process(process)
     end
   end
 end
