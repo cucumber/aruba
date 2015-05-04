@@ -1,5 +1,7 @@
 sudo: false
 language: ruby
+bundler_args: --without development debug profile
+script: script/test
 rvm:
 - 2.1.5
 - 2.1.4
