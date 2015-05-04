@@ -13,21 +13,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'cucumber', '>= 1.1.1'
   s.add_runtime_dependency 'childprocess', '>= 0.3.6'
   s.add_runtime_dependency 'rspec-expectations', '>= 2.7.0'
-  s.add_development_dependency 'bcat', '>= 0.6.1'
-  s.add_development_dependency 'kramdown', '>= 0.14'
-  s.add_development_dependency 'rake', '>= 0.9.2'
-  s.add_development_dependency 'rspec', '>= 3.0.0'
-  s.add_development_dependency 'fuubar', '>= 1.1.1'
-  s.add_development_dependency 'cucumber-pro', '~> 0.0'
-  s.add_development_dependency 'rubocop', '~> 0.26.0'
 
-  s.add_development_dependency 'pry', '~> 0.10.1 '
-  s.add_development_dependency 'byebug', '~> 4.0.5'
-  s.add_development_dependency 'pry-byebug', '~> 3.1.0'
-  s.add_development_dependency 'pry-stack_explorer', '~> 0.4.9'
-  s.add_development_dependency 'pry-doc', '~> 0.6.0'
-
-  s.add_development_dependency 'license_finder', '~> 2.0.4'
+  s.add_development_dependency 'bundler', '~> 1.9.6'
 
   s.rubygems_version = ">= 1.6.1"
   # s.required_ruby_version = '>= 2.0'
