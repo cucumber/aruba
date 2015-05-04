@@ -378,7 +378,3 @@ end
 Before '@mocked_home_directory' do
   set_env 'HOME', expand_path('.')
 end
-
-After do
-  restore_env
-end
