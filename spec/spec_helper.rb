@@ -1,15 +1,18 @@
-require 'rspec/core'
-require 'aruba/api'
+# encoding: utf-8
 
-RSpec.configure do |config|
-  config.filter_run :focus => true
-  config.run_all_when_everything_filtered = true
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
-  end
+$LOAD_PATH << ::File.expand_path('../../lib', __FILE__)
 
-  config.include Aruba::Api
-  config.before(:each) { clean_current_directory }
-end
+require 'simplecov'
+SimpleCov.command_name 'rspec'
+SimpleCov.start
 
+# Pull in all of the gems including those in the `test` group
+require 'bundler'
+Bundler.require
+
+# Loading support files
+Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
 Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
+
+# Avoid writing "describe LocalPac::MyClass do [..]" but "describe MyClass do [..]"
+include Aruba
