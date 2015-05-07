@@ -18,5 +18,5 @@ gem install bundler >/dev/null 2>error.log || ( echo -e "$error_msg\n\nAn error 
 echo OK
 
 echo -en "$info_msg \"bundle install\" "
-bundle install --without debug >/dev/null 2>error.log || ( echo -e "$error_msg\n\nAn error occurred during bundle install. Run \`bundle install\` yourself."; output_error_log; exit 1 )
+bundle install $* >/dev/null 2>error.log || ( echo -e "$error_msg\n\nAn error occurred during bundle install. Run \`bundle install\` yourself."; output_error_log; exit 1 )
 echo OK
