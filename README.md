@@ -11,6 +11,8 @@ Aruba is Cucumber extension for testing command line applications. Features at a
 
 ## Usage
 
+[![Join the chat at https://gitter.im/cucumber/aruba](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cucumber/aruba?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ### Cucumber
 
 If you have a `Gemfile`, add `aruba`. Otherwise, install it like this:
