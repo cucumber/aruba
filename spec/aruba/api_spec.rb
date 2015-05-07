@@ -66,6 +66,83 @@ describe Aruba::Api  do
     end
   end
 
+  describe '#read' do
+    let(:name) { 'test.txt'}
+    let(:path) { File.join(@aruba.current_directory, name) }
+    let(:content) { 'asdf' }
+
+    before :each do
+      set_env 'HOME',  File.expand_path(@aruba.current_directory)
+    end
+
+    context 'when does not exist' do
+      it { expect { @aruba.read(name) }.to raise_error ArgumentError }
+    end
+
+    context 'when exists' do
+      context 'when file' do
+        before :each do
+          File.open(File.expand_path(path), 'w') { |f| f << content }
+        end
+
+        context 'when normal file' do
+          it { expect(@aruba.read(name)).to eq [content] }
+        end
+
+        context 'when is empty file' do
+          let(:content) { '' }
+          it { expect(@aruba.read(name)).to eq [] }
+        end
+
+        context 'when path contains ~' do
+          let(:string) { random_string }
+          let(:name) { File.join('~', string) }
+          let(:path) { File.join(@aruba.current_directory, string) }
+
+          it { expect(@aruba.read(name)).to eq [content] }
+        end
+      end
+
+      context 'when directory' do
+        let(:name) { 'test.d' }
+        let(:content) { %w(subdir.1.d subdir.2.d) }
+
+        before :each do
+          Array(path).each { |p| Dir.mkdir p }
+        end
+
+        before :each do
+          Array(content).each { |p| Dir.mkdir File.join(path, p) }
+        end
+
+        context 'when has subdirectories' do
+          context 'when is simple path' do
+            let(:existing_files) { @aruba.read(name) }
+            let(:expected_files) { content.map { |c| File.join(name, c) }.sort  }
+
+            it { expect(expected_files - existing_files).to be_empty}
+          end
+
+          context 'when path contains ~' do
+            let(:string) { random_string }
+            let(:name) { File.join('~', string) }
+            let(:path) { File.join(@aruba.current_directory, string) }
+
+            let(:existing_files) { @aruba.read(name) }
+            let(:expected_files) { content.map { |c| File.join(string, c) } }
+
+            it { expect(expected_files - existing_files).to be_empty}
+          end
+        end
+
+        context 'when has no subdirectories' do
+          let(:content) { [] }
+          it { expect(@aruba.read(name)).to eq [] }
+        end
+      end
+    end
+  end
+
   describe '#remove' do
     let(:name) { 'test.txt'}
     let(:path) { File.join(@aruba.current_directory, name) }
