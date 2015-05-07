@@ -63,34 +63,96 @@ RSpec::Matchers.define :be_existing_file do |_|
   end
 end
 
-# @!method have_file_content(content)
-#   This matchers checks if <file> has content. It checks exactly if `'string'`
-#   is given and does a substring check if `/regexp/` is given.
-#
-#   @param [String, Regexp] content
-#     The content of the file
-#
-#   @return [TrueClass, FalseClass] The result
-#
-#     false:
-#     * if file does not exist
-#     * if file content is not equal string
-#     * if file content does not include regexp
-#     true:
-#     * if file content includes regexp
-#     * if file content is equal string
-#
-#   @example Use matcher with string
-#
-#     RSpec.describe do
-#       it { expect(file1).to have_file_content('a') }
-#     end
-#
-#   @example Use matcher with regexp
-#
-#     RSpec.describe do
-#       it { expect(file1).to have_file_content(/a/) }
-#     end
+module RSpec
+  module Matchers
+    # @!method have_file_content(content)
+    #   This matchers checks if <file> has content. It checks exactly if `'string'`
+    #   is given and does a substring check if `/regexp/` is given.
+    #
+    #   @param [String, Regexp] content
+    #     The content of the file
+    #
+    #   @return [TrueClass, FalseClass] The result
+    #
+    #     false:
+    #     * if file does not exist
+    #     * if file content is not equal string
+    #     * if file content does not include regexp
+    #     true:
+    #     * if file content includes regexp
+    #     * if file content is equal string
+    #
+    #   @example Use matcher with string
+    #
+    #     RSpec.describe do
+    #       it { expect(file1).to have_file_content('a') }
+    #     end
+    #
+    #   @example Use matcher with regexp
+    #
+    #     RSpec.describe do
+    #       it { expect(file1).to have_file_content(/a/) }
+    #     end
+    def have_file_content(expected)
+      if expected.is_a? Regexp
+        Aruba::Matchers::HaveExactFileContent.new(expected, self)
+      else
+        Aruba::Matchers::HaveMatchingFileContent.new(expected, self)
+      end
+    end
+  end
+end
+
+module Aruba
+  module Matchers
+    class HaveExactFileContent
+      def initialize(expected, aruba)
+        @expected = expected
+        @aruba = aruba
+      end
+
+      def matches?(actual)
+        path = @aruba.absoute_path(actual)
+        return false unless File.file? path
+
+        content = File.read(path).chomp
+        content == expected.chomp
+      end
+
+      def failure_message
+        format("expected that file \"%s\" contains exactly:\n%s", actual, expected)
+      end
+
+      def failure_message_when_negated
+        format("expected that file \"%s\" does not contains exactly:\n%s", actual, expected)
+      end
+    end
+
+    class HaveMatchingFileContent
+      def initialize(expected, aruba)
+        @expected = expected
+        @aruba = aruba
+      end
+
+      def matches?(actual)
+        path = @aruba.absolute_path(actual)
+        return false unless File.file? path
+
+        content = File.read(path).chomp
+        expected === content
+      end
+
+      def failure_message
+        format("expected that file \"%s\" contains:\n%s", actual, expected)
+      end
+
+      def failure_message_when_negated
+        format("expected that file \"%s\" does not contain:\n%s", actual, expected)
+      end
+    end
+  end
+end
+
 RSpec::Matchers.define :have_file_content do |expected|
   match do |actual|
     path = absolute_path(actual)
