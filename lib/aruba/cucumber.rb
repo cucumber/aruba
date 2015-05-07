@@ -305,15 +305,29 @@ Then /^the stderr from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, unexpec
 end
 
 Then /^the following files should (not )?exist:$/ do |expect_match, files|
-  check_file_presence(files.raw.map{|file_row| file_row[0]}, !expect_match)
+  files.raw.each do |row|
+    if expect_match
+      expect(row[0]).not_to be_existing_file
+    else
+      expect(row[0]).to be_existing_file
+    end
+  end
 end
 
 Then /^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist$/ do |file, expect_match|
-  check_file_presence([file], !expect_match)
+  if expect_match
+    expect(file).not_to be_existing_file
+  else
+    expect(file).to be_existing_file
+  end
 end
 
-Then /^(?:a|the) file matching %r<(.*?)> should (not )?exist$/ do |regex, expect_match|
-  check_file_presence([ Regexp.new( regex ) ], !expect_match)
+Then /^(?:a|the) file matching %r<(.*?)> should (not )?exist$/ do |pattern, expect_match|
+  if expect_match
+    expect(all_paths).not_to match_path_pattern(Regexp.new(pattern))
+  else
+    expect(all_paths).to match_path_pattern(Regexp.new(pattern))
+  end
 end
 
 Then /^(?:a|the) (\d+) byte file(?: named)? "([^"]*)" should exist$/ do |file_size, file_name|

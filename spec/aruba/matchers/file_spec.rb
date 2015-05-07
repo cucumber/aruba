@@ -3,11 +3,11 @@ require 'spec_helper'
 RSpec.describe 'File Matchers' do
   include_context 'uses aruba API'
 
-  def absolute_path(*args)
-    @aruba.absolute_path(*args)
+  def expand_path(*args)
+    @aruba.expand_path(*args)
   end
 
-  describe 'to_be_exsting_file' do
+  describe 'to_be_existing_file' do
     context 'when file exists' do
       before :each do
         File.write(@file_path, '')

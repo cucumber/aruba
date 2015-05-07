@@ -3,6 +3,7 @@ require 'rbconfig'
 require 'rspec/expectations'
 require 'aruba'
 require 'aruba/config'
+require 'aruba/errors'
 require 'ostruct'
 require 'pathname'
 
@@ -66,6 +67,38 @@ module Aruba
     def in_current_directory(&block)
       _mkdir(current_directory)
       Dir.chdir(current_directory, &block)
+    end
+
+    # Check if file or directory exist
+    #
+    # @param [String] file_or_directory
+    #   The file/directory which should exist
+    def exist?(file_or_directory)
+      File.exist? expand_path(file_or_directory)
+    end
+
+    # Check if file exist and is file
+    #
+    # @param [String] file
+    #   The file/directory which should exist
+    def file?(file)
+      File.file? expand_path(file)
+    end
+
+    # Check if directory exist and is directory
+    #
+    # @param [String] file
+    #   The file/directory which should exist
+    def directory?(file)
+      File.directory? expand_path(file)
+    end
+
+    # Return all existing paths (directories, files) in current dir
+    #
+    # @return [Array]
+    #   List of files and directories
+    def all_paths
+      Dir.glob(expand_path('**/*'))
     end
 
     # @deprecated
@@ -135,11 +168,23 @@ module Aruba
       _create_file(file_name, file_content, false)
     end
 
+    # @private
+    # @deprecated
     # Create an empty file
     #
     # @param [String] file_name
     #   The name of the file
     def touch_file(*args)
+      warn('The use of "touch_file" is deprecated. Use "touch" instead')
+
+      touch(*args)
+    end
+
+    # Create an empty file
+    #
+    # @param [String] file_name
+    #   The name of the file
+    def touch(*args)
       args = args.flatten
 
       options = if args.last.kind_of? Hash
@@ -278,22 +323,16 @@ module Aruba
       end
     end
 
+    # @private
+    # @deprecated
     # Remove file
     #
     # @param [String] file_name
     #    The file which should be deleted in current directory
     def remove_file(*args)
-      args = args.flatten
+      warn('The use of "remove_file" is deprecated. Use "remove" instead')
 
-      options = if args.last.kind_of? Hash
-                  args.pop
-                else
-                  {}
-                end
-
-      args = args.map { |p| expand_path(p) }
-
-      FileUtils.rm(args, options)
+      remove(*args)
     end
 
     # Append data to file
@@ -331,11 +370,11 @@ module Aruba
       create_directory(*args)
     end
 
-    # Remove directory
+    # Remove file or directory
     #
-    # @param [String] directory_name
-    #   The name of the directory which should be removed
-    def remove_directory(*args)
+    # @param [Array, String] name
+    #   The name of the file / directory which should be removed
+    def remove(*args)
       args = args.flatten
 
       options = if args.last.kind_of? Hash
@@ -351,11 +390,24 @@ module Aruba
 
     # @private
     # @deprecated
-    def remove_dir(*args)
-      warn('The use of "remove_dir" is deprecated. Use "remove_directory" instead')
-      remove_directory(*args)
+    # Remove directory
+    #
+    # @param [String] directory_name
+    #   The name of the directory which should be removed
+    def remove_directory(*args)
+      warn('The use of "remove_directory" is deprecated. Use "remove" instead')
+      remove(*args)
     end
 
+    # @private
+    # @deprecated
+    def remove_dir(*args)
+      warn('The use of "remove_dir" is deprecated. Use "remove" instead')
+      remove(*args)
+    end
+
+    # @deprecated
+    #
     # Check if paths are present
     #
     # @param [#each] paths
@@ -364,22 +416,20 @@ module Aruba
     # @param [true,false] expect_presence
     #   Should the given paths be present (true) or absent (false)
     def check_file_presence(paths, expect_presence = true)
-      prep_for_fs_check do
-        Array(paths).each do |path|
-          if path.kind_of? Regexp
-            if expect_presence
-              expect(Dir.glob('**/*')).to include_regexp(path)
-            else
-              expect(Dir.glob('**/*')).not_to include_regexp(path)
-            end
-          else
-            path = File.expand_path(path)
+      warn('The use of "check_file_presence" is deprecated. Use "expect().to be_existing_file or expect(all_paths).to match_path_pattern() instead" ')
 
-            if expect_presence
-              expect(File).to be_file(path)
-            else
-              expect(File).not_to be_file(path)
-            end
+      Array(paths).each do |path|
+        if path.kind_of? Regexp
+          if expect_presence
+            expect(all_paths).to match_path_pattern(path)
+          else
+            expect(all_paths).not_to match_path_pattern(path)
+          end
+        else
+          if expect_presence
+            expect(path).to be_existing_file
+          else
+            expect(path).not_to be_existing_file
           end
         end
       end

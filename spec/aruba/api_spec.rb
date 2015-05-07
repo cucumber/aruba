@@ -25,6 +25,34 @@ describe Aruba::Api  do
     end
   end
 
+  describe '#all_paths' do
+    let(:name) { @file_name }
+    let(:path) { @file_path }
+
+    context 'when file exist' do
+      before :each do
+        File.write(path, '')
+      end
+
+      it { expect(all_paths).to include expand_path(name) }
+    end
+
+    context 'when directory exist' do
+      let(:name) { 'test_dir' }
+      let(:path) { File.join(@aruba.current_directory, name) }
+
+      before :each do
+        FileUtils.mkdir_p path
+      end
+
+      it { expect(all_paths).to include expand_path(name) }
+    end
+
+    context 'when nothing exist' do
+      it { expect(all_paths).to eq [] }
+    end
+  end
+
   describe 'directories' do
     before(:each) do
       @directory_name = 'test_dir'
@@ -37,23 +65,70 @@ describe Aruba::Api  do
         expect(File.exist?(File.expand_path(@directory_path))).to be_truthy
       end
     end
+  end
 
-    describe '#remove_directory' do
-      let(:directory_name) { @directory_name }
-      let(:directory_path) { @directory_path }
-      let(:options) { {} }
+  describe '#remove' do
+    let(:name) { 'test.txt'}
+    let(:path) { File.join(@aruba.current_directory, name) }
+    let(:options) { {} }
 
-      before :each do
-        set_env 'HOME',  File.expand_path(@aruba.current_directory)
-      end
+    before :each do
+      set_env 'HOME',  File.expand_path(@aruba.current_directory)
+    end
 
-      context 'when directory exists' do
+    context 'when file' do
+      context 'when exists' do
         before :each do
-          Array(directory_path).each { |p| Dir.mkdir p }
+          Array(path).each { |p| File.open(File.expand_path(p), 'w') { |f| f << "" } }
         end
 
         before :each do
-          @aruba.remove_directory(directory_name, options)
+          @aruba.remove(name, options)
+        end
+
+        context 'when is a single file' do
+          it_behaves_like 'a non-existing file'
+        end
+
+        context 'when are multiple files' do
+          let(:file_name) { %w(file1 file2 file3) }
+          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_directory, p) } }
+
+          it_behaves_like 'a non-existing file'
+        end
+
+        context 'when path contains ~' do
+          let(:string) { random_string }
+          let(:file_name) { File.join('~', string) }
+          let(:file_path) { File.join(@aruba.current_directory, string) }
+
+          it_behaves_like 'a non-existing file'
+        end
+      end
+
+      context 'when does not exist' do
+        before :each do
+          @aruba.remove(name, options)
+        end
+
+        context 'when is forced to delete file' do
+          let(:options) { { force: true } }
+
+          it_behaves_like 'a non-existing file'
+        end
+      end
+    end
+
+    context 'when is directory' do
+      let(:name) { 'test.d' }
+
+      context 'when exists' do
+        before :each do
+          Array(path).each { |p| Dir.mkdir p }
+        end
+
+        before :each do
+          @aruba.remove(name, options)
         end
 
         context 'when is a single directory' do
@@ -76,9 +151,9 @@ describe Aruba::Api  do
         end
       end
 
-      context 'when directory does not exist' do
+      context 'when does not exist' do
         before :each do
-          @aruba.remove_directory(directory_name, options)
+          @aruba.remove(name, options)
         end
 
         context 'when is forced to delete directory' do
@@ -91,52 +166,183 @@ describe Aruba::Api  do
   end
 
   describe 'files' do
-    describe '#touch_file' do
-      let(:file_name) { @file_name }
-      let(:file_path) { @file_path }
+    describe '#touch' do
+      let(:name) { @file_name }
+      let(:path) { @file_path }
       let(:options) { {} }
 
       before :each do
         set_env 'HOME',  File.expand_path(@aruba.current_directory)
       end
 
-      before :each do
-        @aruba.touch_file(file_name, options)
+      context 'when file' do
+        before :each do
+          @aruba.touch(name, options)
+        end
+
+        context 'when does not exist' do
+          context 'and should be created in existing directory' do
+            it { expect(File.size(path)).to eq 0 }
+            it_behaves_like 'an existing file'
+          end
+
+          context 'and should be created in non-existing directory' do
+            let(:name) { 'directory/test' }
+            let(:path) { File.join(@aruba.current_directory, 'directory/test') }
+
+            it_behaves_like 'an existing file'
+          end
+
+          context 'and path includes ~' do
+            let(:string) { random_string }
+            let(:name) { File.join('~', string) }
+            let(:path) { File.join(@aruba.current_directory, string) }
+
+            it_behaves_like 'an existing file'
+          end
+
+          context 'and the mtime should be set statically' do
+            let(:time) { Time.parse('2014-01-01 10:00:00') }
+            let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
+
+            it_behaves_like 'an existing file'
+            it { expect(File.mtime(path)).to eq time }
+          end
+
+          context 'and multiple file names are given' do
+            let(:name) { %w(file1 file2 file3) }
+            let(:path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_directory, p) } }
+            it_behaves_like 'an existing file'
+          end
+        end
       end
 
-      context 'when file does not exist' do
-        context 'and should be created in existing directory' do
-          it { expect(File.size(file_path)).to eq 0 }
-          it_behaves_like 'an existing file'
+      context 'when directory' do
+        let(:name) { %w(directory1) }
+        let(:path) { Array(name).map { |p| File.join(@aruba.current_directory, p) } }
+
+        context 'when exist' do
+          before(:each) { Array(path).each { |p| FileUtils.mkdir_p p } }
+
+          before :each do
+            @aruba.touch(name, options)
+          end
+
+          context 'and the mtime should be set statically' do
+            let(:time) { Time.parse('2014-01-01 10:00:00') }
+            let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
+
+            it_behaves_like 'an existing directory'
+            it { Array(path).each { |p| expect(File.mtime(p)).to eq time } }
+          end
+        end
+      end
+    end
+
+    describe '#exist?' do
+      context 'when is file' do
+        let(:name) { @file_name }
+        let(:path) { @file_path }
+
+        context 'when exists' do
+          before :each do
+            File.write(path, '')
+          end
+
+          it { expect(@aruba).to be_exist(name) }
         end
 
-        context 'and should be created in non-existing directory' do
-          let(:file_name) { 'directory/test' }
-          let(:file_path) { File.join(@aruba.current_directory, 'directory/test') }
+        context 'when does not exist' do
+          it { expect(@aruba).not_to be_exist(name) }
+        end
+      end
 
-          it_behaves_like 'an existing file'
+      context 'when is directory' do
+        let(:name) { 'test.d' }
+        let(:path) { File.join(@aruba.current_directory, name) }
+
+        context 'when exists' do
+          before :each do
+            FileUtils.mkdir_p path
+          end
+
+          it { expect(@aruba).to be_exist(name) }
         end
 
-        context 'and path includes ~' do
-          let(:string) { random_string }
-          let(:file_name) { File.join('~', string) }
-          let(:file_path) { File.join(@aruba.current_directory, string) }
+        context 'when does not exist' do
+          it { expect(@aruba).not_to be_exist(name) }
+        end
+      end
+    end
 
-          it_behaves_like 'an existing file'
+    describe '#file?' do
+      context 'when is file' do
+        let(:name) { @file_name }
+        let(:path) { @file_path }
+
+        context 'when exists' do
+          before :each do
+            File.write(path, '')
+          end
+
+          it { expect(@aruba).to be_file(name) }
         end
 
-        context 'and the mtime should be set statically' do
-          let(:time) { Time.parse('2014-01-01 10:00:00') }
-          let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
+        context 'when does not exist' do
+          it { expect(@aruba).not_to be_file(name) }
+        end
+      end
 
-          it_behaves_like 'an existing file'
-          it { expect(File.mtime(file_path)).to eq time }
+      context 'when is directory' do
+        let(:name) { 'test.d' }
+        let(:path) { File.join(@aruba.current_directory, name) }
+
+        context 'when exists' do
+          before :each do
+            FileUtils.mkdir_p path
+          end
+
+          it { expect(@aruba).not_to be_file(name) }
         end
 
-        context 'and multiple file names are given' do
-          let(:file_name) { %w(file1 file2 file3) }
-          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_directory, p) } }
-          it_behaves_like 'an existing file'
+        context 'when does not exist' do
+          it { expect(@aruba).not_to be_file(name) }
+        end
+      end
+    end
+
+    describe '#directory?' do
+      context 'when is file' do
+        let(:name) { @file_name }
+        let(:path) { @file_path }
+
+        context 'when exists' do
+          before :each do
+            File.write(path, '')
+          end
+
+          it { expect(@aruba).not_to be_directory(name) }
+        end
+
+        context 'when does not exist' do
+          it { expect(@aruba).not_to be_directory(name) }
+        end
+      end
+
+      context 'when is directory' do
+        let(:name) { 'test.d' }
+        let(:path) { File.join(@aruba.current_directory, name) }
+
+        context 'when exists' do
+          before :each do
+            FileUtils.mkdir_p path
+          end
+
+          it { expect(@aruba).to be_directory(name) }
+        end
+
+        context 'when does not exist' do
+          it { expect(@aruba).not_to be_directory(name) }
         end
       end
     end
@@ -169,7 +375,7 @@ describe Aruba::Api  do
 
         aruba = klass.new
 
-        aruba.touch_file 'spec/fixtures/file1'
+        aruba.touch 'spec/fixtures/file1'
 
         expect(aruba.expand_path('%/file1')).to eq File.expand_path(File.join(current_directory, 'spec', 'fixtures', 'file1'))
       end
@@ -322,57 +528,6 @@ describe Aruba::Api  do
 
             it { expect { @aruba.check_filesystem_permissions(different_permissions, file_name, false) }.to raise_error }
           end
-        end
-      end
-    end
-
-    describe '#remove_file' do
-      let(:file_name) { @file_name }
-      let(:file_path) { @file_path }
-      let(:options) { {} }
-
-      before :each do
-        set_env 'HOME',  File.expand_path(@aruba.current_directory)
-      end
-
-      context 'when file exists' do
-        before :each do
-          Array(file_path).each { |p| File.open(File.expand_path(p), 'w') { |f| f << "" } }
-        end
-
-        before :each do
-          @aruba.remove_file(file_name, options)
-        end
-
-        context 'when is a single file' do
-          it_behaves_like 'a non-existing file'
-        end
-
-        context 'when are multiple files' do
-          let(:file_name) { %w(file1 file2 file3) }
-          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.current_directory, p) } }
-
-          it_behaves_like 'a non-existing file'
-        end
-
-        context 'when path contains ~' do
-          let(:string) { random_string }
-          let(:file_name) { File.join('~', string) }
-          let(:file_path) { File.join(@aruba.current_directory, string) }
-
-          it_behaves_like 'a non-existing file'
-        end
-      end
-
-      context 'when file does not exist' do
-        before :each do
-          @aruba.remove_file(file_name, options)
-        end
-
-        context 'when is forced to delete file' do
-          let(:options) { { force: true } }
-
-          it_behaves_like 'a non-existing file'
         end
       end
     end
