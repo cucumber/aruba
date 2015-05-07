@@ -103,6 +103,8 @@ RSpec::Matchers.define :have_file_content do |expected|
     content == expected.chomp
   end
 
+  diffable
+
   failure_message do |actual|
     next format("expected that file \"%s\" contains:\n%s", actual, expected) if expected.is_a? Regexp
 
