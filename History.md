@@ -3,6 +3,7 @@
 * Introducing fixtures directory (issue #224)
 * Make sure a file/directory does not exist + Cleanup named file/directory steps (issue #234)
 * Make matcher have_permisions public and add documentation (issue #239)
+* Added matcher for file content (issue #238)
 
 ## [v0.6.2](https://github.com/cucumber/aruba/compare/v0.6.1...v0.6.2)
 * Fixed minor issue #223)
