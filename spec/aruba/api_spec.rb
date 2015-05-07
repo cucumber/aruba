@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'securerandom'
+require 'time'
 
 describe Aruba::Api  do
   include_context 'uses aruba API'
