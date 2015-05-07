@@ -17,6 +17,14 @@ Feature: file system commands
     When I run `cat foo/bar/example.txt`
     Then the output should contain exactly "hello world"
 
+  Scenario: a file does not exist
+    Given a file named "example.txt" does not exist
+    Then the file "example.txt" should not exist
+
+  Scenario: a directory does not exist
+    Given a directory named "example.d" does not exist
+    Then the directory "foo" should not exist
+
   Scenario: create a fixed sized file
     Given a 1048576 byte file named "test.txt"
     Then a 1048576 byte file named "test.txt" should exist
@@ -125,7 +133,7 @@ Feature: file system commands
     Given a directory named "foo/bar"
     Then the following step should fail with Spec::Expectations::ExpectationNotMetError:
       """
-      Then a directory named "foo/bar" should not exist
+      Then the directory "foo/bar" should not exist
       """
 
   Scenario: Check file contents with text
@@ -185,7 +193,7 @@ Feature: file system commands
   Scenario: Remove directory
     Given a directory named "foo"
     When I remove the directory "foo"
-    Then a directory named "foo" should not exist
+    Then the directory "foo" should not exist
 
   Scenario: Just a dummy for reporting
     Given an empty file named "a/b.txt"
