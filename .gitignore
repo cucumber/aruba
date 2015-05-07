@@ -31,3 +31,6 @@ cucumber-pro.log
 
 ## Ruby versioniser
 .ruby-version
+
+# Temp files of yar
+.yardoc
