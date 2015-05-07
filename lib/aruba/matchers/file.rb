@@ -143,10 +143,10 @@ RSpec::Matchers.define :have_file_size do |expected|
   end
 
   failure_message do |actual|
-    format("expected that file \"%s\" has size \"%s\"", actual)
+    format("expected that file \"%s\" has size \"%s\", but has \"%s\"", actual, File.size(expand_path(actual)), expected)
   end
 
   failure_message_when_negated do |actual|
-    format("expected that file \"%s\" does not have size \"%s\"", actual)
+    format("expected that file \"%s\" does not have size \"%s\", but has \"%s\"", actual, File.size(expand_path(actual)), expected)
   end
 end
