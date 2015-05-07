@@ -25,11 +25,20 @@ This document is a guide for those maintaining Aruba, and others who would like 
   bump version in a commit by itself so we can ignore when we merge your change)
 * Send us a pull request.
 
+## Bootstrap environment
+
+To get started with `aruba`, you just need to bootstrap the environment by
+running the following command.
+
+    # Bootstrap environment
+    script/bootstrap
+
 ## Running tests
 
-    gem install bundler
-    bundle install
-    bundle exec rake
+Make sure you bootstrap the environment first.
+
+    # Run the test suite
+    script/test
 
 ## Release Process
 
@@ -58,4 +67,4 @@ Current release managers:
 
 To grant release karma, issue the following command:
 
-    gem owner cucumber --add <NEW OWNER RUBYGEMS EMAIL>
+    gem owner aruba --add <NEW OWNER RUBYGEMS EMAIL>
