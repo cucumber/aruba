@@ -35,25 +35,23 @@ well. One might want to use it together with `rspec`.
 1. Create a directory named `spec/support`
 2. Create a file named `spec/support/aruba.rb` with:
 
+  ```ruby
+  require 'aruba/rspec'
   ```
-  require 'aruba/api'
-  require 'aruba/reporting'
 
-  RSpec.configure do |config|
-    config.include Aruba::Api
-
-    config.before(:each) do
-      restore_env
-      clean_current_dir
-    end
-  end
-  ```
 3. Add the following to your `spec/spec_helper.rb`
 
-  ```
+  ```ruby
   Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
   ```
 
+4. Add a type to your specs
+
+  ```ruby
+  RSpec.describe 'My feature', type: :aruba do
+    # [...]
+  end
+  ```
 
 ## API
 
