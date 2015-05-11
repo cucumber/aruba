@@ -6,6 +6,7 @@
 * Added matcher for file content (issue #238)
 * Add rspec integrator (issue #244)
 * Deprecate _file/_directory in method names (issue #243)
+* Improve development environment (issue #240)
 
 ## [v0.6.2](https://github.com/cucumber/aruba/compare/v0.6.1...v0.6.2)
 * Fixed minor issue #223)
