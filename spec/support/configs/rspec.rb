@@ -13,4 +13,3 @@ RSpec.configure do |config|
   config.include Aruba::Api
   config.before(:each) { clean_current_directory }
 end
-
