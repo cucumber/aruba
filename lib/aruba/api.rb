@@ -45,6 +45,11 @@ module Aruba
     #   expand_path('%/file')
     #
     def expand_path(file_name, dir_string = nil)
+      message = "Filename cannot be nil or empty. Please use `expand_path('.')` if you want the current directory to be expanded."
+      # rubocop:disable Style/RaiseArgs
+      fail ArgumentError, message if file_name.nil? || file_name.empty?
+      # rubocop:enable Style/RaiseArgs
+
       if FIXTURES_PATH_PREFIX == file_name[0]
         File.join fixtures_directory, file_name[1..-1]
       else
@@ -55,9 +60,9 @@ module Aruba
     # @private
     # @deprecated
     def absolute_path(*args)
-      warn('The use of "absolute_path" is deprecated. Use "expand_path" instead')
+      warn('The use of "absolute_path" is deprecated. Use "expand_path" instead. But be aware that "expand_path" uses a different implementation.')
 
-      expand_path(*args)
+      in_current_directory { File.expand_path File.join(*args) }
     end
 
     # Execute block in current directory
@@ -226,14 +231,12 @@ module Aruba
 
     # @private
     def _create_file(file_name, file_content, check_presence)
-      in_current_directory do
-        file_name = File.expand_path(file_name)
+      file_name = expand_path(file_name)
 
-        raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
+      raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
 
-        _mkdir(File.dirname(file_name))
-        File.open(file_name, 'w') { |f| f << file_content }
-      end
+      _mkdir(File.dirname(file_name))
+      File.open(file_name, 'w') { |f| f << file_content }
 
       self
     end
@@ -314,13 +317,11 @@ module Aruba
 
     # @private
     def _create_fixed_size_file(file_name, file_size, check_presence)
-      in_current_directory do
-        file_name = File.expand_path(file_name)
+      file_name = expand_path(file_name)
 
-        raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
-        _mkdir(File.dirname(file_name))
-        File.open(file_name, "wb"){ |f| f.seek(file_size - 1); f.write("\0") }
-      end
+      raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
+      _mkdir(File.dirname(file_name))
+      File.open(file_name, "wb"){ |f| f.seek(file_size - 1); f.write("\0") }
     end
 
     # @private
@@ -343,12 +344,10 @@ module Aruba
     # @param [String] file_content
     #   The content which should be appended to file
     def append_to_file(file_name, file_content)
-      in_current_directory do
-        file_name = File.expand_path(file_name)
+      file_name = expand_path(file_name)
 
-        _mkdir(File.dirname(file_name))
-        File.open(file_name, 'a') { |f| f << file_content }
-      end
+      _mkdir(File.dirname(file_name))
+      File.open(file_name, 'a') { |f| f << file_content }
     end
 
     # Create a directory in current directory
@@ -356,9 +355,7 @@ module Aruba
     # @param [String] directory_name
     #   The name of the directory which should be created
     def create_directory(directory_name)
-      in_current_directory do
-        _mkdir(directory_name)
-      end
+      FileUtils.mkdir_p expand_path(directory_name)
 
       self
     end
@@ -418,6 +415,8 @@ module Aruba
     def check_file_presence(paths, expect_presence = true)
       warn('The use of "check_file_presence" is deprecated. Use "expect().to be_existing_file or expect(all_paths).to match_path_pattern() instead" ')
 
+      stop_processes!
+
       Array(paths).each do |path|
         if path.kind_of? Regexp
           if expect_presence
@@ -440,12 +439,10 @@ module Aruba
     # @param [String] file_name
     #   The file which should be used to pipe in data
     def pipe_in_file(file_name)
-      in_current_directory do
-        file_name = File.expand_path(file_name)
+      file_name = expand_path(file_name)
 
-        File.open(file_name, 'r').each_line do |line|
-          _write_interactive(line)
-        end
+      File.open(file_name, 'r').each_line do |line|
+        _write_interactive(line)
       end
     end
 
@@ -463,12 +460,12 @@ module Aruba
     #   check_file_size(paths_and_sizes)
     #
     def check_file_size(paths_and_sizes)
-      prep_for_fs_check do
-        paths_and_sizes.each do |path, size|
-          path = File.expand_path(path)
+      stop_processes!
 
-          expect(File.size(path)).to eq size
-        end
+      paths_and_sizes.each do |path, size|
+        path = expand_path(path)
+
+        expect(File.size(path)).to eq size
       end
     end
 
@@ -480,12 +477,12 @@ module Aruba
     # @yield
     #   Pass the content of the given file to this block
     def with_file_content(file, &block)
-      prep_for_fs_check do
-        file = File.expand_path(file)
+      stop_processes!
 
-        content = IO.read(file)
-        yield(content)
-      end
+      file = expand_path(file)
+      content = IO.read(file)
+
+      yield(content)
     end
 
     # Check the content of file
@@ -504,19 +501,21 @@ module Aruba
     # @param [true, false] expect_match
     #   Must the content be in the file or not
     def check_file_content(file, content, expect_match = true)
+      stop_processes!
+
       match_content =
         if(Regexp === content)
           match(content)
         else
           eq(content)
         end
-      prep_for_fs_check do
-        content = IO.read(File.expand_path(file))
-        if expect_match
-          expect(content).to match_content
-        else
-          expect(content).not_to match_content
-        end
+
+      content = IO.read(expand_path(file))
+
+      if expect_match
+        expect(content).to match_content
+      else
+        expect(content).not_to match_content
       end
     end
 
@@ -554,23 +553,25 @@ module Aruba
     # @param [true, false] expect_presence
     #   Should the directory be there or should the directory not be there
     def check_directory_presence(paths, expect_presence)
-      prep_for_fs_check do
-        paths.each do |path|
-          path = File.expand_path(path)
+      stop_processes!
 
-          if expect_presence
-            expect(File).to be_directory(path)
-          else
-            expect(File).not_to be_directory(path)
-          end
+      paths.each do |path|
+        path = expand_path(path)
+
+        if expect_presence
+          expect(File).to be_directory(path)
+        else
+          expect(File).not_to be_directory(path)
         end
       end
     end
 
     # @private
     def prep_for_fs_check(&block)
+      warn('The use of "prep_for_fs_check" is deprecated. It will be removed soon.')
+
       stop_processes!
-      in_current_directory{ block.call }
+      in_current_directory { block.call }
     end
 
     # @private
