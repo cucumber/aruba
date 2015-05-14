@@ -3,7 +3,7 @@ require 'aruba/spawn_process'
 module Aruba
   describe SpawnProcess do
 
-    let(:process) { SpawnProcess.new('echo "yo"', 0.1, 0.1) }
+    let(:process) { SpawnProcess.new('echo "yo"', 1, 1) }
 
     describe "#stdout" do
       before { process.run! }
