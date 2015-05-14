@@ -355,9 +355,7 @@ module Aruba
     # @param [String] directory_name
     #   The name of the directory which should be created
     def create_directory(directory_name)
-      in_current_directory do
-        _mkdir(directory_name)
-      end
+      FileUtils.mkdir_p expand_path(directory_name)
 
       self
     end
