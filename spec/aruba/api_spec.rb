@@ -355,6 +355,32 @@ describe Aruba::Api  do
       end
     end
 
+    describe '#absolute?' do
+      let(:name) { @file_name }
+      let(:path) { File.expand_path(File.join(@aruba.current_directory, name)) }
+
+      context 'when is absolute path' do
+        it { expect(@aruba).to be_absolute(path) }
+      end
+
+      context 'when is relative path' do
+        it { expect(@aruba).not_to be_absolute(name) }
+      end
+    end
+
+    describe '#relative?' do
+      let(:name) { @file_name }
+      let(:path) { File.expand_path(File.join(@aruba.current_directory, name)) }
+
+      context 'when is absolute path' do
+        it { expect(@aruba).not_to be_relative(path) }
+      end
+
+      context 'when is relative path' do
+        it { expect(@aruba).to be_relative(name) }
+      end
+    end
+
     describe '#exist?' do
       context 'when is file' do
         let(:name) { @file_name }

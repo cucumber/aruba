@@ -98,6 +98,22 @@ module Aruba
       File.directory? expand_path(file)
     end
 
+    # Check if path is absolute
+    #
+    # @return [TrueClass, FalseClass]
+    #   Result of check
+    def absolute?(path)
+      Pathname.new(path).absolute?
+    end
+
+    # Check if path is relative
+    #
+    # @return [TrueClass, FalseClass]
+    #   Result of check
+    def relative?(path)
+      Pathname.new(path).relative?
+    end
+
     # Return all existing paths (directories, files) in current dir
     #
     # @return [Array]
