@@ -42,7 +42,7 @@ RSpec::Matchers.define :have_sub_directory do |expected|
     next false unless directory?(actual)
 
     expected_files = Array(expected).map { |p| File.join(actual, p) }
-    existing_files = read(actual)
+    existing_files = list(actual)
 
     (expected_files - existing_files).empty?
   end

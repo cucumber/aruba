@@ -89,6 +89,11 @@ describe Aruba::Api  do
           it { expect(@aruba.read(name)).to eq [content] }
         end
 
+        context 'when binary file' do
+          let(:content) { "\u0000" }
+          it { expect(@aruba.read(name)).to eq [content] }
+        end
+
         context 'when is empty file' do
           let(:content) { '' }
           it { expect(@aruba.read(name)).to eq [] }
@@ -105,8 +110,43 @@ describe Aruba::Api  do
 
       context 'when directory' do
         let(:name) { 'test.d' }
-        let(:content) { %w(subdir.1.d subdir.2.d) }
 
+        before :each do
+          Array(path).each { |p| Dir.mkdir p }
+        end
+
+        it { expect { @aruba.read(name) }.to raise_error ArgumentError }
+      end
+    end
+  end
+
+  describe '#list' do
+    let(:name) { 'test.d' }
+    let(:content) { %w(subdir.1.d subdir.2.d) }
+    let(:path) { File.join(@aruba.current_directory, name) }
+
+    before :each do
+      set_env 'HOME',  File.expand_path(@aruba.current_directory)
+    end
+
+    context 'when does not exist' do
+      it { expect { @aruba.list(name) }.to raise_error ArgumentError }
+    end
+
+    context 'when exists' do
+      context 'when file' do
+        let(:name) { 'test.txt' }
+
+        before :each do
+          File.open(File.expand_path(path), 'w') { |f| f << content }
+        end
+
+        context 'when normal file' do
+          it { expect{ @aruba.list(name) }.to raise_error ArgumentError }
+        end
+      end
+
+      context 'when directory' do
         before :each do
           Array(path).each { |p| Dir.mkdir p }
         end
@@ -117,7 +157,7 @@ describe Aruba::Api  do
 
         context 'when has subdirectories' do
           context 'when is simple path' do
-            let(:existing_files) { @aruba.read(name) }
+            let(:existing_files) { @aruba.list(name) }
             let(:expected_files) { content.map { |c| File.join(name, c) }.sort  }
 
             it { expect(expected_files - existing_files).to be_empty}
@@ -128,7 +168,7 @@ describe Aruba::Api  do
             let(:name) { File.join('~', string) }
             let(:path) { File.join(@aruba.current_directory, string) }
 
-            let(:existing_files) { @aruba.read(name) }
+            let(:existing_files) { @aruba.list(name) }
             let(:expected_files) { content.map { |c| File.join(string, c) } }
 
             it { expect(expected_files - existing_files).to be_empty}
@@ -137,7 +177,7 @@ describe Aruba::Api  do
 
         context 'when has no subdirectories' do
           let(:content) { [] }
-          it { expect(@aruba.read(name)).to eq [] }
+          it { expect(@aruba.list(name)).to eq [] }
         end
       end
     end

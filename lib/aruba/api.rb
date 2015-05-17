@@ -103,7 +103,7 @@ module Aruba
     # @return [Array]
     #   List of files and directories
     def all_paths
-      read('.').map { |p| expand_path(p) }
+      list('.').map { |p| expand_path(p) }
     end
 
     # @deprecated
@@ -126,15 +126,27 @@ module Aruba
       clean_current_directory(*args, &block)
     end
 
-    # Return content of file or directory
+    # Return content of directory
+    #
+    # @return [Array]
+    #   The content of file or directory
+    def list(name)
+      fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
+      fail ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.) unless directory? name
+
+      existing_files            = Dir.glob(expand_path(File.join(name, '**', '*')))
+      current_working_directory = Pathname.new(expand_path('.'))
+
+      return existing_files.map { |d| Pathname.new(d).relative_path_from(current_working_directory).to_s }
+    end
+
+    # Return content of file
     #
     # @return [Array]
     #   The content of file or directory
     def read(name)
       fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
-      fail ArgumentError, %(Only files and directories are supported. Path "#{name}" is neither a directory nor a file.) unless file?(name) || directory?(name)
-
-      return Dir.glob(expand_path(File.join(name, '**', '*'))).map { |d| Pathname.new(d).relative_path_from(Pathname.new(expand_path('.'))).to_s } if directory? name
+      fail ArgumentError, %(Only files are supported. Path "#{name}" is not a file.) unless file? name
 
       File.readlines(expand_path(name))
     end
