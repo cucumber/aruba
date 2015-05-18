@@ -1,6 +1,17 @@
+AllCops:
+  Exclude:
+    - tmp/**/*
+  DisplayCopNames: true
 # Cop supports --auto-correct.
 # Configuration parameters: SupportedStyles.
 Style/HashSyntax:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Exclude:
+    - lib/aruba/api.rb
+
+Metrics/AbcSize:
   Enabled: false
 
 Lint/AmbiguousRegexpLiteral:
@@ -34,10 +45,6 @@ Metrics/MethodLength:
 Style/AlignParameters:
   Enabled: false
 
-# Cop supports --auto-correct.
-Style/Blocks:
-  Enabled: false
-
 Style/CaseEquality:
   Enabled: false
 
@@ -59,10 +66,6 @@ Style/CollectionMethods:
   Enabled: false
 
 Style/Documentation:
-  Enabled: false
-
-# Cop supports --auto-correct.
-Style/EmptyLinesAroundBody:
   Enabled: false
 
 # Configuration parameters: MinBodyLength.
