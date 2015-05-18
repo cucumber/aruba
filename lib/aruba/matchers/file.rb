@@ -47,7 +47,7 @@ end
 #   @example Use matcher
 #
 #     RSpec.describe do
-#       it { expect(file1).to be_existing_file(file2) }
+#       it { expect(file1).to be_existing_file }
 #     end
 RSpec::Matchers.define :be_existing_file do |_|
   match do |actual|
