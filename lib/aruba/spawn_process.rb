@@ -6,15 +6,16 @@ require 'aruba/errors'
 module Aruba
   class SpawnProcess
 
-    def initialize(cmd, exit_timeout, io_wait)
+    def initialize(cmd, exit_timeout, io_wait, working_directory)
       @exit_timeout = exit_timeout
       @io_wait      = io_wait
 
-      @cmd          = cmd
-      @process      = nil
-      @exit_code    = nil
-      @output_cache = nil
-      @error_cache  = nil
+      @cmd               = cmd
+      @process           = nil
+      @exit_code         = nil
+      @output_cache      = nil
+      @error_cache       = nil
+      @working_directory = working_directory
     end
 
     def run!
@@ -24,6 +25,7 @@ module Aruba
       @process.io.stdout = @out
       @process.io.stderr = @err
       @process.duplex    = true
+      @process.cwd       = @working_directory
       @exit_code         = nil
 
       begin

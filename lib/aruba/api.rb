@@ -927,6 +927,9 @@ module Aruba
     #
     # @param [Integer] timeout
     #   If the timeout is reached the command will be killed
+    #
+    # @yield [SpawnProcess]
+    #   Run block with process
     def run(cmd, timeout = nil)
       timeout ||= exit_timeout
       @commands ||= []
@@ -934,18 +937,16 @@ module Aruba
 
       cmd = detect_ruby(cmd)
 
-      in_current_directory do
-        Aruba.config.hooks.execute(:before_cmd, self, cmd)
+      Aruba.config.hooks.execute(:before_cmd, self, cmd)
 
-        announcer.dir(Dir.pwd)
-        announcer.cmd(cmd)
+      announcer.dir(Dir.pwd)
+      announcer.cmd(cmd)
 
-        process = Aruba.process.new(cmd, timeout, io_wait)
-        register_process(cmd, process)
-        process.run!
+      process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'))
+      register_process(cmd, process)
+      process.run!
 
-        block_given? ? yield(process) : process
-      end
+      block_given? ? yield(process) : process
     end
 
     DEFAULT_TIMEOUT_SECONDS = 3
