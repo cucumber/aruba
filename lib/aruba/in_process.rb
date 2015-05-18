@@ -3,8 +3,6 @@ require 'stringio'
 
 module Aruba
   class InProcess
-    include Shellwords
-
     class FakeKernel
       attr_reader :exitstatus
 
@@ -21,19 +19,23 @@ module Aruba
       @@main_class = main_class
     end
 
-    def initialize(cmd, exit_timeout, io_wait)
-      args = shellwords(cmd)
-      @argv = args[1..-1]
-      @stdin = StringIO.new
-      @stdout = StringIO.new
-      @stderr = StringIO.new
-      @kernel = FakeKernel.new
+    def initialize(cmd, exit_timeout, io_wait, working_directory)
+      args               = Shellwords.split(cmd)
+      @argv              = args[1..-1]
+      @stdin             = StringIO.new
+      @stdout            = StringIO.new
+      @stderr            = StringIO.new
+      @kernel            = FakeKernel.new
+      @working_directory = working_directory
     end
 
     def run!
       raise "You need to call Aruba::InProcess.main_class = YourMainClass" unless @@main_class
-      @@main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
-      yield self if block_given?
+
+      Dir.chdir @working_directory do
+        @@main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
+        yield self if block_given?
+      end
     end
 
     def stop(reader)
