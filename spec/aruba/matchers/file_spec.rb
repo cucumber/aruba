@@ -2,22 +2,40 @@ require 'spec_helper'
 
 RSpec.describe 'File Matchers' do
   include_context 'uses aruba API'
-
-  def expand_path(*args)
-    @aruba.expand_path(*args)
-  end
+  include_context 'needs to expand paths'
 
   describe 'to_be_existing_file' do
-    context 'when file exists' do
-      before :each do
-        File.write(@file_path, '')
-      end
+    let(:name) { @file_name }
 
-      it { expect(@file_name).to be_existing_file }
+    context 'when file exists' do
+      before(:each) { create_test_files(name) }
+
+      it { expect(name).to be_existing_file }
     end
 
     context 'when file does not exist' do
-      it { expect(@file_name).not_to be_existing_file }
+      it { expect(name).not_to be_existing_file }
+    end
+  end
+
+  describe 'to_be_existing_files' do
+    let(:name) { %w(file1.txt file2.txt) }
+
+    context 'when files exists' do
+      before(:each) { create_test_files(name) }
+
+      context 'when list of files is given' do
+        it { expect(name).to be_existing_files }
+      end
+
+      context 'when no list of files is given' do
+        let(:name) { 'file1.txt' }
+        it { expect(name).not_to be_existing_files }
+      end
+    end
+
+    context 'when file does not exist' do
+      it { expect(name).not_to be_existing_files }
     end
   end
 

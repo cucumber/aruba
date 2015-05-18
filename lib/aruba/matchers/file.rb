@@ -51,6 +51,8 @@ end
 #     end
 RSpec::Matchers.define :be_existing_file do |_|
   match do |actual|
+    next false unless actual.is_a? String
+
     file?(actual)
   end
 
@@ -60,6 +62,37 @@ RSpec::Matchers.define :be_existing_file do |_|
 
   failure_message_when_negated do |actual|
     format("expected that file \"%s\" does not exist", actual)
+  end
+end
+
+# @!method be_existing_files
+#   This matchers checks if <files> exists in filessystem
+#
+#   @return [TrueClass, FalseClass] The result
+#
+#     false:
+#     * if files does not exist
+#     true:
+#     * if files exists
+#
+#   @example Use matcher
+#
+#     RSpec.describe do
+#       it { expect(%w(file1 file2)).to be_existing_files }
+#     end
+RSpec::Matchers.define :be_existing_files do |_|
+  match do |actual|
+    next false unless actual.is_a? Array
+
+    actual.all? { |f| file?(f) }
+  end
+
+  failure_message do |actual|
+    format("expected that files \"%s\" exists", actual.join(', '))
+  end
+
+  failure_message_when_negated do |actual|
+    format("expected that files \"%s\" does not exist", actual.join(', '))
   end
 end
 
