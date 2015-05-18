@@ -1122,6 +1122,5 @@ module Aruba
         @session.announce_or_puts(message)
       end
     end
-
   end
 end
