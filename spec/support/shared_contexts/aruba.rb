@@ -3,16 +3,22 @@ RSpec.shared_context 'uses aruba API' do
     options[:prefix].to_s + SecureRandom.hex + options[:suffix].to_s
   end
 
+  def create_test_files(files, data = 'a')
+    Array(files).each do |s|
+      next if s.to_s[0] == '%'
+      local_path = expand_path(s)
+
+      FileUtils.mkdir_p File.dirname(local_path)
+      File.open(local_path, 'w') { |f| f << data }
+    end
+  end
+
   before(:each) do
     klass = Class.new do
       include Aruba::Api
 
       def set_tag(tag_name, value)
         self.instance_variable_set "@#{tag_name}", value
-      end
-
-      def announce_or_puts(*args)
-        p caller[0..2]
       end
     end
 
@@ -29,5 +35,11 @@ RSpec.shared_context 'uses aruba API' do
     raise "We must work with relative paths, everything else is dangerous" if ?/ == @aruba.current_directory[0]
     FileUtils.rm_rf(@aruba.current_directory)
     Dir.mkdir(@aruba.current_directory)
+  end
+end
+
+RSpec.shared_context 'needs to expand paths' do
+  def expand_path(*args)
+    @aruba.expand_path(*args)
   end
 end
