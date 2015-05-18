@@ -37,7 +37,6 @@ module Aruba
     def configure
       yield config
     end
-
   end
 
   self.config = Config.new

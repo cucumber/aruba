@@ -105,6 +105,5 @@ module Aruba
       @err.close
       @err = nil
     end
-
   end
 end
