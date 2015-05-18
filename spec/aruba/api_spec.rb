@@ -452,7 +452,7 @@ describe Aruba::Api  do
 
     describe '#filesystem_permissions' do
       def actuctual_permissions
-        sprintf( "%o" , File::Stat.new(file_path).mode )[-4,4]
+        format( "%o" , File::Stat.new(file_path).mode )[-4,4]
       end
 
       let(:file_name) { @file_name }
