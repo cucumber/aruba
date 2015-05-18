@@ -5,32 +5,33 @@ require 'aruba/errors'
 
 module Aruba
   class SpawnProcess
-    include Shellwords
 
     def initialize(cmd, exit_timeout, io_wait)
       @exit_timeout = exit_timeout
-      @io_wait = io_wait
+      @io_wait      = io_wait
 
-      @cmd = cmd
-      @process = nil
-      @exit_code = nil
+      @cmd          = cmd
+      @process      = nil
+      @exit_code    = nil
       @output_cache = nil
-      @error_cache = nil
+      @error_cache  = nil
     end
 
-    def run!(&block)
-      @process = ChildProcess.build(*shellwords(@cmd))
-      @out = Tempfile.new("aruba-out")
-      @err = Tempfile.new("aruba-err")
+    def run!
+      @process           = ChildProcess.build(*Shellwords.split(@cmd))
+      @out               = Tempfile.new("aruba-out")
+      @err               = Tempfile.new("aruba-err")
       @process.io.stdout = @out
       @process.io.stderr = @err
-      @process.duplex = true
-      @exit_code = nil
+      @process.duplex    = true
+      @exit_code         = nil
+
       begin
         @process.start
       rescue ChildProcess::LaunchError => e
-        raise LaunchError.new(e.message)
+        raise LaunchError, e.message
       end
+
       yield self if block_given?
     end
 
@@ -59,34 +60,37 @@ module Aruba
 
     def stop(reader)
       return @exit_code unless @process
-      unless @process.exited?
-        @process.poll_for_exit(@exit_timeout)
-      end
+
+      @process.poll_for_exit(@exit_timeout) unless @process.exited?
+
       @exit_code = @process.exit_code
-      @process = nil
+      @process   = nil
+
       close_and_cache_out
       close_and_cache_err
+
       if reader
         reader.stdout stdout
         reader.stderr stderr
       end
+
       @exit_code
     end
 
     def terminate
-      if @process
-        @process.stop
-        stop nil
-      end
+      return unless @process
+
+      @process.stop
+      stop nil
     end
 
     private
 
     def wait_for_io(&block)
-      if @process
-        sleep @io_wait
-        yield
-      end
+      return unless @process
+
+      sleep @io_wait
+      yield
     end
 
     def read(io)
