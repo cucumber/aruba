@@ -1087,7 +1087,8 @@ module Aruba
 
     class Announcer
       def initialize(session, options = {})
-        @session, @options = session, options
+        @session = session
+        @options = options
       end
 
       def stdout(content)
