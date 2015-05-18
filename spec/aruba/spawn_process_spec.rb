@@ -2,7 +2,6 @@ require 'aruba/spawn_process'
 
 module Aruba
   describe SpawnProcess do
-
     let(:process) { SpawnProcess.new('echo "yo"', 1, 1) }
 
     describe "#stdout" do
@@ -16,7 +15,6 @@ module Aruba
         expect(process.stdout).to eq "yo\n"
         expect(process.stdout).to eq "yo\n"
       end
-
     end
 
     describe "#stop" do
@@ -40,6 +38,5 @@ module Aruba
         end
       end
     end
-
   end
 end

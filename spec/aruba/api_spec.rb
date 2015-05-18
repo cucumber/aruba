@@ -21,7 +21,6 @@ describe Aruba::Api  do
       in_current_directory do
         expect(File.exist?('test')).to be_falsey
       end
-
     end
   end
 
@@ -861,7 +860,6 @@ describe Aruba::Api  do
         it { expect(aruba.fixtures_directory).to eq expand_path('test/fixtures') }
       end
     end
-
   end
 
   describe "#set_env" do

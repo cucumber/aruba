@@ -14,5 +14,4 @@ describe Aruba::Hooks do
     subject.execute :hook_label, self, 1, 2, 3
     expect(hook_values).to eq [1,2,3]
   end
-
 end
