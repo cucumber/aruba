@@ -21,7 +21,7 @@ group :development, :test do
   gem 'rspec', '>= 3.0.0'
   gem 'fuubar', '>= 1.1.1'
   gem 'cucumber-pro', '~> 0.0'
-  gem 'rubocop', '~> 0.26.0'
+  gem 'rubocop', '~> 0.31.0'
 
   gem 'license_finder', '~> 2.0.4'
 end
