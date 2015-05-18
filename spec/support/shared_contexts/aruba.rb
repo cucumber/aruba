@@ -4,7 +4,7 @@ RSpec.shared_context 'uses aruba API' do
   end
 
   before(:each) do
-    klass = Class.new {
+    klass = Class.new do
       include Aruba::Api
 
       def set_tag(tag_name, value)
@@ -14,7 +14,8 @@ RSpec.shared_context 'uses aruba API' do
       def announce_or_puts(*args)
         p caller[0..2]
       end
-    }
+    end
+
     @aruba = klass.new
 
     @file_name = "test.txt"
