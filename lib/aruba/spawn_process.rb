@@ -5,7 +5,19 @@ require 'aruba/errors'
 
 module Aruba
   class SpawnProcess
-
+    # Create process
+    #
+    # @params [String] cmd
+    #   Command string
+    #
+    # @params [Integer] exit_timeout
+    #   The timeout until we expect the command to be finished
+    #
+    # @params [Integer] io_wait
+    #   The timeout until we expect the io to be finished
+    #
+    # @params [String] working_directory
+    #   The directory where the command will be executed
     def initialize(cmd, exit_timeout, io_wait, working_directory)
       @exit_timeout = exit_timeout
       @io_wait      = io_wait
@@ -18,6 +30,10 @@ module Aruba
       @working_directory = working_directory
     end
 
+    # Run the command
+    #
+    # @yield [SpawnProcess]
+    #   Run code for process which was started
     def run!
       @process           = ChildProcess.build(*Shellwords.split(@cmd))
       @out               = Tempfile.new("aruba-out")
