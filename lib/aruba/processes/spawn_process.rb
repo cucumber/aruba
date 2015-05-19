@@ -31,25 +31,41 @@ module Aruba
         @working_directory = working_directory
       end
 
+      private
+
+      # Hook which is run before command is run
+      def before_run; end
+
+      # Hook which is run after command is run
+      def after_run; end
+
+      public
+
       # Run the command
       #
       # @yield [SpawnProcess]
       #   Run code for process which was started
       def run!
-        @process           = ChildProcess.build(*Shellwords.split(@cmd))
-        @out               = Tempfile.new("aruba-out")
-        @err               = Tempfile.new("aruba-err")
+        @process   = ChildProcess.build(*Shellwords.split(@cmd))
+        @out       = Tempfile.new("aruba-out")
+        @err       = Tempfile.new("aruba-err")
+        @exit_code = nil
+        @duplex    = true
+
+        before_run
+
         @process.io.stdout = @out
         @process.io.stderr = @err
-        @process.duplex    = true
+        @process.duplex    = @duplex
         @process.cwd       = @working_directory
-        @exit_code         = nil
 
         begin
           @process.start
         rescue ChildProcess::LaunchError => e
           raise LaunchError, e.message
         end
+
+        after_run
 
         yield self if block_given?
       end
