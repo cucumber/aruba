@@ -102,6 +102,15 @@ Given /^I set the environment variables to:/ do |table|
   end
 end
 
+Given /^I append the value to the environment variable:/ do |table|
+  table.hashes.each do |row|
+    variable = row['variable'].to_s.upcase
+    value = row['value'].to_s + row['value'].to_s
+
+    set_env(variable, value)
+  end
+end
+
 When /^I run "(.*)"$/ do |cmd|
   warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
   run_simple(unescape(cmd), false)
