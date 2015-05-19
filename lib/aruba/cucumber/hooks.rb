@@ -47,6 +47,11 @@ Before('@announce') do
   @announce_env = true
 end
 
+Before('@debug') do
+  require 'aruba/processes/debug_process'
+  Aruba.process = Aruba::Processes::DebugProcess
+end
+
 Before('@ansi') do
   @aruba_keep_ansi = true
 end
