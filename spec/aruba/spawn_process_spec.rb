@@ -1,6 +1,6 @@
-require 'aruba/spawn_process'
+require 'aruba/processes/spawn_process'
 
-describe Aruba::SpawnProcess do
+describe Aruba::Processes::SpawnProcess do
   subject(:process) { described_class.new(command, exit_timeout, io_wait, working_directory) }
 
   let(:command) { 'echo "yo"' }
