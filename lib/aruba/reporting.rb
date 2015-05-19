@@ -19,7 +19,7 @@ if(ENV['ARUBA_REPORT_DIR'])
       end
 
       def pygmentize(file)
-        pygmentize = SpawnProcess.new(%{pygmentize -f html -O encoding=utf-8 "#{file}"}, 3, 0.5)
+        pygmentize = Processes::SpawnProcess.new(%{pygmentize -f html -O encoding=utf-8 "#{file}"}, 3, 0.5, Dir.getwd)
         pygmentize.run! do |p|
           exit_status = p.stop(false)
           if(exit_status == 0)
