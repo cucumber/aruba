@@ -1,9 +1,10 @@
 require 'shellwords'
 require 'stringio'
+require 'aruba/processes/basic_process'
 
 module Aruba
   module Processes
-    class InProcess
+    class InProcess < BasicProcess
       class FakeKernel
         attr_reader :exitstatus
 
@@ -27,14 +28,18 @@ module Aruba
         @stdout            = StringIO.new
         @stderr            = StringIO.new
         @kernel            = FakeKernel.new
-        @working_directory = working_directory
+
+        super
       end
 
       def run!
         raise "You need to call Aruba::InProcess.main_class = YourMainClass" unless @@main_class
 
         Dir.chdir @working_directory do
+          before_run
           @@main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
+          after_run
+
           yield self if block_given?
         end
       end
