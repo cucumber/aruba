@@ -2,10 +2,11 @@ require 'childprocess'
 require 'tempfile'
 require 'shellwords'
 require 'aruba/errors'
+require 'aruba/processes/basic_process'
 
 module Aruba
   module Processes
-    class SpawnProcess
+    class SpawnProcess < BasicProcess
       # Create process
       #
       # @params [String] cmd
@@ -28,18 +29,9 @@ module Aruba
         @exit_code         = nil
         @output_cache      = nil
         @error_cache       = nil
-        @working_directory = working_directory
+
+        super
       end
-
-      private
-
-      # Hook which is run before command is run
-      def before_run; end
-
-      # Hook which is run after command is run
-      def after_run; end
-
-      public
 
       # Run the command
       #
@@ -72,10 +64,6 @@ module Aruba
 
       def stdin
         @process.io.stdin
-      end
-
-      def output
-        stdout + stderr
       end
 
       def stdout
