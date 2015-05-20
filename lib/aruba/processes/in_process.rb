@@ -48,12 +48,20 @@ module Aruba
         @kernel.exitstatus
       end
 
+      def stdin
+        @stdin.string
+      end
+
       def stdout
         @stdout.string
       end
 
       def stderr
         @stderr.string
+      end
+
+      def terminate
+        stop
       end
     end
   end
