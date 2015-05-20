@@ -17,8 +17,8 @@ module Aruba
         end
       end
 
-      def self.main_class=(main_class)
-        @@main_class = main_class
+      class << self
+        attr_accessor :main_class
       end
 
       def initialize(cmd, exit_timeout, io_wait, working_directory)
@@ -33,11 +33,11 @@ module Aruba
       end
 
       def run!
-        raise "You need to call Aruba::InProcess.main_class = YourMainClass" unless @@main_class
+        raise "You need to call Aruba::InProcess.main_class = YourMainClass" unless self.class.main_class
 
         Dir.chdir @working_directory do
           before_run
-          @@main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
+          self.class.main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
           after_run
 
           yield self if block_given?
