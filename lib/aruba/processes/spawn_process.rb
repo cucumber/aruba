@@ -67,18 +67,22 @@ module Aruba
       end
 
       def stdout
-        wait_for_io { read(@out) } || @output_cache
+        wait_for_io do
+          @process.io.stdout.flush
+          read(@out)
+        end || @output_cache
       end
 
       def stderr
-        wait_for_io { read(@err) } || @error_cache
+        wait_for_io do
+          @process.io.stderr.flush
+          read(@err)
+        end || @error_cache
       end
 
       def read_stdout
-        wait_for_io do
-          @process.io.stdout.flush
-          open(@out.path).read
-        end
+        warn('The use of "#read_stdout" is deprecated. Use "#stdout" instead.')
+        stdout
       end
 
       def stop(reader)
