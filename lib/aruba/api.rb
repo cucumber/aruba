@@ -122,6 +122,22 @@ module Aruba
       list('.').map { |p| expand_path(p) }
     end
 
+    # Return all existing files in current directory
+    #
+    # @return [Array]
+    #   List of files
+    def all_files
+      list('.').select { |p| file? p }.map { |p| expand_path(p) }
+    end
+
+    # Return all existing directories in current directory
+    #
+    # @return [Array]
+    #   List of files
+    def all_directories
+      list('.').select { |p| directory? p }.map { |p| expand_path(p) }
+    end
+
     # @deprecated
     # @private
     def in_current_dir(*args, &block)
