@@ -138,6 +138,16 @@ module Aruba
       list('.').select { |p| directory? p }.map { |p| expand_path(p) }
     end
 
+    # Create directory object
+    #
+    # @return [Dir]
+    #   The directory object
+    def directory(path)
+      fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
+
+      Dir.new(expand_path(path))
+    end
+
     # @deprecated
     # @private
     def in_current_dir(*args, &block)
