@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+
+require 'pry'
+
+require 'aruba/api'
+require 'aruba/reporting'
+
+module Aruba
+  class MyConsole
+    include Aruba::Api
+  end
+end
+
+include Aruba
+Pry.start MyConsole.new
