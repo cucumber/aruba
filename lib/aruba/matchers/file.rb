@@ -93,7 +93,7 @@ end
 #     end
 RSpec::Matchers.define :have_file_content do |expected|
   match do |actual|
-    path = absolute_path(actual)
+    path = expand_path(actual)
 
     next false unless File.file? path
 
