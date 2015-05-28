@@ -549,7 +549,7 @@ module Aruba
       file_name = expand_path(file_name)
 
       File.open(file_name, 'r').each_line do |line|
-        _write_interactive(line)
+        last_process.write(line)
       end
     end
 
@@ -815,7 +815,7 @@ module Aruba
     # @return [TrueClass, FalseClass]
     #   If output of interactive command includes arg1 return true, otherwise false
     def assert_partial_output_interactive(expected)
-      unescape(_read_interactive).include?(unescape(expected)) ? true : false
+      unescape(last_process.stdout).include?(unescape(expected)) ? true : false
     end
 
     # Check if command succeeded and if arg1 is included in output
@@ -901,6 +901,11 @@ module Aruba
         terminate_process(process)
         stop_process(process)
       end
+    end
+
+    # @private
+    def last_process
+      processes.last[1]
     end
 
     # @private
@@ -1027,8 +1032,12 @@ module Aruba
     #   The command to by run
     #
     # @see #cmd
+    # @deprectated
+    # @private
     def run_interactive(cmd)
-      @interactive = run(cmd)
+      warn('The use of "run_interactive" is deprecated. You can simply use "run" instead.')
+
+      run(cmd)
     end
 
     # Provide data to command via stdin
@@ -1037,12 +1046,12 @@ module Aruba
     #   The input for the command
     def type(input)
       return close_input if "" == input
-      _write_interactive(_ensure_newline(input))
+      last_process.write(_ensure_newline(input))
     end
 
     # Close stdin
     def close_input
-      @interactive.stdin.close
+      last_process.close_io(:stdin)
     end
 
     # @deprecated
@@ -1054,13 +1063,16 @@ module Aruba
 
     # @private
     def _write_interactive(input)
-      @interactive.stdin.write(input)
-      @interactive.stdin.flush
+      warn('The use of "_write_interactive" is deprecated. It will be removed soon.')
+
+      last_process.write(input)
     end
 
     # @private
     def _read_interactive
-      @interactive.read_stdout
+      warn('The use of "_read_interactive" is deprecated. It will be removed soon.')
+
+      last_process.stdout
     end
 
     # @private

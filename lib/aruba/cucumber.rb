@@ -133,11 +133,11 @@ end
 
 When /^I run "([^"]*)" interactively$/ do |cmd|
   warn(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-  run_interactive(unescape(cmd))
+  step %(I run `#{cmd}` interactively)
 end
 
 When /^I run `([^`]*)` interactively$/ do |cmd|
-  run_interactive(unescape(cmd))
+  run(unescape(cmd))
 end
 
 When /^I type "([^"]*)"$/ do |input|

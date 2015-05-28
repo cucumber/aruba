@@ -60,6 +60,16 @@ module Aruba
         @stderr.string
       end
 
+      def write(input)
+        @stdin.write input
+      end
+
+      def close_io(name)
+        fail ArgumentError, 'Only stdin stdout and stderr are allowed to close' unless %i(stdin stdout stderr).include? name
+
+        get_instance_variable(name.to_sym).close
+      end
+
       def terminate
         stop
       end
