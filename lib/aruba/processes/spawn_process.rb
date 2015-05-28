@@ -85,6 +85,15 @@ module Aruba
         stdout
       end
 
+      def write(input)
+        @process.io.stdin.write(input)
+        @process.io.stdin.flush
+      end
+
+      def close_io(name)
+        @process.io.public_send(name.to_sym).close
+      end
+
       def stop(reader)
         return @exit_code unless @process
 
