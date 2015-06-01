@@ -951,14 +951,12 @@ module Aruba
       Aruba.config.exit_timeout
     end
 
-    DEFAULT_IO_WAIT_SECONDS = 0.1
-
     # Default io wait timeout
     #
     # Overwrite this method if you want a different timeout or set
     # `@aruba_io_wait_seconds
     def io_wait
-      @aruba_io_wait_seconds || DEFAULT_IO_WAIT_SECONDS
+      Aruba.config.io_wait_timeout
     end
 
     # The root directory of aruba
