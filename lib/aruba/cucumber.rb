@@ -9,7 +9,7 @@ Given /the default aruba timeout is (\d+) seconds/ do |seconds|
 end
 
 Given /I use (?:a|the) fixture(?: named)? "([^"]*)"/ do |name|
-  copy File.join(Aruba::Api::FIXTURES_PATH_PREFIX, name), name
+  copy File.join(Aruba.config.fixtures_path_prefix, name), name
   cd name
 end
 

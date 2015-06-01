@@ -1,8 +1,9 @@
 module Aruba
   # Aruba Configuration
   class Configuration < BasicConfiguration
-    option_reader :root_directory, value: Dir.getwd
+    option_reader   :root_directory, contract: { None => String }, value: Dir.getwd
     option_accessor :current_directory, contract: { Array => Array }, default: %w(tmp aruba)
+    option_reader   :fixtures_path_prefix, contract: { None => String }, value: ?%
   end
 end
 

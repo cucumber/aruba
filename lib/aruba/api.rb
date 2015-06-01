@@ -44,7 +44,7 @@ module Aruba
       fail ArgumentError, message if file_name.nil? || file_name.empty?
       # rubocop:enable Style/RaiseArgs
 
-      if FIXTURES_PATH_PREFIX == file_name[0]
+      if Aruba.config.fixtures_path_prefix == file_name[0]
         File.join fixtures_directory, file_name[1..-1]
       else
         in_current_directory { File.expand_path file_name, dir_string }
@@ -287,7 +287,7 @@ module Aruba
         raise ArgumentError, %(The following source "#{s}" does not exist.) unless exist? s
       end
 
-      raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported" if destination.start_with? FIXTURES_PATH_PREFIX
+      raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported" if destination.start_with? Aruba.config.fixtures_path_prefix
       raise ArgumentError, "Multiples sources can only be copied to a directory" if source.count > 1 && exist?(destination) && !directory?(destination)
 
       source_paths     = source.map { |f| expand_path(f) }
@@ -967,9 +967,6 @@ module Aruba
     def root_directory
       Aruba.config.root_directory
     end
-
-    # Path prefix for fixtures
-    FIXTURES_PATH_PREFIX = ?%
 
     DEFAULT_FIXTURES_DIRECTORIES = %w(
       features/fixtures
