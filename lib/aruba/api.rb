@@ -931,7 +931,7 @@ module Aruba
 
       cmd = detect_ruby(cmd)
 
-      Aruba.configure.hooks.execute(:before_cmd, self, cmd)
+      Aruba.config.hooks.execute(:before_cmd, self, cmd)
 
       announcer.announce(:directory, Dir.pwd)
       announcer.announce(:command, cmd)

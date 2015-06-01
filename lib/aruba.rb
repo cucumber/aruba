@@ -20,6 +20,8 @@ require 'aruba/announcer'
 
 require 'aruba/spawn_process'
 
+require 'aruba/jruby'
+
 module Aruba
   class << self
     attr_accessor :process
