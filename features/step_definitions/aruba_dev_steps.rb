@@ -1,4 +1,6 @@
 When /^I do aruba (.*)$/ do |aruba_step|
+  @aruba_exception = StandardError.new
+
   begin
     step(aruba_step)
   rescue Exception => e
