@@ -12,7 +12,7 @@ Feature: before_cmd hooks
       require 'aruba/api'
       
       Aruba.configure do |config|
-        config.before_cmd do |cmd|
+        config.before :cmd do |cmd|
           puts "about to run `#{cmd}`"
         end
       end
@@ -36,7 +36,7 @@ Feature: before_cmd hooks
       require 'aruba/api'
 
       Aruba.configure do |config|
-        config.before_cmd do |cmd|
+        config.before :cmd do |cmd|
           puts "I can see @your_context=#{@your_context}"
         end
       end
