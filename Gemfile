@@ -24,6 +24,8 @@ group :development, :test do
   gem 'rubocop', '~> 0.31.0'
 
   gem 'license_finder', '~> 2.0.4'
+
+  gem 'relish'
 end
 
 platforms :rbx do
