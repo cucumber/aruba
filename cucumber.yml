@@ -1,7 +1,7 @@
 <%
 java_version = (RUBY_DESCRIPTION.match(/.*?on.*?(1\.[\d]\..*? )/))[1] if defined?(JRUBY_VERSION)
 
-std_opts          = "--color --exclude features/fixtures"
+std_opts          = "--color --exclude features/fixtures --require features"
 java_default_opts = "--tags ~@wip-jruby-java-1.6" if defined?(JRUBY_VERSION) && (java_version < '1.7.0')
 java_wip_opts     = "--tags @wip-jruby-java-1.6:3" if defined?(JRUBY_VERSION) && (java_version < '1.7.0')
 %>
