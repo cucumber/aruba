@@ -5,6 +5,7 @@ module Aruba
     option_accessor :current_directory, contract: { Array => Array }, default: %w(tmp aruba)
     option_reader   :fixtures_path_prefix, contract: { None => String }, value: ?%
     option_accessor :exit_timeout, contract: { Num => Num }, default: 3
+    option_accessor :io_wait_timeout, contract: { Num => Num }, default: 0.1
   end
 end
 
