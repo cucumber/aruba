@@ -10,6 +10,7 @@ require 'aruba/extensions/duplicable'
 require 'aruba/extensions/deep_dup'
 
 require 'aruba/errors'
+require 'aruba/hooks'
 require 'aruba/basic_configuration'
 require 'aruba/config_wrapper'
 require 'aruba/config'
