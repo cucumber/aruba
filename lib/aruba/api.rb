@@ -943,14 +943,12 @@ module Aruba
       block_given? ? yield(process) : process
     end
 
-    DEFAULT_TIMEOUT_SECONDS = 3
-
     # Default exit timeout for running commands with aruba
     #
     # Overwrite this method if you want a different timeout or set
     # `@aruba_timeout_seconds`.
     def exit_timeout
-      @aruba_timeout_seconds || DEFAULT_TIMEOUT_SECONDS
+      Aruba.config.exit_timeout
     end
 
     DEFAULT_IO_WAIT_SECONDS = 0.1
