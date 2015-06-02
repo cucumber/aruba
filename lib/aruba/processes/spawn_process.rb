@@ -7,7 +7,8 @@ require 'aruba/processes/basic_process'
 module Aruba
   module Processes
     class SpawnProcess < BasicProcess
-      attr_reader :exit_status
+      attr_reader :exit_status, :event_manager
+      private :event_manager
 
       # Create process
       #
@@ -22,15 +23,17 @@ module Aruba
       #
       # @params [String] working_directory
       #   The directory where the command will be executed
-      def initialize(cmd, exit_timeout, io_wait, working_directory)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, event_manager:)
         @exit_timeout = exit_timeout
         @io_wait      = io_wait
 
-        @cmd               = cmd
-        @process           = nil
-        @exit_status         = nil
-        @output_cache      = nil
-        @error_cache       = nil
+        @cmd           = cmd
+        @process       = nil
+        @exit_status     = nil
+        @output_cache  = nil
+        @error_cache   = nil
+
+        @event_manager = event_manager
 
         super
       end
@@ -57,6 +60,9 @@ module Aruba
         @process.io.stderr = @err
         @process.duplex    = @duplex
         @process.cwd       = @working_directory
+
+        event_manager.event event: :command_started, message: self
+        event_manager.event event: :command_stopped, message: self
 
         begin
           @process.start

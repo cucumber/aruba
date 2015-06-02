@@ -19,6 +19,9 @@ require 'aruba/announcer'
 require 'aruba/command_monitor'
 require 'aruba/runtime'
 
+require 'aruba/event'
+require 'aruba/event_queue'
+
 require 'aruba/utils'
 require 'aruba/spawn_process'
 
