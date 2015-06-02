@@ -56,7 +56,7 @@ module Aruba
 
     public
 
-    def initialize(_, options)
+    def initialize(_ = nil, options = {})
       @announcers = []
       @announcers << PutsAnnouncer.new
       @announcers << KernelPutsAnnouncer.new
