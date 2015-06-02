@@ -915,11 +915,15 @@ module Aruba
     # @param [Integer] timeout
     #   Timeout for execution
     def run_simple(cmd, fail_on_error = true, timeout = nil)
-      run(cmd, timeout) do |process|
+      command = run(cmd, timeout) do |process|
         stop_process(process)
+
+        process
       end
-      @timed_out = last_exit_status.nil?
-      assert_exit_status(0) if fail_on_error
+
+      @timed_out = command.exit_status.nil?
+
+      expect(command).to be_successfully_executed if fail_on_error
     end
 
     # Run a command interactively
