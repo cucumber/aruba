@@ -1,5 +1,5 @@
 module Aruba
-  class ProcessMonitor
+  class CommandMonitor
     private
 
     attr_reader :processes, :announcer
@@ -13,11 +13,11 @@ module Aruba
 
     def last_exit_status
       return @last_exit_status if @last_exit_status
-      stop_processes!
+      stop_commands
       @last_exit_status
     end
 
-    def stop_process(process)
+    def stop_command(process)
       @last_exit_status = process.stop(announcer)
     end
 
@@ -25,9 +25,9 @@ module Aruba
       process.terminate
     end
 
-    def stop_processes!
+    def stop_commands
       processes.each do |_, process|
-        stop_process(process)
+        stop_command(process)
       end
     end
 
@@ -35,7 +35,7 @@ module Aruba
     def terminate_processes
       processes.each do |_, process|
         terminate_process(process)
-        stop_process(process)
+        stop_command(process)
       end
     end
 
@@ -85,7 +85,7 @@ module Aruba
     # @return [String]
     #   The stdout of all process which have run before
     def all_stdout
-      stop_processes!
+      stop_commands
       only_processes.each_with_object("") { |ps, out| out << ps.stdout }
     end
 
@@ -94,7 +94,7 @@ module Aruba
     # @return [String]
     #   The stderr of all process which have run before
     def all_stderr
-      stop_processes!
+      stop_commands
       only_processes.each_with_object("") { |ps, out| out << ps.stderr }
     end
 

@@ -1064,7 +1064,7 @@ describe Aruba::Api  do
 
   describe 'tags' do
     describe '@announce_stdout' do
-      after(:each){@aruba.stop_processes!}
+      after(:each){@aruba.stop_commands}
       context 'enabled' do
         before :each do
           @aruba.send(:announcer).activate(:stdout)
@@ -1095,7 +1095,7 @@ describe Aruba::Api  do
 
   describe "#assert_not_matching_output" do
     before(:each){ @aruba.run_simple("echo foo", false) }
-    after(:each){ @aruba.stop_processes! }
+    after(:each){ @aruba.stop_commands }
 
     it "passes when the output doesn't match a regexp" do
       @aruba.assert_not_matching_output "bar", @aruba.all_output
@@ -1109,7 +1109,7 @@ describe Aruba::Api  do
 
   describe "#run_interactive" do
     before(:each){@aruba.run_interactive "cat"}
-    after(:each){@aruba.stop_processes!}
+    after(:each){@aruba.stop_commands}
     it "respond to input" do
       @aruba.type "Hello"
       @aruba.type ""
@@ -1132,7 +1132,7 @@ describe Aruba::Api  do
 
   describe "#run_simple" do
     before(:each){@aruba.run_simple "true"}
-    after(:each){@aruba.stop_processes!}
+    after(:each){@aruba.stop_commands}
     describe "get_process" do
       it "returns a process" do
         expect(@aruba.get_process("true")).not_to be(nil)
@@ -1188,7 +1188,7 @@ describe Aruba::Api  do
 
   describe "#set_env" do
     after(:each) do
-      @aruba.stop_processes!
+      @aruba.stop_commands
       @aruba.restore_env
     end
     it "set environment variable" do
@@ -1205,7 +1205,7 @@ describe Aruba::Api  do
   end
 
   describe "#restore_env" do
-    after(:each){@aruba.stop_processes!}
+    after(:each){@aruba.stop_commands}
     it "restores environment variable" do
       @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.restore_env

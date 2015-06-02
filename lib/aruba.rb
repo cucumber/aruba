@@ -16,7 +16,7 @@ require 'aruba/config_wrapper'
 require 'aruba/basic_configuration'
 require 'aruba/config'
 require 'aruba/announcer'
-require 'aruba/process_monitor'
+require 'aruba/command_monitor'
 require 'aruba/runtime'
 
 require 'aruba/utils'
