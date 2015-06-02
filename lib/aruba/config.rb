@@ -1,4 +1,7 @@
 module Aruba
+  # Aruba Configuration
+  class Configuration < BasicConfiguration
+    option_reader :root_directory, value: Dir.getwd
   end
 end
 

@@ -963,11 +963,9 @@ module Aruba
       @aruba_io_wait_seconds || DEFAULT_IO_WAIT_SECONDS
     end
 
-    DEFAULT_ROOT_DIRECTORY = Dir.getwd
-
     # The root directory of aruba
     def root_directory
-      @aruba_root_directory || DEFAULT_ROOT_DIRECTORY
+      Aruba.config.root_directory
     end
 
     # Path prefix for fixtures
