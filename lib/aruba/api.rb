@@ -6,6 +6,7 @@ module Aruba
   module Api
     include RSpec::Matchers
     include Aruba::Utils
+    include Aruba::Api::Core
 
     # Expand file name
     #
@@ -44,7 +45,7 @@ module Aruba
       fail ArgumentError, message if file_name.nil? || file_name.empty?
       # rubocop:enable Style/RaiseArgs
 
-      if Aruba.config.fixtures_path_prefix == file_name[0]
+      if aruba.config.fixtures_path_prefix == file_name[0]
         File.join fixtures_directory, file_name[1..-1]
       else
         in_current_directory { File.expand_path file_name, dir_string }
@@ -287,7 +288,7 @@ module Aruba
         raise ArgumentError, %(The following source "#{s}" does not exist.) unless exist? s
       end
 
-      raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported" if destination.start_with? Aruba.config.fixtures_path_prefix
+      raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported" if destination.start_with? aruba.config.fixtures_path_prefix
       raise ArgumentError, "Multiples sources can only be copied to a directory" if source.count > 1 && exist?(destination) && !directory?(destination)
 
       source_paths     = source.map { |f| expand_path(f) }
@@ -931,7 +932,7 @@ module Aruba
 
       cmd = detect_ruby(cmd)
 
-      Aruba.config.hooks.execute(:before_cmd, self, cmd)
+      aruba.config.hooks.execute(:before_cmd, self, cmd)
 
       announcer.announce(:directory, Dir.pwd)
       announcer.announce(:command, cmd)
@@ -948,7 +949,7 @@ module Aruba
     # Overwrite this method if you want a different timeout or set
     # `@aruba_timeout_seconds`.
     def exit_timeout
-      Aruba.config.exit_timeout
+      aruba.config.exit_timeout
     end
 
     # Default io wait timeout
@@ -956,12 +957,12 @@ module Aruba
     # Overwrite this method if you want a different timeout or set
     # `@aruba_io_wait_seconds
     def io_wait
-      Aruba.config.io_wait_timeout
+      aruba.config.io_wait_timeout
     end
 
     # The root directory of aruba
     def root_directory
-      Aruba.config.root_directory
+      aruba.config.root_directory
     end
 
     # The path to the directory which contains fixtures
@@ -971,7 +972,7 @@ module Aruba
     #   The directory to where your fixtures are stored
     def fixtures_directory
       unless @fixtures_directory
-        candidates = Aruba.config.fixtures_directories.map { |dir| File.join(root_directory, dir) }
+        candidates = aruba.config.fixtures_directories.map { |dir| File.join(root_directory, dir) }
         @fixtures_directory = candidates.find { |dir| File.directory? dir }
         raise "No fixtures directories are found" unless @fixtures_directory
       end

@@ -11,16 +11,20 @@ require 'aruba/extensions/string/strip'
 
 require 'aruba/errors'
 require 'aruba/hooks'
+
 require 'aruba/basic_configuration'
 require 'aruba/config_wrapper'
 require 'aruba/config'
-require 'aruba/process_monitor'
-require 'aruba/utils'
 require 'aruba/announcer'
+require 'aruba/process_monitor'
+require 'aruba/runtime'
 
+require 'aruba/utils'
 require 'aruba/spawn_process'
 
 require 'aruba/jruby'
+
+require 'aruba/api/core'
 
 module Aruba
   class << self
