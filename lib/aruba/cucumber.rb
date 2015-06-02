@@ -379,7 +379,3 @@ end
 Then /^the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)"$/ do |file, expect_match, mode|
   check_filesystem_permissions(mode, file, !expect_match)
 end
-
-Before '@mocked_home_directory' do
-  set_env 'HOME', expand_path('.')
-end
