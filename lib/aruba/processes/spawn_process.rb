@@ -7,6 +7,8 @@ require 'aruba/processes/basic_process'
 module Aruba
   module Processes
     class SpawnProcess < BasicProcess
+      attr_reader :exit_status
+
       # Create process
       #
       # @params [String] cmd
@@ -26,11 +28,16 @@ module Aruba
 
         @cmd               = cmd
         @process           = nil
-        @exit_code         = nil
+        @exit_status         = nil
         @output_cache      = nil
         @error_cache       = nil
 
         super
+      end
+
+      # Return command line
+      def commandline
+        @cmd
       end
 
       # Run the command
@@ -41,7 +48,7 @@ module Aruba
         @process   = ChildProcess.build(*Shellwords.split(@cmd))
         @out       = Tempfile.new("aruba-out")
         @err       = Tempfile.new("aruba-err")
-        @exit_code = nil
+        @exit_status = nil
         @duplex    = true
 
         before_run
@@ -95,11 +102,13 @@ module Aruba
       end
 
       def stop(reader)
-        return @exit_code unless @process
+        @stopped = true
+
+        return @exit_status unless @process
 
         @process.poll_for_exit(@exit_timeout) unless @process.exited?
 
-        @exit_code = @process.exit_code
+        @exit_status = @process.exit_code
         @process   = nil
 
         close_and_cache_out
@@ -110,7 +119,7 @@ module Aruba
           reader.stderr stderr
         end
 
-        @exit_code
+        @exit_status
       end
 
       def terminate

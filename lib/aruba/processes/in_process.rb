@@ -5,6 +5,8 @@ require 'aruba/processes/basic_process'
 module Aruba
   module Processes
     class InProcess < BasicProcess
+      attr_reader :exit_status
+
       class FakeKernel
         attr_reader :exitstatus
 
@@ -32,6 +34,11 @@ module Aruba
         super
       end
 
+      # Return the commandline
+      def commandline
+        self.class.main_class.to_s + @argv.join(" ")
+      end
+
       def run!
         raise "You need to call Aruba::InProcess.main_class = YourMainClass" unless self.class.main_class
 
@@ -45,7 +52,8 @@ module Aruba
       end
 
       def stop(reader)
-        @kernel.exitstatus
+        @stopped     = true
+        @exit_status = @kernel.exitstatus
       end
 
       def stdin

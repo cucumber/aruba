@@ -16,11 +16,19 @@ module Aruba
     # @params [String] working_directory
     #   The directory where the command will be executed
     class DebugProcess < BasicProcess
+      attr_reader :exit_status
+
       # @see SpawnProcess
       def initialize(cmd, _exit_timeout, _io_wait, working_directory)
-        @cmd = cmd
+        @cmd               = cmd
+        @working_directory = working_directory
 
         super
+      end
+
+      # Return command line
+      def commandline
+        @cmd
       end
 
       def run!
@@ -38,6 +46,8 @@ module Aruba
       end
 
       def stop(_reader)
+        @stopped = true
+
         @exit_status
       end
 

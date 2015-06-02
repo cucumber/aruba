@@ -10,6 +10,11 @@ module Aruba
         stdout + stderr
       end
 
+      # Was process already stopped
+      def stopped?
+        @stopped == true
+      end
+
       # Hook which is run before command is run
       def before_run; end
 
