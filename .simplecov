@@ -4,6 +4,8 @@ SimpleCov.start unless ENV.key? 'ARUBA_NO_COVERAGE'
 SimpleCov.configure do
   # ignore this file
   add_filter '.simplecov'
+  add_filter 'spec'
+  add_filter 'features'
 
   # Rake tasks aren't tested with rspec
   add_filter 'Rakefile'
