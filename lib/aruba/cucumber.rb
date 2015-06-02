@@ -97,6 +97,15 @@ Given /^I set the environment variables to:/ do |table|
   end
 end
 
+Given /^I append the value to the environment variable:/ do |table|
+  table.hashes.each do |row|
+    variable = row['variable'].to_s.upcase
+    value = row['value'].to_s + row['value'].to_s
+
+    set_env(variable, value)
+  end
+end
+
 When /^I run "(.*)"$/ do |cmd|
   warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
   run_simple(unescape(cmd), false)
@@ -119,11 +128,11 @@ end
 
 When /^I run "([^"]*)" interactively$/ do |cmd|
   warn(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-  run_interactive(unescape(cmd))
+  step %(I run `#{cmd}` interactively)
 end
 
 When /^I run `([^`]*)` interactively$/ do |cmd|
-  run_interactive(unescape(cmd))
+  run(unescape(cmd))
 end
 
 When /^I type "([^"]*)"$/ do |input|
@@ -368,8 +377,4 @@ end
 
 Before '@mocked_home_directory' do
   set_env 'HOME', expand_path('.')
-end
-
-After do
-  restore_env
 end

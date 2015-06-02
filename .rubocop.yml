@@ -161,3 +161,6 @@ Style/StringLiterals:
 # Configuration parameters: ExactNameMatch, AllowPredicates, AllowDSLWriters, Whitelist.
 Style/TrivialAccessors:
   Enabled: false
+
+Style/RaiseArgs:
+  Enabled: false

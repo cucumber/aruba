@@ -1,4 +1,4 @@
-module SpecHelper
+module SpecHelpers
   module Reporting
     # Captures the given stream and returns it:
     #
@@ -18,9 +18,11 @@ module SpecHelper
     def capture(stream)
       stream = stream.to_s
       captured_stream = Tempfile.new(stream)
+
       # rubocop:disable Lint/Eval
       stream_io = eval("$#{stream}")
       # rubocop:enable Lint/Eval
+
       origin_stream = stream_io.dup
       stream_io.reopen(captured_stream)
 
@@ -38,5 +40,5 @@ module SpecHelper
 end
 
 RSpec.configure do |config|
-  config.include SpecHelper::Reporting
+  config.include SpecHelpers::Reporting
 end
