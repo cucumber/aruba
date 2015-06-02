@@ -442,7 +442,7 @@ module Aruba
       file_name = expand_path(file_name)
 
       File.open(file_name, 'r').each_line do |line|
-        last_process.write(line)
+        last_command.write(line)
       end
     end
 
@@ -708,7 +708,7 @@ module Aruba
     # @return [TrueClass, FalseClass]
     #   If output of interactive command includes arg1 return true, otherwise false
     def assert_partial_output_interactive(expected)
-      unescape(last_process.stdout).include?(unescape(expected)) ? true : false
+      unescape(last_command.stdout).include?(unescape(expected)) ? true : false
     end
 
     # Check if command succeeded and if arg1 is included in output
@@ -756,13 +756,16 @@ module Aruba
     #   If arg1 is true, return true if command was successful
     #   If arg1 is false, return true if command failed
     def assert_success(success)
-      success ? assert_exit_status(0) : assert_not_exit_status(0)
+      if success
+        expect(last_command).to be_successfully_executed
+      else
+        expect(last_command).not_to be_successfully_executed
+      end
     end
 
     # @private
     def assert_exit_status(status)
-      expect(last_exit_status).to eq(status),
-        append_output_to("Exit status was #{last_exit_status} but expected it to be #{status}.")
+      expect(last_command).to have_exit_status(status)
     end
 
     # @private
@@ -797,7 +800,7 @@ module Aruba
     end
 
     # @private
-    def last_process
+    def last_command
       processes.last[1]
     end
 
@@ -939,12 +942,12 @@ module Aruba
     #   The input for the command
     def type(input)
       return close_input if "" == input
-      last_process.write(_ensure_newline(input))
+      last_command.write(_ensure_newline(input))
     end
 
     # Close stdin
     def close_input
-      last_process.close_io(:stdin)
+      last_command.close_io(:stdin)
     end
 
     # @deprecated
@@ -958,14 +961,14 @@ module Aruba
     def _write_interactive(input)
       warn('The use of "_write_interactive" is deprecated. It will be removed soon.')
 
-      last_process.write(input)
+      last_command.write(input)
     end
 
     # @private
     def _read_interactive
       warn('The use of "_read_interactive" is deprecated. It will be removed soon.')
 
-      last_process.stdout
+      last_command.stdout
     end
 
     # @private
