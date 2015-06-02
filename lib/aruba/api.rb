@@ -964,12 +964,6 @@ module Aruba
       Aruba.config.root_directory
     end
 
-    DEFAULT_FIXTURES_DIRECTORIES = %w(
-      features/fixtures
-      spec/fixtures
-      test/fixtures
-    )
-
     # The path to the directory which contains fixtures
     # You might want to overwrite this method to place your data else where.
     #
@@ -977,7 +971,7 @@ module Aruba
     #   The directory to where your fixtures are stored
     def fixtures_directory
       unless @fixtures_directory
-        candidates = DEFAULT_FIXTURES_DIRECTORIES.map { |dir| File.join(root_directory, dir) }
+        candidates = Aruba.config.fixtures_directories.map { |dir| File.join(root_directory, dir) }
         @fixtures_directory = candidates.find { |dir| File.directory? dir }
         raise "No fixtures directories are found" unless @fixtures_directory
       end
