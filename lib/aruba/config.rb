@@ -1,43 +1,31 @@
 module Aruba
-  class Config
-    attr_reader :hooks
-
-    def initialize
-      @hooks = Hooks.new
-    end
-
-    # Register a hook to be called before Aruba runs a command
-    def before_cmd(&block)
-      @hooks.append(:before_cmd, block)
-    end
   end
+end
 
-  #nodoc
-  class Hooks
-    def initialize
-      @store = Hash.new do |hash, key|
-        hash[key] = []
-      end
-    end
-
-    def append(label, block)
-      @store[label] << block
-    end
-
-    def execute(label, context, *args)
-      @store[label].each do |block|
-        context.instance_exec(*args, &block)
-      end
-    end
-  end
+# Main Module
+module Aruba
+  @config = Configuration.new
 
   class << self
-    attr_accessor :config
+    attr_reader :config
 
-    def configure
-      yield config
+    def configure(&block)
+      @config.configure(&block)
+
+      self
     end
   end
+end
 
-  self.config = Config.new
+module Aruba
+  # Old Config
+  #
+  # @private
+  class Config < Configuration
+    def initialize(*args)
+      warn('The use of "Aruba::Config" is deprecated. Use "Aruba::Configuration" instead.')
+
+      super
+    end
+  end
 end

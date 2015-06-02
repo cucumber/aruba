@@ -1,14 +1,4 @@
-require 'fileutils'
-require 'rbconfig'
-require 'rspec/expectations'
 require 'aruba'
-require 'aruba/config'
-require 'aruba/errors'
-require 'aruba/process_monitor'
-require 'aruba/utils'
-require 'aruba/announcer'
-require 'ostruct'
-require 'pathname'
 
 Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).each { |rb| require rb }
 

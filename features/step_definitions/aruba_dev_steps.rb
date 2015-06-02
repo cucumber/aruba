@@ -26,3 +26,17 @@ end
 Then /^the output should be (\d+) bytes long$/ do |length|
   expect(all_output.length).to eq length.to_i
 end
+
+Given(/^the default feature-test$/) do
+  step(
+    'a file named "features/default.feature" with:',
+    <<-EOS.strip_heredoc
+    Feature: Default Feature
+
+      This is the default feature
+
+      Scenario: Run command
+        Given I successfully run `cli`
+    EOS
+  )
+end
