@@ -217,7 +217,7 @@ module Aruba
     # @return [Array]
     #   The directory path: Each subdirectory is a member of an array
     def dirs
-      @dirs ||= %w(tmp aruba)
+      @dirs ||= Aruba.config.current_directory
     end
 
     # Create a file with given content
