@@ -60,3 +60,7 @@ After do
   restore_env
   process_monitor.clear
 end
+
+Before '@mocked_home_directory' do
+  set_env 'HOME', expand_path('.')
+end
