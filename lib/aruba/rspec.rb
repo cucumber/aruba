@@ -1,4 +1,6 @@
 require 'rspec/core'
+
+require 'aruba'
 require 'aruba/api'
 require 'aruba/reporting'
 
@@ -6,10 +8,16 @@ RSpec.configure do |config|
   config.include Aruba::Api, type: :aruba
 
   config.before :each do
-    next unless self.class.include?(Aruba::Api)
+    next unless self.class.include? Aruba::Api
 
     restore_env
     clean_current_directory
+  end
+
+  config.before :each do |example|
+    next unless self.class.include? Aruba::Api
+
+    example.metadata.each { |k, v| aruba.config.set_if_option(k, v) }
   end
 
   # config.before do

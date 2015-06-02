@@ -16,6 +16,17 @@ module Aruba
       def value
         @value.deep_dup
       end
+
+      def deep_dup
+        obj = self.dup
+        obj.value = value
+
+        obj
+      end
+
+      def ==(other)
+        name == other.name && value == other.value
+      end
     end
 
     class << self
@@ -56,8 +67,12 @@ module Aruba
       end
     end
 
-    attr_reader :local_options
-    private :local_options
+    protected
+
+    attr_accessor :local_options
+    attr_writer :hooks
+
+    public
 
     attr_reader :hooks
 
@@ -77,6 +92,14 @@ module Aruba
       initialize_configuration
     end
 
+    def deep_dup
+      obj = self.dup
+      obj.local_options = local_options.deep_dup
+      obj.hooks         = hooks.deep_dup
+
+      obj
+    end
+
     def before(name, &block)
       hooks.append('before_' + name.to_s, block)
     end
@@ -87,6 +110,10 @@ module Aruba
 
     def option?(name)
       local_options.any? { |_, v| v.name == name }
+    end
+
+    def ==(other)
+      local_options.values.map(&:value) == other.local_options.values.map(&:value)
     end
 
     # Set if name is option

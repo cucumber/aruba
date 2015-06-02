@@ -1147,7 +1147,7 @@ describe Aruba::Api  do
   end
 
   describe 'fixtures' do
-    let(:aruba) do
+    let(:api) do
       klass = Class.new do
         include Aruba::Api
 
@@ -1162,26 +1162,26 @@ describe Aruba::Api  do
     describe '#fixtures_directory' do
       context 'when no fixtures directories exist' do
         it "should raise exception" do
-          expect { aruba.fixtures_directory }.to raise_error
+          expect { api.fixtures_directory }.to raise_error
         end
       end
 
       context 'when "/features/fixtures"-directory exist' do
-        before(:each) { aruba.create_directory('features/fixtures') }
+        before(:each) { api.create_directory('features/fixtures') }
 
-        it { expect(aruba.fixtures_directory).to eq expand_path('features/fixtures') }
+        it { expect(api.fixtures_directory).to eq expand_path('features/fixtures') }
       end
 
       context 'when "/spec/fixtures"-directory exist' do
-        before(:each) { aruba.create_directory('spec/fixtures') }
+        before(:each) { api.create_directory('spec/fixtures') }
 
-        it { expect(aruba.fixtures_directory).to eq expand_path('spec/fixtures') }
+        it { expect(api.fixtures_directory).to eq expand_path('spec/fixtures') }
       end
 
       context 'when "/test/fixtures"-directory exist' do
-        before(:each) { aruba.create_directory('test/fixtures') }
+        before(:each) { api.create_directory('test/fixtures') }
 
-        it { expect(aruba.fixtures_directory).to eq expand_path('test/fixtures') }
+        it { expect(api.fixtures_directory).to eq expand_path('test/fixtures') }
       end
     end
   end
