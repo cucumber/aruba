@@ -18,7 +18,7 @@ module Aruba
       event_queue.register :command_stopped, announcer
       event_queue.register :add_environment_variable, announcer
       event_queue.register :switched_working_directory, announcer
-      event_queue.register :switched_working_directory, command_monitor
+#      event_queue.register :switched_working_directory, command_monitor
     end
   end
 end

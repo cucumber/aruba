@@ -6,9 +6,9 @@ require 'aruba/processes/basic_process'
 
 module Aruba
   module Processes
+    # rubocop:disable Metrics/ClassLength
     class SpawnProcess < BasicProcess
-      attr_reader :exit_status, :event_manager
-      private :event_manager
+      attr_reader :exit_status
 
       # Create process
       #
@@ -23,17 +23,15 @@ module Aruba
       #
       # @params [String] working_directory
       #   The directory where the command will be executed
-      def initialize(cmd, exit_timeout, io_wait, working_directory, event_manager:)
-        @exit_timeout = exit_timeout
-        @io_wait      = io_wait
+      def initialize(cmd, exit_timeout, io_wait, working_directory)
 
+        @exit_timeout  = exit_timeout
+        @io_wait       = io_wait
         @cmd           = cmd
         @process       = nil
-        @exit_status     = nil
+        @exit_status   = nil
         @output_cache  = nil
         @error_cache   = nil
-
-        @event_manager = event_manager
 
         super
       end
@@ -47,6 +45,7 @@ module Aruba
       #
       # @yield [SpawnProcess]
       #   Run code for process which was started
+      # rubocop:disable Metrics/MethodLength
       def run!
         @process   = ChildProcess.build(*Shellwords.split(@cmd))
         @out       = Tempfile.new("aruba-out")
@@ -61,9 +60,6 @@ module Aruba
         @process.duplex    = @duplex
         @process.cwd       = @working_directory
 
-        event_manager.event event: :command_started, message: self
-        event_manager.event event: :command_stopped, message: self
-
         begin
           @process.start
         rescue ChildProcess::LaunchError => e
@@ -74,6 +70,7 @@ module Aruba
 
         yield self if block_given?
       end
+      # rubocop:enable Metrics/MethodLength
 
       def stdin
         @process.io.stdin
@@ -161,5 +158,6 @@ module Aruba
         @err = nil
       end
     end
+    # rubocop:enable Metrics/ClassLength
   end
 end

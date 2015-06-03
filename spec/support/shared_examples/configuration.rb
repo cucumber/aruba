@@ -12,9 +12,9 @@ RSpec.shared_examples 'a basic configuration' do
 
     subject(:config) { config_klass.new }
 
-      before :each do
-        config_klass.option_reader :new_opt, contract: { Contracts::Num => Contracts::Num }, default: 1
-      end
+    before :each do
+      config_klass.option_reader :new_opt, contract: { Contracts::Num => Contracts::Num }, default: 1
+    end
 
     context 'when value is read' do
       it { expect(config.new_opt).to eq 1 }

@@ -34,7 +34,8 @@ module Aruba
         @known_options ||= {}
       end
 
-      def option_reader(name, contract:, default: nil)
+      def option_reader(name, contract: nil, default: nil)
+        fail ArgumentError, 'contract is required' if contract.nil?
         fail ArgumentError, 'Either use block or default value' if block_given? && default
 
         Contract contract
@@ -45,7 +46,8 @@ module Aruba
         self
       end
 
-      def option_accessor(name, contract:, default: nil)
+      def option_accessor(name, contract: nil, default: nil)
+        fail ArgumentError, 'contract is required' if contract.nil?
         fail ArgumentError, 'Either use block or default value' if block_given? && default
         fail ArgumentError, 'Either use block or default value' if !block_given? && default.nil? && default.empty?
 

@@ -815,7 +815,7 @@ module Aruba
     end
 
     def command_monitor
-      @command_monitor ||= CommandMonitor.new(announcer)
+      @command_monitor ||= CommandMonitor.new(event_queue: aruba.event_queue)
     end
 
     # @private
@@ -871,13 +871,9 @@ module Aruba
       cmd = detect_ruby(cmd)
 
       aruba.config.hooks.execute(:before_cmd, self, cmd)
+      aruba.event_queue.notify :switched_working_directory, Dir.pwd
 
-      announcer.announce(:directory, Dir.pwd)
-      announcer.announce(:command, cmd)
-
-      process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'))
-      aruba.command_monitor.register_process(cmd, process)
-      process.run!
+      process = aruba.command_monitor.start_command(cmd, timeout, io_wait, expand_path('.'))
 
       block_given? ? yield(process) : process
     end
@@ -1045,7 +1041,8 @@ module Aruba
     # @param [String] value
     #   The value of the environment variable. Needs to be a string.
     def set_env(key, value)
-      announcer.announce(:environment, key, value)
+      aruba.event_queue.notify :changed_environment, { key: value }
+
       original_env[key] = ENV.delete(key) unless original_env.key? key
       ENV[key] = value
     end
@@ -1102,7 +1099,7 @@ module Aruba
     private
 
     def last_exit_status
-      aruba.command_monitor.last_exit_status
+      aruba.command_monitor.last_command.exit_status
     end
 
     def stop_command(process)
