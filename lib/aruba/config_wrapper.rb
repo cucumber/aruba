@@ -4,7 +4,7 @@ module Aruba
     private :config
 
     def initialize(config)
-      @config = config.freeze
+      @config = config.dup
     end
 
     def method_missing(name, *args)

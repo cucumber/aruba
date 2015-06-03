@@ -1,9 +1,9 @@
 module Aruba
   # Aruba Configuration
   class Configuration < BasicConfiguration
-    option_reader   :root_directory, contract: { None => String }, value: Dir.getwd
+    option_reader   :root_directory, contract: { None => String }, default: Dir.getwd
     option_accessor :current_directory, contract: { Array => Array }, default: %w(tmp aruba)
-    option_reader   :fixtures_path_prefix, contract: { None => String }, value: ?%
+    option_reader   :fixtures_path_prefix, contract: { None => String }, default: ?%
     option_accessor :exit_timeout, contract: { Num => Num }, default: 3
     option_accessor :io_wait_timeout, contract: { Num => Num }, default: 0.1
     option_accessor :fixtures_directories, contract: { Array => ArrayOf[String] }, default: %w(features/fixtures spec/fixtures test/fixtures)
