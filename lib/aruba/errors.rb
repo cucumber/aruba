@@ -7,4 +7,7 @@ module Aruba
 
   # Raised on launch error
   class LaunchError < Error; end
+
+  # Raised if one tries to use an unknown configuration option
+  class UnknownOptionError < ArgumentError; end
 end
