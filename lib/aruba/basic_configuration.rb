@@ -34,20 +34,23 @@ module Aruba
         @known_options ||= {}
       end
 
-      def option_reader(name, contract:, value: nil)
+      def option_reader(name, contract:, default: nil)
+        fail ArgumentError, 'Either use block or default value' if block_given? && default
+
         Contract contract
-        add_option(name, value)
+        add_option(name, block_given? ? yield(ConfigWrapper.new(known_options)) : default)
 
         define_method(name) { find_option(name).value }
 
         self
       end
 
-      def option_accessor(name, contract:, default:, &block)
+      def option_accessor(name, contract:, default: nil)
         fail ArgumentError, 'Either use block or default value' if block_given? && default
+        fail ArgumentError, 'Either use block or default value' if !block_given? && default.nil? && default.empty?
 
         # Add writer
-        add_option(name, block_given? ? block.call(ConfigWrappter.new(options)) : default)
+        add_option(name, block_given? ? yield(ConfigWrapper.new(known_options)) : default)
 
         Contract contract
         define_method("#{name}=") { |v| find_option(name).value = v }
