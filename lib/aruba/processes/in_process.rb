@@ -73,7 +73,7 @@ module Aruba
       end
 
       def close_io(name)
-        fail ArgumentError, 'Only stdin stdout and stderr are allowed to close' unless %i(stdin stdout stderr).include? name
+        fail ArgumentError, 'Only stdin stdout and stderr are allowed to close' unless [:stdin, :stdout, :stderr].include? name
 
         get_instance_variable(name.to_sym).close
       end
