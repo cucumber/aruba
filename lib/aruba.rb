@@ -23,7 +23,11 @@ require 'aruba/event'
 require 'aruba/event_queue'
 
 require 'aruba/utils'
-require 'aruba/spawn_process'
+require 'aruba/processes/spawn_process'
+require 'aruba/processes/in_process'
+require 'aruba/processes/debug_process'
+
+require 'aruba/aruba_command'
 
 require 'aruba/jruby'
 

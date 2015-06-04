@@ -665,26 +665,26 @@ module Aruba
       aruba.command_monitor.stderr_from(cmd)
     end
 
-    # Get stdout of all processes
+    # Get stdout of all commands
     #
     # @return [String]
-    #   The stdout of all process which have run before
+    #   The stdout of all command which have run before
     def all_stdout
       aruba.command_monitor.all_stdout
     end
 
-    # Get stderr of all processes
+    # Get stderr of all commands
     #
     # @return [String]
-    #   The stderr of all process which have run before
+    #   The stderr of all command which have run before
     def all_stderr
       aruba.command_monitor.all_stderr
     end
 
-    # Get stderr and stdout of all processes
+    # Get stderr and stdout of all commands
     #
     # @return [String]
-    #   The stderr and stdout of all process which have run before
+    #   The stderr and stdout of all command which have run before
     def all_output
       aruba.command_monitor.all_output
     end
@@ -785,7 +785,7 @@ module Aruba
       end
     end
 
-    # Check exit status of process
+    # Check exit status of command
     #
     # @return [TrueClass, FalseClass]
     #   If arg1 is true, return true if command was successful
@@ -819,8 +819,8 @@ module Aruba
     end
 
     # @private
-    def processes
-      aruba.command_monitor.send(:processes)
+    def commands
+      aruba.command_monitor.send(:commands)
     end
 
     # @private
@@ -828,29 +828,45 @@ module Aruba
       aruba.command_monitor.stop_commands
     end
 
-    # Terminate all running processes
-    def terminate_processes!
-      aruba.command_monitor.terminate_processes!
+    # Terminate all running commands
+    def terminate_commands!
+      warn('The use of "terminate_commands!" is deprecated. Please use "#terminate_commands" instead.')
+
+      terminate_commands
     end
 
-    # @private
+    # Terminate all running commands
+    def terminate_commands
+      aruba.command_monitor.terminate_commands
+    end
+
+    # Return the last command which was started
+    #
+    # @return [Command]
+    #   The command
     def last_command
-      processes.last[1]
+      aruba.command_monitor.last_command
     end
 
     # @private
-    def register_process(*args)
-      aruba.command_monitor.register_process(*args)
+    # @deprecated
+    def register_process(name, command)
+      warn('The use of "register_processs" is deprecated. It will be removed soon. There\'s no need to register a command anymore. To start a command use "aruba.command_monitor.start_command()". This starts and registers the command for you.')
+
+      aruba.command_monitor.send(:register_command, command)
     end
 
     # @private
-    def get_process(wanted)
-      aruba.command_monitor.get_process(wanted)
+    # @deprecated
+    def get_command(wanted)
+      warn('The use of "get_command" is deprecated. It will be removed soon. To find a command use "aruba.command_monitor.find()". But be aware that this uses the commandline of the process.')
+      aruba.command_monitor.get_command(wanted)
     end
 
     # @private
-    def only_processes
-      aruba.command_monitor.only_processes
+    # @deprecated
+    def only_commands
+      aruba.command_monitor.only_commands
     end
 
     # Run given command and stop it if timeout is reached
@@ -862,7 +878,7 @@ module Aruba
     #   If the timeout is reached the command will be killed
     #
     # @yield [SpawnProcess]
-    #   Run block with process
+    #   Run block with command
     def run(cmd, timeout = nil)
       timeout ||= exit_timeout
       @commands ||= []
@@ -873,9 +889,9 @@ module Aruba
       aruba.config.hooks.execute(:before_cmd, self, cmd)
       aruba.event_queue.notify :switched_working_directory, Dir.pwd
 
-      process = aruba.command_monitor.start_command(cmd, timeout, io_wait, expand_path('.'))
+      command = aruba.command_monitor.start_command(cmd, timeout, io_wait, expand_path('.'))
 
-      block_given? ? yield(process) : process
+      block_given? ? yield(command) : command
     end
 
     # Default exit timeout for running commands with aruba
@@ -928,10 +944,10 @@ module Aruba
     # @param [Integer] timeout
     #   Timeout for execution
     def run_simple(cmd, fail_on_error = true, timeout = nil)
-      command = run(cmd, timeout) do |process|
-        aruba.command_monitor.stop_command(process)
+      command = run(cmd, timeout) do |command|
+        aruba.command_monitor.stop_command(command)
 
-        process
+        command
       end
 
       @timed_out = command.exit_status.nil?
@@ -1047,7 +1063,7 @@ module Aruba
       ENV[key] = value
     end
 
-    # Restore original process environment
+    # Restore original command environment
     def restore_env
       original_env.each do |key, value|
         if value
@@ -1102,12 +1118,12 @@ module Aruba
       aruba.command_monitor.last_command.exit_status
     end
 
-    def stop_command(process)
-      aruba.command_monitor.stop_command(process)
+    def stop_command(command)
+      aruba.command_monitor.find(command.commandline).stop
     end
 
-    def terminate_process(process)
-      aruba.command_monitor.terminate_process(process)
+    def terminate_command(command)
+      aruba.command_monitor.find(command.commandline).terminate
     end
   end
 end

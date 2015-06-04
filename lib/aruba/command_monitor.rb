@@ -2,15 +2,17 @@ module Aruba
   class CommandMonitor
     private
 
-    attr_reader :commands, :event_manager
+    attr_reader :event_queue
 
     public
 
-    def initialize(event_manager: nil)
-      fail ArgumentError, 'event_manager is required' if event_manager.nil?
+    attr_reader :commands
+
+    def initialize(event_queue: nil)
+      fail ArgumentError, 'event_queue is required' if event_queue.nil?
 
       @commands = []
-      @event_manager = event_manager
+      @event_queue = event_queue
     end
 
     def last_exit_status
@@ -19,53 +21,70 @@ module Aruba
       @last_exit_status
     end
 
-    def start_command(cmd, timeout, io_wait, working_directory)
-      event_manager.notify :command_started, cmd
+    # The last started command
+    def last_command
+      commands.last
+    end
 
-      command = Aruba.process.new(cmd, timeout, io_wait, working_directory)
+    # Start given command
+    #
+    # @param [String] cmd
+    #   The commandline of the command
+    # @param [Numeric] timeout
+    #   The time to wait for the command to stop
+    def start_command(cmd, timeout, io_wait, working_directory)
+      command = ArubaCommand.new(Aruba.process.new(cmd, timeout, io_wait, working_directory), event_queue)
       register_command(command)
       command.start
 
       command
     end
 
+    # Stop given command
+    #
+    # @param [String] cmd
+    #   The commandline of the command
     def stop_command(cmd)
-      event_manager.notify :command_stopped, cmd
-
       find(cmd) { |c| c.stop }
     end
 
+    # Terminate given command
+    #
+    # @param [String] cmd
+    #   The commandline of the command
     def terminate_command(cmd)
-      event_manager.notify :command_stopped, cmd
-
       find(cmd) { |c| c.terminate }
     end
 
+    # Find command
+    #
+    # @yield [Command]
+    #   This yields the found command
     def find(cmd)
+      cmd = cmd.commandline if cmd.is_a? ArubaCommand
       command = commands.find { |c| c.commandline == cmd }
 
-      fail ArgumentError "No command named '#{cmd}' has been started" if command.nil?
+      fail ArgumentError, "No command named '#{cmd}' has been started" if command.nil?
 
       yield(command)
     end
 
+    # Stop all known commands
     def stop_commands
       commands.each do |c|
-        event_manager.notify :command_stopped, c.commandline
         c.stop
       end
+
+      self
     end
 
     # Terminate all running commands
     def terminate_commands
       commands.each do |c|
-        event_manager.notify :command_stopped, c.commandline
         c.terminate
       end
-    end
 
-    def register_command(cmd)
-      commands << cmd
+      self
     end
 
     # Fetch output (stdout, stderr) from command
@@ -121,8 +140,20 @@ module Aruba
       all_stdout << all_stderr
     end
 
+    # Clear list of known commands
     def clear
+      stop_commands
       commands.clear
+
+      self
     end
+
+    private
+
+    # Register
+    def register_command(cmd)
+      commands << cmd
+    end
+
   end
 end

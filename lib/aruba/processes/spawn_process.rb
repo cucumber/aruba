@@ -37,6 +37,9 @@ module Aruba
       end
 
       # Return command line
+      #
+      # @return [String]
+      #   The command line of process
       def commandline
         @cmd
       end
@@ -46,7 +49,7 @@ module Aruba
       # @yield [SpawnProcess]
       #   Run code for process which was started
       # rubocop:disable Metrics/MethodLength
-      def run!
+      def start
         @process   = ChildProcess.build(*Shellwords.split(@cmd))
         @out       = Tempfile.new("aruba-out")
         @err       = Tempfile.new("aruba-err")
@@ -69,42 +72,89 @@ module Aruba
         after_run
 
         yield self if block_given?
+
+        self
       end
+      alias_method :run!, :start
       # rubocop:enable Metrics/MethodLength
 
+      # Make stdin avaiable
       def stdin
         @process.io.stdin
       end
 
-      def stdout
-        wait_for_io do
+      # Return stdout
+      #
+      # @param [TrueClass, FalseClass] wait
+      #   Wait(true), Do not wait(false) for io before output it
+      #
+      # @return [String]
+      #   The string of stdout
+      def stdout(wait: true)
+        return @output_cache if @output_cache # output channel was closed before due to command stop
+
+        if wait
+          wait_for_io do
+            @process.io.stdout.flush
+            read(@out)
+          end
+        else
           @process.io.stdout.flush
           read(@out)
-        end || @output_cache
+        end
       end
 
-      def stderr
-        wait_for_io do
+      # Return stderr
+      #
+      # @param [TrueClass, FalseClass] wait
+      #   Wait(true), Do not wait(false) for io before output it
+      #
+      # @return [String]
+      #   The string of stderr
+      def stderr(wait: true)
+        return @error_cache if @error_cache # output channel was closed before due to command stop
+
+        if wait
+          wait_for_io do
+            @process.io.stderr.flush
+            read(@err)
+          end
+        else
           @process.io.stderr.flush
           read(@err)
-        end || @error_cache
+        end
       end
 
+      # @private
+      # @deprecated
       def read_stdout
         warn('The use of "#read_stdout" is deprecated. Use "#stdout" instead.')
         stdout
       end
 
+      # Write to stdin
+      #
+      # @param [String] input
+      #   The input string
       def write(input)
         @process.io.stdin.write(input)
         @process.io.stdin.flush
+
+        self
       end
 
+      # Close io of process
+      #
+      # @param [String, Symbol] name
+      #   The name of the io
       def close_io(name)
         @process.io.public_send(name.to_sym).close
+
+        self
       end
 
-      def stop(reader)
+      # Stop process
+      def stop
         @stopped = true
 
         return @exit_status unless @process
@@ -117,19 +167,20 @@ module Aruba
         close_and_cache_out
         close_and_cache_err
 
-        if reader
-          reader.stdout stdout
-          reader.stderr stderr
-        end
-
-        @exit_status
+        self
       end
 
+      # Terminate process
+      #
+      # This does not wait for process until @exit_timeout is passed but stop
+      # it at once.
       def terminate
         return unless @process
 
         @process.stop
-        stop nil
+        stop
+
+        self
       end
 
       private
@@ -147,15 +198,19 @@ module Aruba
       end
 
       def close_and_cache_out
-        @output_cache = read @out
+        @output_cache = read(@out)
         @out.close
         @out = nil
+
+        self
       end
 
       def close_and_cache_err
-        @error_cache = read @err
+        @error_cache = read(@err)
         @err.close
         @err = nil
+
+        self
       end
     end
     # rubocop:enable Metrics/ClassLength

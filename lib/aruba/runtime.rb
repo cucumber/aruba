@@ -6,7 +6,7 @@ module Aruba
       @config          = Aruba.config.deep_dup
       @event_queue     = Aruba::EventQueue.new
       @announcer       = Aruba::Announcer.new
-      @command_monitor = Aruba::CommandMonitor.new(@announcer)
+      @command_monitor = Aruba::CommandMonitor.new(event_queue: @event_queue)
 
       # register_events
     end
