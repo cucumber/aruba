@@ -64,11 +64,11 @@ RSpec::Matchers.define :be_existing_file do |_|
 end
 
 # @!method have_file_content(content)
-#   This matchers checks if <file> has content. It checks exactly if `'string'`
-#   is given and does a substring check if `/regexp/` is given.
+#   This matchers checks if <file> has content. `content` can be a string,
+#   regexp or an RSpec matcher.
 #
-#   @param [String, Regexp] content
-#     The content of the file
+#   @param [String, Regexp, Matcher] content
+#     Specifies the content of the file
 #
 #   @return [TrueClass, FalseClass] The result
 #
@@ -76,9 +76,12 @@ end
 #     * if file does not exist
 #     * if file content is not equal string
 #     * if file content does not include regexp
+#     * if file content does not match the content specification
+#
 #     true:
 #     * if file content includes regexp
 #     * if file content is equal string
+#     * if file content matches the content specification
 #
 #   @example Use matcher with string
 #
@@ -91,31 +94,20 @@ end
 #     RSpec.describe do
 #       it { expect(file1).to have_file_content(/a/) }
 #     end
+#
+#   @example Use matcher with an RSpec matcher
+#
+#     RSpec.describe do
+#       it { expect(file1).to have_file_content(a_string_starting_with 'a') }
+#     end
 RSpec::Matchers.define :have_file_content do |expected|
   match do |actual|
-    path = expand_path(actual)
+    next false unless file? actual
 
-    next false unless File.file? path
-
-    content = File.read(path).chomp
-    next expected === content if expected.is_a? Regexp
-
-    content == expected.chomp
+    values_match?(expected, File.read(expand_path(actual)).chomp)
   end
 
-  diffable
-
-  failure_message do |actual|
-    next format("expected that file \"%s\" contains:\n%s", actual, expected) if expected.is_a? Regexp
-
-    format("expected that file \"%s\" contains exactly:\n%s", actual, expected)
-  end
-
-  failure_message_when_negated do |actual|
-    next format("expected that file \"%s\" does not contain:\n%s", actual, expected) if expected.is_a? Regexp
-
-    format("expected that file \"%s\" does not contains exactly:\n%s", actual, expected)
-  end
+  description { "have file content: #{description_of expected}" }
 end
 
 # @!method have_file_size(size)
