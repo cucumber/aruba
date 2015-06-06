@@ -52,6 +52,62 @@ describe Aruba::Api  do
     end
   end
 
+  describe '#all_files' do
+    let(:name) { @file_name }
+    let(:path) { @file_path }
+
+    context 'when file exist' do
+      before :each do
+        File.write(path, '')
+      end
+
+      it { expect(all_files).to include expand_path(name) }
+    end
+
+    context 'when directory exist' do
+      let(:name) { 'test_dir' }
+      let(:path) { File.join(@aruba.current_directory, name) }
+
+      before :each do
+        FileUtils.mkdir_p path
+      end
+
+      it { expect(all_files).to eq [] }
+    end
+
+    context 'when nothing exist' do
+      it { expect(all_files).to eq [] }
+    end
+  end
+
+  describe '#all_directories' do
+    let(:name) { @file_name }
+    let(:path) { @file_path }
+
+    context 'when file exist' do
+      before :each do
+        File.write(path, '')
+      end
+
+      it { expect(all_directories).to eq [] }
+    end
+
+    context 'when directory exist' do
+      let(:name) { 'test_dir' }
+      let(:path) { File.join(@aruba.current_directory, name) }
+
+      before :each do
+        FileUtils.mkdir_p path
+      end
+
+      it { expect(all_directories).to include expand_path(name) }
+    end
+
+    context 'when nothing exist' do
+      it { expect(all_directories).to eq [] }
+    end
+  end
+
   describe 'directories' do
     before(:each) do
       @directory_name = 'test_dir'
@@ -62,6 +118,123 @@ describe Aruba::Api  do
       it 'creates a directory' do
         @aruba.create_directory @directory_name
         expect(File.exist?(File.expand_path(@directory_path))).to be_truthy
+      end
+    end
+  end
+
+  describe '#read' do
+    let(:name) { 'test.txt'}
+    let(:path) { File.join(@aruba.current_directory, name) }
+    let(:content) { 'asdf' }
+
+    before :each do
+      set_env 'HOME',  File.expand_path(@aruba.current_directory)
+    end
+
+    context 'when does not exist' do
+      it { expect { @aruba.read(name) }.to raise_error ArgumentError }
+    end
+
+    context 'when exists' do
+      context 'when file' do
+        before :each do
+          File.open(File.expand_path(path), 'w') { |f| f << content }
+        end
+
+        context 'when normal file' do
+          it { expect(@aruba.read(name)).to eq [content] }
+        end
+
+        context 'when binary file' do
+          let(:content) { "\u0000" }
+          it { expect(@aruba.read(name)).to eq [content] }
+        end
+
+        context 'when is empty file' do
+          let(:content) { '' }
+          it { expect(@aruba.read(name)).to eq [] }
+        end
+
+        context 'when path contains ~' do
+          let(:string) { random_string }
+          let(:name) { File.join('~', string) }
+          let(:path) { File.join(@aruba.current_directory, string) }
+
+          it { expect(@aruba.read(name)).to eq [content] }
+        end
+      end
+
+      context 'when directory' do
+        let(:name) { 'test.d' }
+
+        before :each do
+          Array(path).each { |p| Dir.mkdir p }
+        end
+
+        it { expect { @aruba.read(name) }.to raise_error ArgumentError }
+      end
+    end
+  end
+
+  describe '#list' do
+    let(:name) { 'test.d' }
+    let(:content) { %w(subdir.1.d subdir.2.d) }
+    let(:path) { File.join(@aruba.current_directory, name) }
+
+    before :each do
+      set_env 'HOME',  File.expand_path(@aruba.current_directory)
+    end
+
+    context 'when does not exist' do
+      it { expect { @aruba.list(name) }.to raise_error ArgumentError }
+    end
+
+    context 'when exists' do
+      context 'when file' do
+        let(:name) { 'test.txt' }
+
+        before :each do
+          File.open(File.expand_path(path), 'w') { |f| f << content }
+        end
+
+        context 'when normal file' do
+          it { expect{ @aruba.list(name) }.to raise_error ArgumentError }
+        end
+      end
+
+      context 'when directory' do
+        before :each do
+          Array(path).each { |p| Dir.mkdir p }
+        end
+
+        before :each do
+          Array(content).each { |p| Dir.mkdir File.join(path, p) }
+        end
+
+        context 'when has subdirectories' do
+          context 'when is simple path' do
+            let(:existing_files) { @aruba.list(name) }
+            let(:expected_files) { content.map { |c| File.join(name, c) }.sort  }
+
+            it { expect(expected_files - existing_files).to be_empty}
+          end
+
+          context 'when path contains ~' do
+            let(:string) { random_string }
+            let(:name) { File.join('~', string) }
+            let(:path) { File.join(@aruba.current_directory, string) }
+
+            let(:existing_files) { @aruba.list(name) }
+            let(:expected_files) { content.map { |c| File.join(string, c) } }
+
+            it { expect(expected_files - existing_files).to be_empty}
+          end
+        end
+
+        context 'when has no subdirectories' do
+          let(:content) { [] }
+          it { expect(@aruba.list(name)).to eq [] }
+        end
       end
     end
   end
@@ -235,6 +408,32 @@ describe Aruba::Api  do
             it { Array(path).each { |p| expect(File.mtime(p)).to eq time } }
           end
         end
+      end
+    end
+
+    describe '#absolute?' do
+      let(:name) { @file_name }
+      let(:path) { File.expand_path(File.join(@aruba.current_directory, name)) }
+
+      context 'when is absolute path' do
+        it { expect(@aruba).to be_absolute(path) }
+      end
+
+      context 'when is relative path' do
+        it { expect(@aruba).not_to be_absolute(name) }
+      end
+    end
+
+    describe '#relative?' do
+      let(:name) { @file_name }
+      let(:path) { File.expand_path(File.join(@aruba.current_directory, name)) }
+
+      context 'when is absolute path' do
+        it { expect(@aruba).not_to be_relative(path) }
+      end
+
+      context 'when is relative path' do
+        it { expect(@aruba).to be_relative(name) }
       end
     end
 

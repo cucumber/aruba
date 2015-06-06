@@ -90,7 +90,8 @@ Style/PercentLiteralDelimiters:
 
 # Configuration parameters: SupportedStyles.
 Style/RaiseArgs:
-  EnforcedStyle: compact
+  # EnforcedStyle: compact
+  Enabled: false
 
 # Cop supports --auto-correct.
 Style/RedundantSelf:

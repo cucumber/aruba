@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'childprocess', '>= 0.3.6'
   s.add_runtime_dependency 'rspec-expectations', '>= 2.7.0'
 
-  s.add_development_dependency 'bundler', '~> 1.9.6'
+  s.add_development_dependency 'bundler', '~> 1.10.2'
 
   s.rubygems_version = ">= 1.6.1"
   # s.required_ruby_version = '>= 2.0'

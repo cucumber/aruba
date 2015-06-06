@@ -98,12 +98,54 @@ module Aruba
       File.directory? expand_path(file)
     end
 
+    # Check if path is absolute
+    #
+    # @return [TrueClass, FalseClass]
+    #   Result of check
+    def absolute?(path)
+      Pathname.new(path).absolute?
+    end
+
+    # Check if path is relative
+    #
+    # @return [TrueClass, FalseClass]
+    #   Result of check
+    def relative?(path)
+      Pathname.new(path).relative?
+    end
+
     # Return all existing paths (directories, files) in current dir
     #
     # @return [Array]
     #   List of files and directories
     def all_paths
-      Dir.glob(expand_path('**/*'))
+      list('.').map { |p| expand_path(p) }
+    end
+
+    # Return all existing files in current directory
+    #
+    # @return [Array]
+    #   List of files
+    def all_files
+      list('.').select { |p| file? p }.map { |p| expand_path(p) }
+    end
+
+    # Return all existing directories in current directory
+    #
+    # @return [Array]
+    #   List of files
+    def all_directories
+      list('.').select { |p| directory? p }.map { |p| expand_path(p) }
+    end
+
+    # Create directory object
+    #
+    # @return [Dir]
+    #   The directory object
+    def directory(path)
+      fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
+
+      Dir.new(expand_path(path))
     end
 
     # @deprecated
@@ -124,6 +166,31 @@ module Aruba
     def clean_current_dir(*args, &block)
       warn('The use of "clean_current_dir" is deprecated. Use "clean_current_directory" instead')
       clean_current_directory(*args, &block)
+    end
+
+    # Return content of directory
+    #
+    # @return [Array]
+    #   The content of directory
+    def list(name)
+      fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
+      fail ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.) unless directory? name
+
+      existing_files            = Dir.glob(expand_path(File.join(name, '**', '*')))
+      current_working_directory = Pathname.new(expand_path('.'))
+
+      existing_files.map { |d| Pathname.new(d).relative_path_from(current_working_directory).to_s }
+    end
+
+    # Return content of file
+    #
+    # @return [Array]
+    #   The content of file
+    def read(name)
+      fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
+      fail ArgumentError, %(Only files are supported. Path "#{name}" is not a file.) unless file? name
+
+      File.readlines(expand_path(name))
     end
 
     # Get access to current dir
