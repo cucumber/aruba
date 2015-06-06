@@ -171,7 +171,7 @@ module Aruba
     # Return content of directory
     #
     # @return [Array]
-    #   The content of file or directory
+    #   The content of directory
     def list(name)
       fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
       fail ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.) unless directory? name
@@ -185,7 +185,7 @@ module Aruba
     # Return content of file
     #
     # @return [Array]
-    #   The content of file or directory
+    #   The content of file
     def read(name)
       fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
       fail ArgumentError, %(Only files are supported. Path "#{name}" is not a file.) unless file? name
