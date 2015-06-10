@@ -19,7 +19,17 @@
 RSpec::Matchers.define :have_exit_status do |expected|
   match do |actual|
     @old_actual = actual
-    @old_actual.stop(announcer) unless @old_actual.stopped?
+
+    @announcer ||= Aruba::Announcer.new(
+      self,
+      :stdout => @announce_stdout,
+      :stderr => @announce_stderr,
+      :dir    => @announce_dir,
+      :cmd    => @announce_cmd,
+      :env    => @announce_env
+    )
+
+    @old_actual.stop(@announcer) unless @old_actual.stopped?
     @actual = actual.exit_status
 
     next false unless @old_actual.respond_to? :exit_status
