@@ -214,3 +214,7 @@ Feature: file system commands
     asdf
     """
     Then the mode of filesystem object "test.txt" should match "0666"
+
+  Scenario: Use a fixture
+    Given I use a fixture named "fixtures-app"
+    Then a file named "test.txt" should exist
