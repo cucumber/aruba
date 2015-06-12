@@ -9,7 +9,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   let(:working_directory) { Dir.getwd }
 
   describe "#stdout" do
-    before(:each) { process.run! }
+    before(:each) { process.start }
 
     context 'when invoked once' do
       it { expect(process.stdout).to eq "yo\n" }
@@ -23,7 +23,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   describe "#stderr" do
     let(:command) { 'features/fixtures/spawn_process/stderr.sh yo' }
 
-    before(:each) { process.run! }
+    before(:each) { process.start }
 
     context 'when invoked once' do
       it { expect(process.stderr).to eq "yo\n" }
@@ -35,29 +35,27 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   end
 
   describe "#stop" do
-    let(:reader) { double('reader') }
+    context 'when started' do
+      before(:each) { process.start }
+      before(:each) { process.stop }
 
-    before(:each) { process.run! }
-
-    before :each do
-      allow(reader).to receive(:stderr)
-      expect(reader).to receive(:stdout).with("yo\n")
+      it { expect(process).to be_stopped }
     end
 
-    context 'when stopped successfully' do
-      it { process.stop(reader) }
+    context 'when long running process' do
+
     end
   end
 
-  describe "#run!" do
+  describe "#start" do
     context "when process run succeeds" do
-      it { expect { process.run! }.not_to raise_error }
+      it { expect { process.start }.not_to raise_error }
     end
 
     context "when process run fails" do
       let(:command) { 'does_not_exists' }
 
-      it { expect {process.run!}.to raise_error Aruba::LaunchError }
+      it { expect {process.start}.to raise_error Aruba::LaunchError }
     end
   end
 end

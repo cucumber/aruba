@@ -13,6 +13,14 @@ RSpec.shared_context 'uses aruba API' do
     end
   end
 
+  def expand_path(*args)
+    @aruba.expand_path(*args)
+  end
+
+  def announcer(*args)
+    @aruba.send(:announcer, *args)
+  end
+
   before(:each) do
     klass = Class.new do
       include Aruba::Api

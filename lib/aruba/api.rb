@@ -814,23 +814,28 @@ module Aruba
       "#{message} Output:\n\n#{all_output}\n"
     end
 
-    def command_monitor
-      @command_monitor ||= CommandMonitor.new(event_queue: aruba.event_queue)
+    # @private
+    def processes
+      warn('The use of "processes" is deprecated. It will be removed soon. Please use "aruba.command_monitor.commands" instead.')
+
+      aruba.command_monitor.commands
     end
 
     # @private
-    def commands
-      aruba.command_monitor.send(:commands)
+    def stop_processes!
+      warn('The use of "stop_processes!" is deprecated. It will be removed soon. Please use "#stop_commands" instead.')
+
+      stop_commands
     end
 
-    # @private
+    # Stop all commands
     def stop_commands
       aruba.command_monitor.stop_commands
     end
 
     # Terminate all running commands
-    def terminate_commands!
-      warn('The use of "terminate_commands!" is deprecated. Please use "#terminate_commands" instead.')
+    def terminate_processes!
+      warn('The use of "terminate_processes!" is deprecated. Please use "#terminate_commands" instead.')
 
       terminate_commands
     end
@@ -858,15 +863,25 @@ module Aruba
 
     # @private
     # @deprecated
-    def get_command(wanted)
-      warn('The use of "get_command" is deprecated. It will be removed soon. To find a command use "aruba.command_monitor.find()". But be aware that this uses the commandline of the process.')
-      aruba.command_monitor.get_command(wanted)
+    def get_process(wanted)
+      warn('The use of "get_process" is deprecated. It will be removed soon. To find a command use "aruba.command_monitor.find()". But be aware that this uses the commandline of the process.')
+      aruba.command_monitor.find(wanted)
     end
 
     # @private
     # @deprecated
-    def only_commands
-      aruba.command_monitor.only_commands
+    def only_process
+      warn('The use of "only_processes" is deprecated. It will be removed soon. To get access to all commands use "#all_commands".')
+
+      all_commands
+    end
+
+    # Make all commands available
+    #
+    # @return [Array]
+    #   Array of commands
+    def all_commands
+      aruba.command_monitor.commands
     end
 
     # Run given command and stop it if timeout is reached
@@ -944,10 +959,10 @@ module Aruba
     # @param [Integer] timeout
     #   Timeout for execution
     def run_simple(cmd, fail_on_error = true, timeout = nil)
-      command = run(cmd, timeout) do |command|
-        aruba.command_monitor.stop_command(command)
+      command = run(cmd, timeout) do |c|
+        aruba.command_monitor.stop_command(c)
 
-        command
+        c
       end
 
       @timed_out = command.exit_status.nil?
@@ -1118,12 +1133,16 @@ module Aruba
       aruba.command_monitor.last_command.exit_status
     end
 
-    def stop_command(command)
-      aruba.command_monitor.find(command.commandline).stop
+    def stop_process(command)
+      warn('The use of "stop_process" is deprecated. It will be removed soon. Please use `aruba.command_monitor.find(command).stop`.')
+
+      aruba.command_monitor.find(command).stop
     end
 
-    def terminate_command(command)
-      aruba.command_monitor.find(command.commandline).terminate
+    def terminate_process(command)
+      warn('The use of "terminate_process" is deprecated. It will be removed soon. Please use `aruba.command_monitor.find(command).terminate`.')
+
+      aruba.command_monitor.find(command).terminate
     end
   end
 end

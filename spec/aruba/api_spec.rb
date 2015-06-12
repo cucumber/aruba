@@ -1107,45 +1107,6 @@ describe Aruba::Api  do
     end
   end
 
-  describe "#run_interactive" do
-    before(:each){@aruba.run_interactive "cat"}
-    after(:each){@aruba.stop_commands}
-    it "respond to input" do
-      @aruba.type "Hello"
-      @aruba.type ""
-      expect(@aruba.all_output).to eq  "Hello\n"
-    end
-
-    it "respond to close_input" do
-      @aruba.type "Hello"
-      @aruba.close_input
-      expect(@aruba.all_output).to eq  "Hello\n"
-    end
-
-    it "pipes data" do
-      @aruba.write_file(@file_name, "Hello\nWorld!")
-      @aruba.pipe_in_file(@file_name)
-      @aruba.close_input
-      expect(@aruba.all_output).to eq  "Hello\nWorld!"
-    end
-  end
-
-  describe "#run_simple" do
-    before(:each){@aruba.run_simple "true"}
-    after(:each){@aruba.stop_commands}
-    describe "get_process" do
-      it "returns a process" do
-        expect(@aruba.get_process("true")).not_to be(nil)
-      end
-
-      it "raises a descriptive exception" do
-        expect do
-          expect(@aruba.get_process("false")).not_to be(nil)
-        end.to raise_error(ArgumentError, "No process named 'false' has been started")
-      end
-    end
-  end
-
   describe 'fixtures' do
     let(:api) do
       klass = Class.new do
