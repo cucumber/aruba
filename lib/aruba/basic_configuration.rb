@@ -45,6 +45,7 @@ module Aruba
         self
       end
 
+      # rubocop:disable Metrics/CyclomaticComplexity
       def option_accessor(name, contract:, default: nil)
         fail ArgumentError, 'Either use block or default value' if block_given? && default
         fail ArgumentError, 'Either use block or default value' if !block_given? && default.nil? && default.empty?
@@ -58,6 +59,7 @@ module Aruba
         # Add reader
         option_reader name, contract: { None => contract.values.first }
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
 
       private
 
