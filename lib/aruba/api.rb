@@ -1,17 +1,12 @@
-require 'fileutils'
-require 'rbconfig'
-require 'rspec/expectations'
 require 'aruba'
-require 'aruba/config'
-require 'aruba/errors'
-require 'ostruct'
-require 'pathname'
 
 Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).each { |rb| require rb }
 
 module Aruba
   module Api
     include RSpec::Matchers
+    include Aruba::Utils
+    include Aruba::Api::Core
 
     # Expand file name
     #
@@ -50,7 +45,7 @@ module Aruba
       fail ArgumentError, message if file_name.nil? || file_name.empty?
       # rubocop:enable Style/RaiseArgs
 
-      if FIXTURES_PATH_PREFIX == file_name[0]
+      if aruba.config.fixtures_path_prefix == file_name[0]
         File.join fixtures_directory, file_name[1..-1]
       else
         in_current_directory { File.expand_path file_name, dir_string }
@@ -63,15 +58,6 @@ module Aruba
       warn('The use of "absolute_path" is deprecated. Use "expand_path" instead. But be aware that "expand_path" uses a different implementation.')
 
       in_current_directory { File.expand_path File.join(*args) }
-    end
-
-    # Execute block in current directory
-    #
-    # @yield
-    #   The block which should be run in current directory
-    def in_current_directory(&block)
-      _mkdir(current_directory)
-      Dir.chdir(current_directory, &block)
     end
 
     # Check if file or directory exist
@@ -148,26 +134,6 @@ module Aruba
       Dir.new(expand_path(path))
     end
 
-    # @deprecated
-    # @private
-    def in_current_dir(*args, &block)
-      warn('The use of "in_current_dir" is deprecated. Use "in_current_directory" instead')
-      in_current_directory(*args, &block)
-    end
-
-    # Clean the current directory
-    def clean_current_directory
-      _rm_rf(current_directory)
-      _mkdir(current_directory)
-    end
-
-    # @deprecated
-    # @private
-    def clean_current_dir(*args, &block)
-      warn('The use of "clean_current_dir" is deprecated. Use "clean_current_directory" instead')
-      clean_current_directory(*args, &block)
-    end
-
     # Return content of directory
     #
     # @return [Array]
@@ -191,39 +157,6 @@ module Aruba
       fail ArgumentError, %(Only files are supported. Path "#{name}" is not a file.) unless file? name
 
       File.readlines(expand_path(name))
-    end
-
-    # Get access to current dir
-    #
-    # @return
-    #   Current directory
-    def current_directory
-      File.join(*dirs)
-    end
-
-    # @deprecated
-    # @private
-    def current_dir(*args, &block)
-      warn('The use of "current_dir" is deprecated. Use "current_directory" instead')
-      current_directory(*args, &block)
-    end
-
-    # Switch to directory
-    #
-    # @param [String] dir
-    #   The directory
-    def cd(dir)
-      dirs << dir
-      raise "#{current_directory} is not a directory." unless File.directory?(current_directory)
-    end
-
-    # The path to the directory which should contain all your test data
-    # You might want to overwrite this method to place your data else where.
-    #
-    # @return [Array]
-    #   The directory path: Each subdirectory is a member of an array
-    def dirs
-      @dirs ||= %w(tmp aruba)
     end
 
     # Create a file with given content
@@ -293,7 +226,7 @@ module Aruba
         raise ArgumentError, %(The following source "#{s}" does not exist.) unless exist? s
       end
 
-      raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported" if destination.start_with? FIXTURES_PATH_PREFIX
+      raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported" if destination.start_with? aruba.config.fixtures_path_prefix
       raise ArgumentError, "Multiples sources can only be copied to a directory" if source.count > 1 && exist?(destination) && !directory?(destination)
 
       source_paths     = source.map { |f| expand_path(f) }
@@ -522,7 +455,7 @@ module Aruba
     def check_file_presence(paths, expect_presence = true)
       warn('The use of "check_file_presence" is deprecated. Use "expect().to be_existing_file or expect(all_paths).to match_path_pattern() instead" ')
 
-      stop_processes!
+      stop_commands
 
       Array(paths).each do |path|
         if path.kind_of? Regexp
@@ -549,7 +482,7 @@ module Aruba
       file_name = expand_path(file_name)
 
       File.open(file_name, 'r').each_line do |line|
-        _write_interactive(line)
+        last_command.write(line)
       end
     end
 
@@ -567,7 +500,7 @@ module Aruba
     #   check_file_size(paths_and_sizes)
     #
     def check_file_size(paths_and_sizes)
-      stop_processes!
+      stop_commands
 
       paths_and_sizes.each do |path, size|
         path = expand_path(path)
@@ -584,7 +517,7 @@ module Aruba
     # @yield
     #   Pass the content of the given file to this block
     def with_file_content(file, &block)
-      stop_processes!
+      stop_commands
 
       file = expand_path(file)
       content = IO.read(file)
@@ -608,7 +541,7 @@ module Aruba
     # @param [true, false] expect_match
     #   Must the content be in the file or not
     def check_file_content(file, content, expect_match = true)
-      stop_processes!
+      stop_commands
 
       match_content =
         if(Regexp === content)
@@ -660,7 +593,7 @@ module Aruba
     # @param [true, false] expect_presence
     #   Should the directory be there or should the directory not be there
     def check_directory_presence(paths, expect_presence)
-      stop_processes!
+      stop_commands
 
       paths.each do |path|
         path = expand_path(path)
@@ -677,8 +610,8 @@ module Aruba
     def prep_for_fs_check(&block)
       warn('The use of "prep_for_fs_check" is deprecated. It will be removed soon.')
 
-      stop_processes!
-      in_current_directory { block.call }
+      aruba.command_monitor.stop_commands
+      in_current_directory{ block.call }
     end
 
     # @private
@@ -713,8 +646,7 @@ module Aruba
     # @param [String] cmd
     #   The command
     def output_from(cmd)
-      cmd = detect_ruby(cmd)
-      get_process(cmd).output
+      aruba.command_monitor.output_from(cmd)
     end
 
     # Fetch stdout from command
@@ -722,8 +654,7 @@ module Aruba
     # @param [String] cmd
     #   The command
     def stdout_from(cmd)
-      cmd = detect_ruby(cmd)
-      get_process(cmd).stdout
+      aruba.command_monitor.stdout_from(cmd)
     end
 
     # Fetch stderr from command
@@ -731,34 +662,31 @@ module Aruba
     # @param [String] cmd
     #   The command
     def stderr_from(cmd)
-      cmd = detect_ruby(cmd)
-      get_process(cmd).stderr
+      aruba.command_monitor.stderr_from(cmd)
     end
 
-    # Get stdout of all processes
+    # Get stdout of all commands
     #
     # @return [String]
-    #   The stdout of all process which have run before
+    #   The stdout of all command which have run before
     def all_stdout
-      stop_processes!
-      only_processes.inject("") { |out, ps| out << ps.stdout }
+      aruba.command_monitor.all_stdout
     end
 
-    # Get stderr of all processes
+    # Get stderr of all commands
     #
     # @return [String]
-    #   The stderr of all process which have run before
+    #   The stderr of all command which have run before
     def all_stderr
-      stop_processes!
-      only_processes.inject("") { |out, ps| out << ps.stderr }
+      aruba.command_monitor.all_stderr
     end
 
-    # Get stderr and stdout of all processes
+    # Get stderr and stdout of all commands
     #
     # @return [String]
-    #   The stderr and stdout of all process which have run before
+    #   The stderr and stdout of all command which have run before
     def all_output
-      all_stdout << all_stderr
+      aruba.command_monitor.all_output
     end
 
     # Full compare arg1 and arg2
@@ -815,7 +743,7 @@ module Aruba
     # @return [TrueClass, FalseClass]
     #   If output of interactive command includes arg1 return true, otherwise false
     def assert_partial_output_interactive(expected)
-      unescape(_read_interactive).include?(unescape(expected)) ? true : false
+      unescape(last_command.stdout).include?(unescape(expected)) ? true : false
     end
 
     # Check if command succeeded and if arg1 is included in output
@@ -857,19 +785,22 @@ module Aruba
       end
     end
 
-    # Check exit status of process
+    # Check exit status of command
     #
     # @return [TrueClass, FalseClass]
     #   If arg1 is true, return true if command was successful
     #   If arg1 is false, return true if command failed
     def assert_success(success)
-      success ? assert_exit_status(0) : assert_not_exit_status(0)
+      if success
+        expect(last_command).to be_successfully_executed
+      else
+        expect(last_command).not_to be_successfully_executed
+      end
     end
 
     # @private
     def assert_exit_status(status)
-      expect(last_exit_status).to eq(status),
-        append_output_to("Exit status was #{last_exit_status} but expected it to be #{status}.")
+      expect(last_command).to have_exit_status(status)
     end
 
     # @private
@@ -885,39 +816,72 @@ module Aruba
 
     # @private
     def processes
-      @processes ||= []
+      warn('The use of "processes" is deprecated. It will be removed soon. Please use "aruba.command_monitor.commands" instead.')
+
+      aruba.command_monitor.commands
     end
 
     # @private
     def stop_processes!
-      processes.each do |_, process|
-        stop_process(process)
-      end
+      warn('The use of "stop_processes!" is deprecated. It will be removed soon. Please use "#stop_commands" instead.')
+
+      stop_commands
     end
 
-    # Terminate all running processes
+    # Stop all commands
+    def stop_commands
+      aruba.command_monitor.stop_commands
+    end
+
+    # Terminate all running commands
     def terminate_processes!
-      processes.each do |_, process|
-        terminate_process(process)
-        stop_process(process)
-      end
+      warn('The use of "terminate_processes!" is deprecated. Please use "#terminate_commands" instead.')
+
+      terminate_commands
+    end
+
+    # Terminate all running commands
+    def terminate_commands
+      aruba.command_monitor.terminate_commands
+    end
+
+    # Return the last command which was started
+    #
+    # @return [Command]
+    #   The command
+    def last_command
+      aruba.command_monitor.last_command
     end
 
     # @private
-    def register_process(name, process)
-      processes << [name, process]
+    # @deprecated
+    def register_process(name, command)
+      warn('The use of "register_processs" is deprecated. It will be removed soon. There\'s no need to register a command anymore. To start a command use "aruba.command_monitor.start_command()". This starts and registers the command for you.')
+
+      aruba.command_monitor.send(:register_command, command)
     end
 
     # @private
+    # @deprecated
     def get_process(wanted)
-      matching_processes = processes.reverse.find{ |name, _| name == wanted }
-      raise ArgumentError.new("No process named '#{wanted}' has been started") unless matching_processes
-      matching_processes.last
+      warn('The use of "get_process" is deprecated. It will be removed soon. To find a command use "aruba.command_monitor.find()". But be aware that this uses the commandline of the process.')
+      aruba.command_monitor.find(wanted)
     end
 
     # @private
-    def only_processes
-      processes.collect{ |_, process| process }
+    # @deprecated
+    def only_process
+      warn('The use of "only_processes" is deprecated. It will be removed soon. To get access to all commands use "#all_commands".')
+
+      all_commands
+    end
+
+    # Make all commands available
+    #
+    # @return [Array]
+    #   Array of commands
+    def all_commands
+      aruba.command_monitor.commands
     end
 
     # Run given command and stop it if timeout is reached
@@ -927,6 +891,9 @@ module Aruba
     #
     # @param [Integer] timeout
     #   If the timeout is reached the command will be killed
+    #
+    # @yield [SpawnProcess]
+    #   Run block with command
     def run(cmd, timeout = nil)
       timeout ||= exit_timeout
       @commands ||= []
@@ -934,55 +901,34 @@ module Aruba
 
       cmd = detect_ruby(cmd)
 
-      in_current_directory do
-        Aruba.config.hooks.execute(:before_cmd, self, cmd)
+      aruba.config.hooks.execute(:before_cmd, self, cmd)
+      aruba.event_queue.notify :switched_working_directory, Dir.pwd
 
-        announcer.dir(Dir.pwd)
-        announcer.cmd(cmd)
+      command = aruba.command_monitor.start_command(cmd, timeout, io_wait, expand_path('.'))
 
-        process = Aruba.process.new(cmd, timeout, io_wait)
-        register_process(cmd, process)
-        process.run!
-
-        block_given? ? yield(process) : process
-      end
+      block_given? ? yield(command) : command
     end
-
-    DEFAULT_TIMEOUT_SECONDS = 3
 
     # Default exit timeout for running commands with aruba
     #
     # Overwrite this method if you want a different timeout or set
     # `@aruba_timeout_seconds`.
     def exit_timeout
-      @aruba_timeout_seconds || DEFAULT_TIMEOUT_SECONDS
+      aruba.config.exit_timeout
     end
-
-    DEFAULT_IO_WAIT_SECONDS = 0.1
 
     # Default io wait timeout
     #
     # Overwrite this method if you want a different timeout or set
     # `@aruba_io_wait_seconds
     def io_wait
-      @aruba_io_wait_seconds || DEFAULT_IO_WAIT_SECONDS
+      aruba.config.io_wait_timeout
     end
-
-    DEFAULT_ROOT_DIRECTORY = Dir.getwd
 
     # The root directory of aruba
     def root_directory
-      @aruba_root_directory || DEFAULT_ROOT_DIRECTORY
+      aruba.config.root_directory
     end
-
-    # Path prefix for fixtures
-    FIXTURES_PATH_PREFIX = ?%
-
-    DEFAULT_FIXTURES_DIRECTORIES = %w(
-      features/fixtures
-      spec/fixtures
-      test/fixtures
-    )
 
     # The path to the directory which contains fixtures
     # You might want to overwrite this method to place your data else where.
@@ -991,7 +937,7 @@ module Aruba
     #   The directory to where your fixtures are stored
     def fixtures_directory
       unless @fixtures_directory
-        candidates = DEFAULT_FIXTURES_DIRECTORIES.map { |dir| File.join(root_directory, dir) }
+        candidates = aruba.config.fixtures_directories.map { |dir| File.join(root_directory, dir) }
         @fixtures_directory = candidates.find { |dir| File.directory? dir }
         raise "No fixtures directories are found" unless @fixtures_directory
       end
@@ -1013,11 +959,15 @@ module Aruba
     # @param [Integer] timeout
     #   Timeout for execution
     def run_simple(cmd, fail_on_error = true, timeout = nil)
-      run(cmd, timeout) do |process|
-        stop_process(process)
+      command = run(cmd, timeout) do |c|
+        aruba.command_monitor.stop_command(c)
+
+        c
       end
-      @timed_out = last_exit_status.nil?
-      assert_exit_status(0) if fail_on_error
+
+      @timed_out = command.exit_status.nil?
+
+      expect(command).to be_successfully_executed if fail_on_error
     end
 
     # Run a command interactively
@@ -1026,8 +976,12 @@ module Aruba
     #   The command to by run
     #
     # @see #cmd
+    # @deprectated
+    # @private
     def run_interactive(cmd)
-      @interactive = run(cmd)
+      warn('The use of "run_interactive" is deprecated. You can simply use "run" instead.')
+
+      run(cmd)
     end
 
     # Provide data to command via stdin
@@ -1036,12 +990,12 @@ module Aruba
     #   The input for the command
     def type(input)
       return close_input if "" == input
-      _write_interactive(_ensure_newline(input))
+      last_command.write(_ensure_newline(input))
     end
 
     # Close stdin
     def close_input
-      @interactive.stdin.close
+      last_command.close_io(:stdin)
     end
 
     # @deprecated
@@ -1053,18 +1007,21 @@ module Aruba
 
     # @private
     def _write_interactive(input)
-      @interactive.stdin.write(input)
-      @interactive.stdin.flush
+      warn('The use of "_write_interactive" is deprecated. It will be removed soon.')
+
+      last_command.write(input)
     end
 
     # @private
     def _read_interactive
-      @interactive.read_stdout
+      warn('The use of "_read_interactive" is deprecated. It will be removed soon.')
+
+      last_command.stdout
     end
 
     # @private
     def _ensure_newline(str)
-      str.chomp << "\n"
+      Utils.ensure_newline(str)
     end
 
     # @private
@@ -1074,20 +1031,6 @@ module Aruba
       else
         puts(msg)
       end
-    end
-
-    # @private
-    def detect_ruby(cmd)
-      if cmd =~ /^ruby\s/
-        cmd.gsub(/^ruby\s/, "#{current_ruby} ")
-      else
-        cmd
-      end
-    end
-
-    # @private
-    def current_ruby
-      File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
     end
 
     # Use a clean rvm gemset
@@ -1129,12 +1072,13 @@ module Aruba
     # @param [String] value
     #   The value of the environment variable. Needs to be a string.
     def set_env(key, value)
-      announcer.env(key, value)
+      aruba.event_queue.notify :changed_environment, { key: value }
+
       original_env[key] = ENV.delete(key) unless original_env.key? key
       ENV[key] = value
     end
 
-    # Restore original process environment
+    # Restore original command environment
     def restore_env
       original_env.each do |key, value|
         if value
@@ -1165,69 +1109,40 @@ module Aruba
       restore_env
     end
 
+    # Access to announcer
+    def announcer
+      @announcer ||= Announcer.new(
+        self,
+        :stdout => @announce_stdout,
+        :stderr => @announce_stderr,
+        :dir    => @announce_dir,
+        :cmd    => @announce_cmd,
+        :env    => @announce_env
+      )
+
+      @announcer
+    end
+
+    module_function :announcer
+
     # TODO: move some more methods under here!
 
     private
 
     def last_exit_status
-      return @last_exit_status if @last_exit_status
-      stop_processes!
-      @last_exit_status
+      aruba.command_monitor.last_command.exit_status
     end
 
-    def stop_process(process)
-      @last_exit_status = process.stop(announcer)
+    def stop_process(command)
+      warn('The use of "stop_process" is deprecated. It will be removed soon. Please use `aruba.command_monitor.find(command).stop`.')
+
+      aruba.command_monitor.find(command).stop
     end
 
-    def terminate_process(process)
-      process.terminate
-    end
+    def terminate_process(command)
+      warn('The use of "terminate_process" is deprecated. It will be removed soon. Please use `aruba.command_monitor.find(command).terminate`.')
 
-    def announcer
-      Announcer.new(self,
-                    :stdout => @announce_stdout,
-                    :stderr => @announce_stderr,
-                    :dir => @announce_dir,
-                    :cmd => @announce_cmd,
-                    :env => @announce_env)
-    end
-
-    class Announcer
-      def initialize(session, options = {})
-        @session = session
-        @options = options
-      end
-
-      def stdout(content)
-        return unless @options[:stdout]
-        print content
-      end
-
-      def stderr(content)
-        return unless @options[:stderr]
-        print content
-      end
-
-      def dir(dir)
-        return unless @options[:dir]
-        print "$ cd #{dir}"
-      end
-
-      def cmd(cmd)
-        return unless @options[:cmd]
-        print "$ #{cmd}"
-      end
-
-      def env(key, value)
-        return unless @options[:env]
-        print %{$ export #{key}="#{value}"}
-      end
-
-      private
-
-      def print(message)
-        @session.announce_or_puts(message)
-      end
+      aruba.command_monitor.find(command).terminate
     end
   end
 end

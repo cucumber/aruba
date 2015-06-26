@@ -1,6 +1,6 @@
 require 'aruba'
-require 'aruba/spawn_process'
-require 'aruba/in_process'
+require 'aruba/processes/spawn_process'
+require 'aruba/processes/in_process'
 require 'shellwords'
 require 'stringio'
 
@@ -19,10 +19,10 @@ class CustomMain
 end
 
 Before('@in-process') do
-  Aruba::InProcess.main_class = CustomMain
-  Aruba.process = Aruba::InProcess
+  Aruba.process = Aruba::Processes::InProcess
+  Aruba.process.main_class = CustomMain
 end
 
 After('~@in-process') do
-  Aruba.process = Aruba::SpawnProcess
+  Aruba.process = Aruba::Processes::SpawnProcess
 end

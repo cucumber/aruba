@@ -1064,22 +1064,30 @@ describe Aruba::Api  do
 
   describe 'tags' do
     describe '@announce_stdout' do
-      after(:each){@aruba.stop_processes!}
+      after(:each){@aruba.stop_commands}
       context 'enabled' do
+        before :each do
+          @aruba.send(:announcer).activate(:stdout)
+        end
+
         it "should announce to stdout exactly once" do
-          expect(@aruba).to receive(:announce_or_puts).once
-          @aruba.set_tag(:announce_stdout, true)
-          @aruba.run_simple('echo "hello world"', false)
-          expect(@aruba.all_output).to match(/hello world/)
+          result = capture(:stdout) do
+            @aruba.run_simple('echo "hello world"', false)
+          end
+
+          expect(result).to include('hello world')
+          expect(@aruba.all_output).to include('hello world')
         end
       end
 
       context 'disabled' do
         it "should not announce to stdout" do
-          expect(@aruba).not_to receive(:announce_or_puts)
-          @aruba.set_tag(:announce_stdout, false)
-          @aruba.run_simple('echo "hello world"', false)
-          expect(@aruba.all_output).to match(/hello world/)
+          result = capture(:stdout) do
+            @aruba.run_simple('echo "hello world"', false)
+          end
+
+          expect(result).not_to include('hello world')
+          expect(@aruba.all_output).to include('hello world')
         end
       end
     end
@@ -1087,7 +1095,7 @@ describe Aruba::Api  do
 
   describe "#assert_not_matching_output" do
     before(:each){ @aruba.run_simple("echo foo", false) }
-    after(:each){ @aruba.stop_processes! }
+    after(:each){ @aruba.stop_commands }
 
     it "passes when the output doesn't match a regexp" do
       @aruba.assert_not_matching_output "bar", @aruba.all_output
@@ -1099,47 +1107,8 @@ describe Aruba::Api  do
     end
   end
 
-  describe "#run_interactive" do
-    before(:each){@aruba.run_interactive "cat"}
-    after(:each){@aruba.stop_processes!}
-    it "respond to input" do
-      @aruba.type "Hello"
-      @aruba.type ""
-      expect(@aruba.all_output).to eq  "Hello\n"
-    end
-
-    it "respond to close_input" do
-      @aruba.type "Hello"
-      @aruba.close_input
-      expect(@aruba.all_output).to eq  "Hello\n"
-    end
-
-    it "pipes data" do
-      @aruba.write_file(@file_name, "Hello\nWorld!")
-      @aruba.pipe_in_file(@file_name)
-      @aruba.close_input
-      expect(@aruba.all_output).to eq  "Hello\nWorld!"
-    end
-  end
-
-  describe "#run_simple" do
-    before(:each){@aruba.run_simple "true"}
-    after(:each){@aruba.stop_processes!}
-    describe "get_process" do
-      it "returns a process" do
-        expect(@aruba.get_process("true")).not_to be(nil)
-      end
-
-      it "raises a descriptive exception" do
-        expect do
-          expect(@aruba.get_process("false")).not_to be(nil)
-        end.to raise_error(ArgumentError, "No process named 'false' has been started")
-      end
-    end
-  end
-
   describe 'fixtures' do
-    let(:aruba) do
+    let(:api) do
       klass = Class.new do
         include Aruba::Api
 
@@ -1154,33 +1123,33 @@ describe Aruba::Api  do
     describe '#fixtures_directory' do
       context 'when no fixtures directories exist' do
         it "should raise exception" do
-          expect { aruba.fixtures_directory }.to raise_error
+          expect { api.fixtures_directory }.to raise_error
         end
       end
 
       context 'when "/features/fixtures"-directory exist' do
-        before(:each) { aruba.create_directory('features/fixtures') }
+        before(:each) { api.create_directory('features/fixtures') }
 
-        it { expect(aruba.fixtures_directory).to eq expand_path('features/fixtures') }
+        it { expect(api.fixtures_directory).to eq expand_path('features/fixtures') }
       end
 
       context 'when "/spec/fixtures"-directory exist' do
-        before(:each) { aruba.create_directory('spec/fixtures') }
+        before(:each) { api.create_directory('spec/fixtures') }
 
-        it { expect(aruba.fixtures_directory).to eq expand_path('spec/fixtures') }
+        it { expect(api.fixtures_directory).to eq expand_path('spec/fixtures') }
       end
 
       context 'when "/test/fixtures"-directory exist' do
-        before(:each) { aruba.create_directory('test/fixtures') }
+        before(:each) { api.create_directory('test/fixtures') }
 
-        it { expect(aruba.fixtures_directory).to eq expand_path('test/fixtures') }
+        it { expect(api.fixtures_directory).to eq expand_path('test/fixtures') }
       end
     end
   end
 
   describe "#set_env" do
     after(:each) do
-      @aruba.stop_processes!
+      @aruba.stop_commands
       @aruba.restore_env
     end
     it "set environment variable" do
@@ -1197,7 +1166,7 @@ describe Aruba::Api  do
   end
 
   describe "#restore_env" do
-    after(:each){@aruba.stop_processes!}
+    after(:each){@aruba.stop_commands}
     it "restores environment variable" do
       @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.restore_env

@@ -135,7 +135,7 @@ You can hook into Aruba's lifecycle just before it runs a command:
 
 ```ruby
 Aruba.configure do |config|
-  config.before_cmd do |cmd|
+  config.before :cmd do |cmd|
     puts "About to run '#{cmd}'"
   end
 end
@@ -185,8 +185,8 @@ Then wire it all up in your `features/support/env.rb` file:
 require 'aruba'
 require 'aruba/in_process'
 
-Aruba::InProcess.main_class = MyMain
-Aruba.process = Aruba::InProcess
+Aruba.process = Aruba::Processes::InProcess
+Aruba.process.main_class = MyMain
 ```
 
 That's it! Everything will now run inside the same ruby process, making your suite
@@ -216,7 +216,7 @@ or setting a hook like this example:
 
 ```ruby
 Aruba.configure do |config|
-  config.before_cmd do |cmd|
+  config.before :cmd do |cmd|
     set_env('JRUBY_OPTS', "-X-C #{ENV['JRUBY_OPTS']}") # disable JIT since these processes are so short lived
     set_env('JAVA_OPTS', "-d32 #{ENV['JAVA_OPTS']}") # force jRuby to use client JVM for faster startup times
   end

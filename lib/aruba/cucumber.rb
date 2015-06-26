@@ -1,3 +1,4 @@
+require 'aruba'
 require 'aruba/api'
 require 'aruba/cucumber/hooks'
 require 'aruba/reporting'
@@ -5,17 +6,17 @@ require 'aruba/reporting'
 World(Aruba::Api)
 
 Given /the default aruba timeout is (\d+) seconds/ do |seconds|
-  @aruba_timeout_seconds = seconds.to_i
+  aruba.config.exit_timeout = seconds.to_i
 end
 
 Given /I use (?:a|the) fixture(?: named)? "([^"]*)"/ do |name|
-  copy File.join(Aruba::Api::FIXTURES_PATH_PREFIX, name), name
+  copy File.join(aruba.config.fixtures_path_prefix, name), name
   cd name
 end
 
 Given /The default aruba timeout is (\d+) seconds/ do |seconds|
   warn(%{\e[35m    The  /^The default aruba timeout is (\d+) seconds/ step definition is deprecated. Please use the one with `the` and not `The` at the beginning.\e[0m})
-  @aruba_timeout_seconds = seconds.to_i
+  aruba.config.exit_timeout = seconds.to_i
 end
 
 Given /^I'm using a clean gemset "([^"]*)"$/ do |gemset|
@@ -102,6 +103,15 @@ Given /^I set the environment variables to:/ do |table|
   end
 end
 
+Given /^I append the value to the environment variable:/ do |table|
+  table.hashes.each do |row|
+    variable = row['variable'].to_s.upcase
+    value = row['value'].to_s + row['value'].to_s
+
+    set_env(variable, value)
+  end
+end
+
 When /^I run "(.*)"$/ do |cmd|
   warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
   run_simple(unescape(cmd), false)
@@ -124,11 +134,11 @@ end
 
 When /^I run "([^"]*)" interactively$/ do |cmd|
   warn(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-  run_interactive(unescape(cmd))
+  step %(I run `#{cmd}` interactively)
 end
 
 When /^I run `([^`]*)` interactively$/ do |cmd|
-  run_interactive(unescape(cmd))
+  run(unescape(cmd))
 end
 
 When /^I type "([^"]*)"$/ do |input|
@@ -369,12 +379,4 @@ end
 
 Then /^the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)"$/ do |file, expect_match, mode|
   check_filesystem_permissions(mode, file, !expect_match)
-end
-
-Before '@mocked_home_directory' do
-  set_env 'HOME', expand_path('.')
-end
-
-After do
-  restore_env
 end

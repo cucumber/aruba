@@ -16,35 +16,40 @@ Before('~@no-clobber') do
 end
 
 Before('@puts') do
-  @puts = true
+  announcer.mode = :puts
 end
 
 Before('@announce-cmd') do
-  @announce_cmd = true
+  announcer.activate :command
 end
 
 Before('@announce-stdout') do
-  @announce_stdout = true
+  announcer.activate :stdout
 end
 
 Before('@announce-stderr') do
-  @announce_stderr = true
+  announcer.activate :stderr
 end
 
 Before('@announce-dir') do
-  @announce_dir = true
+  announcer.activate :directory
 end
 
 Before('@announce-env') do
-  @announce_env = true
+  announcer.activate :environment
 end
 
 Before('@announce') do
-  @announce_stdout = true
-  @announce_stderr = true
-  @announce_cmd = true
-  @announce_dir = true
-  @announce_env = true
+  announcer.activate :command
+  announcer.activate :stdout
+  announcer.activate :stderr
+  announcer.activate :directory
+  announcer.activate :environment
+end
+
+Before('@debug') do
+  require 'aruba/processes/debug_process'
+  Aruba.process = Aruba::Processes::DebugProcess
 end
 
 Before('@ansi') do
@@ -53,5 +58,9 @@ end
 
 After do
   restore_env
-  processes.clear
+  process_monitor.clear
+end
+
+Before '@mocked_home_directory' do
+  set_env 'HOME', expand_path('.')
 end
