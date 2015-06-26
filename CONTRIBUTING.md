@@ -60,10 +60,11 @@ Now email cukes@googlegroups.com with details of the new release. Just a copy / 
 To become a release manager, create a pull request adding your name to the list below, and include your Rubygems email address in the ticket. One of the existing Release managers will then add you.
 
 Current release managers:
-  * Jarl Friis
-  * Matt Wynne
-  * Aslak Hellesøy
-  * Tom Brand
+  * Jarl Friis ([@jarl-dk](https://github.com/jarl-dk))
+  * Matt Wynne ([@mattwynne](http://github.com/mattwynne))
+  * Aslak Hellesøy ([@aslakhellesoy](http://github.com/aslakhellesoy))
+  * Tom Brand ([@tom025](https://github.com/tom025))
+  * Dennis Günnewig ([@maxmeyer](http://github.com/maxmeyer), [@dg-rationdata](http://github.com/dg-rationdata))
 
 To grant release karma, issue the following command:
 
