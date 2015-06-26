@@ -19,7 +19,7 @@ require 'aruba/announcer'
 require 'aruba/process_monitor'
 require 'aruba/runtime'
 
-require 'aruba/utils'
+require 'aruba/platform'
 require 'aruba/spawn_process'
 
 require 'aruba/jruby'

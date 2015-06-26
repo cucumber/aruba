@@ -1,5 +1,5 @@
 module Aruba
-  module Utils
+  module Platform
     def detect_ruby(cmd)
       if cmd =~ /^ruby\s/
         cmd.gsub(/^ruby\s/, "#{current_ruby} ")

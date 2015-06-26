@@ -5,7 +5,7 @@ Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).
 module Aruba
   module Api
     include RSpec::Matchers
-    include Aruba::Utils
+    include Aruba::Platform
     include Aruba::Api::Core
 
     # Expand file name
@@ -994,7 +994,7 @@ module Aruba
 
     # @private
     def _ensure_newline(str)
-      Utils.ensure_newline(str)
+      Platform.ensure_newline(str)
     end
 
     # @private
