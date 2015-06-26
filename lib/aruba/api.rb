@@ -4,6 +4,9 @@ require 'rspec/expectations'
 require 'aruba'
 require 'aruba/config'
 require 'aruba/errors'
+require 'aruba/process_monitor'
+require 'aruba/utils'
+require 'aruba/announcer'
 require 'ostruct'
 require 'pathname'
 
@@ -12,6 +15,7 @@ Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).
 module Aruba
   module Api
     include RSpec::Matchers
+    include Aruba::Utils
 
     # Expand file name
     #
@@ -549,7 +553,7 @@ module Aruba
       file_name = expand_path(file_name)
 
       File.open(file_name, 'r').each_line do |line|
-        _write_interactive(line)
+        last_command.write(line)
       end
     end
 
@@ -677,8 +681,8 @@ module Aruba
     def prep_for_fs_check(&block)
       warn('The use of "prep_for_fs_check" is deprecated. It will be removed soon.')
 
-      stop_processes!
-      in_current_directory { block.call }
+      process_monitor.stop_processes!
+      in_current_directory{ block.call }
     end
 
     # @private
@@ -713,8 +717,7 @@ module Aruba
     # @param [String] cmd
     #   The command
     def output_from(cmd)
-      cmd = detect_ruby(cmd)
-      get_process(cmd).output
+      process_monitor.output_from(cmd)
     end
 
     # Fetch stdout from command
@@ -722,8 +725,7 @@ module Aruba
     # @param [String] cmd
     #   The command
     def stdout_from(cmd)
-      cmd = detect_ruby(cmd)
-      get_process(cmd).stdout
+      process_monitor.stdout_from(cmd)
     end
 
     # Fetch stderr from command
@@ -731,8 +733,7 @@ module Aruba
     # @param [String] cmd
     #   The command
     def stderr_from(cmd)
-      cmd = detect_ruby(cmd)
-      get_process(cmd).stderr
+      process_monitor.stderr_from(cmd)
     end
 
     # Get stdout of all processes
@@ -740,8 +741,7 @@ module Aruba
     # @return [String]
     #   The stdout of all process which have run before
     def all_stdout
-      stop_processes!
-      only_processes.inject("") { |out, ps| out << ps.stdout }
+      process_monitor.all_stdout
     end
 
     # Get stderr of all processes
@@ -749,8 +749,7 @@ module Aruba
     # @return [String]
     #   The stderr of all process which have run before
     def all_stderr
-      stop_processes!
-      only_processes.inject("") { |out, ps| out << ps.stderr }
+      process_monitor.all_stderr
     end
 
     # Get stderr and stdout of all processes
@@ -758,7 +757,7 @@ module Aruba
     # @return [String]
     #   The stderr and stdout of all process which have run before
     def all_output
-      all_stdout << all_stderr
+      process_monitor.all_output
     end
 
     # Full compare arg1 and arg2
@@ -815,7 +814,7 @@ module Aruba
     # @return [TrueClass, FalseClass]
     #   If output of interactive command includes arg1 return true, otherwise false
     def assert_partial_output_interactive(expected)
-      unescape(_read_interactive).include?(unescape(expected)) ? true : false
+      unescape(last_command.stdout).include?(unescape(expected)) ? true : false
     end
 
     # Check if command succeeded and if arg1 is included in output
@@ -863,13 +862,16 @@ module Aruba
     #   If arg1 is true, return true if command was successful
     #   If arg1 is false, return true if command failed
     def assert_success(success)
-      success ? assert_exit_status(0) : assert_not_exit_status(0)
+      if success
+        expect(last_command).to be_successfully_executed
+      else
+        expect(last_command).not_to be_successfully_executed
+      end
     end
 
     # @private
     def assert_exit_status(status)
-      expect(last_exit_status).to eq(status),
-        append_output_to("Exit status was #{last_exit_status} but expected it to be #{status}.")
+      expect(last_command).to have_exit_status(status)
     end
 
     # @private
@@ -883,41 +885,43 @@ module Aruba
       "#{message} Output:\n\n#{all_output}\n"
     end
 
+    def process_monitor
+      @process_monitor ||= ProcessMonitor.new(announcer)
+    end
+
     # @private
     def processes
-      @processes ||= []
+      process_monitor.send(:processes)
     end
 
     # @private
     def stop_processes!
-      processes.each do |_, process|
-        stop_process(process)
-      end
+      process_monitor.stop_processes!
     end
 
     # Terminate all running processes
     def terminate_processes!
-      processes.each do |_, process|
-        terminate_process(process)
-        stop_process(process)
-      end
+      process_monitor.terminate_processes!
     end
 
     # @private
-    def register_process(name, process)
-      processes << [name, process]
+    def last_command
+      processes.last[1]
+    end
+
+    # @private
+    def register_process(*args)
+      process_monitor.register_process(*args)
     end
 
     # @private
     def get_process(wanted)
-      matching_processes = processes.reverse.find{ |name, _| name == wanted }
-      raise ArgumentError.new("No process named '#{wanted}' has been started") unless matching_processes
-      matching_processes.last
+      process_monitor.get_process(wanted)
     end
 
     # @private
     def only_processes
-      processes.collect{ |_, process| process }
+      process_monitor.only_processes
     end
 
     # Run given command and stop it if timeout is reached
@@ -927,6 +931,9 @@ module Aruba
     #
     # @param [Integer] timeout
     #   If the timeout is reached the command will be killed
+    #
+    # @yield [SpawnProcess]
+    #   Run block with process
     def run(cmd, timeout = nil)
       timeout ||= exit_timeout
       @commands ||= []
@@ -934,18 +941,16 @@ module Aruba
 
       cmd = detect_ruby(cmd)
 
-      in_current_directory do
-        Aruba.config.hooks.execute(:before_cmd, self, cmd)
+      Aruba.config.hooks.execute(:before_cmd, self, cmd)
 
-        announcer.dir(Dir.pwd)
-        announcer.cmd(cmd)
+      announcer.announce(:directory, Dir.pwd)
+      announcer.announce(:command, cmd)
 
-        process = Aruba.process.new(cmd, timeout, io_wait)
-        register_process(cmd, process)
-        process.run!
+      process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'))
+      process_monitor.register_process(cmd, process)
+      process.run!
 
-        block_given? ? yield(process) : process
-      end
+      block_given? ? yield(process) : process
     end
 
     DEFAULT_TIMEOUT_SECONDS = 3
@@ -1013,11 +1018,15 @@ module Aruba
     # @param [Integer] timeout
     #   Timeout for execution
     def run_simple(cmd, fail_on_error = true, timeout = nil)
-      run(cmd, timeout) do |process|
-        stop_process(process)
+      command = run(cmd, timeout) do |process|
+        process_monitor.stop_process(process)
+
+        process
       end
-      @timed_out = last_exit_status.nil?
-      assert_exit_status(0) if fail_on_error
+
+      @timed_out = command.exit_status.nil?
+
+      expect(command).to be_successfully_executed if fail_on_error
     end
 
     # Run a command interactively
@@ -1026,8 +1035,12 @@ module Aruba
     #   The command to by run
     #
     # @see #cmd
+    # @deprectated
+    # @private
     def run_interactive(cmd)
-      @interactive = run(cmd)
+      warn('The use of "run_interactive" is deprecated. You can simply use "run" instead.')
+
+      run(cmd)
     end
 
     # Provide data to command via stdin
@@ -1036,12 +1049,12 @@ module Aruba
     #   The input for the command
     def type(input)
       return close_input if "" == input
-      _write_interactive(_ensure_newline(input))
+      last_command.write(_ensure_newline(input))
     end
 
     # Close stdin
     def close_input
-      @interactive.stdin.close
+      last_command.close_io(:stdin)
     end
 
     # @deprecated
@@ -1053,18 +1066,21 @@ module Aruba
 
     # @private
     def _write_interactive(input)
-      @interactive.stdin.write(input)
-      @interactive.stdin.flush
+      warn('The use of "_write_interactive" is deprecated. It will be removed soon.')
+
+      last_command.write(input)
     end
 
     # @private
     def _read_interactive
-      @interactive.read_stdout
+      warn('The use of "_read_interactive" is deprecated. It will be removed soon.')
+
+      last_command.stdout
     end
 
     # @private
     def _ensure_newline(str)
-      str.chomp << "\n"
+      Utils.ensure_newline(str)
     end
 
     # @private
@@ -1074,20 +1090,6 @@ module Aruba
       else
         puts(msg)
       end
-    end
-
-    # @private
-    def detect_ruby(cmd)
-      if cmd =~ /^ruby\s/
-        cmd.gsub(/^ruby\s/, "#{current_ruby} ")
-      else
-        cmd
-      end
-    end
-
-    # @private
-    def current_ruby
-      File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
     end
 
     # Use a clean rvm gemset
@@ -1129,7 +1131,7 @@ module Aruba
     # @param [String] value
     #   The value of the environment variable. Needs to be a string.
     def set_env(key, value)
-      announcer.env(key, value)
+      announcer.announce(:environment, key, value)
       original_env[key] = ENV.delete(key) unless original_env.key? key
       ENV[key] = value
     end
@@ -1165,69 +1167,36 @@ module Aruba
       restore_env
     end
 
+    # Access to announcer
+    def announcer
+      @announcer ||= Announcer.new(
+        self,
+        :stdout => @announce_stdout,
+        :stderr => @announce_stderr,
+        :dir    => @announce_dir,
+        :cmd    => @announce_cmd,
+        :env    => @announce_env
+      )
+
+      @announcer
+    end
+
+    module_function :announcer
+
     # TODO: move some more methods under here!
 
     private
 
     def last_exit_status
-      return @last_exit_status if @last_exit_status
-      stop_processes!
-      @last_exit_status
+      process_monitor.last_exit_status
     end
 
     def stop_process(process)
-      @last_exit_status = process.stop(announcer)
+      process_monitor.stop_process(process)
     end
 
     def terminate_process(process)
-      process.terminate
-    end
-
-    def announcer
-      Announcer.new(self,
-                    :stdout => @announce_stdout,
-                    :stderr => @announce_stderr,
-                    :dir => @announce_dir,
-                    :cmd => @announce_cmd,
-                    :env => @announce_env)
-    end
-
-    class Announcer
-      def initialize(session, options = {})
-        @session = session
-        @options = options
-      end
-
-      def stdout(content)
-        return unless @options[:stdout]
-        print content
-      end
-
-      def stderr(content)
-        return unless @options[:stderr]
-        print content
-      end
-
-      def dir(dir)
-        return unless @options[:dir]
-        print "$ cd #{dir}"
-      end
-
-      def cmd(cmd)
-        return unless @options[:cmd]
-        print "$ #{cmd}"
-      end
-
-      def env(key, value)
-        return unless @options[:env]
-        print %{$ export #{key}="#{value}"}
-      end
-
-      private
-
-      def print(message)
-        @session.announce_or_puts(message)
-      end
+      process_monitor.terminate_process(process)
     end
   end
 end

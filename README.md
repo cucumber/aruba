@@ -185,8 +185,8 @@ Then wire it all up in your `features/support/env.rb` file:
 require 'aruba'
 require 'aruba/in_process'
 
-Aruba::InProcess.main_class = MyMain
-Aruba.process = Aruba::InProcess
+Aruba.process = Aruba::Processes::InProcess
+Aruba.process.main_class = MyMain
 ```
 
 That's it! Everything will now run inside the same ruby process, making your suite

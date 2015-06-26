@@ -1066,20 +1066,28 @@ describe Aruba::Api  do
     describe '@announce_stdout' do
       after(:each){@aruba.stop_processes!}
       context 'enabled' do
+        before :each do
+          @aruba.send(:announcer).activate(:stdout)
+        end
+
         it "should announce to stdout exactly once" do
-          expect(@aruba).to receive(:announce_or_puts).once
-          @aruba.set_tag(:announce_stdout, true)
-          @aruba.run_simple('echo "hello world"', false)
-          expect(@aruba.all_output).to match(/hello world/)
+          result = capture(:stdout) do
+            @aruba.run_simple('echo "hello world"', false)
+          end
+
+          expect(result).to include('hello world')
+          expect(@aruba.all_output).to include('hello world')
         end
       end
 
       context 'disabled' do
         it "should not announce to stdout" do
-          expect(@aruba).not_to receive(:announce_or_puts)
-          @aruba.set_tag(:announce_stdout, false)
-          @aruba.run_simple('echo "hello world"', false)
-          expect(@aruba.all_output).to match(/hello world/)
+          result = capture(:stdout) do
+            @aruba.run_simple('echo "hello world"', false)
+          end
+
+          expect(result).not_to include('hello world')
+          expect(@aruba.all_output).to include('hello world')
         end
       end
     end
