@@ -3,7 +3,7 @@ module Aruba
     attr_reader :config
 
     def initialize
-      @config = Aruba.config.deep_dup
+      @config = Aruba.config.make_copy
     end
   end
 end

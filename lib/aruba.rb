@@ -6,7 +6,6 @@ require 'rbconfig'
 require 'ostruct'
 require 'pathname'
 
-require 'aruba/extensions/object/deep_dup'
 require 'aruba/extensions/string/strip'
 
 require 'aruba/errors'

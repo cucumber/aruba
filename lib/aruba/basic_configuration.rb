@@ -14,14 +14,7 @@ module Aruba
       end
 
       def value
-        @value.deep_dup
-      end
-
-      def deep_dup
-        obj = self.dup
-        obj.value = value
-
-        obj
+        Marshal.load(Marshal.dump(@value))
       end
 
       def ==(other)
@@ -97,10 +90,10 @@ module Aruba
       initialize_configuration
     end
 
-    def deep_dup
+    def make_copy
       obj = self.dup
-      obj.local_options = local_options.deep_dup
-      obj.hooks         = hooks.deep_dup
+      obj.local_options = Marshal.load(Marshal.dump(local_options))
+      obj.hooks         = hooks
 
       obj
     end
@@ -129,7 +122,7 @@ module Aruba
     private
 
     def initialize_configuration
-      @local_options = self.class.known_options.deep_dup
+      @local_options = Marshal.load(Marshal.dump(self.class.known_options))
       @hooks         = Hooks.new
     end
 

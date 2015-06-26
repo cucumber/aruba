@@ -1,5 +1,3 @@
-require 'aruba/extensions/object/try'
-
 class String
   # Strips indentation in heredocs.
   #
@@ -20,7 +18,7 @@ class String
   # Technically, it looks for the least indented line in the whole string, and removes
   # that amount of leading whitespace.
   def strip_heredoc
-    indent = scan(/^[ \t]*(?=\S)/).min.try(:size) || 0
+    indent = scan(/^[ \t]*(?=\S)/).min.to_s.size
     gsub(/^[ \t]{#{indent}}/, '')
   end
 end
