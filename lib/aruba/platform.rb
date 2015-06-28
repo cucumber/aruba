@@ -1,3 +1,5 @@
+require 'rbconfig'
+
 module Aruba
   module Platform
     def detect_ruby(cmd)

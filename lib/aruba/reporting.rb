@@ -1,3 +1,5 @@
+require 'fileutils'
+
 if(ENV['ARUBA_REPORT_DIR'])
   ENV['ARUBA_REPORT_TEMPLATES'] ||= File.dirname(__FILE__) + '/../../templates'
 

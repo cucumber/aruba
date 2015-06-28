@@ -1,3 +1,5 @@
+require 'aruba/config'
+
 module Aruba
   class Runtime
     attr_reader :config

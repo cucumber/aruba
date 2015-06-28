@@ -1,5 +1,7 @@
 require 'spec_helper'
 require 'securerandom'
+require 'aruba/api'
+require 'fileutils'
 
 describe Aruba::Api  do
   include_context 'uses aruba API'

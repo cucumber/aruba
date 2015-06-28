@@ -1,3 +1,6 @@
+require 'contracts'
+require 'aruba/basic_configuration/option'
+
 module Aruba
   # Basic configuration for ProxyPacRb
   class BasicConfiguration

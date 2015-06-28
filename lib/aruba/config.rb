@@ -1,3 +1,8 @@
+require 'contracts'
+require 'aruba/basic_configuration'
+require 'aruba/config_wrapper'
+require 'aruba/hooks'
+
 module Aruba
   # Aruba Configuration
   class Configuration < BasicConfiguration

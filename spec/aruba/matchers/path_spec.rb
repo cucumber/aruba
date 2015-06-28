@@ -1,5 +1,8 @@
 require 'spec_helper'
 
+require 'fileutils'
+require 'aruba/matchers/path'
+
 RSpec.describe 'Path Matchers' do
   include_context 'uses aruba API'
 

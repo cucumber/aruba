@@ -1,3 +1,5 @@
+require 'rbconfig'
+
 # ideas taken from: http://blog.headius.com/2010/03/jruby-startup-time-tips.html
 Aruba.configure do |config|
   config.before :cmd do

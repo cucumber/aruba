@@ -1,4 +1,12 @@
-require 'aruba'
+require 'pathname'
+require 'fileutils'
+require 'aruba/extensions/string/strip'
+
+require 'aruba/platform'
+require 'aruba/api/core'
+require 'aruba/api/commands'
+require 'aruba/api/filesystem'
+require 'rspec/expectations'
 
 Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).each { |rb| require rb }
 

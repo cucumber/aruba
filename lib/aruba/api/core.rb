@@ -1,3 +1,8 @@
+require 'aruba/announcer'
+require 'aruba/runtime'
+require 'aruba/jruby'
+require 'aruba/errors'
+
 module Aruba
   module Api
     module Core

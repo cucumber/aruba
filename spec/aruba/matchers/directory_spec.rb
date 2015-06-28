@@ -1,4 +1,6 @@
 require 'spec_helper'
+require 'aruba/matchers/directory'
+require 'fileutils'
 
 RSpec.describe 'Directory Matchers' do
   include_context 'uses aruba API'

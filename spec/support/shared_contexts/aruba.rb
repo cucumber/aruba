@@ -1,3 +1,5 @@
+require 'fileutils'
+
 RSpec.shared_context 'uses aruba API' do
   def random_string(options = {})
     options[:prefix].to_s + SecureRandom.hex + options[:suffix].to_s
