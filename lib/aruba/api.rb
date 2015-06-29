@@ -13,7 +13,6 @@ Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).
 
 module Aruba
   module Api
-    include RSpec::Matchers
     include Aruba::Api::Core
     include Aruba::Api::Deprecated
 
@@ -152,12 +151,12 @@ module Aruba
     # Return content of file
     #
     # @return [Array]
-    #   The content of file
+    #   The content of file, without "\n" or "\r\n" at the end. To rebuild the file use `content.join("\n")`
     def read(name)
       fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
       fail ArgumentError, %(Only files are supported. Path "#{name}" is not a file.) unless file? name
 
-      File.readlines(expand_path(name))
+      File.readlines(expand_path(name)).map(&:chomp)
     end
 
     # Create a file with given content

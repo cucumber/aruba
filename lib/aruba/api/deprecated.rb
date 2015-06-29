@@ -306,14 +306,14 @@ module Aruba
       # @param [true, false] expect_match
       #   Must the content be in the file or not
       def check_file_content(file, content, expect_match = true)
-        warn('The use of "#check_file_content" is deprecated. Use "expect(file).to have_file_content" instead.')
+        warn('The use of "#check_file_content" is deprecated. Use "expect(file).to have_file_content(content)" instead. For eq match use string, for partial match use /regex/')
 
         stop_processes!
 
         if expect_match
-          expect(content).to have_file_content content
+          expect(file).to have_file_content content
         else
-          expect(content).not_to have_file_content content
+          expect(file).not_to have_file_content content
         end
       end
     end

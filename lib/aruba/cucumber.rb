@@ -361,8 +361,12 @@ Then /^(?:a|the) file "([^"]*)" should (not )?contain "([^"]*)"$/ do |file, expe
   check_file_content(file, Regexp.compile(Regexp.escape(partial_content)), !expect_match)
 end
 
-Then /^(?:a|the) file "([^"]*)" should (not )?contain:$/ do |file, expect_match, partial_content|
-  check_file_content(file, Regexp.compile(Regexp.escape(partial_content)), !expect_match)
+Then /^(?:a|the) file "([^"]*)" should (not )?contain:$/ do |file, not_contain, content|
+  if not_contain
+    expect(file).not_to have_file_content Regexp.new(content.chomp)
+  else
+    expect(file).to have_file_content Regexp.new(content.chomp)
+  end
 end
 
 Then /^(?:a|the) file "([^"]*)" should (not )?contain exactly:$/ do |file, expect_match, exact_content|

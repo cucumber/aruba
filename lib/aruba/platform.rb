@@ -18,8 +18,8 @@ module Aruba
       str.chomp << "\n"
     end
 
-    def require_matching_files(pattern)
-      Dir.glob(File.expand_path(pattern)).each { |f| require_relative f }
+    def require_matching_files(pattern, base)
+      Dir.glob(File.expand_path(pattern, base)).each { |f| require_relative f }
     end
 
     module_function :detect_ruby, :current_ruby, :ensure_newline, :require_matching_files

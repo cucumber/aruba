@@ -20,13 +20,15 @@ require 'fileutils'
 #       it { expect(file1).to have_same_file_content_like(file2) }
 #     end
 RSpec::Matchers.define :have_same_file_content_like do |expected|
-  stop_processes!
-
   match do |actual|
-    FileUtils.compare_file(
-      expand_path(actual),
-      expand_path(expected)
-    )
+    stop_processes!
+
+    next false unless file?(actual) && file?(expected)
+
+    @actual = expand_path(actual)
+    @expected = expand_path(expected)
+
+    FileUtils.compare_file(@actual,@expected)
   end
 
   failure_message do |actual|
@@ -37,4 +39,3 @@ RSpec::Matchers.define :have_same_file_content_like do |expected|
     format("expected that file \"%s\" differs from file \"%s\".", actual, expected)
   end
 end
-

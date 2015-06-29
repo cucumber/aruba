@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'aruba/matchers/file'
 
 RSpec.describe 'File Matchers' do
   include_context 'uses aruba API'

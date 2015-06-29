@@ -41,9 +41,15 @@ RSpec::Matchers.define :have_file_content do |expected|
 
     next false unless file? actual
 
-    values_match?(expected, File.read(expand_path(actual)).chomp)
+    @actual   = read(actual).join("\n").chomp
+    @expected = if expected.is_a? String
+                  expected.chomp
+                else
+                  expected
+                end
+
+    values_match?(@expected, @actual)
   end
 
   description { "have file content: #{description_of expected}" }
 end
-

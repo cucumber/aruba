@@ -32,4 +32,3 @@ RSpec::Matchers.define :be_an_existing_file do |_|
 end
 
 RSpec::Matchers.alias_matcher :an_existing_file, :be_an_existing_file
-

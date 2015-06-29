@@ -1,3 +1,4 @@
+require 'rspec/expectations'
 require 'aruba/announcer'
 require 'aruba/runtime'
 require 'aruba/jruby'
@@ -6,6 +7,8 @@ require 'aruba/errors'
 module Aruba
   module Api
     module Core
+      include ::RSpec::Matchers
+
       # Aruba Runtime
       def aruba
         @_aruba_runtime ||= Runtime.new
