@@ -20,6 +20,8 @@ require 'fileutils'
 #       it { expect(file1).to have_same_file_content_like(file2) }
 #     end
 RSpec::Matchers.define :have_same_file_content_like do |expected|
+  stop_processes!
+
   match do |actual|
     FileUtils.compare_file(
       expand_path(actual),
@@ -36,7 +38,7 @@ RSpec::Matchers.define :have_same_file_content_like do |expected|
   end
 end
 
-# @!method be_existing_file
+# @!method be_an_existing_file
 #   This matchers checks if <file> exists in filesystem
 #
 #   @return [TrueClass, FalseClass] The result
@@ -49,10 +51,12 @@ end
 #   @example Use matcher
 #
 #     RSpec.describe do
-#       it { expect(file1).to be_existing_file }
+#       it { expect(file1).to be_an_existing_file }
 #     end
-RSpec::Matchers.define :be_existing_file do |_|
+RSpec::Matchers.define :be_an_existing_file do |_|
   match do |actual|
+    stop_processes!
+
     next false unless actual.is_a? String
 
     file?(actual)
@@ -67,36 +71,7 @@ RSpec::Matchers.define :be_existing_file do |_|
   end
 end
 
-# @!method be_existing_files
-#   This matchers checks if <files> exists in filessystem
-#
-#   @return [TrueClass, FalseClass] The result
-#
-#     false:
-#     * if files does not exist
-#     true:
-#     * if files exists
-#
-#   @example Use matcher
-#
-#     RSpec.describe do
-#       it { expect(%w(file1 file2)).to be_existing_files }
-#     end
-RSpec::Matchers.define :be_existing_files do |_|
-  match do |actual|
-    next false unless actual.is_a? Array
-
-    actual.all? { |f| file?(f) }
-  end
-
-  failure_message do |actual|
-    format("expected that files \"%s\" exists", actual.join(', '))
-  end
-
-  failure_message_when_negated do |actual|
-    format("expected that files \"%s\" does not exist", actual.join(', '))
-  end
-end
+RSpec::Matchers.alias_matcher :an_existing_file, :be_an_existing_file
 
 # @!method have_file_content(content)
 #   This matchers checks if <file> has content. `content` can be a string,
@@ -137,6 +112,8 @@ end
 #     end
 RSpec::Matchers.define :have_file_content do |expected|
   match do |actual|
+    stop_processes!
+
     next false unless file? actual
 
     values_match?(expected, File.read(expand_path(actual)).chomp)
@@ -162,10 +139,15 @@ end
 #
 #     RSpec.describe do
 #       it { expect('file.txt').to have_file_size(0) }
+#       it { expect(%w(file.txt file2.txt)).to all have_file_size(0) }
+#       it { expect(%w(file.txt file2.txt)).to include a_file_with_size(0) }
 #     end
 RSpec::Matchers.define :have_file_size do |expected|
   match do |actual|
+    stop_processes!
+
     next false unless File.file? expand_path(actual)
+
     File.size(expand_path(actual)) == expected
   end
 
@@ -177,3 +159,5 @@ RSpec::Matchers.define :have_file_size do |expected|
     format("expected that file \"%s\" does not have size \"%s\", but has \"%s\"", actual, File.size(expand_path(actual)), expected)
   end
 end
+
+RSpec::Matchers.alias_matcher :a_file_with_size, :have_file_size

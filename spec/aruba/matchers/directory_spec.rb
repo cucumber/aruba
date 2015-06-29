@@ -9,7 +9,7 @@ RSpec.describe 'Directory Matchers' do
     @aruba.expand_path(*args)
   end
 
-  describe 'to_be_existing_directory' do
+  describe 'to_be_an_existing_directory' do
     let(:name) { 'test.d' }
     let(:path) { File.join(@aruba.current_directory, name) }
 
@@ -18,11 +18,11 @@ RSpec.describe 'Directory Matchers' do
         FileUtils.mkdir_p path
       end
 
-      it { expect(name).to be_existing_directory }
+      it { expect(name).to be_an_existing_directory }
     end
 
     context 'when directory does not exist' do
-      it { expect(name).not_to be_existing_directory }
+      it { expect(name).not_to be_an_existing_directory }
     end
   end
 

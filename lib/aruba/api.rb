@@ -6,6 +6,7 @@ require 'aruba/platform'
 require 'aruba/api/core'
 require 'aruba/api/commands'
 require 'aruba/api/filesystem'
+require 'aruba/api/deprecated'
 require 'rspec/expectations'
 
 Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).each { |rb| require rb }
@@ -13,8 +14,8 @@ Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).
 module Aruba
   module Api
     include RSpec::Matchers
-    include Aruba::Platform
     include Aruba::Api::Core
+    include Aruba::Api::Deprecated
 
     # Expand file name
     #
@@ -58,14 +59,6 @@ module Aruba
       else
         in_current_directory { File.expand_path file_name, dir_string }
       end
-    end
-
-    # @private
-    # @deprecated
-    def absolute_path(*args)
-      warn('The use of "absolute_path" is deprecated. Use "expand_path" instead. But be aware that "expand_path" uses a different implementation.')
-
-      in_current_directory { File.expand_path File.join(*args) }
     end
 
     # Check if file or directory exist
@@ -179,18 +172,6 @@ module Aruba
     #   The content which should be written to the file
     def write_file(file_name, file_content)
       _create_file(file_name, file_content, false)
-    end
-
-    # @private
-    # @deprecated
-    # Create an empty file
-    #
-    # @param [String] file_name
-    #   The name of the file
-    def touch_file(*args)
-      warn('The use of "touch_file" is deprecated. Use "touch" instead')
-
-      touch(*args)
     end
 
     # Create an empty file
@@ -320,14 +301,6 @@ module Aruba
       self
     end
 
-    # @private
-    # @deprecated
-    def chmod(*args, &block)
-      warn('The use of "chmod" is deprecated. Use "filesystem_permissions" instead')
-
-      filesystem_permissions(*args, &block)
-    end
-
     # Check file system permissions of file
     #
     # @param [Octal] expected_permissions
@@ -356,32 +329,12 @@ module Aruba
     end
 
     # @private
-    # @deprecated
-    def mod?(*args, &block)
-      warn('The use of "mod?" is deprecated. Use "check_filesystem_permissions" instead')
-
-      check_filesystem_permissions(*args, &block)
-    end
-
-    # @private
     def _create_fixed_size_file(file_name, file_size, check_presence)
       file_name = expand_path(file_name)
 
       raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
       _mkdir(File.dirname(file_name))
       File.open(file_name, "wb"){ |f| f.seek(file_size - 1); f.write("\0") }
-    end
-
-    # @private
-    # @deprecated
-    # Remove file
-    #
-    # @param [String] file_name
-    #    The file which should be deleted in current directory
-    def remove_file(*args)
-      warn('The use of "remove_file" is deprecated. Use "remove" instead')
-
-      remove(*args)
     end
 
     # Append data to file
@@ -408,13 +361,6 @@ module Aruba
       self
     end
 
-    # @private
-    # @deprecated
-    def create_dir(*args)
-      warn('The use of "create_dir" is deprecated. Use "create_directory" instead')
-      create_directory(*args)
-    end
-
     # Remove file or directory
     #
     # @param [Array, String] name
@@ -433,55 +379,6 @@ module Aruba
       FileUtils.rm_r(args, options)
     end
 
-    # @private
-    # @deprecated
-    # Remove directory
-    #
-    # @param [String] directory_name
-    #   The name of the directory which should be removed
-    def remove_directory(*args)
-      warn('The use of "remove_directory" is deprecated. Use "remove" instead')
-      remove(*args)
-    end
-
-    # @private
-    # @deprecated
-    def remove_dir(*args)
-      warn('The use of "remove_dir" is deprecated. Use "remove" instead')
-      remove(*args)
-    end
-
-    # @deprecated
-    #
-    # Check if paths are present
-    #
-    # @param [#each] paths
-    #   The paths which should be checked
-    #
-    # @param [true,false] expect_presence
-    #   Should the given paths be present (true) or absent (false)
-    def check_file_presence(paths, expect_presence = true)
-      warn('The use of "check_file_presence" is deprecated. Use "expect().to be_existing_file or expect(all_paths).to match_path_pattern() instead" ')
-
-      stop_processes!
-
-      Array(paths).each do |path|
-        if path.kind_of? Regexp
-          if expect_presence
-            expect(all_paths).to match_path_pattern(path)
-          else
-            expect(all_paths).not_to match_path_pattern(path)
-          end
-        else
-          if expect_presence
-            expect(path).to be_existing_file
-          else
-            expect(path).not_to be_existing_file
-          end
-        end
-      end
-    end
-
     # Pipe data in file
     #
     # @param [String] file_name
@@ -491,29 +388,6 @@ module Aruba
 
       File.open(file_name, 'r').each_line do |line|
         last_command.write(line)
-      end
-    end
-
-    # Check the file size of paths
-    #
-    # @params [Hash] paths_and_sizes
-    #   A hash containing the path (key) and the expected size (value)
-    #
-    # @example
-    #
-    #   paths_and_sizes = {
-    #     'file' => 10
-    #   }
-    #
-    #   check_file_size(paths_and_sizes)
-    #
-    def check_file_size(paths_and_sizes)
-      stop_processes!
-
-      paths_and_sizes.each do |path, size|
-        path = expand_path(path)
-
-        expect(File.size(path)).to eq size
       end
     end
 
@@ -527,99 +401,9 @@ module Aruba
     def with_file_content(file, &block)
       stop_processes!
 
-      file = expand_path(file)
-      content = IO.read(file)
+      content = read(file).join("\n")
 
       yield(content)
-    end
-
-    # Check the content of file
-    #
-    # It supports partial content as well. And it is up to you to decided if
-    # the content must be there or not.
-    #
-    # @param [String] file
-    #   The file to be checked
-    #
-    # @param [String, Regexp] content
-    #   The content which must/must not be in the file. If content is
-    #   a String exact match is done, if content is a Regexp then file
-    #   is matched using regular expression
-    #
-    # @param [true, false] expect_match
-    #   Must the content be in the file or not
-    def check_file_content(file, content, expect_match = true)
-      stop_processes!
-
-      match_content =
-        if(Regexp === content)
-          match(content)
-        else
-          eq(content)
-        end
-
-      content = IO.read(expand_path(file))
-
-      if expect_match
-        expect(content).to match_content
-      else
-        expect(content).not_to match_content
-      end
-    end
-
-    # @private
-    # @deprecated
-    def check_exact_file_content(file, exact_content, expect_match = true)
-      warn('The use of "check_exact_file_content" is deprecated. Use "#check_file_content" with a string instead.')
-
-      check_file_content(file, exact_content, expect_match)
-    end
-
-    # Check if the content of file against the content of a reference file
-    #
-    # @param [String] file
-    #   The file to be checked
-    #
-    # @param [String] reference_file
-    #   The reference file
-    #
-    # @param [true, false] expect_match
-    #   Must the content be in the file or not
-    def check_binary_file_content(file, reference_file, expect_match = true)
-      if expect_match
-        expect(file).to have_same_file_content_like reference_file
-      else
-        expect(file).not_to have_same_file_content_like reference_file
-      end
-    end
-
-    # Check presence of a directory
-    #
-    # @param [Array] paths
-    #   The paths to be checked
-    #
-    # @param [true, false] expect_presence
-    #   Should the directory be there or should the directory not be there
-    def check_directory_presence(paths, expect_presence)
-      stop_processes!
-
-      paths.each do |path|
-        path = expand_path(path)
-
-        if expect_presence
-          expect(File).to be_directory(path)
-        else
-          expect(File).not_to be_directory(path)
-        end
-      end
-    end
-
-    # @private
-    def prep_for_fs_check(&block)
-      warn('The use of "prep_for_fs_check" is deprecated. It will be removed soon.')
-
-      process_monitor.stop_processes!
-      in_current_directory{ block.call }
     end
 
     # @private
@@ -772,27 +556,6 @@ module Aruba
       assert_partial_output(expected, all_output)
     end
 
-    # @private
-    # @deprecated
-    def assert_exit_status_and_partial_output(expect_to_pass, expected)
-      warn('The use of "assert_exit_status_and_partial_output" is deprecated. Use "#assert_access" and "#assert_partial_output" instead.')
-
-      assert_success(expect_to_pass)
-      assert_partial_output(expected, all_output)
-    end
-
-    # TODO: Remove this. Call more methods elsewhere instead. Reveals more intent.
-    # @private
-    # @deprecated
-    def assert_exit_status_and_output(expect_to_pass, expected_output, expect_exact_output)
-      assert_success(expect_to_pass)
-      if expect_exact_output
-        assert_exact_output(expected_output, all_output)
-      else
-        assert_partial_output(expected_output, all_output)
-      end
-    end
-
     # Check exit status of process
     #
     # @return [TrueClass, FalseClass]
@@ -854,11 +617,6 @@ module Aruba
     # @private
     def get_process(wanted)
       process_monitor.get_process(wanted)
-    end
-
-    # @private
-    def only_processes
-      process_monitor.only_processes
     end
 
     # Run given command and stop it if timeout is reached
@@ -951,67 +709,18 @@ module Aruba
       expect(command).to be_successfully_executed if fail_on_error
     end
 
-    # Run a command interactively
-    #
-    # @param [String] cmd
-    #   The command to by run
-    #
-    # @see #cmd
-    # @deprectated
-    # @private
-    def run_interactive(cmd)
-      warn('The use of "run_interactive" is deprecated. You can simply use "run" instead.')
-
-      run(cmd)
-    end
-
     # Provide data to command via stdin
     #
     # @param [String] input
     #   The input for the command
     def type(input)
       return close_input if "" == input
-      last_command.write(_ensure_newline(input))
+      last_command.write(input << "\n")
     end
 
     # Close stdin
     def close_input
       last_command.close_io(:stdin)
-    end
-
-    # @deprecated
-    # @private
-    def eot
-      warn(%{\e[35m    The \"#eot\"-method is deprecated. It will be deleted with the next major version. Please use \"#close_input\"-method instead.\e[0m})
-      close_input
-    end
-
-    # @private
-    def _write_interactive(input)
-      warn('The use of "_write_interactive" is deprecated. It will be removed soon.')
-
-      last_command.write(input)
-    end
-
-    # @private
-    def _read_interactive
-      warn('The use of "_read_interactive" is deprecated. It will be removed soon.')
-
-      last_command.stdout
-    end
-
-    # @private
-    def _ensure_newline(str)
-      Platform.ensure_newline(str)
-    end
-
-    # @private
-    def announce_or_puts(msg)
-      if(@puts)
-        Kernel.puts(msg)
-      else
-        puts(msg)
-      end
     end
 
     # Use a clean rvm gemset

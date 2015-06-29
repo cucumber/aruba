@@ -561,18 +561,18 @@ describe Aruba::Api  do
             end
 
             context 'when source is plain file' do
-              it { expect(destination).to be_existing_file }
+              it { expect(destination).to be_an_existing_file }
             end
 
             context 'when source is contains "~" in path' do
               let(:source) { '~/file.txt' }
-              it { expect(destination).to be_existing_file }
+              it { expect(destination).to be_an_existing_file }
             end
 
             context 'when source is fixture' do
               let(:source) { '%/copy/file.txt' }
               let(:destination) { 'file.txt' }
-              it { expect(destination).to be_existing_file }
+              it { expect(destination).to be_an_existing_file }
             end
 
             context 'when source is list of files' do
@@ -580,7 +580,7 @@ describe Aruba::Api  do
               let(:destination) { 'file.d' }
               let(:destination_files) { source.map { |s| File.join(destination, s) } }
 
-              it { expect(destination_files).to be_existing_files }
+              it { expect(destination_files).to all be_an_existing_file }
             end
           end
 
@@ -597,14 +597,14 @@ describe Aruba::Api  do
             end
 
             context 'when source is single directory' do
-              it { expect(destination).to be_existing_directory }
+              it { expect(destination).to be_an_existing_directory }
             end
 
             context 'when source is nested directory' do
               let(:source) { 'src.d/subdir.d' }
               let(:destination) { 'dst.d/' }
 
-              it { expect(destination).to be_existing_directory }
+              it { expect(destination).to be_an_existing_directory }
             end
           end
         end
@@ -626,7 +626,7 @@ describe Aruba::Api  do
                 @aruba.copy source, destination
               end
 
-              it { source.each { |s| expect(destination_files).to be_existing_files } }
+              it { source.each { |s| expect(destination_files).to all be_an_existing_file } }
             end
 
             context 'when destination is not a directory' do

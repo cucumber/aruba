@@ -322,18 +322,18 @@ end
 Then /^the following files should (not )?exist:$/ do |expect_match, files|
   files.raw.each do |row|
     if expect_match
-      expect(row[0]).not_to be_existing_file
+      expect(row[0]).not_to be_an_existing_file
     else
-      expect(row[0]).to be_existing_file
+      expect(row[0]).to be_an_existing_file
     end
   end
 end
 
 Then /^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist$/ do |file, expect_match|
   if expect_match
-    expect(file).not_to be_existing_file
+    expect(file).not_to be_an_existing_file
   else
-    expect(file).to be_existing_file
+    expect(file).to be_an_existing_file
   end
 end
 

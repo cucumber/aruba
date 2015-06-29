@@ -53,18 +53,18 @@ RSpec.describe 'Path Matchers' do
     end
   end
 
-  describe 'to_be_existing_path' do
+  describe 'to_be_an_existing_path' do
     context 'when file' do
       context 'exists' do
         before :each do
           File.write(@file_path, '')
         end
 
-        it { expect(@file_name).to be_existing_path }
+        it { expect(@file_name).to be_an_existing_path }
       end
 
       context 'does not exist' do
-        it { expect(@file_name).not_to be_existing_path }
+        it { expect(@file_name).not_to be_an_existing_path }
       end
     end
 
@@ -77,11 +77,11 @@ RSpec.describe 'Path Matchers' do
           FileUtils.mkdir_p path
         end
 
-        it { expect(name).to be_existing_path }
+        it { expect(name).to be_an_existing_path }
       end
 
       context 'does not exist' do
-        it { expect(name).not_to be_existing_path }
+        it { expect(name).not_to be_an_existing_path }
       end
     end
   end

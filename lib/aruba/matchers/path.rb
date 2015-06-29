@@ -38,7 +38,7 @@ RSpec::Matchers.define :match_path_pattern do |_|
   end
 end
 
-# @!method be_existing_path
+# @!method be_an_existing_path
 #   This matchers checks if <path> exists in filesystem
 #
 #   @return [TrueClass, FalseClass] The result
@@ -51,10 +51,12 @@ end
 #   @example Use matcher
 #
 #     RSpec.describe do
-#       it { expect(file).to be_existing_path }
-#       it { expect(directory).to be_existing_path }
+#       it { expect(file).to be_an_existing_path }
+#       it { expect(directory).to be_an_existing_path }
+#       it { expect(all_directories).to all be_an_existing_path }
+#       it { expect(all_directories).to include an_existing_path }
 #     end
-RSpec::Matchers.define :be_existing_path do |_|
+RSpec::Matchers.define :be_an_existing_path do |_|
   match do |actual|
     exist?(actual)
   end
@@ -67,6 +69,8 @@ RSpec::Matchers.define :be_existing_path do |_|
     format("expected that path \"%s\" does not exist", actual)
   end
 end
+
+RSpec::Matchers.alias_matcher :an_existing_path, :be_an_existing_path
 
 # @!method be_absolute_path
 #   This matchers checks if <path> exists in filesystem

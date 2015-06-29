@@ -10,6 +10,7 @@ Style/HashSyntax:
 Metrics/ModuleLength:
   Exclude:
     - lib/aruba/api.rb
+    - lib/aruba/api/deprecated.rb
 
 Metrics/AbcSize:
   Enabled: false
@@ -35,6 +36,9 @@ Lint/UselessAssignment:
 # Configuration parameters: AllowURI.
 Metrics/LineLength:
   Max: 169
+  Exclude:
+    - lib/aruba/api.rb
+    - lib/aruba/api/deprecated.rb
 
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
