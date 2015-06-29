@@ -634,7 +634,7 @@ module Aruba
       @commands ||= []
       @commands << cmd
 
-      cmd = detect_ruby(cmd)
+      cmd = Aruba::Platform.detect_ruby(cmd)
 
       aruba.config.hooks.execute(:before_cmd, self, cmd)
 
