@@ -137,7 +137,7 @@ When /^I run "([^"]*)" interactively$/ do |cmd|
 end
 
 When /^I run `([^`]*)` interactively$/ do |cmd|
-  run(unescape(cmd))
+  @interactive = run(unescape(cmd))
 end
 
 When /^I type "([^"]*)"$/ do |input|
