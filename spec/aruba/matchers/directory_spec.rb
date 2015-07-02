@@ -4,10 +4,7 @@ require 'fileutils'
 
 RSpec.describe 'Directory Matchers' do
   include_context 'uses aruba API'
-
-  def expand_path(*args)
-    @aruba.expand_path(*args)
-  end
+  include_context 'needs to expand paths'
 
   describe 'to_be_an_existing_directory' do
     let(:name) { 'test.d' }

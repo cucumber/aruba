@@ -12,7 +12,7 @@ After do
 end
 
 Before('~@no-clobber') do
-  clean_current_directory
+  setup_aruba
 end
 
 Before('@puts') do

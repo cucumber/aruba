@@ -301,7 +301,7 @@ expand_path('%/song.mp3')
         let(:path) { expand_path('%/song.mp3') }
 
         before :each do
-          in_current_directory { FileUtils.cp path, 'file.mp3' }
+          cd('.') { FileUtils.cp path, 'file.mp3' }
         end
 
         before :each do

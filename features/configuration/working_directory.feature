@@ -1,7 +1,7 @@
-Feature: Configure current directory of aruba
+Feature: Configure working directory of aruba
 
   As a developer
-  I want to configure the current directory of aruba
+  I want to configure the working directory of aruba
   In order to have a test directory for each used spec runner - e.g. cucumber or rspec
 
   Background:
@@ -12,20 +12,20 @@ Feature: Configure current directory of aruba
     Given a file named "features/support/aruba.rb" with:
     """
     Aruba.configure do |config|
-      puts %(The default value is "%w(#{config.current_directory.join(" ")})")
+      puts %(The default value is "#{config.working_directory}")
     end
     """
     When I successfully run `cucumber`
     Then the output should contain:
     """
-    The default value is "%w(tmp aruba)"
+    The default value is "tmp/aruba"
     """
 
   Scenario: Modify value
     Given a file named "features/support/aruba.rb" with:
     """
     Aruba.configure do |config|
-      config.current_directory = %w(tmp cucumber)
+      config.working_directory = 'tmp/cucumber'
     end
     """
     When I successfully run `cucumber`

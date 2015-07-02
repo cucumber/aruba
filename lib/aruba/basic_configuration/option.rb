@@ -2,20 +2,16 @@ module Aruba
   class BasicConfiguration
     # A configuration option
     class Option
-      attr_accessor :name
-      attr_writer :value
+      attr_accessor :name, :value
+      attr_reader :default_value
 
-      def initialize(name:, value:)
-        @name  = name
-        @value = value
-      end
+      def initialize(name: nil, value: nil)
+        fail ArgumentError, '"name" is required' if name.nil?
+        fail ArgumentError, '"value" is required' if value.nil?
 
-      def value
-        Marshal.load(Marshal.dump(@value))
-      end
-
-      def deep_dup
-        Marshal.load(Marshal.dump(self))
+        @name          = name
+        @value         = value
+        @default_value = value
       end
 
       def ==(other)

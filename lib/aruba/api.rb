@@ -16,50 +16,6 @@ module Aruba
     include Aruba::Api::Core
     include Aruba::Api::Deprecated
 
-    # Expand file name
-    #
-    # @param [String] file_name
-    #   Name of file
-    #
-    # @param [String] dir_string
-    #   Name of directory to use as starting point, otherwise current directory is used.
-    #
-    # @return [String]
-    #   The full path
-    #
-    # @example Single file name
-    #
-    #   # => <path>/tmp/aruba/file
-    #   expand_path('file')
-    #
-    # @example Single Dot
-    #
-    #   # => <path>/tmp/aruba
-    #   expand_path('.')
-    #
-    # @example using home directory
-    #
-    #   # => <path>/home/<name>/file
-    #   expand_path('~/file')
-    #
-    # @example using fixtures directory
-    #
-    #   # => <path>/test/fixtures/file
-    #   expand_path('%/file')
-    #
-    def expand_path(file_name, dir_string = nil)
-      message = "Filename cannot be nil or empty. Please use `expand_path('.')` if you want the current directory to be expanded."
-      # rubocop:disable Style/RaiseArgs
-      fail ArgumentError, message if file_name.nil? || file_name.empty?
-      # rubocop:enable Style/RaiseArgs
-
-      if aruba.config.fixtures_path_prefix == file_name[0]
-        File.join fixtures_directory, file_name[1..-1]
-      else
-        in_current_directory { File.expand_path file_name, dir_string }
-      end
-    end
-
     # Check if file or directory exist
     #
     # @param [String] file_or_directory
@@ -186,10 +142,9 @@ module Aruba
                   {}
                 end
 
-      args = args.map { |p| expand_path(p) }
-      args.each { |p| _mkdir(File.dirname(p)) }
+      args.each { |p| create_directory(File.dirname(p)) }
 
-      FileUtils.touch(args, options)
+      FileUtils.touch(args.map { |p| expand_path(p) }, options)
 
       self
     end
@@ -221,9 +176,9 @@ module Aruba
       destination_path = expand_path(destination)
 
       if source_paths.count > 1
-        _mkdir(destination_path)
+        Aruba::Platform.mkdir(destination_path)
       else
-        _mkdir(File.dirname(destination_path))
+        Aruba::Platform.mkdir(File.dirname(destination_path))
         source_paths = source_paths.first
       end
 
@@ -263,7 +218,7 @@ module Aruba
 
       raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
 
-      _mkdir(File.dirname(file_name))
+      Aruba::Platform.mkdir(File.dirname(file_name))
       File.open(file_name, 'w') { |f| f << file_content }
 
       self
@@ -332,7 +287,7 @@ module Aruba
       file_name = expand_path(file_name)
 
       raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
-      _mkdir(File.dirname(file_name))
+      Aruba::Platform.mkdir(File.dirname(file_name))
       File.open(file_name, "wb"){ |f| f.seek(file_size - 1); f.write("\0") }
     end
 
@@ -346,7 +301,7 @@ module Aruba
     def append_to_file(file_name, file_content)
       file_name = expand_path(file_name)
 
-      _mkdir(File.dirname(file_name))
+      Aruba::Platform.mkdir(File.dirname(file_name))
       File.open(file_name, 'a') { |f| f << file_content }
     end
 
@@ -375,7 +330,7 @@ module Aruba
 
       args = args.map { |p| expand_path(p) }
 
-      FileUtils.rm_r(args, options)
+      Aruba::Platform.rm(args, options)
     end
 
     # Pipe data in file
@@ -403,20 +358,6 @@ module Aruba
       content = read(file).join("\n")
 
       yield(content)
-    end
-
-    # @private
-    def _mkdir(dir_name)
-      dir_name = File.expand_path(dir_name)
-
-      FileUtils.mkdir_p(dir_name) unless File.directory?(dir_name)
-    end
-
-    # @private
-    def _rm_rf(dir_name)
-      dir_name = File.expand_path(dir_name)
-
-      FileUtils.rm_rf(dir_name)
     end
 
     # Unescape string

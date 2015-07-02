@@ -11,5 +11,5 @@ RSpec.configure do |config|
   end
 
   config.include Aruba::Api
-  config.before(:each) { clean_current_directory }
+  config.before(:each) { setup_aruba }
 end

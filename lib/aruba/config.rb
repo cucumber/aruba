@@ -2,12 +2,13 @@ require 'contracts'
 require 'aruba/basic_configuration'
 require 'aruba/config_wrapper'
 require 'aruba/hooks'
+require 'aruba/contracts/relative_path'
 
 module Aruba
   # Aruba Configuration
   class Configuration < BasicConfiguration
     option_reader   :root_directory, contract: { None => String }, default: Dir.getwd
-    option_accessor :current_directory, contract: { Array => Array }, default: %w(tmp aruba)
+    option_accessor :working_directory, contract: { Aruba::Contracts::RelativePath => Aruba::Contracts::RelativePath }, default: 'tmp/aruba'
     option_reader   :fixtures_path_prefix, contract: { None => String }, default: ?%
     option_accessor :exit_timeout, contract: { Num => Num }, default: 3
     option_accessor :io_wait_timeout, contract: { Num => Num }, default: 0.1

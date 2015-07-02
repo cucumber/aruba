@@ -6,25 +6,6 @@ module Aruba
   class BasicConfiguration
     include Contracts
 
-    # A configuration option
-    class Option
-      attr_accessor :name
-      attr_writer :value
-
-      def initialize(name:, value:)
-        @name  = name
-        @value = value
-      end
-
-      def value
-        Marshal.load(Marshal.dump(@value))
-      end
-
-      def ==(other)
-        name == other.name && value == other.value
-      end
-    end
-
     class << self
       def known_options
         @known_options ||= {}
