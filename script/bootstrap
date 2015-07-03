@@ -17,4 +17,4 @@ echo "$info_msg rubygem \"bundler\" "
 gem install bundler
 
 echo "$info_msg \"bundle install\" "
-bundle install
+bundle install $*
