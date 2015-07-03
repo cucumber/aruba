@@ -11,6 +11,29 @@ Feature: before_cmd hooks
       require 'aruba/api'
 
       Aruba.configure do |config|
+        config.before :command do |cmd|
+          puts "about to run `#{cmd}`"
+        end
+      end
+
+      include Aruba::Api
+      setup_aruba
+      run_simple("echo 'running'")
+      puts last_command.stdout
+      """
+    When I run `ruby test.rb`
+    Then it should pass with:
+      """
+      about to run `echo 'running'`
+      running
+      """
+
+  Scenario: Run a simple command with a before hook (deprecated)
+    Given a file named "test.rb" with:
+      """
+      require 'aruba/api'
+
+      Aruba.configure do |config|
         config.before :cmd do |cmd|
           puts "about to run `#{cmd}`"
         end
@@ -58,5 +81,28 @@ Feature: before_cmd hooks
     Then it should pass with:
       """
       I can see @your_context=something
+      running
+      """
+
+  Scenario: Run a simple command with a before_cmd hook (deprecated)
+    Given a file named "test.rb" with:
+      """
+      require 'aruba/api'
+
+      Aruba.configure do |config|
+        config.before_cmd do |cmd|
+          puts "about to run `#{cmd}`"
+        end
+      end
+
+      include Aruba::Api
+      setup_aruba
+      run_simple("echo 'running'")
+      puts last_command.stdout
+      """
+    When I run `ruby test.rb`
+    Then it should pass with:
+      """
+      about to run `echo 'running'`
       running
       """

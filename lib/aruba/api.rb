@@ -576,7 +576,8 @@ module Aruba
 
       cmd = Aruba::Platform.detect_ruby(cmd)
 
-      aruba.config.hooks.execute(:before_cmd, self, cmd)
+      aruba.config.before(:cmd, self, cmd)
+      aruba.config.before(:command, self, cmd)
 
       announcer.announce(:directory, Dir.pwd)
       announcer.announce(:command, cmd)
@@ -584,6 +585,8 @@ module Aruba
       process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'))
       process_monitor.register_process(cmd, process)
       process.run!
+
+      aruba.config.after(:command, self, cmd)
 
       block_given? ? yield(process) : process
     end

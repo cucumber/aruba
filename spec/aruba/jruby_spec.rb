@@ -26,7 +26,7 @@ describe "Aruba JRuby Startup Helper"  do
     end
 
     before :each do
-      Aruba.config.hooks.execute :before_cmd, self
+      Aruba.config.before :cmd, self
     end
 
     it { expect(ENV['JRUBY_OPTS']).to eq '--1.9' }
@@ -46,7 +46,7 @@ describe "Aruba JRuby Startup Helper"  do
     end
 
     before :each do
-      Aruba.config.hooks.execute :before_cmd, self
+      Aruba.config.before :cmd, self
     end
 
     it { expect(ENV['JRUBY_OPTS']).to eq '-X-C --1.9' }

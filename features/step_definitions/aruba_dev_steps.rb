@@ -86,3 +86,7 @@ Given(/^the default feature-test$/) do
     EOS
   )
 end
+
+Before do
+  aruba.config.exit_timeout = 15
+end

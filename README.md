@@ -4,11 +4,12 @@
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.png)](https://codeclimate.com/github/cucumber/aruba)
 [![Join the chat at https://gitter.im/cucumber/aruba](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cucumber/aruba?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Aruba is Cucumber extension for testing command line applications. Features at a glance:
+Aruba is extension for popular testing frameworks - e.g. Cucumber, RSpec - for
+testing command line applications. Features at a glance:
 
 * Test any command line application, implemented in any language
 * Manipulate the file system
-* Automatically reset state of file system between scenarios
+* Automatically reset state of file system between tests
 
 ## Install
 
@@ -136,21 +137,26 @@ Aruba defines several tags that you can put on on individual scenarios, or on a 
 
 To get more information on what Aruba is doing, use these tags:
 
-* `@announce-cmd` - See what command is run
+* `@announce-command` - See what command is run
 * `@announce-stdout` - See the stdout
 * `@announce-stderr` - See the stderr
-* `@announce-dir` - See the current directory
-* `@announce-env` - See environment variables set by Aruba
+* `@announce-output` - See the output of stdout and stderr
+* `@announce-directory` - See the current directory
+* `@announce-environment` - See environment variables set by Aruba
 * `@announce` - Does all of the above
 
 ### Adding Hooks
 
-You can hook into Aruba's lifecycle just before it runs a command:
+You can hook into Aruba's lifecycle just before it runs a command and after it has run the command:
 
 ```ruby
 Aruba.configure do |config|
-  config.before :cmd do |cmd|
+  config.before :command do |cmd|
     puts "About to run '#{cmd}'"
+  end
+
+  config.after :command do |cmd|
+    puts "After the run of '#{cmd}'"
   end
 end
 ```
@@ -230,7 +236,7 @@ or setting a hook like this example:
 
 ```ruby
 Aruba.configure do |config|
-  config.before :cmd do |cmd|
+  config.before :command do |cmd|
     set_env('JRUBY_OPTS', "-X-C #{ENV['JRUBY_OPTS']}") # disable JIT since these processes are so short lived
     set_env('JAVA_OPTS', "-d32 #{ENV['JAVA_OPTS']}") # force jRuby to use client JVM for faster startup times
   end

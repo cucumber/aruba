@@ -19,7 +19,13 @@ Before('@puts') do
   announcer.mode = :puts
 end
 
+Before('@announce-command') do
+  announcer.activate :command
+end
+
 Before('@announce-cmd') do
+  Aruba::Platform.deprecated 'The use of "@announce-cmd"-hook is deprecated. Please use "@announce-command"'
+
   announcer.activate :command
 end
 
@@ -32,10 +38,22 @@ Before('@announce-stderr') do
 end
 
 Before('@announce-dir') do
+  Aruba::Platform.deprecated 'The use of "@announce-dir"-hook is deprecated. Please use "@announce-directory"'
+
+  announcer.activate :directory
+end
+
+Before('@announce-directory') do
   announcer.activate :directory
 end
 
 Before('@announce-env') do
+  Aruba::Platform.deprecated 'The use of "@announce-env"-hook is deprecated. Please use "@announce-environment"'
+
+  announcer.activate :environment
+end
+
+Before('@announce-environment') do
   announcer.activate :environment
 end
 

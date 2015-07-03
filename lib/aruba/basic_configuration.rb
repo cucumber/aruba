@@ -54,9 +54,9 @@ module Aruba
     attr_accessor :local_options
     attr_writer :hooks
 
-    public
+    # attr_reader :hooks
 
-    attr_reader :hooks
+    public
 
     def initialize
       initialize_configuration
@@ -74,20 +74,79 @@ module Aruba
       initialize_configuration
     end
 
+    # Make deep dup copy of configuration
     def make_copy
       obj = self.dup
       obj.local_options = Marshal.load(Marshal.dump(local_options))
-      obj.hooks         = hooks
+      obj.hooks         = @hooks
 
       obj
     end
 
-    def before(name, &block)
-      hooks.append('before_' + name.to_s, block)
+    # Get access to hooks
+    def hooks
+      # rubocop:disable Metrics/LineLength
+      Aruba::Platform.deprecated 'The use of the "#aruba.config.hooks" is deprecated. Please use "#aruba.config.before(:name) {}" to define and "#aruba.config.before(:name, *args)" to run a hook. This method will become private in the next major version.'
+      # rubocop:enable Metrics/LineLength
+
+      @hooks
     end
 
-    def after(name, &block)
-      hooks.append('after_' + name.to_s, block)
+    # @deprecated
+    def before_cmd(&block)
+      Aruba::Platform.deprecated 'The use of the "#before_cmd"-hook is deprecated. Please define with "#before(:cmd) {}" instead'
+
+      before(:cmd, &block)
+    end
+
+    # Define or run before-hook
+    #
+    # @param [Symbol, String] name
+    #   The name of the hook
+    #
+    # @param [Proc] context
+    #   The context a hook should run in. This is a runtime only option.
+    #
+    # @param [Array] args
+    #   Arguments for the run of hook. This is a runtime only option.
+    #
+    # @yield
+    #   The code block which should be run. This is a configure time only option
+    def before(name, context = proc {}, *args, &block)
+      name = format('%s_%s', 'before_', name.to_s).to_sym
+
+      if block_given?
+        @hooks.append(name, block)
+
+        self
+      else
+        @hooks.execute(name, context, *args)
+      end
+    end
+
+    # Define or run after-hook
+    #
+    # @param [Symbol, String] name
+    #   The name of the hook
+    #
+    # @param [Proc] context
+    #   The context a hook should run in. This is a runtime only option.
+    #
+    # @param [Array] args
+    #   Arguments for the run of hook. This is a runtime only option.
+    #
+    # @yield
+    #   The code block which should be run. This is a configure time only option
+    def after(name, context = proc {}, *args, &block)
+      name = format('%s_%s', 'after_', name.to_s).to_sym
+
+      if block_given?
+        @hooks.append(name, block)
+
+        self
+      else
+        @hooks.execute(name, context, *args)
+      end
     end
 
     def option?(name)
