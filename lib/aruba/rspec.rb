@@ -13,6 +13,12 @@ RSpec.configure do |config|
     setup_aruba
   end
 
+  config.around :each do |example|
+    old_env = ENV.to_h
+    example.run
+    ENV.update old_env
+  end
+
   config.before :each do |example|
     next unless self.class.include? Aruba::Api
 

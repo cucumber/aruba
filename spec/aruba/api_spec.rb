@@ -769,13 +769,17 @@ describe Aruba::Api  do
     end
 
     describe '#filesystem_permissions' do
-      def actuctual_permissions
+      def actual_permissions
         format( "%o" , File::Stat.new(file_path).mode )[-4,4]
       end
 
       let(:file_name) { @file_name }
       let(:file_path) { @file_path }
       let(:permissions) { '0655' }
+
+      before :each do
+        set_env 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+      end
 
       before(:each) do
         File.open(file_path, 'w') { |f| f << "" }
@@ -787,20 +791,20 @@ describe Aruba::Api  do
 
       context 'when file exists' do
         context 'and permissions are given as string' do
-          it { expect(actuctual_permissions).to eq('0655') }
+          it { expect(actual_permissions).to eq('0655') }
         end
 
         context 'and permissions are given as octal number' do
           let(:permissions) { 0655 }
-          it { expect(actuctual_permissions).to eq('0655') }
+          it { expect(actual_permissions).to eq('0655') }
         end
 
         context 'and path has ~ in it' do
-          let(:string) { random_string }
-          let(:file_name) { File.join('~', string) }
-          let(:file_path) { File.join(@aruba.aruba.current_directory, string) }
+          let(:path) { random_string }
+          let(:file_name) { File.join('~', path) }
+          let(:file_path) { File.join(@aruba.aruba.current_directory, path) }
 
-          it { expect(actuctual_permissions).to eq('0655') }
+          it { expect(actual_permissions).to eq('0655') }
         end
       end
     end
