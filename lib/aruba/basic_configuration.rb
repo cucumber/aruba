@@ -11,7 +11,10 @@ module Aruba
         @known_options ||= {}
       end
 
-      def option_reader(name, contract: nil, default: nil)
+      def option_reader(name, opts = {})
+        contract = opts[:contract]
+        default  = opts[:default]
+
         fail ArgumentError, 'Either use block or default value' if block_given? && default
         fail ArgumentError, 'contract-options is required' if contract.nil?
 
@@ -24,7 +27,10 @@ module Aruba
       end
 
       # rubocop:disable Metrics/CyclomaticComplexity
-      def option_accessor(name, contract: nil, default: nil)
+      def option_accessor(name, opts = {})
+        contract = opts[:contract]
+        default  = opts[:default]
+
         fail ArgumentError, 'Either use block or default value' if block_given? && default
         fail ArgumentError, 'Either use block or default value' if !block_given? && default.nil? && default.empty?
         fail ArgumentError, 'contract-options is required' if contract.nil?

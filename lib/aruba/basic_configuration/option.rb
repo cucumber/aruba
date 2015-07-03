@@ -5,7 +5,10 @@ module Aruba
       attr_accessor :name, :value
       attr_reader :default_value
 
-      def initialize(name: nil, value: nil)
+      def initialize(opts = {})
+        name = opts[:name]
+        value = opts[:value]
+
         fail ArgumentError, '"name" is required' if name.nil?
         fail ArgumentError, '"value" is required' if value.nil?
 
