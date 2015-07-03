@@ -1,14 +1,19 @@
-Before('@disable-bundler') do
-  unset_bundler_env_vars
-end
+Around do |_, block|
+  project_bin = aruba.config.root_directory.dup << 'bin'
+  old_path    = ENV.fetch 'PATH', ''
 
-Before do
-  @__aruba_original_paths = (ENV['PATH'] || '').split(File::PATH_SEPARATOR)
-  ENV['PATH'] = ([File.expand_path('bin')] + @__aruba_original_paths).join(File::PATH_SEPARATOR)
-end
+  paths = old_path.split(File::PATH_SEPARATOR)
+  paths << project_bin
 
-After do
-  ENV['PATH'] = @__aruba_original_paths.join(File::PATH_SEPARATOR)
+  ENV['PATH'] = paths.join(File::PATH_SEPARATOR)
+
+  block.call
+
+  ENV['PATH'] = old_path
+
+  restore_env
+  process_monitor.stop_processes!
+  process_monitor.clear
 end
 
 Before('~@no-clobber') do
@@ -74,11 +79,11 @@ Before('@ansi') do
   @aruba_keep_ansi = true
 end
 
-After do
-  restore_env
-  process_monitor.clear
-end
-
 Before '@mocked_home_directory' do
   set_env 'HOME', expand_path('.')
 end
+
+Before('@disable-bundler') do
+  unset_bundler_env_vars
+end
+
