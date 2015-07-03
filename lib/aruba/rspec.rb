@@ -19,15 +19,26 @@ RSpec.configure do |config|
     example.metadata.each { |k, v| aruba.config.set_if_option(k, v) }
   end
 
-  # config.before do
-  #   next unless self.class.include?(Aruba::Api)
+  config.before :each do |example|
+    next unless self.class.include?(Aruba::Api)
 
-  #   current_example = context.example
+    announcer.activate(:environment) if example.metadata[:announce_environment]
+    announcer.activate(:command)     if example.metadata[:announce_command]
+    announcer.activate(:directory)   if example.metadata[:announce_directory]
+    announcer.activate(:stdout)      if example.metadata[:announce_stdout]
+    announcer.activate(:stderr)      if example.metadata[:announce_stderr]
 
-  #   announcer.activate(:environment) if current_example.metadata[:announce_env]
-  #   announcer.activate(:command)     if current_example.metadata[:announce_cmd]
-  #   announcer.activate(:directory)     if current_example.metadata[:announce_dir]
-  #   announcer.activate(:stdout)      if current_example.metadata[:announce_stdout]
-  #   announcer.activate(:stderr)      if current_example.metadata[:announce_stderr]
-  # end
+    if example.metadata[:announce_output]
+      announcer.activate(:stderr)
+      announcer.activate(:stdout)
+    end
+
+    if example.metadata[:announce]
+      announcer.activate(:stderr)
+      announcer.activate(:stdout)
+      announcer.activate(:environment)
+      announcer.activate(:command)
+      announcer.activate(:directory)
+    end
+  end
 end

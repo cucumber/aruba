@@ -16,6 +16,8 @@ Feature: Change current working directory
   Scenario: Existing directory
     Given a file named "spec/cd_spec.rb" with:
     """
+    require 'spec_helper'
+
     RSpec.describe 'cd to directory', type: :aruba do
       before(:each) do 
         create_directory 'new_dir.d'
@@ -33,6 +35,8 @@ Feature: Change current working directory
   Scenario: Non-Existing directory
     Given a file named "spec/cd_spec.rb" with:
     """
+    require 'spec_helper'
+
     RSpec.describe 'cd to directory', type: :aruba do
       before(:each) { cd 'new_dir.d' }
       before(:each) { run_simple 'pwd' }
@@ -46,6 +50,8 @@ Feature: Change current working directory
   Scenario: With block in it-block
     Given a file named "spec/cd_spec.rb" with:
     """
+    require 'spec_helper'
+
     RSpec.describe 'cd to directory', type: :aruba do
       before(:each) do
         create_directory 'new_dir.d/subdir.d'
@@ -68,6 +74,8 @@ Feature: Change current working directory
 
     Given a file named "spec/cd_spec.rb" with:
     """
+    require 'spec_helper'
+
     RSpec.describe 'cd to directory', type: :aruba do
       before(:each) do
         create_directory 'new_dir.d/subdir.d'
@@ -93,6 +101,8 @@ Feature: Change current working directory
 
     Given a file named "spec/cd_spec.rb" with:
     """
+    require 'spec_helper'
+
     RSpec.describe 'cd to directory', type: :aruba do
       before(:each) do
         create_directory 'new_dir.d/subdir.d'
