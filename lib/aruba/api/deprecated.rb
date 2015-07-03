@@ -8,8 +8,8 @@ module Aruba
       # @return [Array]
       #   The directory path: Each subdirectory is a member of an array
       def dirs
-        warn('The use of "@dirs" is deprecated. Use "Aruba.configure { |c| c.current_directory = \'path/to/dir\' }" instead to set the "current_directory.') if defined? @dirs
-        warn('The use of "dirs" deprecated. Use "Aruba.configure { |c| c.current_directory = \'path/to/dir\' }" instead to set the "current_directory and "expand_path(".")" to get the current directory or use "#cd(\'.\') { # your code }" to run code in the current directory.')
+        Aruba::Platform.deprecated('The use of "@dirs" is deprecated. Use "Aruba.configure { |c| c.current_directory = \'path/to/dir\' }" instead to set the "current_directory') if defined? @dirs
+        Aruba::Platform.deprecated('The use of "dirs" deprecated. Use "Aruba.configure { |c| c.current_directory = \'path/to/dir\' }" instead to set the "current_directory and "expand_path(".")" to get the current directory or use "#cd(\'.\') { # your code }" to run code in the current directory')
 
         @dirs ||= aruba.current_directory
       end
@@ -20,7 +20,7 @@ module Aruba
       # @return
       #   Current directory
       def current_directory
-        warn('The use of "current_directory" deprecated. Use "expand_path(".")" to get the current directory or "#cd" to run code in the current directory.')
+        Aruba::Platform.deprecated(%(The use of "current_directory" deprecated. Use "expand_path(".")" to get the current directory or "#cd" to run code in the current directory. #{caller.first}))
 
         File.join(*aruba.current_directory)
       end
@@ -28,7 +28,7 @@ module Aruba
       # @deprecated
       # Clean the current directory
       def clean_current_directory
-        warn('The use of "clean_current_directory" is deprecated. Either use "#setup_aruba" or `#remove(\'.\') to clean up aruba\'s working directory before your tests are run.')
+        Aruba::Platform.deprecated('The use of "clean_current_directory" is deprecated. Either use "#setup_aruba" or `#remove(\'.\') to clean up aruba\'s working directory before your tests are run')
 
         setup_aruba
       end
@@ -39,52 +39,52 @@ module Aruba
       # @yield
       #   The block which should be run in current directory
       def in_current_directory(&block)
-        warn('The use of "in_current_directory" deprecated. Use "#cd(\'.\') { # your code }" instead. But be aware, `cd` requires a previously created directory.')
+        Aruba::Platform.deprecated('The use of "in_current_directory" deprecated. Use "#cd(\'.\') { # your code }" instead. But be aware, `cd` requires a previously created directory')
 
-        create_directory '.' unless directory?('.')
-        cd('.', &block)
+        create_directory '' unless directory?('.')
+        cd('', &block)
 
         self
       end
 
       # @deprecated
       def detect_ruby(cmd)
-        warn('The use of "#detect_ruby" is deprecated. Use "Aruba::Platform.detect_ruby" instead.')
+        Aruba::Platform.deprecated('The use of "#detect_ruby" is deprecated. Use "Aruba::Platform.detect_ruby" instead')
 
         Aruba::Platform.detect_ruby cmd
       end
 
       # @deprecated
       def current_ruby
-        warn('The use of "#current_ruby" is deprecated. Use "Aruba::Platform.current_ruby" instead.')
+        Aruba::Platform.deprecated('The use of "#current_ruby" is deprecated. Use "Aruba::Platform.current_ruby" instead')
 
         Aruba::Platform.current_ruby cmd
       end
 
       # @deprecated
       def _ensure_newline(str)
-        warn('The use of "#_ensure_newline" is deprecated. Use "Aruba::Platform.ensure_newline" instead.')
+        Aruba::Platform.deprecated('The use of "#_ensure_newline" is deprecated. Use "Aruba::Platform.ensure_newline" instead')
 
         Aruba::Platform.ensure_newline cmd
       end
 
       # @deprecated
       def absolute_path(*args)
-        warn('The use of "absolute_path" is deprecated. Use "expand_path" instead. But be aware that "expand_path" uses a different implementation.')
+        Aruba::Platform.deprecated('The use of "absolute_path" is deprecated. Use "expand_path" instead. But be aware that "expand_path" uses a different implementation')
 
         File.expand_path File.join(*args), aruba.current_directory
       end
 
       # @deprecated
       def _read_interactive
-        warn('The use of "#_read_interactive" is deprecated. Please use "last_command.stdout" instead.')
+        Aruba::Platform.deprecated('The use of "#_read_interactive" is deprecated. Please use "last_command.stdout" instead')
 
         last_command.stdout
       end
 
       # @deprecated
       def announce_or_puts(msg)
-        warn('The use of "#announce_or_puts" is deprecated. Please use "#announcer.mode = :kernel" or "#announcer.mode = :puts" instead.')
+        Aruba::Platform.deprecated('The use of "#announce_or_puts" is deprecated. Please use "#announcer.mode = :kernel" or "#announcer.mode = :puts" instead')
 
         if(@puts)
           Kernel.puts(msg)
@@ -95,14 +95,14 @@ module Aruba
 
       # @deprecated
       def _write_interactive(input)
-        warn('The use of "#_write_interactive" is deprecated. Please use "#last_command.write()" instead.')
+        Aruba::Platform.deprecated('The use of "#_write_interactive" is deprecated. Please use "#last_command.write()" instead')
 
         last_command.write(input)
       end
 
       # @deprecated
       def eot
-        warn(%{\e[35m    The \"#eot\"-method is deprecated. It will be deleted with the next major version. Please use \"#close_input\"-method instead.\e[0m})
+        Aruba::Platform.deprecated(%{\e[35m    The \"#eot\"-method is deprecated. It will be deleted with the next major version. Please use \"#close_input\"-method instead.\e[0m})
 
         close_input
       end
@@ -115,7 +115,7 @@ module Aruba
       # @see #cmd
       # @deprectated
       def run_interactive(cmd)
-        warn('The use of "#run_interactive" is deprecated. You can simply use "run" instead.')
+        Aruba::Platform.deprecated('The use of "#run_interactive" is deprecated. You can simply use "run" instead')
 
         run(cmd)
       end
@@ -126,21 +126,21 @@ module Aruba
       # @param [String] file_name
       #   The name of the file
       def touch_file(*args)
-        warn('The use of "#touch_file" is deprecated. Use "#touch" instead')
+        Aruba::Platform.deprecated('The use of "#touch_file" is deprecated. Use "#touch" instead')
 
         touch(*args)
       end
 
       # @deprecated
       def chmod(*args, &block)
-        warn('The use of "#chmod" is deprecated. Use "#filesystem_permissions" instead')
+        Aruba::Platform.deprecated('The use of "#chmod" is deprecated. Use "#filesystem_permissions" instead')
 
         filesystem_permissions(*args, &block)
       end
 
       # @deprecated
       def mod?(*args, &block)
-        warn('The use of "#mod?" is deprecated. Use "#check_filesystem_permissions" instead')
+        Aruba::Platform.deprecated('The use of "#mod?" is deprecated. Use "#check_filesystem_permissions" instead')
 
         check_filesystem_permissions(*args, &block)
       end
@@ -151,14 +151,14 @@ module Aruba
       # @param [String] file_name
       #    The file which should be deleted in current directory
       def remove_file(*args)
-        warn('The use of "#remove_file" is deprecated. Use "#remove" instead')
+        Aruba::Platform.deprecated('The use of "#remove_file" is deprecated. Use "#remove" instead')
 
         remove(*args)
       end
 
       # @deprecated
       def create_dir(*args)
-        warn('The use of "#create_dir" is deprecated. Use "#create_directory" instead')
+        Aruba::Platform.deprecated('The use of "#create_dir" is deprecated. Use "#create_directory" instead')
         create_directory(*args)
       end
 
@@ -168,13 +168,13 @@ module Aruba
       # @param [String] directory_name
       #   The name of the directory which should be removed
       def remove_directory(*args)
-        warn('The use of "remove_directory" is deprecated. Use "remove" instead')
+        Aruba::Platform.deprecated('The use of "remove_directory" is deprecated. Use "remove" instead')
         remove(*args)
       end
 
       # @deprecated
       def remove_dir(*args)
-        warn('The use of "remove_dir" is deprecated. Use "remove" instead')
+        Aruba::Platform.deprecated('The use of "remove_dir" is deprecated. Use "remove" instead')
         remove(*args)
       end
 
@@ -188,7 +188,7 @@ module Aruba
       # @param [true,false] expect_presence
       #   Should the given paths be present (true) or absent (false)
       def check_file_presence(paths, expect_presence = true)
-        warn('The use of "check_file_presence" is deprecated. Use "expect().to be_existing_file or expect(all_paths).to match_path_pattern() instead" ')
+        Aruba::Platform.deprecated('The use of "check_file_presence" is deprecated. Use "expect().to be_existing_file or expect(all_paths).to match_path_pattern() instead" ')
 
         stop_processes!
 
@@ -224,7 +224,7 @@ module Aruba
       #   check_file_size(paths_and_sizes)
       #
       def check_file_size(paths_and_sizes)
-        warn('The use of "#check_file_size" is deprecated. Use "expect(file).to have_file_size(size)", "expect(all_files).to all have_file_size(1)", "expect(all_files).to include a_file_with_size(1)" instead.')
+        Aruba::Platform.deprecated('The use of "#check_file_size" is deprecated. Use "expect(file).to have_file_size(size)", "expect(all_files).to all have_file_size(1)", "expect(all_files).to include a_file_with_size(1)" instead')
         stop_processes!
 
         paths_and_sizes.each do |path, size|
@@ -234,7 +234,7 @@ module Aruba
 
       # @deprecated
       def check_exact_file_content(file, exact_content, expect_match = true)
-        warn('The use of "#check_exact_file_content" is deprecated. Use "expect(file).to have_file_content(content)" with a string')
+        Aruba::Platform.deprecated('The use of "#check_exact_file_content" is deprecated. Use "expect(file).to have_file_content(content)" with a string')
 
         check_file_content(file, exact_content, expect_match)
       end
@@ -251,7 +251,7 @@ module Aruba
       # @param [true, false] expect_match
       #   Must the content be in the file or not
       def check_binary_file_content(file, reference_file, expect_match = true)
-        warn('The use of "#check_binary_file_content" is deprecated. Use "expect(file).to have_same_file_content_like(file)".')
+        Aruba::Platform.deprecated('The use of "#check_binary_file_content" is deprecated. Use "expect(file).to have_same_file_content_like(file)"')
 
         stop_processes!
 
@@ -271,7 +271,7 @@ module Aruba
       # @param [true, false] expect_presence
       #   Should the directory be there or should the directory not be there
       def check_directory_presence(paths, expect_presence)
-        warn('The use of "#check_directory_presence" is deprecated. Use "expect(directory).to be_an_existing_directory".')
+        Aruba::Platform.deprecated('The use of "#check_directory_presence" is deprecated. Use "expect(directory).to be_an_existing_directory"')
 
         stop_processes!
 
@@ -288,15 +288,15 @@ module Aruba
 
       # @deprecated
       def prep_for_fs_check(&block)
-        warn('The use of "prep_for_fs_check" is deprecated. Use apropriate methods and the new rspec matchers instead.')
+        Aruba::Platform.deprecated('The use of "prep_for_fs_check" is deprecated. Use apropriate methods and the new rspec matchers instead')
 
         process_monitor.stop_processes!
-        cd('.') { block.call }
+        cd('') { block.call }
       end
 
       # @deprecated
       def assert_exit_status_and_partial_output(expect_to_pass, expected)
-        warn('The use of "assert_exit_status_and_partial_output" is deprecated. Use "#assert_access" and "#assert_partial_output" instead.')
+        Aruba::Platform.deprecated('The use of "assert_exit_status_and_partial_output" is deprecated. Use "#assert_access" and "#assert_partial_output" instead')
 
         assert_success(expect_to_pass)
         assert_partial_output(expected, all_output)
@@ -329,7 +329,7 @@ module Aruba
       # @param [true, false] expect_match
       #   Must the content be in the file or not
       def check_file_content(file, content, expect_match = true)
-        warn('The use of "#check_file_content" is deprecated. Use "expect(file).to have_file_content(content)" instead. For eq match use string, for partial match use /regex/')
+        Aruba::Platform.deprecated('The use of "#check_file_content" is deprecated. Use "expect(file).to have_file_content(content)" instead. For eq match use string, for partial match use /regex/')
 
         stop_processes!
 
@@ -342,35 +342,35 @@ module Aruba
 
       # @deprecated
       def _mkdir(dir_name)
-        warn('The use of "#_mkdir" is deprecated.')
+        Aruba::Platform.deprecated('The use of "#_mkdir" is deprecated')
 
         Aruba::Platform.mkdir(dir_name)
       end
 
       # @deprecated
       def _rm(dir_name)
-        warn('The use of "#_rm_rf" is deprecated.')
+        Aruba::Platform.deprecated('The use of "#_rm_rf" is deprecated')
 
         Aruba::Platform.rm(dir_name)
       end
 
       # @deprecated
       def current_dir(*args, &block)
-        warn('The use of "#current_dir" is deprecated. Use "#current_directory" instead')
+        Aruba::Platform.deprecated('The use of "#current_dir" is deprecated. Use "#current_directory" instead')
 
         current_directory(*args, &block)
       end
 
       # @deprecated
       def clean_current_dir(*args, &block)
-        warn('The use of "clean_current_dir" is deprecated. Either use "#setup_aruba" or `#remove(\'.\') to clean up aruba\'s working directory before your tests are run.')
+        Aruba::Platform.deprecated('The use of "clean_current_dir" is deprecated. Either use "#setup_aruba" or `#remove(\'.\') to clean up aruba\'s working directory before your tests are run')
 
         setup_aruba
       end
 
       # @deprecated
       def in_current_dir(*args, &block)
-        warn('The use of "in_current_dir" is deprecated. Use "#cd(\'.\') { }" instead')
+        Aruba::Platform.deprecated('The use of "in_current_dir" is deprecated. Use "#cd(\'.\') { }" instead')
 
         in_current_directory
       end

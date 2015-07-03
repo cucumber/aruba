@@ -9,7 +9,7 @@ require 'aruba/api/filesystem'
 require 'aruba/api/deprecated'
 require 'rspec/expectations'
 
-Dir.glob( File.join( File.expand_path( '../matchers' , __FILE__ )  , '*.rb' ) ).each { |rb| require rb }
+Aruba::Platform.require_matching_files('../matchers/**/*.rb', __FILE__)
 
 module Aruba
   module Api

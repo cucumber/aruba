@@ -21,6 +21,7 @@
 #
 #     RSpec.describe do
 #       it { expect(file).to have_permissions('0700') }
+#       it { expect(files).to include a_path_with_permissions('0700') }
 #     end
 RSpec::Matchers.define :have_permissions do |expected|
   def permissions(file)
@@ -52,3 +53,5 @@ RSpec::Matchers.define :have_permissions do |expected|
     format("expected that file \"%s\" would not have permissions \"%s\", but has \"%s\".", @old_actual, @expected, @actual)
   end
 end
+
+RSpec::Matchers.alias_matcher :a_path_with_permissions, :have_permissions

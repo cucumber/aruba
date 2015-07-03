@@ -14,6 +14,10 @@ module Aruba
       end
     end
 
+    def deprecated(msg)
+      warn(format('%s. Called by %s', msg, caller[1]))
+    end
+
     def current_ruby
       ::File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
     end
@@ -44,6 +48,6 @@ module Aruba
       ::Dir.chdir(dir_name, &block)
     end
 
-    module_function :detect_ruby, :current_ruby, :ensure_newline, :require_matching_files, :mkdir, :rm, :chdir
+    module_function :detect_ruby, :current_ruby, :ensure_newline, :require_matching_files, :mkdir, :rm, :chdir, :deprecated
   end
 end

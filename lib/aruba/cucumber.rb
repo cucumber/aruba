@@ -24,11 +24,11 @@ Given /^I'm using a clean gemset "([^"]*)"$/ do |gemset|
 end
 
 Given /^(?:a|the) directory(?: named)? "([^"]*)"$/ do |dir_name|
-  create_dir(dir_name)
+  create_directory(dir_name)
 end
 
 Given /^(?:a|the) directory(?: named)? "([^"]*)" with mode "([^"]*)"$/ do |dir_name, dir_mode|
-  create_dir(dir_name)
+  create_directory(dir_name)
   filesystem_permissions(dir_mode, dir_name)
 end
 
@@ -55,7 +55,7 @@ Given /^(?:an|the) empty file(?: named)? "([^"]*)" with mode "([^"]*)"$/ do |fil
 end
 
 Given /^a mocked home directory$/ do
-  set_env 'HOME', File.expand_path(current_dir)
+  set_env 'HOME', expand_path('.')
 end
 
 Given /^(?:a|the) directory(?: named)? "([^"]*)" does not exist$/ do |directory_name|
@@ -319,13 +319,13 @@ Then /^the stderr from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, unexpec
   assert_no_partial_output(unexpected, stderr_from(cmd))
 end
 
-Then /^the following files should (not )?exist:$/ do |expect_match, files|
-  files.raw.each do |row|
-    if expect_match
-      expect(row[0]).not_to be_an_existing_file
-    else
-      expect(row[0]).to be_an_existing_file
-    end
+Then /^the following files should (not )?exist:$/ do |negated, files|
+  files = files.rows.flatten
+
+  if negated
+    expect(files).not_to include an_existing_file
+  else
+    expect(files).to all be_an_existing_file
   end
 end
 
@@ -345,42 +345,76 @@ Then /^(?:a|the) file matching %r<(.*?)> should (not )?exist$/ do |pattern, expe
   end
 end
 
-Then /^(?:a|the) (\d+) byte file(?: named)? "([^"]*)" should exist$/ do |file_size, file_name|
-  check_file_size([[file_name, file_size.to_i]])
+Then /^(?:a|the) (\d+) byte file(?: named)? "([^"]*)" should (not )?exist$/ do |size, file, negated|
+  if negated
+    expect(file).not_to have_file_size(size)
+  else
+    expect(file).to have_file_size(size)
+  end
 end
 
-Then /^the following directories should (not )?exist:$/ do |expect_match, directories|
-  check_directory_presence(directories.raw.map{|directory_row| directory_row[0]}, !expect_match)
+Then /^the following directories should (not )?exist:$/ do |negated, directories|
+  directories = directories.rows.flatten
+
+  if negated
+    expect(directories).not_to include an_existing_directory
+  else
+    expect(directories).to all be_an_existing_directory
+  end
 end
 
-Then /^(?:a|the) directory(?: named)? "([^"]*)" should (not )?exist$/ do |directory, expect_match|
-  check_directory_presence([directory], !expect_match)
+Then /^(?:a|the) directory(?: named)? "([^"]*)" should (not )?exist$/ do |directory, negated|
+  if negated
+    expect(directory).not_to be_an_existing_directory
+  else
+    expect(directory).to be_an_existing_directory
+  end
 end
 
-Then /^(?:a|the) file "([^"]*)" should (not )?contain "([^"]*)"$/ do |file, expect_match, partial_content|
-  check_file_content(file, Regexp.compile(Regexp.escape(partial_content)), !expect_match)
+Then /^(?:a|the) file "([^"]*)" should (not )?contain "([^"]*)"$/ do |file, negated, content|
+  if negated
+    expect(file).not_to have_file_content Regexp.new(content)
+  else
+    expect(file).to have_file_content Regexp.new(content)
+  end
 end
 
-Then /^(?:a|the) file "([^"]*)" should (not )?contain:$/ do |file, not_contain, content|
-  if not_contain
+Then /^(?:a|the) file "([^"]*)" should (not )?contain:$/ do |file, negated, content|
+  if negated
     expect(file).not_to have_file_content Regexp.new(content.chomp)
   else
     expect(file).to have_file_content Regexp.new(content.chomp)
   end
 end
 
-Then /^(?:a|the) file "([^"]*)" should (not )?contain exactly:$/ do |file, expect_match, exact_content|
-  check_file_content(file, exact_content, !expect_match)
+Then /^(?:a|the) file "([^"]*)" should (not )?contain exactly:$/ do |file, negated, content|
+  if negated
+    expect(file).not_to have_file_content content
+  else
+    expect(file).to have_file_content content
+  end
 end
 
-Then /^(?:a|the) file "([^"]*)" should (not )?match \/([^\/]*)\/$/ do |file, expect_match, partial_content|
-  check_file_content(file, /#{partial_content}/, !expect_match)
+Then /^(?:a|the) file "([^"]*)" should (not )?match \/([^\/]*)\/$/ do |file, negated, content|
+  if negated
+    expect(file).not_to have_file_content Regexp.new(content)
+  else
+    expect(file).to have_file_content Regexp.new(content)
+  end
 end
 
-Then /^(?:a|the) file "([^"]*)" should (not )?be equal to file "([^"]*)"/ do |file, expect_match, reference_file|
-  check_binary_file_content(file, reference_file, !expect_match)
+Then /^(?:a|the) file "([^"]*)" should (not )?be equal to file "([^"]*)"/ do |file, negated, reference_file|
+  if negated
+    expect(file).not_to have_same_file_content_like(reference_file)
+  else
+    expect(file).to have_same_file_content_like(reference_file)
+  end
 end
 
-Then /^the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)"$/ do |file, expect_match, mode|
-  check_filesystem_permissions(mode, file, !expect_match)
+Then /^the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)"$/ do |file, negated, permissions|
+  if negated
+    expect(file).not_to have_permissions(permissions)
+  else
+    expect(file).to have_permissions(permissions)
+  end
 end

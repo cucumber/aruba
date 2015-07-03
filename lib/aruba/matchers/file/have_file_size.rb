@@ -22,17 +22,21 @@ RSpec::Matchers.define :have_file_size do |expected|
   match do |actual|
     stop_processes!
 
-    next false unless File.file? expand_path(actual)
+    next false unless file?(actual)
 
-    File.size(expand_path(actual)) == expected
+    @old_actual = actual
+    @actual = File.size(expand_path(actual))
+    @expected = expected.to_i
+
+    values_match?(@expected, @actual)
   end
 
   failure_message do |actual|
-    format("expected that file \"%s\" has size \"%s\", but has \"%s\"", actual, File.size(expand_path(actual)), expected)
+    format("expected that file \"%s\" has size \"%s\", but has \"%s\"", @old_actual, @actual, @expected)
   end
 
   failure_message_when_negated do |actual|
-    format("expected that file \"%s\" does not have size \"%s\", but has \"%s\"", actual, File.size(expand_path(actual)), expected)
+    format("expected that file \"%s\" does not have size \"%s\", but has \"%s\"", @old_actual, @actual, @expected)
   end
 end
 

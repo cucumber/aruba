@@ -34,6 +34,7 @@
 #
 #     RSpec.describe do
 #       it { expect(file1).to have_file_content(a_string_starting_with 'a') }
+#       it { expect(files1).to include a_file_having_content(a_string_starting_with 'a') }
 #     end
 RSpec::Matchers.define :have_file_content do |expected|
   match do |actual|
@@ -53,3 +54,5 @@ RSpec::Matchers.define :have_file_content do |expected|
 
   description { "have file content: #{description_of expected}" }
 end
+
+RSpec::Matchers.alias_matcher :a_file_having_content, :have_file_content

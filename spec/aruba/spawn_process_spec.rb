@@ -35,13 +35,13 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   end
 
   describe "#stop" do
-    let(:reader) { double('reader') }
+    let(:reader) { instance_double('Aruba::Announcer') }
 
     before(:each) { process.run! }
 
     before :each do
-      allow(reader).to receive(:announce).with(:stderr, '')
       expect(reader).to receive(:announce).with(:stdout, "yo\n")
+      allow(reader).to receive(:announce)
     end
 
     context 'when stopped successfully' do
