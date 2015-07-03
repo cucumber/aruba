@@ -3,29 +3,34 @@ source 'https://rubygems.org'
 gemspec
 
 group :development, :test do
-  gem 'simplecov'
 end
 
 group :debug do
-  gem 'pry', '~> 0.10.1 '
-  gem 'byebug', '~> 4.0.5'
-  gem 'pry-byebug', '~> 3.1.0'
+  gem 'pry', '~> 0.10.1'
+
+  platform :mri_20 do
+    gem 'byebug', '~> 4.0.5'
+    gem 'pry-byebug', '~> 3.1.0'
+  end
+
   gem 'pry-stack_explorer', '~> 0.4.9'
-  gem 'pry-doc', '~> 0.6.0'
+  gem 'pry-doc', '~> 0.8.0'
 end
 
 group :development, :test do
-  gem 'bcat', '>= 0.6.1'
-  gem 'kramdown', '>= 0.14'
-  gem 'rake', '>= 0.9.2'
-  gem 'rspec', '>= 3.0.0'
-  gem 'fuubar', '>= 1.1.1'
+  gem 'bcat', '~> 0.6.2'
+  gem 'kramdown', '~> 1.7.0'
+
+  gem 'simplecov', '~> 0.10'
+  gem 'rake', '~> 10.4.2'
+  gem 'rspec', '~> 3.3.0'
+  gem 'fuubar', '~> 2.0.0'
   gem 'cucumber-pro', '~> 0.0'
-  gem 'rubocop', '~> 0.31.0'
+  gem 'rubocop', '~> 0.32.0'
 
   gem 'license_finder', '~> 2.0.4'
 
-  gem 'relish'
+  gem 'relish', '~> 0.7.1'
 end
 
 platforms :rbx do

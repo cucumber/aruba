@@ -92,6 +92,9 @@ Style/LeadingCommentSpace:
 Style/PercentLiteralDelimiters:
   Enabled: false
 
+Metrics/PerceivedComplexity:
+  Enabled: false
+
 # Configuration parameters: SupportedStyles.
 Style/RaiseArgs:
   # EnforcedStyle: compact
