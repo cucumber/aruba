@@ -21,6 +21,7 @@ tags
 coverage
 rdoc
 pkg
+*.log
 
 ## PROJECT::SPECIFIC
 tmp
