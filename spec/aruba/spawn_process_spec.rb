@@ -40,8 +40,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     before(:each) { process.run! }
 
     before :each do
-      allow(reader).to receive(:stderr)
-      expect(reader).to receive(:stdout).with("yo\n")
+      allow(reader).to receive(:announce).with(:stderr, '')
+      expect(reader).to receive(:announce).with(:stdout, "yo\n")
     end
 
     context 'when stopped successfully' do
