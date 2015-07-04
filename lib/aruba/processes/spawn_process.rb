@@ -115,8 +115,8 @@ module Aruba
         close_and_cache_err
 
         if reader
-          reader.stdout stdout
-          reader.stderr stderr
+          reader.announce :stdout, stdout
+          reader.announce :stderr, stderr
         end
 
         @exit_status
