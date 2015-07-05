@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'aruba'
-  s.version     = '0.7.3'
+  s.version     = '0.7.4'
   s.authors     = ["Aslak Hellesøy", "David Chelimsky", "Mike Sassak", "Matt Wynne"]
   s.description = 'CLI Steps for Cucumber, hand-crafted for you in Aruba'
   s.summary     = "aruba-#{s.version}"
@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.rubygems_version = ">= 1.6.1"
   # s.required_ruby_version = '>= 2.0'
-  s.post_install_message = 'From aruba > 1.0 ruby 1.9.3-support is discontinued'
+  s.post_install_message = 'From aruba >= 1.0 ruby 1.9.3-support is discontinued'
 
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {spec,features}/*`.split("\n")

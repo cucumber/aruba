@@ -1,3 +1,6 @@
+## [v0.7.4](https://github.com/cucumber/aruba/compare/v0.7.2...v0.7.4)
+* Really Fixed post install message
+
 ## [v0.7.3](https://github.com/cucumber/aruba/compare/v0.7.2...v0.7.3)
 * Fixed post install message
 
