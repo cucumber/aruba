@@ -10,15 +10,29 @@ Aruba is Cucumber extension for testing command line applications. Features at a
 * Manipulate the file system
 * Automatically reset state of file system between scenarios
 
-## Usage
-
-### Cucumber
+## Install
 
 If you have a `Gemfile`, add `aruba`. Otherwise, install it like this:
 
     gem install aruba
 
-Then, `require` the library in one of your ruby files under `features/support` (e.g. `env.rb`)
+### Update Policy
+
+We try to be compliant to [Semantic Versioning
+2.0.0](http://semver.org/spec/v2.0.0.html).
+
+### Supported ruby versions
+
+For an up to date list of all supported ruby versions, please see our
+[`.travis.yml`](https://github.com/cucumber/aruba/blob/master/.travis.yml). We
+only test against the latest version of a version branch - most times.
+
+## Usage
+
+### Cucumber
+
+To use `aruba` with cucumber, `require` the library in one of your ruby files
+under `features/support` (e.g. `env.rb`)
 
 ```ruby
 require 'aruba/cucumber'
