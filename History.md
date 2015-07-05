@@ -1,4 +1,10 @@
-## [master](https://github.com/cucumber/aruba/compare/v0.6.2...master)
+## [v0.7.2](https://github.com/cucumber/aruba/compare/v0.7.1...v0.7.2)
+* Do not trigger Announcer API deprecation warning (issue #277)
+
+## [v0.7.1](https://github.com/cucumber/aruba/compare/v0.7.0...v0.7.1)
+* Do not break if @interactive is used 
+
+## [v0.7.0](https://github.com/cucumber/aruba/compare/v0.6.2...v0.7.0)
 * Introducing root_directory (issue #232)
 * Introducing fixtures directory (issue #224)
 * Make sure a file/directory does not exist + Cleanup named file/directory steps (issue #234)
@@ -7,6 +13,8 @@
 * Add rspec integrator (issue #244)
 * Deprecate _file/_directory in method names (issue #243)
 * Improve development environment (issue #240)
+* Cleanup process management (issue #257)
+* Make path content available through matchers and api metchods (issue #250)
 
 ## [v0.6.2](https://github.com/cucumber/aruba/compare/v0.6.1...v0.6.2)
 * Fixed minor issue #223)
