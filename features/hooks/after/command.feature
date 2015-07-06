@@ -3,6 +3,7 @@ Feature: After command hooks
   You can configure Aruba to run blocks of code after it has run
   a command. The command will be passed to the block.
 
+  @announce
   Scenario: Run a simple command with a after hook
     Given a file named "test.rb" with:
       """

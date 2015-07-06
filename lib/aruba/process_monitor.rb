@@ -86,7 +86,15 @@ module Aruba
     #   The stdout of all process which have run before
     def all_stdout
       stop_processes!
-      only_processes.each_with_object("") { |ps, out| out << ps.stdout }
+
+      if RUBY_VERSION < '1.9'
+        out = ''
+        only_processes.each { |ps| out << ps.stdout }
+
+        out
+      else
+        only_processes.each_with_object("") { |ps, o| o << ps.stdout }
+      end
     end
 
     # Get stderr of all processes
@@ -95,7 +103,15 @@ module Aruba
     #   The stderr of all process which have run before
     def all_stderr
       stop_processes!
-      only_processes.each_with_object("") { |ps, out| out << ps.stderr }
+
+      if RUBY_VERSION < '1.9'
+        out = ''
+        only_processes.each { |ps| out << ps.stderr }
+
+        out
+      else
+        only_processes.each_with_object("") { |ps, o| o << ps.stderr }
+      end
     end
 
     # Get stderr and stdout of all processes

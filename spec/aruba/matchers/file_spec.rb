@@ -22,7 +22,7 @@ RSpec.describe 'File Matchers' do
   describe 'to_have_file_content' do
     context 'when file exists' do
       before :each do
-        File.write(@file_path, 'aba')
+        Aruba::Platform.write_file(@file_path, 'aba')
       end
 
       context 'and file content is exactly equal string ' do
@@ -92,7 +92,7 @@ RSpec.describe 'File Matchers' do
   describe 'to_have_file_size' do
     context 'when file exists' do
       before :each do
-        File.write(@file_path, '')
+        Aruba::Platform.write_file(@file_path, '')
       end
 
       context 'and file size is equal' do

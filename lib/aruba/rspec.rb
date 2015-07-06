@@ -4,7 +4,7 @@ require 'aruba'
 require 'aruba/api'
 
 RSpec.configure do |config|
-  config.include Aruba::Api, type: :aruba
+  config.include Aruba::Api, :type => :aruba
 
   config.before :each do
     next unless self.class.include? Aruba::Api
@@ -14,9 +14,25 @@ RSpec.configure do |config|
   end
 
   config.around :each do |example|
-    old_env = ENV.to_h
+    old_env = ENV.to_hash
     example.run
     ENV.update old_env
+  end
+
+  config.around :each do |example|
+    project_bin = Aruba::ArubaPath.new(Aruba.config.root_directory)
+    project_bin << 'bin'
+
+    old_path    = ENV.fetch 'PATH', ''
+
+    paths = old_path.split(File::PATH_SEPARATOR)
+    paths.unshift project_bin
+
+    ENV['PATH'] = paths.join(File::PATH_SEPARATOR)
+
+    example.run
+
+    ENV['PATH'] = old_path
   end
 
   config.before :each do |example|

@@ -1,16 +1,24 @@
+require 'aruba/aruba_path'
+require 'aruba/api'
+World(Aruba::Api)
+
 Around do |_, block|
-  project_bin = aruba.config.root_directory.dup << 'bin'
+  project_bin = Aruba::ArubaPath.new(Aruba.config.root_directory)
+  project_bin << 'bin'
+
   old_path    = ENV.fetch 'PATH', ''
 
   paths = old_path.split(File::PATH_SEPARATOR)
-  paths << project_bin
+  paths.unshift project_bin
 
   ENV['PATH'] = paths.join(File::PATH_SEPARATOR)
 
   block.call
 
   ENV['PATH'] = old_path
+end
 
+After do
   restore_env
   process_monitor.stop_processes!
   process_monitor.clear
@@ -86,4 +94,3 @@ end
 Before('@disable-bundler') do
   unset_bundler_env_vars
 end
-

@@ -20,7 +20,7 @@ module Aruba
       # artifacts of your tests. This does NOT clean up the current working
       # directory.
       def setup_aruba
-        Aruba::Platform.rm File.join(Aruba.config.root_directory, Aruba.config.working_directory), force: true
+        Aruba::Platform.rm File.join(Aruba.config.root_directory, Aruba.config.working_directory), :force => true
         Aruba::Platform.mkdir File.join(Aruba.config.root_directory, Aruba.config.working_directory)
         Aruba::Platform.chdir Aruba.config.root_directory
 
@@ -90,10 +90,18 @@ module Aruba
 
         fail ArgumentError, message if file_name.nil? || file_name.empty?
 
-        if aruba.config.fixtures_path_prefix == file_name[0]
-          File.join fixtures_directory, file_name[1..-1]
+        if RUBY_VERSION < '1.9'
+          prefix = file_name.chars.to_a[0]
+          rest = file_name.chars.to_a[1..-1].join('')
         else
-          Aruba::Platform.chdir(aruba.current_directory) { File.expand_path(file_name, dir_string) }
+          prefix = file_name[0]
+          rest = file_name[1..-1]
+        end
+
+        if aruba.config.fixtures_path_prefix == prefix
+          File.join fixtures_directory, rest
+        else
+          Aruba::Platform.chdir(aruba.current_directory) { Aruba::Platform.expand_path(file_name, dir_string) }
         end
       end
     end

@@ -32,7 +32,7 @@ describe Aruba::Api  do
 
     context 'when file exist' do
       before :each do
-        File.write(path, '')
+        Aruba::Platform.write_file(path, '')
       end
 
       it { expect(all_paths).to include expand_path(name) }
@@ -43,7 +43,7 @@ describe Aruba::Api  do
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
       before :each do
-        FileUtils.mkdir_p path
+        Aruba::Platform.mkdir(path)
       end
 
       it { expect(all_paths).to include expand_path(name) }
@@ -60,7 +60,7 @@ describe Aruba::Api  do
 
     context 'when file exist' do
       before :each do
-        File.write(path, '')
+        Aruba::Platform.write_file(path, '')
       end
 
       it { expect(all_files).to include expand_path(name) }
@@ -71,7 +71,7 @@ describe Aruba::Api  do
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
       before :each do
-        FileUtils.mkdir_p path
+        Aruba::Platform.mkdir(path)
       end
 
       it { expect(all_files).to eq [] }
@@ -88,7 +88,7 @@ describe Aruba::Api  do
 
     context 'when file exist' do
       before :each do
-        File.write(path, '')
+        Aruba::Platform.write_file(path, '')
       end
 
       it { expect(all_directories).to eq [] }
@@ -99,7 +99,7 @@ describe Aruba::Api  do
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
       before :each do
-        FileUtils.mkdir_p path
+        Aruba::Platform.mkdir(path)
       end
 
       it { expect(all_directories).to include expand_path(name) }
@@ -170,7 +170,7 @@ describe Aruba::Api  do
         let(:name) { 'test.d' }
 
         before :each do
-          Array(path).each { |p| Dir.mkdir p }
+          Array(path).each { |p| Aruba::Platform.mkdir p }
         end
 
         it { expect { @aruba.read(name) }.to raise_error ArgumentError }
@@ -206,11 +206,11 @@ describe Aruba::Api  do
 
       context 'when directory' do
         before :each do
-          Array(path).each { |p| Dir.mkdir p }
+          Array(path).each { |p| Aruba::Platform.mkdir p }
         end
 
         before :each do
-          Array(content).each { |p| Dir.mkdir File.join(path, p) }
+          Array(content).each { |p| Aruba::Platform.mkdir File.join(path, p) }
         end
 
         context 'when has subdirectories' do
@@ -286,7 +286,7 @@ describe Aruba::Api  do
         end
 
         context 'when is forced to delete file' do
-          let(:options) { { force: true } }
+          let(:options) { { :force => true } }
 
           it_behaves_like 'a non-existing file'
         end
@@ -298,7 +298,7 @@ describe Aruba::Api  do
 
       context 'when exists' do
         before :each do
-          Array(path).each { |p| Dir.mkdir p }
+          Array(path).each { |p| Aruba::Platform.mkdir p }
         end
 
         before :each do
@@ -331,7 +331,7 @@ describe Aruba::Api  do
         end
 
         context 'when is forced to delete directory' do
-          let(:options) { { force: true } }
+          let(:options) { { :force => true } }
 
           it_behaves_like 'a non-existing directory'
         end
@@ -377,7 +377,7 @@ describe Aruba::Api  do
 
           context 'and the mtime should be set statically' do
             let(:time) { Time.parse('2014-01-01 10:00:00') }
-            let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
+            let(:options) { { :mtime => Time.parse('2014-01-01 10:00:00') } }
 
             it_behaves_like 'an existing file'
             it { expect(File.mtime(path)).to eq time }
@@ -396,7 +396,7 @@ describe Aruba::Api  do
         let(:path) { Array(name).map { |p| File.join(@aruba.aruba.current_directory, p) } }
 
         context 'when exist' do
-          before(:each) { Array(path).each { |p| FileUtils.mkdir_p p } }
+          before(:each) { Array(path).each { |p| Aruba::Platform.mkdir p } }
 
           before :each do
             @aruba.touch(name, options)
@@ -404,7 +404,7 @@ describe Aruba::Api  do
 
           context 'and the mtime should be set statically' do
             let(:time) { Time.parse('2014-01-01 10:00:00') }
-            let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
+            let(:options) { { :mtime => Time.parse('2014-01-01 10:00:00') } }
 
             it_behaves_like 'an existing directory'
             it { Array(path).each { |p| expect(File.mtime(p)).to eq time } }
@@ -446,7 +446,7 @@ describe Aruba::Api  do
 
         context 'when exists' do
           before :each do
-            File.write(path, '')
+            Aruba::Platform.write_file(path, '')
           end
 
           it { expect(@aruba).to be_exist(name) }
@@ -463,7 +463,7 @@ describe Aruba::Api  do
 
         context 'when exists' do
           before :each do
-            FileUtils.mkdir_p path
+            Aruba::Platform.mkdir(path)
           end
 
           it { expect(@aruba).to be_exist(name) }
@@ -482,7 +482,7 @@ describe Aruba::Api  do
 
         context 'when exists' do
           before :each do
-            File.write(path, '')
+            Aruba::Platform.write_file(path, '')
           end
 
           it { expect(@aruba).to be_file(name) }
@@ -499,7 +499,7 @@ describe Aruba::Api  do
 
         context 'when exists' do
           before :each do
-            FileUtils.mkdir_p path
+            Aruba::Platform.mkdir(path)
           end
 
           it { expect(@aruba).not_to be_file(name) }
@@ -518,7 +518,7 @@ describe Aruba::Api  do
 
         context 'when exists' do
           before :each do
-            File.write(path, '')
+            Aruba::Platform.write_file(path, '')
           end
 
           it { expect(@aruba).not_to be_directory(name) }
@@ -535,7 +535,7 @@ describe Aruba::Api  do
 
         context 'when exists' do
           before :each do
-            FileUtils.mkdir_p path
+            Aruba::Platform.mkdir(path)
           end
 
           it { expect(@aruba).to be_directory(name) }
@@ -589,7 +589,7 @@ describe Aruba::Api  do
             let(:destination) { 'dst.d' }
 
             before :each do
-              FileUtils.mkdir_p File.join(@aruba.aruba.current_directory, source)
+              Aruba::Platform.mkdir(File.join(@aruba.aruba.current_directory, source))
             end
 
             before :each do
@@ -619,7 +619,7 @@ describe Aruba::Api  do
               let(:destination_files) { source.map { |s| File.join(destination, s) } }
 
               before :each do
-                FileUtils.mkdir_p File.join(@aruba.aruba.current_directory, destination)
+                Aruba::Platform.mkdir(File.join(@aruba.aruba.current_directory, destination))
               end
 
               before :each do
@@ -877,7 +877,7 @@ describe Aruba::Api  do
         file_name = 'nested/dir/hello_world.txt'
         file_path = File.join(@aruba.aruba.current_directory, file_name)
 
-        FileUtils.mkdir_p File.dirname( file_path )
+        Aruba::Platform.mkdir(File.dirname(file_path))
         File.open(file_path, 'w') { |f| f << "" }
 
         @aruba.check_file_presence(file_name)
@@ -890,7 +890,7 @@ describe Aruba::Api  do
         file_name = 'nested/dir/hello_world.txt'
         file_path = File.join(@aruba.aruba.current_directory, file_name)
 
-        FileUtils.mkdir_p File.dirname( file_path )
+        Aruba::Platform.mkdir(File.dirname(file_path))
         File.open(file_path, 'w') { |f| f << "" }
 
         @aruba.check_file_presence([ /test123/ ], false )
@@ -903,7 +903,7 @@ describe Aruba::Api  do
         file_name = 'nested/dir/hello_world.txt'
         file_path = File.join(@aruba.aruba.current_directory, file_name)
 
-        FileUtils.mkdir_p File.dirname( file_path )
+        Aruba::Platform.mkdir(File.dirname(file_path))
         File.open(file_path, 'w') { |f| f << "" }
 
         @aruba.check_file_presence([ file_name, /nested/  ], true )
@@ -914,7 +914,7 @@ describe Aruba::Api  do
         file_path = File.join('~', random_string)
 
         with_env 'HOME' => File.expand_path(aruba.current_directory) do
-          FileUtils.mkdir_p File.dirname(File.expand_path(file_path))
+          Aruba::Platform.mkdir(File.dirname(File.expand_path(file_path)))
           File.open(File.expand_path(file_path), 'w') { |f| f << "" }
 
           @aruba.check_file_presence( [ file_path ], true )

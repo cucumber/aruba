@@ -23,8 +23,18 @@ RSpec::Core::RakeTask.new do |spec|
   spec.rspec_opts = ['--color', '--format documentation']
 end
 
-require 'rubocop/rake_task'
-RuboCop::RakeTask.new
+if RUBY_VERSION < '1.9'
+  begin
+    require 'rubocop/rake_task'
+    RuboCop::RakeTask.new
+  rescue LoadError
+    desc 'Stub task to make rake happy'
+    task(:rubocop) {}
+  end
+else
+  require 'rubocop/rake_task'
+  RuboCop::RakeTask.new
+end
 
 desc "Run tests, both RSpec and Cucumber"
 task :test => [ :rubocop, :spec, :cucumber, :cucumber_wip]

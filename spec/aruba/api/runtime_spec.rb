@@ -4,8 +4,10 @@ RSpec.describe 'aruba' do
   describe '#config' do
     subject(:config) { aruba.config }
 
-    context 'when initialized' do
-      it { is_expected.to eq Aruba.config }
+    if RUBY_VERSION >= '1.9'
+      context 'when initialized' do
+        it { is_expected.to eq Aruba.config }
+      end
     end
 
     context 'when changed earlier' do

@@ -1,5 +1,6 @@
-require 'pathname'
 require 'fileutils'
+require 'rspec/expectations'
+
 require 'aruba/extensions/string/strip'
 
 require 'aruba/platform'
@@ -7,7 +8,6 @@ require 'aruba/api/core'
 require 'aruba/api/commands'
 require 'aruba/api/filesystem'
 require 'aruba/api/deprecated'
-require 'rspec/expectations'
 
 Aruba::Platform.require_matching_files('../matchers/**/*.rb', __FILE__)
 
@@ -21,7 +21,7 @@ module Aruba
     # @param [String] file_or_directory
     #   The file/directory which should exist
     def exist?(file_or_directory)
-      File.exist? expand_path(file_or_directory)
+      Aruba::Platform.exist? expand_path(file_or_directory)
     end
 
     # Check if file exist and is file
@@ -29,7 +29,7 @@ module Aruba
     # @param [String] file
     #   The file/directory which should exist
     def file?(file)
-      File.file? expand_path(file)
+      Aruba::Platform.file? expand_path(file)
     end
 
     # Check if directory exist and is directory
@@ -37,7 +37,7 @@ module Aruba
     # @param [String] file
     #   The file/directory which should exist
     def directory?(file)
-      File.directory? expand_path(file)
+      Aruba::Platform.directory? expand_path(file)
     end
 
     # Check if path is absolute
@@ -45,7 +45,7 @@ module Aruba
     # @return [TrueClass, FalseClass]
     #   Result of check
     def absolute?(path)
-      Pathname.new(path).absolute?
+      ArubaPath.new(path).absolute?
     end
 
     # Check if path is relative
@@ -53,7 +53,7 @@ module Aruba
     # @return [TrueClass, FalseClass]
     #   Result of check
     def relative?(path)
-      Pathname.new(path).relative?
+      ArubaPath.new(path).relative?
     end
 
     # Return all existing paths (directories, files) in current dir
@@ -99,9 +99,9 @@ module Aruba
       fail ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.) unless directory? name
 
       existing_files            = Dir.glob(expand_path(File.join(name, '**', '*')))
-      current_working_directory = Pathname.new(expand_path('.'))
+      current_working_directory = ArubaPath.new(expand_path('.'))
 
-      existing_files.map { |d| Pathname.new(d).relative_path_from(current_working_directory).to_s }
+      existing_files.map { |d| ArubaPath.new(d).relative_path_from(current_working_directory).to_s }
     end
 
     # Return content of file
@@ -144,7 +144,7 @@ module Aruba
 
       args.each { |p| create_directory(File.dirname(p)) }
 
-      FileUtils.touch(args.map { |p| expand_path(p) }, options)
+      Aruba::Platform.touch(args.map { |p| expand_path(p) }, options)
 
       self
     end
@@ -162,8 +162,11 @@ module Aruba
     #
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
-    def copy(*source, destination)
-      source = source.flatten
+    # def copy(*source, destination)
+    def copy(*args)
+      args = args.flatten
+      destination = args.pop
+      source = args
 
       source.each do |s|
         raise ArgumentError, %(The following source "#{s}" does not exist.) unless exist? s
@@ -182,7 +185,7 @@ module Aruba
         source_paths = source_paths.first
       end
 
-      FileUtils.cp_r source_paths, destination_path
+      Aruba::Platform.cp source_paths, destination_path
 
       self
     end
@@ -248,9 +251,9 @@ module Aruba
              end
 
       args = args.map { |p| expand_path(p) }
-      args.each { |p| raise "Expected #{p} to be present" unless FileTest.exists?(p) }
+      args.each { |p| raise "Expected #{p} to be present" unless FileTest.exist?(p) }
 
-      FileUtils.chmod(mode, args, options)
+      Aruba::Platform.chmod(mode, args, options)
 
       self
     end
@@ -272,7 +275,7 @@ module Aruba
       args = args.map { |p| expand_path(p) }
 
       args.each do |p|
-        raise "Expected #{p} to be present" unless FileTest.exists?(p)
+        raise "Expected #{p} to be present" unless Aruba::Platform.exist?(p)
 
         if expected_result
           expect(p).to have_permissions expected_permissions
@@ -286,7 +289,7 @@ module Aruba
     def _create_fixed_size_file(file_name, file_size, check_presence)
       file_name = expand_path(file_name)
 
-      raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
+      raise "expected #{file_name} to be present" if check_presence && !Aruba::Platform.file?(file_name)
       Aruba::Platform.mkdir(File.dirname(file_name))
       File.open(file_name, "wb"){ |f| f.seek(file_size - 1); f.write("\0") }
     end
@@ -310,7 +313,7 @@ module Aruba
     # @param [String] directory_name
     #   The name of the directory which should be created
     def create_directory(directory_name)
-      FileUtils.mkdir_p expand_path(directory_name)
+      Aruba::Platform.mkdir expand_path(directory_name)
 
       self
     end
@@ -620,10 +623,10 @@ module Aruba
     def fixtures_directory
       unless @fixtures_directory
         candidates = aruba.config.fixtures_directories.map { |dir| File.join(root_directory, dir) }
-        @fixtures_directory = candidates.find { |dir| File.directory? dir }
+        @fixtures_directory = candidates.find { |dir| Aruba::Platform.directory? dir }
         raise "No fixtures directories are found" unless @fixtures_directory
       end
-      raise "#{@fixtures_directory} is not a directory" unless File.directory?(@fixtures_directory)
+      raise "#{@fixtures_directory} is not a directory" unless Aruba::Platform.directory?(@fixtures_directory)
       @fixtures_directory
     end
 
@@ -647,9 +650,12 @@ module Aruba
         process
       end
 
-      @timed_out = command.exit_status.nil?
+      @timed_out = command.timed_out?
 
-      expect(command).to be_successfully_executed if fail_on_error
+      if fail_on_error
+        expect(command).to have_finished_in_time
+        expect(command).to be_successfully_executed
+      end
     end
 
     # Provide data to command via stdin

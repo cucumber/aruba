@@ -15,6 +15,11 @@ module Aruba
         @stopped == true
       end
 
+      # Does the process failed to stop in time
+      def timed_out?
+        @timed_out == true
+      end
+
       # Hook which is run before command is run
       def before_run; end
 

@@ -1,9 +1,8 @@
-require 'aruba'
 require 'aruba/api'
+World(Aruba::Api)
+
 require 'aruba/cucumber/hooks'
 require 'aruba/reporting'
-
-World(Aruba::Api)
 
 Given /the default aruba timeout is (\d+) seconds/ do |seconds|
   aruba.config.exit_timeout = seconds.to_i
@@ -59,7 +58,7 @@ Given /^a mocked home directory$/ do
 end
 
 Given /^(?:a|the) directory(?: named)? "([^"]*)" does not exist$/ do |directory_name|
-  remove_directory(directory_name, force: true)
+  remove_directory(directory_name, :force => true)
 end
 
 When /^I write to "([^"]*)" with:$/ do |file_name, file_content|
@@ -83,7 +82,7 @@ When /^I remove (?:a|the) file(?: named)? "([^"]*)"$/ do |file_name|
 end
 
 Given /^(?:a|the) file(?: named)? "([^"]*)" does not exist$/ do |file_name|
-  remove_file(file_name, force: true)
+  remove_file(file_name, :force => true)
 end
 
 When(/^I remove (?:a|the) directory(?: named)? "(.*?)"$/) do |directory_name|

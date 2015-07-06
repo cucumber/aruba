@@ -22,7 +22,7 @@ module Aruba
     #   puts path
     #   # => path/to/dir.d/subdir.d
     def push(p)
-      __setobj__(__getobj__ + p)
+      __setobj__(File.join(__getobj__, p))
     end
     alias_method :<<, :push
 
@@ -34,17 +34,41 @@ module Aruba
     #   puts path
     #   # => path/to
     def pop
-      dirs = __getobj__.each_filename.to_a
+      if RUBY_VERSION < '1.9'
+        dirs = []
+        __getobj__.each_filename { |f| dirs << f }
+      else
+        dirs = __getobj__.each_filename.to_a
+      end
+
       dirs.pop
 
       __setobj__ Pathname.new(File.join(*dirs))
+    end
+
+    if RUBY_VERSION < '1.9'
+      def to_s
+        __getobj__.to_s
+      end
+
+      def relative?
+        !(%r{\A/} === __getobj__)
+      end
+
+      def absolute?
+        (%r{\A/} === __getobj__)
+      end
     end
 
     # Return string at index
     #
     # @param [Integer, Range] index
     def [](index)
-      to_s[index]
+      if RUBY_VERSION < '1.9'
+        to_s.chars.to_a[index].to_a.join('')
+      else
+        to_s[index]
+      end
     end
   end
 end

@@ -18,7 +18,7 @@ Feature: Change current working directory
     """
     require 'spec_helper'
 
-    RSpec.describe 'cd to directory', type: :aruba do
+    RSpec.describe 'cd to directory', :type => :aruba do
       before(:each) do 
         create_directory 'new_dir.d'
         cd 'new_dir.d'
@@ -37,7 +37,7 @@ Feature: Change current working directory
     """
     require 'spec_helper'
 
-    RSpec.describe 'cd to directory', type: :aruba do
+    RSpec.describe 'cd to directory', :type => :aruba do
       before(:each) { cd 'new_dir.d' }
       before(:each) { run_simple 'pwd' }
 
@@ -52,7 +52,7 @@ Feature: Change current working directory
     """
     require 'spec_helper'
 
-    RSpec.describe 'cd to directory', type: :aruba do
+    RSpec.describe 'cd to directory', :type => :aruba do
       before(:each) do
         create_directory 'new_dir.d/subdir.d'
       end
@@ -76,7 +76,7 @@ Feature: Change current working directory
     """
     require 'spec_helper'
 
-    RSpec.describe 'cd to directory', type: :aruba do
+    RSpec.describe 'cd to directory', :type => :aruba do
       before(:each) do
         create_directory 'new_dir.d/subdir.d'
       end
@@ -103,7 +103,7 @@ Feature: Change current working directory
     """
     require 'spec_helper'
 
-    RSpec.describe 'cd to directory', type: :aruba do
+    RSpec.describe 'cd to directory', :type => :aruba do
       before(:each) do
         create_directory 'new_dir.d/subdir.d'
       end

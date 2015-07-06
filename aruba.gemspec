@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = 'cukes@googlegroups.com'
   s.homepage    = 'http://github.com/cucumber/aruba'
 
-  s.add_runtime_dependency 'cucumber', '~> v1.3.19'
+  s.add_runtime_dependency 'cucumber', '~> 1.3.19'
   s.add_runtime_dependency 'childprocess', '~> 0.5.6'
   s.add_runtime_dependency 'rspec-expectations', '~> 3.3.0'
   s.add_runtime_dependency 'contracts', '~> 0.9'
@@ -19,7 +19,12 @@ Gem::Specification.new do |s|
 
   s.rubygems_version = ">= 1.6.1"
   s.required_ruby_version = '>= 1.8.7'
-  s.post_install_message = 'From aruba >= 1.0 ruby 1.8.7-support is discontinued. aruba >= 1.0 will also require "cucumber 2" for the feature steps. The rest of aruba should be usable by whatever testing framework you are using.'
+  s.post_install_message = <<-EOS
+With aruba >= 1.0
+  * "ruby 1.8.7"-support is discontinued
+  * aruba requires "cucumber 2" for the feature steps. The rest of aruba should be usable by whatever testing framework you are using
+  * "aruba/reporting" will be removed. Please use `@debug`-tag + `byebug`, `debugger`, `pry` to troubleshoot your feature tests
+EOS
 
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {spec,features}/*`.split("\n")

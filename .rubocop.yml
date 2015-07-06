@@ -64,6 +64,9 @@ Style/ClassCheck:
 Style/ClassVars:
   Enabled: false
 
+Metrics/ClassLength:
+  Enabled: false
+
 # Cop supports --auto-correct.
 # Configuration parameters: PreferredMethods.
 Style/CollectionMethods:

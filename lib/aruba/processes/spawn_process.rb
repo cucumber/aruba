@@ -98,7 +98,11 @@ module Aruba
       end
 
       def close_io(name)
-        @process.io.public_send(name.to_sym).close
+        if RUBY_VERSION < '1.9'
+          @process.io.send(name.to_sym).close
+        else
+          @process.io.public_send(name.to_sym).close
+        end
       end
 
       def stop(reader)
@@ -106,7 +110,12 @@ module Aruba
 
         return @exit_status unless @process
 
-        @process.poll_for_exit(@exit_timeout) unless @process.exited?
+        begin
+          @process.poll_for_exit(@exit_timeout) unless @process.exited?
+        rescue ChildProcess::TimeoutError
+          @timed_out = true
+          @process.stop
+        end
 
         @exit_status = @process.exit_code
         @process   = nil

@@ -12,8 +12,7 @@ require 'aruba/cucumber'
 require 'rspec/expectations'
 
 Before do |scenario|
-  command_name = case scenario
-                 when Cucumber::RunningTestCase::Scenario
+  command_name = if scenario.respond_to?(:feature) && scenario.respond_to?(:name)
                    "#{scenario.feature.title} #{scenario.name}"
                  else
                    raise TypeError.new("Don't know how to extract command name from #{scenario.class}")
@@ -24,6 +23,11 @@ Before do |scenario|
   set_env('SIMPLECOV_COMMAND_NAME', command_name)
 
   simplecov_setup_pathname = Pathname.new(__FILE__).expand_path.parent.join('simplecov_setup')
+
   # set environment variable so child processes will merge their coverage data with parent process's coverage data.
-  set_env('RUBYOPT', "-r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}")
+  if RUBY_VERSION < '1.9'
+    set_env('RUBYOPT', "-r rubygems -r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}")
+  else
+    set_env('RUBYOPT', "-r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}")
+  end
 end

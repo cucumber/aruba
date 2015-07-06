@@ -1,7 +1,7 @@
 RSpec.shared_examples 'a basic configuration' do
   subject(:config) do
     Class.new(described_class) do
-      option_accessor :use_test, contract: { Contracts::Bool => Contracts::Bool }, default: false
+      option_accessor :use_test, :contract => { Contracts::Bool => Contracts::Bool }, :default => false
     end.new
   end
 
@@ -13,7 +13,7 @@ RSpec.shared_examples 'a basic configuration' do
     subject(:config) { config_klass.new }
 
     before :each do
-      config_klass.option_reader :new_opt, contract: { Contracts::Num => Contracts::Num }, default: 1
+      config_klass.option_reader :new_opt, :contract => { Contracts::Num => Contracts::Num }, :default => 1
     end
 
     context 'when value is read' do
@@ -26,7 +26,7 @@ RSpec.shared_examples 'a basic configuration' do
 
     context 'when block is defined' do
       before :each do
-        config_klass.option_reader :new_opt2, contract: { Contracts::Num => Contracts::Num } do |c|
+        config_klass.option_reader :new_opt2, :contract => { Contracts::Num => Contracts::Num } do |c|
           c.new_opt.value + 1
         end
       end
@@ -37,7 +37,7 @@ RSpec.shared_examples 'a basic configuration' do
     context 'when block and default value is defined' do
       it do
         expect do
-          config_klass.option_accessor :new_opt2, contract: { Contracts::Num => Contracts::Num }, default: 2 do |c|
+          config_klass.option_accessor :new_opt2, :contract => { Contracts::Num => Contracts::Num }, :default => 2 do |c|
             c.new_opt.value + 1
           end
         end.to raise_error ArgumentError, 'Either use block or default value'
@@ -51,7 +51,7 @@ RSpec.shared_examples 'a basic configuration' do
     subject(:config) { config_klass.new }
 
     before :each do
-      config_klass.option_accessor :new_opt, contract: { Contracts::Num => Contracts::Num }, default: 1
+      config_klass.option_accessor :new_opt, :contract => { Contracts::Num => Contracts::Num }, :default => 1
     end
 
     context 'when default is used' do
@@ -66,7 +66,7 @@ RSpec.shared_examples 'a basic configuration' do
 
     context 'when block is defined' do
       before :each do
-        config_klass.option_accessor :new_opt2, contract: { Contracts::Num => Contracts::Num } do |c|
+        config_klass.option_accessor :new_opt2, :contract => { Contracts::Num => Contracts::Num } do |c|
           c.new_opt.value + 1
         end
       end
@@ -77,7 +77,7 @@ RSpec.shared_examples 'a basic configuration' do
     context 'when block and default value is defined' do
       it do
         expect do
-          config_klass.option_accessor :new_opt2, contract: { Contracts::Num => Contracts::Num }, default: 2 do |c|
+          config_klass.option_accessor :new_opt2, :contract => { Contracts::Num => Contracts::Num }, :default => 2 do |c|
             c.new_opt1 + 1
           end
         end.to raise_error ArgumentError, 'Either use block or default value'
