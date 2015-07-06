@@ -109,6 +109,31 @@ Feature: Set environment variable via API-method
     When I run `rspec`
     Then the specs should all pass
 
+  Scenario: Nested setup with rspec
+    Given a file named "spec/environment_spec.rb" with:
+    """
+    require 'spec_helper'
+
+    RSpec.describe 'Long running command', :type => :aruba do
+      before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
+
+      describe 'Method XX' do
+        before(:each) { run('env') }
+
+        it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=1' }
+      end
+
+      describe 'Method YY' do
+        before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '2' }
+        before(:each) { run('env') }
+
+        it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=2' }
+      end
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+
   Scenario: When an error occures the ENV is not polluted
     Given a file named "spec/environment_spec.rb" with:
     """

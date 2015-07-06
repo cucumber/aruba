@@ -756,25 +756,6 @@ module Aruba
       self
     end
 
-    # Run block with environment
-    #
-    # @param [Hash] env (optional)
-    #   The variables to be used for block.
-    #
-    # @yield
-    #   The block of code which should be run with the modified environment variables
-    def with_environment(env = {}, &block)
-      old_env = ENV.to_hash
-
-      ENV.update(aruba.environment.to_h)
-      ENV.update(env)
-
-      block.call
-    ensure
-      ENV.clear
-      ENV.update old_env
-    end
-
     # Access to announcer
     def announcer
       @announcer ||= Announcer.new(

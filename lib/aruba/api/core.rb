@@ -1,8 +1,9 @@
 require 'rspec/expectations'
 require 'aruba/announcer'
 require 'aruba/runtime'
-require 'aruba/jruby'
 require 'aruba/errors'
+
+require 'aruba/config/jruby'
 
 module Aruba
   module Api
@@ -101,9 +102,33 @@ module Aruba
         if aruba.config.fixtures_path_prefix == prefix
           File.join fixtures_directory, rest
         else
-          Aruba::Platform.chdir(aruba.current_directory) { Aruba::Platform.expand_path(file_name, dir_string) }
+          with_environment do
+            require 'pry'
+            binding.pry
+            Aruba::Platform.chdir(aruba.current_directory) { Aruba::Platform.expand_path(file_name, dir_string) }
+          end
         end
       end
+
+      # Run block with environment
+      #
+      # @param [Hash] env (optional)
+      #   The variables to be used for block.
+      #
+      # @yield
+      #   The block of code which should be run with the modified environment variables
+      def with_environment(env = {}, &block)
+        old_env = ENV.to_hash
+
+        ENV.update(aruba.environment.to_h)
+        ENV.update(env)
+
+        block.call
+      ensure
+        ENV.clear
+        ENV.update old_env
+      end
+
     end
   end
 end

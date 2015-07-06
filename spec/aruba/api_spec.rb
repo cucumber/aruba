@@ -184,8 +184,12 @@ describe Aruba::Api  do
     let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
     before :each do
-      set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+      @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
     end
+            before :each do
+              require 'pry'
+              binding.pry
+            end
 
     context 'when does not exist' do
       it { expect { @aruba.list(name) }.to raise_error ArgumentError }
@@ -220,11 +224,20 @@ describe Aruba::Api  do
 
             it { expect(expected_files - existing_files).to be_empty}
           end
+            before :each do
+              require 'pry'
+              binding.pry
+            end
 
           context 'when path contains ~' do
             let(:string) { random_string }
             let(:name) { File.join('~', string) }
             let(:path) { File.join(@aruba.aruba.current_directory, string) }
+
+            before :each do
+              require 'pry'
+              binding.pry
+            end
 
             let(:existing_files) { @aruba.list(name) }
             let(:expected_files) { content.map { |c| File.join(string, c) } }

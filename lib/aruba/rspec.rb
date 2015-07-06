@@ -13,11 +13,12 @@ RSpec.configure do |config|
     setup_aruba
   end
 
-  config.around :each do |example|
-    old_env = ENV.to_hash
-    example.run
-    ENV.update old_env
-  end
+  # Activate on 1.0.0
+  # config.around :each do |example|
+  #   old_env = ENV.to_hash
+  #   example.run
+  #   ENV.update old_env
+  # end
 
   config.around :each do |example|
     project_bin = Aruba::ArubaPath.new(Aruba.config.root_directory)
