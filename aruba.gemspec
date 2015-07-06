@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.rubygems_version = ">= 1.6.1"
   s.required_ruby_version = '>= 1.8.7'
-  s.post_install_message = 'From aruba >= 1.0 ruby 1.8.7-support is discontinued. aruba >= 1.0 will also require "cucumber 2".'
+  s.post_install_message = 'From aruba >= 1.0 ruby 1.8.7-support is discontinued. aruba >= 1.0 will also require "cucumber 2" for the feature steps. The rest of aruba should be usable by whatever testing frame work you are using.'
 
   s.files            = `git ls-files`.split("\n")
   s.test_files       = `git ls-files -- {spec,features}/*`.split("\n")
