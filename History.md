@@ -1,3 +1,17 @@
+## [v0.8.0](https://github.com/cucumber/aruba/compare/v0.7.4...v0.8.0)
+* Make aruba compatible with "ruby 1.8.7" and "ruby 1.9.3" again (fixes #279)
+* Move more and more documentation to cucumber steps (partly fixes #268)
+* Refactoring of test suits, now rspec tests run randomly
+* Move Aruba constants to configuration class (fixes #271)
+* Added runtime configuration via `aruba.config` which is reset for each test run
+* Refactored hooks: now there are `after()` and `before()`-hooks, old
+  before_cmd-hook is still working, but is deprecated, added new
+  `after(:command)`-hook.
+* Refactored jruby-startup helper
+* Cleanup API by moving deprecated methods to separte class
+* Cleanup Core API - reduced to `cd`, `expand_path`, `setup_aruba` and use expand_path wherever possible (fixes #253)
+* Better isolation for environment variable manipulation - really helpful from 1.0.0 on
+
 ## [v0.7.4](https://github.com/cucumber/aruba/compare/v0.7.2...v0.7.4)
 * Really Fixed post install message
 
@@ -21,6 +35,7 @@
 * Improve development environment (issue #240)
 * Cleanup process management (issue #257)
 * Make path content available through matchers and api metchods (issue #250)
+* Refactor announcer to support user defined announce channels (fixes #267)
 
 ## [v0.6.2](https://github.com/cucumber/aruba/compare/v0.6.1...v0.6.2)
 * Fixed minor issue #223)

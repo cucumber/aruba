@@ -2,13 +2,18 @@ module Aruba
   class ProcessMonitor
     private
 
-    attr_reader :processes, :announcer
+    attr_reader :processes, :announcer, :environment
 
     public
 
     def initialize(announcer)
       @processes = []
       @announcer = announcer
+      @environment = {}
+    end
+
+    def use_environment(environment)
+      @environment = environment.to_h
     end
 
     def last_exit_status
@@ -41,6 +46,10 @@ module Aruba
 
     def register_process(name, process)
       processes << [name, process]
+
+      process.environment = environment
+
+      [name, process]
     end
 
     def get_process(wanted)

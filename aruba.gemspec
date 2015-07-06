@@ -24,6 +24,9 @@ With aruba >= 1.0
   * "ruby 1.8.7"-support is discontinued
   * aruba requires "cucumber 2" for the feature steps. The rest of aruba should be usable by whatever testing framework you are using
   * "aruba/reporting" will be removed. Please use `@debug`-tag + `byebug`, `debugger`, `pry` to troubleshoot your feature tests
+  * Set environment variables will have only effect on `#run` and the like + `#with_environment { }`
+  * The process environment will be fully resetted between tests. Sharing state via ENV['VAR'] = 'shared state' between tests will not be possible anymore. Please make that obvious by using explicit steps or use the aruba API for that.
+  * There will be a major cleanup for command execution. There will be only `run` and `run_simple` left. `run_interactive` is replaced by `run`.
 EOS
 
   s.files            = `git ls-files`.split("\n")

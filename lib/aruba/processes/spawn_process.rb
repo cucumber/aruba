@@ -58,6 +58,8 @@ module Aruba
         @process.duplex    = @duplex
         @process.cwd       = @working_directory
 
+        @process.environment.update(environment)
+
         begin
           @process.start
         rescue ChildProcess::LaunchError => e

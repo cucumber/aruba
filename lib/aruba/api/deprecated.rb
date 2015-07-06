@@ -374,6 +374,62 @@ module Aruba
 
         in_current_directory
       end
+
+      # @deprecated
+      # Run block with environment
+      #
+      # @param [Hash] env
+      #   The variables to be used for block.
+      #
+      # @yield
+      #   The block of code which should be run with the modified environment variables
+      def with_env(env = {}, &block)
+        Aruba::Platform.deprecated('The use of "#with_env" is deprecated. Use "#with_environment {}" instead. But be careful this uses a different implementation')
+
+        env.each do |k,v|
+          set_env k, v
+        end
+        block.call
+        restore_env
+      end
+
+      # @deprecated
+      # Restore original process environment
+      def restore_env
+        # No output because we need to reset env on each scenario/spec run
+        # Aruba::Platform.deprecated('The use of "#restore_env" is deprecated. If you use "set_environment_variable" there\'s no need to restore the environment')
+
+        original_env.each do |key, value|
+          if value
+            ENV[key] = value
+          else
+            ENV.delete key
+          end
+        end
+      end
+
+      # @deprecated
+      # Set environment variable
+      #
+      # @param [String] key
+      #   The name of the environment variable as string, e.g. 'HOME'
+      #
+      # @param [String] value
+      #   The value of the environment variable. Needs to be a string.
+      def set_env(key, value)
+        Aruba::Platform.deprecated('The use of "#set_env" is deprecated. Please use "set_environment_variable" instead. But be careful, this method uses a different kind of implementation')
+
+        announcer.announce(:environment, key, value)
+        original_env[key] = ENV.delete(key) unless original_env.key? key
+        ENV[key] = value
+      end
+
+      # @deprecated
+      def original_env
+        # Aruba::Platform.deprecated('The use of "#original_env" is deprecated.')
+
+        @original_env ||= {}
+      end
     end
   end
 end

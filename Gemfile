@@ -7,12 +7,17 @@ gemspec
 group :debug do
   gem 'pry', '~> 0.10.1'
 
-  platform :mri_20, :mri_21, :mri_22 do
+  platform :ruby_20, :ruby_21, :ruby_22 do
     gem 'byebug', '~> 4.0.5'
     gem 'pry-byebug', '~> 3.1.0'
   end
 
-  platform :mri_19, :mri_20, :mri_21, :mri_22 do
+  platform :ruby_19 do
+    gem 'debugger', '~> 1.6.8'
+    gem 'pry-debugger', '~> 0.2.3'
+  end
+
+  platform :ruby_19, :ruby_20, :ruby_21, :ruby_22 do
     gem 'pry-stack_explorer', '~> 0.4.9'
   end
 
@@ -23,7 +28,7 @@ group :development, :test do
   # Run development tasks
   gem 'rake', '~> 10.4.2'
 
-  platform :mri_19, :mri_20, :mri_21, :mri_22 do
+  platform :ruby_19, :ruby_20, :ruby_21, :ruby_22 do
     # Reporting
     gem 'bcat', '~> 0.6.2'
     gem 'kramdown', '~> 1.7.0'
@@ -37,20 +42,20 @@ group :development, :test do
   gem 'fuubar', '~> 2.0.0'
 
   # Make aruba compliant to ruby community guide
-  platform :mri_19, :mri_20, :mri_21, :mri_22 do
+  platform :ruby_19, :ruby_20, :ruby_21, :ruby_22 do
     gem 'rubocop', '~> 0.32.0'
   end
 
-  platform :mri_19, :mri_20, :mri_21, :mri_22 do
+  platform :ruby_19, :ruby_20, :ruby_21, :ruby_22 do
     gem 'cucumber-pro', '~> 0.0'
   end
 
-  platform :mri_19, :mri_20, :mri_21, :mri_22 do
+  platform :ruby_19, :ruby_20, :ruby_21, :ruby_22 do
     # License compliance
     gem 'license_finder', '~> 2.0.4'
   end
 
-  platform :mri_19, :mri_20, :mri_21, :mri_22 do
+  platform :ruby_19, :ruby_20, :ruby_21, :ruby_22 do
     # Upload documentation
     gem 'relish', '~> 0.7.1'
   end

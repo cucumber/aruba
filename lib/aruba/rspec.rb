@@ -63,4 +63,11 @@ RSpec.configure do |config|
       announcer.activate(:directory)
     end
   end
+
+  config.before :each do
+    next unless self.class.include? Aruba::Api
+
+    aruba.environment.update aruba.config.command_runtime_environment
+    aruba.environment.prepend 'PATH', aruba.config.command_search_paths.join(':') + ':'
+  end
 end

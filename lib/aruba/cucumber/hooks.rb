@@ -2,20 +2,26 @@ require 'aruba/aruba_path'
 require 'aruba/api'
 World(Aruba::Api)
 
-Around do |_, block|
-  project_bin = Aruba::ArubaPath.new(Aruba.config.root_directory)
-  project_bin << 'bin'
+# Activate on 1.0.0
+#
+# Around do |_, block|
+#   begin
+#     if RUBY_VERSION < '1.9'
+#       old_env = ENV.to_hash
+#     else
+#       old_env = ENV.to_h
+#     end
+#
+#     block.call
+#   ensure
+#     ENV.clear
+#     ENV.update old_env
+#   end
+# end
 
-  old_path    = ENV.fetch 'PATH', ''
-
-  paths = old_path.split(File::PATH_SEPARATOR)
-  paths.unshift project_bin
-
-  ENV['PATH'] = paths.join(File::PATH_SEPARATOR)
-
-  block.call
-
-  ENV['PATH'] = old_path
+Before do
+  aruba.environment.update aruba.config.command_runtime_environment
+  aruba.environment.prepend 'PATH', aruba.config.command_search_paths.join(':') + ':'
 end
 
 After do
@@ -88,7 +94,13 @@ Before('@ansi') do
 end
 
 Before '@mocked_home_directory' do
-  set_env 'HOME', expand_path('.')
+  Aruba::Platform.deprecated('The use of "@mocked_home_directory" is deprecated. Use "@mocked-home-directory" instead')
+
+  set_environment_variable 'HOME', expand_path('.')
+end
+
+Before '@mocked-home-directory' do
+  set_environment_variable 'HOME', expand_path('.')
 end
 
 Before('@disable-bundler') do

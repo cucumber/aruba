@@ -19,7 +19,6 @@ Feature: Check exit status of commands
         When I run `cli`
         Then the exit status should be 0
     """
-    When I run `env`
     When I run `cucumber`
     Then the features should all pass
 
@@ -133,5 +132,5 @@ Feature: Check exit status of commands
     When I run `cucumber`
     Then the features should not all pass with:
     """
-    expected that command "cli" has finished in time
+    expected "cli" to have finished in time
     """

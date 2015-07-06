@@ -529,7 +529,12 @@ module Aruba
     end
 
     def process_monitor
-      @process_monitor ||= ProcessMonitor.new(announcer)
+      return @process_monitor if defined? @process_monitor
+
+      @process_monitor = ProcessMonitor.new(announcer)
+      @process_monitor.use_environment aruba.environment
+
+      @process_monitor
     end
 
     # @private
@@ -644,11 +649,8 @@ module Aruba
     # @param [Integer] timeout
     #   Timeout for execution
     def run_simple(cmd, fail_on_error = true, timeout = nil)
-      command = run(cmd, timeout) do |process|
-        process_monitor.stop_process(process)
-
-        process
-      end
+      command = run(cmd, timeout)
+      @last_exit_status = command.stop(announcer)
 
       @timed_out = command.timed_out?
 
@@ -682,13 +684,13 @@ module Aruba
       run_simple(%{rvm gemset create "#{gemset}"}, true)
       if all_stdout =~ /'#{gemset}' gemset created \((.*)\)\./
         gem_home = Regexp.last_match[1]
-        set_env('GEM_HOME', gem_home)
-        set_env('GEM_PATH', gem_home)
-        set_env('BUNDLE_PATH', gem_home)
+        set_environment_variable('GEM_HOME', gem_home)
+        set_environment_variable('GEM_PATH', gem_home)
+        set_environment_variable('BUNDLE_PATH', gem_home)
 
         paths = (ENV['PATH'] || "").split(File::PATH_SEPARATOR)
         paths.unshift(File.join(gem_home, 'bin'))
-        set_env('PATH', paths.uniq.join(File::PATH_SEPARATOR))
+        set_environment_variable('PATH', paths.uniq.join(File::PATH_SEPARATOR))
 
         run_simple("gem install bundler", true)
       else
@@ -699,7 +701,7 @@ module Aruba
     # Unset variables used by bundler
     def unset_bundler_env_vars
       %w[RUBYOPT BUNDLE_PATH BUNDLE_BIN_PATH BUNDLE_GEMFILE].each do |key|
-        set_env(key, nil)
+        set_environment_variable(key, nil)
       end
     end
 
@@ -710,41 +712,67 @@ module Aruba
     #
     # @param [String] value
     #   The value of the environment variable. Needs to be a string.
-    def set_env(key, value)
-      announcer.announce(:environment, key, value)
-      original_env[key] = ENV.delete(key) unless original_env.key? key
-      ENV[key] = value
+    def set_environment_variable(name, value)
+      name = name.to_s
+      value = value.to_s
+
+      announcer.announce(:environment, name, value)
+      aruba.environment[name] = value
+
+      self
     end
 
-    # Restore original process environment
-    def restore_env
-      original_env.each do |key, value|
-        if value
-          ENV[key] = value
-        else
-          ENV.delete key
-        end
-      end
+    # Append environment variable
+    #
+    # @param [String] key
+    #   The name of the environment variable as string, e.g. 'HOME'
+    #
+    # @param [String] value
+    #   The value of the environment variable. Needs to be a string.
+    def append_environment_variable(name, value)
+      name = name.to_s
+      value = value.to_s
+
+      aruba.environment.append name, value
+      announcer.announce(:environment, name, aruba.environment[name])
+
+      self
     end
 
-    # @private
-    def original_env
-      @original_env ||= {}
+    # Prepend environment variable
+    #
+    # @param [String] key
+    #   The name of the environment variable as string, e.g. 'HOME'
+    #
+    # @param [String] value
+    #   The value of the environment variable. Needs to be a string.
+    def prepend_environment_variable(name, value)
+      name = name.to_s
+      value = value.to_s
+
+      aruba.environment.prepend name, value
+      announcer.announce(:environment, name, aruba.environment[name])
+
+      self
     end
 
     # Run block with environment
     #
-    # @param [Hash] env
+    # @param [Hash] env (optional)
     #   The variables to be used for block.
     #
     # @yield
     #   The block of code which should be run with the modified environment variables
-    def with_env(env = {}, &block)
-      env.each do |k,v|
-        set_env k, v
-      end
+    def with_environment(env = {}, &block)
+      old_env = ENV.to_hash
+
+      ENV.update(aruba.environment.to_h)
+      ENV.update(env)
+
       block.call
-      restore_env
+    ensure
+      ENV.clear
+      ENV.update old_env
     end
 
     # Access to announcer

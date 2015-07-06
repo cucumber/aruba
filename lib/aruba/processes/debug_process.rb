@@ -34,10 +34,10 @@ module Aruba
       def run!
         if RUBY_VERSION < '1.9'
           Dir.chdir do
-            @exit_status = system(@cmd) ? 0 : 1
+            @exit_status = system(environment, @cmd) ? 0 : 1
           end
         else
-          @exit_status = system(@cmd, :chdir => @working_directory) ? 0 : 1
+          @exit_status = system(environment, @cmd, :chdir => @working_directory) ? 0 : 1
         end
       end
 

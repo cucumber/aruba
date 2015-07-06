@@ -44,7 +44,11 @@ module Aruba
 
         Dir.chdir @working_directory do
           before_run
-          self.class.main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
+
+          with_environment do
+            self.class.main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
+          end
+
           after_run
 
           yield self if block_given?
@@ -80,6 +84,19 @@ module Aruba
 
       def terminate
         stop
+      end
+
+      private
+
+      def with_environment(&block)
+        old_env = ENV.to_hash
+
+        ENV.update(environment)
+
+        block.call
+      ensure
+        ENV.clear
+        ENV.update old_env
       end
     end
   end

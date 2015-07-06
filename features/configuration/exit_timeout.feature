@@ -39,7 +39,7 @@ Feature: Configure timeout for command execution
     Given a file named "bin/cli" with:
     """
     #!/usr/bin/env sh
-    sleep 5
+    sleep 2
     """
     And a file named "features/support/aruba.rb" with:
     """

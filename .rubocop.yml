@@ -39,6 +39,7 @@ Metrics/LineLength:
   Exclude:
     - lib/aruba/api.rb
     - lib/aruba/api/deprecated.rb
+    - aruba.gemspec
 
 # Configuration parameters: CountComments.
 Metrics/MethodLength:

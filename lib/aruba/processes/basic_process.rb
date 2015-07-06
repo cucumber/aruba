@@ -1,8 +1,11 @@
 module Aruba
   module Processes
     class BasicProcess
+      attr_accessor :environment
+
       def initialize(cmd, exit_timeout, io_wait, working_directory)
         @working_directory = working_directory
+        @environment       = ENV.to_hash
       end
 
       # Output stderr and stdout

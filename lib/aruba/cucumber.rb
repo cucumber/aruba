@@ -54,7 +54,7 @@ Given /^(?:an|the) empty file(?: named)? "([^"]*)" with mode "([^"]*)"$/ do |fil
 end
 
 Given /^a mocked home directory$/ do
-  set_env 'HOME', expand_path('.')
+  set_environment_variable 'HOME', expand_path('.')
 end
 
 Given /^(?:a|the) directory(?: named)? "([^"]*)" does not exist$/ do |directory_name|
@@ -98,16 +98,16 @@ Given /^I set the environment variables to:/ do |table|
     variable = row['variable'].to_s.upcase
     value = row['value'].to_s
 
-    set_env(variable, value)
+    set_environment_variable(variable, value)
   end
 end
 
 Given /^I append the value to the environment variable:/ do |table|
   table.hashes.each do |row|
     variable = row['variable'].to_s.upcase
-    value = row['value'].to_s + row['value'].to_s
+    value = row['value'].to_s
 
-    set_env(variable, value)
+    append_environment_variable(variable, value)
   end
 end
 

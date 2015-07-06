@@ -20,14 +20,14 @@ Before do |scenario|
 
   # Used in simplecov_setup so that each scenario has a different name and their coverage results are merged instead
   # of overwriting each other as 'Cucumber Features'
-  set_env('SIMPLECOV_COMMAND_NAME', command_name)
+  ENV['SIMPLECOV_COMMAND_NAME'] = command_name.to_s
 
   simplecov_setup_pathname = Pathname.new(__FILE__).expand_path.parent.join('simplecov_setup')
 
   # set environment variable so child processes will merge their coverage data with parent process's coverage data.
   if RUBY_VERSION < '1.9'
-    set_env('RUBYOPT', "-r rubygems -r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}")
+    ENV['RUBYOPT'] = "-r rubygems -r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}"
   else
-    set_env('RUBYOPT', "-r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}")
+    ENV['RUBYOPT'] = "-r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}"
   end
 end
