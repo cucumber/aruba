@@ -234,7 +234,7 @@ module Aruba
     #
     # @param [String] file_name
     #   Name of file to be modified. This file needs to be present to succeed
-    def filesystem_permissions(*args)
+    def chmod(*args)
       args = args.flatten
 
       options = if args.last.kind_of? Hash
@@ -250,39 +250,12 @@ module Aruba
                mode
              end
 
-      args = args.map { |p| expand_path(p) }
-      args.each { |p| raise "Expected #{p} to be present" unless FileTest.exist?(p) }
+      args.each { |p| raise "Expected #{p} to be present" unless exist?(p) }
+      paths = args.map { |p| expand_path(p) }
 
-      Aruba::Platform.chmod(mode, args, options)
+      Aruba::Platform.chmod(mode, paths, options)
 
       self
-    end
-
-    # Check file system permissions of file
-    #
-    # @param [Octal] expected_permissions
-    #   Expected file system permissions, e.g. 0755
-    # @param [String] file_names
-    #   The file name(s)
-    # @param [Boolean] expected_result
-    #   Are the permissions expected to be mode or are they expected not to be mode?
-    def check_filesystem_permissions(*args)
-      args = args.flatten
-
-      expected_permissions = args.shift
-      expected_result      = args.pop
-
-      args = args.map { |p| expand_path(p) }
-
-      args.each do |p|
-        raise "Expected #{p} to be present" unless Aruba::Platform.exist?(p)
-
-        if expected_result
-          expect(p).to have_permissions expected_permissions
-        else
-          expect(p).not_to have_permissions expected_permissions
-        end
-      end
     end
 
     # @private

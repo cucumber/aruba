@@ -430,6 +430,40 @@ module Aruba
 
         @original_env ||= {}
       end
+
+      # @deprecated
+      def filesystem_permissions(*args)
+        Aruba::Platform.deprecated('The use of "#filesystem_permissions" is deprecated. Please use "#chmod" instead.')
+
+        chmod(*args)
+      end
+
+      # Check file system permissions of file
+      #
+      # @param [Octal] expected_permissions
+      #   Expected file system permissions, e.g. 0755
+      # @param [String] file_names
+      #   The file name(s)
+      # @param [Boolean] expected_result
+      #   Are the permissions expected to be mode or are they expected not to be mode?
+      def check_filesystem_permissions(*args)
+        Aruba::Platform.deprecated('The use of "#check_filesystem_permissions" is deprecated. Please use "expect().to have_permissions perms" instead.')
+
+        args = args.flatten
+
+        expected_permissions = args.shift
+        expected_result      = args.pop
+
+        args.each do |p|
+          raise "Expected #{p} to be present" unless exist? p
+
+          if expected_result
+            expect(p).to have_permissions expected_permissions
+          else
+            expect(p).not_to have_permissions expected_permissions
+          end
+        end
+      end
     end
   end
 end

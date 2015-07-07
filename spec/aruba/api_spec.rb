@@ -130,7 +130,7 @@ describe Aruba::Api  do
     let(:content) { 'asdf' }
 
     before :each do
-      set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+      @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
     end
 
     context 'when does not exist' do
@@ -186,10 +186,6 @@ describe Aruba::Api  do
     before :each do
       @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
     end
-            before :each do
-              require 'pry'
-              binding.pry
-            end
 
     context 'when does not exist' do
       it { expect { @aruba.list(name) }.to raise_error ArgumentError }
@@ -224,20 +220,11 @@ describe Aruba::Api  do
 
             it { expect(expected_files - existing_files).to be_empty}
           end
-            before :each do
-              require 'pry'
-              binding.pry
-            end
 
           context 'when path contains ~' do
             let(:string) { random_string }
             let(:name) { File.join('~', string) }
             let(:path) { File.join(@aruba.aruba.current_directory, string) }
-
-            before :each do
-              require 'pry'
-              binding.pry
-            end
 
             let(:existing_files) { @aruba.list(name) }
             let(:expected_files) { content.map { |c| File.join(string, c) } }
@@ -260,7 +247,7 @@ describe Aruba::Api  do
     let(:options) { {} }
 
     before :each do
-      set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+      @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
     end
 
     context 'when file' do
@@ -359,7 +346,7 @@ describe Aruba::Api  do
       let(:options) { {} }
 
       before :each do
-        set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+        @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
       end
 
       context 'when file' do
@@ -746,7 +733,7 @@ describe Aruba::Api  do
       it "works with ~ in path name" do
         file_path = File.join('~', random_string)
 
-        with_env 'HOME' => File.expand_path(aruba.current_directory) do
+        with_environment 'HOME' => File.expand_path(aruba.current_directory) do
           @aruba.write_fixed_size_file(file_path, @file_size)
 
           expect(File.exist?(File.expand_path(file_path))).to eq true
@@ -769,7 +756,7 @@ describe Aruba::Api  do
       it "works with ~ in path name" do
         file_path = File.join('~', random_string)
 
-        with_env 'HOME' => File.expand_path(aruba.current_directory) do
+        with_environment 'HOME' => File.expand_path(aruba.current_directory) do
           @aruba.write_fixed_size_file(file_path, @file_size)
           @aruba.check_file_size([[file_path, @file_size]])
         end
@@ -791,7 +778,7 @@ describe Aruba::Api  do
       let(:permissions) { '0655' }
 
       before :each do
-        set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+        @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
       end
 
       before(:each) do
@@ -829,7 +816,7 @@ describe Aruba::Api  do
       let(:permissions) { '0655' }
 
       before :each do
-        set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+        @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
       end
 
       before(:each) do
@@ -926,7 +913,7 @@ describe Aruba::Api  do
       it "works with ~ in path name" do
         file_path = File.join('~', random_string)
 
-        with_env 'HOME' => File.expand_path(aruba.current_directory) do
+        with_environment 'HOME' => File.expand_path(aruba.current_directory) do
           Aruba::Platform.mkdir(File.dirname(File.expand_path(file_path)))
           File.open(File.expand_path(file_path), 'w') { |f| f << "" }
 
@@ -991,7 +978,7 @@ describe Aruba::Api  do
           it "works with ~ in path name" do
             file_path = File.join('~', random_string)
 
-            with_env 'HOME' => File.expand_path(aruba.current_directory) do
+            with_environment 'HOME' => File.expand_path(aruba.current_directory) do
               @aruba.write_file(file_path, "foo bar baz")
               @aruba.check_file_content(file_path, non_matching_content, false)
             end
@@ -1012,7 +999,7 @@ describe Aruba::Api  do
           it "works with ~ in path name" do
             file_path = File.join('~', random_string)
 
-            with_env 'HOME' => File.expand_path(aruba.current_directory) do
+            with_environment 'HOME' => File.expand_path(aruba.current_directory) do
               @aruba.write_file(file_path, "foo bar baz")
               @aruba.check_file_content(file_path, non_matching_content, false)
             end
@@ -1035,7 +1022,7 @@ describe Aruba::Api  do
       it "works with ~ in path name" do
         file_path = File.join('~', random_string)
 
-        with_env 'HOME' => File.expand_path(aruba.current_directory) do
+        with_environment 'HOME' => File.expand_path(aruba.current_directory) do
           @aruba.write_file(file_path, "foo bar baz")
 
           @aruba.with_file_content file_path do |full_content|
@@ -1067,12 +1054,12 @@ describe Aruba::Api  do
   end
 
   describe 'process environment' do
-    context '#with_env' do
+    context '#with_environment' do
       it 'modifies env for block' do
         variable = 'THIS_IS_A_ENV_VAR'
         ENV[variable] = '1'
 
-        with_env variable => '0' do
+        with_environment variable => '0' do
           expect(ENV[variable]).to eq '0'
         end
 

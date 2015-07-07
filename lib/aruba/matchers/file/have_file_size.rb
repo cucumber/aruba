@@ -16,7 +16,7 @@
 #     RSpec.describe do
 #       it { expect('file.txt').to have_file_size(0) }
 #       it { expect(%w(file.txt file2.txt)).to all have_file_size(0) }
-#       it { expect(%w(file.txt file2.txt)).to include a_file_with_size(0) }
+#       it { expect(%w(file.txt file2.txt)).to include a_file_of_size(0) }
 #     end
 RSpec::Matchers.define :have_file_size do |expected|
   match do |actual|
@@ -40,4 +40,4 @@ RSpec::Matchers.define :have_file_size do |expected|
   end
 end
 
-RSpec::Matchers.alias_matcher :a_file_with_size, :have_file_size
+RSpec::Matchers.alias_matcher :a_file_of_size, :have_file_size

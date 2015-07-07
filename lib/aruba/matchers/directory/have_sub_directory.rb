@@ -46,4 +46,4 @@ RSpec::Matchers.define :have_sub_directory do |expected|
   end
 end
 
-RSpec::Matchers.alias_matcher :a_directory_with_subdirectory, :have_sub_directory
+RSpec::Matchers.alias_matcher :a_directory_having_sub_directory, :have_sub_directory

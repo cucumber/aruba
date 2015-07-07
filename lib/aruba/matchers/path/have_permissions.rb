@@ -1,5 +1,5 @@
 # @!method have_permissions(permissions)
-#   This matchers checks if <file> has <perm> permissions
+#   This matchers checks if <file> or <directory> has <perm> permissions
 #
 #   @param [Fixnum, String] permissions
 #     The permissions as octal number, e.g. `0700`, or String, e.g. `'0700'`
@@ -15,6 +15,7 @@
 #
 #     RSpec.describe do
 #       it { expect(file).to have_permissions(0700) }
+#       it { expect(directory).to have_permissions(0700) }
 #     end
 #
 #   @example Use matcher with string
@@ -22,6 +23,8 @@
 #     RSpec.describe do
 #       it { expect(file).to have_permissions('0700') }
 #       it { expect(files).to include a_path_with_permissions('0700') }
+#       it { expect(directory).to have_permissions('0700') }
+#       it { expect(directories).to include a_path_with_permissions('0700') }
 #     end
 RSpec::Matchers.define :have_permissions do |expected|
   def permissions(file)
@@ -46,12 +49,12 @@ RSpec::Matchers.define :have_permissions do |expected|
   end
 
   failure_message do |actual|
-    format("expected that file \"%s\" would have permissions \"%s\", but has \"%s\".", @old_actual, @expected, @actual)
+    format("expected that path \"%s\" has permissions \"%s\", but has \"%s\".", @old_actual, @expected, @actual)
   end
 
   failure_message_when_negated do |actual|
-    format("expected that file \"%s\" would not have permissions \"%s\", but has \"%s\".", @old_actual, @expected, @actual)
+    format("expected that path \"%s\" does not have permissions \"%s\", but has \"%s\".", @old_actual, @expected, @actual)
   end
 end
 
-RSpec::Matchers.alias_matcher :a_path_with_permissions, :have_permissions
+RSpec::Matchers.alias_matcher :a_path_having_permissions, :have_permissions

@@ -17,6 +17,15 @@ RSpec.describe 'File Matchers' do
     context 'when file does not exist' do
       it { expect(name).not_to be_an_existing_file }
     end
+
+    context 'when contains ~' do
+      let(:name) { File.join('~', random_string) }
+
+      with_environment 'HOME' => expand_path('.') do
+        before(:each) { create_test_files(name) }
+        it { expect(name).to be_an_existing_file }
+      end
+    end
   end
 
   describe 'to_have_file_content' do
