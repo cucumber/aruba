@@ -34,6 +34,25 @@ Feature: Check if directory has given sub directories
     When I run `rspec`
     Then the specs should all pass
 
+  Scenario: Expect multiple existing sub directories
+    Given a file named "spec/existing_file_spec.rb" with:
+    """
+    require 'spec_helper'
+
+    RSpec.describe 'Check if directory has sub-directory', :type => :aruba do
+      let(:directory) { 'dir.d' }
+      let(:sub_directories) { %w(sub-dir1.d sub-dir2.d) }
+
+      before(:each) do
+        sub_directories.each { |d| create_directory(File.join(directory, d)) }
+      end
+
+      it { expect(directory).to have_sub_directory sub_directories }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+
   Scenario: Expect non-existing sub directory
     Given a file named "spec/existing_file_spec.rb" with:
     """

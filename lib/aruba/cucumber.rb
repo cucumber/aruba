@@ -338,9 +338,9 @@ end
 
 Then /^(?:a|the) file matching %r<(.*?)> should (not )?exist$/ do |pattern, expect_match|
   if expect_match
-    expect(all_paths).not_to match_path_pattern(Regexp.new(pattern))
+    expect(all_paths).not_to include match Regexp.new(pattern)
   else
-    expect(all_paths).to match_path_pattern(Regexp.new(pattern))
+    expect(all_paths).to include match Regexp.new(pattern)
   end
 end
 
