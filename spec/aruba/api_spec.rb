@@ -696,19 +696,42 @@ describe Aruba::Api  do
       end
 
       context 'when file_name contains fixtures "%" string' do
+        let(:runtime) { instance_double('Aruba::Runtime') }
+        let(:config) { double('Aruba::Config') }
+        let(:environment) { instance_double('Aruba::Environment') }
+
         let(:klass) do
           Class.new do
             include Aruba::Api
 
-            def root_directory
-              File.expand_path(aruba.current_directory)
+            attr_reader :aruba
+
+            def initialize(aruba)
+              @aruba = aruba
             end
           end
         end
 
         before :each do
-          @aruba = klass.new
-          @aruba.touch_file 'spec/fixtures/file1'
+          allow(config).to receive(:fixtures_path_prefix).and_return('%')
+        end
+
+        before :each do
+          allow(environment).to receive(:clear)
+          allow(environment).to receive(:update)
+          allow(environment).to receive(:to_h).and_return('PATH' => aruba.current_directory)
+        end
+
+        before :each do
+          allow(runtime).to receive(:config).and_return config
+          allow(runtime).to receive(:environment).and_return environment
+          allow(runtime).to receive(:current_directory).and_return aruba.current_directory
+          allow(runtime).to receive(:fixtures_directory).and_return File.join(aruba.root_directory, aruba.current_directory, 'spec', 'fixtures')
+        end
+
+        before :each do
+          @aruba = klass.new(runtime)
+          @aruba.touch 'spec/fixtures/file1'
         end
 
         it { expect(@aruba.expand_path('%/file1')).to eq File.expand_path(File.join(aruba.current_directory, 'spec', 'fixtures', 'file1')) }
@@ -1163,32 +1186,6 @@ describe Aruba::Api  do
       end
 
       klass.new
-    end
-
-    describe '#fixtures_directory' do
-      context 'when no fixtures directories exist' do
-        it "should raise exception" do
-          expect { api.fixtures_directory }.to raise_error
-        end
-      end
-
-      context 'when "/features/fixtures"-directory exist' do
-        before(:each) { api.create_directory('features/fixtures') }
-
-        it { expect(api.fixtures_directory).to eq expand_path('features/fixtures') }
-      end
-
-      context 'when "/spec/fixtures"-directory exist' do
-        before(:each) { api.create_directory('spec/fixtures') }
-
-        it { expect(api.fixtures_directory).to eq expand_path('spec/fixtures') }
-      end
-
-      context 'when "/test/fixtures"-directory exist' do
-        before(:each) { api.create_directory('test/fixtures') }
-
-        it { expect(api.fixtures_directory).to eq expand_path('test/fixtures') }
-      end
     end
   end
 
