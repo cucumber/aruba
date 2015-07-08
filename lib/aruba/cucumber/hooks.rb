@@ -76,12 +76,17 @@ Before('@announce-environment') do
   announcer.activate :environment
 end
 
+Before('@announce-timeout') do
+  announcer.activate :timeout
+end
+
 Before('@announce') do
   announcer.activate :command
   announcer.activate :stdout
   announcer.activate :stderr
   announcer.activate :directory
   announcer.activate :environment
+  announcer.activate :timeout
 end
 
 Before('@debug') do
