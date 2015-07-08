@@ -1,6 +1,7 @@
 require 'rbconfig'
 
 module Aruba
+  # WARNING:
   # All methods found here are not considered part of the public API of aruba.
   #
   # Those methods can be changed at any time in the feature or removed without
@@ -22,7 +23,11 @@ module Aruba
       ::File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
     end
 
+    # @deprecated
+    # Add newline at the end
     def ensure_newline(str)
+      deprecated('The use of "#ensure_newline" is deprecated. It will be removed soon')
+
       str.chomp << "\n"
     end
 
