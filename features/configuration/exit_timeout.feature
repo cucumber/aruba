@@ -1,3 +1,4 @@
+@announce
 Feature: Configure timeout for command execution
 
   As a developer

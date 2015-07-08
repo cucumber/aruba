@@ -1,3 +1,4 @@
+@announce
 Feature: Check exit status of commands
 
   Use the `the exit status should be \d`-step to check the exit status of the

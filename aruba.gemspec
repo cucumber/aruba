@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'cucumber', '~> 1.3.19'
   s.add_runtime_dependency 'childprocess', '~> 0.5.6'
-  s.add_runtime_dependency 'rspec-expectations', '~> 3.3.0'
+  s.add_runtime_dependency 'rspec-expectations', '~> 3.3'
   s.add_runtime_dependency 'contracts', '~> 0.9'
 
   s.add_development_dependency 'bundler', '~> 1.10.2'
