@@ -464,6 +464,24 @@ module Aruba
           end
         end
       end
+
+      # @deprecated
+      def _create_file(name, content, check_presence)
+        Aruba::Platform.deprecated('The use of "#_create_file" is deprecated. It will be removed soon.')
+
+        ArubaFileCreator.new.write(expand_path(name), content, check_presence)
+
+        self
+      end
+
+      # @deprecated
+      def _create_fixed_size_file(file_name, file_size, check_presence)
+        Aruba::Platform.deprecated('The use of "#_create_fixed_size_file" is deprecated. It will be removed soon.')
+
+        ArubaFixedSizeFileCreator.new.write(expand_path(name), size, check_presence)
+
+        self
+      end
     end
   end
 end

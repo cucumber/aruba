@@ -3,6 +3,9 @@ require 'rspec/expectations'
 
 require 'aruba/extensions/string/strip'
 
+require 'aruba/creators/aruba_file_creator'
+require 'aruba/creators/aruba_fixed_size_file_creator'
+
 require 'aruba/platform'
 require 'aruba/api/core'
 require 'aruba/api/commands'
@@ -125,8 +128,10 @@ module Aruba
     #
     # @param [String] file_content
     #   The content which should be written to the file
-    def write_file(file_name, file_content)
-      _create_file(file_name, file_content, false)
+    def write_file(name, content)
+      Creators::ArubaFileCreator.new.write(expand_path(name), content, false)
+
+      self
     end
 
     # Create an empty file
@@ -202,8 +207,10 @@ module Aruba
     #
     # @param [Integer] file_size
     #   The size of the file
-    def write_fixed_size_file(file_name, file_size)
-      _create_fixed_size_file(file_name, file_size, false)
+    def write_fixed_size_file(name, size)
+      Creators::ArubaFixedSizeFileCreator.new.write(expand_path(name), size, false)
+
+      self
     end
 
     # Create a file with given content
@@ -211,18 +218,8 @@ module Aruba
     # The method does check if file already exists and fails if the file is
     # missing. If the file name is a path the method will create all neccessary
     # directories.
-    def overwrite_file(file_name, file_content)
-      _create_file(file_name, file_content, true)
-    end
-
-    # @private
-    def _create_file(file_name, file_content, check_presence)
-      file_name = expand_path(file_name)
-
-      raise "expected #{file_name} to be present" if check_presence && !File.file?(file_name)
-
-      Aruba::Platform.mkdir(File.dirname(file_name))
-      File.open(file_name, 'w') { |f| f << file_content }
+    def overwrite_file(name, content)
+      Creators::ArubaFileCreator.new.write(expand_path(name), content, true)
 
       self
     end
@@ -256,15 +253,6 @@ module Aruba
       Aruba::Platform.chmod(mode, paths, options)
 
       self
-    end
-
-    # @private
-    def _create_fixed_size_file(file_name, file_size, check_presence)
-      file_name = expand_path(file_name)
-
-      raise "expected #{file_name} to be present" if check_presence && !Aruba::Platform.file?(file_name)
-      Aruba::Platform.mkdir(File.dirname(file_name))
-      File.open(file_name, "wb"){ |f| f.seek(file_size - 1); f.write("\0") }
     end
 
     # Append data to file
