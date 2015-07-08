@@ -15,6 +15,9 @@ end
 module Aruba
   module Api
     module Commands
+      # rubocop:disable Metrics/MethodLength
+      #
+      # Mostly taken from here: https://github.com/djberg96/ptools
       def which(program, path = ENV['PATH'])
         on_windows = false
         on_windows = true if File::ALT_SEPARATOR
@@ -58,7 +61,7 @@ module Aruba
 
         nil
       end
-
+      # rubocop:enable Metrics/MethodLength
     end
   end
 end
