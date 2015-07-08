@@ -116,6 +116,19 @@ module Aruba
       end
     end
 
+    # Unescape string
+    #
+    # @param [String] string
+    #   The string which should be unescaped, e.g. the output of a command
+    #
+    # @return
+    #   The string stripped from escape sequences
+    def unescape(string, keep_ansi = true)
+      string = string.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e")
+      string = string.gsub(/\e\[\d+(?>(;\d+)*)m/, '') unless keep_ansi
+      string
+    end
+
     module_function :detect_ruby, \
       :current_ruby, \
       :ensure_newline, \
@@ -133,6 +146,7 @@ module Aruba
       :expand_path, \
       :absolute_path?, \
       :executable_file?, \
+      :unescape, \
       :write_file
   end
 end

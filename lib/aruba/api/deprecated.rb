@@ -482,6 +482,38 @@ module Aruba
 
         self
       end
+
+      # @deprecated
+      # Unescape string
+      #
+      # @param [String] string
+      #   The string which should be unescaped, e.g. the output of a command
+      #
+      # @return
+      #   The string stripped from escape sequences
+      def unescape(string)
+        Aruba::Platform.deprecated('The use of "#unescaped" is deprecated. Use "Aruba::Platform.unescape" instead')
+
+        Aruba::Platform.unescape(string, @aruba_keep_ansi)
+      end
+
+      # @deprecated
+      # The root directory of aruba
+      def root_directory
+        Aruba::Platform.deprecated('The use of "#root_directory" is deprecated. Use "aruba.root_directory" instead')
+
+        aruba.root_directory
+      end
+      # The path to the directory which contains fixtures
+      # You might want to overwrite this method to place your data else where.
+      #
+      # @return [String]
+      #   The directory to where your fixtures are stored
+      def fixtures_directory
+        Aruba::Platform.deprecated('The use of "#fixtures_directory" is deprecated. Use "aruba.fixtures_directory" instead')
+
+        aruba.fixtures_directory
+      end
     end
   end
 end
