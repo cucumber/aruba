@@ -8,7 +8,7 @@
   before_cmd-hook is still working, but is deprecated, added new
   `after(:command)`-hook.
 * Refactored jruby-startup helper
-* Cleanup API by moving deprecated methods to separte class
+* Cleanup API by moving deprecated methods to separate class
 * Cleanup Core API - reduced to `cd`, `expand_path`, `setup_aruba` and use expand_path wherever possible (fixes #253)
 * Better isolation for environment variable manipulation - really helpful from 1.0.0 on
 * Move configuration files like `jruby.rb` to `aruba/config/`-directory
