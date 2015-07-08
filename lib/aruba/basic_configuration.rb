@@ -102,9 +102,9 @@ module Aruba
 
     # @deprecated
     def before_cmd(&block)
-      Aruba::Platform.deprecated 'The use of the "#before_cmd"-hook is deprecated. Please define with "#before(:cmd) {}" instead'
+      Aruba::Platform.deprecated 'The use of the "#before_cmd"-hook is deprecated. Please define with "#before(:command) {}" instead'
 
-      before(:cmd, &block)
+      before(:command, &block)
     end
 
     # Define or run before-hook
@@ -157,8 +157,26 @@ module Aruba
       end
     end
 
+    # Check if before-hook <name> is defined
+    def before?(name)
+      name = format('%s_%s', 'before_', name.to_s).to_sym
+
+      @hooks.exist? name
+    end
+
+    # Check if after-hook <name> is defined
+    def after?(name)
+      name = format('%s_%s', 'after_', name.to_s).to_sym
+
+      @hooks.exist? name
+    end
+
+    # Check if <name> is option
+    #
+    # @param [String, Symbol] name
+    #   The name of the option
     def option?(name)
-      local_options.any? { |_, v| v.name == name }
+      local_options.any? { |_, v| v.name == name.to_sym }
     end
 
     def ==(other)

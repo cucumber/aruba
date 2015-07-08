@@ -1,4 +1,5 @@
 require 'pathname'
+require 'delegate'
 
 module Aruba
   class ArubaPath < SimpleDelegator

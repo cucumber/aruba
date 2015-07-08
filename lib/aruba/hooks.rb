@@ -25,5 +25,9 @@ module Aruba
         context.instance_exec(*args, &block)
       end
     end
+
+    def exist?(label)
+      store.key? label.to_sym
+    end
   end
 end

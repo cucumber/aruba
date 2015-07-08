@@ -556,17 +556,22 @@ module Aruba
 
       cmd = Aruba::Platform.detect_ruby(cmd)
 
-      aruba.config.before(:cmd, self, cmd)
-      aruba.config.before(:command, self, cmd)
-
       announcer.announce(:directory, Dir.pwd)
       announcer.announce(:command, cmd)
 
       process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'), aruba.environment.to_h)
+
+      if aruba.config.before? :cmd
+        Aruba::Platform.deprecated('The use of "before"-hook" ":cmd" is deprecated. Use ":command" instead. Please be aware that this hook gets the command passed in not the cmdline itself. To get the commandline use "#cmd.commandline"')
+        aruba.config.before(:cmd, self, cmd)
+      end
+
+      aruba.config.before(:command, self, process)
+
       process_monitor.register_process(cmd, process)
       process.run!
 
-      aruba.config.after(:command, self, cmd)
+      aruba.config.after(:command, self, process)
 
       block_given? ? yield(process) : process
     end

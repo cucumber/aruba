@@ -1,4 +1,3 @@
-@wip
 Feature: Set environment variable via "cucumber"-step
 
   It is quite handy to modify the environment of a process. To make this

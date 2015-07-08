@@ -5,104 +5,57 @@ Feature: before_cmd hooks
 
   The command will be passed to the block.
 
-  Scenario: Run a simple command with a before hook
-    Given a file named "test.rb" with:
-      """
-      require 'aruba/api'
+  Background:
+    Given I use a fixture named "cli-app"
 
-      Aruba.configure do |config|
-        config.before :command do |cmd|
-          puts "about to run `#{cmd}`"
-        end
+  Scenario: Run a simple command with a "before(:command)"-hook
+    Given a file named "spec/support/hooks.rb" with:
+    """
+    Aruba.configure do |config|
+      config.before :command do |cmd|
+        puts "before the run of `#{cmd.commandline}`"
       end
+    end
+    """
+    And a file named "spec/hook_spec.rb" with:
+    """
+    require 'spec_helper'
 
-      include Aruba::Api
-      setup_aruba
-      run_simple("echo 'running'")
-      puts last_command.stdout
-      """
-    When I run `ruby test.rb`
-    Then it should pass with:
-      """
-      about to run `echo 'running'`
-      running
-      """
+    RSpec.describe 'Hooks', :type => :aruba do
+      before(:each) { run_simple 'echo running' }
 
-  Scenario: Run a simple command with a before hook (deprecated)
-    Given a file named "test.rb" with:
-      """
-      require 'aruba/api'
+      it { expect(last_command.stdout.chomp).to eq 'running' }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+    And the output should contain:
+    """
+    before the run of `echo running`
+    """
 
-      Aruba.configure do |config|
-        config.before :cmd do |cmd|
-          puts "about to run `#{cmd}`"
-        end
+  Scenario: Run a simple command with a "before(:cmd)"-hook (deprecated)
+    Given a file named "spec/support/hooks.rb" with:
+    """
+    Aruba.configure do |config|
+      config.before :cmd do |cmd|
+        puts "before the run of `#{cmd}`"
       end
+    end
+    """
+    And a file named "spec/hook_spec.rb" with:
+    """
+    require 'spec_helper'
 
-      include Aruba::Api
-      setup_aruba
-      run_simple("echo 'running'")
-      puts last_command.stdout
-      """
-    When I run `ruby test.rb`
-    Then it should pass with:
-      """
-      about to run `echo 'running'`
-      running
-      """
-  
-  # This should move into a spec
-  Scenario: Use something from the context where the command was run
-    Given a file named "test.rb" with:
-      """
-      $: << '../../lib'
-      require 'aruba/api'
+    RSpec.describe 'Hooks', :type => :aruba do
+      before(:each) { run_simple 'echo running' }
 
-      Aruba.configure do |config|
-        config.before :cmd do |cmd|
-          puts "I can see @your_context=#{@your_context}"
-        end
-      end
-
-      class Test
-        include Aruba::Api
-        
-        def test
-          @your_context = "something"
-          setup_aruba
-          run_simple("echo 'running'")
-          puts last_command.stdout
-        end
-      end
-      
-      Test.new.test
-      """
-    When I run `ruby test.rb`
-    Then it should pass with:
-      """
-      I can see @your_context=something
-      running
-      """
-
-  Scenario: Run a simple command with a before_cmd hook (deprecated)
-    Given a file named "test.rb" with:
-      """
-      require 'aruba/api'
-
-      Aruba.configure do |config|
-        config.before_cmd do |cmd|
-          puts "about to run `#{cmd}`"
-        end
-      end
-
-      include Aruba::Api
-      setup_aruba
-      run_simple("echo 'running'")
-      puts last_command.stdout
-      """
-    When I run `ruby test.rb`
-    Then it should pass with:
-      """
-      about to run `echo 'running'`
-      running
-      """
+      it { expect(last_command.stdout.chomp).to eq 'running' }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+    And the output should contain:
+    """
+    before the run of `echo running`
+    """
