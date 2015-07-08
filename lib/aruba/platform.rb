@@ -55,7 +55,7 @@ module Aruba
 
     # Change to directory
     def chdir(dir_name, &block)
-      dir_name = ::File.expand_path(dir_name)
+      dir_name = ::File.expand_path(dir_name.to_s)
 
       ::Dir.chdir(dir_name, &block)
     end
