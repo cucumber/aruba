@@ -21,7 +21,7 @@ World(Aruba::Api)
 
 Before do
   aruba.environment.update aruba.config.command_runtime_environment
-  aruba.environment.prepend 'PATH', aruba.config.command_search_paths.join(':') + ':'
+  prepend_environment_variable 'PATH', aruba.config.command_search_paths.join(':') + ':'
 end
 
 After do
