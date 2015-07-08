@@ -18,6 +18,7 @@ module Aruba
   module Api
     include Aruba::Api::Core
     include Aruba::Api::Deprecated
+    include Aruba::Api::Commands
 
     # Check if file or directory exist
     #
@@ -546,8 +547,9 @@ module Aruba
 
       announcer.announce(:directory, Dir.pwd)
       announcer.announce(:command, cmd)
-      announcer.announce(:environment, 'PATH', ENV['PATH'])
       announcer.announce(:timeout, 'exit-timeout', aruba.config.exit_timeout)
+
+      fail LaunchError, %(Command "#{cmd}" not found in PATH-variable "#{ENV['PATH']}".) unless which(cmd)
 
       process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'), aruba.environment.to_h)
 

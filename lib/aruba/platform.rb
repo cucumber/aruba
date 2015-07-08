@@ -1,4 +1,5 @@
 require 'rbconfig'
+require 'pathname'
 
 module Aruba
   # WARNING:
@@ -90,9 +91,18 @@ module Aruba
       File.exist? f
     end
 
+    # Path is executable
+    def executable_file?(f)
+      File.file?(f) && File.executable?(f)
+    end
+
     # Expand path
     def expand_path(path, base)
       File.expand_path(path, base)
+    end
+
+    def absolute_path?(path)
+      Pathname.new(path).absolute?
     end
 
     # Write to file
@@ -121,6 +131,8 @@ module Aruba
       :directory?, \
       :exist?, \
       :expand_path, \
+      :absolute_path?, \
+      :executable_file?, \
       :write_file
   end
 end
