@@ -18,7 +18,7 @@ module Aruba
     # @yield
     #   Pass block to env
     def update(other_env, &block)
-      if RUBY_VERSION <= '1.9'
+      if RUBY_VERSION <= '1.9.3'
         # rubocop:disable Style/EachWithObject
         other_env = other_env.to_hash.inject({}) { |a, (k, v)| a[k] = v.to_s; a }
         # rubocop:enable Style/EachWithObject

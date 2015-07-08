@@ -18,7 +18,19 @@ module Aruba
     class DebugProcess < BasicProcess
       def run!
         if RUBY_VERSION < '1.9'
-          Dir.chdir do
+          begin
+            old_env = ENV.to_hash
+            ENV.update environment
+
+            Dir.chdir @working_directory do
+              @exit_status = system(@cmd) ? 0 : 1
+            end
+          ensure
+            ENV.clear
+            ENV.update old_env
+          end
+        elsif RUBY_VERSION < '2'
+          Dir.chdir @working_directory do
             @exit_status = system(environment, @cmd) ? 0 : 1
           end
         else
