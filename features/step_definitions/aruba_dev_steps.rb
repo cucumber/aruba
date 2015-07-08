@@ -90,3 +90,7 @@ end
 Before do
   aruba.config.exit_timeout = 15
 end
+
+Given(/^(?:an|the) executable(?: named)? "([^"]*)" with:$/) do |file_name, file_content|
+  step %(a file named "#{file_name}" with mode "0755" and with:), file_content
+end

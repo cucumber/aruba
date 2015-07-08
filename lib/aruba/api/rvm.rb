@@ -4,7 +4,6 @@ require 'aruba/api/command'
 module Aruba
   module Api
     module Rvm
-
       # Use a clean rvm gemset
       #
       # Please make sure that you've got [rvm](http://rvm.io/) installed.

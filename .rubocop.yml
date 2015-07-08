@@ -10,7 +10,7 @@ Style/HashSyntax:
 Metrics/ModuleLength:
   Exclude:
     - lib/aruba/api.rb
-    - lib/aruba/api/deprecated.rb
+    - lib/aruba/api/*.rb
 
 Metrics/AbcSize:
   Enabled: false

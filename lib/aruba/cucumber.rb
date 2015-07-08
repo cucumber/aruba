@@ -28,7 +28,7 @@ end
 
 Given /^(?:a|the) directory(?: named)? "([^"]*)" with mode "([^"]*)"$/ do |dir_name, dir_mode|
   create_directory(dir_name)
-  filesystem_permissions(dir_mode, dir_name)
+  chmod(dir_mode, dir_name)
 end
 
 Given /^(?:a|the) file(?: named)? "([^"]*)" with:$/ do |file_name, file_content|
@@ -37,7 +37,7 @@ end
 
 Given /^(?:a|the) file(?: named)? "([^"]*)" with mode "([^"]*)" and with:$/ do |file_name, file_mode, file_content|
   write_file(file_name, file_content)
-  filesystem_permissions(file_mode, file_name)
+  chmod(file_mode, file_name)
 end
 
 Given /^(?:a|the) (\d+) byte file(?: named)? "([^"]*)"$/ do |file_size, file_name|
@@ -50,7 +50,7 @@ end
 
 Given /^(?:an|the) empty file(?: named)? "([^"]*)" with mode "([^"]*)"$/ do |file_name, file_mode|
   write_file(file_name, "")
-  filesystem_permissions(file_mode, file_name)
+  chmod(file_mode, file_name)
 end
 
 Given /^a mocked home directory$/ do
@@ -113,22 +113,22 @@ end
 
 When /^I run "(.*)"$/ do |cmd|
   warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-  run_simple(unescape(cmd), false)
+  run_simple(Aruba::Platform.unescape(cmd), false)
 end
 
 When /^I run `([^`]*)`$/ do |cmd|
-  run_simple(unescape(cmd), false)
+  run_simple(Aruba::Platform.unescape(cmd), false)
 end
 
 When /^I successfully run "(.*)"$/ do |cmd|
   warn(%{\e[35m    The  /^I successfully run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-  run_simple(unescape(cmd))
+  run_simple(Aruba::Platform.unescape(cmd))
 end
 
 ## I successfully run `echo -n "Hello"`
 ## I successfully run `sleep 29` for up to 30 seconds
 When /^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/ do |cmd, secs|
-  run_simple(unescape(cmd), true, secs && secs.to_i)
+  run_simple(Aruba::Platform.unescape(cmd), true, secs && secs.to_i)
 end
 
 When /^I run "([^"]*)" interactively$/ do |cmd|
@@ -137,7 +137,7 @@ When /^I run "([^"]*)" interactively$/ do |cmd|
 end
 
 When /^I run `([^`]*)` interactively$/ do |cmd|
-  @interactive = run(unescape(cmd))
+  @interactive = run(Aruba::Platform.unescape(cmd))
 end
 
 When /^I type "([^"]*)"$/ do |input|

@@ -6,7 +6,7 @@ Feature: Check if a timeout occured during command execution
     Given I use a fixture named "cli-app"
 
   Scenario: Check if command runs to long
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     sleep 1
@@ -27,7 +27,7 @@ Feature: Check if a timeout occured during command execution
     Then the specs should all pass
 
   Scenario: Check if command finishes in time
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     exit 0

@@ -3,10 +3,9 @@ require 'shellwords'
 
 require 'aruba/extensions/string/strip'
 
-
 require 'aruba/platform'
 require 'aruba/api/core'
-require 'aruba/api/commands'
+require 'aruba/api/command'
 require 'aruba/api/deprecated'
 require 'aruba/api/environment'
 require 'aruba/api/filesystem'

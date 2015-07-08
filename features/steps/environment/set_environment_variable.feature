@@ -11,7 +11,7 @@ Feature: Set environment variable via "cucumber"-step
     Given I use the fixture "cli-app"
 
   Scenario: Set environment variable by using a step
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
 

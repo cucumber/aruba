@@ -3,7 +3,6 @@ require 'aruba/extensions/string/strip'
 require 'aruba/creators/aruba_file_creator'
 require 'aruba/creators/aruba_fixed_size_file_creator'
 
-
 Aruba::Platform.require_matching_files('../matchers/file/*.rb', __FILE__)
 Aruba::Platform.require_matching_files('../matchers/directory/*.rb', __FILE__)
 Aruba::Platform.require_matching_files('../matchers/path/*.rb', __FILE__)
@@ -11,7 +10,6 @@ Aruba::Platform.require_matching_files('../matchers/path/*.rb', __FILE__)
 module Aruba
   module Api
     module Filesystem
-
       # Check if file or directory exist
       #
       # @param [String] file_or_directory

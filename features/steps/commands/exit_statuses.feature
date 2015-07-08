@@ -8,7 +8,7 @@ Feature: Check exit status of commands
     Given I use a fixture named "cli-app"
 
   Scenario: Test for exit status of 0
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     exit 0
@@ -24,7 +24,7 @@ Feature: Check exit status of commands
     Then the features should all pass
 
   Scenario: Test for exit status 1
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     exit 1
@@ -40,7 +40,7 @@ Feature: Check exit status of commands
     Then the features should all pass
 
   Scenario: Test for non-zero exit status
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     exit 1
@@ -56,7 +56,7 @@ Feature: Check exit status of commands
     Then the features should all pass
 
   Scenario: Successfully run something
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     exit 0
@@ -71,7 +71,7 @@ Feature: Check exit status of commands
     Then the features should all pass
 
   Scenario: Fail to run something successfully
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     exit 1
@@ -86,7 +86,7 @@ Feature: Check exit status of commands
     Then the features should not all pass
 
   Scenario: Overwrite the default exit timeout via step
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     sleep 1
@@ -102,7 +102,7 @@ Feature: Check exit status of commands
     Then the features should all pass
 
   Scenario: Successfully run something longer then the default time
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     sleep 1
@@ -118,7 +118,7 @@ Feature: Check exit status of commands
     Then the features should all pass
 
   Scenario: Unsuccessfully run something that takes too long
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     sleep 2

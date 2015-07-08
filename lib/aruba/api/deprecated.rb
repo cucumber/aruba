@@ -132,17 +132,10 @@ module Aruba
       end
 
       # @deprecated
-      def chmod(*args, &block)
-        Aruba::Platform.deprecated('The use of "#chmod" is deprecated. Use "#filesystem_permissions" instead')
+      def mod?(file, perms, &block)
+        Aruba::Platform.deprecated('The use of "#mod?" is deprecated. Use "expect().to have_permissions()" instead')
 
-        filesystem_permissions(*args, &block)
-      end
-
-      # @deprecated
-      def mod?(*args, &block)
-        Aruba::Platform.deprecated('The use of "#mod?" is deprecated. Use "#check_filesystem_permissions" instead')
-
-        check_filesystem_permissions(*args, &block)
+        expect(Array(file)).to all have_permissions(perms)
       end
 
       # @deprecated

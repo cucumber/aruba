@@ -307,7 +307,9 @@ module Aruba
         process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'), aruba.environment.to_h)
 
         if aruba.config.before? :cmd
+          # rubocop:disable Metrics/LineLength
           Aruba::Platform.deprecated('The use of "before"-hook" ":cmd" is deprecated. Use ":command" instead. Please be aware that this hook gets the command passed in not the cmdline itself. To get the commandline use "#cmd.commandline"')
+          # rubocop:enable Metrics/LineLength
           aruba.config.before(:cmd, self, cmd)
         end
 

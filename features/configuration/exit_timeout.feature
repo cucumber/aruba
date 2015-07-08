@@ -23,7 +23,7 @@ Feature: Configure timeout for command execution
     """
 
   Scenario: Modify value
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     sleep 1
@@ -37,7 +37,7 @@ Feature: Configure timeout for command execution
     Then I successfully run `cucumber`
 
   Scenario: Fails if takes longer
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     sleep 2

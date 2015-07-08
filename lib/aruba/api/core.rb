@@ -102,7 +102,7 @@ module Aruba
         end
 
         if aruba.config.fixtures_path_prefix == prefix
-          File.join fixtures_directory, rest
+          File.join aruba.fixtures_directory, rest
         else
           with_environment do
             Aruba::Platform.chdir(aruba.current_directory) { Aruba::Platform.expand_path(file_name, dir_string) }

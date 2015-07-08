@@ -6,7 +6,7 @@ Feature: Run command
     Given I use a fixture named "cli-app"
 
   Scenario: Existing executable
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """
     #!/usr/bin/env sh
     exit 0
