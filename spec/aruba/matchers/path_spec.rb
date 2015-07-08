@@ -40,16 +40,16 @@ RSpec.describe 'Path Matchers' do
     end
   end
 
-  describe 'to_be_absolute_path' do
+  describe 'to_be_an_absolute_path' do
     let(:name) { @file_name }
     let(:path) { File.expand_path(File.join(@aruba.current_directory, name)) }
 
     context 'when is absolute path' do
-      it { expect(path).to be_absolute_path }
+      it { expect(path).to be_an_absolute_path }
     end
 
     context 'when is relative path' do
-      it { expect(name).not_to be_absolute_path }
+      it { expect(name).not_to be_an_absolute_path }
     end
   end
 

@@ -1,11 +1,18 @@
 module Aruba
   module Processes
     class BasicProcess
-      attr_accessor :environment
+      attr_reader :exit_status, :environment
 
-      def initialize(cmd, exit_timeout, io_wait, working_directory)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash)
+        @cmd               = cmd
         @working_directory = working_directory
-        @environment       = ENV.to_hash
+        @environment       = environment
+        @exit_status       = nil
+      end
+
+      # Return command line
+      def commandline
+        @cmd
       end
 
       # Output stderr and stdout

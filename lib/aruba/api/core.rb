@@ -87,7 +87,9 @@ module Aruba
       #   expand_path('%/file')
       #
       def expand_path(file_name, dir_string = nil)
+        # rubocop:disable Metrics/LineLength
         message = %(Filename "#{file_name}" needs to be a string. It cannot be nil or empty either.  Please use `expand_path('.')` if you want the current directory to be expanded.)
+        # rubocop:enable Metrics/LineLength
 
         fail ArgumentError, message unless file_name.is_a?(String) && !file_name.empty?
 
@@ -117,16 +119,18 @@ module Aruba
       #   The block of code which should be run with the modified environment variables
       def with_environment(env = {}, &block)
         old_env = ENV.to_hash
+        old_aruba_env = aruba.environment.to_h
 
-        ENV.update(aruba.environment.to_h)
-        ENV.update(env)
+        ENV.update aruba.environment.update(env).to_h
 
-        block.call
+        block.call if block_given?
       ensure
+        aruba.environment.clear
+        aruba.environment.update old_aruba_env
+
         ENV.clear
         ENV.update old_env
       end
-
     end
   end
 end

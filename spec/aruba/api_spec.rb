@@ -733,7 +733,7 @@ describe Aruba::Api  do
       it "works with ~ in path name" do
         file_path = File.join('~', random_string)
 
-        with_environment 'HOME' => File.expand_path(aruba.current_directory) do
+        @aruba.with_environment 'HOME' => File.expand_path(aruba.current_directory) do
           @aruba.write_fixed_size_file(file_path, @file_size)
 
           expect(File.exist?(File.expand_path(file_path))).to eq true
@@ -756,7 +756,7 @@ describe Aruba::Api  do
       it "works with ~ in path name" do
         file_path = File.join('~', random_string)
 
-        with_environment 'HOME' => File.expand_path(aruba.current_directory) do
+        @aruba.with_environment 'HOME' => File.expand_path(aruba.current_directory) do
           @aruba.write_fixed_size_file(file_path, @file_size)
           @aruba.check_file_size([[file_path, @file_size]])
         end
@@ -913,7 +913,7 @@ describe Aruba::Api  do
       it "works with ~ in path name" do
         file_path = File.join('~', random_string)
 
-        with_environment 'HOME' => File.expand_path(aruba.current_directory) do
+        @aruba.with_environment 'HOME' => File.expand_path(@aruba.aruba.current_directory) do
           Aruba::Platform.mkdir(File.dirname(File.expand_path(file_path)))
           File.open(File.expand_path(file_path), 'w') { |f| f << "" }
 
@@ -978,7 +978,7 @@ describe Aruba::Api  do
           it "works with ~ in path name" do
             file_path = File.join('~', random_string)
 
-            with_environment 'HOME' => File.expand_path(aruba.current_directory) do
+            @aruba.with_environment 'HOME' => File.expand_path(aruba.current_directory) do
               @aruba.write_file(file_path, "foo bar baz")
               @aruba.check_file_content(file_path, non_matching_content, false)
             end
@@ -999,7 +999,7 @@ describe Aruba::Api  do
           it "works with ~ in path name" do
             file_path = File.join('~', random_string)
 
-            with_environment 'HOME' => File.expand_path(aruba.current_directory) do
+            @aruba.with_environment 'HOME' => File.expand_path(aruba.current_directory) do
               @aruba.write_file(file_path, "foo bar baz")
               @aruba.check_file_content(file_path, non_matching_content, false)
             end
@@ -1022,7 +1022,7 @@ describe Aruba::Api  do
       it "works with ~ in path name" do
         file_path = File.join('~', random_string)
 
-        with_environment 'HOME' => File.expand_path(aruba.current_directory) do
+        @aruba.with_environment 'HOME' => File.expand_path(aruba.current_directory) do
           @aruba.write_file(file_path, "foo bar baz")
 
           @aruba.with_file_content file_path do |full_content|
@@ -1059,7 +1059,7 @@ describe Aruba::Api  do
         variable = 'THIS_IS_A_ENV_VAR'
         ENV[variable] = '1'
 
-        with_environment variable => '0' do
+        @aruba.with_environment variable => '0' do
           expect(ENV[variable]).to eq '0'
         end
 
@@ -1198,13 +1198,13 @@ describe Aruba::Api  do
       @aruba.restore_env
     end
     it "set environment variable" do
-      @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.run "env"
       expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=true")
     end
     it "overwrites environment variable" do
-      @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
-      @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'false'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'false'
       @aruba.run "env"
       expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=false")
     end
@@ -1213,14 +1213,14 @@ describe Aruba::Api  do
   describe "#restore_env" do
     after(:each){@aruba.stop_processes!}
     it "restores environment variable" do
-      @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.restore_env
       @aruba.run "env"
       expect(@aruba.all_output).not_to include("LONG_LONG_ENV_VARIABLE")
     end
     it "restores environment variable that has been set multiple times" do
-      @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
-      @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'false'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'false'
       @aruba.restore_env
       @aruba.run "env"
       expect(@aruba.all_output).not_to include("LONG_LONG_ENV_VARIABLE")

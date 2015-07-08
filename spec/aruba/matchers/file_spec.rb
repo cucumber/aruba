@@ -21,9 +21,16 @@ RSpec.describe 'File Matchers' do
     context 'when contains ~' do
       let(:name) { File.join('~', random_string) }
 
-      with_environment 'HOME' => expand_path('.') do
-        before(:each) { create_test_files(name) }
-        it { expect(name).to be_an_existing_file }
+      before(:each) do
+        @aruba.with_environment 'HOME' => expand_path('.') do
+          create_test_files(name)
+        end
+      end
+
+      it do
+        @aruba.with_environment 'HOME' => expand_path('.') do
+          expect(name).to be_an_existing_file
+        end
       end
     end
   end

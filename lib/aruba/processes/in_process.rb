@@ -23,7 +23,7 @@ module Aruba
         attr_accessor :main_class
       end
 
-      def initialize(cmd, exit_timeout, io_wait, working_directory)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash)
         args               = Shellwords.split(cmd)
         @argv              = args[1..-1]
         @stdin             = StringIO.new

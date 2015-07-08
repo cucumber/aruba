@@ -505,7 +505,6 @@ module Aruba
       return @process_monitor if defined? @process_monitor
 
       @process_monitor = ProcessMonitor.new(announcer)
-      @process_monitor.use_environment aruba.environment
 
       @process_monitor
     end
@@ -563,7 +562,7 @@ module Aruba
       announcer.announce(:directory, Dir.pwd)
       announcer.announce(:command, cmd)
 
-      process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'))
+      process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'), aruba.environment.to_h)
       process_monitor.register_process(cmd, process)
       process.run!
 

@@ -27,7 +27,7 @@ Feature: Set environment variable via API-method
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Existing inner variable
+  Scenario: Existing variable set from within the test
     Given a file named "spec/environment_spec.rb" with:
     """
     require 'spec_helper'
@@ -44,7 +44,8 @@ Feature: Set environment variable via API-method
     Then the specs should all pass
 
 
-  Scenario: Existing outer variable
+  Scenario: Existing variable set by some outer parent process
+
     Given a file named "spec/environment_spec.rb" with:
     """
     require 'spec_helper'
@@ -62,7 +63,11 @@ Feature: Set environment variable via API-method
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Run some ruby code with previously set environment
+  Scenario: Run some ruby code in code with previously set environment
+
+    The `#with_environment`-block makes the change environment temporary
+    avaiable for the code run within the block.
+
     Given a file named "spec/environment_spec.rb" with:
     """
     require 'spec_helper'
@@ -87,6 +92,10 @@ Feature: Set environment variable via API-method
     Then the specs should all pass
 
   Scenario: Run some ruby code with local environment
+
+    If you need to set some environment variables only for the given block.
+    Pass it an `Hash` containing the environment variables.
+
     Given a file named "spec/environment_spec.rb" with:
     """
     require 'spec_helper'
@@ -110,6 +119,10 @@ Feature: Set environment variable via API-method
     Then the specs should all pass
 
   Scenario: Nested setup with rspec
+
+    It doesn't matter if you define an environment variable in some outer
+    scope, when you are using `RSpec`.
+
     Given a file named "spec/environment_spec.rb" with:
     """
     require 'spec_helper'
@@ -157,6 +170,82 @@ Feature: Set environment variable via API-method
       end
 
       it { expect(ENV['REALLY_LONG_LONG_VARIABLE']).to eq '1' }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+
+  Scenario: Run some ruby code with nested environment blocks
+
+    It is possible to use a `#with_environment`-block with a
+    `#with_environment`-block. Each previously set variable is available with
+    the most inner block.
+
+    Given a file named "spec/environment_spec.rb" with:
+    """
+    require 'spec_helper'
+
+    ENV['LONG_LONG_VARIABLE'] = '1'
+    ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
+
+    RSpec.describe 'Long running command', :type => :aruba do
+      it do
+        with_environment 'REALLY_LONG_LONG_VARIABLE' => 2 do
+          with_environment 'LONG_LONG_VARIABLE' => 3 do
+            expect(ENV['LONG_LONG_VARIABLE']).to eq '3'
+            expect(ENV['REALLY_LONG_LONG_VARIABLE']).to eq '2'
+          end
+        end
+      end
+
+      it { expect(ENV['REALLY_LONG_LONG_VARIABLE']).to eq '1' }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+
+  Scenario: Re-use `#with_environment` for multiple `RSpec`-`it`-blocks
+
+    If you chose to run wrap examples via `RSpec`'s `around`-hook, make sure you
+    use `before(:context) {}` instead of `before(:each)` to set an environment
+    variable. Only then the `before`-hook is run before the `around`-hook is
+    run.
+
+    Given a file named "spec/environment_spec.rb" with:
+    """
+    require 'spec_helper'
+
+    RSpec.describe 'Long running command', :type => :aruba do
+      # Please mind :context. This is run BEFORE the `around`-hook
+      before(:context) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '1' }
+
+      context 'when no arguments are given' do
+        around(:each) do |example|
+          with_environment do
+            example.run
+          end
+        end
+
+        it { expect(ENV['REALLY_LONG_LONG_VARIABLE']).to eq '1' }
+
+        before(:each) { run('env') }
+
+        it { expect(last_command.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
+      end
+
+      context 'when arguments given' do
+        around(:each) do |example|
+          with_environment 'LONG_LONG_VARIABLE' => 2 do
+            example.run
+          end
+        end
+
+        it { expect(ENV['LONG_LONG_VARIABLE']).to eq '2' }
+
+        before(:each) { run('env') }
+
+        it { expect(last_command.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
+      end
     end
     """
     When I run `rspec`
