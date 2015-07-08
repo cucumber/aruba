@@ -19,7 +19,7 @@ Feature: Configure timeout for command execution
     When I successfully run `cucumber`
     Then the output should contain:
     """
-    The default value is "3"
+    The default value is "15"
     """
 
   Scenario: Modify value
