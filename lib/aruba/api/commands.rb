@@ -15,12 +15,24 @@ end
 module Aruba
   module Api
     module Commands
-      # rubocop:disable Metrics/MethodLength
+      # Resolve path for command using the PATH-environment variable
       #
       # Mostly taken from here: https://github.com/djberg96/ptools
+      #
+      # @param [#to_s] program
+      #   The name of the program which should be resolved
+      #
+      # @param [String] path
+      #   The PATH, a string concatenated with ":", e.g. /usr/bin/:/bin on a
+      #   UNIX-system
+      #
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/CyclomaticComplexity
       def which(program, path = ENV['PATH'])
         on_windows = false
         on_windows = true if File::ALT_SEPARATOR
+
+        program = program.to_s
 
         path_exts = ENV['PATHEXT'] ? ('.{' + ENV['PATHEXT'].tr(';', ',').tr('.','') + '}').downcase : '.{exe,com,bat}' if on_windows
 
@@ -62,6 +74,7 @@ module Aruba
         nil
       end
       # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/CyclomaticComplexity
     end
   end
 end
