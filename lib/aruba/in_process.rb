@@ -8,11 +8,5 @@ module Aruba
 
       super
     end
-
-    def self.main_class(*args)
-      Aruba::Platform.deprecated('The use of "Aruba::InProcess" is deprecated. Use "Aruba::Processes::InProcess" instead.')
-
-      Aruba::Processes::InProcess.main_class(*args)
-    end
   end
 end
