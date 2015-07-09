@@ -1,4 +1,3 @@
-@announce
 Feature: Configure working directory of aruba
 
   As a developer

@@ -1,4 +1,3 @@
-@announce
 Feature: Configure if ansi color codes should be stripped off from command output
 
   As a developer

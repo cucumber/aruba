@@ -1,4 +1,3 @@
-@announce
 Feature: Use root directory of aruba
 
   As a developer

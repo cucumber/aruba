@@ -1,4 +1,3 @@
-@announce
 Feature: Configure timeout for io of commands
 
   As a developer
