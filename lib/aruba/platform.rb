@@ -173,7 +173,7 @@ module Aruba
 
         found = Dir[program].first
 
-        return found if found && Aruba::Platform.executable_file?(found)
+        return File.expand_path(found) if found && Aruba::Platform.executable_file?(found)
         return nil
       end
 
