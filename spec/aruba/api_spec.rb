@@ -718,8 +718,8 @@ describe Aruba::Api  do
 
         before :each do
           allow(environment).to receive(:clear)
-          allow(environment).to receive(:update)
-          allow(environment).to receive(:to_h).and_return('PATH' => aruba.current_directory)
+          allow(environment).to receive(:update).and_return(environment)
+          allow(environment).to receive(:to_h).and_return('PATH' => aruba.current_directory.to_s)
         end
 
         before :each do
