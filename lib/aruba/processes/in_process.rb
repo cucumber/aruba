@@ -24,7 +24,7 @@ module Aruba
       end
 
       def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash)
-        @cmd               = command
+        @cmd               = cmd
         @argv              = arguments
         @stdin             = StringIO.new
         @stdout            = StringIO.new
