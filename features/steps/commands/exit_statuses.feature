@@ -9,7 +9,7 @@ Feature: Check exit status of commands
   Scenario: Test for exit status of 0
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     exit 0
     """
     And a file named "features/exit_status.feature" with:
@@ -25,7 +25,7 @@ Feature: Check exit status of commands
   Scenario: Test for exit status 1
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     exit 1
     """
     And a file named "features/exit_status.feature" with:
@@ -41,7 +41,7 @@ Feature: Check exit status of commands
   Scenario: Test for non-zero exit status
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     exit 1
     """
     And a file named "features/exit_status.feature" with:
@@ -57,7 +57,7 @@ Feature: Check exit status of commands
   Scenario: Successfully run something
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     exit 0
     """
     And a file named "features/exit_status.feature" with:
@@ -72,7 +72,7 @@ Feature: Check exit status of commands
   Scenario: Fail to run something successfully
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     exit 1
     """
     And a file named "features/exit_status.feature" with:
@@ -87,7 +87,7 @@ Feature: Check exit status of commands
   Scenario: Overwrite the default exit timeout via step
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     sleep 1
     """
     And a file named "features/exit_status.feature" with:
@@ -103,7 +103,7 @@ Feature: Check exit status of commands
   Scenario: Successfully run something longer then the default time
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     sleep 1
     """
     And a file named "features/exit_status.feature" with:
@@ -119,7 +119,7 @@ Feature: Check exit status of commands
   Scenario: Unsuccessfully run something that takes too long
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     sleep 2
     """
     And a file named "features/exit_status.feature" with:

@@ -8,7 +8,7 @@ Feature: Check if a timeout occured during command execution
   Scenario: Check if command runs to long
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     sleep 1
     """
     And a file named "spec/timeout_spec.rb" with:
@@ -29,7 +29,7 @@ Feature: Check if a timeout occured during command execution
   Scenario: Check if command finishes in time
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     exit 0
     """
     And a file named "spec/timeout_spec.rb" with:

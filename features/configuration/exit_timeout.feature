@@ -25,7 +25,7 @@ Feature: Configure timeout for command execution
   Scenario: Modify value
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     sleep 1
     """
     And a file named "features/support/aruba.rb" with:
@@ -39,7 +39,7 @@ Feature: Configure timeout for command execution
   Scenario: Fails if takes longer
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     sleep 2
     """
     And a file named "features/support/aruba.rb" with:

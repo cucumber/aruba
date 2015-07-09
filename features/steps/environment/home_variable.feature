@@ -13,7 +13,7 @@ Feature: Mock the HOME variable
     Given I use the fixture "cli-app"
     And an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
 
     echo "HOME: $HOME"
     """

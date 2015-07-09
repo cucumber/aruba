@@ -13,7 +13,7 @@ Feature: Set environment variable via "cucumber"-step
   Scenario: Set environment variable by using a step
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
 
     echo $LONG_LONG_VARIABLE
     """

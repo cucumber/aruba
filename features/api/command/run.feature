@@ -8,7 +8,7 @@ Feature: Run command
   Scenario: Existing executable
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     exit 0
     """
     And a file named "spec/which_spec.rb" with:

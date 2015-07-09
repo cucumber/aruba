@@ -65,7 +65,7 @@ Feature: Run commands in ruby process
   Scenario: Mixing custom code and normal cli
     Given an executable named "bin/cli" with:
     """
-    #!/usr/bin/env sh
+    #!/bin/bash
     echo $*
     """
     And a file named "lib/cli/app/runner.rb" with:
