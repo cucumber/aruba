@@ -94,6 +94,10 @@ Before('@debug') do
   Aruba.process = Aruba::Processes::DebugProcess
 end
 
+After('@debug') do
+  Aruba.process = Aruba::Processes::SpawnProcess
+end
+
 Before('@ansi') do
   @aruba_keep_ansi = true
 end

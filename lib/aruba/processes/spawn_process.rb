@@ -34,6 +34,8 @@ module Aruba
       #
       # @yield [SpawnProcess]
       #   Run code for process which was started
+      #
+      # rubocop:disable Metrics/MethodLength
       def run!
         @process   = ChildProcess.build(*Shellwords.split(@cmd))
         @out       = Tempfile.new("aruba-out")
@@ -50,6 +52,10 @@ module Aruba
 
         @process.environment.update(environment)
 
+        # rubocop:disable  Metrics/LineLength
+        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) unless which(command, environment['PATH']) || Aruba::Platform.executable_file?(command)
+        # rubocop:enable  Metrics/LineLength
+
         begin
           @process.start
         rescue ChildProcess::LaunchError => e
@@ -60,6 +66,7 @@ module Aruba
 
         yield self if block_given?
       end
+      # rubocop:enable Metrics/MethodLength
 
       def stdin
         @process.io.stdin

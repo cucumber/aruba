@@ -157,7 +157,6 @@ module Aruba
       #   needs to be a directory
       #
       # rubocop:disable Metrics/CyclomaticComplexity
-      # rubocop:disable Metrics/PerceivedComplexity
       # def copy(*source, destination)
       def copy(*args)
         args = args.flatten
@@ -185,7 +184,6 @@ module Aruba
 
         self
       end
-      # rubocop:enable Metrics/PerceivedComplexity
       # rubocop:enable Metrics/CyclomaticComplexity
 
       # Create a file with the given size

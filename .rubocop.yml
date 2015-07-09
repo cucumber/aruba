@@ -11,6 +11,7 @@ Metrics/ModuleLength:
   Exclude:
     - lib/aruba/api.rb
     - lib/aruba/api/*.rb
+    - lib/aruba/platform.rb
 
 Metrics/AbcSize:
   Enabled: false

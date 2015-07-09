@@ -25,6 +25,7 @@ module Aruba
 
       def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash)
         args               = Shellwords.split(cmd)
+        @cmd               = args[0]
         @argv              = args[1..-1]
         @stdin             = StringIO.new
         @stdout            = StringIO.new
@@ -36,7 +37,7 @@ module Aruba
 
       # Return the commandline
       def commandline
-        self.class.main_class.to_s + @argv.join(" ")
+        format('%s %s', @cmd, @argv.join(" "))
       end
 
       def run!

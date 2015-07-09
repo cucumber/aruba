@@ -1,3 +1,6 @@
+require 'aruba/platform'
+require 'shellwords'
+
 module Aruba
   module Processes
     class BasicProcess
@@ -35,6 +38,16 @@ module Aruba
 
       # Hook which is run after command is run
       def after_run; end
+
+      private
+
+      def which(program, path = environment['PATH'])
+        Aruba::Platform.which(program, path)
+      end
+
+      def command
+        Shellwords.split(commandline).first
+      end
     end
   end
 end

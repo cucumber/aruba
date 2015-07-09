@@ -16,7 +16,13 @@ module Aruba
     # @params [String] working_directory
     #   The directory where the command will be executed
     class DebugProcess < BasicProcess
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/CyclomaticComplexity
       def run!
+        # rubocop:disable  Metrics/LineLength
+        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) unless which(command, environment['PATH']) || Aruba::Platform.executable_file?(command)
+        # rubocop:enable  Metrics/LineLength
+
         if RUBY_VERSION < '1.9'
           begin
             old_env = ENV.to_hash
@@ -37,6 +43,8 @@ module Aruba
           @exit_status = system(environment, @cmd, :chdir => @working_directory) ? 0 : 1
         end
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/MethodLength
 
       def stdin(*); end
 

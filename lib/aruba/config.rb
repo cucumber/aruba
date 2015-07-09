@@ -7,6 +7,7 @@ require 'aruba/contracts/relative_path'
 module Aruba
   # Aruba Configuration
   class Configuration < BasicConfiguration
+    # As of 1.0.0 root_directory is read-only
     # option_reader   :root_directory, :contract => { None => String }, :default => Dir.getwd
     option_accessor   :root_directory, :contract => { String => String }, :default => Dir.getwd
     option_accessor :working_directory, :contract => { Aruba::Contracts::RelativePath => Aruba::Contracts::RelativePath }, :default => 'tmp/aruba'

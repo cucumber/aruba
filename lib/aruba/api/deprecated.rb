@@ -509,6 +509,8 @@ module Aruba
       end
 
       # @deprecated
+      # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/MethodLength
       def check_for_deprecated_variables
         if defined? @aruba_io_wait_seconds
           Aruba::Platform.deprecated('The use of "@aruba_io_wait_seconds" is deprecated. Use "#aruba.config.io_wait_timeout = <numeric>" instead')
@@ -536,10 +538,12 @@ module Aruba
         end
 
         if root_directory != aruba.config.root_directory
-          Aruba::Platform.deprecated('Overwriting of methods for configuration is deprecated. Use "#aruba.config.root_directory = <string>" instead')
+          Aruba::Platform.deprecated('Overwriting of methods for configuration of "root_directory" is deprecated.')
           aruba.config.root_directory = root_directory
         end
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/MethodLength
     end
   end
 end
