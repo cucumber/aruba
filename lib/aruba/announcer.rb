@@ -77,7 +77,7 @@ module Aruba
       format_string :directory, '$ cd %s'
       format_string :command, '$ %s'
       format_string :environment, '$ export %s=%s"'
-      format_string :timeout, '%s timeout: %s seconds'
+      format_string :timeout, '# %s-timeout: %s seconds'
 
       # rubocop:disable Metrics/LineLength
       if @options[:stdout]

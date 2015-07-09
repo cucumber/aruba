@@ -250,7 +250,7 @@ module Aruba
 
         announcer.announce(:directory, Dir.pwd)
         announcer.announce(:command, cmd)
-        announcer.announce(:timeout, 'exit-timeout', aruba.config.exit_timeout)
+        announcer.announce(:timeout, 'exit', aruba.config.exit_timeout)
 
         process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'), aruba.environment.to_h)
 
