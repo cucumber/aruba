@@ -1,3 +1,4 @@
+@announce
 Feature: Use fixtures path prefix of aruba
 
   As a developer

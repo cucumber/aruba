@@ -1,3 +1,4 @@
+@announce
 Feature: Run commands in ruby process
 
   Running a lot of scenarios where each scenario uses Aruba

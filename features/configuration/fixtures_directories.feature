@@ -1,3 +1,4 @@
+@announce
 Feature: Configure directory where to look for fixtures
 
   As a developer
