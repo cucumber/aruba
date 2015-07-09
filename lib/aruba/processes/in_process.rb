@@ -35,7 +35,7 @@ module Aruba
       end
 
       def run!
-        raise "You need to call Aruba::InProcess.main_class = YourMainClass" unless self.class.main_class
+        fail "You need to call Aruba.process.main_class = YourMainClass" unless self.class.main_class
 
         Dir.chdir @working_directory do
           before_run
