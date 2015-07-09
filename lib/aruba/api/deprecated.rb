@@ -487,7 +487,6 @@ module Aruba
       def unescape(string)
         Aruba::Platform.deprecated('The use of "#unescape" is deprecated. Use "Aruba::Platform.unescape" instead')
 
-# @aruba_keep_ansi
         Aruba::Platform.unescape(string, aruba.config.keep_ansi)
       end
 
@@ -507,6 +506,39 @@ module Aruba
         Aruba::Platform.deprecated('The use of "#fixtures_directory" is deprecated. Use "aruba.fixtures_directory" instead')
 
         aruba.fixtures_directory
+      end
+
+      # @deprecated
+      def check_for_deprecated_variables
+        if defined? @aruba_io_wait_seconds
+          Aruba::Platform.deprecated('The use of "@aruba_io_wait_seconds" is deprecated. Use "#aruba.config.io_wait_timeout = <numeric>" instead')
+          aruba.config.io_wait_timeout = @aruba_io_wait_seconds
+        end
+
+        if root_directory != aruba.config.root_directory
+          Aruba::Platform.deprecated('Overwriting of methods for configuration is deprecated. Use "#aruba.config.root_directory = <string>" instead')
+          aruba.config.root_directory = root_directory
+        end
+
+        if current_directory != aruba.config.current_directory
+          Aruba::Platform.deprecated('Overwriting of methods for configuration is deprecated. Use "#aruba.config.current_directory = <string>" instead')
+          aruba.config.current_directory = current_directory
+        end
+
+        if defined? @keep_ansi
+          Aruba::Platform.deprecated('The use of "@aruba_keep_ansi" is deprecated. Use "#aruba.config.keep_ansi = <true|false>" instead')
+          aruba.config.keep_ansi = @keep_ansi
+        end
+
+        if defined? @aruba_root_directory
+          Aruba::Platform.deprecated('The use of "@aruba_root_directory" is deprecated. Use "#aruba.config.root_directory = <string>" instead')
+          aruba.config.keep_ansi = @aruba_root_directory
+        end
+
+        if root_directory != aruba.config.root_directory
+          Aruba::Platform.deprecated('Overwriting of methods for configuration is deprecated. Use "#aruba.config.root_directory = <string>" instead')
+          aruba.config.root_directory = root_directory
+        end
       end
     end
   end

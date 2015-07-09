@@ -7,7 +7,8 @@ require 'aruba/contracts/relative_path'
 module Aruba
   # Aruba Configuration
   class Configuration < BasicConfiguration
-    option_reader   :root_directory, :contract => { None => String }, :default => Dir.getwd
+    # option_reader   :root_directory, :contract => { None => String }, :default => Dir.getwd
+    option_accessor   :root_directory, :contract => { String => String }, :default => Dir.getwd
     option_accessor :working_directory, :contract => { Aruba::Contracts::RelativePath => Aruba::Contracts::RelativePath }, :default => 'tmp/aruba'
 
     if RUBY_VERSION < '1.9'

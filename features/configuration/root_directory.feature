@@ -21,4 +21,11 @@ Feature: Use root directory of aruba
     tmp/aruba
     """
 
-
+  Scenario: Modify value
+    Given a file named "features/support/aruba.rb" with:
+    """
+    Aruba.configure do |config|
+      config.root_directory = '/tmp/'
+    end
+    """
+    Then I successfully run `cucumber`

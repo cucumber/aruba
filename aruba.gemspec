@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
 With aruba >= 1.0
   * "ruby 1.8.7"-support is discontinued
   * aruba requires "cucumber 2" for the feature steps. The rest of aruba should be usable by whatever testing framework you are using
+  * Overwriting methods for configuration is discontinued. You need to use `aruba.config.<variable>` or `Aruba.configure { |config| config.<variable>` instead
   * "aruba/reporting" will be removed. Please use `@debug`-tag + `byebug`, `debugger`, `pry` to troubleshoot your feature tests
   * Set environment variables will have only effect on `#run` and the like + `#with_environment { }`
   * The process environment will be fully resetted between tests. Sharing state via ENV['VAR'] = 'shared state' between tests will not be possible anymore. Please make that obvious by using explicit steps or use the aruba API for that.
