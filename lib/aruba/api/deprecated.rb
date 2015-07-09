@@ -487,7 +487,8 @@ module Aruba
       def unescape(string)
         Aruba::Platform.deprecated('The use of "#unescape" is deprecated. Use "Aruba::Platform.unescape" instead')
 
-        Aruba::Platform.unescape(string, @aruba_keep_ansi)
+# @aruba_keep_ansi
+        Aruba::Platform.unescape(string, aruba.config.keep_ansi)
       end
 
       # @deprecated

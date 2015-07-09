@@ -21,6 +21,7 @@ module Aruba
     option_accessor :fixtures_directories, :contract => { Array => ArrayOf[String] }, :default => %w(features/fixtures spec/fixtures test/fixtures)
     option_accessor :command_runtime_environment, :contract => { Hash => Hash }, :default => ENV.to_hash
     option_accessor(:command_search_paths, :contract => { ArrayOf[String] => ArrayOf[String] }) { |config| [File.join(config.root_directory.value, 'bin')] }
+    option_accessor :keep_ansi, :contract => { Bool => Bool }, :default => false
   end
 end
 

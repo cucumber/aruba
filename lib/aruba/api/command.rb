@@ -145,7 +145,7 @@ module Aruba
       #   If arg1 is exactly the same as arg2 return true, otherwise false
       def assert_exact_output(expected, actual)
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba::Platform.unescape(actual)).to eq Aruba::Platform.unescape(expected)
+        expect(Aruba::Platform.unescape(actual, aruba.config.keep_ansi)).to eq Aruba::Platform.unescape(expected, aruba.config.keep_ansi)
       end
 
       # Partial compare arg1 and arg2
@@ -154,7 +154,7 @@ module Aruba
       #   If arg2 contains arg1 return true, otherwise false
       def assert_partial_output(expected, actual)
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba::Platform.unescape(actual)).to include(Aruba::Platform.unescape(expected))
+        expect(Aruba::Platform.unescape(actual, aruba.config.keep_ansi)).to include(Aruba::Platform.unescape(expected, aruba.config.keep_ansi))
       end
 
       # Regex Compare arg1 and arg2
@@ -163,7 +163,7 @@ module Aruba
       #   If arg2 matches arg1 return true, otherwise false
       def assert_matching_output(expected, actual)
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba::Platform.unescape(actual)).to match(/#{Aruba::Platform.unescape(expected)}/m)
+        expect(Aruba::Platform.unescape(actual, aruba.config.keep_ansi)).to match(/#{Aruba::Platform.unescape(expected, aruba.config.keep_ansi)}/m)
       end
 
       # Negative regex compare arg1 and arg2
@@ -172,7 +172,7 @@ module Aruba
       #   If arg2 does not match arg1 return true, otherwise false
       def assert_not_matching_output(expected, actual)
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba::Platform.unescape(actual)).not_to match(/#{Aruba::Platform.unescape(expected)}/m)
+        expect(Aruba::Platform.unescape(actual, aruba.config.keep_ansi)).not_to match(/#{Aruba::Platform.unescape(expected, aruba.config.keep_ansi)}/m)
       end
 
       # Negative partial compare arg1 and arg2
@@ -182,9 +182,9 @@ module Aruba
       def assert_no_partial_output(unexpected, actual)
         actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
         if Regexp === unexpected
-          expect(Aruba::Platform.unescape(actual)).not_to match unexpected
+          expect(Aruba::Platform.unescape(actual, aruba.config.keep_ansi)).not_to match unexpected
         else
-          expect(Aruba::Platform.unescape(actual)).not_to include(unexpected)
+          expect(Aruba::Platform.unescape(actual, aruba.config.keep_ansi)).not_to include(unexpected)
         end
       end
 
@@ -193,7 +193,7 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If output of interactive command includes arg1 return true, otherwise false
       def assert_partial_output_interactive(expected)
-        Aruba::Platform.unescape(last_command.stdout).include?(Aruba::Platform.unescape(expected)) ? true : false
+        Aruba::Platform.unescape(last_command.stdout, aruba.config.keep_ansi).include?(Aruba::Platform.unescape(expected, aruba.config.keep_ansi)) ? true : false
       end
 
       # Check if command succeeded and if arg1 is included in output
