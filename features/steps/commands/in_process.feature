@@ -1,4 +1,3 @@
-@announce
 Feature: Run commands in ruby process
 
   Running a lot of scenarios where each scenario uses Aruba
@@ -9,6 +8,24 @@ Feature: Run commands in ruby process
 
   Background:
     Given I use a fixture named "cli-app"
+    And a file named "features/support/cli_app.rb" with:
+    """
+    require 'cli/app/runner'
+    """
+    And a file named "features/support/in_proccess.rb" with:
+    """
+    require 'aruba/cucumber'
+    require 'aruba/processes/in_process'
+
+    Before('@in-process') do
+      Aruba.process = Aruba::Processes::InProcess
+      Aruba.process.main_class = Cli::App::Runner
+    end
+
+    After('@in-process') do
+      Aruba.process = Aruba::Processes::SpawnProcess
+    end
+    """
 
   Scenario: Run custom code
     Given a file named "lib/cli/app/runner.rb" with:
@@ -31,27 +48,9 @@ Feature: Run commands in ruby process
       end
     end
     """
-    And a file named "features/support/cli_app.rb" with:
-    """
-    require 'cli/app/runner'
-    """
-    And a file named "features/support/in_proccess.rb" with:
-    """
-    require 'aruba/cucumber'
-    require 'aruba/processes/in_process'
-
-    Before('@in-process') do
-      Aruba.process = Aruba::Processes::InProcess
-      Aruba.process.main_class = Cli::App::Runner
-    end
-
-    After('@in-process') do
-      Aruba.process = Aruba::Processes::SpawnProcess
-    end
-    """
     And a file named "features/in_process.feature" with:
     """
-    Feature: Exit status
+    Feature: Run a command in process
       @in-process
       Scenario: Run command
         When I run `reverse.rb Hello World`
@@ -89,27 +88,9 @@ Feature: Run commands in ruby process
       end
     end
     """
-    And a file named "features/support/cli_app.rb" with:
-    """
-    require 'cli/app/runner'
-    """
-    And a file named "features/support/in_proccess.rb" with:
-    """
-    require 'aruba/cucumber'
-    require 'aruba/processes/in_process'
-
-    Before('@in-process') do
-      Aruba.process = Aruba::Processes::InProcess
-      Aruba.process.main_class = Cli::App::Runner
-    end
-
-    After('@in-process') do
-      Aruba.process = Aruba::Processes::SpawnProcess
-    end
-    """
     And a file named "features/in_process.feature" with:
     """
-    Feature: Exit status
+    Feature: Run a command in process
       @in-process
       Scenario: Run command in process
         When I run `reverse.rb Hello World`
@@ -124,6 +105,70 @@ Feature: Run commands in ruby process
         \"\"\"
         Hello World
         \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: The current working directory is changed as well
+    Given a file named "lib/cli/app/runner.rb" with:
+    """
+    module Cli
+      module App
+        class Runner
+          def initialize(argv, stdin, stdout, stderr, kernel)
+            @argv   = argv
+            @stdin  = stdin
+            @stdout = stdout
+            @stderr = stderr
+            @kernel = kernel
+          end
+
+          def execute!
+            @stdout.puts("PWD-ENV is " + Dir.getwd)
+          end
+        end
+      end
+    end
+    """
+    And a file named "features/in_process.feature" with:
+    """
+    Feature: Run a command in process
+      @in-process
+      Scenario: Run command
+        When I run `pwd.rb`
+        Then the output should match %r<PWD-ENV.*tmp/aruba>
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: The PWD environment is changed to current working directory
+    Given a file named "lib/cli/app/runner.rb" with:
+    """
+    module Cli
+      module App
+        class Runner
+          def initialize(argv, stdin, stdout, stderr, kernel)
+            @argv   = argv
+            @stdin  = stdin
+            @stdout = stdout
+            @stderr = stderr
+            @kernel = kernel
+          end
+
+          def execute!
+            @stdout.puts("PWD-ENV is " + ENV['PWD'])
+          end
+        end
+      end
+    end
+    """
+    And a file named "features/in_process.feature" with:
+    """
+    Feature: Run a command in process
+      @in-process
+      Scenario: Run command
+        When I run `pwd.rb`
+        Then the output should match %r<PWD-ENV.*tmp/aruba>
     """
     When I run `cucumber`
     Then the features should all pass

@@ -117,3 +117,27 @@ Feature: Change current working directory
     """
     When I run `rspec`
     Then the specs should all pass
+
+  Scenario: It changes the PWD-ENV-variable for a given block
+
+    If you need to run some code in a different directory, you can also use the
+    block-notation of `cd`.
+
+    Given a file named "spec/cd_spec.rb" with:
+    """
+    require 'spec_helper'
+
+    RSpec.describe 'cd to directory', :type => :aruba do
+      before(:each) do
+        create_directory 'new_dir.d'
+      end
+
+      before :each do
+        @my_output = cd('new_dir.d/') { ENV['PWD'] }
+      end
+
+      it { expect(@my_output).to include 'new_dir.d' }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass

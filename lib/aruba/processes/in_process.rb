@@ -40,7 +40,7 @@ module Aruba
         Dir.chdir @working_directory do
           before_run
 
-          with_environment do
+          in_environment 'PWD' => @working_directory do
             self.class.main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
           end
 
@@ -83,12 +83,16 @@ module Aruba
 
       private
 
-      def with_environment(&block)
-        old_env = ENV.to_hash
+      def in_environment(env = {}, &block)
+        if RUBY_VERSION <= '1.9.3'
+          old_env = ENV.to_hash
+        else
+          old_env = ENV.to_h
+        end
 
-        ENV.update(environment)
+        ENV.update(environment).update(env)
 
-        block.call
+        block.call if block_given?
       ensure
         ENV.clear
         ENV.update old_env

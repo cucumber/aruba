@@ -58,7 +58,19 @@ module Aruba
     def chdir(dir_name, &block)
       dir_name = ::File.expand_path(dir_name.to_s)
 
-      ::Dir.chdir(dir_name, &block)
+      begin
+        if RUBY_VERSION <= '1.9.3'
+          old_env = ENV.to_hash
+        else
+          old_env = ENV.to_h
+        end
+
+        ENV['PWD'] = dir_name
+        ::Dir.chdir(dir_name, &block)
+      ensure
+        ENV.clear
+        ENV.update old_env
+      end
     end
 
     # Touch file, directory

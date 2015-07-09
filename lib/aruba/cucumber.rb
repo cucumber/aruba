@@ -207,6 +207,10 @@ Then /^the output should match \/([^\/]*)\/$/ do |expected|
   assert_matching_output(expected, all_output)
 end
 
+Then /^the output should match %r<([^>]*)>$/ do |expected|
+  assert_matching_output(expected, all_output)
+end
+
 Then /^the output should match:$/ do |expected|
   assert_matching_output(expected, all_output)
 end
