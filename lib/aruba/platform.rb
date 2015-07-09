@@ -105,6 +105,20 @@ module Aruba
       Pathname.new(path).absolute?
     end
 
+    # Check if command is relative
+    #
+    # @return [TrueClass, FalseClass]
+    #   true
+    #     * bin/command.sh
+    #
+    #   false
+    #     * /bin/command.sh
+    #     * command.sh
+    def relative_command?(path)
+      p = Pathname.new(path)
+      p.relative? && p.basename != p
+    end
+
     # Write to file
     def write_file(path, content)
       if RUBY_VERSION < '1.9'
@@ -152,8 +166,9 @@ module Aruba
 
       raise ArgumentError, "ENV['PATH'] cannot be empty" if path.nil? || path.empty?
 
-      # Bail out early if an absolute path is provided.
-      if Aruba::Platform.absolute_path? program
+      # Bail out early if an absolute path is provided or the command path is relative
+      # Examples: /usr/bin/command or bin/command.sh
+      if Aruba::Platform.absolute_path?(program) || Aruba::Platform.relative_command?(program)
         program += path_exts if on_windows && File.extname(program).empty?
 
         found = Dir[program].first
@@ -206,6 +221,7 @@ module Aruba
       :exist?, \
       :expand_path, \
       :absolute_path?, \
+      :relative_command?, \
       :executable_file?, \
       :unescape, \
       :which, \

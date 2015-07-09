@@ -48,6 +48,12 @@ module Aruba
       def command
         Shellwords.split(commandline).first
       end
+
+      def arguments
+        return Shellwords.split(commandline)[1..-1] if Shellwords.split(commandline).size > 1
+
+        []
+      end
     end
   end
 end
