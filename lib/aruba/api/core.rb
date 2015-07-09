@@ -121,7 +121,11 @@ module Aruba
         old_env = ENV.to_hash
         old_aruba_env = aruba.environment.to_h
 
-        ENV.update aruba.environment.update(env).to_h
+        if RUBY_VERSION < '2.0'
+          ENV.update aruba.environment.update(env).to_hash
+        else
+          ENV.update aruba.environment.update(env).to_h
+        end
 
         block.call if block_given?
       ensure
