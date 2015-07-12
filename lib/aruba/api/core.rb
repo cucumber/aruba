@@ -113,6 +113,7 @@ module Aruba
       #   expand_path('%/file')
       #
       # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/CyclomaticComplexity
       def expand_path(file_name, dir_string = nil)
         # rubocop:disable Metrics/LineLength
         message = %(Filename "#{file_name}" needs to be a string. It cannot be nil or empty either.  Please use `expand_path('.')` if you want the current directory to be expanded.)
@@ -133,6 +134,9 @@ module Aruba
         elsif '~' == prefix
           with_environment do
             path = File.join(ENV['HOME'], aruba.current_directory.relative_path_from(Pathname.new(aruba.config.working_directory)))
+
+            fail 'Expanding "~/" to "/" is not allowed' if path == '/'
+
             Aruba::Platform.chdir(path) { Aruba::Platform.expand_path(file_name, dir_string) }
           end
         else
@@ -140,6 +144,7 @@ module Aruba
         end
       end
       # rubocop:enable Metrics/MethodLength
+      # rubocop:enable  Metrics/CyclomaticComplexity
 
       # Run block with environment
       #
