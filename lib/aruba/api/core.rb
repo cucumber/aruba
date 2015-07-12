@@ -112,6 +112,7 @@ module Aruba
       #   # => <path>/test/fixtures/file
       #   expand_path('%/file')
       #
+      # rubocop:disable Metrics/MethodLength
       def expand_path(file_name, dir_string = nil)
         # rubocop:disable Metrics/LineLength
         message = %(Filename "#{file_name}" needs to be a string. It cannot be nil or empty either.  Please use `expand_path('.')` if you want the current directory to be expanded.)
@@ -131,12 +132,14 @@ module Aruba
           File.join aruba.fixtures_directory, rest
         elsif '~' == prefix
           with_environment do
-            Aruba::Platform.chdir(File.join(ENV['HOME'], aruba.current_directory)) { Aruba::Platform.expand_path(file_name, dir_string) }
+            path = File.join(ENV['HOME'], aruba.current_directory.relative_path_from(Pathname.new(aruba.config.working_directory)))
+            Aruba::Platform.chdir(path) { Aruba::Platform.expand_path(file_name, dir_string) }
           end
         else
           Aruba::Platform.chdir(File.join(aruba.root_directory,aruba.current_directory)) { Aruba::Platform.expand_path(file_name, dir_string) }
         end
       end
+      # rubocop:enable Metrics/MethodLength
 
       # Run block with environment
       #

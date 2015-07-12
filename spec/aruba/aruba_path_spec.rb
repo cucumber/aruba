@@ -37,9 +37,10 @@ RSpec.describe Aruba::ArubaPath do
   end
 
   describe '#pop' do
+    before(:each) { path << 'subdir' }
     before(:each) { path.pop }
 
-    it { expect(path.to_s).to eq 'path/to' }
+    it { expect(path.to_s).to eq 'path/to/dir' }
   end
 
   describe '#relative?' do
