@@ -2,20 +2,13 @@ require 'aruba/processes/spawn_process'
 
 module Aruba
   module Processes
-    # Create process
-    #
-    # @params [String] cmd
-    #   Command string
-    #
-    # @params [Integer] exit_timeout
-    #   The timeout until we expect the command to be finished
-    #
-    # @params [Integer] io_wait
-    #   The timeout until we expect the io to be finished
-    #
-    # @params [String] working_directory
-    #   The directory where the command will be executed
+    # Debug Process
     class DebugProcess < BasicProcess
+      # Use only if mode is :debug
+      def self.match?(mode)
+        mode == :debug || mode == DebugProcess
+      end
+
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
       def run!

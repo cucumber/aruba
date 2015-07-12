@@ -90,13 +90,12 @@ Before('@announce') do
 end
 
 Before('@debug') do
-  require 'aruba/processes/debug_process'
-  Aruba.process = Aruba::Processes::DebugProcess
+  aruba.config.command_launcher = :debug
 end
 
-After('@debug') do
-  Aruba.process = Aruba::Processes::SpawnProcess
-end
+# After('@debug') do
+#   aruba.config.command_launcher = :spawn
+# end
 
 Before('@ansi') do
   @aruba_keep_ansi = true

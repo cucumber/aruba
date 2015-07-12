@@ -32,7 +32,7 @@ module Aruba
         default  = opts[:default]
 
         fail ArgumentError, 'Either use block or default value' if block_given? && default
-        fail ArgumentError, 'Either use block or default value' if !block_given? && default.nil? && default.empty?
+        # fail ArgumentError, 'Either use block or default value' if !block_given? && default.nil? && default.to_s.empty?
         fail ArgumentError, 'contract-options is required' if contract.nil?
 
         # Add writer

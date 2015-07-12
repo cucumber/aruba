@@ -7,6 +7,11 @@ require 'aruba/processes/basic_process'
 module Aruba
   module Processes
     class SpawnProcess < BasicProcess
+      # Use as default launcher
+      def self.match?(mode)
+        true
+      end
+
       # Create process
       #
       # @params [String] cmd
@@ -20,7 +25,7 @@ module Aruba
       #
       # @params [String] working_directory
       #   The directory where the command will be executed
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash, main_class = nil)
         super
 
         @exit_timeout = exit_timeout

@@ -5,6 +5,11 @@ require 'aruba/processes/basic_process'
 module Aruba
   module Processes
     class InProcess < BasicProcess
+      # Use only if mode is in_process
+      def self.match?(mode)
+        mode == :in_process || mode == InProcess
+      end
+
       attr_reader :exit_status
 
       class FakeKernel
@@ -20,10 +25,13 @@ module Aruba
       end
 
       class << self
+        # @deprecated
         attr_accessor :main_class
       end
 
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash)
+      attr_reader :main_class
+
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash, main_class = nil)
         @cmd               = cmd
         @argv              = arguments
         @stdin             = StringIO.new
@@ -35,13 +43,13 @@ module Aruba
       end
 
       def run!
-        fail "You need to call Aruba.process.main_class = YourMainClass" unless self.class.main_class
+        fail "You need to call aruba.config.main_class = YourMainClass" unless main_class
 
         Dir.chdir @working_directory do
           before_run
 
           in_environment 'PWD' => @working_directory do
-            self.class.main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
+            main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
           end
 
           after_run

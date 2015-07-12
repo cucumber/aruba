@@ -7,6 +7,9 @@ require 'aruba/config/jruby'
 
 module Aruba
   module Api
+    # Core methods of aruba
+    #
+    # Those methods do not depend on any other API method of aruba
     module Core
       include ::RSpec::Matchers
 
@@ -42,18 +45,41 @@ module Aruba
       # @example Run code in directory
       #   result = cd('some-dir') { Dir.getwd }
       #
+      # rubocop:disable Metrics/MethodLength
       def cd(dir, &block)
-        fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless directory?(dir)
-
         if block_given?
-          cwd = (aruba.current_directory.dup << dir)
-          return Aruba::Platform.chdir(cwd, &block)
+          begin
+            fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba::Platform.directory? expand_path(dir)
+
+            aruba.current_directory << dir
+
+            old_dir    = Aruba::Platform.getwd
+            old_oldpwd = ENV['OLDPWD']
+            old_pwd    = ENV['PWD']
+
+            ENV['OLDPWD'] = Aruba::Platform.getwd
+            ENV['PWD'] = File.join(aruba.root_directory, aruba.current_directory).sub(%r{/$}, '')
+
+            Aruba::Platform.chdir File.join(aruba.root_directory, aruba.current_directory)
+
+            result = block.call
+          ensure
+            aruba.current_directory.pop
+            Aruba::Platform.chdir old_dir
+            ENV['OLDPWD'] = old_oldpwd
+            ENV['PWD']    = old_pwd
+          end
+
+          return result
         end
+
+        fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba::Platform.directory? expand_path(dir)
 
         aruba.current_directory << dir
 
         self
       end
+      # rubocop:enable Metrics/MethodLength
 
       # Expand file name
       #
@@ -103,10 +129,12 @@ module Aruba
 
         if aruba.config.fixtures_path_prefix == prefix
           File.join aruba.fixtures_directory, rest
-        else
+        elsif '~' == prefix
           with_environment do
-            Aruba::Platform.chdir(aruba.current_directory) { Aruba::Platform.expand_path(file_name, dir_string) }
+            Aruba::Platform.chdir(File.join(ENV['HOME'], aruba.current_directory)) { Aruba::Platform.expand_path(file_name, dir_string) }
           end
+        else
+          Aruba::Platform.chdir(File.join(aruba.root_directory,aruba.current_directory)) { Aruba::Platform.expand_path(file_name, dir_string) }
         end
       end
 

@@ -15,15 +15,14 @@ Feature: Run commands in ruby process
     And a file named "features/support/in_proccess.rb" with:
     """
     require 'aruba/cucumber'
-    require 'aruba/processes/in_process'
 
     Before('@in-process') do
-      Aruba.process = Aruba::Processes::InProcess
-      Aruba.process.main_class = Cli::App::Runner
+      aruba.config.command_launcher = :in_process
+      aruba.config.main_class = Cli::App::Runner
     end
 
     After('@in-process') do
-      Aruba.process = Aruba::Processes::SpawnProcess
+      aruba.config.command_launcher = :spawn
     end
     """
 
@@ -169,6 +168,55 @@ Feature: Run commands in ruby process
       Scenario: Run command
         When I run `pwd.rb`
         Then the output should match %r<PWD-ENV.*tmp/aruba>
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Set runner via "Aruba.process ="-method (deprecated)
+    Given a file named "features/support/in_proccess.rb" with:
+    """
+    require 'aruba/cucumber'
+    require 'aruba/processes/in_process'
+
+    Before('@in-process') do
+      Aruba.process = Aruba::Processes::InProcess
+      Aruba.process.main_class = Cli::App::Runner
+    end
+
+    After('@in-process') do
+      Aruba.process = Aruba::Processes::SpawnProcess
+    end
+    """
+    Given a file named "lib/cli/app/runner.rb" with:
+    """
+    module Cli
+      module App
+        class Runner
+          def initialize(argv, stdin, stdout, stderr, kernel)
+            @argv   = argv
+            @stdin  = stdin
+            @stdout = stdout
+            @stderr = stderr
+            @kernel = kernel
+          end
+
+          def execute!
+            @stdout.puts(@argv.map(&:reverse).join(' '))
+          end
+        end
+      end
+    end
+    """
+    And a file named "features/in_process.feature" with:
+    """
+    Feature: Run a command in process
+      @in-process
+      Scenario: Run command
+        When I run `reverse.rb Hello World`
+        Then the output should contain:
+        \"\"\"
+        olleH dlroW
+        \"\"\"
     """
     When I run `cucumber`
     Then the features should all pass

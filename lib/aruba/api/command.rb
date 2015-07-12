@@ -2,16 +2,18 @@ require 'pathname'
 
 require 'aruba/platform'
 require 'aruba/process_monitor'
-require 'aruba/spawn_process'
+require 'aruba/command'
 
 require 'win32/file' if File::ALT_SEPARATOR
 
 module Aruba
   class << self
+    # @deprecated
     attr_accessor :process
   end
 
-  self.process = Aruba::Processes::SpawnProcess
+  # @deprecated
+  # self.process = Aruba::Processes::SpawnProcess
 end
 
 module Aruba
@@ -241,6 +243,8 @@ module Aruba
       #
       # @yield [SpawnProcess]
       #   Run block with process
+      #
+      # rubocop:disable Metrics/MethodLength
       def run(cmd, timeout = nil)
         timeout ||= exit_timeout
         @commands ||= []
@@ -252,7 +256,33 @@ module Aruba
         announcer.announce(:command, cmd)
         announcer.announce(:timeout, 'exit', aruba.config.exit_timeout)
 
-        process = Aruba.process.new(cmd, timeout, io_wait, expand_path('.'), aruba.environment.to_h)
+        mode = if Aruba.process
+                 # rubocop:disable Metrics/LineLength
+                 Aruba::Platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "Aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "Aruba.configure { |config| config.main_class = <klass> }" instead.')
+                 # rubocop:enable Metrics/LineLength
+                 Aruba.process
+               else
+                 aruba.config.command_launcher
+               end
+
+        main_class = if Aruba.process.respond_to?(:main_class) && Aruba.process.main_class
+                       # rubocop:disable Metrics/LineLength
+                       Aruba::Platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "Aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "Aruba.configure { |config| config.main_class = <klass> }" instead.')
+                       # rubocop:enable Metrics/LineLength
+                       Aruba.process.main_class
+                     else
+                       aruba.config.main_class
+                     end
+
+        command = Command.new(
+          cmd,
+          mode: mode,
+          exit_timeout: timeout,
+          io_wait_timeout: io_wait,
+          working_directory: expand_path('.'),
+          environment: aruba.environment.to_h,
+          main_class: main_class
+        )
 
         if aruba.config.before? :cmd
           # rubocop:disable Metrics/LineLength
@@ -261,15 +291,16 @@ module Aruba
           aruba.config.before(:cmd, self, cmd)
         end
 
-        aruba.config.before(:command, self, process)
+        aruba.config.before(:command, self, command)
 
-        process_monitor.register_process(cmd, process)
-        process.run!
+        process_monitor.register_process(cmd, command)
+        command.run!
 
-        aruba.config.after(:command, self, process)
+        aruba.config.after(:command, self, command)
 
-        block_given? ? yield(process) : process
+        block_given? ? yield(command) : command
       end
+      # rubocop:enable Metrics/MethodLength
 
       # Default exit timeout for running commands with aruba
       #

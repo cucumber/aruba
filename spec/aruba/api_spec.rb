@@ -726,6 +726,7 @@ describe Aruba::Api  do
           allow(runtime).to receive(:config).and_return config
           allow(runtime).to receive(:environment).and_return environment
           allow(runtime).to receive(:current_directory).and_return aruba.current_directory
+          allow(runtime).to receive(:root_directory).and_return aruba.root_directory
           allow(runtime).to receive(:fixtures_directory).and_return File.join(aruba.root_directory, aruba.current_directory, 'spec', 'fixtures')
         end
 

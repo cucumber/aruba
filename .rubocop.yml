@@ -177,3 +177,6 @@ Style/TrivialAccessors:
 
 Style/RaiseArgs:
   Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false

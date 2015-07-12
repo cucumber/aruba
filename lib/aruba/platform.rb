@@ -54,6 +54,10 @@ module Aruba
       FileUtils.rm_r(paths, options)
     end
 
+    def getwd
+      Dir.getwd
+    end
+
     # Change to directory
     def chdir(dir_name, &block)
       dir_name = ::File.expand_path(dir_name.to_s)
@@ -65,6 +69,7 @@ module Aruba
           old_env = ENV.to_h
         end
 
+        ENV['OLDPWD'] = getwd
         ENV['PWD'] = dir_name
         ::Dir.chdir(dir_name, &block)
       ensure
@@ -236,6 +241,7 @@ module Aruba
       :relative_command?, \
       :executable_file?, \
       :unescape, \
+      :getwd, \
       :which, \
       :write_file
   end

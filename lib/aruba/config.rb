@@ -3,6 +3,8 @@ require 'aruba/basic_configuration'
 require 'aruba/config_wrapper'
 require 'aruba/hooks'
 require 'aruba/contracts/relative_path'
+require 'aruba/contracts/enum'
+require 'aruba/contracts/is_a'
 
 module Aruba
   # Aruba Configuration
@@ -22,8 +24,14 @@ module Aruba
     option_accessor :io_wait_timeout, :contract => { Num => Num }, :default => 0.1
     option_accessor :fixtures_directories, :contract => { Array => ArrayOf[String] }, :default => %w(features/fixtures spec/fixtures test/fixtures)
     option_accessor :command_runtime_environment, :contract => { Hash => Hash }, :default => ENV.to_hash
+    # rubocop:disable Metrics/LineLength
     option_accessor(:command_search_paths, :contract => { ArrayOf[String] => ArrayOf[String] }) { |config| [File.join(config.root_directory.value, 'bin')] }
+    # rubocop:enable Metrics/LineLength
     option_accessor :keep_ansi, :contract => { Bool => Bool }, :default => false
+    # rubocop:disable Metrics/LineLength
+    option_accessor :command_launcher, :contract => { Aruba::Contracts::Enum[:in_process, :spawn, :debug] => Aruba::Contracts::Enum[:in_process, :spawn, :debug] }, :default => :spawn
+    # rubocop:enable Metrics/LineLength
+    option_accessor :main_class, :contract => { Aruba::Contracts::IsA[Class] => Or[Aruba::Contracts::IsA[Class], Eq[nil]] }, :default => nil
   end
 end
 
