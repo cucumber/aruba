@@ -1,3 +1,5 @@
+require 'rspec/expectations/version'
+
 # @!method run_too_long
 #   This matchers checks if <command> run too long. Say the timeout is 10
 #   seconds and it takes <command> to finish in 15. This matchers will succeed.
@@ -39,4 +41,6 @@ RSpec::Matchers.define :have_finished_in_time do
   end
 end
 
-RSpec::Matchers.define_negated_matcher :run_too_long, :have_finished_in_time
+if RSpec::Expectations::Version::STRING >= '3.1'
+  RSpec::Matchers.define_negated_matcher :run_too_long, :have_finished_in_time
+end

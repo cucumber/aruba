@@ -1,3 +1,5 @@
+require 'rspec/expectations/version'
+
 # @!method have_file_content(content)
 #   This matchers checks if <file> has content. `content` can be a string,
 #   regexp or an RSpec matcher.
@@ -55,4 +57,6 @@ RSpec::Matchers.define :have_file_content do |expected|
   description { "have file content: #{description_of expected}" }
 end
 
-RSpec::Matchers.alias_matcher :a_file_having_content, :have_file_content
+if RSpec::Expectations::Version::STRING >= '3.0'
+  RSpec::Matchers.alias_matcher :a_file_having_content, :have_file_content
+end

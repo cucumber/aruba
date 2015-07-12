@@ -1,3 +1,5 @@
+require 'rspec/expectations/version'
+
 # @!method have_sub_directory(sub_directory)
 #   This matchers checks if <directory> has given sub-directory
 #
@@ -46,4 +48,6 @@ RSpec::Matchers.define :have_sub_directory do |expected|
   end
 end
 
-RSpec::Matchers.alias_matcher :a_directory_having_sub_directory, :have_sub_directory
+if RSpec::Expectations::Version::STRING >= '3.0'
+  RSpec::Matchers.alias_matcher :a_directory_having_sub_directory, :have_sub_directory
+end

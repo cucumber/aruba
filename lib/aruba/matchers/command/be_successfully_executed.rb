@@ -1,3 +1,5 @@
+require 'rspec/expectations/version'
+
 require 'aruba/matchers/command/have_exit_status'
 require 'aruba/matchers/command/have_finished_in_time'
 
@@ -27,4 +29,6 @@ RSpec::Matchers.define :be_successfully_executed do
   end
 end
 
-RSpec::Matchers.define_negated_matcher :have_failed_running, :be_successfully_executed
+if RSpec::Expectations::Version::STRING >= '3.1'
+  RSpec::Matchers.define_negated_matcher :have_failed_running, :be_successfully_executed
+end

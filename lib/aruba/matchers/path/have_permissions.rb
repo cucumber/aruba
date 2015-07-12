@@ -1,3 +1,5 @@
+require 'rspec/expectations/version'
+
 # @!method have_permissions(permissions)
 #   This matchers checks if <file> or <directory> has <perm> permissions
 #
@@ -57,4 +59,6 @@ RSpec::Matchers.define :have_permissions do |expected|
   end
 end
 
-RSpec::Matchers.alias_matcher :a_path_having_permissions, :have_permissions
+if RSpec::Expectations::Version::STRING >= '3.0'
+  RSpec::Matchers.alias_matcher :a_path_having_permissions, :have_permissions
+end

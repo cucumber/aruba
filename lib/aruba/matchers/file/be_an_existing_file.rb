@@ -1,3 +1,5 @@
+require 'rspec/expectations/version'
+
 # @!method be_an_existing_file
 #   This matchers checks if <file> exists in filesystem
 #
@@ -31,4 +33,6 @@ RSpec::Matchers.define :be_an_existing_file do |_|
   end
 end
 
-RSpec::Matchers.alias_matcher :an_existing_file, :be_an_existing_file
+if RSpec::Expectations::Version::STRING >= '3.0'
+  RSpec::Matchers.alias_matcher :an_existing_file, :be_an_existing_file
+end

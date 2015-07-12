@@ -1,3 +1,5 @@
+require 'rspec/expectations/version'
+
 # @!method be_an_existing_directory
 #   This matchers checks if <directory> exists in filesystem
 #
@@ -31,4 +33,6 @@ RSpec::Matchers.define :be_an_existing_directory do |_|
   end
 end
 
-RSpec::Matchers.alias_matcher :an_existing_directory, :be_an_existing_directory
+if RSpec::Expectations::Version::STRING >= '3.0'
+  RSpec::Matchers.alias_matcher :an_existing_directory, :be_an_existing_directory
+end

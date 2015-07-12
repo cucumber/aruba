@@ -1,3 +1,5 @@
+require 'rspec/expectations/version'
+
 # @!method have_file_size(size)
 #   This matchers checks if path has file size
 #
@@ -40,4 +42,6 @@ RSpec::Matchers.define :have_file_size do |expected|
   end
 end
 
-RSpec::Matchers.alias_matcher :a_file_of_size, :have_file_size
+if RSpec::Expectations::Version::STRING >= '3.0'
+  RSpec::Matchers.alias_matcher :a_file_of_size, :have_file_size
+end
