@@ -220,3 +220,53 @@ Feature: Run commands in ruby process
     """
     When I run `cucumber`
     Then the features should all pass
+
+  Scenario: Set runner via "Aruba.process ="-method and use old class name Aruba::InProcess (deprecated)
+    Given a file named "features/support/in_proccess.rb" with:
+    """
+    require 'aruba/cucumber'
+    require 'aruba/in_process'
+    require 'aruba/spawn_process'
+
+    Before('@in-process') do
+      Aruba.process = Aruba::InProcess
+      Aruba.process.main_class = Cli::App::Runner
+    end
+
+    After('@in-process') do
+      Aruba.process = Aruba::SpawnProcess
+    end
+    """
+    Given a file named "lib/cli/app/runner.rb" with:
+    """
+    module Cli
+      module App
+        class Runner
+          def initialize(argv, stdin, stdout, stderr, kernel)
+            @argv   = argv
+            @stdin  = stdin
+            @stdout = stdout
+            @stderr = stderr
+            @kernel = kernel
+          end
+
+          def execute!
+            @stdout.puts(@argv.map(&:reverse).join(' '))
+          end
+        end
+      end
+    end
+    """
+    And a file named "features/in_process.feature" with:
+    """
+    Feature: Run a command in process
+      @in-process
+      Scenario: Run command
+        When I run `reverse.rb Hello World`
+        Then the output should contain:
+        \"\"\"
+        olleH dlroW
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
