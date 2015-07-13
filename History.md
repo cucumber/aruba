@@ -1,3 +1,6 @@
+## [v0.8.0.pre4](https://github.com/cucumber/aruba/compare/v0.8.0.pre4...v0.8.0.pre5)
+* Build with cucumber 1.3.x on ruby 1.8.7, with cucumber 2.x on all other platforms
+
 ## [v0.8.0.pre3](https://github.com/cucumber/aruba/compare/v0.8.0.pre2...v0.8.0.pre3)
 * Depend on cucumber 1.3.x for compatibility on ruby 1.8.7
 * Change PWD and OLDPW when `cd('path')` or `cd('path') {}` is used

@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'aruba'
-  s.version     = '0.8.0.pre3'
+  s.version     = '0.8.0.pre4'
   s.authors     = ["Aslak Hellesøy", "David Chelimsky", "Mike Sassak", "Matt Wynne", "Jarl Friis", "Dennis Günnewig"]
   s.description = 'Extension for popular TDD and BDD frameworks like "Cucumber" and "RSpec" to make testing commandline applications meaningful, easy and fun.'
   s.summary     = "aruba-#{s.version}"
@@ -20,6 +20,12 @@ Gem::Specification.new do |s|
   s.rubygems_version = ">= 1.6.1"
   s.required_ruby_version = '>= 1.8.7'
   s.post_install_message = <<-EOS
+Use on ruby 1.8.7
+* Make sure you add something like that to your `Gemfile`. Otherwise you will
+  get cucumber > 2 and this will fail on ruby 1.8.7
+
+  gem 'cucumber', ~> '1.3.20'
+
 With aruba >= 1.0
   * "ruby 1.8.7"-support is discontinued.
   * aruba requires "cucumber 2" for the feature steps. The rest of aruba should
