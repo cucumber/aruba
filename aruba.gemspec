@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = 'cukes@googlegroups.com'
   s.homepage    = 'http://github.com/cucumber/aruba'
 
-  s.add_runtime_dependency 'cucumber', '~> 1.3.19'
+  s.add_runtime_dependency 'cucumber', '>= 1.3.19'
   s.add_runtime_dependency 'childprocess', '~> 0.5.6'
   s.add_runtime_dependency 'rspec-expectations', '>= 2.11'
   s.add_runtime_dependency 'contracts', '~> 0.9'
