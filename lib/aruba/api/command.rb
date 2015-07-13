@@ -4,7 +4,7 @@ require 'aruba/platform'
 require 'aruba/process_monitor'
 require 'aruba/command'
 
-require 'win32/file' if File::ALT_SEPARATOR
+# require 'win32/file' if File::ALT_SEPARATOR
 
 module Aruba
   class << self
