@@ -276,12 +276,12 @@ module Aruba
 
         command = Command.new(
           cmd,
-          mode: mode,
-          exit_timeout: timeout,
-          io_wait_timeout: io_wait,
-          working_directory: expand_path('.'),
-          environment: aruba.environment.to_h,
-          main_class: main_class
+          :mode              => mode,
+          :exit_timeout      => timeout,
+          :io_wait_timeout   => io_wait,
+          :working_directory => expand_path('.'),
+          :environment       => aruba.environment.to_h,
+          :main_class        => main_class
         )
 
         if aruba.config.before? :cmd
