@@ -63,6 +63,7 @@
 * Cleanup process management (issue #257)
 * Make path content available through matchers and api metchods (issue #250)
 * Refactor announcer to support user defined announce channels (fixes #267)
+* `InProcess` requires that the working directory is determined on runtime not no loadtime
 
 ## [v0.6.2](https://github.com/cucumber/aruba/compare/v0.6.1...v0.6.2)
 * Fixed minor issue #223)

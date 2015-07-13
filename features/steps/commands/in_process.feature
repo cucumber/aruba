@@ -1,10 +1,38 @@
 Feature: Run commands in ruby process
-
   Running a lot of scenarios where each scenario uses Aruba
   to spawn a new ruby process can be time consuming.
 
   Aruba lets you plug in your own process class that can
   run a command in the same ruby process as Cucumber/Aruba.
+
+  We expect that the command supports the following API. It needs to accept:
+  argv, stdin, stdout, stderr and kernel on `#initialize` and it needs to have
+  an `execute!`-method.
+
+  ```ruby
+  module Cli
+    module App
+      class Runner
+        def initialize(argv, stdin, stdout, stderr, kernel)
+          \@argv   = argv
+          \@stdin  = stdin
+          \@stdout = stdout
+          \@stderr = stderr
+          \@kernel = kernel
+        end
+
+        def execute!
+        end
+      end
+    end
+  end
+  ```
+
+  The switch to the working directory takes place around the `execute!`-method.
+  If needed make sure, that you determine the current working directory within
+  code called by the `execute!`-method or just use `Dir.getwd` during "runtime"
+  and not during "loadtime", when the `ruby`-interpreter reads in you class
+  files.
 
   Background:
     Given I use a fixture named "cli-app"
