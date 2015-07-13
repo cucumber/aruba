@@ -54,6 +54,7 @@ module Aruba
       FileUtils.rm_r(paths, options)
     end
 
+    # Get current working directory
     def getwd
       Dir.getwd
     end

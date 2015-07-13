@@ -1,4 +1,24 @@
-## [v0.8.0](https://github.com/cucumber/aruba/compare/v0.7.4...v0.8.0)
+## [v0.8.0.pre3](https://github.com/cucumber/aruba/compare/v0.8.0.pre2...v0.8.0.pre3)
+* Depend on cucumber 1.3.x for compatibility on ruby 1.8.7
+* Change PWD and OLDPW when `cd('path')` or `cd('path') {}` is used
+* Make nesting of `cd` possible
+* Make `run` inside `cd` possible
+* Fixed some bugs
+* Move `Aruba.proces = InProcess|SpawnProcess|DebugProcess` to `aruba.config`
+* Deprecate direct use of `InProcess|SpawnProcess|DebugProcess`. Now `Command`
+  needs to be used
+* Add new configuration options `command_launcher` and `main_klass` for
+  deprecation of old-style `Aruba.process = <class>`, `:spawn` is the default
+  value for the `command_launcher`-option
+* Added checks for version of `rspec-expectations` to support older `rspec`
+  versions like `2.11`
+* Now each `path/to/dir` pushed to `aruba.current_directory` is `pop`ed as whole
+* Make testing of `aruba.current_directory` easier by supporting `end_with?` and `start_with?`
+
+## [v0.8.0.pre2](https://github.com/cucumber/aruba/compare/v0.8.0...v0.8.0.pre2)
+* Relax requirement on rspec-expectations (3.3 -> 2.11)
+
+## [v0.8.0.pre](https://github.com/cucumber/aruba/compare/v0.7.4...v0.8.0.pre)
 * Make aruba compatible with "ruby 1.8.7" and "ruby 1.9.3" again (fixes #279)
 * Move more and more documentation to cucumber steps (partly fixes #268)
 * Refactoring of test suits, now rspec tests run randomly
