@@ -6,7 +6,7 @@ module Aruba
     class DebugProcess < BasicProcess
       # Use only if mode is :debug
       def self.match?(mode)
-        mode == :debug || mode == DebugProcess
+        mode == :debug || (mode.is_a?(Class) && mode < DebugProcess)
       end
 
       # rubocop:disable Metrics/MethodLength

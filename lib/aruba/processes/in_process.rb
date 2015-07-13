@@ -7,7 +7,7 @@ module Aruba
     class InProcess < BasicProcess
       # Use only if mode is in_process
       def self.match?(mode)
-        mode == :in_process || mode == InProcess
+        mode == :in_process || (mode.is_a?(Class) && mode < InProcess)
       end
 
       attr_reader :exit_status
