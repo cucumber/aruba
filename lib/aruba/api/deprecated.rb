@@ -41,8 +41,8 @@ module Aruba
       def in_current_directory(&block)
         Aruba::Platform.deprecated('The use of "in_current_directory" deprecated. Use "#cd(\'.\') { # your code }" instead. But be aware, `cd` requires a previously created directory')
 
-        create_directory '' unless directory?('.')
-        cd('', &block)
+        create_directory '.' unless directory?('.')
+        cd('.', &block)
 
         self
       end
