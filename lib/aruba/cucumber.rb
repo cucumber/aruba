@@ -342,9 +342,9 @@ end
 
 Then /^(?:a|the) file matching %r<(.*?)> should (not )?exist$/ do |pattern, expect_match|
   if expect_match
-    expect(all_paths).not_to include match Regexp.new(Regexp.escape(pattern))
+    expect(all_paths).not_to include match Regexp.new(pattern)
   else
-    expect(all_paths).to include match Regexp.new(Regexp.escape(pattern))
+    expect(all_paths).to include match Regexp.new(pattern)
   end
 end
 
@@ -398,11 +398,19 @@ Then /^(?:a|the) file "([^"]*)" should (not )?contain exactly:$/ do |file, negat
   end
 end
 
+Then /^(?:a|the) file "([^"]*)" should (not )?match %r<([^\/]*)>$/ do |file, negated, content|
+  if negated
+    expect(file).not_to have_file_content Regexp.new(content)
+  else
+    expect(file).to have_file_content Regexp.new(content)
+  end
+end
+
 Then /^(?:a|the) file "([^"]*)" should (not )?match \/([^\/]*)\/$/ do |file, negated, content|
   if negated
-    expect(file).not_to have_file_content Regexp.new(Regexp.escape(content))
+    expect(file).not_to have_file_content Regexp.new(content)
   else
-    expect(file).to have_file_content Regexp.new(Regexp.escape(content))
+    expect(file).to have_file_content Regexp.new(content)
   end
 end
 
