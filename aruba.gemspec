@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'aruba'
-  s.version     = '0.8.0.pre4'
+  s.version     = '0.8.0'
   s.authors     = ["Aslak Hellesøy", "David Chelimsky", "Mike Sassak", "Matt Wynne", "Jarl Friis", "Dennis Günnewig"]
   s.description = 'Extension for popular TDD and BDD frameworks like "Cucumber" and "RSpec" to make testing commandline applications meaningful, easy and fun.'
   s.summary     = "aruba-#{s.version}"
@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'cucumber', '>= 1.3.19'
   s.add_runtime_dependency 'childprocess', '~> 0.5.6'
-  s.add_runtime_dependency 'rspec-expectations', '>= 2.11'
+  s.add_runtime_dependency 'rspec-expectations', '>= 2.99'
   s.add_runtime_dependency 'contracts', '~> 0.9'
 
   s.add_development_dependency 'bundler', '~> 1.10.2'
