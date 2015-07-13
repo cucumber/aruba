@@ -22,7 +22,7 @@ module Aruba
       def current_directory
         Aruba::Platform.deprecated(%(The use of "current_directory" deprecated. Use "expand_path(".")" to get the current directory or "#cd" to run code in the current directory. #{caller.first}))
 
-        File.join(*aruba.current_directory)
+        aruba.current_directory.to_s
       end
 
       # @deprecated

@@ -20,6 +20,8 @@ module Aruba
         opts.fetch(:environment),
         opts.fetch(:main_class)
       )
+    rescue KeyError => e
+      raise ArgumentError, e.message
     end
   end
 end
