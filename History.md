@@ -1,38 +1,4 @@
-## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
-
-* "ruby 1.8.7"-support is discontinued.
-* aruba requires "cucumber 2" for the feature steps. The rest of aruba should
-  be usable by whatever testing framework you are using.
-* Overwriting methods for configuration is discontinued. You need to use
-  `aruba.config.<variable>` or `Aruba.configure { |config| config.<variable>`
-  instead.
-* "aruba/reporting" will be removed. Please use `@debug`-tag + `byebug`,
-  `debugger`, `pry` to troubleshoot your feature tests.
-* Set environment variables will have only effect on `#run` and the like +
-  `#with_environment { }`.
-* The process environment will be fully resetted between tests. Sharing state
-  via ENV['VAR'] = 'shared state' between tests will not be possible anymore.
-  Please make that obvious by using explicit steps or use the aruba API for
-  that.
-* There will be a major cleanup for command execution. There will be only
-  `run` and `run_simple` left. `run_interactive` is replaced by `run`.
-* Setting the root directory of aruba via method overwrite or configuration -
-  this should be your project root directory where the test suite is run.
-* The direct use of "InProcess", "DebugProcess" and "SpawnProcess" is not
-  supported anymore. You need to use "Command" instead. But be careful, it has
-  a different API.
-* HOME can be configured via `Aruba.configure {}` and defaults to
-  `File.join(aruba.config.root_directory, aruba.config.working_directory?)`
-  if `aruba/cucumber` or `aruba/rspec` is used.
-* Use different working directories based on test suite - RSpec, Cucumber.
-  It's `tmp/rspec` and `tmp/cucumber` now to make sure they do not overwrite
-  the test results from each other.
-
-## [v0.9.0](https://github.com/cucumber/aruba/compare/v0.8.0...v0.9.0)
-* Make the home directory configurable and use Around/around-hook to apply it
-* Add announcer to output the full environment before a command is run
-* Use prepend_environment_variable to modify PATH for rspec integration
-* Add VERSION-constant to aruba and use it for code which should be activated on >= 1.0.0
+# Latest Release
 
 ## [v0.8.0](https://github.com/cucumber/aruba/compare/v0.8.0.pre3...v0.8.0)
 * Build with cucumber 1.3.x on ruby 1.8.7, with cucumber 2.x on all other platforms
@@ -41,6 +7,8 @@
 * Fixed but in `in_current_dir*` not returning the result of the block
 * Fixed checks for file content
 * Fixed selectors for DebugProcess and InProcess to support sub-classes as well
+
+# Old releases
 
 ## [v0.8.0.pre3](https://github.com/cucumber/aruba/compare/v0.8.0.pre2...v0.8.0.pre3)
 * Depend on cucumber 1.3.x for compatibility on ruby 1.8.7
@@ -364,3 +332,41 @@
 ## [v0.1.0](https://github.com/cucumber/aruba/compare/ed6a175d23aaff62dbf355706996f276f304ae8b...v0.1.1)
 
 * First release (David Chelimsky and Aslak Hellesøy)
+
+# Upcoming un-released versions
+
+## [v0.9.0](https://github.com/cucumber/aruba/compare/v0.8.0...v0.9.0)
+* Make the home directory configurable and use Around/around-hook to apply it
+* Add announcer to output the full environment before a command is run
+* Use prepend_environment_variable to modify PATH for rspec integration
+* Add VERSION-constant to aruba and use it for code which should be activated on >= 1.0.0
+
+## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
+
+* "ruby 1.8.7"-support is discontinued.
+* aruba requires "cucumber 2" for the feature steps. The rest of aruba should
+  be usable by whatever testing framework you are using.
+* Overwriting methods for configuration is discontinued. You need to use
+  `aruba.config.<variable>` or `Aruba.configure { |config| config.<variable>`
+  instead.
+* "aruba/reporting" will be removed. Please use `@debug`-tag + `byebug`,
+  `debugger`, `pry` to troubleshoot your feature tests.
+* Set environment variables will have only effect on `#run` and the like +
+  `#with_environment { }`.
+* The process environment will be fully resetted between tests. Sharing state
+  via ENV['VAR'] = 'shared state' between tests will not be possible anymore.
+  Please make that obvious by using explicit steps or use the aruba API for
+  that.
+* There will be a major cleanup for command execution. There will be only
+  `run` and `run_simple` left. `run_interactive` is replaced by `run`.
+* Setting the root directory of aruba via method overwrite or configuration -
+  this should be your project root directory where the test suite is run.
+* The direct use of "InProcess", "DebugProcess" and "SpawnProcess" is not
+  supported anymore. You need to use "Command" instead. But be careful, it has
+  a different API.
+* HOME can be configured via `Aruba.configure {}` and defaults to
+  `File.join(aruba.config.root_directory, aruba.config.working_directory?)`
+  if `aruba/cucumber` or `aruba/rspec` is used.
+* Use different working directories based on test suite - RSpec, Cucumber.
+  It's `tmp/rspec` and `tmp/cucumber` now to make sure they do not overwrite
+  the test results from each other.
