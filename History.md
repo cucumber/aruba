@@ -12,7 +12,7 @@
 
 ## [v0.8.0.pre3](https://github.com/cucumber/aruba/compare/v0.8.0.pre2...v0.8.0.pre3)
 * Depend on cucumber 1.3.x for compatibility on ruby 1.8.7
-* Change PWD and OLDPW when `cd('path')` or `cd('path') {}` is used
+* Change PWD and OLDPW when `cd('path') {}` is used within that block
 * Make nesting of `cd` possible
 * Make `run` inside `cd` possible
 * Fixed some bugs
