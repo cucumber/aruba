@@ -2,6 +2,7 @@
 * Make the home directory configurable and use Around/around-hook to apply it
 * Add announcer to output the full environment before a command is run
 * Use prepend_environment_variable to modify PATH for rspec integration
+* Add VERSION-constant to aruba and use it for code which should be activated on >= 1.0.0
 
 ## [v0.8.0](https://github.com/cucumber/aruba/compare/v0.8.0.pre3...v0.8.0)
 * Build with cucumber 1.3.x on ruby 1.8.7, with cucumber 2.x on all other platforms

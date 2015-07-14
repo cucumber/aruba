@@ -1,8 +1,16 @@
+require 'aruba/version'
+
 require 'aruba/api'
 World(Aruba::Api)
 
 require 'aruba/cucumber/hooks'
 require 'aruba/reporting'
+
+if Aruba::VERSION >= '1.0.0'
+  Aruba.configure do |config|
+    config.working_directory = 'tmp/cucumber'
+  end
+end
 
 Given /the default aruba timeout is (\d+) seconds/ do |seconds|
   aruba.config.exit_timeout = seconds.to_i

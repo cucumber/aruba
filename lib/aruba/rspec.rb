@@ -2,6 +2,13 @@ require 'rspec/core'
 
 require 'aruba'
 require 'aruba/api'
+require 'aruba/version'
+
+if Aruba::VERSION >= '1.0.0'
+  Aruba.configure do |config|
+    config.working_directory = 'tmp/rspec'
+  end
+end
 
 RSpec.configure do |config|
   config.include Aruba::Api, :type => :aruba
@@ -14,12 +21,17 @@ RSpec.configure do |config|
     setup_aruba
   end
 
-  # Activate on 1.0.0
-  # config.around :each do |example|
-  #   old_env = ENV.to_hash
-  #   example.run
-  #   ENV.update old_env
-  # end
+  if Aruba::VERSION >= '1.0.0'
+    config.around :each do |example|
+      begin
+        old_env = ENV.to_hash
+        example.run
+      ensure
+        ENV.clear
+        ENV.update old_env
+      end
+    end
+  end
 
   # Use configured home directory as HOME
   config.around :each do |example|

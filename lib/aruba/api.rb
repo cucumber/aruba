@@ -1,12 +1,17 @@
 require 'rspec/expectations'
 require 'shellwords'
 
+require 'aruba/version'
 require 'aruba/extensions/string/strip'
 
 require 'aruba/platform'
 require 'aruba/api/core'
 require 'aruba/api/command'
-require 'aruba/api/deprecated'
+
+if Aruba::VERSION <= '1.0.0'
+  require 'aruba/api/deprecated'
+end
+
 require 'aruba/api/environment'
 require 'aruba/api/filesystem'
 require 'aruba/api/rvm'

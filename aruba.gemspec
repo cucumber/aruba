@@ -1,8 +1,11 @@
 # -*- encoding: utf-8 -*-
+lib = ::File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'aruba/version'
 
 Gem::Specification.new do |s|
   s.name        = 'aruba'
-  s.version     = '0.8.0'
+  s.version     = Aruba::VERSION
   s.authors     = ["Aslak Hellesøy", "David Chelimsky", "Mike Sassak", "Matt Wynne", "Jarl Friis", "Dennis Günnewig"]
   s.description = 'Extension for popular TDD and BDD frameworks like "Cucumber" and "RSpec" to make testing commandline applications meaningful, easy and fun.'
   s.summary     = "aruba-#{s.version}"
@@ -51,6 +54,9 @@ With aruba >= 1.0
   * HOME can be configured via `Aruba.configure {}` and defaults to
     `File.join(aruba.config.root_directory, aruba.config.working_directory?)`
     if `aruba/cucumber` or `aruba/rspec` is used.
+  * Use different working directories based on test suite - RSpec, Cucumber.
+    It's `tmp/rspec` and `tmp/cucumber` now to make sure they do not overwrite
+    the test results from each other.
 EOS
 
   s.files            = `git ls-files`.split("\n")
