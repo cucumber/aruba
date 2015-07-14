@@ -19,6 +19,17 @@ World(Aruba::Api)
 #   end
 # end
 
+Around do |_, block|
+  begin
+    old_home = ENV['HOME']
+    ENV['HOME'] = aruba.config.home_directory
+
+    block.call
+  ensure
+    ENV['HOME'] = old_home
+  end
+end
+
 Before do
   aruba.environment.update aruba.config.command_runtime_environment
   prepend_environment_variable 'PATH', aruba.config.command_search_paths.join(':') + ':'
@@ -67,13 +78,23 @@ Before('@announce-directory') do
 end
 
 Before('@announce-env') do
-  Aruba::Platform.deprecated 'The use of "@announce-env"-hook is deprecated. Please use "@announce-environment"'
+  Aruba::Platform.deprecated 'The use of "@announce-env"-hook is deprecated. Please use "@announce-modified-environment"'
 
   announcer.activate :environment
 end
 
 Before('@announce-environment') do
-  announcer.activate :environment
+  Aruba::Platform.deprecated '@announce-environment is deprecated. Use @announce-modified-environment instead'
+
+  announcer.activate :modified_environment
+end
+
+Before('@announce-full-environment') do
+  announcer.activate :full_environment
+end
+
+Before('@announce-modified-environment') do
+  announcer.activate :modified_environment
 end
 
 Before('@announce-timeout') do
@@ -85,6 +106,7 @@ Before('@announce') do
   announcer.activate :stdout
   announcer.activate :stderr
   announcer.activate :directory
+  announcer.activate :modified_environment
   announcer.activate :environment
   announcer.activate :timeout
 end

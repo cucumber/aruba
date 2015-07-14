@@ -1,7 +1,5 @@
 require 'aruba/platform'
 
-Aruba::Platform.require_matching_files('../matchers/environment/*.rb', __FILE__)
-
 module Aruba
   module Api
     # Environment methods of aruba
@@ -18,6 +16,8 @@ module Aruba
         value = value.to_s
 
         announcer.announce(:environment, name, value)
+        announcer.announce(:modified_environment, name, value)
+
         aruba.environment[name] = value
 
         self
@@ -36,6 +36,7 @@ module Aruba
 
         aruba.environment.append name, value
         announcer.announce(:environment, name, aruba.environment[name])
+        announcer.announce(:modified_environment, name, aruba.environment[name])
 
         self
       end
@@ -53,6 +54,7 @@ module Aruba
 
         aruba.environment.prepend name, value
         announcer.announce(:environment, name, aruba.environment[name])
+        announcer.announce(:modified_environment, name, aruba.environment[name])
 
         self
       end

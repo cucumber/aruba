@@ -27,8 +27,13 @@ module Aruba
       # @param [String] path
       #   The PATH, a string concatenated with ":", e.g. /usr/bin/:/bin on a
       #   UNIX-system
-      def which(program, path = ENV['PATH'])
-        Aruba::Platform.which(program, path)
+      def which(program, path = nil)
+        with_environment do
+          # ENV is set within this block
+          path = ENV['PATH'] if path.nil?
+
+          Aruba::Platform.which(program, path)
+        end
       end
 
       # Pipe data in file
@@ -255,6 +260,7 @@ module Aruba
         announcer.announce(:directory, Dir.pwd)
         announcer.announce(:command, cmd)
         announcer.announce(:timeout, 'exit', aruba.config.exit_timeout)
+        announcer.announce(:full_environment, aruba.environment.to_h)
 
         mode = if Aruba.process
                  # rubocop:disable Metrics/LineLength

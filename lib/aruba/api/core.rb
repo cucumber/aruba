@@ -133,14 +133,14 @@ module Aruba
           File.join aruba.fixtures_directory, rest
         elsif '~' == prefix
           with_environment do
-            path = File.join(ENV['HOME'], aruba.current_directory.relative_path_from(Pathname.new(aruba.config.working_directory)))
+            path = aruba.config.home_directory
 
             fail 'Expanding "~/" to "/" is not allowed' if path == '/'
 
             Aruba::Platform.chdir(path) { Aruba::Platform.expand_path(file_name, dir_string) }
           end
         else
-          Aruba::Platform.chdir(File.join(aruba.root_directory,aruba.current_directory)) { Aruba::Platform.expand_path(file_name, dir_string) }
+          Aruba::Platform.chdir(File.join(aruba.root_directory, aruba.current_directory)) { Aruba::Platform.expand_path(file_name, dir_string) }
         end
       end
       # rubocop:enable Metrics/MethodLength

@@ -6,6 +6,7 @@ require 'aruba/api'
 RSpec.configure do |config|
   config.include Aruba::Api, :type => :aruba
 
+  # Setup environment for aruba
   config.before :each do
     next unless self.class.include? Aruba::Api
 
@@ -20,36 +21,43 @@ RSpec.configure do |config|
   #   ENV.update old_env
   # end
 
+  # Use configured home directory as HOME
   config.around :each do |example|
-    project_bin = Aruba::ArubaPath.new(Aruba.config.root_directory)
-    project_bin << 'bin'
+    next example.run unless self.class.include? Aruba::Api
 
-    old_path    = ENV.fetch 'PATH', ''
+    begin
+      old_home = ENV['HOME']
+      ENV['HOME'] = aruba.config.home_directory
 
-    paths = old_path.split(File::PATH_SEPARATOR)
-    paths.unshift project_bin
-
-    ENV['PATH'] = paths.join(File::PATH_SEPARATOR)
-
-    example.run
-
-    ENV['PATH'] = old_path
+      example.run
+    ensure
+      ENV['HOME'] = old_home
+    end
   end
 
+  # Use rspec metadata as option for aruba
   config.before :each do |example|
     next unless self.class.include? Aruba::Api
 
     example.metadata.each { |k, v| aruba.config.set_if_option(k, v) }
   end
 
+  # Activate announcers based on rspec metadata
   config.before :each do |example|
     next unless self.class.include?(Aruba::Api)
 
-    announcer.activate(:environment) if example.metadata[:announce_environment]
-    announcer.activate(:command)     if example.metadata[:announce_command]
-    announcer.activate(:directory)   if example.metadata[:announce_directory]
-    announcer.activate(:stdout)      if example.metadata[:announce_stdout]
-    announcer.activate(:stderr)      if example.metadata[:announce_stderr]
+    if example.metadata[:announce_environment]
+      Aruba::Platform.deprecated 'announce_environment is deprecated. Use announce_modified_environment instead'
+
+      announcer.activate(:modified_environment)
+    end
+
+    announcer.activate(:full_environment)     if example.metadata[:announce_full_environment]
+    announcer.activate(:modified_environment) if example.metadata[:announce_modified_environment]
+    announcer.activate(:command)              if example.metadata[:announce_command]
+    announcer.activate(:directory)            if example.metadata[:announce_directory]
+    announcer.activate(:stdout)               if example.metadata[:announce_stdout]
+    announcer.activate(:stderr)               if example.metadata[:announce_stderr]
 
     if example.metadata[:announce_output]
       announcer.activate(:stderr)
@@ -60,11 +68,14 @@ RSpec.configure do |config|
       announcer.activate(:stderr)
       announcer.activate(:stdout)
       announcer.activate(:environment)
+      announcer.activate(:modified_environment)
+      announcer.activate(:full_environment)
       announcer.activate(:command)
       announcer.activate(:directory)
     end
   end
 
+  # Modify PATH to include project/bin
   config.before :each do
     next unless self.class.include? Aruba::Api
 

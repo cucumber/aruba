@@ -48,6 +48,9 @@ With aruba >= 1.0
   * The direct use of "InProcess", "DebugProcess" and "SpawnProcess" is not
     supported anymore. You need to use "Command" instead. But be careful, it has
     a different API.
+  * HOME can be configured via `Aruba.configure {}` and defaults to
+    `File.join(aruba.config.root_directory, aruba.config.working_directory?)`
+    if `aruba/cucumber` or `aruba/rspec` is used.
 EOS
 
   s.files            = `git ls-files`.split("\n")

@@ -6,7 +6,6 @@ Feature: Configure directory where to look for fixtures
 
   Background:
     Given I use the fixture "cli-app"
-    And the default feature-test
 
   Scenario: Default value
     Given a file named "features/support/aruba.rb" with:
@@ -27,5 +26,13 @@ Feature: Configure directory where to look for fixtures
     Aruba.configure do |config|
       config.fixtures_directories = %w(spec/fixtures)
     end
+
+    Aruba.configure do |config|
+      puts %(The default value is "%w(#{config.fixtures_directories.join(" ")})")
+    end
     """
     When I successfully run `cucumber`
+    Then the output should contain:
+    """
+    The default value is "%w(spec/fixtures)"
+    """

@@ -3,6 +3,7 @@ require 'aruba/basic_configuration'
 require 'aruba/config_wrapper'
 require 'aruba/hooks'
 require 'aruba/contracts/relative_path'
+require 'aruba/contracts/absolute_path'
 require 'aruba/contracts/enum'
 require 'aruba/contracts/is_a'
 
@@ -10,8 +11,8 @@ module Aruba
   # Aruba Configuration
   class Configuration < BasicConfiguration
     # As of 1.0.0 root_directory is read-only
-    # option_reader   :root_directory, :contract => { None => String }, :default => Dir.getwd
-    option_accessor   :root_directory, :contract => { String => String }, :default => Dir.getwd
+    # option_reader :root_directory, :contract => { None => String }, :default => Dir.getwd
+    option_accessor :root_directory, :contract => { String => String }, :default => Dir.getwd
     option_accessor :working_directory, :contract => { Aruba::Contracts::RelativePath => Aruba::Contracts::RelativePath }, :default => 'tmp/aruba'
 
     if RUBY_VERSION < '1.9'
@@ -32,6 +33,14 @@ module Aruba
     option_accessor :command_launcher, :contract => { Aruba::Contracts::Enum[:in_process, :spawn, :debug] => Aruba::Contracts::Enum[:in_process, :spawn, :debug] }, :default => :spawn
     # rubocop:enable Metrics/LineLength
     option_accessor :main_class, :contract => { Aruba::Contracts::IsA[Class] => Or[Aruba::Contracts::IsA[Class], Eq[nil]] }, :default => nil
+    # rubocop:disable Metrics/LineLength
+    option_accessor :home_directory, :contract => { Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath] => Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath] }, :default => ENV['HOME']
+
+    # Activate on 1.0.0
+    # option_accessor :home_directory, :contract => { Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath] => Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath]} do |config|
+    #   File.join(config.root_directory.value, config.working_directory.value)
+    # end
+    # rubocop:enable Metrics/LineLength
   end
 end
 
