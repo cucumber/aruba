@@ -4,6 +4,7 @@
 
 * Fix problem if working directory of aruba does not exist (issue #286)
 * Re-Add removed method only_processes
+* Fixed problem with last exit status
 
 # Old releases
 
