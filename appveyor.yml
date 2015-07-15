@@ -1,0 +1,32 @@
+version: "{build}"
+
+# This will build all PRs targetting matching branches.
+# Without this, each PR builds twice -- once for the PR branch HEAD,
+# and once for the merge commit that github creates for each mergable PR.
+branches:
+  only:
+    - master
+
+# Disable normal Windows builds in favor of our test script.
+build: off
+
+install:
+  - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
+  - ruby --version
+  - gem --version
+  - gem install bundler
+  - bundler --version
+  - bundle install
+  - cinst ansicon
+
+test_script:
+  - bundle exec scripts/test --trace
+
+environment:
+  matrix:
+    - ruby_version: '18'
+    - ruby_version: '19'
+    - ruby_version: '20'
+    - ruby_version: '21'
+    - ruby_version: '22'
+
