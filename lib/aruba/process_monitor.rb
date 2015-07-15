@@ -27,7 +27,7 @@ module Aruba
 
     def stop_processes!
       processes.each do |_, process|
-        stop_process(process)
+        @last_exit_status = stop_process(process)
       end
     end
 
