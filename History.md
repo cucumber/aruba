@@ -6,7 +6,10 @@
 * Re-Add removed method only_processes
 * Fixed problem with last exit status
 * Added appveyor to run tests of aruba on Windows (issue #287)
-* Added new announcer which outputs full environment before command is run
+* Make the home directory configurable and use Around/around-hook to apply it
+* Add announcer to output the full environment before a command is run
+* Use prepend_environment_variable to modify PATH for rspec integration
+* Add VERSION-constant to aruba and use it for code which should be activated on >= 1.0.0
 
 # Old releases
 
@@ -345,10 +348,6 @@
 # Upcoming un-released versions
 
 ## [v0.9.0](https://github.com/cucumber/aruba/compare/v0.8.0...v0.9.0)
-* Make the home directory configurable and use Around/around-hook to apply it
-* Add announcer to output the full environment before a command is run
-* Use prepend_environment_variable to modify PATH for rspec integration
-* Add VERSION-constant to aruba and use it for code which should be activated on >= 1.0.0
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
