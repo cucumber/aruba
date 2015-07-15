@@ -140,7 +140,10 @@ module Aruba
             Aruba::Platform.chdir(path) { Aruba::Platform.expand_path(file_name, dir_string) }
           end
         else
-          Aruba::Platform.chdir(File.join(aruba.root_directory, aruba.current_directory)) { Aruba::Platform.expand_path(file_name, dir_string) }
+          directory = File.join(aruba.root_directory, aruba.current_directory)
+
+          Aruba::Platform.mkdir directory unless File.exist? directory
+          Aruba::Platform.chdir(directory) { Aruba::Platform.expand_path(file_name, dir_string) }
         end
       end
       # rubocop:enable Metrics/MethodLength
