@@ -3,6 +3,7 @@
 ## [v0.8.0](https://github.com/cucumber/aruba/compare/v0.8.0...v0.8.1)
 
 * Fix problem if working directory of aruba does not exist (issue #286)
+* Re-Add removed method only_processes
 
 # Old releases
 

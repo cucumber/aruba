@@ -367,6 +367,11 @@ module Aruba
         last_command.close_io(:stdin)
       end
 
+      # Only processes
+      def only_processes
+        process_monitor.only_processes
+      end
+
       # TODO: move some more methods under here!
 
       private
