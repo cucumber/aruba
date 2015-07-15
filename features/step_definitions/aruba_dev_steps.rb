@@ -51,9 +51,14 @@ Then /^the feature(?:s)? should( not)?(?: all)? pass with:$/ do |negated, string
   step 'the output should contain:', string if string
 end
 
-Then /^the spec(?:s)? should( not)?(?: all)? pass$/ do |negated|
+Then /^the spec(?:s)? should( not)?(?: all)? pass(?: with (\d+) failures?)?$/ do |negated, count_failures|
   if negated
-    step 'the output should not contain "0 failures"'
+    if count_failures.nil?
+      step 'the output should not contain "0 failures"'
+    else
+      step %(the output should contain "#{count_failures} failures")
+    end
+
     step 'the exit status should be 1'
   else
     step 'the output should contain "0 failures"'

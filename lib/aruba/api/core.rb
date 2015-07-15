@@ -132,18 +132,15 @@ module Aruba
         if aruba.config.fixtures_path_prefix == prefix
           File.join aruba.fixtures_directory, rest
         elsif '~' == prefix
-          with_environment do
-            path = aruba.config.home_directory
+          path = ArubaPath.new(file_name.gsub(/\A~/, aruba.config.home_directory))
 
-            fail 'Expanding "~/" to "/" is not allowed' if path == '/'
+          fail 'Expanding "~/" to "/" is not allowed' if path.to_s == '/'
+          fail %(Expanding "~/" to a relative path "#{path}" is not allowed) unless path.absolute?
 
-            Aruba::Platform.chdir(path) { Aruba::Platform.expand_path(file_name, dir_string) }
-          end
+          path.to_s
         else
           directory = File.join(aruba.root_directory, aruba.current_directory)
-
-          Aruba::Platform.mkdir directory unless File.exist? directory
-          Aruba::Platform.chdir(directory) { Aruba::Platform.expand_path(file_name, dir_string) }
+          ArubaPath.new(File.join(*[directory, dir_string, file_name].compact)).expand_path.to_s
         end
       end
       # rubocop:enable Metrics/MethodLength
