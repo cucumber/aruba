@@ -1,5 +1,6 @@
 require 'rbconfig'
 require 'pathname'
+require 'ffi'
 
 require 'aruba/platform/simple_table'
 
@@ -182,19 +183,16 @@ module Aruba
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
     def which(program, path = ENV['PATH'])
-      on_windows = false
-      on_windows = true if File::ALT_SEPARATOR
-
       program = program.to_s
 
-      path_exts = ENV['PATHEXT'] ? ('.{' + ENV['PATHEXT'].tr(';', ',').tr('.','') + '}').downcase : '.{exe,com,bat}' if on_windows
+      path_exts = ENV['PATHEXT'] ? ('.{' + ENV['PATHEXT'].tr(';', ',').tr('.','') + '}').downcase : '.{exe,com,bat}' if windows?
 
       raise ArgumentError, "ENV['PATH'] cannot be empty" if path.nil? || path.empty?
 
       # Bail out early if an absolute path is provided or the command path is relative
       # Examples: /usr/bin/command or bin/command.sh
       if Aruba::Platform.absolute_path?(program) || Aruba::Platform.relative_command?(program)
-        program += path_exts if on_windows && File.extname(program).empty?
+        program += path_exts if windows? && File.extname(program).empty?
 
         found = Dir[program].first
 
@@ -211,7 +209,7 @@ module Aruba
 
         # Dir[] doesn't handle backslashes properly, so convert them. Also, if
         # the program name doesn't have an extension, try them all.
-        if on_windows
+        if windows?
           file = file.tr("\\", "/")
           file += path_exts if File.extname(program).empty?
         end
@@ -220,7 +218,7 @@ module Aruba
 
         # Convert all forward slashes to backslashes if supported
         if found && Aruba::Platform.executable_file?(found)
-          found.tr!(File::SEPARATOR, File::ALT_SEPARATOR) if on_windows
+          found.tr!(File::SEPARATOR, File::ALT_SEPARATOR) if windows?
           return found
         end
       end
@@ -229,6 +227,16 @@ module Aruba
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
+
+    # return true if the OS running is a Unix system according to FFI
+    def unix?
+      FFI::Platform.unix?
+    end
+
+    # return true if the OS running is Windows according to FFI
+    def windows?
+      FFI::Platform.windows?
+    end
 
     module_function :detect_ruby, \
       :current_ruby, \
@@ -252,6 +260,8 @@ module Aruba
       :getwd, \
       :which, \
       :simple_table, \
-      :write_file
+      :write_file, \
+      :unix?, \
+      :windows?
   end
 end
