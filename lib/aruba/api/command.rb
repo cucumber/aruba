@@ -279,7 +279,6 @@ module Aruba
                      else
                        aruba.config.main_class
                      end
-
         command = Command.new(
           cmd,
           :mode              => mode,

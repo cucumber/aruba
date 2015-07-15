@@ -33,20 +33,6 @@ RSpec.configure do |config|
     end
   end
 
-  # Use configured home directory as HOME
-  config.around :each do |example|
-    next example.run unless self.class.include? Aruba::Api
-
-    begin
-      old_home = ENV['HOME']
-      ENV['HOME'] = aruba.config.home_directory
-
-      example.run
-    ensure
-      ENV['HOME'] = old_home
-    end
-  end
-
   # Use rspec metadata as option for aruba
   config.before :each do |example|
     next unless self.class.include? Aruba::Api
@@ -93,5 +79,12 @@ RSpec.configure do |config|
 
     aruba.environment.update aruba.config.command_runtime_environment
     aruba.environment.prepend 'PATH', aruba.config.command_search_paths.join(':') + ':'
+  end
+
+  # Use configured home directory as HOME
+  config.before :each do |example|
+    next unless self.class.include? Aruba::Api
+
+    aruba.environment['HOME'] =  aruba.config.home_directory
   end
 end
