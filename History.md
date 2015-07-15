@@ -1,5 +1,11 @@
 # Latest Release
 
+## [v0.8.0](https://github.com/cucumber/aruba/compare/v0.8.0...v0.8.1)
+
+* Fix problem if working directory of aruba does not exist (issue #286)
+
+# Old releases
+
 ## [v0.8.0](https://github.com/cucumber/aruba/compare/v0.8.0.pre3...v0.8.0)
 * Build with cucumber 1.3.x on ruby 1.8.7, with cucumber 2.x on all other platforms
 * Fixed bugs in aruba's cucumber steps
@@ -8,7 +14,6 @@
 * Fixed checks for file content
 * Fixed selectors for DebugProcess and InProcess to support sub-classes as well
 
-# Old releases
 
 ## [v0.8.0.pre3](https://github.com/cucumber/aruba/compare/v0.8.0.pre2...v0.8.0.pre3)
 * Depend on cucumber 1.3.x for compatibility on ruby 1.8.7
