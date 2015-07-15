@@ -132,7 +132,9 @@ module Aruba
         if aruba.config.fixtures_path_prefix == prefix
           File.join aruba.fixtures_directory, rest
         elsif '~' == prefix
-          path = ArubaPath.new(file_name.gsub(/\A~/, aruba.config.home_directory))
+          path = with_environment do
+            ArubaPath.new(File.expand_path(file_name))
+          end
 
           fail 'Expanding "~/" to "/" is not allowed' if path.to_s == '/'
           fail %(Expanding "~/" to a relative path "#{path}" is not allowed) unless path.absolute?

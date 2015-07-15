@@ -25,10 +25,7 @@ Feature: Mock the HOME variable
       Scenario: Run command
         Given a mocked home directory
         When I run `cli`
-        Then the output should contain:
-        \"\"\"
-        tmp/aruba
-        \"\"\"
+        Then the output should match %r<HOME:.*tmp/aruba$>
     """
     When I run `cucumber`
     Then the features should all pass
@@ -40,10 +37,26 @@ Feature: Mock the HOME variable
       @mocked-home-directory
       Scenario: Run command
         When I run `cli`
-        Then the output should contain:
-        \"\"\"
-        tmp/aruba
-        \"\"\"
+        Then the output should match %r<HOME:.*tmp/aruba$>
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Redefine home directory by using the aruba configuration
+    Given a file named "features/support/home_variable.rb" with:
+    """
+    require 'aruba/cucumber'
+
+    Aruba.configure do |config|
+      config.home_directory = File.join(config.root_directory, config.working_directory)
+    end
+    """
+    Given a file named "features/home_variable.feature" with:
+    """
+    Feature: Home Variable
+      Scenario: Run command
+        When I run `cli`
+        Then the output should match %r<HOME:.*tmp/aruba$>
     """
     When I run `cucumber`
     Then the features should all pass

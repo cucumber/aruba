@@ -2,37 +2,30 @@ require 'aruba/aruba_path'
 require 'aruba/api'
 World(Aruba::Api)
 
-# Activate on 1.0.0
-#
-# Around do |_, block|
-#   begin
-#     if RUBY_VERSION < '1.9'
-#       old_env = ENV.to_hash
-#     else
-#       old_env = ENV.to_h
-#     end
-#
-#     block.call
-#   ensure
-#     ENV.clear
-#     ENV.update old_env
-#   end
-# end
+if Aruba::VERSION >= '1.0.0'
+  Around do |_, block|
+    begin
+      if RUBY_VERSION < '1.9'
+        old_env = ENV.to_hash
+      else
+        old_env = ENV.to_h
+      end
 
-Around do |_, block|
-  begin
-    old_home = ENV['HOME']
-    ENV['HOME'] = aruba.config.home_directory
-
-    block.call
-  ensure
-    ENV['HOME'] = old_home
+      block.call
+    ensure
+      ENV.clear
+      ENV.update old_env
+    end
   end
 end
 
 Before do
+  # this is ENV by default ...
   aruba.environment.update aruba.config.command_runtime_environment
+
+  # ... so every change needs to be done later
   prepend_environment_variable 'PATH', aruba.config.command_search_paths.join(':') + ':'
+  set_environment_variable 'HOME', aruba.config.home_directory
 end
 
 After do
