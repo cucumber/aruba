@@ -1,10 +1,12 @@
 # Latest Release
 
-## [v0.8.0](https://github.com/cucumber/aruba/compare/v0.8.0...v0.8.1)
+## [v0.8.1](https://github.com/cucumber/aruba/compare/v0.8.0...v0.8.1)
 
 * Fix problem if working directory of aruba does not exist (issue #286)
 * Re-Add removed method only_processes
 * Fixed problem with last exit status
+* Added appveyor to run tests of aruba on Windows (issue #287)
+* Added new announcer which outputs full environment before command is run
 
 # Old releases
 
