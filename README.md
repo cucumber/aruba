@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/cucumber/aruba.svg)](http://travis-ci.org/cucumber/aruba)
-[![Build status](https://ci.appveyor.com/api/projects/status/07v3v8iyojktf9di/branch/master?svg=true)](https://ci.appveyor.com/project/dg-ratiodata/aruba/branch/master)
+[![Build Status](https://travis-ci.org/cucumber/aruba.svg)](http://travis-ci.org/cucumber/aruba) (Linux / OSX)
+[![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl?svg=true)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/master) (Windows)
 [![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
 [![Dependency Status](https://gemnasium.com/cucumber/aruba.svg)](https://gemnasium.com/cucumber/aruba)
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.svg)](https://codeclimate.com/github/cucumber/aruba)
