@@ -13,7 +13,7 @@ module Aruba
       # rubocop:disable Metrics/CyclomaticComplexity
       def run!
         # rubocop:disable  Metrics/LineLength
-        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) unless which(command, environment['PATH'])
+        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) unless which(command)
         # rubocop:enable  Metrics/LineLength
 
         if RUBY_VERSION < '1.9'
