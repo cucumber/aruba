@@ -80,7 +80,7 @@ module Aruba
       output_format :command, '$ %s'
       output_format :environment, '$ export %s=%s"'
       output_format :modified_environment, '$ export %s=%s"'
-      output_format :full_environment, proc { |h| environment_table(h) }
+      output_format :full_environment, proc { |h| Aruba::Platform.simple_table(h) }
       output_format :timeout, '# %s-timeout: %s seconds'
 
       # rubocop:disable Metrics/LineLength
@@ -118,19 +118,6 @@ module Aruba
       end
 
       self
-    end
-
-    def environment_table(h)
-      name_size = h.keys.max_by(&:length).length
-      value_size = h.values.max_by(&:length).length
-
-      result = []
-
-      h.each do |k,v|
-        result << format('%s => %s', k + ' ' * (name_size - k.to_s.size), v + ' ' * (value_size - v.to_s.size))
-      end
-
-      result
     end
 
     public

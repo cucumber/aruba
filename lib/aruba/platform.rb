@@ -1,6 +1,8 @@
 require 'rbconfig'
 require 'pathname'
 
+require 'aruba/platform/simple_table'
+
 module Aruba
   # WARNING:
   # All methods found here are not considered part of the public API of aruba.
@@ -161,6 +163,11 @@ module Aruba
       string
     end
 
+    # Transform hash to a string table which can be output on stderr/stdout
+    def simple_table(hash)
+      SimpleTable.new(hash).to_s
+    end
+
     # Resolve path for command using the PATH-environment variable
     #
     # Mostly taken from here: https://github.com/djberg96/ptools
@@ -244,6 +251,7 @@ module Aruba
       :unescape, \
       :getwd, \
       :which, \
+      :simple_table, \
       :write_file
   end
 end
