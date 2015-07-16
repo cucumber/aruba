@@ -43,7 +43,7 @@ group :development, :test do
 
   # using platform for this make bundler complain about the same gem given
   # twice
-  if RUBY_VERSION < '1.9'
+  if RUBY_VERSION < '1.9.3'
     gem 'cucumber', '~> 1.3.20'
   else
     gem 'cucumber', '~> 2.0'
