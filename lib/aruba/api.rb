@@ -31,11 +31,11 @@ module Aruba
     def announcer
       @announcer ||= Announcer.new(
         self,
-        :stdout => @announce_stdout,
-        :stderr => @announce_stderr,
-        :dir    => @announce_dir,
-        :cmd    => @announce_cmd,
-        :env    => @announce_env
+        :stdout => defined?(@announce_stdout),
+        :stderr => defined?(@announce_stderr),
+        :dir    => defined?(@announce_dir),
+        :cmd    => defined?(@announce_cmd),
+        :env    => defined?(@announce_env)
       )
 
       @announcer
