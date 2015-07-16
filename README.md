@@ -1,9 +1,13 @@
-[![Build Status](https://travis-ci.org/cucumber/aruba.svg)](http://travis-ci.org/cucumber/aruba) (Linux / OSX)
-[![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl?svg=true)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/master) (Windows)
 [![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
 [![Dependency Status](https://gemnasium.com/cucumber/aruba.svg)](https://gemnasium.com/cucumber/aruba)
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.svg)](https://codeclimate.com/github/cucumber/aruba)
 [![Join the chat at https://gitter.im/cucumber/aruba](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cucumber/aruba?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+Build status:
+
+Linux / OS X  | Windows
+------------- | -------------
+[![Build Status](https://travis-ci.org/cucumber/aruba.svg)](http://travis-ci.org/cucumber/aruba) | [![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl?svg=true)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/master)
 
 `aruba` is an extension for popular TDD and BDD frameworks like "Cucumber" and "RSpec" to make testing of commandline applications meaningful, easy and fun.
 
