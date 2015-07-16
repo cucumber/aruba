@@ -35,7 +35,7 @@ module Aruba
     end
 
     def require_matching_files(pattern, base)
-      if RUBY_VERSION < '1.9.'
+      if RUBY_VERSION < '1.9.3'
         ::Dir.glob(::File.expand_path(pattern, base)).each { |f| require File.join(File.dirname(f), File.basename(f, '.rb')) }
       else
         ::Dir.glob(::File.expand_path(pattern, base)).each { |f| require_relative f }
@@ -141,7 +141,7 @@ module Aruba
 
     # Write to file
     def write_file(path, content)
-      if RUBY_VERSION < '1.9'
+      if RUBY_VERSION < '1.9.3'
         File.open(path, 'wb') do |f|
           f.print content
         end
