@@ -354,7 +354,7 @@
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
-* "ruby 1.8.7"-support is discontinued.
+* Support for rubies older than 1.9.3 is discontinued - e.g 1.8.7 and 1.9.2
 * aruba requires "cucumber 2" for the feature steps. The rest of aruba should
   be usable by whatever testing framework you are using.
 * Overwriting methods for configuration is discontinued. You need to use
