@@ -54,7 +54,7 @@ group :development, :test do
     gem 'rubocop', '~> 0.32.0'
   end
 
-  platform :ruby_19, :ruby_20, :ruby_21, :ruby_22, :jruby, :rbx, :mingw_19, :mingw_20, :mingw_21, :mingw_22  do
+  if RUBY_VERSION >= '1.9.3'
     gem 'cucumber-pro', '~> 0.0'
   end
 
