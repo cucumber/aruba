@@ -38,6 +38,22 @@ Feature: Expand paths with aruba
     When I run `rspec`
     Then the specs should all pass
 
+  Scenario: Warn if aruba's working directory does not exist
+    Given a file named "spec/expand_path_spec.rb" with:
+    """
+    require 'spec_helper'
+
+    RSpec.describe 'Expand path', :type => :aruba do
+      before(:each) { remove('.') }
+
+      let(:path) { 'path/to/dir' }
+
+      it { expect { expand_path(path) }.to output(/working directory does not exist/).to_stderr }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+
   Scenario: Use ~ in path
 
     Now this useses the HOME-variable from your normal shell HOME-variable.

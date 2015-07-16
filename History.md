@@ -349,6 +349,9 @@
 
 ## [v0.9.0](https://github.com/cucumber/aruba/compare/v0.8.0...v0.9.0)
 
+* Improve documentation for filesystem api and move it to feature tests
+* Add logger to aruba. Its output can be captured by rspec.
+
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
 * "ruby 1.8.7"-support is discontinued.

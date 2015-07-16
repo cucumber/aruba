@@ -49,6 +49,10 @@ module Aruba
       option_accessor :home_directory, :contract => { Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath] => Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath] }, :default => ENV['HOME']
     end
     # rubocop:enable Metrics/LineLength
+
+    # rubocop:disable Metrics/LineLength
+    option_accessor :log_level, :contract => { Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent] => Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent] }, :default => :info
+    # rubocop:enable Metrics/LineLength
   end
 end
 

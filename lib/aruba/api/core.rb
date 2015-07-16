@@ -4,6 +4,7 @@ require 'aruba/runtime'
 require 'aruba/errors'
 
 require 'aruba/config/jruby'
+require 'aruba/aruba_logger'
 
 module Aruba
   module Api
@@ -120,6 +121,10 @@ module Aruba
         # rubocop:enable Metrics/LineLength
 
         fail ArgumentError, message unless file_name.is_a?(String) && !file_name.empty?
+
+        # rubocop:disable Metrics/LineLength
+        aruba.logger.warn %(`aruba`'s working directory does not exist. Maybe you forgot to run `setup_aruba` before using it's API. This warning will be an error from 1.0.0) unless Aruba::Platform.directory? File.join(aruba.config.root_directory, aruba.config.working_directory)
+        # rubocop:enable Metrics/LineLength
 
         if RUBY_VERSION < '1.9'
           prefix = file_name.chars.to_a[0]

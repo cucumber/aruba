@@ -1,15 +1,19 @@
 require 'aruba/config'
 require 'aruba/environment'
+require 'aruba/aruba_logger'
 
 module Aruba
   class Runtime
-    attr_reader :config, :current_directory, :environment, :root_directory
+    attr_reader :config, :current_directory, :environment, :root_directory, :logger
 
     def initialize
       @config            = Aruba.config.make_copy
       @current_directory = ArubaPath.new(@config.working_directory)
       @root_directory    = ArubaPath.new(@config.root_directory)
       @environment       = Environment.new
+
+      @logger      = ArubaLogger.new
+      @logger.mode = @config.log_level
     end
 
     # The path to the directory which contains fixtures
