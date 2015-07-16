@@ -7,17 +7,17 @@ gemspec
 group :debug do
   gem 'pry', '~> 0.10.1'
 
-  platform :ruby_20, :ruby_21, :ruby_22, :jruby, :rbx, :mingw_19, :mingw_20, :mingw_21, :mingw_22 do
+  if RUBY_VERSION >= '2'
     gem 'byebug', '~> 4.0.5'
     gem 'pry-byebug', '~> 3.1.0'
   end
 
-  platform :ruby_19 do
+  if RUBY_VERSION < '2'
     gem 'debugger', '~> 1.6.8'
     gem 'pry-debugger', '~> 0.2.3'
   end
 
-  platform :ruby_19, :ruby_20, :ruby_21, :ruby_22, :jruby, :rbx, :mingw_19, :mingw_20, :mingw_21, :mingw_22  do
+  if RUBY_VERSION >= '1.9.3'
     gem 'pry-stack_explorer', '~> 0.4.9'
   end
 
@@ -28,7 +28,7 @@ group :development, :test do
   # Run development tasks
   gem 'rake', '~> 10.4.2'
 
-  platform :ruby_19, :ruby_20, :ruby_21, :ruby_22, :jruby, :rbx, :mingw_19, :mingw_20, :mingw_21, :mingw_22  do
+  if RUBY_VERSION >= '1.9.3'
     # Reporting
     gem 'bcat', '~> 0.6.2'
     gem 'kramdown', '~> 1.7.0'
@@ -49,8 +49,8 @@ group :development, :test do
     gem 'cucumber', '~> 2.0'
   end
 
-  # Make aruba compliant to ruby community guide
-  platform :ruby_19, :ruby_20, :ruby_21, :ruby_22, :jruby, :rbx, :mingw_19, :mingw_20, :mingw_21, :mingw_22  do
+  if RUBY_VERSION >= '1.9.3'
+    # Make aruba compliant to ruby community guide
     gem 'rubocop', '~> 0.32.0'
   end
 
@@ -63,7 +63,7 @@ group :development, :test do
     gem 'license_finder', '~> 2.0.4'
   end
 
-  platform :ruby_19, :ruby_20, :ruby_21, :ruby_22, :jruby, :rbx, :mingw_19, :mingw_20, :mingw_21, :mingw_22  do
+  if RUBY_VERSION >= '1.9.3'
     # Upload documentation
     gem 'relish', '~> 0.7.1'
   end
