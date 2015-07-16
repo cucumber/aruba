@@ -23,7 +23,7 @@ RSpec::Core::RakeTask.new do |spec|
   spec.rspec_opts = ['--color', '--format documentation']
 end
 
-if RUBY_VERSION < '1.9'
+if RUBY_VERSION < '1.9.3'
   begin
     require 'rubocop/rake_task'
     RuboCop::RakeTask.new
