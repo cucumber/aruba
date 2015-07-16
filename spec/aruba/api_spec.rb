@@ -714,6 +714,8 @@ describe Aruba::Api  do
 
         before :each do
           allow(config).to receive(:fixtures_path_prefix).and_return('%')
+          allow(config).to receive(:root_directory).and_return aruba.config.root_directory
+          allow(config).to receive(:working_directory).and_return aruba.config.working_directory
         end
 
         before :each do
