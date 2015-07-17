@@ -13,7 +13,7 @@ require 'rspec/expectations'
 
 Before do |scenario|
   command_name = if scenario.respond_to?(:feature) && scenario.respond_to?(:name)
-                   "#{scenario.feature.title} #{scenario.name}"
+                   "#{scenario.feature.name} #{scenario.name}"
                  else
                    raise TypeError.new("Don't know how to extract command name from #{scenario.class}")
                  end
