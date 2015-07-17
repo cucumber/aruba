@@ -9,7 +9,7 @@ RSpec.describe '.simple_table' do
         :key2 => 'value'
       }
     end
-    let(:rows) { ['key1 => value', 'key2 => value'] }
+    let(:rows) { ['# key1 => value', '# key2 => value'] }
 
     it { expect(Aruba::Platform.simple_table(hash)).to eq rows }
   end
