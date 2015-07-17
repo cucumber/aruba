@@ -100,6 +100,7 @@ Before('@announce') do
   announcer.activate :stderr
   announcer.activate :directory
   announcer.activate :modified_environment
+  announcer.activate :full_environment
   announcer.activate :environment
   announcer.activate :timeout
 end
