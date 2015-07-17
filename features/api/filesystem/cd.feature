@@ -42,6 +42,7 @@ Feature: Change current working directory
       before(:each) { run_simple 'pwd' }
 
       it { expect(last_command.output).to include 'new_dir.d' }
+      it { expect(last_command).to be_executed_in_time }
     end
     """
     When I run `rspec`
@@ -162,7 +163,7 @@ Feature: Change current working directory
 
       before :each do
         @pwd = cd('new_dir.d') do
-          cd('subdir.d') { run('pwd') }
+          cd('subdir.d') { run_simple('pwd') }
         end
       end
 
