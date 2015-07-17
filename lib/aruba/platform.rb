@@ -253,7 +253,7 @@ module Aruba
 
     # return true if the OS running is Solaris according to FFI
     def on_solaris?
-      FFI::Platform.solaris
+      FFI::Platform.solaris?
     end
 
     module_function :detect_ruby, \
