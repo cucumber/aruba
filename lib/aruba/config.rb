@@ -7,7 +7,6 @@ require 'aruba/hooks'
 require 'aruba/contracts/relative_path'
 require 'aruba/contracts/absolute_path'
 require 'aruba/contracts/enum'
-require 'aruba/contracts/is_a'
 
 module Aruba
   # Aruba Configuration
@@ -37,7 +36,7 @@ module Aruba
     # rubocop:disable Metrics/LineLength
     option_accessor :command_launcher, :contract => { Aruba::Contracts::Enum[:in_process, :spawn, :debug] => Aruba::Contracts::Enum[:in_process, :spawn, :debug] }, :default => :spawn
     # rubocop:enable Metrics/LineLength
-    option_accessor :main_class, :contract => { Aruba::Contracts::IsA[Class] => Or[Aruba::Contracts::IsA[Class], Eq[nil]] }, :default => nil
+    option_accessor :main_class, :contract => { Class => Maybe[Class] }, :default => nil
     # rubocop:disable Metrics/LineLength
 
     # rubocop:disable Metrics/LineLength
