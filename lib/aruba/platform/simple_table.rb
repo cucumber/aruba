@@ -13,20 +13,19 @@ module Aruba
 
       def to_s
         name_size  = hash.keys.map(&:to_s).max_by(&:length).length
-        value_size = hash.values.map(&:to_s).max_by(&:length).length
 
         if RUBY_VERSION < '2'
           rows = []
 
           hash.each do |k,v|
-            rows << format('%s => %s', k.to_s + ' ' * (name_size - k.to_s.size), v + ' ' * (value_size - v.to_s.size))
+            rows << format("# %-#{name_size}s => %s", k, v)
           end
 
-          rows
+          rows.sort
         else
           hash.each_with_object([]) do |(k,v), a|
-            a << format('%s => %s', k.to_s + ' ' * (name_size - k.to_s.size), v + ' ' * (value_size - v.to_s.size))
-          end
+            a << format("# %-#{name_size}s => %s", k, v)
+          end.sort
         end
       end
     end
