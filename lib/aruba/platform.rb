@@ -278,7 +278,7 @@ module Aruba
       :getwd, \
       :which, \
       :simple_table, \
-      :write_file,
+      :write_file, \
       :on_windows?, \
       :on_unix?, \
       :on_mac?, \
