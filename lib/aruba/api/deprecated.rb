@@ -179,7 +179,7 @@ module Aruba
       # @param [true,false] expect_presence
       #   Should the given paths be present (true) or absent (false)
       def check_file_presence(paths, expect_presence = true)
-        Aruba::Platform.deprecated('The use of "check_file_presence" is deprecated. Use "expect().to be_existing_file or expect(all_paths).to match_path_pattern() instead" ')
+        Aruba::Platform.deprecated('The use of "check_file_presence" is deprecated. Use "expect().to be_an_existing_file" or "expect(all_paths).to all match /pattern/" instead')
 
         stop_processes!
 
