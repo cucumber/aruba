@@ -4,9 +4,12 @@ require 'aruba/version'
 require 'aruba/basic_configuration'
 require 'aruba/config_wrapper'
 require 'aruba/hooks'
+
 require 'aruba/contracts/relative_path'
 require 'aruba/contracts/absolute_path'
 require 'aruba/contracts/enum'
+
+require 'aruba/contracts/is_power_of_two'
 
 module Aruba
   # Aruba Configuration
@@ -52,6 +55,8 @@ module Aruba
     # rubocop:disable Metrics/LineLength
     option_accessor :log_level, :contract => { Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent] => Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent] }, :default => :info
     # rubocop:enable Metrics/LineLength
+
+    option_accessor :physical_block_size, :contract => { Aruba::Contracts::IsPowerOfTwo => Aruba::Contracts::IsPowerOfTwo }, :default => 512
   end
 end
 
