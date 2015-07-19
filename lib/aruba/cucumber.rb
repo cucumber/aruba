@@ -66,7 +66,7 @@ Given /^a mocked home directory$/ do
 end
 
 Given /^(?:a|the) directory(?: named)? "([^"]*)" does not exist$/ do |directory_name|
-  remove_directory(directory_name, :force => true)
+  remove(directory_name, :force => true)
 end
 
 When /^I write to "([^"]*)" with:$/ do |file_name, file_content|
@@ -86,15 +86,15 @@ When /^I append to "([^"]*)" with "([^"]*)"$/ do |file_name, file_content|
 end
 
 When /^I remove (?:a|the) file(?: named)? "([^"]*)"$/ do |file_name|
-  remove_file(file_name)
+  remove(file_name)
 end
 
 Given /^(?:a|the) file(?: named)? "([^"]*)" does not exist$/ do |file_name|
-  remove_file(file_name, :force => true)
+  remove(file_name, :force => true)
 end
 
 When(/^I remove (?:a|the) directory(?: named)? "(.*?)"$/) do |directory_name|
-  remove_directory(directory_name)
+  remove(directory_name)
 end
 
 When /^I cd to "([^"]*)"$/ do |dir|
