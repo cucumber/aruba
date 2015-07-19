@@ -188,12 +188,17 @@ When /^I wait for (?:output|stdout) to contain "([^"]*)"$/ do |expected|
   end
 end
 
+Then /^the output should be (\d+) bytes long$/ do |size|
+  expect(all_output).to have_output_size size.to_i
+end
+
 Then /^the output should contain "([^"]*)"$/ do |expected|
-  assert_partial_output(expected, all_output)
+  expect(all_commands).to include have_content(Regexp.new(Aruba::Utils.unescape(expected)))
 end
 
 Then /^the output from "([^"]*)" should contain "([^"]*)"$/ do |cmd, expected|
   assert_partial_output(expected, output_from(cmd))
+  expect(all_commands).to include have_content(Regexp.new(Aruba::Utils.unescape(expected)))
 end
 
 Then /^the output from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, unexpected|
@@ -204,12 +209,12 @@ Then /^the output should not contain "([^"]*)"$/ do |unexpected|
   assert_no_partial_output(unexpected, all_output)
 end
 
-Then /^the output should contain:$/ do |expected|
-  assert_partial_output(expected, all_output)
-end
-
-Then /^the output should not contain:$/ do |unexpected|
-  assert_no_partial_output(unexpected, all_output)
+Then /^the output should( not)? contain:$/ do |fail, string|
+  if fail
+    expect(all_output).not_to include(string)
+  else
+    expect(all_output).to include(string)
+  end
 end
 
 ## the output should contain exactly "output"
