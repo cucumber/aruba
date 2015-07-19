@@ -52,6 +52,11 @@ Before('@announce-cmd') do
   announcer.activate :command
 end
 
+Before('@announce-output') do
+  announcer.activate :stdout
+  announcer.activate :stderr
+end
+
 Before('@announce-stdout') do
   announcer.activate :stdout
 end
