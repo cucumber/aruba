@@ -353,6 +353,7 @@
 * Add logger to aruba. Its output can be captured by rspec.
 * Fix incorrect deprecation message for check_file_presence (issue #292)
 * Fix for Gemfile excludes windows for many gems (issue #282)
+* Make feature tests compatible with ruby 1.9.2
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
