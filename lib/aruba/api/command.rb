@@ -293,9 +293,14 @@ module Aruba
         process_monitor.terminate_processes!
       end
 
-      # @private
-      def last_command
-        processes.last[1]
+      # Last command started
+      def last_command_started
+        process_monitor.last_command_started
+      end
+
+      # Last command stopped
+      def last_command_stopped
+        process_monitor.last_command_stopped
       end
 
       # @private

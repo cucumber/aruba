@@ -531,6 +531,13 @@ module Aruba
       end
       # rubocop:enable Metrics/CyclomaticComplexity
       # rubocop:enable Metrics/MethodLength
+
+      # Last command started
+      def last_command
+        Aruba::Platform.deprecated('The use of "#last_command" is deprecated. Use "#last_command_started"')
+
+        process_monitor.last_command
+      end
     end
   end
 end

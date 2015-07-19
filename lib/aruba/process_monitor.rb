@@ -17,8 +17,21 @@ module Aruba
       @last_exit_status
     end
 
+    def last_command_stopped
+      return @last_command_stopped if @last_command_stopped
+
+      stop_processes!
+
+      @last_command_stopped
+    end
+
+    def last_command_started
+      processes.last[1]
+    end
+
     def stop_process(process)
-      @last_exit_status = process.stop(announcer)
+      @last_command_stopped = process
+      @last_exit_status     = process.stop(announcer)
     end
 
     def terminate_process!(process)
