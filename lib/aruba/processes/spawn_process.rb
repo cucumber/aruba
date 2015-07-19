@@ -90,25 +90,38 @@ module Aruba
       # rubocop:enable Metrics/CyclomaticComplexity
 
       def stdin
+        return if @process.nil?
+
         @process.io.stdin
       end
 
-      def stdout
-        wait_for_io do
+      def stdout(opts = {})
+        return @output_cache if @process.nil?
+
+        wait_for_io = opts.fetch(:wait_for_io, @io_wait)
+
+        wait_for_io wait_for_io do
           @process.io.stdout.flush
-          read(@out)
-        end || @output_cache
+          open(@err).read
+        end
       end
 
-      def stderr
-        wait_for_io do
+      def stderr(opts = {})
+        return @error_cache if @process.nil?
+
+        wait_for_io = opts.fetch(:wait_for_io, @io_wait)
+
+        wait_for_io wait_for_io do
           @process.io.stderr.flush
-          read(@err)
-        end || @error_cache
+          open(@err).read
+        end
       end
 
       def read_stdout
-        warn('The use of "#read_stdout" is deprecated. Use "#stdout" instead.')
+        # rubocop:disable Metrics/LineLength
+        Aruba::Platform.deprecated('The use of "#read_stdout" is deprecated. Use "#stdout" instead. To reduce the time to wait for io, pass `:wait_for_io => 0` or some suitable for your use case')
+        # rubocop:enable Metrics/LineLength
+
         stdout
       end
 
@@ -117,6 +130,8 @@ module Aruba
 
         @process.io.stdin.write(input)
         @process.io.stdin.flush
+
+        self
       end
 
       def close_io(name)
@@ -164,10 +179,11 @@ module Aruba
 
       private
 
-      def wait_for_io(&block)
-        return unless @process
+      def wait_for_io(time_to_wait, &block)
+        return if @process.nil?
 
-        sleep @io_wait
+        sleep time_to_wait
+
         yield
       end
 
