@@ -35,7 +35,6 @@ RSpec.configure do |config|
     end
   end
 
-  # Use rspec metadata as option for aruba
   config.before :each do |example|
     next unless self.class.include? Aruba::Api
 

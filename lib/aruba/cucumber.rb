@@ -43,6 +43,14 @@ Given /^(?:a|the) file(?: named)? "([^"]*)" with:$/ do |file_name, file_content|
   write_file(file_name, file_content)
 end
 
+Given /^(?:an|the) executable(?: named)? "([^"]*)" with:$/ do |file_name, file_content|
+  step %(a file named "#{file_name}" with mode "0755" and with:), file_content
+end
+
+Given /^(?:a|the) file(?: named)? "([^"]*)" with "([^"]*)"$/ do |file_name, file_content|
+  write_file(file_name, file_content)
+end
+
 Given /^(?:a|the) file(?: named)? "([^"]*)" with mode "([^"]*)" and with:$/ do |file_name, file_mode, file_content|
   write_file(file_name, file_content)
   chmod(file_mode, file_name)
@@ -101,7 +109,7 @@ When /^I cd to "([^"]*)"$/ do |dir|
   cd(dir)
 end
 
-Given /^I set the environment variables to:/ do |table|
+Given /^I set the environment variables? to:/ do |table|
   table.hashes.each do |row|
     variable = row['variable'].to_s.upcase
     value = row['value'].to_s
@@ -110,12 +118,21 @@ Given /^I set the environment variables to:/ do |table|
   end
 end
 
-Given /^I append the value to the environment variable:/ do |table|
+Given /^I append the values? to the environment variables?:/ do |table|
   table.hashes.each do |row|
     variable = row['variable'].to_s.upcase
     value = row['value'].to_s
 
     append_environment_variable(variable, value)
+  end
+end
+
+Given /^I prepend the values? to the environment variables?:/ do |table|
+  table.hashes.each do |row|
+    variable = row['variable'].to_s.upcase
+    value = row['value'].to_s
+
+    prepend_environment_variable(variable, value)
   end
 end
 
@@ -179,11 +196,52 @@ When /^I pipe in (?:a|the) file(?: named)? "([^"]*)"$/ do |file|
   close_input
 end
 
+When /^I stop the last command if (?:output|stdout) contains:$/ do |expected|
+  begin
+    Timeout.timeout(exit_timeout) do
+      loop do
+        if Aruba::Utils.unescape(last_command.output).include? Aruba::Utils.unescape(expected)
+          last_command.terminate
+          break
+        end
+
+        sleep 0.1
+      end
+    end
+  rescue ChildProcess::TimeoutError, TimeoutError
+    last_command.terminate
+  ensure
+    announcer.stdout last_command.stdout
+    announcer.stderr last_command.stderr
+  end
+end
+
+When /^I wait for (?:output|stdout) to contain:$/ do |expected|
+  Timeout.timeout(exit_timeout) do
+    loop do
+      begin
+        expect(last_command).to have_output Regexp.new(Aruba::Platform.unescape(expected, aruba.config.keep_ansi))
+      rescue ExpectationError
+        sleep 0.1
+        retry
+      end
+
+      break
+    end
+  end
+end
+
 When /^I wait for (?:output|stdout) to contain "([^"]*)"$/ do |expected|
   Timeout.timeout(exit_timeout) do
     loop do
-      break if assert_partial_output_interactive(expected)
-      sleep 0.1
+      begin
+        expect(last_command).to have_output Regexp.new(Aruba::Platform.unescape(expected, aruba.config.keep_ansi))
+      rescue ExpectationError
+        sleep 0.1
+        retry
+      end
+
+      break
     end
   end
 end
@@ -193,86 +251,141 @@ Then /^the output should be (\d+) bytes long$/ do |size|
 end
 
 Then /^the output should contain "([^"]*)"$/ do |expected|
-  expect(all_commands).to include have_content(Regexp.new(Aruba::Utils.unescape(expected)))
+  expect(all_commands).to include have_content Regexp.new(Regexp.escape(Aruba::Utils.unescape(expected)))
 end
 
-Then /^the output from "([^"]*)" should contain "([^"]*)"$/ do |cmd, expected|
-  assert_partial_output(expected, output_from(cmd))
-  expect(all_commands).to include have_content(Regexp.new(Aruba::Utils.unescape(expected)))
-end
+Then /^the output from "([^"]*)" should( not)? contain "([^"]*)"$/ do |cmd, negated, expected|
+  command = process_monitor.get_process(Platform.detect_ruby(cmd))
 
-Then /^the output from "([^"]*)" should not contain "([^"]*)"$/ do |cmd, unexpected|
-  assert_no_partial_output(unexpected, output_from(cmd))
-end
-
-Then /^the output should not contain "([^"]*)"$/ do |unexpected|
-  assert_no_partial_output(unexpected, all_output)
-end
-
-Then /^the output should( not)? contain:$/ do |fail, string|
-  if fail
-    expect(all_output).not_to include(string)
+  if negated
+    expect(command).not_to have_output Regexp.new(Regexp.escape(Aruba::Utils.unescape(expected)))
   else
-    expect(all_output).to include(string)
+    expect(command).to have_output Regexp.new(Regexp.escape(Aruba::Utils.unescape(expected)))
+  end
+end
+
+Then /^the output should( not)? contain "([^"]*)"$/ do |negated, expected|
+  if negated
+    expect(all_commands).not_to include have_content Regexp.new(Regexp.escape(Aruba::Utils.unescape(expected)))
+  else
+    expect(all_commands).to include have_content Regexp.new(Regexp.escape(Aruba::Utils.unescape(expected)))
+  end
+end
+
+Then /^the output should( not)? contain:$/ do |negated, expected|
+  if negated
+    expect(all_commands).not_to include have_content Regexp.new(Regexp.escape(Aruba::Utils.unescape(expected)))
+  else
+    expect(all_commands).to include have_content Regexp.new(Regexp.escape(Aruba::Utils.unescape(expected)))
   end
 end
 
 ## the output should contain exactly "output"
 ## the output from `echo -n "Hello"` should contain exactly "Hello"
-Then /^the output(?: from "(.*?)")? should contain exactly "(.*?)"$/ do |cmd, expected|
-  assert_exact_output(expected, cmd ? output_from(cmd) : all_output)
+Then /^the output(?: from "(.*?)")? should( not)? contain exactly "(.*?)"$/ do |cmd, negated, expected|
+  commands = if cmd
+               [process_monitor.get_process(Platform.detect_ruby(cmd))]
+             else
+               all_commands
+             end
+
+  if negated
+    expect(commands).not_to have_output Aruba::Utils.unescape(expected)
+  else
+    expect(commands).to have_output Aruba::Utils.unescape(expected)
+  end
 end
 
 ## the output should contain exactly:
 ## the output from `echo -n "Hello"` should contain exactly:
-Then /^the output(?: from "(.*?)")? should contain exactly:$/ do |cmd, expected|
-  assert_exact_output(expected, cmd ? output_from(cmd) : all_output)
+Then /^the output(?: from "(.*?)")? should( not)? contain exactly:$/ do |cmd, negated, expected|
+  commands = if cmd
+               [process_monitor.get_process(Platform.detect_ruby(cmd))]
+             else
+               all_commands
+             end
+
+  if negated
+    expect(commands).not_to have_output Aruba::Utils.unescape(expected)
+  else
+    expect(commands).to have_output Aruba::Utils.unescape(expected)
+  end
 end
 
 # "the output should match" allows regex in the partial_output, if
 # you don't need regex, use "the output should contain" instead since
 # that way, you don't have to escape regex characters that
 # appear naturally in the output
-Then /^the output should match \/([^\/]*)\/$/ do |expected|
-  assert_matching_output(expected, all_output)
+Then /^the output should( not)? match \/([^\/]*)\/$/ do |negated, expected|
+  if negated
+    expect(all_commands).not_to include have_output Regexp.new(expected)
+  else
+    expect(all_commands).to include have_output Regexp.new(expected)
+  end
 end
 
-Then /^the output should match %r<([^>]*)>$/ do |expected|
-  assert_matching_output(expected, all_output)
+Then /^the output should( not)? match %r<([^>]*)>$/ do |negated, expected|
+  if negated
+    expect(all_commands).not_to include have_output Regexp.new(expected)
+  else
+    expect(all_commands).to include have_output Regexp.new(expected)
+  end
 end
 
-Then /^the output should match:$/ do |expected|
-  assert_matching_output(expected, all_output)
+Then /^the output should( not)? match:$/ do |negated, expected|
+  if negated
+    expect(all_commands).not_to include have_output Regexp.new(expected)
+  else
+    expect(all_commands).to include have_output Regexp.new(expected)
+  end
 end
 
-# The previous two steps antagonists
-Then /^the output should not match \/([^\/]*)\/$/ do |expected|
-  assert_not_matching_output(expected, all_output)
+Then /^the exit (?:status|code) should( not)? be (\d+)$/ do |negated, exit_status|
+  if negated
+    expect(last_command_stopped).not_to have_exit_status exit_status.to_i
+  else
+    expect(last_command_stopped).to have_exit_status exit_status.to_i
+  end
 end
 
-Then /^the output should not match:$/ do |expected|
-  assert_not_matching_output(expected, all_output)
-end
-
-Then /^the exit (?:status|code) should be (\d+)$/ do |exit_status|
-  assert_exit_status(exit_status.to_i)
-end
-
-Then /^the exit (?:status|code) not be (\d+)$/ do |exit_status|
-  assert_not_exit_status(exit_status.to_i)
+Then /^it should (pass|fail) with "(.*?)"$/ do |pass_fail, partial_output|
+  if pass_fail == 'pass'
+    expect(last_command_stopped).to be_successfully_executed
+    expect(last_command_stopped).to have_content Regexp.new(Regexp.escape(Aruba::Utils.unescape(expected)))
+  else
+    expect(last_command_stopped).not_to be_successfully_executed
+    expect(last_command_stopped).to have_content Regexp.new(Regexp.escape(Aruba::Utils.unescape(expected)))
+  end
 end
 
 Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
-  self.__send__("assert_#{pass_fail}ing_with", partial_output)
+  if pass_fail == 'pass'
+    expect(last_command_stopped).to be_successfully_executed
+    expect(last_command_stopped).to have_content Regexp.new(Regexp.escape(Aruba::Utils.unescape(expected)))
+  else
+    expect(last_command_stopped).not_to be_successfully_executed
+    expect(last_command_stopped).to have_content Regexp.new(Regexp.escape(Aruba::Utils.unescape(expected)))
+  end
 end
 
 Then /^it should (pass|fail) with exactly:$/ do |pass_fail, exact_output|
-  assert_exit_status_and_output(pass_fail == "pass", exact_output, true)
+  if pass_fail == 'pass'
+    expect(last_command_stopped).to be_successfully_executed
+    expect(last_command_stopped).to have_content Aruba::Utils.unescape(expected)
+  else
+    expect(last_command_stopped).not_to be_successfully_executed
+    expect(last_command_stopped).to have_content Aruba::Utils.unescape(expected)
+  end
 end
 
 Then /^it should (pass|fail) with regexp?:$/ do |pass_fail, expected|
-  assert_matching_output(expected, all_output)
-  assert_success(pass_fail == 'pass')
+  if pass_fail == 'pass'
+    expect(last_command_stopped).to be_successfully_executed
+    expect(last_command_stopped).to have_content Regexp.new(expected)
+  else
+    expect(last_command_stopped).not_to be_successfully_executed
+    expect(last_command_stopped).to have_content Regexp.new(expected)
+  end
 end
 
 ## the stderr should contain "hello"
