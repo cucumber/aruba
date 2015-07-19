@@ -6,7 +6,6 @@ Feature: Configure timeout for command execution
 
   Background:
     Given I use the fixture "cli-app"
-    And the default feature-test
 
   Scenario: Default value
     Given a file named "features/support/aruba.rb" with:
@@ -33,6 +32,7 @@ Feature: Configure timeout for command execution
       config.exit_timeout = 2
     end
     """
+    And the default feature-test
     Then I successfully run `cucumber`
 
   Scenario: Fails if takes longer
@@ -47,5 +47,6 @@ Feature: Configure timeout for command execution
       config.exit_timeout = 1
     end
     """
+    And the default feature-test
     Then I run `cucumber`
     And the exit status should be 1

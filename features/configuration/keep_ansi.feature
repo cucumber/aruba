@@ -6,7 +6,6 @@ Feature: Configure if ansi color codes should be stripped off from command outpu
 
   Background:
     Given I use the fixture "cli-app"
-    And the default feature-test
 
   Scenario: Default value
     Given a file named "features/support/aruba.rb" with:

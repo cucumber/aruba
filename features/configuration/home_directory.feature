@@ -11,7 +11,6 @@ Feature: Configure the home directory to be used with aruba
 
   Background:
     Given I use the fixture "cli-app"
-    And the default feature-test
 
   Scenario: Default value
     Given a file named "features/support/aruba.rb" with:
