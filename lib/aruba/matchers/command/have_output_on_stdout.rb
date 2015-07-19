@@ -27,4 +27,3 @@ RSpec::Matchers.define :have_output_on_stdout do |expected|
 
   description { "have output on stdout: #{description_of expected}" }
 end
-

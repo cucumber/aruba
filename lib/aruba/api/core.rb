@@ -55,7 +55,6 @@ module Aruba
             aruba.current_directory << dir
             announcer.announce :directory, expand_path(dir)
 
-
             old_dir    = Aruba.platform.getwd
             old_oldpwd = ENV['OLDPWD']
             old_pwd    = ENV['PWD']

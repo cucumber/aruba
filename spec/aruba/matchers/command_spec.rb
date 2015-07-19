@@ -109,7 +109,7 @@ RSpec.describe 'Command Matchers' do
       before :each do
         File.write expand_path('cmd.sh'), <<-EOS.strip_heredoc
         #!/usr/bin/env bash
-         
+
         echo $* >&2
         EOS
 
