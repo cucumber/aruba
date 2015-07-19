@@ -9,9 +9,17 @@ module Aruba
         mode == :debug || (mode.is_a?(Class) && mode <= DebugProcess)
       end
 
+      # @deprecated
+      # @private
+      def run!
+        Aruba::Platform.deprecated('The use of "command#run!" is deprecated. You can simply use "command#start" instead.')
+
+        start
+      end
+
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
-      def run!
+      def start
         # rubocop:disable  Metrics/LineLength
         fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) unless which(command)
         # rubocop:enable  Metrics/LineLength

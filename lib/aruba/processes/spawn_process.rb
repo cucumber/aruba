@@ -37,6 +37,14 @@ module Aruba
         @error_cache  = nil
       end
 
+      # @deprecated
+      # @private
+      def run!
+        Aruba::Platform.deprecated('The use of "command#run!" is deprecated. You can simply use "command#start" instead.')
+
+        start
+      end
+
       # Run the command
       #
       # @yield [SpawnProcess]
@@ -44,7 +52,7 @@ module Aruba
       #
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
-      def run!
+      def start
         # gather fully qualified path
         cmd = which(command)
         # rubocop:disable  Metrics/LineLength
@@ -105,11 +113,15 @@ module Aruba
       end
 
       def write(input)
+        return if @process.nil?
+
         @process.io.stdin.write(input)
         @process.io.stdin.flush
       end
 
       def close_io(name)
+        return if @process.nil?
+
         if RUBY_VERSION < '1.9'
           @process.io.send(name.to_sym).close
         else
