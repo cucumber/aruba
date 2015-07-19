@@ -27,7 +27,7 @@ RSpec::Matchers.define :have_file_size do |expected|
     next false unless file?(actual)
 
     @old_actual = actual
-    @actual = File.size(expand_path(actual))
+    @actual = file_size(actual)
     @expected = expected.to_i
 
     values_match?(@expected, @actual)
