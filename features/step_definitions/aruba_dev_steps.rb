@@ -79,14 +79,14 @@ Then /^the spec(?:s)? should( not)?(?: all)? pass with:$/ do |negated, string|
 end
 
 Given(/^the default executable$/) do
-    step 'an executable named "bin/cli" with:', <<-EOS
+  step 'an executable named "bin/cli" with:', <<-EOS
 #!/usr/bin/env ruby
 
 $LOAD_PATH << File.expand_path('../../lib', __FILE__)
 require 'cli/app'
 
 exit 0
- EOS
+  EOS
 end
 
 Given(/^the default feature-test$/) do
