@@ -27,5 +27,7 @@ Feature: Configure working directory of aruba
       config.working_directory = 'tmp/cucumber'
     end
     """
+    And the default feature-test
+    And the default executable
     When I successfully run `cucumber`
     Then a directory named "tmp/cucumber" should exist
