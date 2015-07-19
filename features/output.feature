@@ -1,184 +1,54 @@
-Feature: Output
+Feature: All output of commands which were executed
 
   In order to specify expected output
   As a developer using Cucumber
   I want to use the "the output should contain" step
 
-  @posix
-  Scenario: Detect subset of one-line output
-    When I run `printf 'hello world'`
-    Then the output should contain "hello world"
+  Background:
+    Given I use a fixture named "cli-app"
 
-  Scenario: Detect absence of one-line output
-    When I run `printf "hello world"`
-    Then the output should not contain "good-bye"
+    @wip
+    @debug
+  Scenario: Detect output from all processes normal and interactive ones
+    Given an executable named "bin/cli1" with:
+    """
+    #!/usr/bin/env ruby
 
-  Scenario: Detect subset of multiline output
-    When I run `printf "hello\nworld"`
-    Then the output should contain:
-      """
-      hello
-      """
+    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
+    require 'cli/app'
 
-  Scenario: Detect absence of multiline output
-    When I run `printf "hello\nworld"`
-    Then the output should not contain:
-      """
-      good-bye
-      """
+    puts 'This is cli1'
+    """
+    And an executable named "bin/cli2" with:
+    """
+    #!/usr/bin/env ruby
 
-  @posix
-  Scenario: Detect exact one-line output
-    When I run `printf "hello world"`
-    Then the output should contain exactly:
-      """
-      hello world
-      """
+    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
+    require 'cli/app'
+    while input = gets do
+      break if input == ""
+      puts input
+    end
+    """
+    And a file named "features/output.feature" with:
+    """
+    @debug
+    Feature: Run command
+      Scenario: Run command
+        When I run `cli1`
+        When I run `cli2` interactively
+        And I type "This is cli2"
+        And I type ""
+        Then the stdout should contain exactly:
+        \"\"\"
+        This is cli1
+        This is cli2
 
-  @ansi
-  @posix
-  Scenario: Detect exact one-line output with ANSI output
-    When I run `printf "\e[36mhello world\e[0m"`
-    Then the output should contain exactly:
-      """
-      \e[36mhello world\e[0m
-      """
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
 
-  @posix
-  Scenario: Detect exact one-line output with ANSI output stripped by default
-    When I run `printf "\e[36mhello world\e[0m"`
-    Then the output should contain exactly:
-      """
-      hello world
-      """
-
-  @posix
-  Scenario: Detect exact multiline output
-    When I run `printf "hello\nworld"`
-    Then the output should contain exactly:
-      """
-      hello
-      world
-      """
-
-  @announce
-  Scenario: Detect subset of one-line output with regex
-    When I run `printf "hello, ruby"`
-    Then the output should contain "ruby"
-    And the output should match /^hello(, world)?/
-
-  @announce
-  @posix
-  Scenario: Detect subset of multiline output with regex
-    When I run `printf "hello\nworld\nextra line1\nextra line2\nimportant line"`
-    Then the output should match:
-      """
-      he..o
-      wor.d
-      .*
-      important line
-      """
-
-  @announce
-  Scenario: Negative matching of one-line output with regex
-    When I run `printf "hello, ruby"`
-    Then the output should contain "ruby"
-    And the output should not match /ruby is a better perl$/
-
-  @announce
-  @posix
-  Scenario: Negative matching of multiline output with regex
-    When I run `printf "hello\nworld\nextra line1\nextra line2\nimportant line"`
-    Then the output should not match:
-      """
-      ruby
-      is
-      a
-      .*
-      perl
-      """
-
-  @announce
-  @posix
-  Scenario: Match passing exit status and partial output
-    When I run `printf "hello\nworld"`
-    Then it should pass with:
-      """
-      hello
-      """
-
-  @posix
-  Scenario: Match passing exit status and exact output
-    When I run `printf "hello\nworld"`
-    Then it should pass with exactly:
-      """
-      hello
-      world
-      """
-
-  @announce-stdout
-  Scenario: Match failing exit status and partial output
-    When I run `bash -c '(printf "hello\nworld";exit 99)'`
-    Then it should fail with:
-      """
-      hello
-      """
-
-  @posix
-  Scenario: Match failing exit status and exact output
-    When I run `bash -c '(printf "hello\nworld";exit 99)'`
-    Then it should fail with exactly:
-      """
-      hello
-      world
-      """
-
-  @announce-stdout
-  @posix
-  Scenario: Match failing exit status and output with regex
-    When I run `bash -c '(printf "hello\nworld";exit 99)'`
-    Then it should fail with regex:
-      """
-      hello\s*world
-      """
-
-  @announce-cmd
-  @posix
-  Scenario: Match output in stdout
-    When I run `printf "hello\nworld"`
-    Then the stdout should contain "hello"
-    Then the stderr should not contain "hello"
-
-  @announce
-  Scenario: Match output on several lines
-    When I run `printf 'GET /'`
-    Then the stdout should contain:
-      """
-      GET /
-      """
-
-  @posix
-  Scenario: Match output on several lines using quotes
-    When I run `printf 'GET "/"'`
-    Then the stdout should contain:
-      """
-      GET "/"
-      """
-
-  @posix
-  Scenario: Detect output from all processes
-    When I run `printf "hello world!\n"`
-    And I run `cat` interactively
-    And I type "hola"
-    And I type ""
-    Then the output should contain exactly:
-      """
-      hello world!
-      hola
-
-      """
-
-  @posix
   Scenario: Detect stdout from all processes
     When I run `printf "hello world!\n"`
     And I run `cat` interactively
@@ -192,7 +62,6 @@ Feature: Output
       """
     And the stderr should not contain anything
 
-  @posix
   Scenario: Detect stderr from all processes
     When I run `bash -c 'printf "hello world!\n" >&2'`
     And I run `bash -c 'cat >&2 '` interactively
