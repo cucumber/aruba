@@ -124,6 +124,15 @@ module Aruba
       all_stdout << all_stderr
     end
 
+    # Return all commands
+    #
+    # @return [Array]
+    #   A list of all commands
+    def all_commands
+      processes.collect{ |_, process| process }
+    end
+
+    # Clear list of processes
     def clear
       processes.clear
     end

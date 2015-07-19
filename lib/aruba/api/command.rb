@@ -75,6 +75,14 @@ module Aruba
         process_monitor.output_from(cmd)
       end
 
+      # Return all commands
+      #
+      # @return [Array]
+      #   List of commands
+      def all_commands
+        process_monitor.all_commands
+      end
+
       # Fetch stdout from command
       #
       # @param [String] cmd
