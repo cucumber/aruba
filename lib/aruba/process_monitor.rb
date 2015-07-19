@@ -135,6 +135,8 @@ module Aruba
     # Clear list of processes
     def clear
       processes.clear
+
+      self
     end
   end
 end
