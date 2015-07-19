@@ -1,7 +1,11 @@
 require 'aruba/platform'
+
 require 'aruba/extensions/string/strip'
 require 'aruba/creators/aruba_file_creator'
 require 'aruba/creators/aruba_fixed_size_file_creator'
+
+require 'aruba/disk_usage_calculator'
+require 'aruba/aruba_path'
 
 Aruba::Platform.require_matching_files('../matchers/file/*.rb', __FILE__)
 Aruba::Platform.require_matching_files('../matchers/directory/*.rb', __FILE__)
@@ -299,6 +303,27 @@ module Aruba
         content = read(file).join("\n")
 
         yield(content)
+      end
+
+      # Calculate disk usage for file(s) and/or directories
+      #
+      # It shows the disk usage for a single file/directory. If multiple paths
+      # are given, it sum their size up.
+      #
+      # @param [Array, Path] paths
+      #   The paths
+      #
+      # @result [FileSize]
+      #   Bytes on disk
+      def disk_usage(*paths)
+        size = paths.flatten.map do |p|
+          DiskUsageCalculator.new.calc(
+            ArubaPath.new(expand_path(p)).blocks,
+            aruba.config.physical_block_size
+          )
+        end.inject(0, &:+)
+
+        FileSize.new(size)
       end
     end
   end
