@@ -20,28 +20,16 @@ module Aruba
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
       def start
-        # rubocop:disable  Metrics/LineLength
-        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) unless which(command)
-        # rubocop:enable  Metrics/LineLength
-
-        if RUBY_VERSION < '1.9'
-          begin
-            old_env = ENV.to_hash.dup
-            ENV.update environment
-
-            Dir.chdir @working_directory do
-              @exit_status = system(@cmd) ? 0 : 1
-            end
-          ensure
-            ENV.clear
-            ENV.update old_env
-          end
-        elsif RUBY_VERSION < '2'
+        if RUBY_VERSION < '2'
           Dir.chdir @working_directory do
-            @exit_status = system(environment, @cmd) ? 0 : 1
+            with_local_env(environment) do
+              @exit_status = system(command, *arguments) ? 0 : 1
+            end
           end
         else
-          @exit_status = system(environment, @cmd, :chdir => @working_directory) ? 0 : 1
+          with_local_env(environment) do
+            @exit_status = system(command, *arguments, :chdir => @working_directory) ? 0 : 1
+          end
         end
       end
       # rubocop:enable Metrics/CyclomaticComplexity
