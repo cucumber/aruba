@@ -6,6 +6,7 @@ RSpec.describe 'Command Environment' do
   around do |example|
     old_env = ENV.to_h
     example.run
+    ENV.clear
     ENV.update(old_env)
   end
 
@@ -17,7 +18,7 @@ RSpec.describe 'Command Environment' do
 
       context 'when set single' do
         before :each do
-          @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', '1'
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
           @aruba.restore_env
         end
 
@@ -26,9 +27,9 @@ RSpec.describe 'Command Environment' do
 
       context 'when set multiple times' do
         before :each do
-          @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', '1'
-          @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', '2'
-          @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', '3'
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '2'
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '3'
           @aruba.restore_env
         end
 
@@ -43,7 +44,7 @@ RSpec.describe 'Command Environment' do
 
       context 'when set single time' do
         before :each do
-          @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', '1'
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
           @aruba.restore_env
         end
 
@@ -52,9 +53,9 @@ RSpec.describe 'Command Environment' do
 
       context 'when set multiple times' do
         before :each do
-          @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', '1'
-          @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', '2'
-          @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', '3'
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '2'
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '3'
           @aruba.restore_env
         end
 

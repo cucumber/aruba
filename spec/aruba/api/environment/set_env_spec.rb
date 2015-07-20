@@ -6,6 +6,7 @@ RSpec.describe 'Command Environment' do
   around do |example|
     old_env = ENV.to_h
     example.run
+    ENV.clear
     ENV.update(old_env)
   end
 
