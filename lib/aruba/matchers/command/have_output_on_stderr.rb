@@ -11,7 +11,7 @@
 #   @example Use matcher
 #
 #     RSpec.describe do
-#       it { expect(last_command).to have_output_on_stderr }
+#       it { expect(last_command_started).to have_output_on_stderr }
 #     end
 RSpec::Matchers.define :have_output_on_stderr do |expected|
   match do |actual|

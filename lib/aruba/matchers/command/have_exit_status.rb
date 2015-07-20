@@ -14,7 +14,7 @@
 #   @example Use matcher
 #
 #     RSpec.describe do
-#       it { expect(last_command).to have_exit_status(0) }
+#       it { expect(last_command_started).to have_exit_status(0) }
 #     end
 RSpec::Matchers.define :have_exit_status do |expected|
   match do |actual|

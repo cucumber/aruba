@@ -75,9 +75,9 @@ module Aruba
 
       # @deprecated
       def _read_interactive
-        Aruba.platform.deprecated('The use of "#_read_interactive" is deprecated. Please use "last_command.stdout" instead')
+        Aruba.platform.deprecated('The use of "#_read_interactive" is deprecated. Please use "last_command_started.stdout" instead')
 
-        last_command.stdout
+        last_command_started.stdout
       end
 
       # @deprecated
@@ -93,9 +93,9 @@ module Aruba
 
       # @deprecated
       def _write_interactive(input)
-        Aruba.platform.deprecated('The use of "#_write_interactive" is deprecated. Please use "#last_command.write()" instead')
+        Aruba.platform.deprecated('The use of "#_write_interactive" is deprecated. Please use "#last_command_started.write()" instead')
 
-        last_command.write(input)
+        last_command_started.write(input)
       end
 
       # @deprecated
@@ -534,7 +534,7 @@ module Aruba
 
       # Last command started
       def last_command
-        Aruba::Platform.deprecated('The use of "#last_command" is deprecated. Use "#last_command_started"')
+        Aruba.platform.deprecated('The use of "#last_command" is deprecated. Use "#last_command_started"')
 
         process_monitor.last_command
       end

@@ -22,7 +22,7 @@ Feature: Append environment variable
       before(:each) { append_environment_variable 'LONG_LONG_VARIABLE', 'a' }
       before(:each) { run('env') }
 
-      it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=a' }
+      it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=a' }
     end
     """
     When I run `rspec`
@@ -38,7 +38,7 @@ Feature: Append environment variable
       before(:each) { append_environment_variable 'LONG_LONG_VARIABLE', 'b' }
       before(:each) { run('env') }
 
-      it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=ab' }
+      it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=ab' }
     end
     """
     When I run `rspec`
@@ -56,7 +56,7 @@ Feature: Append environment variable
       before(:each) { append_environment_variable 'REALLY_LONG_LONG_VARIABLE', 'b' }
       before(:each) { run('env') }
 
-      it { expect(last_command.output).to include 'REALLY_LONG_LONG_VARIABLE=ab' }
+      it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=ab' }
 
       # Has no effect here, is not in block and not a command `run`
       it { expect(ENV['REALLY_LONG_LONG_VARIABLE']).to eq 'a' }

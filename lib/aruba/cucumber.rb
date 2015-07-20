@@ -200,8 +200,8 @@ When /^I stop the last command if (?:output|stdout) contains:$/ do |expected|
   begin
     Timeout.timeout(exit_timeout) do
       loop do
-        if Aruba::Utils.unescape(last_command.output).include? Aruba::Utils.unescape(expected)
-          last_command.terminate
+        if Aruba::Utils.unescape(last_command_started.output).include? Aruba::Utils.unescape(expected)
+          last_command_started.terminate
           break
         end
 
@@ -209,10 +209,10 @@ When /^I stop the last command if (?:output|stdout) contains:$/ do |expected|
       end
     end
   rescue ChildProcess::TimeoutError, TimeoutError
-    last_command.terminate
+    last_command_started.terminate
   ensure
-    announcer.stdout last_command.stdout
-    announcer.stderr last_command.stderr
+    announcer.stdout last_command_started.stdout
+    announcer.stderr last_command_started.stderr
   end
 end
 
@@ -220,7 +220,7 @@ When /^I wait for (?:output|stdout) to contain:$/ do |expected|
   Timeout.timeout(exit_timeout) do
     loop do
       begin
-        expect(last_command).to have_output Regexp.new(Aruba::Platform.unescape(expected, aruba.config.keep_ansi))
+        expect(last_command_started).to have_output Regexp.new(Aruba::Platform.unescape(expected, aruba.config.keep_ansi))
       rescue ExpectationError
         sleep 0.1
         retry
@@ -235,7 +235,7 @@ When /^I wait for (?:output|stdout) to contain "([^"]*)"$/ do |expected|
   Timeout.timeout(exit_timeout) do
     loop do
       begin
-        expect(last_command).to have_output Regexp.new(Aruba::Platform.unescape(expected, aruba.config.keep_ansi))
+        expect(last_command_started).to have_output Regexp.new(Aruba::Platform.unescape(expected, aruba.config.keep_ansi))
       rescue ExpectationError
         sleep 0.1
         retry

@@ -63,7 +63,7 @@ module Aruba
         file_name = expand_path(file_name)
 
         File.open(file_name, 'r').each_line do |line|
-          last_command.write(line)
+          last_command_started.write(line)
         end
       end
 
@@ -214,7 +214,7 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If output of interactive command includes arg1 return true, otherwise false
       def assert_partial_output_interactive(expected)
-        actual = unescape_text(last_command.stdout)
+        actual = unescape_text(last_command_started.stdout)
         actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
 
         expected = unescape_text(expected)
@@ -248,15 +248,15 @@ module Aruba
       #   If arg1 is false, return true if command failed
       def assert_success(success)
         if success
-          expect(last_command).to be_successfully_executed
+          expect(last_command_started).to be_successfully_executed
         else
-          expect(last_command).not_to be_successfully_executed
+          expect(last_command_started).not_to be_successfully_executed
         end
       end
 
       # @private
       def assert_exit_status(status)
-        expect(last_command).to have_exit_status(status)
+        expect(last_command_started).to have_exit_status(status)
       end
 
       # @private
@@ -434,12 +434,12 @@ module Aruba
       #   The input for the command
       def type(input)
         return close_input if "" == input
-        last_command.write(input << "\n")
+        last_command_started.write(input << "\n")
       end
 
       # Close stdin
       def close_input
-        last_command.close_io(:stdin)
+        last_command_started.close_io(:stdin)
       end
 
       # Only processes

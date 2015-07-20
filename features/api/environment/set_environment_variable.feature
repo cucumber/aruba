@@ -21,7 +21,7 @@ Feature: Set environment variable via API-method
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
       before(:each) { run('env') }
 
-      it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=1' }
+      it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=1' }
     end
     """
     When I run `rspec`
@@ -37,7 +37,7 @@ Feature: Set environment variable via API-method
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '2' }
       before(:each) { run('env') }
 
-      it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=2' }
+      it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=2' }
     end
     """
     When I run `rspec`
@@ -56,7 +56,7 @@ Feature: Set environment variable via API-method
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
       before(:each) { run('env') }
 
-      it { expect(last_command.output).to include 'REALLY_LONG_LONG_VARIABLE=2' }
+      it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=2' }
       it { expect(ENV['REALLY_LONG_LONG_VARIABLE']).to eq '1' }
     end
     """
@@ -133,14 +133,14 @@ Feature: Set environment variable via API-method
       describe 'Method XX' do
         before(:each) { run('env') }
 
-        it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=1' }
+        it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=1' }
       end
 
       describe 'Method YY' do
         before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '2' }
         before(:each) { run('env') }
 
-        it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=2' }
+        it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=2' }
       end
     end
     """
@@ -230,7 +230,7 @@ Feature: Set environment variable via API-method
 
         before(:each) { run('env') }
 
-        it { expect(last_command.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
+        it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
       end
 
       context 'when arguments given' do
@@ -244,7 +244,7 @@ Feature: Set environment variable via API-method
 
         before(:each) { run('env') }
 
-        it { expect(last_command.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
+        it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
       end
     end
     """

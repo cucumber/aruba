@@ -16,9 +16,9 @@ require 'aruba/matchers/command/have_finished_in_time'
 #   @example Use matcher
 #
 #     RSpec.describe do
-#       it { expect(last_command).to be_successfully_executed }
-#       it { expect(last_command).not_to be_successfully_executed }
-#       it { expect(last_command).to have_failed_running }
+#       it { expect(last_command_started).to be_successfully_executed }
+#       it { expect(last_command_started).not_to be_successfully_executed }
+#       it { expect(last_command_started).to have_failed_running }
 #     end
 RSpec::Matchers.define :be_successfully_executed do
   match do |actual|

@@ -17,7 +17,7 @@ Feature: Run command
 
     RSpec.describe 'Run command', :type => :aruba do
       before(:each) { run('cli') }
-      it { expect(last_command).to be_successfully_executed }
+      it { expect(last_command_started).to be_successfully_executed }
     end
     """
     When I run `rspec`

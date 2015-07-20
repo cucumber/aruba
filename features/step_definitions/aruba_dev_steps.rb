@@ -103,5 +103,5 @@ end
 
 Then(/^aruba should be installed on the local system$/) do
   run('gem list aruba')
-  expect(last_command).to have_output(/aruba/)
+  expect(last_command_started).to have_output(/aruba/)
 end
