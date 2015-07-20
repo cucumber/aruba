@@ -250,29 +250,31 @@ Then /^the output should be (\d+) bytes long$/ do |size|
   expect(all_output).to have_output_size size.to_i
 end
 
-Then /^the output from "([^"]*)" should( not)? contain "([^"]*)"$/ do |cmd, negated, expected|
-  command = process_monitor.get_process(Platform.detect_ruby(cmd))
+Then /^the output(?: from "([^"]*)")? should( not)? contain "([^"]*)"$/ do |cmd, negated, expected|
+  commands = if cmd
+               [process_monitor.get_process(Platform.detect_ruby(cmd))]
+             else
+               all_commands
+             end
 
   if negated
-    expect(command).not_to have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(commands).not_to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   else
-    expect(command).to have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(commands).to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   end
 end
 
-Then /^the output should( not)? contain "([^"]*)"$/ do |negated, expected|
-  if negated
-    expect(all_commands).not_to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
-  else
-    expect(all_commands).to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
-  end
-end
+Then /^the output(?: from "([^"]*)")? should( not)? contain:$/ do |cmd, negated, expected|
+  commands = if cmd
+               [process_monitor.get_process(Platform.detect_ruby(cmd))]
+             else
+               all_commands
+             end
 
-Then /^the output should( not)? contain:$/ do |negated, expected|
   if negated
-    expect(all_commands).not_to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(commands).not_to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   else
-    expect(all_commands).to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(commands).to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   end
 end
 
