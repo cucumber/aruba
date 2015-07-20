@@ -1,11 +1,16 @@
 module Aruba
   module Platform
     class DetermineDiskUsage
-      def use(paths)
-        size = paths.map do |p|
+      def use(*args)
+        args = args.flatten
+
+        physical_block_size = args.pop
+        paths = args
+
+        size = paths.flatten.map do |p|
           DiskUsageCalculator.new.calc(
             p.blocks,
-            aruba.config.physical_block_size
+            physical_block_size
           )
         end.inject(0, &:+)
 

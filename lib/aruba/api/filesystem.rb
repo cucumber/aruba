@@ -318,9 +318,9 @@ module Aruba
       # @result [FileSize]
       #   Bytes on disk
       def disk_usage(*paths)
-        expect(paths).to all be_an_existing_path
+        expect(paths.flatten).to all be_an_existing_path
 
-        Platform::DetermineDiskUsage.new.use paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }
+        Platform::DetermineDiskUsage.new.use paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }, aruba.config.physical_block_size
       end
 
       # Get size of file
