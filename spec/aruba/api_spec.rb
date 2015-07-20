@@ -698,7 +698,7 @@ describe Aruba::Api  do
       context 'when file_name contains fixtures "%" string' do
         let(:runtime) { instance_double('Aruba::Runtime') }
         let(:config) { double('Aruba::Config') }
-        let(:environment) { instance_double('Aruba::Environment') }
+        let(:environment) { object_double(Aruba::Environment.new) }
 
         let(:klass) do
           Class.new do
