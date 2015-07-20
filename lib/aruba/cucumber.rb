@@ -262,17 +262,17 @@ end
 
 Then /^the output should( not)? contain "([^"]*)"$/ do |negated, expected|
   if negated
-    expect(all_commands).not_to include have_content Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(all_commands).not_to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   else
-    expect(all_commands).to include have_content Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(all_commands).to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   end
 end
 
 Then /^the output should( not)? contain:$/ do |negated, expected|
   if negated
-    expect(all_commands).not_to include have_content Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(all_commands).not_to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   else
-    expect(all_commands).to include have_content Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(all_commands).to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   end
 end
 
@@ -347,40 +347,40 @@ end
 Then /^it should (pass|fail) with "(.*?)"$/ do |pass_fail, partial_output|
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
-    expect(last_command_stopped).to have_content Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(last_command_stopped).to have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   else
     expect(last_command_stopped).not_to be_successfully_executed
-    expect(last_command_stopped).to have_content Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(last_command_stopped).to have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   end
 end
 
 Then /^it should (pass|fail) with:$/ do |pass_fail, partial_output|
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
-    expect(last_command_stopped).to have_content Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(last_command_stopped).to have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   else
     expect(last_command_stopped).not_to be_successfully_executed
-    expect(last_command_stopped).to have_content Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(last_command_stopped).to have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   end
 end
 
 Then /^it should (pass|fail) with exactly:$/ do |pass_fail, exact_output|
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
-    expect(last_command_stopped).to have_content Aruba::Platform.unescape(expected)
+    expect(last_command_stopped).to have_output Aruba::Platform.unescape(expected)
   else
     expect(last_command_stopped).not_to be_successfully_executed
-    expect(last_command_stopped).to have_content Aruba::Platform.unescape(expected)
+    expect(last_command_stopped).to have_output Aruba::Platform.unescape(expected)
   end
 end
 
 Then /^it should (pass|fail) with regexp?:$/ do |pass_fail, expected|
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
-    expect(last_command_stopped).to have_content Regexp.new(expected)
+    expect(last_command_stopped).to have_output Regexp.new(expected)
   else
     expect(last_command_stopped).not_to be_successfully_executed
-    expect(last_command_stopped).to have_content Regexp.new(expected)
+    expect(last_command_stopped).to have_output Regexp.new(expected)
   end
 end
 
