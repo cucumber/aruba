@@ -196,12 +196,21 @@ When /^I pipe in (?:a|the) file(?: named)? "([^"]*)"$/ do |file|
   close_input
 end
 
-When /^I stop the last command if (?:output|stdout) contains:$/ do |expected|
+When /^I stop the command(?: started last)? if (output|stdout|stderr) contains:$/ do |channel, expected|
+  fail %(Invalid output channel "#{channel}" chosen. Please choose one of "output, stdout or stderr") unless %w(output stdout stderr).include? channel
+
   begin
     Timeout.timeout(exit_timeout) do
       loop do
-        if Aruba::Platform.unescape(last_command_started.output).include? Aruba::Platform.unescape(expected)
+        output = if RUBY_VERSION < '1.9.3'
+                   last_command_started.send channel.to_sym
+                 else
+                   last_command_started.public_send channel.to_sym
+                 end
+
+        if Aruba::Platform.unescape(output).include? Aruba::Platform.unescape(expected)
           last_command_started.terminate
+
           break
         end
 
@@ -211,8 +220,8 @@ When /^I stop the last command if (?:output|stdout) contains:$/ do |expected|
   rescue ChildProcess::TimeoutError, TimeoutError
     last_command_started.terminate
   ensure
-    announcer.stdout last_command_started.stdout
-    announcer.stderr last_command_started.stderr
+    announcer.announce :stdout, last_command_started.stdout
+    announcer.announce :stderr, last_command_started.stderr
   end
 end
 
@@ -252,7 +261,7 @@ end
 
 Then /^the output(?: from "([^"]*)")? should( not)? contain "([^"]*)"$/ do |cmd, negated, expected|
   commands = if cmd
-               [process_monitor.get_process(Platform.detect_ruby(cmd))]
+               [process_monitor.get_process(Aruba::Platform.detect_ruby(cmd))]
              else
                all_commands
              end
@@ -266,7 +275,7 @@ end
 
 Then /^the output(?: from "([^"]*)")? should( not)? contain:$/ do |cmd, negated, expected|
   commands = if cmd
-               [process_monitor.get_process(Platform.detect_ruby(cmd))]
+               [process_monitor.get_process(Aruba::Platform.detect_ruby(cmd))]
              else
                all_commands
              end
@@ -282,7 +291,7 @@ end
 ## the output from `echo -n "Hello"` should contain exactly "Hello"
 Then /^the output(?: from "(.*?)")? should( not)? contain exactly "(.*?)"$/ do |cmd, negated, expected|
   commands = if cmd
-               [process_monitor.get_process(Platform.detect_ruby(cmd))]
+               [process_monitor.get_process(Aruba::Platform.detect_ruby(cmd))]
              else
                all_commands
              end
@@ -298,7 +307,7 @@ end
 ## the output from `echo -n "Hello"` should contain exactly:
 Then /^the output(?: from "(.*?)")? should( not)? contain exactly:$/ do |cmd, negated, expected|
   commands = if cmd
-               [process_monitor.get_process(Platform.detect_ruby(cmd))]
+               [process_monitor.get_process(Aruba::Platform.detect_ruby(cmd))]
              else
                all_commands
              end

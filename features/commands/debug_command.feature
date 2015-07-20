@@ -75,7 +75,7 @@ Feature: Debug your command in cucumber-test-run
         Then the exit status should be 0
     """
     When I run `cucumber` interactively
-    And I stop the command if output contains:
+    And I stop the command started last if output contains:
     """
     pry
     """
