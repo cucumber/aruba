@@ -148,7 +148,17 @@ end
 # end
 
 Before('@ansi') do
-  @aruba_keep_ansi = true
+  aruba_scope do
+    if defined? @aruba_keep_ansi
+      # rubocop:disable Metrics/LineLength
+      Aruba::Platform.deprecated('The use of "@aruba_keep_ansi" is deprecated. Use "Aruba.configure do |config| config.keep_ansi = true" or "aruba.config.keep_ansi" instead')
+      # rubocop:enable Metrics/LineLength
+
+      aruba.config.keep_ansi = true
+    else
+      aruba.config.keep_ansi = false
+    end
+  end
 end
 
 Before '@mocked_home_directory' do
