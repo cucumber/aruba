@@ -320,7 +320,7 @@ module Aruba
       def disk_usage(*paths)
         expect(paths).to all be_an_existing_path
 
-        DetermineDiskUsage.new.use paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }
+        Platform::DetermineDiskUsage.new.use paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }
       end
 
       # Get size of file
@@ -330,7 +330,7 @@ module Aruba
       def file_size(name)
         expect(name).to be_an_existing_file
 
-        DetermineFileSize.new.use expand_path(name)
+        Platform::DetermineFileSize.new.use expand_path(name)
       end
     end
   end
