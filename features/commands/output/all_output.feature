@@ -61,7 +61,6 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-    @debug
   Scenario: Detect absence of subset of multiline output
     Given a file named "bin/cli" with:
     """
@@ -82,7 +81,7 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-    @posix
+  @posix
   Scenario: Detect exact one-line output for posix commands
     Given a file named "features/output.feature" with:
     """
@@ -120,12 +119,6 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-    When I run `printf "\e[36mhello world\e[0m"`
-    Then the output should contain exactly:
-      """
-      """
-
-  @ansi
   Scenario: Detect exact one-line output with ANSI output
     Given a file named "bin/cli" with:
     """
@@ -139,6 +132,7 @@ Feature: All output of commands which were executed
     And a file named "features/output.feature" with:
     """
     Feature: Run command
+      @keep-ansi-escape-sequences
       Scenario: Run command
         When I run `cli`
         Then the output should contain exactly:
