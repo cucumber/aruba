@@ -26,7 +26,9 @@ Then /^the following step should fail with Spec::Expectations::ExpectationNotMet
 end
 
 Then /^the output should be (\d+) bytes long$/ do |length|
-  expect(all_output.length).to eq length.to_i
+  aruba_scope do
+    expect(all_output.length).to eq length.to_i
+  end
 end
 
 Then /^the feature(?:s)? should( not)?(?: all)? pass$/ do |negated|

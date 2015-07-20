@@ -45,12 +45,16 @@ Feature: Run commands in ruby process
     require 'aruba/cucumber'
 
     Before('@in-process') do
-      aruba.config.command_launcher = :in_process
-      aruba.config.main_class = Cli::App::Runner
+      aruba_scope do
+        aruba.config.command_launcher = :in_process
+        aruba.config.main_class = Cli::App::Runner
+      end
     end
 
     After('@in-process') do
-      aruba.config.command_launcher = :spawn
+      aruba_scope do
+        aruba.config.command_launcher = :spawn
+      end
     end
     """
 
@@ -207,12 +211,16 @@ Feature: Run commands in ruby process
     require 'aruba/processes/in_process'
 
     Before('@in-process') do
-      Aruba.process = Aruba::Processes::InProcess
-      Aruba.process.main_class = Cli::App::Runner
+      aruba_scope do
+        Aruba.process = Aruba::Processes::InProcess
+        Aruba.process.main_class = Cli::App::Runner
+      end
     end
 
     After('@in-process') do
-      Aruba.process = Aruba::Processes::SpawnProcess
+      aruba_scope do
+        Aruba.process = Aruba::Processes::SpawnProcess
+      end
     end
     """
     Given a file named "lib/cli/app/runner.rb" with:

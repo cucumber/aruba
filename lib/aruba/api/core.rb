@@ -1,4 +1,5 @@
 require 'rspec/expectations'
+
 require 'aruba/announcer'
 require 'aruba/runtime'
 require 'aruba/errors'
