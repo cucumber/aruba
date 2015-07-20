@@ -119,7 +119,9 @@ end
 # end
 
 Before('@ansi') do
-  Aruba.platform.deprecated('The use of "@ansi" is deprecated. Use "@keep-ansi-escape-sequences" instead')
+  # rubocop:disable Metrics/LineLength
+  Aruba::Platform.deprecated('The use of "@ansi" is deprecated. Use "@keep-ansi-escape-sequences" instead. But be aware, that this hook uses the aruba configuration and not an instance variable')
+  # rubocop:enable Metrics/LineLength
 
   aruba.config.remove_ansi_escape_sequences = false
 end
