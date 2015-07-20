@@ -1,4 +1,4 @@
-REquire 'spec_helper'
+require 'spec_helper'
 
 RSpec.describe 'Command Matchers' do
   include_context 'uses aruba API'
