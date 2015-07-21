@@ -77,12 +77,23 @@ module Aruba
       # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/CyclomaticComplexity
 
+      # Access to stdout of process
       def stdin
         return if @process.nil?
 
         @process.io.stdin
       end
 
+      # Access to stdout of process
+      #
+      # @param [Hash] opts
+      #   Options
+      #
+      # @option [Integer] wait_for_io
+      #   Wait for IO to be finished
+      #
+      # @return [String]
+      #   The content of stdout
       def stdout(opts = {})
         return @stdout_cache if @process.nil?
 
@@ -94,6 +105,16 @@ module Aruba
         end
       end
 
+      # Access to stderr of process
+      #
+      # @param [Hash] opts
+      #   Options
+      #
+      # @option [Integer] wait_for_io
+      #   Wait for IO to be finished
+      #
+      # @return [String]
+      #   The content of stderr
       def stderr(opts = {})
         return @stderr_cache if @process.nil?
 
