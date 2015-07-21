@@ -434,8 +434,44 @@ Feature: All output of commands which were executed
         Then the stdout should contain exactly:
         \"\"\"
         This is cli1
+        \"\"\"
+        And the stdout should contain exactly:
+        \"\"\"
         This is cli2
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
 
+  Scenario: Detect output from all processes (deprecated)
+    Given an executable named "bin/cli1" with:
+    """
+    #!/usr/bin/env ruby
+
+    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
+    require 'cli/app'
+
+    puts 'This is cli1'
+    """
+    And an executable named "bin/cli2" with:
+    """
+    #!/usr/bin/env ruby
+
+    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
+    require 'cli/app'
+
+    puts 'This is cli2'
+    """
+    And a file named "features/output.feature" with:
+    """
+    Feature: Run command
+      Scenario: Run command
+        When I run `cli1`
+        When I run `cli2`
+        Then the stdout should contain exactly:
+        \"\"\"
+        This is cli1
+        This is cli2
         \"\"\"
     """
     When I run `cucumber`

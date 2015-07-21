@@ -38,7 +38,7 @@ Feature: `include_an_object` Matcher
       end
       """
     When I run `rspec`
-    Then the output should contain all of these:
+    Then the output should contain all of these lines:
       | 8 examples, 4 failures                                      |
       | expected [14, "a"] to include an object be odd              |
       | expected [14, "a"] to include an object be a kind of Symbol |
@@ -65,7 +65,7 @@ Feature: `include_an_object` Matcher
       end
       """
     When I run `rspec`
-    Then the output should contain all of these:
+    Then the output should contain all of these lines:
       | 8 examples, 4 failures                                                                           |
       | expected ["anything", "something"] to include an object be a kind of Integer and include "thing" |
       | expected ["anything", "something"] to include an object be a kind of Integer and end with "z"    |

@@ -1,5 +1,5 @@
 When(/^I run "(.*)"$/) do |cmd|
-  warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
+  Aruba::Platform.deprecated(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
   run_simple(Aruba::Platform.unescape(cmd, aruba.config.keep_ansi), false)
 end
 
@@ -8,7 +8,8 @@ When(/^I run `([^`]*)`$/) do |cmd|
 end
 
 When(/^I successfully run "(.*)"$/) do |cmd|
-  warn(%{\e[35m    The  /^I successfully run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
+  Aruba::Platform.deprecated(%{\e[35m    The  /^I successfully run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
+
   run_simple(Aruba::Platform.unescape(cmd, aruba.config.keep_ansi))
 end
 
@@ -19,7 +20,8 @@ When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/) do |cmd, secs|
 end
 
 When(/^I run "([^"]*)" interactively$/) do |cmd|
-  warn(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the `backticks` version\e[0m})
+  Aruba::Platform.deprecated(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the `backticks` version\e[0m})
+
   step %(I run `#{cmd}` interactively)
 end
 
@@ -126,10 +128,20 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
                Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
              end
 
-  if negated
-    expect(commands).not_to include_an_object send(matcher, expected)
+  if Aruba::VERSION < '1.0'
+    combined_output = commands.map { |c| c.send(channel.to_sym).chomp }.join("\n")
+
+    if negated
+      expect(combined_output).not_to match expected
+    else
+      expect(combined_output).to match expected
+    end
   else
-    expect(commands).to include_an_object send(matcher, expected)
+    if negated
+      expect(commands).not_to include_an_object send(matcher, expected)
+    else
+      expect(commands).to include_an_object send(matcher, expected)
+    end
   end
 end
 
@@ -145,6 +157,8 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
               :have_output_on_stderr
             when :stdout
               :have_output_on_stdout
+            else
+              fail ArgumentError, %(Invalid channel "#{channel}" chosen. Only "output", "stderr" or "stdout" are allowed.)
             end
 
   commands = if cmd
@@ -159,10 +173,20 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
                Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
              end
 
-  if negated
-    expect(commands).not_to include_an_object send(matcher, expected)
+  if Aruba::VERSION < '1.0'
+    combined_output = commands.map { |c| c.send(channel.to_sym).chomp }.join("\n")
+
+    if negated
+      expect(combined_output).not_to match expected
+    else
+      expect(combined_output).to match expected
+    end
   else
-    expect(commands).to include_an_object send(matcher, expected)
+    if negated
+      expect(commands).not_to include_an_object send(matcher, expected)
+    else
+      expect(commands).to include_an_object send(matcher, expected)
+    end
   end
 end
 
@@ -249,9 +273,10 @@ Then(/^(?:the )?(output|stderr|stdout) should not contain anything$/) do |channe
             when :stderr
               :have_output_on_stderr
             when :stdout
-              :have_output_on_stderr
+              :have_output_on_stdout
             end
-  expect(all_commands).to all send(matcher, be_nil.or(be_empty))
+
+  expect(all_commands).to include_an_object send(matcher, be_nil.or(be_empty))
 end
 
 Then(/^(?:the )?(output|stdout|stderr) should contain all of these lines:$/) do |channel, table|

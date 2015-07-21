@@ -8,7 +8,6 @@ Feature: All output of commands which were executed
     Given I use a fixture named "cli-app"
 
     @wip
-    @debug
   Scenario: Detect output from all processes normal and interactive ones
     Given an executable named "bin/cli1" with:
     """
@@ -43,7 +42,6 @@ Feature: All output of commands which were executed
         \"\"\"
         This is cli1
         This is cli2
-
         \"\"\"
     """
     When I run `cucumber`
@@ -57,8 +55,10 @@ Feature: All output of commands which were executed
     Then the stdout should contain:
       """
       hello world!
+      """
+    And the stdout should contain:
+      """
       hola
-
       """
     And the stderr should not contain anything
 
@@ -68,10 +68,25 @@ Feature: All output of commands which were executed
     And I type "hola"
     And I type ""
     Then the stderr should contain:
-      """
-      hello world!
-      hola
-      """
+    """
+    hello world!
+    """
+    And the stderr should contain:
+    """
+    hola
+    """
+    And the stdout should not contain anything
+
+  Scenario: Detect stderr from all processes (deprecated)
+    When I run `bash -c 'printf "hello world!\n" >&2'`
+    And I run `bash -c 'cat >&2 '` interactively
+    And I type "hola"
+    And I type ""
+    Then the stderr should contain:
+    """
+    hello world!
+    hola
+    """
     And the stdout should not contain anything
 
   Scenario: Detect output from named source
