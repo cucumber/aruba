@@ -368,6 +368,16 @@
 
 # Upcoming un-released versions
 
+## [v0.10.0](https://github.com/cucumber/aruba/compare/v0.8.1...v0.9.0)
+
+* Redefine #to_s and #inspect for BasicProcess to reduce the sheer amount of
+  information, if a command produces a lot of output
+* Added new matcher to check if an object is included + a error message for
+  failures which is similar to the `#all`-matcher of `RSpec`
+* Add `have_output`-, `have_output_on_stderr`, `have_output_on_stdout`-matchers
+* Replace all `assert_*` and `check_*`-methods through expectations
+* Add hook `@announce-output` to output both, stderr and stdout
+
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
 * Support for rubies older than 1.9.3 is discontinued - e.g 1.8.7 and 1.9.2
@@ -419,5 +429,3 @@
       """
     And the stderr should not contain anything
   ```
-
-
