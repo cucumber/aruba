@@ -397,3 +397,27 @@
 * Use different working directories based on test suite - RSpec, Cucumber.
   It's `tmp/rspec` and `tmp/cucumber` now to make sure they do not overwrite
   the test results from each other.
+* The use of `@interactive` is discontinued. You need to use
+  `#last_command_started`-method to get access to the interactively started
+  command.
+* If multiple commands have been started, each output has to be check
+  separately
+
+  ```cucumber
+  Scenario: Detect stdout from all processes
+    When I run `printf "hello world!\n"`
+    And I run `cat` interactively
+    And I type "hola"
+    And I type ""
+    Then the stdout should contain:
+      """
+      hello world!
+      """
+    And the stdout should contain:
+      """
+      hola
+      """
+    And the stderr should not contain anything
+  ```
+
+
