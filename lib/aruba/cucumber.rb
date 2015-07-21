@@ -267,9 +267,9 @@ Then /^the output(?: from "([^"]*)")? should( not)? contain "([^"]*)"$/ do |cmd,
              end
 
   if negated
-    expect(commands).not_to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(commands).not_to include_an_object have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   else
-    expect(commands).to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(commands).to include_an_object have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   end
 end
 
@@ -281,9 +281,9 @@ Then /^the output(?: from "([^"]*)")? should( not)? contain:$/ do |cmd, negated,
              end
 
   if negated
-    expect(commands).not_to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(commands).not_to include_an_object have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   else
-    expect(commands).to include have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(commands).to include_an_object have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
   end
 end
 
@@ -297,9 +297,9 @@ Then /^the output(?: from "(.*?)")? should( not)? contain exactly "(.*?)"$/ do |
              end
 
   if negated
-    expect(commands).not_to include have_output Aruba::Platform.unescape(expected)
+    expect(commands).not_to include_an_object have_output Aruba::Platform.unescape(expected)
   else
-    expect(commands).to include have_output Aruba::Platform.unescape(expected)
+    expect(commands).to include_an_object have_output Aruba::Platform.unescape(expected)
   end
 end
 
@@ -313,9 +313,9 @@ Then /^the output(?: from "(.*?)")? should( not)? contain exactly:$/ do |cmd, ne
              end
 
   if negated
-    expect(commands).not_to include have_output Aruba::Platform.unescape(expected)
+    expect(commands).not_to include_an_object have_output Aruba::Platform.unescape(expected)
   else
-    expect(commands).to include have_output Aruba::Platform.unescape(expected)
+    expect(commands).to include_an_object have_output Aruba::Platform.unescape(expected)
   end
 end
 
@@ -325,25 +325,25 @@ end
 # appear naturally in the output
 Then /^the output should( not)? match \/([^\/]*)\/$/ do |negated, expected|
   if negated
-    expect(all_commands).not_to include have_output Regexp.new(expected, Regexp::MULTILINE)
+    expect(all_commands).not_to include_an_object have_output Regexp.new(expected, Regexp::MULTILINE)
   else
-    expect(all_commands).to include have_output Regexp.new(expected, Regexp::MULTILINE)
+    expect(all_commands).to include_an_object have_output Regexp.new(expected, Regexp::MULTILINE)
   end
 end
 
 Then /^the output should( not)? match %r<([^>]*)>$/ do |negated, expected|
   if negated
-    expect(all_commands).not_to include have_output Regexp.new(expected, Regexp::MULTILINE)
+    expect(all_commands).not_to include_an_object have_output Regexp.new(expected, Regexp::MULTILINE)
   else
-    expect(all_commands).to include have_output Regexp.new(expected, Regexp::MULTILINE)
+    expect(all_commands).to include_an_object have_output Regexp.new(expected, Regexp::MULTILINE)
   end
 end
 
 Then /^the output should( not)? match:$/ do |negated, expected|
   if negated
-    expect(all_commands).not_to include have_output Regexp.new(expected, Regexp::MULTILINE)
+    expect(all_commands).not_to include_an_object have_output Regexp.new(expected, Regexp::MULTILINE)
   else
-    expect(all_commands).to include have_output Regexp.new(expected, Regexp::MULTILINE)
+    expect(all_commands).to include_an_object have_output Regexp.new(expected, Regexp::MULTILINE)
   end
 end
 
@@ -585,5 +585,19 @@ Then /^the (?:file|directory)(?: named)? "([^"]*)" should have permissions "([^"
     expect(path).not_to have_permissions(permissions)
   else
     expect(path).to have_permissions(permissions)
+  end
+end
+
+Then /^(?:the )?(output|stdout|stderr) should contain all of these:$/ do |channel, table|
+  table.raw.flatten.each do |string|
+    if channel == 'output'
+      expect(all_commands).to include_an_object have_output Regexp.new(Regexp.escape(string))
+    elsif  channel == 'stdout'
+      expect(all_commands).to include_an_object have_output_on_stdout Regexp.new(Regexp.escape(string))
+    elsif  channel == 'stderr'
+      expect(all_commands).to include_an_object have_output_on_stderr Regexp.new(Regexp.escape(string))
+    else
+      fail ArgumentError, %(Invalid channel "#{channel}" chosen. Only "output", "stdout" and "stderr" are supported.)
+    end
   end
 end
