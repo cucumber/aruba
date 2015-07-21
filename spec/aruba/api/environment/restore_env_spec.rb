@@ -4,7 +4,7 @@ RSpec.describe 'Command Environment' do
   include_context 'uses aruba API'
 
   around do |example|
-    old_env = ENV.to_h
+    old_env = ENV.to_hash
     example.run
     ENV.clear
     ENV.update(old_env)

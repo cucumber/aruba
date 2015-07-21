@@ -72,11 +72,13 @@ RSpec.describe 'Command Matchers' do
 
     context 'when have output hello world on stderr' do
       before :each do
-        File.write expand_path('cmd.sh'), <<-EOS.strip_heredoc
+        string = <<-EOS.strip_heredoc
         #!/usr/bin/env bash
 
         echo $* >&2
         EOS
+
+        File.open(expand_path('cmd.sh'), 'w') { |f| f.puts string }
 
         File.chmod 0755, expand_path('cmd.sh')
         prepend_environment_variable 'PATH', "#{expand_path('.')}:"
@@ -107,11 +109,13 @@ RSpec.describe 'Command Matchers' do
 
     context 'when have output hello world on stderr' do
       before :each do
-        File.write expand_path('cmd.sh'), <<-EOS.strip_heredoc
+        string = <<-EOS.strip_heredoc
         #!/usr/bin/env bash
 
         echo $* >&2
         EOS
+
+        File.open(expand_path('cmd.sh'), 'w') { |f| f.puts string }
 
         File.chmod 0755, expand_path('cmd.sh')
         prepend_environment_variable 'PATH', "#{expand_path('.')}:"
@@ -142,11 +146,13 @@ RSpec.describe 'Command Matchers' do
 
     context 'when have output hello world on stderr' do
       before :each do
-        File.write expand_path('cmd.sh'), <<-EOS.strip_heredoc
+        string = <<-EOS.strip_heredoc
         #!/usr/bin/env bash
 
         echo $* >&2
         EOS
+
+        File.open(expand_path('cmd.sh'), 'w') { |f| f.puts string }
 
         File.chmod 0755, expand_path('cmd.sh')
         prepend_environment_variable 'PATH', "#{expand_path('.')}:"

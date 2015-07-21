@@ -14,7 +14,7 @@ RSpec.describe 'Filesystem Api' do
 
     context 'when file exist' do
       before :each do
-        File.write(path, 'a')
+        File.open(path, 'w') { |f| f.print 'a' }
       end
 
       it { expect(size).to eq 1 }
