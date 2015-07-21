@@ -123,9 +123,9 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
              end
 
   expected = if exactly
-               Aruba::Platform.unescape(expected)
+               Aruba::Platform.unescape(expected.chomp)
              else
-               Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+               Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected.chomp)))
              end
 
   if Aruba::VERSION < '1.0'
@@ -168,9 +168,9 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
              end
 
   expected = if exactly
-               Aruba::Platform.unescape(expected)
+               Aruba::Platform.unescape(expected.chomp)
              else
-               Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+               Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected.chomp)))
              end
 
   if Aruba::VERSION < '1.0'

@@ -21,7 +21,7 @@ Given(/^(?:an|the) executable(?: named)? "([^"]*)" with:$/) do |file_name, file_
 end
 
 Given(/^(?:a|the) file(?: named)? "([^"]*)" with "([^"]*)"$/) do |file_name, file_content|
-  write_file(file_name, file_content)
+  write_file(file_name, Aruba::Platform.unescape(file_content))
 end
 
 Given(/^(?:a|the) file(?: named)? "([^"]*)" with mode "([^"]*)" and with:$/) do |file_name, file_mode, file_content|
@@ -132,9 +132,9 @@ end
 
 Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain "([^"]*)"$/) do |file, negated, content|
   if negated
-    expect(file).not_to have_file_content Regexp.new(Regexp.escape(content))
+    expect(file).not_to have_file_content Regexp.new(Regexp.escape(content.chomp))
   else
-    expect(file).to have_file_content Regexp.new(Regexp.escape(content))
+    expect(file).to have_file_content Regexp.new(Regexp.escape(content.chomp))
   end
 end
 
