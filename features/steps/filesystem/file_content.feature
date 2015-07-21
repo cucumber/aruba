@@ -42,7 +42,7 @@ Feature: Check file content
 
         \"\"\"
     """
-    When I run `cucumber`
+    When I run `cucumber --format progress`
     Then the features should all pass
 
   Scenario: Trailing white space is ignored
