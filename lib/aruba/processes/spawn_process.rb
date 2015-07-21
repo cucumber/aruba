@@ -37,14 +37,6 @@ module Aruba
         @error_cache  = nil
       end
 
-      # @deprecated
-      # @private
-      def run!
-        Aruba::Platform.deprecated('The use of "command#run!" is deprecated. You can simply use "command#start" instead.')
-
-        start
-      end
-
       # Run the command
       #
       # @yield [SpawnProcess]

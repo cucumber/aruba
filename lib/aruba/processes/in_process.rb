@@ -29,6 +29,7 @@ module Aruba
         attr_accessor :main_class
       end
 
+      # @private
       attr_reader :main_class
 
       def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil)
@@ -42,7 +43,7 @@ module Aruba
         super
       end
 
-      def run!
+      def start
         fail "You need to call aruba.config.main_class = YourMainClass" unless main_class
 
         Dir.chdir @working_directory do
