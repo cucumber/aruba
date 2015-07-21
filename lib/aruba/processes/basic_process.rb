@@ -68,6 +68,16 @@ module Aruba
       # Hook which is run after command is run
       def after_run; end
 
+      def inspect
+        out = if output.length > 76
+                output[0, 75] + ' ...'
+              else
+                output
+              end
+        format '#<%s:%s commandline="%s": output="%s">', self.class, self.object_id, commandline, out
+      end
+      alias_method :to_s, :inspect
+
       private
 
       def with_local_env(e, &block)
