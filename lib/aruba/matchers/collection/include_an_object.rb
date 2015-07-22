@@ -1,18 +1,36 @@
-require 'rspec/matchers/built_in/all'
+require 'rspec/matchers/built_in/base_matcher'
 
 module Aruba
   module Matchers
     # @api private
-    # Provides the implementation for `all`.
+    # Provides the implementation for `include_an_object`.
     # Not intended to be instantiated directly.
-    class IncludeAnObject < RSpec::Matchers::BuiltIn::All
-      # @private
-      attr_reader :matcher, :failed_objects, :succeeded_objects
+    class IncludeAnObject < ::RSpec::Matchers::BuiltIn::BaseMatcher
+      protected
+
+      attr_reader :matcher, :failed_objects
+      attr_accessor :any_succeeded_object
+
+      public
 
       def initialize(matcher)
-        @matcher           = matcher
-        @failed_objects    = {}
-        @succeeded_objects = {}
+        @matcher              = matcher
+        @failed_objects       = {}
+        @any_succeeded_object = false
+      end
+
+      # @api private
+      # @return [String]
+      def failure_message
+        unless iterable?
+          return "#{improve_hash_formatting(super)}, but was not iterable"
+        end
+
+        all_messages = [improve_hash_formatting(super)]
+        failed_objects.each do |index, matcher_failure_message|
+          all_messages << failure_message_for_item(index, matcher_failure_message)
+        end
+        all_messages.join("\n\n")
       end
 
       # @api private
@@ -28,7 +46,7 @@ module Aruba
 
         index_objects
 
-        succeeded_objects.empty?
+        any_succeeded_object == false
       end
 
       private
@@ -41,7 +59,7 @@ module Aruba
 
         index_objects
 
-        !succeeded_objects.empty?
+        any_succeeded_object == true
       end
 
       def index_objects
@@ -54,12 +72,37 @@ module Aruba
           end
 
           if matches
-            succeeded_objects[index] = cloned_matcher.failure_message
+            self.any_succeeded_object = true
             break
           else
             failed_objects[index] = cloned_matcher.failure_message
           end
         end
+      end
+
+      def failure_message_for_item(index, failure_message)
+        failure_message = indent_multiline_message(add_new_line_if_needed(failure_message))
+        indent_multiline_message("object at index #{index} failed to match:#{failure_message}")
+      end
+
+      def add_new_line_if_needed(message)
+        message.start_with?("\n") ? message : "\n#{message}"
+      end
+
+      def indent_multiline_message(message)
+        message = message.sub(/\n+\z/, '')
+        message.lines.map do |line|
+          line =~ /\S/ ? '   ' + line : line
+        end.join
+      end
+
+      def initialize_copy(other)
+        @matcher = @matcher.clone
+        super
+      end
+
+      def iterable?
+        @actual.respond_to?(:each_with_index)
       end
     end
   end
@@ -71,16 +114,12 @@ module RSpec
     # element of the collection.
     #
     # @example
-    #   expect([1, 4, 5]).to any be_odd
-    #
-    # @note The negative form `not_to any` is not supported. Instead
-    #   use `not_to include` or pass a negative form of a matcher
-    #   as the argument (e.g. `all exclude(:foo)` - mind it's `all` here).
+    #   expect([1, 4, 5]).to include_an_object be_odd
     #
     # @note You can also use this with compound matchers as well.
     #
     # @example
-    #   expect([1, 4, 'a']).to any( be_odd.and be_an(Integer) )
+    #   expect([1, 4, 'a']).to include_an_object( be_odd.and be_an(Integer) )
     def include_an_object(expected)
       ::Aruba::Matchers::IncludeAnObject.new(expected)
     end
