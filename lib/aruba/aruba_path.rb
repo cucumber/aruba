@@ -73,7 +73,14 @@ module Aruba
     # path.depth # => 3
     #
     def depth
-      __getobj__.each_filename.to_a.size
+      if RUBY_VERSION < '1.9'
+        items = []
+        __getobj__.each_filename { |f| items << f }
+
+        items.size
+      else
+        __getobj__.each_filename.to_a.size
+      end
     end
 
     # Path ends with string
