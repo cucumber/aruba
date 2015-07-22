@@ -805,9 +805,12 @@ module Aruba
       # Overwrite this method if you want a different timeout or set
       # `@aruba_timeout_seconds`.
       def exit_timeout
-        Aruba.platform.deprecated('The use of "#exit_timeout" is deprecated. Use "aruba.config.exit_timeout" instead.')
-
-        aruba.config.exit_timeout
+        if defined? @aruba_exit_timeout
+          Aruba::Platform.deprecated('The use of "#exit_timeout" is deprecated. Use "aruba.config.exit_timeout" instead.')
+          @aruba_exit_timeout
+        else
+          aruba.config.exit_timeout
+        end
       end
 
       # @deprecated
@@ -817,9 +820,12 @@ module Aruba
       # Overwrite this method if you want a different timeout or set
       # `@aruba_io_wait_seconds
       def io_wait
-        Aruba.platform.deprecated('The use of "#io_wait" is deprecated. Use "aruba.config.io_wait_timeout" instead')
-
-        aruba.config.io_wait_timeout
+        if defined? @aruba_io_wait_seconds
+          Aruba::Platform.deprecated('The use of "#io_wait" is deprecated. Use "aruba.config.io_wait_timeout" instead')
+          @aruba_io_wait_seconds
+        else
+          aruba.config.io_wait_timeout
+        end
       end
 
       # @deprecated

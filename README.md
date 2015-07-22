@@ -115,15 +115,19 @@ can test those commands as though the gem were already installed.
 
 If you need other directories to be added to the `PATH`, you can put the following in `features/support/env.rb`:
 
-    ENV['PATH'] = "/my/special/bin/path#{File::PATH_SEPARATOR}#{ENV['PATH']}"
+```ruby
+Aruba.configure do |config|
+  config.command_search_paths = config.command_search_paths << '/my/special/bin/path'
+end
+```
 
 ### Increasing timeouts
 
-A process sometimes takes longer than expected to terminate, and Aruba will kill them off (and fail your scenario) if it is still alive after 3 seconds. If you need more time you can modify the timeout by assigning a different value to `@aruba_timeout_seconds` in a `Before` block:
+A process sometimes takes longer than expected to terminate, and Aruba will kill them off (and fail your scenario) if it is still alive after 3 seconds. If you need more time you can modify the timeout by assigning a different value to `#exit_timeout` in a `Aruba.configure` block:
 
 ```ruby
-Before do
-  @aruba_timeout_seconds = 5
+Aruba.configure do |config|
+  config.exit_timeout = 5
 end
 ```
 
@@ -132,11 +136,11 @@ end
 Running processes interactively can result in race conditions when Aruba executes an IO-related step
 but the interactive process has not yet flushed or read some content. To help prevent this Aruba waits
 before reading or writing to the process if it is still running. You can control the wait by setting
-`@aruba_io_wait_seconds` to an appropriate value. This is particularly useful with tags:
+`aruba.config.io_wait_timeout` to an appropriate value. This is particularly useful with tags:
 
 ```ruby
 Before('@slow_process') do
-  @aruba_io_wait_seconds = 5
+  aruba.config.io_wait_timeout = 5
 end
 ```
 

@@ -112,7 +112,7 @@ module Aruba
       #
       # rubocop:disable Metrics/MethodLength
       def run(cmd, timeout = nil)
-        timeout ||= exit_timeout
+        timeout ||= exit_timeout # we need to use it here otherwise overwritten "exit_timeout" is not used
         @commands ||= []
         @commands << cmd
 
