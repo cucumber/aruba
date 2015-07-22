@@ -26,21 +26,5 @@ module Aruba
     include Aruba::Api::Filesystem
     include Aruba::Api::Rvm
     include Aruba::Api::Deprecated
-
-    # Access to announcer
-    def announcer
-      @announcer ||= Announcer.new(
-        self,
-        :stdout => defined?(@announce_stdout),
-        :stderr => defined?(@announce_stderr),
-        :dir    => defined?(@announce_dir),
-        :cmd    => defined?(@announce_cmd),
-        :env    => defined?(@announce_env)
-      )
-
-      @announcer
-    end
-
-    module_function :announcer
   end
 end

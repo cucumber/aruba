@@ -874,6 +874,24 @@ module Aruba
 
         all_commands.each(&:terminate)
       end
+
+      # @deprecated
+      #
+      # Access to announcer
+      def announcer
+        # Aruba::Platform.deprecated('The use of "#announcer" is deprecated. Use "aruba.announcer" instead')
+
+        @announcer ||= Announcer.new(
+          self,
+          :stdout => defined?(@announce_stdout),
+          :stderr => defined?(@announce_stderr),
+          :dir    => defined?(@announce_dir),
+          :cmd    => defined?(@announce_cmd),
+          :env    => defined?(@announce_env)
+        )
+
+        @announcer
+      end
     end
   end
 end

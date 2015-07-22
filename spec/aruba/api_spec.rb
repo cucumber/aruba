@@ -1096,11 +1096,11 @@ describe Aruba::Api  do
 
   describe 'tags' do
     describe '@announce_stdout' do
-      after(:each) { @aruba.all_commands.each(&:stop) }
+      after(:each) { @aruba.all_commands.each { |c| c.stop(@aruba.announcer) } }
 
       context 'enabled' do
         before :each do
-          @aruba.send(:announcer).activate(:stdout)
+          @aruba.announcer.activate(:stdout)
         end
 
         it "should announce to stdout exactly once" do
@@ -1128,7 +1128,7 @@ describe Aruba::Api  do
 
   describe "#assert_not_matching_output" do
     before(:each){ @aruba.run_simple("echo foo", false) }
-    after(:each) { @aruba.all_commands.each(&:stop) }
+    after(:each) { @aruba.all_commands.each { |c| c.stop(@aruba.announcer) } }
 
     it "passes when the output doesn't match a regexp" do
       @aruba.assert_not_matching_output "bar", @aruba.all_output
@@ -1142,7 +1142,7 @@ describe Aruba::Api  do
 
   describe '#run' do
     before(:each){@aruba.run "cat"}
-    after(:each) { @aruba.all_commands.each(&:stop) }
+    after(:each) { @aruba.all_commands.each { |c| c.stop(@aruba.announcer) } }
     it "respond to input" do
       @aruba.type "Hello"
       @aruba.type ""
@@ -1165,7 +1165,7 @@ describe Aruba::Api  do
 
   describe "#run_simple" do
     before(:each){@aruba.run_simple "true"}
-    after(:each) { @aruba.all_commands.each(&:stop) }
+    after(:each) { @aruba.all_commands.each { |c| c.stop(@aruba.announcer) } }
     describe "get_process" do
       it "returns a process" do
         expect(@aruba.get_process("true")).not_to be(nil)
@@ -1195,7 +1195,7 @@ describe Aruba::Api  do
 
   describe "#set_environment_variable" do
     after(:each) do
-      @aruba.all_commands.each(&:stop)
+      @aruba.all_commands.each { |c| c.stop(@aruba.announcer) }
       @aruba.restore_env
     end
 
@@ -1214,7 +1214,7 @@ describe Aruba::Api  do
   end
 
   describe "#restore_env" do
-    after(:each) { @aruba.all_commands.each(&:stop) }
+    after(:each) { @aruba.all_commands.each { |c| c.stop(@aruba.announcer) } }
     it "restores environment variable" do
       @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.restore_env
