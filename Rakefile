@@ -23,6 +23,15 @@ RSpec::Core::RakeTask.new do |spec|
   spec.rspec_opts = ['--color', '--format documentation']
 end
 
+require 'travis/yaml'
+namespace :travis do
+  desc 'Lint travis.yml'
+  task :lint do
+    puts 'Linting .travis.yml ... No output is good!'
+    Travis::Yaml.parse! File.read('.travis.yml')
+  end
+end
+
 if RUBY_VERSION < '1.9.3'
   begin
     require 'rubocop/rake_task'
@@ -37,6 +46,6 @@ else
 end
 
 desc "Run tests, both RSpec and Cucumber"
-task :test => [ :rubocop, :spec, :cucumber, :cucumber_wip]
+task :test => [ 'travis:lint', :rubocop, :spec, :cucumber, :cucumber_wip]
 
 task :default => :test
