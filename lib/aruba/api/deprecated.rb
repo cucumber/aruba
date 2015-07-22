@@ -181,7 +181,7 @@ module Aruba
       def check_file_presence(paths, expect_presence = true)
         Aruba.platform.deprecated('The use of "check_file_presence" is deprecated. Use "expect().to be_an_existing_file" or "expect(all_paths).to all match /pattern/" instead')
 
-        stop_processes!
+        all_commands.each { |c| c.stop(announcer) }
 
         Array(paths).each do |path|
           if path.kind_of? Regexp
@@ -216,7 +216,8 @@ module Aruba
       #
       def check_file_size(paths_and_sizes)
         Aruba.platform.deprecated('The use of "#check_file_size" is deprecated. Use "expect(file).to have_file_size(size)", "expect(all_files).to all have_file_size(1)", "expect(all_files).to include a_file_with_size(1)" instead')
-        stop_processes!
+
+        all_commands.each { |c| c.stop(announcer) }
 
         paths_and_sizes.each do |path, size|
           expect(path).to have_file_size size
@@ -244,7 +245,7 @@ module Aruba
       def check_binary_file_content(file, reference_file, expect_match = true)
         Aruba.platform.deprecated('The use of "#check_binary_file_content" is deprecated. Use "expect(file).to have_same_file_content_like(file)"')
 
-        stop_processes!
+        all_commands.each { |c| c.stop(announcer) }
 
         if expect_match
           expect(file).to have_same_file_content_like reference_file
@@ -264,7 +265,7 @@ module Aruba
       def check_directory_presence(paths, expect_presence)
         Aruba.platform.deprecated('The use of "#check_directory_presence" is deprecated. Use "expect(directory).to be_an_existing_directory"')
 
-        stop_processes!
+        all_commands.each { |c| c.stop(announcer) }
 
         paths.each do |path|
           path = expand_path(path)
@@ -281,8 +282,9 @@ module Aruba
       def prep_for_fs_check(&block)
         Aruba.platform.deprecated('The use of "prep_for_fs_check" is deprecated. Use apropriate methods and the new rspec matchers instead')
 
-        process_monitor.stop_processes!
-        cd('.') { block.call }
+        all_commands.each { |c| c.stop(announcer) }
+
+        cd('') { block.call }
       end
 
       # @deprecated
@@ -322,7 +324,7 @@ module Aruba
       def check_file_content(file, content, expect_match = true)
         Aruba.platform.deprecated('The use of "#check_file_content" is deprecated. Use "expect(file).to have_file_content(content)" instead. For eq match use string, for partial match use /regex/')
 
-        stop_processes!
+        all_commands.each { |c| c.stop(announcer) }
 
         if expect_match
           expect(file).to have_file_content content
@@ -499,6 +501,7 @@ module Aruba
 
         aruba.root_directory
       end
+
       # The path to the directory which contains fixtures
       # You might want to overwrite this method to place your data else where.
       #
@@ -521,11 +524,13 @@ module Aruba
 
         if defined? @keep_ansi
           Aruba.platform.deprecated('The use of "@aruba_keep_ansi" is deprecated. Use "#aruba.config.remove_ansi_escape_sequences = <true|false>" instead. Be aware that it uses an inverted logic')
+
           aruba.config.remove_ansi_escape_sequences = false
         end
 
         if defined? @aruba_root_directory
           Aruba.platform.deprecated('The use of "@aruba_root_directory" is deprecated. Use "#aruba.config.root_directory = <string>" instead')
+
           aruba.config.root_directory = @aruba_root_directory.to_s
         end
       end
@@ -537,6 +542,337 @@ module Aruba
         Aruba.platform.deprecated('The use of "#last_command" is deprecated. Use "#last_command_started"')
 
         process_monitor.last_command_started
+      end
+
+      # @deprecated
+      #
+      # Full compare arg1 and arg2
+      #
+      # @return [TrueClass, FalseClass]
+      #   If arg1 is exactly the same as arg2 return true, otherwise false
+      def assert_exact_output(expected, actual)
+        # rubocop:disable Metrics/LineLength
+        Aruba.platform.deprecated('The use of "#assert_exact_output" is deprecated. Use "expect(command).to have_output \'exact\'" instead. There are also special matchers for "stdout" and "stderr"')
+        # rubocop:enable Metrics/LineLength
+
+        actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
+        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to eq Aruba.platform.unescape(expected, aruba.config.keep_ansi)
+      end
+
+      # @deprecated
+      #
+      # Partial compare arg1 and arg2
+      #
+      # @return [TrueClass, FalseClass]
+      #   If arg2 contains arg1 return true, otherwise false
+      def assert_partial_output(expected, actual)
+        # rubocop:disable Metrics/LineLength
+        Aruba.platform.deprecated('The use of "#assert_partial_output" is deprecated. Use "expect(command).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
+        # rubocop:enable Metrics/LineLength
+
+        actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
+        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to include(Aruba.platform.unescape(expected, aruba.config.keep_ansi))
+      end
+
+      # @deprecated
+      #
+      # Regex Compare arg1 and arg2
+      #
+      # @return [TrueClass, FalseClass]
+      #   If arg2 matches arg1 return true, otherwise false
+      def assert_matching_output(expected, actual)
+        # rubocop:disable Metrics/LineLength
+        Aruba.platform.deprecated('The use of "#assert_matching_output" is deprecated. Use "expect(command).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
+        # rubocop:enable Metrics/LineLength
+
+        actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
+        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
+      end
+
+      # @deprecated
+      #
+      # Negative regex compare arg1 and arg2
+      #
+      # @return [TrueClass, FalseClass]
+      #   If arg2 does not match arg1 return true, otherwise false
+      def assert_not_matching_output(expected, actual)
+        # rubocop:disable Metrics/LineLength
+        Aruba.platform.deprecated('The use of "#assert_not_matching_output" is deprecated. Use "expect(command).not_to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
+        # rubocop:enable Metrics/LineLength
+
+        actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
+        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
+      end
+
+      # @deprecated
+      #
+      # Negative partial compare arg1 and arg2
+      #
+      # @return [TrueClass, FalseClass]
+      #   If arg2 does not match/include arg1 return true, otherwise false
+      def assert_no_partial_output(unexpected, actual)
+        # rubocop:disable Metrics/LineLength
+        Aruba.platform.deprecated('The use of "#assert_no_partial_output" is deprecated. Use "expect(command).not_to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
+        # rubocop:enable Metrics/LineLength
+
+        actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
+        if Regexp === unexpected
+          expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to match unexpected
+        else
+          expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to include(unexpected)
+        end
+      end
+
+      # @deprecated
+      #
+      # Partial compare output of interactive command and arg1
+      #
+      # @return [TrueClass, FalseClass]
+      #   If output of interactive command includes arg1 return true, otherwise false
+      def assert_partial_output_interactive(expected)
+        # rubocop:disable Metrics/LineLength
+        Aruba.platform.deprecated('The use of "#assert_partial_output_interactive" is deprecated. Use "expect(last_command_started).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
+        # rubocop:enable Metrics/LineLength
+
+        Aruba.platform.unescape(last_command_started.stdout, aruba.config.keep_ansi).include?(Aruba.platform.unescape(expected, aruba.config.keep_ansi)) ? true : false
+      end
+
+      # @deprecated
+      #
+      # Check if command succeeded and if arg1 is included in output
+      #
+      # @return [TrueClass, FalseClass]
+      #   If exit status is 0 and arg1 is included in output return true, otherwise false
+      def assert_passing_with(expected)
+        # rubocop:disable Metrics/LineLength
+        Aruba.platform.deprecated('The use of "#assert_passing_with" is deprecated. Use "expect(all_commands).to all(be_successfully_executed).and include_an_object(have_output(/partial/))" or something similar instead. There are also special matchers for "stdout" and "stderr"')
+        # rubocop:enable Metrics/LineLength
+
+        assert_success(true)
+        assert_partial_output(expected, all_output)
+      end
+
+      # @deprecated
+      #
+      # Check if command failed and if arg1 is included in output
+      #
+      # @return [TrueClass, FalseClass]
+      #   If exit status is not equal 0 and arg1 is included in output return true, otherwise false
+      def assert_failing_with(expected)
+        # rubocop:disable Metrics/LineLength
+        Aruba.platform.deprecated('The use of "#assert_passing_with" is deprecated. Use "expect(all_commands).not_to include_an_object(be_successfully_executed).and include_an_object(have_output(/partial/))" or something similar instead. There are also special matchers for "stdout" and "stderr"')
+        # rubocop:enable Metrics/LineLength
+
+        assert_success(false)
+        assert_partial_output(expected, all_output)
+      end
+
+      # @deprecated
+      #
+      # Check exit status of process
+      #
+      # @return [TrueClass, FalseClass]
+      #   If arg1 is true, return true if command was successful
+      #   If arg1 is false, return true if command failed
+      def assert_success(success)
+        # rubocop:disable Metrics/LineLength
+        Aruba.platform.deprecated('The use of "#assert_success" is deprecated. Use "expect(last_command_started).to be_successfully_executed" or with "not_to" or the negative form "have_failed_running" (requires rspec >= 3.1)')
+        # rubocop:enable Metrics/LineLength
+
+        if success
+          expect(last_command_started).to be_successfully_executed
+        else
+          expect(last_command_started).not_to be_successfully_executed
+        end
+      end
+
+      # @deprecated
+      def assert_exit_status(status)
+        # rubocop:disable Metrics/LineLength
+        Aruba.platform.deprecated('The use of "#assert_success" is deprecated. Use "expect(last_command_started).to have_exit_status(status)"')
+        # rubocop:enable Metrics/LineLength
+
+        expect(last_command_started).to have_exit_status(status)
+      end
+
+      # @deprecated
+      def assert_not_exit_status(status)
+        # rubocop:disable Metrics/LineLength
+        Aruba.platform.deprecated('The use of "#assert_success" is deprecated. Use "expect(last_command_started).not_to have_exit_status(status)"')
+        # rubocop:enable Metrics/LineLength
+
+        expect(last_exit_status).not_to eq(status),
+          append_output_to("Exit status was #{last_exit_status} which was not expected.")
+      end
+
+      # @deprecated
+      def append_output_to(message)
+        Aruba.platform.deprecated('The use of "#append_output_to" is deprecated')
+
+        "#{message} Output:\n\n#{all_output}\n"
+      end
+
+      # @deprecated
+      def register_process(*args)
+        # Aruba.platform.deprecated('The use of "#register_process" is deprecated')
+
+        process_monitor.register_process(*args)
+      end
+
+      # @deprecated
+      def get_process(wanted)
+        # Aruba.platform.deprecated('The use of "#get_process" is deprecated')
+
+        process_monitor.get_process(wanted)
+      end
+
+      # @deprecated
+      #
+      # Fetch output (stdout, stderr) from command
+      #
+      # @param [String] cmd
+      #   The command
+      def output_from(cmd)
+        # Aruba.platform.deprecated('The use of "#output_from" is deprecated')
+
+        process_monitor.output_from(cmd)
+      end
+
+      # @deprecated
+      #
+      # Fetch stdout from command
+      #
+      # @param [String] cmd
+      #   The command
+      def stdout_from(cmd)
+        # Aruba.platform.deprecated('The use of "#stdout_from" is deprecated')
+
+        process_monitor.stdout_from(cmd)
+      end
+
+      # @deprecated
+      #
+      # Fetch stderr from command
+      #
+      # @param [String] cmd
+      #   The command
+      def stderr_from(cmd)
+        # Aruba.platform.deprecated('The use of "#stderr_from" is deprecated')
+
+        process_monitor.stderr_from(cmd)
+      end
+
+      # @deprecated
+      #
+      # Get stdout of all processes
+      #
+      # @return [String]
+      #   The stdout of all process which have run before
+      def all_stdout
+        Aruba.platform.deprecated('The use of "#all_stdout" is deprecated. Use `all_commands.map { |c| c.stdout }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output_on_stdout /output/" instead')
+
+        process_monitor.all_stdout
+      end
+
+      # @deprecated
+      #
+      # Get stderr of all processes
+      #
+      # @return [String]
+      #   The stderr of all process which have run before
+      def all_stderr
+        Aruba.platform.deprecated('The use of "#all_stderr" is deprecated. Use `all_commands.map { |c| c.stderr }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output_on_stderr /output/" instead')
+
+        process_monitor.all_stderr
+      end
+
+      # @deprecated
+      #
+      # Get stderr and stdout of all processes
+      #
+      # @return [String]
+      #   The stderr and stdout of all process which have run before
+      def all_output
+        Aruba.platform.deprecated('The use of "#all_output" is deprecated. Use `all_commands.map { |c| c.output }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output /output/" instead')
+
+        process_monitor.all_output
+      end
+
+      # @deprecated
+      #
+      # Default exit timeout for running commands with aruba
+      #
+      # Overwrite this method if you want a different timeout or set
+      # `@aruba_timeout_seconds`.
+      def exit_timeout
+        Aruba.platform.deprecated('The use of "#exit_timeout" is deprecated. Use "aruba.config.exit_timeout" instead.')
+
+        aruba.config.exit_timeout
+      end
+
+      # @deprecated
+      #
+      # Default io wait timeout
+      #
+      # Overwrite this method if you want a different timeout or set
+      # `@aruba_io_wait_seconds
+      def io_wait
+        Aruba.platform.deprecated('The use of "#io_wait" is deprecated. Use "aruba.config.io_wait_timeout" instead.')
+
+        aruba.config.io_wait_timeout
+      end
+
+      # @deprecated
+      # The root directory of aruba
+      def root_directory
+        Aruba.platform.deprecated('The use of "#root_directory" is deprecated. Use "aruba.root_directory" instead.')
+
+        aruba.config.root_directory
+      end
+
+      # @deprecated
+      # Only processes
+      def only_processes
+        # Aruba.platform.deprecated('The use of "#only_processes" is deprecated.')
+
+        process_monitor.only_processes
+      end
+
+      # @deprecated
+      def last_exit_status
+        Aruba.platform.deprecated('The use of "#last_exit_status" is deprecated. Use "#last_command_(started|stopped).exit_status" instead')
+
+        process_monitor.last_exit_status
+      end
+
+      # @deprecated
+      def stop_process(process)
+        # Aruba.platform.deprecated('The use of "#stop_process" is deprecated. Use "#last_command_(started|stopped).stop" instead')
+
+        @last_exit_status = process_monitor.stop_process(process)
+      end
+
+      # @deprecated
+      def terminate_process(process)
+        # Aruba.platform.deprecated('The use of "#terminate_process" is deprecated. Use "#last_command_(started|stopped).terminate" instead')
+
+        process_monitor.terminate_process(process)
+      end
+
+      # @deprecated
+      def stop_processes!
+        Aruba.platform.deprecated('The use of "#stop_processes!" is deprecated. Use "all_commands.each(&:stop)" instead')
+
+        all_commands.each { |c| c.stop(announcer) }
+      end
+
+      # @deprecated
+      #
+      # Terminate all running processes
+      def terminate_processes!
+        Aruba.platform.deprecated('The use of "#stop_processes!" is deprecated. Use "all_commands.each(&:terminate)" instead')
+
+        all_commands.each(&:terminate)
       end
     end
   end

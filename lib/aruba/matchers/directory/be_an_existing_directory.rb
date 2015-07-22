@@ -17,7 +17,7 @@ require 'rspec/expectations/version'
 #     end
 RSpec::Matchers.define :be_an_existing_directory do |_|
   match do |actual|
-    stop_processes!
+    all_commands.each { |c| c.stop(announcer) }
 
     next false unless actual.is_a? String
 

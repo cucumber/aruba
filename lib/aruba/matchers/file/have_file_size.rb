@@ -22,7 +22,7 @@ require 'rspec/expectations/version'
 #     end
 RSpec::Matchers.define :have_file_size do |expected|
   match do |actual|
-    stop_processes!
+    all_commands.each { |c| c.stop(announcer) }
 
     next false unless file?(actual)
 

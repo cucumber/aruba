@@ -13,14 +13,14 @@ module Aruba
 
     def last_exit_status
       return @last_exit_status if @last_exit_status
-      stop_processes!
+      all_commands.each { |c| c.stop(announcer) }
       @last_exit_status
     end
 
     def last_command_stopped
       return @last_command_stopped if @last_command_stopped
 
-      stop_processes!
+      all_commands.each { |c| c.stop(announcer) }
 
       @last_command_stopped
     end
@@ -39,13 +39,15 @@ module Aruba
     end
 
     def stop_processes!
-      processes.each do |_, process|
-        @last_exit_status = stop_process(process)
-      end
+      Aruba::Platform.deprecated('The use of "#stop_processes!" is deprecated. Use "#all_commands.each { |c| c.stop(announcer) }" instead')
+
+      all_commands.each(&:stop)
     end
 
     # Terminate all running processes
     def terminate_processes
+      Aruba::Platform.deprecated('The use of "#terminate_processes" is deprecated. Use "#all_commands.each(&:terminate)" instead')
+
       processes.each do |_, process|
         terminate_process(process)
         stop_process(process)
@@ -100,7 +102,7 @@ module Aruba
     # @return [String]
     #   The stdout of all process which have run before
     def all_stdout
-      stop_processes!
+      all_commands.each(&:stop)
 
       if RUBY_VERSION < '1.9'
         out = ''
@@ -117,7 +119,7 @@ module Aruba
     # @return [String]
     #   The stderr of all process which have run before
     def all_stderr
-      stop_processes!
+      all_commands.each(&:stop)
 
       if RUBY_VERSION < '1.9'
         out = ''

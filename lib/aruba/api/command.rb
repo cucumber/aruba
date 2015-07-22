@@ -67,14 +67,6 @@ module Aruba
         end
       end
 
-      # Fetch output (stdout, stderr) from command
-      #
-      # @param [String] cmd
-      #   The command
-      def output_from(cmd)
-        process_monitor.output_from(cmd)
-      end
-
       # Return all commands
       #
       # @return [Array]
@@ -83,193 +75,7 @@ module Aruba
         process_monitor.all_commands
       end
 
-      # Fetch stdout from command
-      #
-      # @param [String] cmd
-      #   The command
-      def stdout_from(cmd)
-        process_monitor.stdout_from(cmd)
-      end
-
-      # Fetch stderr from command
-      #
-      # @param [String] cmd
-      #   The command
-      def stderr_from(cmd)
-        process_monitor.stderr_from(cmd)
-      end
-
-      # Get stdout of all processes
-      #
-      # @return [String]
-      #   The stdout of all process which have run before
-      def all_stdout
-        process_monitor.all_stdout
-      end
-
-      # Get stderr of all processes
-      #
-      # @return [String]
-      #   The stderr of all process which have run before
-      def all_stderr
-        process_monitor.all_stderr
-      end
-
-      # Get stderr and stdout of all processes
-      #
-      # @return [String]
-      #   The stderr and stdout of all process which have run before
-      def all_output
-        process_monitor.all_output
-      end
-
-      # Full compare arg1 and arg2
-      #
-      # @return [TrueClass, FalseClass]
-      #   If arg1 is exactly the same as arg2 return true, otherwise false
-      def assert_exact_output(expected, actual)
-        actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-
-        actual = unescape_text(actual)
-        actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        expected = unescape_text(expected)
-        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        expect(actual).to eq expected
-      end
-
-      # Partial compare arg1 and arg2
-      #
-      # @return [TrueClass, FalseClass]
-      #   If arg2 contains arg1 return true, otherwise false
-      def assert_partial_output(expected, actual)
-        actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-
-        actual = unescape_text(actual)
-        actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        expected = unescape_text(expected)
-        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        expect(actual).to include expected
-      end
-
-      # Regex Compare arg1 and arg2
-      #
-      # @return [TrueClass, FalseClass]
-      #   If arg2 matches arg1 return true, otherwise false
-      def assert_matching_output(expected, actual)
-        actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-
-        actual = unescape_text(actual)
-        actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        expected = unescape_text(expected)
-        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        expect(actual).to match Regexp.new(expected, Regexp::MULTILINE)
-      end
-
-      # Negative regex compare arg1 and arg2
-      #
-      # @return [TrueClass, FalseClass]
-      #   If arg2 does not match arg1 return true, otherwise false
-      def assert_not_matching_output(expected, actual)
-        actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-
-        actual = unescape_text(actual)
-        actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        expected = unescape_text(expected)
-        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        expect(actual).not_to match Regexp.new(expected, Regexp::MULTILINE)
-      end
-
-      # Negative partial compare arg1 and arg2
-      #
-      # @return [TrueClass, FalseClass]
-      #   If arg2 does not match/include arg1 return true, otherwise false
-      # rubocop:disable Metrics/CyclomaticComplexity
-      def assert_no_partial_output(unexpected, actual)
-        actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
-
-        actual = unescape_text(actual)
-        actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        if Regexp === unexpected
-          expect(actual).not_to match unexpected
-        else
-          unexpected = unescape_text(unexpected)
-          unexpected = extract_text(unexpected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-          expect(actual).not_to include(unexpected)
-        end
-      end
-      # rubocop:enable Metrics/CyclomaticComplexity
-
-      # Partial compare output of interactive command and arg1
-      #
-      # @return [TrueClass, FalseClass]
-      #   If output of interactive command includes arg1 return true, otherwise false
-      def assert_partial_output_interactive(expected)
-        actual = unescape_text(last_command_started.stdout)
-        actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        expected = unescape_text(expected)
-        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        actual.include?(expected) ? true : false
-      end
-
-      # Check if command succeeded and if arg1 is included in output
-      #
-      # @return [TrueClass, FalseClass]
-      #   If exit status is 0 and arg1 is included in output return true, otherwise false
-      def assert_passing_with(expected)
-        assert_success(true)
-        assert_partial_output(expected, all_output)
-      end
-
-      # Check if command failed and if arg1 is included in output
-      #
-      # @return [TrueClass, FalseClass]
-      #   If exit status is not equal 0 and arg1 is included in output return true, otherwise false
-      def assert_failing_with(expected)
-        assert_success(false)
-        assert_partial_output(expected, all_output)
-      end
-
-      # Check exit status of process
-      #
-      # @return [TrueClass, FalseClass]
-      #   If arg1 is true, return true if command was successful
-      #   If arg1 is false, return true if command failed
-      def assert_success(success)
-        if success
-          expect(last_command_started).to be_successfully_executed
-        else
-          expect(last_command_started).not_to be_successfully_executed
-        end
-      end
-
       # @private
-      def assert_exit_status(status)
-        expect(last_command_started).to have_exit_status(status)
-      end
-
-      # @private
-      def assert_not_exit_status(status)
-        expect(last_exit_status).not_to eq(status),
-          append_output_to("Exit status was #{last_exit_status} which was not expected.")
-      end
-
-      # @private
-      def append_output_to(message)
-        "#{message} Output:\n\n#{all_output}\n"
-      end
-
       def process_monitor
         return @process_monitor if defined? @process_monitor
 
@@ -283,16 +89,6 @@ module Aruba
         process_monitor.send(:processes)
       end
 
-      # @private
-      def stop_processes!
-        process_monitor.stop_processes!
-      end
-
-      # Terminate all running processes
-      def terminate_processes!
-        process_monitor.terminate_processes!
-      end
-
       # Last command started
       def last_command_started
         process_monitor.last_command_started
@@ -301,16 +97,6 @@ module Aruba
       # Last command stopped
       def last_command_stopped
         process_monitor.last_command_stopped
-      end
-
-      # @private
-      def register_process(*args)
-        process_monitor.register_process(*args)
-      end
-
-      # @private
-      def get_process(wanted)
-        process_monitor.get_process(wanted)
       end
 
       # Run given command and stop it if timeout is reached
@@ -382,27 +168,6 @@ module Aruba
       end
       # rubocop:enable Metrics/MethodLength
 
-      # Default exit timeout for running commands with aruba
-      #
-      # Overwrite this method if you want a different timeout or set
-      # `@aruba_timeout_seconds`.
-      def exit_timeout
-        aruba.config.exit_timeout
-      end
-
-      # Default io wait timeout
-      #
-      # Overwrite this method if you want a different timeout or set
-      # `@aruba_io_wait_seconds
-      def io_wait
-        aruba.config.io_wait_timeout
-      end
-
-      # The root directory of aruba
-      def root_directory
-        aruba.config.root_directory
-      end
-
       # Run a command with aruba
       #
       # Checks for error during command execution and checks the output to detect
@@ -440,27 +205,6 @@ module Aruba
       # Close stdin
       def close_input
         last_command_started.close_io(:stdin)
-      end
-
-      # Only processes
-      def only_processes
-        process_monitor.only_processes
-      end
-
-      # TODO: move some more methods under here!
-
-      private
-
-      def last_exit_status
-        process_monitor.last_exit_status
-      end
-
-      def stop_process(process)
-        @last_exit_status = process_monitor.stop_process(process)
-      end
-
-      def terminate_process(process)
-        process_monitor.terminate_process(process)
       end
     end
   end

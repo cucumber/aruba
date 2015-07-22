@@ -30,7 +30,7 @@ end
 
 After do
   restore_env
-  process_monitor.stop_processes!
+  all_commands.each { |c| c.stop(announcer) }
   process_monitor.clear
 end
 
