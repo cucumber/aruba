@@ -30,11 +30,11 @@ module Aruba
       def stdin(*); end
 
       def stdout(*)
-        ''
+        'This is the debug launcher on STDOUT. If this output is unexpected, please check your setup.'
       end
 
       def stderr(*)
-        ''
+        'This is the debug launcher on STDERR. If this output is unexpected, please check your setup.'
       end
 
       def stop(_reader)
