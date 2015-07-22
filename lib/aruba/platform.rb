@@ -1,5 +1,6 @@
 require 'rbconfig'
 require 'pathname'
+require 'ffi'
 
 require 'aruba/platform/simple_table'
 
@@ -230,6 +231,31 @@ module Aruba
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
 
+    # return true if the OS running is Windows according to FFI
+    def on_windows?
+      FFI::Platform.windows?
+    end
+
+    # return true if the OS running is Unix according to FFI
+    def on_unix?
+      FFI::Platform.unix?
+    end
+
+    # return true if the OS running is Mac according to FFI
+    def on_mac?
+      FFI::Platform.mac?
+    end
+
+    # return true if the OS running is BSD according to FFI
+    def on_bsd?
+      FFI::Platform.bsd?
+    end
+
+    # return true if the OS running is Solaris according to FFI
+    def on_solaris?
+      FFI::Platform.solaris?
+    end
+
     module_function :detect_ruby, \
       :current_ruby, \
       :ensure_newline, \
@@ -252,6 +278,11 @@ module Aruba
       :getwd, \
       :which, \
       :simple_table, \
-      :write_file
+      :write_file, \
+      :on_windows?, \
+      :on_unix?, \
+      :on_mac?, \
+      :on_bsd?, \
+      :on_solaris?
   end
 end
