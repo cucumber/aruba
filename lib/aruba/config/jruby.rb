@@ -8,6 +8,9 @@ Aruba.configure do |config|
     # disable JIT since these processes are so short lived
     ENV['JRUBY_OPTS'] = "-X-C #{ENV['JRUBY_OPTS']}"
 
+    # Faster startup for jruby
+    ENV['JRUBY_OPTS'] = "--dev #{ENV['JRUBY_OPTS']}"
+
     # force jRuby to use client JVM for faster startup times
     ENV['JAVA_OPTS'] = "-d32 #{ENV['JAVA_OPTS']}" if RbConfig::CONFIG['host_os'] =~ /solaris|sunos/i
   end
