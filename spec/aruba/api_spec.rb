@@ -32,7 +32,7 @@ describe Aruba::Api  do
 
     context 'when file exist' do
       before :each do
-        Aruba::Platform.write_file(path, '')
+        Aruba.platform.write_file(path, '')
       end
 
       it { expect(all_paths).to include expand_path(name) }
@@ -43,7 +43,7 @@ describe Aruba::Api  do
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
       before :each do
-        Aruba::Platform.mkdir(path)
+        Aruba.platform.mkdir(path)
       end
 
       it { expect(all_paths).to include expand_path(name) }
@@ -60,7 +60,7 @@ describe Aruba::Api  do
 
     context 'when file exist' do
       before :each do
-        Aruba::Platform.write_file(path, '')
+        Aruba.platform.write_file(path, '')
       end
 
       it { expect(all_files).to include expand_path(name) }
@@ -71,7 +71,7 @@ describe Aruba::Api  do
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
       before :each do
-        Aruba::Platform.mkdir(path)
+        Aruba.platform.mkdir(path)
       end
 
       it { expect(all_files).to eq [] }
@@ -88,7 +88,7 @@ describe Aruba::Api  do
 
     context 'when file exist' do
       before :each do
-        Aruba::Platform.write_file(path, '')
+        Aruba.platform.write_file(path, '')
       end
 
       it { expect(all_directories).to eq [] }
@@ -99,7 +99,7 @@ describe Aruba::Api  do
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
       before :each do
-        Aruba::Platform.mkdir(path)
+        Aruba.platform.mkdir(path)
       end
 
       it { expect(all_directories).to include expand_path(name) }
@@ -170,7 +170,7 @@ describe Aruba::Api  do
         let(:name) { 'test.d' }
 
         before :each do
-          Array(path).each { |p| Aruba::Platform.mkdir p }
+          Array(path).each { |p| Aruba.platform.mkdir p }
         end
 
         it { expect { @aruba.read(name) }.to raise_error ArgumentError }
@@ -206,11 +206,11 @@ describe Aruba::Api  do
 
       context 'when directory' do
         before :each do
-          Array(path).each { |p| Aruba::Platform.mkdir p }
+          Array(path).each { |p| Aruba.platform.mkdir p }
         end
 
         before :each do
-          Array(content).each { |p| Aruba::Platform.mkdir File.join(path, p) }
+          Array(content).each { |p| Aruba.platform.mkdir File.join(path, p) }
         end
 
         context 'when has subdirectories' do
@@ -298,7 +298,7 @@ describe Aruba::Api  do
 
       context 'when exists' do
         before :each do
-          Array(path).each { |p| Aruba::Platform.mkdir p }
+          Array(path).each { |p| Aruba.platform.mkdir p }
         end
 
         before :each do
@@ -396,7 +396,7 @@ describe Aruba::Api  do
         let(:path) { Array(name).map { |p| File.join(@aruba.aruba.current_directory, p) } }
 
         context 'when exist' do
-          before(:each) { Array(path).each { |p| Aruba::Platform.mkdir p } }
+          before(:each) { Array(path).each { |p| Aruba.platform.mkdir p } }
 
           before :each do
             @aruba.touch(name, options)
@@ -446,7 +446,7 @@ describe Aruba::Api  do
 
         context 'when exists' do
           before :each do
-            Aruba::Platform.write_file(path, '')
+            Aruba.platform.write_file(path, '')
           end
 
           it { expect(@aruba).to be_exist(name) }
@@ -463,7 +463,7 @@ describe Aruba::Api  do
 
         context 'when exists' do
           before :each do
-            Aruba::Platform.mkdir(path)
+            Aruba.platform.mkdir(path)
           end
 
           it { expect(@aruba).to be_exist(name) }
@@ -482,7 +482,7 @@ describe Aruba::Api  do
 
         context 'when exists' do
           before :each do
-            Aruba::Platform.write_file(path, '')
+            Aruba.platform.write_file(path, '')
           end
 
           it { expect(@aruba).to be_file(name) }
@@ -499,7 +499,7 @@ describe Aruba::Api  do
 
         context 'when exists' do
           before :each do
-            Aruba::Platform.mkdir(path)
+            Aruba.platform.mkdir(path)
           end
 
           it { expect(@aruba).not_to be_file(name) }
@@ -518,7 +518,7 @@ describe Aruba::Api  do
 
         context 'when exists' do
           before :each do
-            Aruba::Platform.write_file(path, '')
+            Aruba.platform.write_file(path, '')
           end
 
           it { expect(@aruba).not_to be_directory(name) }
@@ -535,7 +535,7 @@ describe Aruba::Api  do
 
         context 'when exists' do
           before :each do
-            Aruba::Platform.mkdir(path)
+            Aruba.platform.mkdir(path)
           end
 
           it { expect(@aruba).to be_directory(name) }
@@ -589,7 +589,7 @@ describe Aruba::Api  do
             let(:destination) { 'dst.d' }
 
             before :each do
-              Aruba::Platform.mkdir(File.join(@aruba.aruba.current_directory, source))
+              Aruba.platform.mkdir(File.join(@aruba.aruba.current_directory, source))
             end
 
             before :each do
@@ -619,7 +619,7 @@ describe Aruba::Api  do
               let(:destination_files) { source.map { |s| File.join(destination, s) } }
 
               before :each do
-                Aruba::Platform.mkdir(File.join(@aruba.aruba.current_directory, destination))
+                Aruba.platform.mkdir(File.join(@aruba.aruba.current_directory, destination))
               end
 
               before :each do
@@ -903,7 +903,7 @@ describe Aruba::Api  do
         file_name = 'nested/dir/hello_world.txt'
         file_path = File.join(@aruba.aruba.current_directory, file_name)
 
-        Aruba::Platform.mkdir(File.dirname(file_path))
+        Aruba.platform.mkdir(File.dirname(file_path))
         File.open(file_path, 'w') { |f| f << "" }
 
         @aruba.check_file_presence(file_name)
@@ -916,7 +916,7 @@ describe Aruba::Api  do
         file_name = 'nested/dir/hello_world.txt'
         file_path = File.join(@aruba.aruba.current_directory, file_name)
 
-        Aruba::Platform.mkdir(File.dirname(file_path))
+        Aruba.platform.mkdir(File.dirname(file_path))
         File.open(file_path, 'w') { |f| f << "" }
 
         @aruba.check_file_presence([ /test123/ ], false )
@@ -929,7 +929,7 @@ describe Aruba::Api  do
         file_name = 'nested/dir/hello_world.txt'
         file_path = File.join(@aruba.aruba.current_directory, file_name)
 
-        Aruba::Platform.mkdir(File.dirname(file_path))
+        Aruba.platform.mkdir(File.dirname(file_path))
         File.open(file_path, 'w') { |f| f << "" }
 
         @aruba.check_file_presence([ file_name, /nested/  ], true )
@@ -940,7 +940,7 @@ describe Aruba::Api  do
         file_path = File.join('~', random_string)
 
         @aruba.with_environment 'HOME' => File.expand_path(@aruba.aruba.current_directory) do
-          Aruba::Platform.mkdir(File.dirname(File.expand_path(file_path)))
+          Aruba.platform.mkdir(File.dirname(File.expand_path(file_path)))
           File.open(File.expand_path(file_path), 'w') { |f| f << "" }
 
           @aruba.check_file_presence( [ file_path ], true )

@@ -11,13 +11,13 @@ RSpec.describe '.simple_table' do
     end
     let(:rows) { ['# key1 => value', '# key2 => value'] }
 
-    it { expect(Aruba::Platform.simple_table(hash)).to eq rows }
+    it { expect(Aruba.platform.simple_table(hash)).to eq rows }
   end
 
   context 'when empty hash' do
     let(:hash) { {} }
     let(:rows) { [] }
 
-    it { expect(Aruba::Platform.simple_table(hash)).to eq rows }
+    it { expect(Aruba.platform.simple_table(hash)).to eq rows }
   end
 end

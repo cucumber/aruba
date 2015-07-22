@@ -16,7 +16,7 @@ require 'aruba/api/environment'
 require 'aruba/api/filesystem'
 require 'aruba/api/rvm'
 
-Aruba::Platform.require_matching_files('../matchers/**/*.rb', __FILE__)
+Aruba.platform.require_matching_files('../matchers/**/*.rb', __FILE__)
 
 module Aruba
   module Api

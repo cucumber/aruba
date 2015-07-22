@@ -121,22 +121,22 @@ end
 
 When /^I run "(.*)"$/ do |cmd|
   warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-  run_simple(Aruba::Platform.unescape(cmd, aruba.config.keep_ansi), false)
+  run_simple(Aruba.platform.unescape(cmd, aruba.config.keep_ansi), false)
 end
 
 When /^I run `([^`]*)`$/ do |cmd|
-  run_simple(Aruba::Platform.unescape(cmd, aruba.config.keep_ansi), false)
+  run_simple(Aruba.platform.unescape(cmd, aruba.config.keep_ansi), false)
 end
 
 When /^I successfully run "(.*)"$/ do |cmd|
   warn(%{\e[35m    The  /^I successfully run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-  run_simple(Aruba::Platform.unescape(cmd, aruba.config.keep_ansi))
+  run_simple(Aruba.platform.unescape(cmd, aruba.config.keep_ansi))
 end
 
 ## I successfully run `echo -n "Hello"`
 ## I successfully run `sleep 29` for up to 30 seconds
 When /^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/ do |cmd, secs|
-  run_simple(Aruba::Platform.unescape(cmd, aruba.config.keep_ansi), true, secs && secs.to_i)
+  run_simple(Aruba.platform.unescape(cmd, aruba.config.keep_ansi), true, secs && secs.to_i)
 end
 
 When /^I run "([^"]*)" interactively$/ do |cmd|
@@ -145,7 +145,7 @@ When /^I run "([^"]*)" interactively$/ do |cmd|
 end
 
 When /^I run `([^`]*)` interactively$/ do |cmd|
-  @interactive = run(Aruba::Platform.unescape(cmd, aruba.config.keep_ansi))
+  @interactive = run(Aruba.platform.unescape(cmd, aruba.config.keep_ansi))
 end
 
 When /^I type "([^"]*)"$/ do |input|

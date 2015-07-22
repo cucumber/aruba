@@ -47,7 +47,7 @@ Before('@announce-command') do
 end
 
 Before('@announce-cmd') do
-  Aruba::Platform.deprecated 'The use of "@announce-cmd"-hook is deprecated. Please use "@announce-command"'
+  Aruba.platform.deprecated 'The use of "@announce-cmd"-hook is deprecated. Please use "@announce-command"'
 
   announcer.activate :command
 end
@@ -61,7 +61,7 @@ Before('@announce-stderr') do
 end
 
 Before('@announce-dir') do
-  Aruba::Platform.deprecated 'The use of "@announce-dir"-hook is deprecated. Please use "@announce-directory"'
+  Aruba.platform.deprecated 'The use of "@announce-dir"-hook is deprecated. Please use "@announce-directory"'
 
   announcer.activate :directory
 end
@@ -71,13 +71,13 @@ Before('@announce-directory') do
 end
 
 Before('@announce-env') do
-  Aruba::Platform.deprecated 'The use of "@announce-env"-hook is deprecated. Please use "@announce-modified-environment"'
+  Aruba.platform.deprecated 'The use of "@announce-env"-hook is deprecated. Please use "@announce-modified-environment"'
 
   announcer.activate :environment
 end
 
 Before('@announce-environment') do
-  Aruba::Platform.deprecated '@announce-environment is deprecated. Use @announce-modified-environment instead'
+  Aruba.platform.deprecated '@announce-environment is deprecated. Use @announce-modified-environment instead'
 
   announcer.activate :modified_environment
 end
@@ -118,7 +118,7 @@ Before('@ansi') do
 end
 
 Before '@mocked_home_directory' do
-  Aruba::Platform.deprecated('The use of "@mocked_home_directory" is deprecated. Use "@mocked-home-directory" instead')
+  Aruba.platform.deprecated('The use of "@mocked_home_directory" is deprecated. Use "@mocked-home-directory" instead')
 
   set_environment_variable 'HOME', expand_path('.')
 end

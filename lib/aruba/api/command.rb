@@ -32,7 +32,7 @@ module Aruba
           # ENV is set within this block
           path = ENV['PATH'] if path.nil?
 
-          Aruba::Platform.which(program, path)
+          Aruba.platform.which(program, path)
         end
       end
 
@@ -102,7 +102,7 @@ module Aruba
       #   If arg1 is exactly the same as arg2 return true, otherwise false
       def assert_exact_output(expected, actual)
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba::Platform.unescape(actual, aruba.config.keep_ansi)).to eq Aruba::Platform.unescape(expected, aruba.config.keep_ansi)
+        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to eq Aruba.platform.unescape(expected, aruba.config.keep_ansi)
       end
 
       # Partial compare arg1 and arg2
@@ -111,7 +111,7 @@ module Aruba
       #   If arg2 contains arg1 return true, otherwise false
       def assert_partial_output(expected, actual)
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba::Platform.unescape(actual, aruba.config.keep_ansi)).to include(Aruba::Platform.unescape(expected, aruba.config.keep_ansi))
+        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to include(Aruba.platform.unescape(expected, aruba.config.keep_ansi))
       end
 
       # Regex Compare arg1 and arg2
@@ -120,7 +120,7 @@ module Aruba
       #   If arg2 matches arg1 return true, otherwise false
       def assert_matching_output(expected, actual)
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba::Platform.unescape(actual, aruba.config.keep_ansi)).to match(/#{Aruba::Platform.unescape(expected, aruba.config.keep_ansi)}/m)
+        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
       end
 
       # Negative regex compare arg1 and arg2
@@ -129,7 +129,7 @@ module Aruba
       #   If arg2 does not match arg1 return true, otherwise false
       def assert_not_matching_output(expected, actual)
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba::Platform.unescape(actual, aruba.config.keep_ansi)).not_to match(/#{Aruba::Platform.unescape(expected, aruba.config.keep_ansi)}/m)
+        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
       end
 
       # Negative partial compare arg1 and arg2
@@ -139,9 +139,9 @@ module Aruba
       def assert_no_partial_output(unexpected, actual)
         actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
         if Regexp === unexpected
-          expect(Aruba::Platform.unescape(actual, aruba.config.keep_ansi)).not_to match unexpected
+          expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to match unexpected
         else
-          expect(Aruba::Platform.unescape(actual, aruba.config.keep_ansi)).not_to include(unexpected)
+          expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to include(unexpected)
         end
       end
 
@@ -150,7 +150,7 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If output of interactive command includes arg1 return true, otherwise false
       def assert_partial_output_interactive(expected)
-        Aruba::Platform.unescape(last_command.stdout, aruba.config.keep_ansi).include?(Aruba::Platform.unescape(expected, aruba.config.keep_ansi)) ? true : false
+        Aruba.platform.unescape(last_command.stdout, aruba.config.keep_ansi).include?(Aruba.platform.unescape(expected, aruba.config.keep_ansi)) ? true : false
       end
 
       # Check if command succeeded and if arg1 is included in output
@@ -255,7 +255,7 @@ module Aruba
         @commands ||= []
         @commands << cmd
 
-        cmd = Aruba::Platform.detect_ruby(cmd)
+        cmd = Aruba.platform.detect_ruby(cmd)
 
         announcer.announce(:directory, Dir.pwd)
         announcer.announce(:command, cmd)
@@ -264,7 +264,7 @@ module Aruba
 
         mode = if Aruba.process
                  # rubocop:disable Metrics/LineLength
-                 Aruba::Platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "Aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "Aruba.configure { |config| config.main_class = <klass> }" instead.')
+                 Aruba.platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "Aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "Aruba.configure { |config| config.main_class = <klass> }" instead.')
                  # rubocop:enable Metrics/LineLength
                  Aruba.process
                else
@@ -273,7 +273,7 @@ module Aruba
 
         main_class = if Aruba.process.respond_to?(:main_class) && Aruba.process.main_class
                        # rubocop:disable Metrics/LineLength
-                       Aruba::Platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "Aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "Aruba.configure { |config| config.main_class = <klass> }" instead.')
+                       Aruba.platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "Aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "Aruba.configure { |config| config.main_class = <klass> }" instead.')
                        # rubocop:enable Metrics/LineLength
                        Aruba.process.main_class
                      else
@@ -291,7 +291,7 @@ module Aruba
 
         if aruba.config.before? :cmd
           # rubocop:disable Metrics/LineLength
-          Aruba::Platform.deprecated('The use of "before"-hook" ":cmd" is deprecated. Use ":command" instead. Please be aware that this hook gets the command passed in not the cmdline itself. To get the commandline use "#cmd.commandline"')
+          Aruba.platform.deprecated('The use of "before"-hook" ":cmd" is deprecated. Use ":command" instead. Please be aware that this hook gets the command passed in not the cmdline itself. To get the commandline use "#cmd.commandline"')
           # rubocop:enable Metrics/LineLength
           aruba.config.before(:cmd, self, cmd)
         end
