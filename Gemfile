@@ -28,10 +28,10 @@ group :development, :test do
   # Run development tasks
   gem 'rake', '~> 10.4.2'
 
-  # Lint travis yaml
-  gem 'travis-yaml'
+  if RUBY_VERSION >= '2.0.0'
+    # Lint travis yaml
+    gem 'travis-yaml'
 
-  if RUBY_VERSION >= '1.9.3'
     # Reporting
     gem 'bcat', '~> 0.6.2'
     gem 'kramdown', '~> 1.7.0'

@@ -23,12 +23,17 @@ RSpec::Core::RakeTask.new do |spec|
   spec.rspec_opts = ['--color', '--format documentation']
 end
 
-require 'travis/yaml'
 namespace :travis do
   desc 'Lint travis.yml'
   task :lint do
-    puts 'Linting .travis.yml ... No output is good!'
-    Travis::Yaml.parse! File.read('.travis.yml')
+    begin
+      require 'travis/yaml'
+
+      puts 'Linting .travis.yml ... No output is good!'
+      Travis::Yaml.parse! File.read('.travis.yml')
+    rescue LoadError
+      $stderr.puts 'You ruby is not supported for linting the .travis.yml'
+    end
   end
 end
 
