@@ -12,6 +12,8 @@ module Aruba
     end
 
     def last_exit_status
+      Aruba::Platform.deprecated('The use of "#last_exit_status" is deprecated. Use "last_command_(started|stopped).exit_status" instead')
+
       return @last_exit_status if @last_exit_status
       all_commands.each { |c| c.stop(announcer) }
       @last_exit_status
@@ -67,6 +69,8 @@ module Aruba
     end
 
     def only_processes
+      Aruba::Platform.deprecated('The use of "#only_processes" is deprecated. Use "#all_commands" instead')
+
       processes.collect{ |_, process| process }
     end
 
@@ -102,7 +106,11 @@ module Aruba
     # @return [String]
     #   The stdout of all process which have run before
     def all_stdout
-      all_commands.each(&:stop)
+      # rubocop:disable Metrics/LineLength
+      Aruba::Platform.deprecated('The use of "#all_stdout" is deprecated. Use `all_commands.map { |c| c.stdout }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output_on_stdout /output/" instead')
+      # rubocop:enable Metrics/LineLength
+
+      all_commands.each { |c| c.stop(announcer) }
 
       if RUBY_VERSION < '1.9'
         out = ''
@@ -119,7 +127,11 @@ module Aruba
     # @return [String]
     #   The stderr of all process which have run before
     def all_stderr
-      all_commands.each(&:stop)
+      # rubocop:disable Metrics/LineLength
+      Aruba::Platform.deprecated('The use of "#all_stderr" is deprecated. Use `all_commands.map { |c| c.stderr }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output_on_stderr /output/" instead')
+      # rubocop:enable Metrics/LineLength
+
+      all_commands.each { |c| c.stop(announcer) }
 
       if RUBY_VERSION < '1.9'
         out = ''
@@ -136,6 +148,10 @@ module Aruba
     # @return [String]
     #   The stderr and stdout of all process which have run before
     def all_output
+      # rubocop:disable Metrics/LineLength
+      Aruba::Platform.deprecated('The use of "#all_output" is deprecated. Use `all_commands.map { |c| c.output }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output /output/" instead')
+      # rubocop:enable Metrics/LineLength
+
       all_stdout << all_stderr
     end
 
