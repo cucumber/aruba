@@ -7,17 +7,17 @@ gemspec
 group :debug do
   gem 'pry', '~> 0.10.1'
 
-  if RUBY_VERSION >= '2'
+  if RUBY_VERSION >= '2' && !RUBY_PLATFORM.include?('java')
     gem 'byebug', '~> 4.0.5'
     gem 'pry-byebug', '~> 3.1.0'
   end
 
-  if RUBY_VERSION < '2'
+  if RUBY_VERSION < '2' && !RUBY_PLATFORM.include?('java')
     gem 'debugger', '~> 1.6.8'
     gem 'pry-debugger', '~> 0.2.3'
   end
 
-  if RUBY_VERSION >= '1.9.3'
+  if RUBY_VERSION >= '1.9.3' && !RUBY_PLATFORM.include?('java')
     gem 'pry-stack_explorer', '~> 0.4.9'
   end
 
