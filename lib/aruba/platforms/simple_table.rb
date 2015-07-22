@@ -1,5 +1,5 @@
 module Aruba
-  module Platform
+  module Platforms
     class SimpleTable
       private
 
