@@ -31,7 +31,7 @@ module Aruba
 
       attr_reader :main_class
 
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash, main_class = nil)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil)
         @cmd               = cmd
         @argv              = arguments
         @stdin             = StringIO.new

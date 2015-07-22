@@ -6,7 +6,7 @@ module Aruba
     class BasicProcess
       attr_reader :exit_status, :environment
 
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash, main_class = nil)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil)
         @cmd               = cmd
         @working_directory = working_directory
         @environment       = environment

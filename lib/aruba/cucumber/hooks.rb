@@ -6,9 +6,9 @@ if Aruba::VERSION >= '1.0.0'
   Around do |_, block|
     begin
       if RUBY_VERSION < '1.9'
-        old_env = ENV.to_hash
+        old_env = ENV.to_hash.dup
       else
-        old_env = ENV.to_h
+        old_env = ENV.to_h.dup
       end
 
       block.call

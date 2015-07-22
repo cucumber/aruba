@@ -7,7 +7,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   let(:exit_timeout) { 1 }
   let(:io_wait) { 1 }
   let(:working_directory) { Dir.getwd }
-  let(:environment) { ENV.to_hash }
+  let(:environment) { ENV.to_hash.dup }
   let(:main_class) { nil }
 
   describe "#stdout" do

@@ -162,9 +162,9 @@ module Aruba
       #   The block of code which should be run with the modified environment variables
       def with_environment(env = {}, &block)
         if RUBY_VERSION <= '1.9.3'
-          old_env = ENV.to_hash
+          old_env = ENV.to_hash.dup
         else
-          old_env = ENV.to_h
+          old_env = ENV.to_h.dup
         end
 
         old_aruba_env = aruba.environment.to_h

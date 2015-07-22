@@ -18,7 +18,7 @@ module Aruba
 
         if RUBY_VERSION < '1.9'
           begin
-            old_env = ENV.to_hash
+            old_env = ENV.to_hash.dup
             ENV.update environment
 
             Dir.chdir @working_directory do

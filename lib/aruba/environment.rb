@@ -7,7 +7,7 @@ module Aruba
     public
 
     def initialize
-      @env = ENV.to_hash
+      @env = ENV.to_hash.dup
     end
 
     # Update environment with other en
