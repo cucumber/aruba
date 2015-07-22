@@ -300,7 +300,7 @@ module Aruba
       # @yield
       #   Pass the content of the given file to this block
       def with_file_content(file, &block)
-        expect(file).to all be_an_existing_path
+        expect(file).to be_an_existing_path
 
         content = read(file).join("\n")
 
