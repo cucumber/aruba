@@ -15,14 +15,14 @@ module Aruba
       Aruba::Platform.deprecated('The use of "#last_exit_status" is deprecated. Use "last_command_(started|stopped).exit_status" instead')
 
       return @last_exit_status if @last_exit_status
-      all_commands.each { |c| c.stop(announcer) }
+      all_commands.each { |c| stop_process(c) }
       @last_exit_status
     end
 
     def last_command_stopped
       return @last_command_stopped if @last_command_stopped
 
-      all_commands.each { |c| c.stop(announcer) }
+      all_commands.each { |c| stop_process(c) }
 
       @last_command_stopped
     end
@@ -43,7 +43,7 @@ module Aruba
     def stop_processes!
       Aruba::Platform.deprecated('The use of "#stop_processes!" is deprecated. Use "#all_commands.each { |c| c.stop(announcer) }" instead')
 
-      all_commands.each(&:stop)
+      all_commands.each { |c| stop_process(c) }
     end
 
     # Terminate all running processes
@@ -160,7 +160,7 @@ module Aruba
     # @return [Array]
     #   A list of all commands
     def all_commands
-      processes.collect{ |_, process| process }
+      processes.collect { |_, process| process }
     end
 
     # Clear list of processes
