@@ -60,6 +60,9 @@ Feature: Debug your command in cucumber-test-run
     """
     #!/usr/bin/env ruby
 
+    $stderr.sync = true
+    $stdout.sync = true
+
     require 'pry'
     binding.pry
 
