@@ -12,6 +12,9 @@ module Aruba
         @environment       = environment
         @main_class        = main_class
         @exit_status       = nil
+
+        @exit_timeout = exit_timeout
+        @io_wait      = io_wait
       end
 
       # Return command line
@@ -20,8 +23,8 @@ module Aruba
       end
 
       # Output stderr and stdout
-      def output
-        stdout + stderr
+      def output(opts = {})
+        stdout(opts) + stderr(opts)
       end
 
       def write(*)

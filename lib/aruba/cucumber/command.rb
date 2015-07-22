@@ -50,9 +50,9 @@ When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$
     Timeout.timeout(exit_timeout) do
       loop do
         output = if RUBY_VERSION < '1.9.3'
-                   last_command_started.send channel.to_sym
+                   last_command_started.send channel.to_sym, :wait_for_io => 0
                  else
-                   last_command_started.public_send channel.to_sym
+                   last_command_started.public_send channel.to_sym, :wait_for_io => 0
                  end
 
         if Aruba::Platform.unescape(output).include? Aruba::Platform.unescape(expected)

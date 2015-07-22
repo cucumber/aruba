@@ -68,11 +68,11 @@ module Aruba
         @stdin.string
       end
 
-      def stdout
+      def stdout(*)
         @stdout.string
       end
 
-      def stderr
+      def stderr(*)
         @stderr.string
       end
 

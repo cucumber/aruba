@@ -30,8 +30,6 @@ module Aruba
       def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil)
         super
 
-        @exit_timeout = exit_timeout
-        @io_wait      = io_wait
         @process      = nil
         @stdout_cache       = nil
         @stderr_cache       = nil
