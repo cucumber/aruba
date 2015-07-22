@@ -250,7 +250,13 @@ module Aruba
       #   Run block with process
       #
       # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/CyclomaticComplexity
       def run(cmd, timeout = nil)
+        unless directory? '.'
+          Aruba::Platform.deprecated('The use of "run" without an existing working directory is deprecated. This will be an error from 1.0.0 on.')
+          create_directory '.'
+        end
+
         timeout ||= exit_timeout
         @commands ||= []
         @commands << cmd
@@ -279,6 +285,7 @@ module Aruba
                      else
                        aruba.config.main_class
                      end
+
         command = Command.new(
           cmd,
           :mode              => mode,
@@ -306,6 +313,7 @@ module Aruba
         block_given? ? yield(command) : command
       end
       # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/CyclomaticComplexity
 
       # Default exit timeout for running commands with aruba
       #

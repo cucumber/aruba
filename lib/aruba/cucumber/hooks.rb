@@ -20,93 +20,127 @@ if Aruba::VERSION >= '1.0.0'
 end
 
 Before do
-  # this is ENV by default ...
-  aruba.environment.update aruba.config.command_runtime_environment
+  aruba_scope do
+    # this is ENV by default ...
+    aruba.environment.update aruba.config.command_runtime_environment
 
-  # ... so every change needs to be done later
-  prepend_environment_variable 'PATH', aruba.config.command_search_paths.join(':') + ':'
-  set_environment_variable 'HOME', aruba.config.home_directory
+    # ... so every change needs to be done later
+    prepend_environment_variable 'PATH', aruba.config.command_search_paths.join(':') + ':'
+    set_environment_variable 'HOME', aruba.config.home_directory
+  end
 end
 
 After do
-  restore_env
-  process_monitor.stop_processes!
-  process_monitor.clear
+  aruba_scope do
+    restore_env
+    process_monitor.stop_processes!
+    process_monitor.clear
+  end
 end
 
 Before('~@no-clobber') do
-  setup_aruba
+  aruba_scope do
+    setup_aruba
+  end
 end
 
 Before('@puts') do
-  announcer.mode = :puts
+  aruba_scope do
+    announcer.mode = :puts
+  end
 end
 
 Before('@announce-command') do
-  announcer.activate :command
+  aruba_scope do
+    announcer.activate :command
+  end
 end
 
 Before('@announce-cmd') do
   Aruba::Platform.deprecated 'The use of "@announce-cmd"-hook is deprecated. Please use "@announce-command"'
 
-  announcer.activate :command
+  aruba_scope do
+    announcer.activate :command
+  end
 end
 
 Before('@announce-stdout') do
-  announcer.activate :stdout
+  aruba_scope do
+    announcer.activate :stdout
+  end
 end
 
 Before('@announce-stderr') do
-  announcer.activate :stderr
+  aruba_scope do
+    announcer.activate :stderr
+  end
 end
 
 Before('@announce-dir') do
   Aruba::Platform.deprecated 'The use of "@announce-dir"-hook is deprecated. Please use "@announce-directory"'
 
-  announcer.activate :directory
+  aruba_scope do
+    announcer.activate :directory
+  end
 end
 
 Before('@announce-directory') do
-  announcer.activate :directory
+  aruba_scope do
+    announcer.activate :directory
+  end
 end
 
 Before('@announce-env') do
   Aruba::Platform.deprecated 'The use of "@announce-env"-hook is deprecated. Please use "@announce-modified-environment"'
 
-  announcer.activate :environment
+  aruba_scope do
+    announcer.activate :environment
+  end
 end
 
 Before('@announce-environment') do
   Aruba::Platform.deprecated '@announce-environment is deprecated. Use @announce-modified-environment instead'
 
-  announcer.activate :modified_environment
+  aruba_scope do
+    announcer.activate :modified_environment
+  end
 end
 
 Before('@announce-full-environment') do
-  announcer.activate :full_environment
+  aruba_scope do
+    announcer.activate :full_environment
+  end
 end
 
 Before('@announce-modified-environment') do
-  announcer.activate :modified_environment
+  aruba_scope do
+    announcer.activate :modified_environment
+  end
 end
 
 Before('@announce-timeout') do
-  announcer.activate :timeout
+  aruba_scope do
+    announcer.activate :timeout
+  end
 end
 
 Before('@announce') do
-  announcer.activate :command
-  announcer.activate :stdout
-  announcer.activate :stderr
-  announcer.activate :directory
-  announcer.activate :modified_environment
-  announcer.activate :full_environment
-  announcer.activate :environment
-  announcer.activate :timeout
+  aruba_scope do
+    announcer.activate :command
+    announcer.activate :stdout
+    announcer.activate :stderr
+    announcer.activate :directory
+    announcer.activate :modified_environment
+    announcer.activate :full_environment
+    announcer.activate :environment
+    announcer.activate :timeout
+  end
 end
 
 Before('@debug') do
-  aruba.config.command_launcher = :debug
+  aruba_scope do
+    aruba.config.command_launcher = :debug
+  end
 end
 
 # After('@debug') do
@@ -114,19 +148,35 @@ end
 # end
 
 Before('@ansi') do
-  @aruba_keep_ansi = true
+  aruba_scope do
+    if defined? @aruba_keep_ansi
+      # rubocop:disable Metrics/LineLength
+      Aruba::Platform.deprecated('The use of "@aruba_keep_ansi" is deprecated. Use "Aruba.configure do |config| config.keep_ansi = true" or "aruba.config.keep_ansi" instead')
+      # rubocop:enable Metrics/LineLength
+
+      aruba.config.keep_ansi = true
+    else
+      aruba.config.keep_ansi = false
+    end
+  end
 end
 
 Before '@mocked_home_directory' do
   Aruba::Platform.deprecated('The use of "@mocked_home_directory" is deprecated. Use "@mocked-home-directory" instead')
 
-  set_environment_variable 'HOME', expand_path('.')
+  aruba_scope do
+    set_environment_variable 'HOME', expand_path('.')
+  end
 end
 
 Before '@mocked-home-directory' do
-  set_environment_variable 'HOME', expand_path('.')
+  aruba_scope do
+    set_environment_variable 'HOME', expand_path('.')
+  end
 end
 
 Before('@disable-bundler') do
-  unset_bundler_env_vars
+  aruba_scope do
+    unset_bundler_env_vars
+  end
 end
