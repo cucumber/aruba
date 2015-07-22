@@ -15,7 +15,7 @@ RSpec.describe '.simple_table' do
   end
 
   context 'when empty hash' do
-    let(:hash) do { } end
+    let(:hash) { {} }
     let(:rows) { [] }
 
     it { expect(Aruba::Platform.simple_table(hash)).to eq rows }
