@@ -62,6 +62,20 @@ module Aruba
       end
     end
 
+    # How many parts has the file name
+    #
+    # @return [Integer]
+    #   The count of file name parts
+    #
+    # @example
+    #
+    # path = ArubaPath.new('path/to/file.txt')
+    # path.depth # => 3
+    #
+    def depth
+      __getobj__.each_filename.to_a.size
+    end
+
     # Path ends with string
     #
     # @param [String] string

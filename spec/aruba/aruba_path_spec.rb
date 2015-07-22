@@ -63,4 +63,41 @@ RSpec.describe Aruba::ArubaPath do
       it { expect(path[0..1]).to eq 'pa' }
     end
   end
+
+  describe '#depth' do
+    context 'when relative path' do
+      it { expect(path.depth).to eq 3 }
+    end
+
+    context 'when absolute path' do
+      let(:new_path) { '/path/to/dir' }
+      it { expect(path.depth).to eq 3 }
+    end
+  end
+
+  describe '#end_with?' do
+    it { expect(path).to be_end_with 'dir' }
+  end
+
+  describe '#start_with?' do
+    it { expect(path).to be_start_with 'path/to' }
+  end
+
+  describe '#relative?' do
+    it { expect(path).to be_relative }
+  end
+
+  describe '#absolute?' do
+    let(:new_path) { '/path/to/dir' }
+    it { expect(path).to be_absolute }
+  end
+
+  describe '#blocks' do
+    let(:new_path) { expand_path('path/to/file') }
+
+    before(:each) { FileUtils.mkdir_p File.dirname(new_path) }
+    before(:each) { File.open(new_path, 'w') { |f| f.print 'a' } }
+
+    it { expect(path.blocks).to be > 0 }
+  end
 end
