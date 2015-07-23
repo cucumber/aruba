@@ -28,7 +28,7 @@ Feature: Check existence of files and directories
 
   Scenario: Is file or directory and exists
     Given a file named "spec/create_directory_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Check if directory and file exist', :type => :aruba do
@@ -47,7 +47,7 @@ Feature: Check existence of files and directories
 
   Scenario: Is file or directory and does not exist
     Given a file named "spec/create_directory_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Check if directory and file exist', :type => :aruba do

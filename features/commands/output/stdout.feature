@@ -9,13 +9,13 @@ Feature: Stdout of commands which were executed
 
   Scenario: Match output in stdout
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts "hello\nworld"
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -27,13 +27,13 @@ Feature: Stdout of commands which were executed
 
   Scenario: Match stdout on several lines
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts 'GET /'
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -47,13 +47,13 @@ Feature: Stdout of commands which were executed
 
   Scenario: Match output on several lines where stdout contains quotes
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts 'GET "/"'
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`

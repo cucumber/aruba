@@ -15,7 +15,7 @@ Feature: Change current working directory
 
   Scenario: Existing directory
     Given a file named "spec/cd_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
@@ -34,7 +34,7 @@ Feature: Change current working directory
 
   Scenario: Non-Existing directory
     Given a file named "spec/cd_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
@@ -50,7 +50,7 @@ Feature: Change current working directory
 
   Scenario: With block in it-block
     Given a file named "spec/cd_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
@@ -74,7 +74,7 @@ Feature: Change current working directory
     \* Aruba's current directory
 
     Given a file named "spec/cd_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
@@ -101,7 +101,7 @@ Feature: Change current working directory
     block-notation of `cd`.
 
     Given a file named "spec/cd_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
@@ -125,7 +125,7 @@ Feature: Change current working directory
     block-notation of `cd`.
 
     Given a file named "spec/cd_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
@@ -153,7 +153,7 @@ Feature: Change current working directory
     block-notation of `cd`.
 
     Given a file named "spec/cd_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do

@@ -9,13 +9,13 @@ Feature: All output of commands which were executed
 
   Scenario: Detect subset of one-line output
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts 'hello world'
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -26,13 +26,13 @@ Feature: All output of commands which were executed
 
   Scenario: Detect absence of one-line output
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts 'hello world'
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -43,13 +43,13 @@ Feature: All output of commands which were executed
 
   Scenario: Detect subset of multiline output
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts "hello\nworld"
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -63,13 +63,13 @@ Feature: All output of commands which were executed
 
   Scenario: Detect absence of subset of multiline output
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts "hello\nworld"
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -84,7 +84,7 @@ Feature: All output of commands which were executed
   @posix
   Scenario: Detect exact one-line output for posix commands
     Given a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `printf 'hello world'`
@@ -98,7 +98,7 @@ Feature: All output of commands which were executed
 
   Scenario: Detect exact one-line output for ruby commands
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -107,7 +107,7 @@ Feature: All output of commands which were executed
     print "hello world"
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -121,7 +121,7 @@ Feature: All output of commands which were executed
 
   Scenario: Detect exact one-line output with ANSI output
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -130,7 +130,7 @@ Feature: All output of commands which were executed
     print "\e[36mhello world\e[0m"
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       @keep-ansi-escape-sequences
       Scenario: Run command
@@ -146,7 +146,7 @@ Feature: All output of commands which were executed
   Scenario: Detect exact one-line output with ANSI output stripped by default
     Given the default aruba exit timeout is 12 seconds
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -155,7 +155,7 @@ Feature: All output of commands which were executed
     print "\e[36mhello world\e[0m"
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -169,7 +169,7 @@ Feature: All output of commands which were executed
 
   Scenario: Detect exact multiline output
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -178,7 +178,7 @@ Feature: All output of commands which were executed
     print "hello\nworld"
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -193,13 +193,13 @@ Feature: All output of commands which were executed
 
   Scenario: Detect subset of one-line output
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts 'hello world'
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -210,13 +210,13 @@ Feature: All output of commands which were executed
 
   Scenario: Detect subset of one-line output with regex
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts 'hello, ruby'
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -227,13 +227,13 @@ Feature: All output of commands which were executed
 
   Scenario: Detect subset of multiline output with regex
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts "hello\nworld\nextra line1\nextra line2\nimportant line"
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -250,13 +250,13 @@ Feature: All output of commands which were executed
 
   Scenario: Negative matching of one-line output with regex
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts "hello, ruby"
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -267,13 +267,13 @@ Feature: All output of commands which were executed
 
   Scenario: Negative matching of multiline output with regex
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts "hello\nworld\nextra line1\nextra line2\nimportant line"
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -291,14 +291,14 @@ Feature: All output of commands which were executed
 
   Scenario: Match passing exit status and partial output
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts "hello world"
     exit 0
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -312,7 +312,7 @@ Feature: All output of commands which were executed
 
   Scenario: Match passing exit status and exact output
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -322,7 +322,7 @@ Feature: All output of commands which were executed
     exit 0
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -337,14 +337,14 @@ Feature: All output of commands which were executed
 
   Scenario: Match failing exit status and partial output
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts "hello\nworld"
     exit 1
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -359,7 +359,7 @@ Feature: All output of commands which were executed
 
   Scenario: Match failing exit status and exact output
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -369,7 +369,7 @@ Feature: All output of commands which were executed
     exit 1
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -384,7 +384,7 @@ Feature: All output of commands which were executed
 
   Scenario: Match failing exit status and output with regex
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -394,7 +394,7 @@ Feature: All output of commands which were executed
     exit 1
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli`
@@ -408,7 +408,7 @@ Feature: All output of commands which were executed
 
   Scenario: Detect output from all processes
     Given an executable named "bin/cli1" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -417,7 +417,7 @@ Feature: All output of commands which were executed
     puts 'This is cli1'
     """
     And an executable named "bin/cli2" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -426,7 +426,7 @@ Feature: All output of commands which were executed
     puts 'This is cli2'
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli1`
@@ -445,7 +445,7 @@ Feature: All output of commands which were executed
 
   Scenario: Detect output from all processes (deprecated)
     Given an executable named "bin/cli1" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -454,7 +454,7 @@ Feature: All output of commands which were executed
     puts 'This is cli1'
     """
     And an executable named "bin/cli2" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -463,7 +463,7 @@ Feature: All output of commands which were executed
     puts 'This is cli2'
     """
     And a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli1`

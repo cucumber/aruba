@@ -9,20 +9,20 @@ Feature: Configure Log level of aruba logger
 
   Scenario: Default value
     Given a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       puts %(The default value is "#{config.log_level}")
     end
     """
     When I successfully run `cucumber`
     Then the output should contain:
-    """
+    """ruby
     The default value is "info"
     """
 
   Scenario: Modify value
     Given a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       config.log_level = :warn
     end

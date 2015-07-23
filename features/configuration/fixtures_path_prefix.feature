@@ -9,7 +9,7 @@ Feature: Use fixtures path prefix of aruba
 
   Scenario: Default value
     Given a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       puts "The prefix is \"#{config.fixtures_path_prefix}\"."
     end

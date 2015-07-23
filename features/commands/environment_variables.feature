@@ -9,13 +9,13 @@ Feature: Modify environment variables
 
   Scenario: Change/Set value of arbitrary environment variable
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts ENV['LONG_LONG_VARIABLE']
     """
     And a file named "features/environment_variable.feature" with:
-    """
+    """cucumber
     Feature: Flushing output
       Scenario: Run command
         Given I set the environment variables to:
@@ -29,13 +29,13 @@ Feature: Modify environment variables
 
   Scenario: Change the HOME-variable of current user during test using custom step
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts File.expand_path('~/')
     """
     And a file named "features/home_directory.feature" with:
-    """
+    """cucumber
     Feature: Run command with different home directory
       Scenario: Run command
         Given a mocked home directory
@@ -47,13 +47,13 @@ Feature: Modify environment variables
 
   Scenario: Change the HOME-variable of current user during test using tag
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts File.expand_path('~/')
     """
     And a file named "features/home_directory.feature" with:
-    """
+    """cucumber
     Feature: Run command
       @mocked_home_directory
       Scenario: Run command

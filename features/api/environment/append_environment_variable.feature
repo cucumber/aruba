@@ -15,7 +15,7 @@ Feature: Append environment variable
 
   Scenario: Non-existing variable
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
@@ -30,7 +30,7 @@ Feature: Append environment variable
 
   Scenario: Existing inner variable
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
@@ -47,7 +47,7 @@ Feature: Append environment variable
 
   Scenario: Existing outer variable
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = 'a'
@@ -67,7 +67,7 @@ Feature: Append environment variable
 
   Scenario: Run some ruby code with previously set environment
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = 'a'
@@ -95,7 +95,7 @@ Feature: Append environment variable
     overwrites the variable
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = 'a'

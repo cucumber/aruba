@@ -9,7 +9,7 @@ Feature: Configure directory where to look for fixtures
 
   Scenario: Default value
     Given a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       puts %(The default value is "%w(#{config.fixtures_directories.join(" ")})")
     end
@@ -22,7 +22,7 @@ Feature: Configure directory where to look for fixtures
 
   Scenario: Modify value
     Given a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       config.fixtures_directories = %w(spec/fixtures)
     end

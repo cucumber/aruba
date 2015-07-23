@@ -23,7 +23,7 @@ Feature: Create Directory
 
   Scenario: New directory
     Given a file named "spec/create_directory_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Create directory', :type => :aruba do
@@ -41,7 +41,7 @@ Feature: Create Directory
     It does not complain if a directory already exists.
 
     Given a file named "spec/create_directory_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Create directory', :type => :aruba do

@@ -10,7 +10,7 @@ Feature: Interactive process control
   @wip-jruby-java-1.6
   Scenario: Running ruby interactively
     Given a file named "bin/cli" with:
-    """
+    """bash
     #!/usr/bin/env ruby
 
     while res = gets.chomp
@@ -19,7 +19,7 @@ Feature: Interactive process control
     end
     """
     And a file named "features/interactive.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cli` interactively
@@ -33,7 +33,7 @@ Feature: Interactive process control
   @posix
   Scenario: Running a native binary interactively
     Given a file named "features/interactive.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
       When I run `cat` interactively
@@ -47,7 +47,7 @@ Feature: Interactive process control
   @posix
   Scenario: Pipe in a file
     Given a file named "features/interactive.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         Given a file named "test.txt" with "line1\nline2"
@@ -61,7 +61,7 @@ Feature: Interactive process control
   @posix
   Scenario: Close stdin stream
     Given a file named "features/interactive.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         When I run `cat` interactively
@@ -78,7 +78,7 @@ Feature: Interactive process control
     See: http://github.com/aslakhellesoy/aruba/issues#issue/17 for context
 
     Given a file named "features/interactive.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
         Given a directory named "rename_me"

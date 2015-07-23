@@ -9,7 +9,7 @@ Feature: Flushing the output of your application
 
   Scenario: A little output
     Given a file named "bin/cli" with:
-    """
+    """bash
     #!/usr/bin/env bash
 
     for ((c=0; c<256; c = c+1)); do 
@@ -17,7 +17,7 @@ Feature: Flushing the output of your application
     done
     """
     And a file named "features/flushing.feature" with:
-    """
+    """cucumber
     Feature: Flushing output
       Scenario: Run command
         When I run `cli`
@@ -31,7 +31,7 @@ Feature: Flushing the output of your application
   Scenario: Tons of output
     Given the default aruba exit timeout is 10 seconds
     And a file named "bin/cli" with:
-    """
+    """bash
     #!/usr/bin/env bash
 
     for ((c=0; c<65536; c = c+1)); do
@@ -39,7 +39,7 @@ Feature: Flushing the output of your application
     done
     """
     And a file named "features/flushing.feature" with:
-    """
+    """cucumber
     Feature: Flushing output
       Scenario: Run command
         When I run `cli`
@@ -53,7 +53,7 @@ Feature: Flushing the output of your application
   Scenario: Tons of interactive output
     Given the default aruba exit timeout is 10 seconds
     And a file named "bin/cli" with:
-    """
+    """bash
     #!/usr/bin/env bash
 
     read size; for ((c=0; c<$size; c = c+1)); do
@@ -61,7 +61,7 @@ Feature: Flushing the output of your application
     done
     """
     And a file named "features/flushing.feature" with:
-    """
+    """cucumber
     Feature: Flushing output
       Scenario: Run command
         When I run `cli` interactively

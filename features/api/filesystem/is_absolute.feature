@@ -21,7 +21,7 @@ Feature: Check if path is absolute
 
   Scenario: Is path absolute
     Given a file named "spec/create_directory_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Check if directory or file is absolute', :type => :aruba do
@@ -35,7 +35,7 @@ Feature: Check if path is absolute
 
   Scenario: Path should be absolute, but it's relative
     Given a file named "spec/create_directory_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Check if directory or file is absolute', :type => :aruba do

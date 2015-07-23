@@ -9,7 +9,7 @@ Feature: Configure if ansi color codes should be stripped off from command outpu
 
   Scenario: Default value
     Given a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       puts %(The default value is "#{config.keep_ansi}")
     end
@@ -22,7 +22,7 @@ Feature: Configure if ansi color codes should be stripped off from command outpu
 
   Scenario: Modify value
     Given a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       config.keep_ansi = true
     end

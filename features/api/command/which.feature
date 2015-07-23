@@ -8,12 +8,12 @@ Feature: Get path to command
 
   Scenario: Existing executable
     Given an executable named "bin/cli" with:
-    """
+    """bash
     #!/bin/bash
     exit 0
     """
     And a file named "spec/which_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Find path for command', :type => :aruba do
@@ -26,7 +26,7 @@ Feature: Get path to command
   Scenario: Non-existing executable
     Given a file named "bin/cli" does not exist
     And a file named "spec/which_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Find path for command', :type => :aruba do

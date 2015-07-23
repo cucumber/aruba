@@ -14,7 +14,7 @@ Feature: Set environment variable via API-method
 
   Scenario: Non-existing variable
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
@@ -29,7 +29,7 @@ Feature: Set environment variable via API-method
 
   Scenario: Existing variable set from within the test
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
@@ -47,7 +47,7 @@ Feature: Set environment variable via API-method
   Scenario: Existing variable set by some outer parent process
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
@@ -69,7 +69,7 @@ Feature: Set environment variable via API-method
     avaiable for the code run within the block.
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
@@ -97,7 +97,7 @@ Feature: Set environment variable via API-method
     Pass it an `Hash` containing the environment variables.
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
@@ -124,7 +124,7 @@ Feature: Set environment variable via API-method
     scope, when you are using `RSpec`.
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
@@ -149,7 +149,7 @@ Feature: Set environment variable via API-method
 
   Scenario: When an error occures the ENV is not polluted
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
@@ -182,7 +182,7 @@ Feature: Set environment variable via API-method
     the most inner block.
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['LONG_LONG_VARIABLE'] = '1'
@@ -212,7 +212,7 @@ Feature: Set environment variable via API-method
     run.
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do

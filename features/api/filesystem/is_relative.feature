@@ -21,7 +21,7 @@ Feature: Check if path is relative
 
   Scenario: Is path relative
     Given a file named "spec/create_directory_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Check if directory or file is relative', :type => :aruba do
@@ -35,7 +35,7 @@ Feature: Check if path is relative
 
   Scenario: Path should be relative, but it's relative
     Given a file named "spec/create_directory_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Check if directory or file is relative', :type => :aruba do

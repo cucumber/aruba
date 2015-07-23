@@ -9,7 +9,7 @@ Feature: Announce output during test run
 
   Scenario: Announce change of directory (deprecated)
     Given a file named "features/exit_status.feature" with:
-    """
+    """cucumber
     Feature: Announce
       @announce-dir
       Scenario: Run command
@@ -29,7 +29,7 @@ Feature: Announce output during test run
 
   Scenario: Announce change of directory
     Given a file named "features/exit_status.feature" with:
-    """
+    """cucumber
     Feature: Announce
       @announce-directory
       Scenario: Run command
@@ -49,7 +49,7 @@ Feature: Announce output during test run
 
   Scenario: Announce stdout
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -58,7 +58,7 @@ Feature: Announce output during test run
     puts 'Hello World'
     """
     And a file named "features/exit_status.feature" with:
-    """
+    """cucumber
     Feature: Announce
       @announce-stdout
       Scenario: Run command
@@ -77,7 +77,7 @@ Feature: Announce output during test run
 
   Scenario: Announce stderr
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -86,7 +86,7 @@ Feature: Announce output during test run
     $stderr.puts 'Hello World'
     """
     And a file named "features/exit_status.feature" with:
-    """
+    """cucumber
     Feature: Announce
       @announce-stderr
       Scenario: Run command
@@ -105,7 +105,7 @@ Feature: Announce output during test run
 
   Scenario: Announce both stderr and stdout
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $LOAD_PATH << File.expand_path('../../lib', __FILE__)
@@ -115,7 +115,7 @@ Feature: Announce output during test run
     puts 'World'
     """
     And a file named "features/exit_status.feature" with:
-    """
+    """cucumber
     Feature: Announce
       @announce-output
       Scenario: Run command
@@ -141,14 +141,14 @@ Feature: Announce output during test run
 
   Scenario: Announce command
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $stderr.puts 'Hello'
     puts 'World'
     """
     And a file named "features/exit_status.feature" with:
-    """
+    """cucumber
     Feature: Announce
       @announce-cmd
       Scenario: Run command
@@ -164,13 +164,13 @@ Feature: Announce output during test run
 
   Scenario: Announce change of environment variable
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts 'World'
     """
     And a file named "features/exit_status.feature" with:
-    """
+    """cucumber
     Feature: Announce
       @announce-env
       Scenario: Run command
@@ -189,13 +189,13 @@ Feature: Announce output during test run
 
   Scenario: Announce change of environment variable which contains special characters
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     puts 'World'
     """
     And a file named "features/exit_status.feature" with:
-    """
+    """cucumber
     Feature: Announce
       @announce-env
       Scenario: Run command

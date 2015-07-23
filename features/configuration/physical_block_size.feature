@@ -9,7 +9,7 @@ Feature: Configure the phsical block size of disk
 
   Scenario: Default value
     Given a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       puts %(The default value is "#{config.physical_block_size}")
     end
@@ -22,7 +22,7 @@ Feature: Configure the phsical block size of disk
 
   Scenario: Set the block size to something else which is a power of two
     Given a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       # use current working directory
       config.physical_block_size = 4096
@@ -40,7 +40,7 @@ Feature: Configure the phsical block size of disk
 
   Scenario: The value needs to be a power of two, otherwise it will fail
     Given a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       config.physical_block_size = 3
     end

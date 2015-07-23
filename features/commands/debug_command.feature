@@ -9,13 +9,13 @@ Feature: Debug your command in cucumber-test-run
 
   Scenario: Can handle exit status 0
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     exit 0
     """
     And a file named "features/debug.feature" with:
-    """
+    """cucumber
     Feature: Exit status in debug environment
 
       @debug
@@ -28,13 +28,13 @@ Feature: Debug your command in cucumber-test-run
 
   Scenario: Can handle exit status 1
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     exit 1
     """
     And a file named "features/debug.feature" with:
-    """
+    """cucumber
     Feature: Exit status in debug environment
 
       @debug
@@ -60,7 +60,7 @@ Feature: Debug your command in cucumber-test-run
     debugger for any other programming language should also work.
 
     Given a file named "bin/cli" with:
-    """
+    """ruby
     #!/usr/bin/env ruby
 
     $stderr.sync = true
@@ -72,7 +72,7 @@ Feature: Debug your command in cucumber-test-run
     exit 0
     """
     And a file named "features/debug.feature" with:
-    """
+    """cucumber
     Feature: Exit status in debug environment
 
       @debug
