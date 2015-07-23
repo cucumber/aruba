@@ -144,13 +144,19 @@ module Aruba
 
         if aruba.config.fixtures_path_prefix == prefix
           path = File.join(*[aruba.fixtures_directory, rest].compact)
+
+          # rubocop:disable Metrics/LineLength
+          fail ArgumentError, %(Fixture "#{rest}" does not exist in fixtures directory "#{aruba.fixtures_directory}". This was the one we found first on your system from all possible candidates: #{aruba.config.fixtures_directories.map { |p| format('"%s"', p) }.join(', ')}.) unless Aruba.platform.exist? path
+          # rubocop:enable Metrics/LineLength
+
+          path
         elsif '~' == prefix
           path = with_environment do
             ArubaPath.new(File.expand_path(file_name))
           end
 
-          fail 'Expanding "~/" to "/" is not allowed' if path.to_s == '/'
-          fail %(Expanding "~/" to a relative path "#{path}" is not allowed) unless path.absolute?
+          fail ArgumentError, 'Expanding "~/" to "/" is not allowed' if path.to_s == '/'
+          fail ArgumentError, %(Expanding "~/" to a relative path "#{path}" is not allowed) unless path.absolute?
 
           path.to_s
         else

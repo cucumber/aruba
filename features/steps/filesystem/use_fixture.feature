@@ -61,3 +61,17 @@ Feature: Use a fixture
     And an empty file named "test/fixtures/my-app/MY-APP-README.md"
     When I run `cucumber`
     Then the features should all pass
+
+  Scenario: Fails if fixture does not exist
+    Given a file named "features/use_fixtures.feature" with:
+    """
+    Feature: Use Fixture
+      Scenario: Use Fixture
+        Given I use a fixture named "my-app"
+    """
+    And a directory named "fixtures"
+    When I run `cucumber`
+    Then the features should not all pass with regex:
+    """
+    Fixture "my-app" does not exist in fixtures directory ".+/fixtures"
+    """
