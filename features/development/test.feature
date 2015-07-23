@@ -1,8 +1,8 @@
-Feature: Build Aruba Gem
+Feature: Run test suite of aruba
 
   As a aruba developer
-  I want to build the `aruba` gem
-  In order to install it
+  I want to run the test suite of aruba
+  In order to make changes to it
 
   Background:
     Given the default aruba exit timeout is 120 seconds
