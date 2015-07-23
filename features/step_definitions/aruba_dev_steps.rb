@@ -36,7 +36,7 @@ Then /^the feature(?:s)? should( not)?(?: all)? pass$/ do |negated|
   end
 end
 
-Then /^the feature(?:s)? should( not)?(?: all)? pass with:$/ do |negated, string|
+Then /^the feature(?:s)? should( not)?(?: all)? pass with( regex)?:$/ do |negated, regex, string|
   if negated
     step 'the output should contain " failed)"'
     step 'the exit status should be 1'
@@ -46,7 +46,11 @@ Then /^the feature(?:s)? should( not)?(?: all)? pass with:$/ do |negated, string
     step 'the exit status should be 0'
   end
 
-  step 'the output should contain:', string if string
+  if regex
+    step "the output should match %r<#{string}>"
+  else
+    step 'the output should contain:', string
+  end
 end
 
 Then /^the spec(?:s)? should( not)?(?: all)? pass(?: with (\d+) failures?)?$/ do |negated, count_failures|
@@ -64,7 +68,7 @@ Then /^the spec(?:s)? should( not)?(?: all)? pass(?: with (\d+) failures?)?$/ do
   end
 end
 
-Then /^the spec(?:s)? should( not)?(?: all)? pass with:$/ do |negated, string|
+Then /^the spec(?:s)? should( not)?(?: all)? pass with( regex)?:$/ do |negated, regex, string|
   if negated
     step 'the output should contain " failed)"'
     step 'the exit status should be 1'
@@ -73,7 +77,11 @@ Then /^the spec(?:s)? should( not)?(?: all)? pass with:$/ do |negated, string|
     step 'the exit status should be 0'
   end
 
-  step 'the output should contain:', string if string
+  if regex
+    step "the output should match %r<#{string}>"
+  else
+    step 'the output should contain:', string
+  end
 end
 
 Given(/^the default executable$/) do

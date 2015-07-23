@@ -50,7 +50,7 @@ When(/^I write to "([^"]*)" with:$/) do |file_name, file_content|
   write_file(file_name, file_content)
 end
 
-When(/^I overwrite "([^"]*)" with:$/) do |file_name, file_content|
+When(/^I overwrite(?: (?:a|the) file(?: named)?)? "([^"]*)" with:$/) do |file_name, file_content|
   overwrite_file(file_name, file_content)
 end
 
