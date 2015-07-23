@@ -179,6 +179,8 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?be equal to file "([^"]
 end
 
 Then(/^the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)"$/) do |file, negated, permissions|
+  Aruba::Platform.deprecated('The use of step "the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)" is deprecated. Use "^the (?:file|directory)(?: named)? "([^"]*)" should have permissions "([^"]*)"$" instead')
+
   if negated
     expect(file).not_to have_permissions(permissions)
   else
@@ -186,7 +188,7 @@ Then(/^the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)"$/) 
   end
 end
 
-Then(/^the (?:file|directory)(?: named)? "([^"]*)" should have permissions "([^"]*)"$/) do |path, negated, permissions|
+Then(/^the (?:file|directory)(?: named)? "([^"]*)" should( not)? have permissions "([^"]*)"$/) do |path, negated, permissions|
   if negated
     expect(path).not_to have_permissions(permissions)
   else
