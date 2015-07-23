@@ -8,7 +8,7 @@ Feature: Debug your command in cucumber-test-run
     Given I use a fixture named "cli-app"
 
   Scenario: Can handle exit status 0
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -27,7 +27,7 @@ Feature: Debug your command in cucumber-test-run
     Then the features should all pass
 
   Scenario: Can handle exit status 1
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -59,7 +59,7 @@ Feature: Debug your command in cucumber-test-run
     We are going to demonstrate this using `pry`, but any other interactive
     debugger for any other programming language should also work.
 
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 

@@ -8,7 +8,7 @@ Feature: Stdout of commands which were executed
     Given I use a fixture named "cli-app"
 
   Scenario: Match output in stdout
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -26,7 +26,7 @@ Feature: Stdout of commands which were executed
     Then the features should all pass
 
   Scenario: Match stdout on several lines
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -46,7 +46,7 @@ Feature: Stdout of commands which were executed
     Then the features should all pass
 
   Scenario: Match output on several lines where stdout contains quotes
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 

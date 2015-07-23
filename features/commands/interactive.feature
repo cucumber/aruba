@@ -9,7 +9,7 @@ Feature: Interactive process control
 
   @wip-jruby-java-1.6
   Scenario: Running ruby interactively
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """bash
     #!/usr/bin/env ruby
 

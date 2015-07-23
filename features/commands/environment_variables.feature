@@ -8,7 +8,7 @@ Feature: Modify environment variables
     Given I use a fixture named "cli-app"
 
   Scenario: Change/Set value of arbitrary environment variable
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -28,7 +28,7 @@ Feature: Modify environment variables
     Then the features should all pass
 
   Scenario: Change the HOME-variable of current user during test using custom step
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -46,7 +46,7 @@ Feature: Modify environment variables
     Then the features should all pass
 
   Scenario: Change the HOME-variable of current user during test using tag
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 

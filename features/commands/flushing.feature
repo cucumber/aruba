@@ -8,7 +8,7 @@ Feature: Flushing the output of your application
     Given I use a fixture named "cli-app"
 
   Scenario: A little output
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -30,7 +30,7 @@ Feature: Flushing the output of your application
 
   Scenario: Tons of output
     Given the default aruba exit timeout is 10 seconds
-    And a file named "bin/cli" with:
+    And an executable named "bin/cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -52,7 +52,7 @@ Feature: Flushing the output of your application
 
   Scenario: Tons of interactive output
     Given the default aruba exit timeout is 10 seconds
-    And a file named "bin/cli" with:
+    And an executable named "bin/cli" with:
     """bash
     #!/usr/bin/env bash
 

@@ -8,7 +8,7 @@ Feature: All output of commands which were executed
     Given I use a fixture named "cli-app"
 
   Scenario: Detect subset of one-line output
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -25,7 +25,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect absence of one-line output
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -42,7 +42,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect subset of multiline output
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -62,7 +62,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect absence of subset of multiline output
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -97,7 +97,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect exact one-line output for ruby commands
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -120,7 +120,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect exact one-line output with ANSI output
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -145,7 +145,7 @@ Feature: All output of commands which were executed
 
   Scenario: Detect exact one-line output with ANSI output stripped by default
     Given the default aruba exit timeout is 12 seconds
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -168,7 +168,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect exact multiline output
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -192,7 +192,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect subset of one-line output
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -209,7 +209,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect subset of one-line output with regex
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -226,7 +226,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect subset of multiline output with regex
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -249,7 +249,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Negative matching of one-line output with regex
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -266,7 +266,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Negative matching of multiline output with regex
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -290,7 +290,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Match passing exit status and partial output
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -311,7 +311,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Match passing exit status and exact output
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -336,7 +336,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Match failing exit status and partial output
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -358,7 +358,7 @@ Feature: All output of commands which were executed
 
 
   Scenario: Match failing exit status and exact output
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -383,7 +383,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Match failing exit status and output with regex
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
