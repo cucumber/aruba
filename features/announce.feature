@@ -48,7 +48,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce stdout
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -76,7 +76,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce stderr
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -104,7 +104,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce both stderr and stdout
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -140,7 +140,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce command
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -163,7 +163,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce change of environment variable
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -188,7 +188,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce change of environment variable which contains special characters
-    Given a file named "bin/cli" with:
+    Given an executable named "bin/cli" with:
     """ruby
     #!/usr/bin/env ruby
 
