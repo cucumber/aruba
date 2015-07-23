@@ -7,15 +7,7 @@ module Aruba
 end
 
 module Aruba
-  class Platform < SimpleDelegator
-    def initialize
-      @platforms = []
-      @platforms << Aruba::Platforms::WindowsPlatform
-      @platforms << Aruba::Platforms::UnixPlatform
-
-      super @platforms.find(&:match?).new
-    end
-  end
+  Platform = [Platforms::WindowsPlatform, Platforms::UnixPlatform].find(&:match?)
 end
 
 module Aruba
