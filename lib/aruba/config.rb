@@ -30,7 +30,7 @@ module Aruba
 
     option_accessor :exit_timeout, :contract => { Num => Num }, :default => 15
     option_accessor :io_wait_timeout, :contract => { Num => Num }, :default => 0.1
-    option_accessor :fixtures_directories, :contract => { Array => ArrayOf[String] }, :default => %w(features/fixtures spec/fixtures test/fixtures)
+    option_accessor :fixtures_directories, :contract => { Array => ArrayOf[String] }, :default => %w(features/fixtures spec/fixtures test/fixtures fixtures)
     option_accessor :command_runtime_environment, :contract => { Hash => Hash }, :default => ENV.to_hash.dup
     # rubocop:disable Metrics/LineLength
     option_accessor(:command_search_paths, :contract => { ArrayOf[String] => ArrayOf[String] }) { |config| [File.join(config.root_directory.value, 'bin')] }
