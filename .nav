@@ -21,6 +21,7 @@
         - api/filesystem/is_directory.feature
         - api/filesystem/is_file.feature
         - api/filesystem/is_relative.feature
+        - api/filesystem/move.feature
         - file_system_commands.feature
     - Hooks:
         - hooks/after/command.feature
@@ -65,9 +66,11 @@
         - steps/commands/run.feature
         - steps/environment/home_variable.feature
         - steps/environment/set_environment_variable.feature
+        - steps/filesystem/copy.feature
         - steps/filesystem/create_directory.feature
         - steps/filesystem/create_file.feature
         - steps/filesystem/file_content.feature
+        - steps/filesystem/move.feature
         - steps/filesystem/overwrite_file.feature
         - steps/filesystem/use_fixture.feature
         - output.feature
