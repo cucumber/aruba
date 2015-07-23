@@ -1,7 +1,7 @@
 Feature: Install aruba
 
   Background:
-    Given the default aruba timeout is 10 seconds
+    Given the default aruba exit timeout is 10 seconds
 
   # @wip
   Scenario: Using rubygems

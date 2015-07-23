@@ -144,7 +144,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect exact one-line output with ANSI output stripped by default
-    Given the default aruba timeout is 12 seconds
+    Given the default aruba exit timeout is 12 seconds
     Given a file named "bin/cli" with:
     """
     #!/usr/bin/env ruby

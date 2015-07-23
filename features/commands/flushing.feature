@@ -29,7 +29,7 @@ Feature: Flushing the output of your application
     Then the features should all pass
 
   Scenario: Tons of output
-    Given the default aruba timeout is 10 seconds
+    Given the default aruba exit timeout is 10 seconds
     And a file named "bin/cli" with:
     """
     #!/usr/bin/env bash
@@ -51,7 +51,7 @@ Feature: Flushing the output of your application
     Then the features should all pass
 
   Scenario: Tons of interactive output
-    Given the default aruba timeout is 10 seconds
+    Given the default aruba exit timeout is 10 seconds
     And a file named "bin/cli" with:
     """
     #!/usr/bin/env bash

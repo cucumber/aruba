@@ -5,7 +5,7 @@ Feature: Build Aruba Gem
   In order to install it
 
   Background:
-    Given the default aruba timeout is 10 seconds
+    Given the default aruba exit timeout is 10 seconds
     And I successfully run `git clone https://github.com/cucumber/aruba.git`
     And I cd to "aruba"
 
