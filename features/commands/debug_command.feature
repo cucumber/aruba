@@ -56,6 +56,9 @@ Feature: Debug your command in cucumber-test-run
     Otherwise you might not get an interactive shell, because your program will
     just exit.
 
+    We are going to demonstrate this using `pry`, but any other interactive
+    debugger for any other programming language should also work.
+
     Given a file named "bin/cli" with:
     """
     #!/usr/bin/env ruby
