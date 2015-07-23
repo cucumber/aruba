@@ -12,15 +12,9 @@ module Aruba
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
       def start
-        if RUBY_VERSION < '2'
-          Dir.chdir @working_directory do
-            with_local_env(environment) do
-              @exit_status = system(command, *arguments) ? 0 : 1
-            end
-          end
-        else
+        Dir.chdir @working_directory do
           with_local_env(environment) do
-            @exit_status = system(command, *arguments, :chdir => @working_directory) ? 0 : 1
+            @exit_status = system(command, *arguments) ? 0 : 1
           end
         end
       end
