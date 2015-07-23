@@ -1,6 +1,8 @@
 require 'rbconfig'
 require 'pathname'
 
+require 'aruba/aruba_path'
+
 require 'aruba/platforms/simple_table'
 require 'aruba/platforms/unix_command_string'
 require 'aruba/platforms/unix_which'
@@ -179,8 +181,8 @@ module Aruba
       #     * /bin/command.sh
       #     * command.sh
       def relative_command?(path)
-        p = Pathname.new(path)
-        p.relative? && p.basename != p
+        p = ArubaPath.new(path)
+        p.relative? && p.depth > 1
       end
 
       # Check if command is relative
