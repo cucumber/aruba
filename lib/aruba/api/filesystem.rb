@@ -315,7 +315,7 @@ module Aruba
       def disk_usage(*paths)
         expect(paths.flatten).to all be_an_existing_path
 
-        Aruba.platform.determine_disk_usage.new.call paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }, aruba.config.physical_block_size
+        Aruba.platform.determine_disk_usage paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }, aruba.config.physical_block_size
       end
 
       # Get size of file
