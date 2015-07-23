@@ -99,7 +99,7 @@ module Aruba
 
         wait_for_io wait_for_io do
           @process.io.stdout.flush
-          open(@stdout_file.to_s).read
+          open(@stdout_file.path).read
         end
       end
 
@@ -120,7 +120,7 @@ module Aruba
 
         wait_for_io wait_for_io do
           @process.io.stderr.flush
-          open(@stderr_file.to_s).read
+          open(@stderr_file.path).read
         end
       end
 
