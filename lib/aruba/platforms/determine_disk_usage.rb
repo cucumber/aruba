@@ -1,3 +1,5 @@
+require 'aruba/platforms/disk_usage_calculator'
+
 module Aruba
   module Platforms
     class DetermineDiskUsage
@@ -8,7 +10,7 @@ module Aruba
         paths = args
 
         size = paths.flatten.map do |p|
-          DiskUsageCalculator.new.calc(
+          DiskUsageCalculator.new.call(
             p.blocks,
             physical_block_size
           )
