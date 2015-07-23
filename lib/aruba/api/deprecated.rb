@@ -829,14 +829,6 @@ module Aruba
       end
 
       # @deprecated
-      # The root directory of aruba
-      def root_directory
-        Aruba.platform.deprecated('The use of "#root_directory" is deprecated. Use "aruba.root_directory" instead')
-
-        aruba.config.root_directory
-      end
-
-      # @deprecated
       # Only processes
       def only_processes
         Aruba.platform.deprecated('The use of "#only_processes" is deprecated. Use "#all_commands" instead')
