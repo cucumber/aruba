@@ -17,7 +17,7 @@ module Aruba
     # This includes all methods for the Windows platform
     class WindowsPlatform < UnixPlatform
       def self.match?
-        FFI.platform.windows?
+        FFI::Platform.windows?
       end
 
       # @see UnixPlatform#command_string
