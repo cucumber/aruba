@@ -4,6 +4,10 @@ require 'pathname'
 require 'aruba/platforms/simple_table'
 require 'aruba/platforms/unix_command_string'
 require 'aruba/platforms/unix_which'
+require 'aruba/platforms/determine_file_size'
+require 'aruba/platforms/determine_disk_usage'
+require 'aruba/platforms/aruba_file_creator'
+require 'aruba/platforms/aruba_fixed_size_file_creator'
 
 module Aruba
   # This abstracts OS-specific things
@@ -26,6 +30,22 @@ module Aruba
 
       def command_string
         UnixCommandString
+      end
+
+      def determine_file_size(*args)
+        DetermineFileSize.new.call(*args)
+      end
+
+      def determine_disk_usage(*args)
+        DetermineDiskUsage.new.call(*args)
+      end
+
+      def create_file(*args)
+        ArubaFileCreator.new.call(*args)
+      end
+
+      def create_fixed_size_file(*args)
+        ArubaFixedSizeFileCreator.new.call(*args)
       end
 
       def detect_ruby(cmd)

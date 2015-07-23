@@ -2,11 +2,6 @@ require 'aruba/platform'
 
 require 'aruba/extensions/string/strip'
 
-require 'aruba/platforms/aruba_file_creator'
-require 'aruba/platforms/aruba_fixed_size_file_creator'
-require 'aruba/platform/determine_disk_usage'
-require 'aruba/platform/determine_file_size'
-
 require 'aruba/aruba_path'
 
 Aruba.platform.require_matching_files('../matchers/file/*.rb', __FILE__)
@@ -126,7 +121,7 @@ module Aruba
       # @param [String] file_content
       #   The content which should be written to the file
       def write_file(name, content)
-        Creators::ArubaFileCreator.new.write(expand_path(name), content, false)
+        Aruba.platform.create_file(expand_path(name), content, false)
 
         self
       end
@@ -203,7 +198,7 @@ module Aruba
       # @param [Integer] file_size
       #   The size of the file
       def write_fixed_size_file(name, size)
-        Creators::ArubaFixedSizeFileCreator.new.write(expand_path(name), size, false)
+        Aruba.platform.create_fixed_size_file(expand_path(name), size, false)
 
         self
       end
@@ -214,7 +209,7 @@ module Aruba
       # missing. If the file name is a path the method will create all neccessary
       # directories.
       def overwrite_file(name, content)
-        Creators::ArubaFileCreator.new.write(expand_path(name), content, true)
+        Aruba.platform.create_file(expand_path(name), content, true)
 
         self
       end
@@ -320,7 +315,7 @@ module Aruba
       def disk_usage(*paths)
         expect(paths.flatten).to all be_an_existing_path
 
-        Platform::DetermineDiskUsage.new.use paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }, aruba.config.physical_block_size
+        Aruba.platform.determine_disk_usage.new.call paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }, aruba.config.physical_block_size
       end
 
       # Get size of file
@@ -330,7 +325,7 @@ module Aruba
       def file_size(name)
         expect(name).to be_an_existing_file
 
-        Platform::DetermineFileSize.new.use expand_path(name)
+        Aruba.platform.determine_file_size expand_path(name)
       end
     end
   end

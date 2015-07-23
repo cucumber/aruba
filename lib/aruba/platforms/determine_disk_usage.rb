@@ -1,7 +1,7 @@
 module Aruba
-  module Platform
+  module Platforms
     class DetermineDiskUsage
-      def use(*args)
+      def call(*args)
         args = args.flatten
 
         physical_block_size = args.pop

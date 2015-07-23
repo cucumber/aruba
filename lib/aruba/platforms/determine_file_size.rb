@@ -1,7 +1,7 @@
 module Aruba
-  module Platform
+  module Platforms
     class DetermineFileSize
-      def use(path)
+      def call(path)
         return -1 unless File.file? path
 
         FileSize.new(
