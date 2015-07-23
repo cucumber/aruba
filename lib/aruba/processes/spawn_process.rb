@@ -126,7 +126,7 @@ module Aruba
 
       def read_stdout
         # rubocop:disable Metrics/LineLength
-        Aruba::Platform.deprecated('The use of "#read_stdout" is deprecated. Use "#stdout" instead. To reduce the time to wait for io, pass `:wait_for_io => 0` or some suitable for your use case')
+        Aruba.platform.deprecated('The use of "#read_stdout" is deprecated. Use "#stdout" instead. To reduce the time to wait for io, pass `:wait_for_io => 0` or some suitable for your use case')
         # rubocop:enable Metrics/LineLength
 
         stdout(:wait_for_io => 0)

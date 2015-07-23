@@ -82,7 +82,7 @@ module Aruba
       output_format :command, '$ %s'
       output_format :environment, proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
       output_format :modified_environment, proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
-      output_format :full_environment, proc { |h| Aruba::Platform.simple_table(h) }
+      output_format :full_environment, proc { |h| Aruba.platform.simple_table(h) }
       output_format :timeout, '# %s-timeout: %s seconds'
       output_format :stderr, "<<-STDERR\n%s\nSTDERR"
       output_format :stdout, "<<-STDOUT\n%s\nSTDOUT"

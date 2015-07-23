@@ -1,32 +1,32 @@
 When(/^I run "(.*)"$/) do |cmd|
-  Aruba::Platform.deprecated(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-  run_simple(Aruba::Platform.unescape(cmd, aruba.config.keep_ansi), false)
+  Aruba.platform.deprecated(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
+  run_simple(Aruba.platform.unescape(cmd, aruba.config.keep_ansi), false)
 end
 
 When(/^I run `([^`]*)`$/) do |cmd|
-  run_simple(Aruba::Platform.unescape(cmd, aruba.config.keep_ansi), false)
+  run_simple(Aruba.platform.unescape(cmd, aruba.config.keep_ansi), false)
 end
 
 When(/^I successfully run "(.*)"$/) do |cmd|
-  Aruba::Platform.deprecated(%{\e[35m    The  /^I successfully run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
+  Aruba.platform.deprecated(%{\e[35m    The  /^I successfully run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
 
-  run_simple(Aruba::Platform.unescape(cmd, aruba.config.keep_ansi))
+  run_simple(Aruba.platform.unescape(cmd, aruba.config.keep_ansi))
 end
 
 ## I successfully run `echo -n "Hello"`
 ## I successfully run `sleep 29` for up to 30 seconds
 When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/) do |cmd, secs|
-  run_simple(Aruba::Platform.unescape(cmd, aruba.config.keep_ansi), true, secs && secs.to_i)
+  run_simple(Aruba.platform.unescape(cmd, aruba.config.keep_ansi), true, secs && secs.to_i)
 end
 
 When(/^I run "([^"]*)" interactively$/) do |cmd|
-  Aruba::Platform.deprecated(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the `backticks` version\e[0m})
+  Aruba.platform.deprecated(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the `backticks` version\e[0m})
 
   step %(I run `#{cmd}` interactively)
 end
 
 When(/^I run `([^`]*)` interactively$/) do |cmd|
-  @interactive = run(Aruba::Platform.unescape(cmd, aruba.config.keep_ansi))
+  @interactive = run(Aruba.platform.unescape(cmd, aruba.config.keep_ansi))
 end
 
 When(/^I type "([^"]*)"$/) do |input|
@@ -55,7 +55,7 @@ When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$
                    last_command_started.public_send channel.to_sym, :wait_for_io => 0
                  end
 
-        if Aruba::Platform.unescape(output).include? Aruba::Platform.unescape(expected)
+        if Aruba.platform.unescape(output).include? Aruba.platform.unescape(expected)
           last_command_started.terminate
 
           break
@@ -76,7 +76,7 @@ When(/^I wait for (?:output|stdout) to contain:$/) do |expected|
   Timeout.timeout(exit_timeout) do
     loop do
       begin
-        expect(last_command_started).to have_output Regexp.new(Aruba::Platform.unescape(expected, aruba.config.keep_ansi))
+        expect(last_command_started).to have_output Regexp.new(Aruba.platform.unescape(expected, aruba.config.keep_ansi))
       rescue ExpectationError
         sleep 0.1
         retry
@@ -91,7 +91,7 @@ When(/^I wait for (?:output|stdout) to contain "([^"]*)"$/) do |expected|
   Timeout.timeout(exit_timeout) do
     loop do
       begin
-        expect(last_command_started).to have_output Regexp.new(Aruba::Platform.unescape(expected, aruba.config.keep_ansi))
+        expect(last_command_started).to have_output Regexp.new(Aruba.platform.unescape(expected, aruba.config.keep_ansi))
       rescue ExpectationError
         sleep 0.1
         retry
@@ -117,15 +117,15 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
             end
 
   commands = if cmd
-               [process_monitor.get_process(Aruba::Platform.detect_ruby(cmd))]
+               [process_monitor.get_process(Aruba.platform.detect_ruby(cmd))]
              else
                all_commands
              end
 
   expected = if exactly
-               Aruba::Platform.unescape(expected.chomp)
+               Aruba.platform.unescape(expected.chomp)
              else
-               Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected.chomp)))
+               Regexp.new(Regexp.escape(Aruba.platform.unescape(expected.chomp)))
              end
 
   if Aruba::VERSION < '1.0'
@@ -162,15 +162,15 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
             end
 
   commands = if cmd
-               [process_monitor.get_process(Aruba::Platform.detect_ruby(cmd))]
+               [process_monitor.get_process(Aruba.platform.detect_ruby(cmd))]
              else
                all_commands
              end
 
   expected = if exactly
-               Aruba::Platform.unescape(expected.chomp)
+               Aruba.platform.unescape(expected.chomp)
              else
-               Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected.chomp)))
+               Regexp.new(Regexp.escape(Aruba.platform.unescape(expected.chomp)))
              end
 
   if Aruba::VERSION < '1.0'
@@ -229,30 +229,30 @@ end
 Then(/^it should (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
-    expect(last_command_stopped).to have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(last_command_stopped).to have_output Regexp.new(Regexp.escape(Aruba.platform.unescape(expected)))
   else
     expect(last_command_stopped).not_to be_successfully_executed
-    expect(last_command_stopped).to have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(last_command_stopped).to have_output Regexp.new(Regexp.escape(Aruba.platform.unescape(expected)))
   end
 end
 
 Then(/^it should (pass|fail) with:$/) do |pass_fail, expected|
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
-    expect(last_command_stopped).to have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(last_command_stopped).to have_output Regexp.new(Regexp.escape(Aruba.platform.unescape(expected)))
   else
     expect(last_command_stopped).not_to be_successfully_executed
-    expect(last_command_stopped).to have_output Regexp.new(Regexp.escape(Aruba::Platform.unescape(expected)))
+    expect(last_command_stopped).to have_output Regexp.new(Regexp.escape(Aruba.platform.unescape(expected)))
   end
 end
 
 Then(/^it should (pass|fail) with exactly:$/) do |pass_fail, expected|
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
-    expect(last_command_stopped).to have_output Aruba::Platform.unescape(expected)
+    expect(last_command_stopped).to have_output Aruba.platform.unescape(expected)
   else
     expect(last_command_stopped).not_to be_successfully_executed
-    expect(last_command_stopped).to have_output Aruba::Platform.unescape(expected)
+    expect(last_command_stopped).to have_output Aruba.platform.unescape(expected)
   end
 end
 

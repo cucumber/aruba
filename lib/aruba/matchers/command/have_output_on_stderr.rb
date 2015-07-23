@@ -29,7 +29,7 @@ RSpec::Matchers.define :have_output_on_stderr do |expected|
     )
 
     @old_actual.stop(@announcer) unless @old_actual.stopped?
-    @actual = Aruba::Platform.unescape(actual.stderr.chomp, aruba.config.keep_ansi)
+    @actual = Aruba.platform.unescape(actual.stderr.chomp, aruba.config.keep_ansi)
 
     values_match?(expected, @actual)
   end

@@ -21,7 +21,7 @@ Given(/^(?:an|the) executable(?: named)? "([^"]*)" with:$/) do |file_name, file_
 end
 
 Given(/^(?:a|the) file(?: named)? "([^"]*)" with "([^"]*)"$/) do |file_name, file_content|
-  write_file(file_name, Aruba::Platform.unescape(file_content))
+  write_file(file_name, Aruba.platform.unescape(file_content))
 end
 
 Given(/^(?:a|the) file(?: named)? "([^"]*)" with mode "([^"]*)" and with:$/) do |file_name, file_mode, file_content|
@@ -179,7 +179,7 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?be equal to file "([^"]
 end
 
 Then(/^the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)"$/) do |file, negated, permissions|
-  Aruba::Platform.deprecated('The use of step "the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)" is deprecated. Use "^the (?:file|directory)(?: named)? "([^"]*)" should have permissions "([^"]*)"$" instead')
+  Aruba.platform.deprecated('The use of step "the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)" is deprecated. Use "^the (?:file|directory)(?: named)? "([^"]*)" should have permissions "([^"]*)"$" instead')
 
   if negated
     expect(file).not_to have_permissions(permissions)

@@ -17,7 +17,7 @@ module Aruba
     # This includes all methods for the UNIX platform
     class UnixPlatform
       def self.match?
-        !FFI::Platform.windows?
+        !FFI.platform.windows?
       end
 
       def environment_variables

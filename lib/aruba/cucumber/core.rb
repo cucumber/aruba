@@ -6,7 +6,7 @@ end
 
 Given(/the default aruba timeout is (\d+) seconds/) do |seconds|
   # rubocop:disable Metrics/LineLength
-  Aruba::Platform.deprecated(%{The /^the default aruba timeout is (\d+) seconds/ step definition is deprecated. Please use /^the default aruba exit timeout is (\d+) seconds/ step definition is deprecated.})
+  Aruba.platform.deprecated(%{The /^the default aruba timeout is (\d+) seconds/ step definition is deprecated. Please use /^the default aruba exit timeout is (\d+) seconds/ step definition is deprecated.})
   # rubocop:enable Metrics/LineLength
 
   aruba.config.exit_timeout = seconds.to_i
@@ -14,7 +14,7 @@ end
 
 Given(/The default aruba timeout is (\d+) seconds/) do |seconds|
   # rubocop:disable Metrics/LineLength
-  Aruba::Platform.deprecated(%{The /^The default aruba timeout is (\d+) seconds/ step definition is deprecated. Please use /^the default aruba exit timeout is (\d+) seconds/ step definition is deprecated.})
+  Aruba.platform.deprecated(%{The /^The default aruba timeout is (\d+) seconds/ step definition is deprecated. Please use /^the default aruba exit timeout is (\d+) seconds/ step definition is deprecated.})
   # rubocop:enable Metrics/LineLength
 
   aruba.config.exit_timeout = seconds.to_i
