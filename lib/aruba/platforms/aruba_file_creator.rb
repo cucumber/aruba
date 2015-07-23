@@ -15,9 +15,9 @@ module Aruba
       # @param [TrueClass, FalseClass] check_presence (false)
       #   Check if file exist
       def write(path, content, check_presence = false)
-        fail "Expected #{path} to be present" if check_presence && !Aruba::Platform.file?(path)
+        fail "Expected #{path} to be present" if check_presence && !Aruba.platform.file?(path)
 
-        Aruba::Platform.mkdir(File.dirname(path))
+        Aruba.platform.mkdir(File.dirname(path))
 
         if RUBY_VERSION < '1.9.3'
           File.open(path, 'w') { |f| f << content }

@@ -45,7 +45,7 @@ RSpec.configure do |config|
     next unless self.class.include?(Aruba::Api)
 
     if example.metadata[:announce_environment]
-      Aruba::Platform.deprecated 'announce_environment is deprecated. Use announce_modified_environment instead'
+      Aruba.platform.deprecated 'announce_environment is deprecated. Use announce_modified_environment instead'
 
       announcer.activate(:modified_environment)
     end

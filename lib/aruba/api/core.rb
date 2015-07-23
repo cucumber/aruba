@@ -25,9 +25,9 @@ module Aruba
       # artifacts of your tests. This does NOT clean up the current working
       # directory.
       def setup_aruba
-        Aruba::Platform.rm File.join(Aruba.config.root_directory, Aruba.config.working_directory), :force => true
-        Aruba::Platform.mkdir File.join(Aruba.config.root_directory, Aruba.config.working_directory)
-        Aruba::Platform.chdir Aruba.config.root_directory
+        Aruba.platform.rm File.join(Aruba.config.root_directory, Aruba.config.working_directory), :force => true
+        Aruba.platform.mkdir File.join(Aruba.config.root_directory, Aruba.config.working_directory)
+        Aruba.platform.chdir Aruba.config.root_directory
 
         self
       end
@@ -50,23 +50,23 @@ module Aruba
       def cd(dir, &block)
         if block_given?
           begin
-            fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba::Platform.directory? expand_path(dir)
+            fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba.platform.directory? expand_path(dir)
 
             aruba.current_directory << dir
 
-            old_dir    = Aruba::Platform.getwd
+            old_dir    = Aruba.platform.getwd
             old_oldpwd = ENV['OLDPWD']
             old_pwd    = ENV['PWD']
 
-            ENV['OLDPWD'] = Aruba::Platform.getwd
+            ENV['OLDPWD'] = Aruba.platform.getwd
             ENV['PWD'] = File.join(aruba.root_directory, aruba.current_directory).sub(%r{/$}, '')
 
-            Aruba::Platform.chdir File.join(aruba.root_directory, aruba.current_directory)
+            Aruba.platform.chdir File.join(aruba.root_directory, aruba.current_directory)
 
             result = block.call
           ensure
             aruba.current_directory.pop
-            Aruba::Platform.chdir old_dir
+            Aruba.platform.chdir old_dir
             ENV['OLDPWD'] = old_oldpwd
             ENV['PWD']    = old_pwd
           end
@@ -74,7 +74,7 @@ module Aruba
           return result
         end
 
-        fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba::Platform.directory? expand_path(dir)
+        fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba.platform.directory? expand_path(dir)
 
         aruba.current_directory << dir
 
@@ -123,7 +123,7 @@ module Aruba
         fail ArgumentError, message unless file_name.is_a?(String) && !file_name.empty?
 
         # rubocop:disable Metrics/LineLength
-        aruba.logger.warn %(`aruba`'s working directory does not exist. Maybe you forgot to run `setup_aruba` before using it's API. This warning will be an error from 1.0.0) unless Aruba::Platform.directory? File.join(aruba.config.root_directory, aruba.config.working_directory)
+        aruba.logger.warn %(`aruba`'s working directory does not exist. Maybe you forgot to run `setup_aruba` before using it's API. This warning will be an error from 1.0.0) unless Aruba.platform.directory? File.join(aruba.config.root_directory, aruba.config.working_directory)
         # rubocop:enable Metrics/LineLength
 
         if RUBY_VERSION < '1.9'

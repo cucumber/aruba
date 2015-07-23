@@ -14,7 +14,7 @@ RSpec.describe 'Path Matchers' do
     context 'when pattern is string' do
       context 'when there is file which matches path pattern' do
         before :each do
-          Aruba::Platform.write_file(@file_path, '')
+          Aruba.platform.write_file(@file_path, '')
         end
 
         it { expect(all_paths).to match_path_pattern(expand_path(@file_name)) }
@@ -28,7 +28,7 @@ RSpec.describe 'Path Matchers' do
     context 'when pattern is regex' do
       context 'when there is file which matches path pattern' do
         before :each do
-          Aruba::Platform.write_file(@file_path, '')
+          Aruba.platform.write_file(@file_path, '')
         end
 
         it { expect(all_paths).to match_path_pattern(/test/) }
@@ -57,7 +57,7 @@ RSpec.describe 'Path Matchers' do
     context 'when file' do
       context 'exists' do
         before :each do
-          Aruba::Platform.write_file(@file_path, '')
+          Aruba.platform.write_file(@file_path, '')
         end
 
         it { expect(@file_name).to be_an_existing_path }

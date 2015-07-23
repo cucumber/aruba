@@ -24,7 +24,7 @@
 #     end
 RSpec::Matchers.define :match_path_pattern do |_|
   match do |actual|
-    Aruba::Platform.deprecated('The use of `expect().to match_path_pattern` is deprecated. Please use `expect().to include pattern /regex/` instead.')
+    Aruba.platform.deprecated('The use of `expect().to match_path_pattern` is deprecated. Please use `expect().to include pattern /regex/` instead.')
 
     next  !actual.select { |a| a == expected }.empty? if expected.is_a? String
 

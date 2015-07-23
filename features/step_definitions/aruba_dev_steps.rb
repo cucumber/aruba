@@ -18,7 +18,7 @@ When /^I set env variable "(\w+)" to "([^"]*)"$/ do |var, value|
 end
 
 Then /^aruba should fail with "([^"]*)"$/ do |error_message|
-  expect(@aruba_exception.message).to include(Aruba::Platform.unescape(error_message))
+  expect(@aruba_exception.message).to include(Aruba.platform.unescape(error_message))
 end
 
 Then /^the following step should fail with Spec::Expectations::ExpectationNotMetError:$/ do |multiline_step|

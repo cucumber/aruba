@@ -80,7 +80,7 @@ module Aruba
       output_format :command, '$ %s'
       output_format :environment, '$ export %s=%s"'
       output_format :modified_environment, '$ export %s=%s"'
-      output_format :full_environment, proc { |h| Aruba::Platform.simple_table(h) }
+      output_format :full_environment, proc { |h| Aruba.platform.simple_table(h) }
       output_format :timeout, '# %s-timeout: %s seconds'
 
       # rubocop:disable Metrics/LineLength

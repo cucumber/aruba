@@ -18,7 +18,7 @@
 #     end
 RSpec::Matchers.define :include_regexp do |expected|
   match do |actual|
-    Aruba::Platform.deprecated('The use of "include_regexp"-matchers is deprecated. It will be removed soon.')
+    Aruba.platform.deprecated('The use of "include_regexp"-matchers is deprecated. It will be removed soon.')
 
     !actual.grep(expected).empty?
   end

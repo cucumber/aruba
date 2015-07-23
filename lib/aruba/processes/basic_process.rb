@@ -43,7 +43,7 @@ module Aruba
       private
 
       def which(program)
-        Aruba::Platform.which(program, environment['PATH'])
+        Aruba.platform.which(program, environment['PATH'])
       end
 
       def command

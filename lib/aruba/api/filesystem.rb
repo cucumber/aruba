@@ -1,15 +1,15 @@
 require 'aruba/platform'
 
 require 'aruba/extensions/string/strip'
-require 'aruba/creators/aruba_file_creator'
-require 'aruba/creators/aruba_fixed_size_file_creator'
 
+require 'aruba/platforms/aruba_file_creator'
+require 'aruba/platforms/aruba_fixed_size_file_creator'
 require 'aruba/disk_usage_calculator'
 require 'aruba/aruba_path'
 
-Aruba::Platform.require_matching_files('../matchers/file/*.rb', __FILE__)
-Aruba::Platform.require_matching_files('../matchers/directory/*.rb', __FILE__)
-Aruba::Platform.require_matching_files('../matchers/path/*.rb', __FILE__)
+Aruba.platform.require_matching_files('../matchers/file/*.rb', __FILE__)
+Aruba.platform.require_matching_files('../matchers/directory/*.rb', __FILE__)
+Aruba.platform.require_matching_files('../matchers/path/*.rb', __FILE__)
 
 module Aruba
   module Api
@@ -19,7 +19,7 @@ module Aruba
       # @param [String] file_or_directory
       #   The file/directory which should exist
       def exist?(file_or_directory)
-        Aruba::Platform.exist? expand_path(file_or_directory)
+        Aruba.platform.exist? expand_path(file_or_directory)
       end
 
       # Check if file exist and is file
@@ -27,7 +27,7 @@ module Aruba
       # @param [String] file
       #   The file/directory which should exist
       def file?(file)
-        Aruba::Platform.file? expand_path(file)
+        Aruba.platform.file? expand_path(file)
       end
 
       # Check if directory exist and is directory
@@ -35,7 +35,7 @@ module Aruba
       # @param [String] file
       #   The file/directory which should exist
       def directory?(file)
-        Aruba::Platform.directory? expand_path(file)
+        Aruba.platform.directory? expand_path(file)
       end
 
       # Check if path is absolute
@@ -144,7 +144,7 @@ module Aruba
 
         args.each { |p| create_directory(File.dirname(p)) }
 
-        Aruba::Platform.touch(args.map { |p| expand_path(p) }, options)
+        Aruba.platform.touch(args.map { |p| expand_path(p) }, options)
 
         self
       end
@@ -178,13 +178,13 @@ module Aruba
         destination_path = expand_path(destination)
 
         if source_paths.count > 1
-          Aruba::Platform.mkdir(destination_path)
+          Aruba.platform.mkdir(destination_path)
         else
-          Aruba::Platform.mkdir(File.dirname(destination_path))
+          Aruba.platform.mkdir(File.dirname(destination_path))
           source_paths = source_paths.first
         end
 
-        Aruba::Platform.cp source_paths, destination_path
+        Aruba.platform.cp source_paths, destination_path
 
         self
       end
@@ -243,7 +243,7 @@ module Aruba
         args.each { |p| raise "Expected #{p} to be present" unless exist?(p) }
         paths = args.map { |p| expand_path(p) }
 
-        Aruba::Platform.chmod(mode, paths, options)
+        Aruba.platform.chmod(mode, paths, options)
 
         self
       end
@@ -258,7 +258,7 @@ module Aruba
       def append_to_file(file_name, file_content)
         file_name = expand_path(file_name)
 
-        Aruba::Platform.mkdir(File.dirname(file_name))
+        Aruba.platform.mkdir(File.dirname(file_name))
         File.open(file_name, 'a') { |f| f << file_content }
       end
 
@@ -267,7 +267,7 @@ module Aruba
       # @param [String] directory_name
       #   The name of the directory which should be created
       def create_directory(directory_name)
-        Aruba::Platform.mkdir expand_path(directory_name)
+        Aruba.platform.mkdir expand_path(directory_name)
 
         self
       end
@@ -287,7 +287,7 @@ module Aruba
 
         args = args.map { |p| expand_path(p) }
 
-        Aruba::Platform.rm(args, options)
+        Aruba.platform.rm(args, options)
       end
 
       # Read content of file and yield the content to block

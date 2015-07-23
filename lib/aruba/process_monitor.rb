@@ -60,7 +60,7 @@ module Aruba
     # @param [String] cmd
     #   The command
     def output_from(cmd)
-      cmd = Platform.detect_ruby(cmd)
+      cmd = Aruba.platform.detect_ruby(cmd)
       get_process(cmd).output
     end
 
@@ -69,7 +69,7 @@ module Aruba
     # @param [String] cmd
     #   The command
     def stdout_from(cmd)
-      cmd = Platform.detect_ruby(cmd)
+      cmd = Aruba.platform.detect_ruby(cmd)
       get_process(cmd).stdout
     end
 
@@ -78,7 +78,7 @@ module Aruba
     # @param [String] cmd
     #   The command
     def stderr_from(cmd)
-      cmd = Platform.detect_ruby(cmd)
+      cmd = Aruba.platform.detect_ruby(cmd)
       get_process(cmd).stderr
     end
 

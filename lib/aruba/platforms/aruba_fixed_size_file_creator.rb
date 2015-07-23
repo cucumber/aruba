@@ -19,9 +19,9 @@ module Aruba
       # @param [TrueClass, FalseClass] check_presence (false)
       #   Check if file exist
       def write(path, size, check_presence)
-        fail "Expected #{path} to be present" if check_presence && !Aruba::Platform.file?(path)
+        fail "Expected #{path} to be present" if check_presence && !Aruba.platform.file?(path)
 
-        Aruba::Platform.mkdir(File.dirname(path))
+        Aruba.platform.mkdir(File.dirname(path))
 
         File.open(path, "wb"){ |f| f.seek(size - 1); f.write("\0") }
 
