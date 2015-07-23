@@ -187,6 +187,50 @@ module Aruba
       end
       # rubocop:enable Metrics/CyclomaticComplexity
 
+      # Move a file and/or directory
+      #
+      # @param [String, Array] source
+      #   A single file or directory, multiple files or directories or multiple
+      #   files and directories. If multiple sources are given the destination
+      #   needs to be a directory
+      #
+      # @param [String] destination
+      #   A file or directory name. If multiple sources are given the destination
+      #   needs to be a directory
+      #
+      # rubocop:disable Metrics/CyclomaticComplexity
+      def move(*args)
+        args = args.flatten
+        destination = args.pop
+        source = args
+
+        source.each do |s|
+          raise ArgumentError, "Using a fixture as source (#{source}) is not supported" if s.start_with? aruba.config.fixtures_path_prefix
+        end
+
+        raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported" if destination.start_with? aruba.config.fixtures_path_prefix
+
+        source.each do |s|
+          raise ArgumentError, %(The following source "#{s}" does not exist.) unless exist? s
+        end
+
+        raise ArgumentError, "Multiple sources can only be copied to a directory" if source.count > 1 && exist?(destination) && !directory?(destination)
+
+        source_paths     = source.map { |f| expand_path(f) }
+        destination_path = expand_path(destination)
+
+        if source_paths.count > 1
+          Aruba.platform.mkdir(destination_path)
+        else
+          Aruba.platform.mkdir(File.dirname(destination_path))
+          source_paths = source_paths.first
+        end
+
+        Aruba.platform.mv source_paths, destination_path
+
+        self
+      end
+
       # Create a file with the given size
       #
       # The method does not check if file already exists. If the file name is a

@@ -131,6 +131,11 @@ module Aruba
         FileUtils.cp_r(args, options)
       end
 
+      # Move file/directory
+      def mv(args, options)
+        FileUtils.mv(args, options)
+      end
+
       # Change mode of file/directory
       def chmod(mode, args, options)
         FileUtils.chmod_R(mode, args, options)

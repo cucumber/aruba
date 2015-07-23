@@ -1,6 +1,14 @@
-Given(/I use (?:a|the) fixture(?: named)? "([^"]*)"/) do |name|
+Given(/^I use (?:a|the) fixture(?: named)? "([^"]*)"$/) do |name|
   copy File.join(aruba.config.fixtures_path_prefix, name), name
   cd name
+end
+
+Given(/^I copy (?:a|the) (file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) do |file_or_directory, source, destination|
+  copy source, destination
+end
+
+Given(/^I move (?:a|the) (file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) do |file_or_directory, source, destination|
+  move source, destination
 end
 
 Given(/^(?:a|the) directory(?: named)? "([^"]*)"$/) do |dir_name|
