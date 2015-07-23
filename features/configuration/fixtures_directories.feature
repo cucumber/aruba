@@ -17,7 +17,7 @@ Feature: Configure directory where to look for fixtures
     When I successfully run `cucumber`
     Then the output should contain:
     """
-    The default value is "%w(features/fixtures spec/fixtures test/fixtures)"
+    The default value is "%w(features/fixtures spec/fixtures test/fixtures fixtures)"
     """
 
   Scenario: Modify value
