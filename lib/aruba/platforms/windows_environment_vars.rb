@@ -1,3 +1,5 @@
+require 'aruba/environment'
+
 module Aruba
   #
   # Windows is case-insensitive when it accesses its environment variables.  That means that
@@ -28,7 +30,9 @@ module Aruba
   class WindowsEnvironmentVars < Environment
     def initialize
       super
-      @env = ENV.to_hash.dup.inject({}) { |new_env, (k,v)| new_env[k.to_s.upcase] = v; new_env }
+      # rubocop:disable Style/EachWithObject
+      @env = ENV.to_hash.dup.inject({}) { |new_env, (k,v)| new_env[k.to_s.upcase] = v; new_env } #compatible with ruby < 1.9
+      # rubocop:enable Style/EachWithObject
     end
   end
 end
