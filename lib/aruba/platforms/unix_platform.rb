@@ -10,6 +10,7 @@ require 'aruba/platforms/determine_file_size'
 require 'aruba/platforms/determine_disk_usage'
 require 'aruba/platforms/aruba_file_creator'
 require 'aruba/platforms/aruba_fixed_size_file_creator'
+require 'aruba/platforms/local_environment'
 
 module Aruba
   # This abstracts OS-specific things
@@ -48,6 +49,10 @@ module Aruba
 
       def create_fixed_size_file(*args)
         ArubaFixedSizeFileCreator.new.call(*args)
+      end
+
+      def with_environment(env = {}, &block)
+        LocalEnvironment.new.call(env, &block)
       end
 
       def detect_ruby(cmd)
@@ -105,19 +110,8 @@ module Aruba
       def chdir(dir_name, &block)
         dir_name = ::File.expand_path(dir_name.to_s)
 
-        begin
-          if RUBY_VERSION <= '1.9.3'
-            old_env = ENV.to_hash.dup
-          else
-            old_env = ENV.to_h.dup
-          end
-
-          ENV['OLDPWD'] = getwd
-          ENV['PWD'] = dir_name
+        with_environment 'OLDPWD' => getwd, 'PWD' => dir_name do
           ::Dir.chdir(dir_name, &block)
-        ensure
-          ENV.clear
-          ENV.update old_env
         end
       end
 

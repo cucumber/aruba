@@ -61,7 +61,7 @@ module Aruba
         @process.environment.update(environment)
 
         begin
-          with_local_env(environment) do
+          Aruba.platform.with_environment(environment) do
             @process.start
           end
         rescue ChildProcess::LaunchError => e

@@ -13,7 +13,7 @@ module Aruba
       # rubocop:disable Metrics/CyclomaticComplexity
       def start
         Dir.chdir @working_directory do
-          with_local_env(environment) do
+          Aruba.platform.with_environment(environment) do
             @exit_status = system(command, *arguments) ? 0 : 1
           end
         end

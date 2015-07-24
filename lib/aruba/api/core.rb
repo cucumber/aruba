@@ -56,20 +56,17 @@ module Aruba
             announcer.announce :directory, expand_path(dir)
 
             old_dir    = Aruba.platform.getwd
-            old_oldpwd = ENV['OLDPWD']
-            old_pwd    = ENV['PWD']
-
-            ENV['OLDPWD'] = Aruba.platform.getwd
-            ENV['PWD'] = File.join(aruba.root_directory, aruba.current_directory).sub(%r{/$}, '')
 
             Aruba.platform.chdir File.join(aruba.root_directory, aruba.current_directory)
 
-            result = block.call
+            result = Aruba.platform.with_environment(
+              'OLDPWD' => old_dir,
+              'PWD' => File.join(aruba.root_directory, aruba.current_directory).sub(%r{/$}, ''),
+              &block
+            )
           ensure
             aruba.current_directory.pop
             Aruba.platform.chdir old_dir
-            ENV['OLDPWD'] = old_oldpwd
-            ENV['PWD']    = old_pwd
           end
 
           return result
@@ -175,23 +172,12 @@ module Aruba
       # @yield
       #   The block of code which should be run with the modified environment variables
       def with_environment(env = {}, &block)
-        if RUBY_VERSION <= '1.9.3'
-          old_env = ENV.to_hash.dup
-        else
-          old_env = ENV.to_h.dup
-        end
-
         old_aruba_env = aruba.environment.to_h
 
-        ENV.update aruba.environment.update(env).to_h
-
-        block.call if block_given?
+        Aruba.platform.with_environment aruba.environment.update(env).to_h, &block
       ensure
         aruba.environment.clear
         aruba.environment.update old_aruba_env
-
-        ENV.clear
-        ENV.update old_env
       end
     end
   end

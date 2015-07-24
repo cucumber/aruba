@@ -1,21 +1,11 @@
 require 'aruba/aruba_path'
 require 'aruba/api'
+require 'aruba/platform'
 World(Aruba::Api)
 
 if Aruba::VERSION >= '1.0.0'
   Around do |_, block|
-    begin
-      if RUBY_VERSION < '1.9'
-        old_env = ENV.to_hash.dup
-      else
-        old_env = ENV.to_h.dup
-      end
-
-      block.call
-    ensure
-      ENV.clear
-      ENV.update old_env
-    end
+    Aruba.platform.with_environment(&block)
   end
 end
 

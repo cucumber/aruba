@@ -25,12 +25,8 @@ RSpec.configure do |config|
 
   if Aruba::VERSION >= '1.0.0'
     config.around :each do |example|
-      begin
-        old_env = ENV.to_hash.dup
+      Aruba.platform.with_environment do
         example.run
-      ensure
-        ENV.clear
-        ENV.update old_env
       end
     end
   end

@@ -162,12 +162,22 @@ Feature: Change current working directory
       end
 
       before :each do
-        @pwd = cd('new_dir.d') do
-          cd('subdir.d') { run_simple('pwd') }
+        cd('new_dir.d') do
+          @oldpwd_1 = ENV['OLDPWD'] 
+          @pwd_1    = ENV['PWD'] 
+
+          cd('subdir.d') do
+            @oldpwd_2 = ENV['OLDPWD'] 
+            @pwd_2    = ENV['PWD'] 
+          end
         end
       end
 
-      it { expect(last_command_started.output.to_s).to include 'subdir.d'  }
+      it { expect(@oldpwd_1).to be_end_with 'cli-app' }
+      it { expect(@pwd_1).to be_end_with 'new_dir.d' }
+
+      it { expect(@oldpwd_2).to be_end_with 'new_dir.d' }
+      it { expect(@pwd_2).to be_end_with 'subdir.d' }
     end
     """
     When I run `rspec`
