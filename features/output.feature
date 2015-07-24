@@ -7,31 +7,23 @@ Feature: All output of commands which were executed
   Background:
     Given I use a fixture named "cli-app"
 
-    @wip
   Scenario: Detect output from all processes normal and interactive ones
     Given an executable named "bin/cli1" with:
     """
-    #!/usr/bin/env ruby
-
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    puts 'This is cli1'
+    #!/usr/bin/env bash
+    echo 'This is cli1'
     """
     And an executable named "bin/cli2" with:
     """
     #!/usr/bin/env ruby
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
     while input = gets do
-      break if input == ""
+      break if "" == input
       puts input
     end
     """
     And a file named "features/output.feature" with:
     """
-    @debug
     Feature: Run command
       Scenario: Run command
         When I run `cli1`
@@ -41,6 +33,9 @@ Feature: All output of commands which were executed
         Then the stdout should contain exactly:
         \"\"\"
         This is cli1
+        \"\"\"
+        And the stdout should contain exactly:
+        \"\"\"
         This is cli2
         \"\"\"
     """

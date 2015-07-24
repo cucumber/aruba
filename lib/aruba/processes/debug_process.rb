@@ -31,6 +31,9 @@ module Aruba
         'This is the debug launcher on STDERR. If this output is unexpected, please check your setup.'
       end
 
+      def write(*); end
+      def close_io(*); end
+
       def stop(_reader)
         @stopped = true
 

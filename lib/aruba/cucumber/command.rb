@@ -129,7 +129,10 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
              end
 
   if Aruba::VERSION < '1.0'
-    combined_output = commands.map { |c| c.send(channel.to_sym).chomp }.join("\n")
+    combined_output = commands.map do |c|
+      c.stop(announcer)
+      c.send(channel.to_sym).chomp
+    end.join("\n")
 
     if negated
       expect(combined_output).not_to match expected
@@ -174,7 +177,10 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
              end
 
   if Aruba::VERSION < '1.0'
-    combined_output = commands.map { |c| c.send(channel.to_sym).chomp }.join("\n")
+    combined_output = commands.map do |c|
+      c.stop(announcer)
+      c.send(channel.to_sym).chomp
+    end.join("\n")
 
     if negated
       expect(combined_output).not_to match expected
