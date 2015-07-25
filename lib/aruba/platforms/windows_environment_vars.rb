@@ -27,6 +27,8 @@ module Aruba
   # Thus we turn all of the environment variable keys to upper case so that aruba is ensured that
   # accessing environment variables with upper case keys will always work.
   #
+  # TODO: investigate unicode characters that don't respond to [String].upcase
+  #
   class WindowsEnvironmentVars < Environment
     def initialize
       super
