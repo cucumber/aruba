@@ -61,7 +61,7 @@ module Aruba
 
             result = Aruba.platform.with_environment(
               'OLDPWD' => old_dir,
-              'PWD' => File.join(aruba.root_directory, aruba.current_directory).sub(%r{/$}, ''),
+              'PWD' => File.expand_path(File.join(aruba.root_directory, aruba.current_directory)),
               &block
             )
           ensure
