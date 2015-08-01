@@ -14,11 +14,13 @@ RSpec.configure do |config|
   config.include Aruba::Api, :type => :aruba
 
   # Setup environment for aruba
-  config.before :each do
-    next unless self.class.include? Aruba::Api
+  config.around :each do |example|
+    if self.class.include? Aruba::Api
+      restore_env
+      setup_aruba
+    end
 
-    restore_env
-    setup_aruba
+    example.run
   end
 
   if Aruba::VERSION >= '1.0.0'
