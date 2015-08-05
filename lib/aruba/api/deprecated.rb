@@ -47,21 +47,21 @@ module Aruba
 
       # @deprecated
       def detect_ruby(cmd)
-        Aruba.platform.deprecated('The use of "#detect_ruby" is deprecated. Use "Aruba.platform.detect_ruby" instead')
+        Aruba.platform.deprecated('The use of "#detect_ruby" is deprecated')
 
         Aruba.platform.detect_ruby cmd
       end
 
       # @deprecated
       def current_ruby
-        Aruba.platform.deprecated('The use of "#current_ruby" is deprecated. Use "Aruba.platform.current_ruby" instead')
+        Aruba.platform.deprecated('The use of "#current_ruby" is deprecated')
 
         Aruba.platform.current_ruby cmd
       end
 
       # @deprecated
       def _ensure_newline(str)
-        Aruba.platform.deprecated('The use of "#_ensure_newline" is deprecated. Use "Aruba.platform.ensure_newline" instead')
+        Aruba.platform.deprecated('The use of "#_ensure_newline" is deprecated')
 
         Aruba.platform.ensure_newline cmd
       end
@@ -282,7 +282,7 @@ module Aruba
         Aruba.platform.deprecated('The use of "prep_for_fs_check" is deprecated. Use apropriate methods and the new rspec matchers instead')
 
         process_monitor.stop_processes!
-        cd('') { block.call }
+        cd('.') { block.call }
       end
 
       # @deprecated
@@ -418,14 +418,14 @@ module Aruba
 
       # @deprecated
       def original_env
-        # Aruba.platform.deprecated('The use of "#original_env" is deprecated.')
+        # Aruba.platform.deprecated('The use of "#original_env" is deprecated')
 
         @original_env ||= {}
       end
 
       # @deprecated
       def filesystem_permissions(*args)
-        Aruba.platform.deprecated('The use of "#filesystem_permissions" is deprecated. Please use "#chmod" instead.')
+        Aruba.platform.deprecated('The use of "#filesystem_permissions" is deprecated. Please use "#chmod" instead')
 
         chmod(*args)
       end
@@ -439,7 +439,7 @@ module Aruba
       # @param [Boolean] expected_result
       #   Are the permissions expected to be mode or are they expected not to be mode?
       def check_filesystem_permissions(*args)
-        Aruba.platform.deprecated('The use of "#check_filesystem_permissions" is deprecated. Please use "expect().to have_permissions perms" instead.')
+        Aruba.platform.deprecated('The use of "#check_filesystem_permissions" is deprecated. Please use "expect().to have_permissions perms" instead')
 
         args = args.flatten
 
@@ -459,7 +459,7 @@ module Aruba
 
       # @deprecated
       def _create_file(name, content, check_presence)
-        Aruba.platform.deprecated('The use of "#_create_file" is deprecated. It will be removed soon.')
+        Aruba.platform.deprecated('The use of "#_create_file" is deprecated. It will be removed soon')
 
         ArubaFileCreator.new.write(expand_path(name), content, check_presence)
 
@@ -468,7 +468,7 @@ module Aruba
 
       # @deprecated
       def _create_fixed_size_file(file_name, file_size, check_presence)
-        Aruba.platform.deprecated('The use of "#_create_fixed_size_file" is deprecated. It will be removed soon.')
+        Aruba.platform.deprecated('The use of "#_create_fixed_size_file" is deprecated. It will be removed soon')
 
         ArubaFixedSizeFileCreator.new.write(expand_path(name), size, check_presence)
 
@@ -484,7 +484,7 @@ module Aruba
       # @return
       #   The string stripped from escape sequences
       def unescape(string)
-        Aruba.platform.deprecated('The use of "#unescape" is deprecated. Use "Aruba.platform.unescape" instead')
+        Aruba.platform.deprecated('The use of "#unescape" is deprecated')
 
         Aruba.platform.unescape(string, aruba.config.keep_ansi)
       end
@@ -537,7 +537,7 @@ module Aruba
         end
 
         if root_directory != aruba.config.root_directory
-          Aruba.platform.deprecated('Overwriting of methods for configuration of "root_directory" is deprecated.')
+          Aruba.platform.deprecated('Overwriting of methods for configuration of "root_directory" is deprecated')
           aruba.config.root_directory = root_directory
         end
       end
