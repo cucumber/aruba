@@ -114,7 +114,13 @@ end
 # end
 
 Before('@ansi') do
-  @aruba_keep_ansi = true
+  Aruba.platform.deprecated('The use of "@ansi" is deprecated. Use "@remove-ansi-escape-sequences" instead')
+
+  aruba.config.remove_ansi_escape_sequences = false
+end
+
+Before('@remove-ansi-escape-sequences') do
+  aruba.config.remove_ansi_escape_sequences = false
 end
 
 Before '@mocked_home_directory' do

@@ -483,10 +483,13 @@ module Aruba
       #
       # @return
       #   The string stripped from escape sequences
-      def unescape(string)
-        Aruba.platform.deprecated('The use of "#unescape" is deprecated')
+      def unescape(string, keep_ansi = false)
+        Aruba.platform.deprecated('The use of "#unescape" is deprecated. Please use "#unescape_text" and "#extract_text" intead')
 
-        Aruba.platform.unescape(string, aruba.config.keep_ansi)
+        string = unescape_text(string)
+        string = extract_text(string) if !keep_ansi || !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+        string
       end
 
       # @deprecated

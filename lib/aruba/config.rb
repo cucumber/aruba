@@ -36,6 +36,7 @@ module Aruba
     option_accessor(:command_search_paths, :contract => { ArrayOf[String] => ArrayOf[String] }) { |config| [File.join(config.root_directory.value, 'bin')] }
     # rubocop:enable Metrics/LineLength
     option_accessor :keep_ansi, :contract => { Bool => Bool }, :default => false
+    option_accessor :remove_ansi_escape_sequences, :contract => { Bool => Bool }, :default => true
     # rubocop:disable Metrics/LineLength
     option_accessor :command_launcher, :contract => { Aruba::Contracts::Enum[:in_process, :spawn, :debug] => Aruba::Contracts::Enum[:in_process, :spawn, :debug] }, :default => :spawn
     # rubocop:enable Metrics/LineLength

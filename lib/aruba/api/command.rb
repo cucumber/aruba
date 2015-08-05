@@ -19,6 +19,21 @@ end
 module Aruba
   module Api
     module Commands
+      # Unescape text
+      #
+      # '\n' => "\n"
+      # '\e' => "\e"
+      # '\033' => "\e"
+      # '\"' => '"'
+      def unescape_text(text)
+        text.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e").gsub('\033', "\e").gsub('\016', "\016").gsub('\017', "\017")
+      end
+
+      # Remove ansi characters from text
+      def extract_text(text)
+        text.gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, '').gsub(/\\\[|\\\]/, '').gsub(/\007|\016|\017/, '')
+      end
+
       # Resolve path for command using the PATH-environment variable
       #
       # @param [#to_s] program
@@ -102,7 +117,14 @@ module Aruba
       #   If arg1 is exactly the same as arg2 return true, otherwise false
       def assert_exact_output(expected, actual)
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to eq Aruba.platform.unescape(expected, aruba.config.keep_ansi)
+
+        actual = unescape_text(actual)
+        actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+        expected = unescape_text(expected)
+        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+        expect(actual).to eq expected
       end
 
       # Partial compare arg1 and arg2
@@ -111,7 +133,14 @@ module Aruba
       #   If arg2 contains arg1 return true, otherwise false
       def assert_partial_output(expected, actual)
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to include(Aruba.platform.unescape(expected, aruba.config.keep_ansi))
+
+        actual = unescape_text(actual)
+        actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+        expected = unescape_text(expected)
+        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+        expect(actual).to include expected
       end
 
       # Regex Compare arg1 and arg2
@@ -120,7 +149,14 @@ module Aruba
       #   If arg2 matches arg1 return true, otherwise false
       def assert_matching_output(expected, actual)
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
+
+        actual = unescape_text(actual)
+        actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+        expected = unescape_text(expected)
+        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+        expect(actual).to match Regexp.new(expected, Regexp::MULTILINE)
       end
 
       # Negative regex compare arg1 and arg2
@@ -129,28 +165,50 @@ module Aruba
       #   If arg2 does not match arg1 return true, otherwise false
       def assert_not_matching_output(expected, actual)
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
+
+        actual = unescape_text(actual)
+        actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+        expected = unescape_text(expected)
+        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+        expect(actual).not_to match Regexp.new(expected, Regexp::MULTILINE)
       end
 
       # Negative partial compare arg1 and arg2
       #
       # @return [TrueClass, FalseClass]
       #   If arg2 does not match/include arg1 return true, otherwise false
+      # rubocop:disable Metrics/CyclomaticComplexity
       def assert_no_partial_output(unexpected, actual)
         actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
+
+        actual = unescape_text(actual)
+        actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
         if Regexp === unexpected
-          expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to match unexpected
+          expect(actual).not_to match unexpected
         else
-          expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to include(unexpected)
+          unexpected = unescape_text(unexpected)
+          unexpected = extract_text(unexpected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+          expect(actual).not_to include(unexpected)
         end
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
 
       # Partial compare output of interactive command and arg1
       #
       # @return [TrueClass, FalseClass]
       #   If output of interactive command includes arg1 return true, otherwise false
       def assert_partial_output_interactive(expected)
-        Aruba.platform.unescape(last_command.stdout, aruba.config.keep_ansi).include?(Aruba.platform.unescape(expected, aruba.config.keep_ansi)) ? true : false
+        actual = unescape_text(last_command.stdout)
+        actual = extract_text(actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+        expected = unescape_text(expected)
+        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+        actual.include?(expected) ? true : false
       end
 
       # Check if command succeeded and if arg1 is included in output

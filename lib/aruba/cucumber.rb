@@ -121,22 +121,36 @@ end
 
 When /^I run "(.*)"$/ do |cmd|
   warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-  run_simple(Aruba.platform.unescape(cmd, aruba.config.keep_ansi), false)
+
+  cmd = unescape_text(cmd)
+  cmd = extract_text(cmd) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+  run_simple(cmd, false)
 end
 
 When /^I run `([^`]*)`$/ do |cmd|
-  run_simple(Aruba.platform.unescape(cmd, aruba.config.keep_ansi), false)
+  cmd = unescape_text(cmd)
+  cmd = extract_text(cmd) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+  run_simple(cmd, false)
 end
 
 When /^I successfully run "(.*)"$/ do |cmd|
   warn(%{\e[35m    The  /^I successfully run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-  run_simple(Aruba.platform.unescape(cmd, aruba.config.keep_ansi))
+
+  cmd = unescape_text(cmd)
+  cmd = extract_text(cmd) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+  run_simple(cmd)
 end
 
 ## I successfully run `echo -n "Hello"`
 ## I successfully run `sleep 29` for up to 30 seconds
 When /^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/ do |cmd, secs|
-  run_simple(Aruba.platform.unescape(cmd, aruba.config.keep_ansi), true, secs && secs.to_i)
+  cmd = unescape_text(cmd)
+  cmd = extract_text(cmd) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+  run_simple(cmd, true, secs && secs.to_i)
 end
 
 When /^I run "([^"]*)" interactively$/ do |cmd|
@@ -145,7 +159,10 @@ When /^I run "([^"]*)" interactively$/ do |cmd|
 end
 
 When /^I run `([^`]*)` interactively$/ do |cmd|
-  @interactive = run(Aruba.platform.unescape(cmd, aruba.config.keep_ansi))
+  cmd = unescape_text(cmd)
+  cmd = extract_text(cmd) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+  @interactive = run(cmd)
 end
 
 When /^I type "([^"]*)"$/ do |input|

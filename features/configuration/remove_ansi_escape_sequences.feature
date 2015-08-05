@@ -1,4 +1,4 @@
-Feature: Configure if ansi color codes should be stripped off from command output (deprecated)
+Feature: Configure if ansi color codes should be stripped off from command output
 
   As a developer
   I want to strip off ansi color codes
@@ -11,20 +11,28 @@ Feature: Configure if ansi color codes should be stripped off from command outpu
     Given a file named "features/support/aruba.rb" with:
     """
     Aruba.configure do |config|
-      puts %(The default value is "#{config.keep_ansi}")
+      puts %(The default value is "#{config.remove_ansi_escape_sequences}")
     end
     """
     When I successfully run `cucumber`
     Then the output should contain:
     """
-    The default value is "false"
+    The default value is "true"
     """
 
   Scenario: Modify value
     Given a file named "features/support/aruba.rb" with:
     """
     Aruba.configure do |config|
-      config.keep_ansi = true
+      config.remove_ansi_escape_sequences = false
+    end
+
+    Aruba.configure do |config|
+      puts %(The value is "#{config.remove_ansi_escape_sequences}")
     end
     """
     Then I successfully run `cucumber`
+    And the output should contain:
+    """
+    The value is "false"
+    """

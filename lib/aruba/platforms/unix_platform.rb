@@ -170,6 +170,8 @@ module Aruba
       # @return
       #   The string stripped from escape sequences
       def unescape(string, keep_ansi = true)
+        deprecated('The use of "Aruba.platform.unescape" is deprecated. Please use "#unescape_text" and "#extract_text" instead')
+
         string = string.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e")
         string = string.gsub(/\e\[\d+(?>(;\d+)*)m/, '') unless keep_ansi
         string
