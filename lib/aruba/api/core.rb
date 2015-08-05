@@ -116,6 +116,8 @@ module Aruba
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
       def expand_path(file_name, dir_string = nil)
+        check_for_deprecated_variables if Aruba::VERSION < '1'
+
         # rubocop:disable Metrics/LineLength
         message = %(Filename "#{file_name}" needs to be a string. It cannot be nil or empty either.  Please use `expand_path('.')` if you want the current directory to be expanded.)
         # rubocop:enable Metrics/LineLength
