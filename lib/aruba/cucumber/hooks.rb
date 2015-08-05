@@ -114,12 +114,12 @@ end
 # end
 
 Before('@ansi') do
-  Aruba.platform.deprecated('The use of "@ansi" is deprecated. Use "@remove-ansi-escape-sequences" instead')
+  Aruba.platform.deprecated('The use of "@ansi" is deprecated. Use "@keep-ansi-escape-sequences" instead')
 
   aruba.config.remove_ansi_escape_sequences = false
 end
 
-Before('@remove-ansi-escape-sequences') do
+Before('@keep-ansi-escape-sequences') do
   aruba.config.remove_ansi_escape_sequences = false
 end
 

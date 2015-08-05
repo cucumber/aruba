@@ -31,7 +31,11 @@ module Aruba
 
       # Remove ansi characters from text
       def extract_text(text)
-        text.gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, '').gsub(/\\\[|\\\]/, '').gsub(/\007|\016|\017/, '')
+        if Aruba::VERSION < '1'
+          text.gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, '')
+        else
+          text.gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, '').gsub(/\\\[|\\\]/, '').gsub(/\007|\016|\017/, '')
+        end
       end
 
       # Resolve path for command using the PATH-environment variable
