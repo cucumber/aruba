@@ -347,7 +347,7 @@
 
 # Upcoming un-released versions
 
-## [v0.9.0](https://github.com/cucumber/aruba/compare/v0.8.0...v0.9.0)
+## [v0.9.0](https://github.com/cucumber/aruba/compare/v0.8.1...v0.9.0)
 
 * Improve documentation for filesystem api and move it to feature tests
 * Add logger to aruba. Its output can be captured by rspec.
@@ -356,6 +356,11 @@
 * Make feature tests compatible with ruby 1.9.2
 * Gather disk usage for file(s) (issue #294)
 * Replace keep_ansi-config option by remove_ansi_escape_sequences-option
+* Split up `#unescape` into `#extract_text` and `#unescape_text`
+* Use `UnixPlatform` and `WindowsPlatform` to make code for different platforms maintainable
+* Work around `ENV`-bug in `Jruby` buy using `#dup` on `ENV.to_h` (issue jruby/jruby#3162)
+* Speed up test on `JRuby` by using `--dev`-flag
+* Work around problems when copying files with `cp` on MRI-ruby 1.9.2
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
