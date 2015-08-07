@@ -133,7 +133,7 @@ module Aruba
       def mod?(file, perms, &block)
         Aruba.platform.deprecated('The use of "#mod?" is deprecated. Use "expect().to have_permissions()" instead')
 
-        expect(Array(file)).to all have_permissions(perms)
+        expect(Array(file)).to all_objects have_permissions(perms)
       end
 
       # @deprecated
