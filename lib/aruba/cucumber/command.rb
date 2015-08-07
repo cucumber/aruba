@@ -352,7 +352,7 @@ Then(/^(?:the )?(output|stderr|stdout) should not contain anything$/) do |channe
   expect(all_commands).to include_an_object send(matcher, be_nil.or(be_empty))
 end
 
-Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) do |negated, channel, table|
+Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) do |channel, negated, table|
   table.raw.flatten.each do |expected|
     expected = unescape_text(expected).chomp
     expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
