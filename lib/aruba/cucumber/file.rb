@@ -29,7 +29,10 @@ Given(/^(?:an|the) executable(?: named)? "([^"]*)" with:$/) do |file_name, file_
 end
 
 Given(/^(?:a|the) file(?: named)? "([^"]*)" with "([^"]*)"$/) do |file_name, file_content|
-  write_file(file_name, Aruba.platform.unescape(file_content))
+  file_content = unescape_text(file_content)
+  file_content = extract_text(file_content) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+
+  write_file(file_name, file_content)
 end
 
 Given(/^(?:a|the) file(?: named)? "([^"]*)" with mode "([^"]*)" and with:$/) do |file_name, file_mode, file_content|

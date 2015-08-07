@@ -29,7 +29,9 @@ RSpec::Matchers.define :have_output_on_stdout do |expected|
     )
 
     @old_actual.stop(@announcer) unless @old_actual.stopped?
-    @actual = Aruba.platform.unescape(actual.stdout.chomp, aruba.config.keep_ansi)
+
+    @actual = unescape_text(actual.stdout.chomp)
+    @actual = extract_text(@actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
 
     values_match?(expected, @actual)
   end
