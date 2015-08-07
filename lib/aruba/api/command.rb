@@ -111,17 +111,18 @@ module Aruba
       #   Run block with process
       #
       # rubocop:disable Metrics/MethodLength
-      def run(cmd, timeout = nil)
-        timeout ||= exit_timeout # we need to use it here otherwise overwritten "exit_timeout" is not used
+      def run(cmd, exit_timeout = nil, io_wait_timeout = nil)
+        exit_timeout ||= aruba.config.exit_timeout
+        io_wait_timeout ||= aruba.config.io_wait_timeout
+
         @commands ||= []
         @commands << cmd
 
-        cmd = Aruba.platform.detect_ruby(cmd)
-
-        announcer.announce(:directory, Dir.pwd)
         announcer.announce(:command, cmd)
-        announcer.announce(:timeout, 'exit', aruba.config.exit_timeout)
-        announcer.announce(:full_environment, aruba.environment.to_h)
+
+        cmd               = Aruba.platform.detect_ruby(cmd)
+        environment       = aruba.environment.to_h
+        working_directory = expand_path('.')
 
         mode = if Aruba.process
                  # rubocop:disable Metrics/LineLength
@@ -140,13 +141,19 @@ module Aruba
                      else
                        aruba.config.main_class
                      end
+
+        announcer.announce(:directory, working_directory)
+        announcer.announce(:timeout, 'exit', exit_timeout)
+        announcer.announce(:timeout, 'io wait', io_wait_timeout)
+        announcer.announce(:full_environment, environment)
+
         command = Command.new(
           cmd,
           :mode              => mode,
-          :exit_timeout      => timeout,
-          :io_wait_timeout   => io_wait,
-          :working_directory => expand_path('.'),
-          :environment       => aruba.environment.to_h,
+          :exit_timeout      => exit_timeout,
+          :io_wait_timeout   => io_wait_timeout,
+          :working_directory => working_directory,
+          :environment       => environment,
           :main_class        => main_class
         )
 
@@ -181,8 +188,8 @@ module Aruba
       #
       # @param [Integer] timeout
       #   Timeout for execution
-      def run_simple(cmd, fail_on_error = true, timeout = nil)
-        command = run(cmd, timeout)
+      def run_simple(cmd, fail_on_error = true, exit_timeout = nil, io_wait_timeout = nil)
+        command = run(cmd, exit_timeout, io_wait_timeout)
         @last_exit_status = process_monitor.stop_process(command)
 
         @timed_out = command.timed_out?

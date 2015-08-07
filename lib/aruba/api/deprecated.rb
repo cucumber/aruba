@@ -517,6 +517,11 @@ module Aruba
       # rubocop:disable Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/MethodLength
       def check_for_deprecated_variables
+        if defined? @aruba_exit_timeout
+          Aruba.platform.deprecated('The use of "@aruba_exit_timeout" is deprecated. Use "#aruba.config.exit_timeout = <numeric>" instead')
+          aruba.config.exit_timeout = @aruba_exit_timeout
+        end
+
         if defined? @aruba_io_wait_seconds
           Aruba.platform.deprecated('The use of "@aruba_io_wait_seconds" is deprecated. Use "#aruba.config.io_wait_timeout = <numeric>" instead')
           aruba.config.io_wait_timeout = @aruba_io_wait_seconds
@@ -805,12 +810,9 @@ module Aruba
       # Overwrite this method if you want a different timeout or set
       # `@aruba_timeout_seconds`.
       def exit_timeout
-        if defined? @aruba_exit_timeout
-          Aruba.platform.deprecated('The use of "#exit_timeout" is deprecated. Use "aruba.config.exit_timeout" instead.')
-          @aruba_exit_timeout
-        else
-          aruba.config.exit_timeout
-        end
+        Aruba.platform.deprecated('The use of "#exit_timeout" is deprecated. Use "aruba.config.exit_timeout" instead.')
+
+        aruba.config.exit_timeout
       end
 
       # @deprecated
@@ -820,12 +822,9 @@ module Aruba
       # Overwrite this method if you want a different timeout or set
       # `@aruba_io_wait_seconds
       def io_wait
-        if defined? @aruba_io_wait_seconds
-          Aruba.platform.deprecated('The use of "#io_wait" is deprecated. Use "aruba.config.io_wait_timeout" instead')
-          @aruba_io_wait_seconds
-        else
-          aruba.config.io_wait_timeout
-        end
+        Aruba.platform.deprecated('The use of "#io_wait" is deprecated. Use "aruba.config.io_wait_timeout" instead')
+
+        aruba.config.io_wait_timeout
       end
 
       # @deprecated
