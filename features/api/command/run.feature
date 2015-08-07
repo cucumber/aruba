@@ -11,7 +11,7 @@ Feature: Run command
     #!/bin/bash
     exit 0
     """
-    And a file named "spec/which_spec.rb" with:
+    And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
@@ -25,7 +25,7 @@ Feature: Run command
 
   Scenario: Non-existing executable
     Given a file named "bin/cli" does not exist
-    And a file named "spec/which_spec.rb" with:
+    And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
