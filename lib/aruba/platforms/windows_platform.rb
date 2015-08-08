@@ -1,5 +1,7 @@
-require 'aruba/platforms/unix_platform'
 require 'ffi'
+
+require 'aruba/platforms/unix_platform'
+require 'aruba/platforms/windows_command_string'
 
 module Aruba
   # This abstracts OS-specific things
@@ -14,6 +16,10 @@ module Aruba
     class WindowsPlatform < UnixPlatform
       def self.match?
         FFI::Platform.windows?
+      end
+
+      def command_string
+        WindowsCommandString
       end
     end
   end

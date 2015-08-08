@@ -1,8 +1,10 @@
 require 'childprocess'
 require 'tempfile'
 require 'shellwords'
+
 require 'aruba/errors'
 require 'aruba/processes/basic_process'
+require 'aruba/platform'
 
 module Aruba
   module Processes
@@ -44,10 +46,10 @@ module Aruba
       # rubocop:disable Metrics/CyclomaticComplexity
       def run!
         # gather fully qualified path
-        cmd = which(command)
+        cmd = Aruba.platform.command_string.new(which(command)).to_s
 
         # rubocop:disable  Metrics/LineLength
-        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) unless cmd
+        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if cmd.nil? || cmd.empty?
         # rubocop:enable  Metrics/LineLength
 
         @process   = ChildProcess.build(cmd, *arguments)
