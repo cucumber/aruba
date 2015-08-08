@@ -1,5 +1,6 @@
 require 'aruba/platforms/unix_platform'
 require 'ffi'
+require 'aruba/platforms/windows_environment_vars'
 
 module Aruba
   # This abstracts OS-specific things
@@ -14,6 +15,10 @@ module Aruba
     class WindowsPlatform < UnixPlatform
       def self.match?
         FFI::Platform.windows?
+      end
+
+      def environment_variables
+        WindowsEnvironmentVars.new
       end
     end
   end
