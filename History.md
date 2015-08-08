@@ -364,6 +364,7 @@
 * Work around `ENV`-bug in `Jruby` buy using `#dup` on `ENV.to_h` (issue jruby/jruby#3162)
 * Speed up test on `JRuby` by using `--dev`-flag
 * Work around problems when copying files with `cp` on MRI-ruby 1.9.2
+* Add cmd.exe /c for SpawnProcess on Windows (issue #302)
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
