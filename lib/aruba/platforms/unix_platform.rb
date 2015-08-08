@@ -2,6 +2,7 @@ require 'rbconfig'
 require 'pathname'
 
 require 'aruba/platforms/simple_table'
+require 'aruba/platforms/unix_command_string'
 
 module Aruba
   # This abstracts OS-specific things
@@ -20,6 +21,10 @@ module Aruba
 
       def environment_variables
         Environment.new
+      end
+
+      def command_string
+        UnixCommandString
       end
 
       def detect_ruby(cmd)
