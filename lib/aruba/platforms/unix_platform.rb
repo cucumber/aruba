@@ -3,6 +3,7 @@ require 'pathname'
 
 require 'aruba/platforms/simple_table'
 require 'aruba/platforms/unix_command_string'
+require 'aruba/platforms/unix_which'
 
 module Aruba
   # This abstracts OS-specific things
@@ -138,8 +139,14 @@ module Aruba
         File.expand_path(path, base)
       end
 
+      # Is absolute path
       def absolute_path?(path)
         Pathname.new(path).absolute?
+      end
+
+      # Is relative path
+      def relative_path?(path)
+        Pathname.new(path).relative?
       end
 
       # Check if command is relative
@@ -154,6 +161,20 @@ module Aruba
       def relative_command?(path)
         p = Pathname.new(path)
         p.relative? && p.basename != p
+      end
+
+      # Check if command is relative
+      #
+      # @return [TrueClass, FalseClass]
+      #   true
+      #     * command.sh
+      #
+      #   false
+      #     * /bin/command.sh
+      #     * bin/command.sh
+      def command?(path)
+        p = Pathname.new(path)
+        p.relative? && p.basename == p
       end
 
       # Write to file
@@ -197,57 +218,9 @@ module Aruba
       # @param [String] path
       #   The PATH, a string concatenated with ":", e.g. /usr/bin/:/bin on a
       #   UNIX-system
-      #
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/CyclomaticComplexity
       def which(program, path = ENV['PATH'])
-        on_windows = false
-        on_windows = true if File::ALT_SEPARATOR
-
-        program = program.to_s
-
-        path_exts = ENV['PATHEXT'] ? ('.{' + ENV['PATHEXT'].tr(';', ',').tr('.','') + '}').downcase : '.{exe,com,bat}' if on_windows
-
-        raise ArgumentError, "ENV['PATH'] cannot be empty" if path.nil? || path.empty?
-
-        # Bail out early if an absolute path is provided or the command path is relative
-        # Examples: /usr/bin/command or bin/command.sh
-        if Aruba.platform.absolute_path?(program) || Aruba.platform.relative_command?(program)
-          program += path_exts if on_windows && File.extname(program).empty?
-
-          found = Dir[program].first
-
-          return File.expand_path(found) if found && Aruba.platform.executable_file?(found)
-          return nil
-        end
-
-        # Iterate over each path glob the dir + program.
-        path.split(File::PATH_SEPARATOR).each do |dir|
-          dir = Aruba.platform.expand_path(dir, Dir.getwd)
-
-          next unless Aruba.platform.exist?(dir) # In case of bogus second argument
-          file = File.join(dir, program)
-
-          # Dir[] doesn't handle backslashes properly, so convert them. Also, if
-          # the program name doesn't have an extension, try them all.
-          if on_windows
-            file = file.tr("\\", "/")
-            file += path_exts if File.extname(program).empty?
-          end
-
-          found = Dir[file].first
-
-          # Convert all forward slashes to backslashes if supported
-          if found && Aruba.platform.executable_file?(found)
-            found.tr!(File::SEPARATOR, File::ALT_SEPARATOR) if on_windows
-            return found
-          end
-        end
-
-        nil
+        UnixWhich.new.call(program, path)
       end
-      # rubocop:enable Metrics/MethodLength
-      # rubocop:enable Metrics/CyclomaticComplexity
     end
   end
 end
