@@ -71,7 +71,7 @@ module Aruba
         begin
           @process.start
         rescue ChildProcess::LaunchError => e
-          raise LaunchError, "It tried to start #{cmd}." + e.message
+          raise LaunchError, "It tried to start #{cmd}. " + e.message
         end
 
         after_run
