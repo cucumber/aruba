@@ -46,11 +46,12 @@ module Aruba
       # rubocop:disable Metrics/CyclomaticComplexity
       def run!
         # gather fully qualified path
-        cmd = Aruba.platform.command_string.new(which(command)).to_s
-
+        cmd = which(command)
         # rubocop:disable  Metrics/LineLength
-        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if cmd.nil? || cmd.empty?
+        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if cmd.nil?
         # rubocop:enable  Metrics/LineLength
+
+        cmd = Aruba.platform.command_string.new(cmd).to_s
 
         @process   = ChildProcess.build(cmd, *arguments)
         @out       = Tempfile.new("aruba-out")
@@ -70,7 +71,7 @@ module Aruba
         begin
           @process.start
         rescue ChildProcess::LaunchError => e
-          raise LaunchError, e.message
+          raise LaunchError, "It tried to start #{cmd}." + e.message
         end
 
         after_run

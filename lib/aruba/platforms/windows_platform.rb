@@ -3,6 +3,7 @@ require 'ffi'
 require 'aruba/platforms/unix_platform'
 require 'aruba/platforms/windows_command_string'
 require 'aruba/platforms/windows_environment_variables'
+require 'aruba/platforms/windows_which'
 
 module Aruba
   # This abstracts OS-specific things
@@ -19,12 +20,19 @@ module Aruba
         FFI::Platform.windows?
       end
 
+      # @see UnixPlatform#command_string
       def command_string
         WindowsCommandString
       end
 
+      # @see UnixPlatform#environment_variables
       def environment_variables
         WindowsEnvironmentVariables.new
+      end
+
+      # @see UnixPlatform#which
+      def which(program, path = ENV['PATH'])
+        WindowsWhich.new.call(program, path)
       end
     end
   end
