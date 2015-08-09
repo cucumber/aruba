@@ -1,5 +1,4 @@
 require 'aruba/config'
-require 'aruba/environment'
 require 'aruba/aruba_logger'
 
 module Aruba

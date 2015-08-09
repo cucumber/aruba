@@ -2,6 +2,7 @@ require 'ffi'
 
 require 'aruba/platforms/unix_platform'
 require 'aruba/platforms/windows_command_string'
+require 'aruba/platforms/windows_environment_variables'
 
 module Aruba
   # This abstracts OS-specific things
@@ -20,6 +21,10 @@ module Aruba
 
       def command_string
         WindowsCommandString
+      end
+
+      def environment_variables
+        WindowsEnvironmentVariables.new
       end
     end
   end
