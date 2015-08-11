@@ -10,8 +10,8 @@ module Aruba
 
       public
 
-      def initialize
-        @env = ENV.to_hash.dup
+      def initialize(env = ENV.to_hash)
+        @env = Marshal.load(Marshal.dump(env))
       end
 
       # Update environment with other en
