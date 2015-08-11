@@ -24,6 +24,26 @@ module Aruba
         stdout + stderr
       end
 
+      def write(*)
+        NotImplementedError
+      end
+
+      def stdin(*)
+        NotImplementedError
+      end
+
+      def stdout(*)
+        NotImplementedError
+      end
+
+      def stderr(*)
+        NotImplementedError
+      end
+
+      def close_io(*)
+        NotImplementedError
+      end
+
       # Was process already stopped
       def stopped?
         @stopped == true

@@ -85,9 +85,9 @@ module Aruba
 
         begin
           if RUBY_VERSION <= '1.9.3'
-            old_env = ENV.to_hash
+            old_env = ENV.to_hash.dup
           else
-            old_env = ENV.to_h
+            old_env = ENV.to_h.dup
           end
 
           ENV['OLDPWD'] = getwd

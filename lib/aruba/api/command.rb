@@ -26,7 +26,7 @@ module Aruba
       # '\033' => "\e"
       # '\"' => '"'
       def unescape_text(text)
-        text.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e").gsub('\033', "\e").gsub('\016', "\016").gsub('\017', "\017")
+        text.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e").gsub('\033', "\e").gsub('\016', "\016").gsub('\017', "\017").gsub('\t', "\t")
       end
 
       # Remove ansi characters from text

@@ -166,7 +166,7 @@ When /^I run `([^`]*)` interactively$/ do |cmd|
 end
 
 When /^I type "([^"]*)"$/ do |input|
-  type(input)
+  type(unescape_text(input))
 end
 
 When /^I close the stdin stream$/ do
