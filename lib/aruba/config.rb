@@ -58,6 +58,7 @@ module Aruba
     # rubocop:enable Metrics/LineLength
 
     option_accessor :physical_block_size, :contract => { Aruba::Contracts::IsPowerOfTwo => Aruba::Contracts::IsPowerOfTwo }, :default => 512
+    option_accessor :console_history_file, :contract => { String => String }, :default => '~/.aruba_history'
   end
 end
 
