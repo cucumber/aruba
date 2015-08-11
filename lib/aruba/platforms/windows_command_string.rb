@@ -8,6 +8,10 @@ module Aruba
         __setobj__ format('%s /c "%s"', Aruba.platform.which('cmd.exe'), cmd)
       end
 
+      def to_a
+        Shellwords.split __getobj__
+      end
+
       if RUBY_VERSION < '1.9'
         def to_s
           __getobj__.to_s

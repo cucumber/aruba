@@ -51,9 +51,9 @@ module Aruba
         fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if cmd.nil?
         # rubocop:enable  Metrics/LineLength
 
-        cmd = Aruba.platform.command_string.new(cmd).to_s
+        cmd = Aruba.platform.command_string.new(cmd)
 
-        @process   = ChildProcess.build(cmd, *arguments)
+        @process   = ChildProcess.build(*[cmd.to_a, arguments].flatten)
         @out       = Tempfile.new("aruba-out")
         @err       = Tempfile.new("aruba-err")
         @exit_status = nil

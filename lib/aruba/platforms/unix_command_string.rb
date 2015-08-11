@@ -1,4 +1,5 @@
 require 'delegate'
+require 'shellwords'
 
 module Aruba
   module Platforms
@@ -6,6 +7,10 @@ module Aruba
     class UnixCommandString < SimpleDelegator
       def initialize(cmd)
         __setobj__ cmd
+      end
+
+      def to_a
+        Shellwords.split __getobj__
       end
 
       if RUBY_VERSION < '1.9'
