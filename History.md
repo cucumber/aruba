@@ -366,6 +366,7 @@
 * Work around problems when copying files with `cp` on MRI-ruby 1.9.2
 * Add cmd.exe /c for SpawnProcess on Windows (issue #302)
 * Split up which for Windows and Unix/Linux (issue #304)
+* Add aruba console to play around with aruba (issue 305)
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
