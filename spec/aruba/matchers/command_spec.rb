@@ -86,7 +86,7 @@ RSpec.describe 'Command Matchers' do
 
       let(:cmd) { "cmd.sh #{output}" }
 
-      before(:each) { $stderr.puts ENV['PATH']; $stderr.puts ENV['HOME']; run(cmd) }
+      before(:each) { run(cmd) }
 
       it { expect(last_command_started).to have_output output }
     end
@@ -123,7 +123,7 @@ RSpec.describe 'Command Matchers' do
 
       let(:cmd) { "cmd.sh #{output}" }
 
-      before(:each) { $stderr.puts ENV['PATH']; $stderr.puts ENV['HOME']; run(cmd) }
+      before(:each) { run(cmd) }
 
       it { expect(last_command_started).not_to have_output_on_stdout output }
     end
@@ -160,7 +160,7 @@ RSpec.describe 'Command Matchers' do
 
       let(:cmd) { "cmd.sh #{output}" }
 
-      before(:each) { $stderr.puts ENV['PATH']; $stderr.puts ENV['HOME']; run(cmd) }
+      before(:each) { run(cmd) }
 
       it { expect(last_command_started).to have_output_on_stderr output }
     end
