@@ -1,5 +1,25 @@
 # Latest Release
 
+## [v0.9.0.pre](https://github.com/cucumber/aruba/compare/v0.8.1...v0.9.0.pre)
+
+* Improve documentation for filesystem api and move it to feature tests
+* Add logger to aruba. Its output can be captured by rspec.
+* Fix incorrect deprecation message for check_file_presence (issue #292)
+* Fix for Gemfile excludes windows for many gems (issue #282)
+* Make feature tests compatible with ruby 1.9.2
+* Gather disk usage for file(s) (issue #294)
+* Replace keep_ansi-config option by remove_ansi_escape_sequences-option
+* Split up `#unescape` into `#extract_text` and `#unescape_text`
+* Use `UnixPlatform` and `WindowsPlatform` to make code for different platforms maintainable
+* Work around `ENV`-bug in `Jruby` buy using `#dup` on `ENV.to_h` (issue jruby/jruby#3162)
+* Speed up test on `JRuby` by using `--dev`-flag
+* Work around problems when copying files with `cp` on MRI-ruby 1.9.2
+* Add cmd.exe /c for SpawnProcess on Windows (issue #302)
+* Split up `#which` for Windows and Unix/Linux (issue #304)
+* Add `aruba console`-command to play around with aruba (issue 305)
+
+# Old releases
+
 ## [v0.8.1](https://github.com/cucumber/aruba/compare/v0.8.0...v0.8.1)
 
 * Fix problem if working directory of aruba does not exist (issue #286)
@@ -10,8 +30,6 @@
 * Add announcer to output the full environment before a command is run
 * Use prepend_environment_variable to modify PATH for rspec integration
 * Add VERSION-constant to aruba and use it for code which should be activated on >= 1.0.0
-
-# Old releases
 
 ## [v0.8.0](https://github.com/cucumber/aruba/compare/v0.8.0.pre3...v0.8.0)
 * Build with cucumber 1.3.x on ruby 1.8.7, with cucumber 2.x on all other platforms
@@ -347,26 +365,6 @@
 ## [v0.1.0](https://github.com/cucumber/aruba/compare/ed6a175d23aaff62dbf355706996f276f304ae8b...v0.1.1)
 
 * First release (David Chelimsky and Aslak Hellesøy)
-
-# Upcoming un-released versions
-
-## [v0.9.0](https://github.com/cucumber/aruba/compare/v0.8.1...v0.9.0)
-
-* Improve documentation for filesystem api and move it to feature tests
-* Add logger to aruba. Its output can be captured by rspec.
-* Fix incorrect deprecation message for check_file_presence (issue #292)
-* Fix for Gemfile excludes windows for many gems (issue #282)
-* Make feature tests compatible with ruby 1.9.2
-* Gather disk usage for file(s) (issue #294)
-* Replace keep_ansi-config option by remove_ansi_escape_sequences-option
-* Split up `#unescape` into `#extract_text` and `#unescape_text`
-* Use `UnixPlatform` and `WindowsPlatform` to make code for different platforms maintainable
-* Work around `ENV`-bug in `Jruby` buy using `#dup` on `ENV.to_h` (issue jruby/jruby#3162)
-* Speed up test on `JRuby` by using `--dev`-flag
-* Work around problems when copying files with `cp` on MRI-ruby 1.9.2
-* Add cmd.exe /c for SpawnProcess on Windows (issue #302)
-* Split up `#which` for Windows and Unix/Linux (issue #304)
-* Add `aruba console`-command to play around with aruba (issue 305)
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
