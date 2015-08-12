@@ -9,10 +9,10 @@ Feature: All output of commands which were executed
 
   Scenario: Detect subset of one-line output
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts 'hello world'
+    echo 'hello world'
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -26,10 +26,10 @@ Feature: All output of commands which were executed
 
   Scenario: Detect absence of one-line output
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts 'hello world'
+    echo 'hello world'
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -43,10 +43,10 @@ Feature: All output of commands which were executed
 
   Scenario: Detect subset of multiline output
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts "hello\nworld"
+    echo -e "hello\nworld"
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -63,10 +63,10 @@ Feature: All output of commands which were executed
 
   Scenario: Detect absence of subset of multiline output
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts "hello\nworld"
+    echo -e "hello\nworld"
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -101,9 +101,6 @@ Feature: All output of commands which were executed
     """ruby
     #!/usr/bin/env ruby
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
     print "hello world"
     """
     And a file named "features/output.feature" with:
@@ -121,13 +118,10 @@ Feature: All output of commands which were executed
 
   Scenario: Detect exact one-line output with ANSI output
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    print "\e[36mhello world\e[0m"
+    echo -e "\e[36mhello world\e[0m"
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -146,13 +140,10 @@ Feature: All output of commands which were executed
   Scenario: Detect exact one-line output with ANSI output stripped by default
     Given the default aruba exit timeout is 12 seconds
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    print "\e[36mhello world\e[0m"
+    echo -e "\e[36mhello world\e[0m"
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -169,13 +160,10 @@ Feature: All output of commands which were executed
 
   Scenario: Detect exact multiline output
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    print "hello\nworld"
+    echo -en "hello\nworld"
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -193,10 +181,10 @@ Feature: All output of commands which were executed
 
   Scenario: Detect subset of one-line output
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts 'hello world'
+    echo 'hello world'
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -210,10 +198,10 @@ Feature: All output of commands which were executed
 
   Scenario: Detect subset of one-line output with regex
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts 'hello, ruby'
+    echo 'hello, ruby'
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -227,10 +215,10 @@ Feature: All output of commands which were executed
 
   Scenario: Detect subset of multiline output with regex
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts "hello\nworld\nextra line1\nextra line2\nimportant line"
+    echo -e "hello\nworld\nextra line1\nextra line2\nimportant line"
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -250,10 +238,10 @@ Feature: All output of commands which were executed
 
   Scenario: Negative matching of one-line output with regex
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts "hello, ruby"
+    echo "hello, ruby"
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -267,10 +255,10 @@ Feature: All output of commands which were executed
 
   Scenario: Negative matching of multiline output with regex
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts "hello\nworld\nextra line1\nextra line2\nimportant line"
+    echo -e "hello\nworld\nextra line1\nextra line2\nimportant line"
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -291,10 +279,10 @@ Feature: All output of commands which were executed
 
   Scenario: Match passing exit status and partial output
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts "hello world"
+    echo "hello world"
     exit 0
     """
     And a file named "features/output.feature" with:
@@ -312,13 +300,8 @@ Feature: All output of commands which were executed
 
   Scenario: Match passing exit status and exact output
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
-
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    print "hello\nworld"
+    """bash
+    echo -en "hello\nworld"
     exit 0
     """
     And a file named "features/output.feature" with:
@@ -337,10 +320,10 @@ Feature: All output of commands which were executed
 
   Scenario: Match failing exit status and partial output
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts "hello\nworld"
+    echo -e "hello\nworld"
     exit 1
     """
     And a file named "features/output.feature" with:
@@ -359,13 +342,10 @@ Feature: All output of commands which were executed
 
   Scenario: Match failing exit status and exact output
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    puts "hello\nworld"
+    echo -e "hello\nworld"
     exit 1
     """
     And a file named "features/output.feature" with:
@@ -384,13 +364,10 @@ Feature: All output of commands which were executed
 
   Scenario: Match failing exit status and output with regex
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    puts "hello\nworld"
+    echo -e "hello\nworld"
     exit 1
     """
     And a file named "features/output.feature" with:
@@ -408,22 +385,16 @@ Feature: All output of commands which were executed
 
   Scenario: Detect output from all processes
     Given an executable named "bin/cli1" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    puts 'This is cli1'
+    echo 'This is cli1'
     """
     And an executable named "bin/cli2" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    puts 'This is cli2'
+    echo 'This is cli2'
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -445,22 +416,16 @@ Feature: All output of commands which were executed
 
   Scenario: Detect output from all processes (deprecated)
     Given an executable named "bin/cli1" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    puts 'This is cli1'
+    echo 'This is cli1'
     """
     And an executable named "bin/cli2" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    puts 'This is cli2'
+    echo 'This is cli2'
     """
     And a file named "features/output.feature" with:
     """cucumber

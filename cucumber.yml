@@ -14,6 +14,7 @@ ignore_opts <<  "--tags ~@ignore-platform-unix"    if FFI::Platform.unix?
 ignore_opts <<  "--tags ~@ignore-platform-mac"     if FFI::Platform.mac?
 ignore_opts <<  "--tags ~@ignore-ruby-older-2"     if RUBY_VERSION < '2'
 ignore_opts <<  "--tags ~@ignore-ruby-older-193"   if RUBY_VERSION < '1.9.3'
+ignore_opts <<  "--tags ~@ignore-ruby-older-19"    if RUBY_VERSION < '1.9'
 ignore_opts = ignore_opts.join(' ')
 %>
 default: <%= std_opts %> --tags ~@wip <%= java_default_opts %> <%= ignore_opts %>
