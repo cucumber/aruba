@@ -1,9 +1,18 @@
 <%
+require 'ffi'
 java_version = (RUBY_DESCRIPTION.match(/.*?on.*?(1\.[\d]\..*? )/))[1] if defined?(JRUBY_VERSION)
 
 std_opts          = "--color --exclude features/fixtures --require features"
 java_default_opts = "--tags ~@wip-jruby-java-1.6" if defined?(JRUBY_VERSION) && (java_version < '1.7.0')
 java_wip_opts     = "--tags @wip-jruby-java-1.6:3" if defined?(JRUBY_VERSION) && (java_version < '1.7.0')
+
+ignore_opts = []
+ignore_opts <<  "--tags ~@ignore-platform-java"    if RUBY_PLATFORM.include? 'java'
+ignore_opts <<  "--tags ~@ignore-platform-mri"     if !RUBY_PLATFORM.include? 'java'
+ignore_opts <<  "--tags ~@ignore-platform-windows" if FFI::Platform.windows?
+ignore_opts <<  "--tags ~@ignore-platform-unix"    if FFI::Platform.unix?
+ignore_opts <<  "--tags ~@ignore-platform-mac"    if FFI::Platform.mac?
+ignore_opts = ignore_opts.join(' ')
 %>
-default: <%= std_opts %> --tags ~@wip <%= java_default_opts %>
-wip: <%= std_opts %> --wip --tags @wip:3 <%= java_wip_opts %>
+default: <%= std_opts %> --tags ~@wip <%= java_default_opts %> <%= ignore_opts %>
+wip: <%= std_opts %> --wip --tags @wip:3 <%= java_wip_opts %> <%= ignore_opts %>

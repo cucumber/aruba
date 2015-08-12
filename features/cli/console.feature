@@ -11,6 +11,7 @@ Feature: Aruba Console
     aruba:001:0>
     """
 
+  @ignore-platform-java
   Scenario: Show help
     Given I run `aruba console` interactively
     And I type "aruba_help"
@@ -28,6 +29,7 @@ Feature: Aruba Console
     Documentation:
     """
 
+  @ignore-platform-java
   Scenario: Show methods
     Given I run `aruba console` interactively
     And I type "aruba_methods"
@@ -41,6 +43,7 @@ Feature: Aruba Console
     * setup_aruba
     """
 
+  @ignore-platform-java
   Scenario: Has history
     Given I run `aruba console` interactively
     And I type "aruba_methods"
