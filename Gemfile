@@ -5,7 +5,11 @@ gemspec
 
 # Debug aruba
 group :debug do
-  gem 'pry', '~> 0.10.1'
+  if RUBY_VERSION >= '2'
+    gem 'pry', '~> 0.10.1'
+  else
+    gem 'pry', '~>0.9.12'
+  end
 
   if RUBY_VERSION >= '2' && !RUBY_PLATFORM.include?('java')
     gem 'byebug', '~> 4.0.5'

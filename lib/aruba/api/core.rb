@@ -129,15 +129,19 @@ module Aruba
         # rubocop:enable Metrics/LineLength
 
         if RUBY_VERSION < '1.9'
-          prefix = file_name.chars.to_a[0]
-          rest = file_name.chars.to_a[1..-1].join('')
+          prefix = file_name.chars.to_a[0].to_s
+          rest = if file_name.chars.to_a[2..-1].nil?
+                   nil
+                 else
+                   file_name.chars.to_a[2..-1].join
+                 end
         else
           prefix = file_name[0]
-          rest = file_name[1..-1]
+          rest = file_name[2..-1]
         end
 
         if aruba.config.fixtures_path_prefix == prefix
-          File.join aruba.fixtures_directory, rest
+          path = File.join(*[aruba.fixtures_directory, rest].compact)
         elsif '~' == prefix
           path = with_environment do
             ArubaPath.new(File.expand_path(file_name))
