@@ -14,7 +14,7 @@ Feature: Run test suite of aruba
     Given I successfully run `cucumber`
     Then the features should all pass
 
-  @requires-ruby-version-193
+  @ignore-ruby-older-193
   Scenario: Testing compliance to ruby community guide
     Given I successfully run `rubocop`
     Then the features should all pass
