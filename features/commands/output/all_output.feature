@@ -163,7 +163,7 @@ Feature: All output of commands which were executed
     """bash
     #!/usr/bin/env bash
 
-    echo -en "hello\nworld"
+    echo -ne "hello\nworld"
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -301,7 +301,9 @@ Feature: All output of commands which were executed
   Scenario: Match passing exit status and exact output
     Given an executable named "bin/cli" with:
     """bash
-    echo -en "hello\nworld"
+    #!/usr/bin/env bash
+
+    echo -ne "hello\nworld"
     exit 0
     """
     And a file named "features/output.feature" with:
