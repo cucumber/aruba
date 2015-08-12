@@ -10,7 +10,7 @@ group :debug do
     gem 'pry-byebug', '~> 3.1.0'
   end
 
-  if RUBY_VERSION < '2' && !RUBY_PLATFORM.include?('java')
+  if RUBY_VERSION < '2' && RUBY_VERSION > '1.9' && !RUBY_PLATFORM.include?('java')
     gem 'debugger', '~> 1.6.8'
     gem 'pry-debugger', '~> 0.2.3'
   end
