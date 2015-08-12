@@ -249,11 +249,11 @@ Then /^the output should not match:$/ do |expected|
   assert_not_matching_output(expected, all_output)
 end
 
-Then /^the exit status should be (\d+)$/ do |exit_status|
+Then /^the exit (?:status|code) should be (\d+)$/ do |exit_status|
   assert_exit_status(exit_status.to_i)
 end
 
-Then /^the exit status should not be (\d+)$/ do |exit_status|
+Then /^the exit (?:status|code) not be (\d+)$/ do |exit_status|
   assert_not_exit_status(exit_status.to_i)
 end
 
