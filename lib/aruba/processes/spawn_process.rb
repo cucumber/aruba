@@ -43,7 +43,14 @@ module Aruba
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
       def start
-        cmd = Aruba.platform.command_string.new(command)
+        # gather fully qualified path
+        cmd = Aruba.platform.which(command, environment['PATH'])
+
+        # rubocop:disable  Metrics/LineLength
+        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if cmd.nil?
+        # rubocop:enable  Metrics/LineLength
+
+        cmd = Aruba.platform.command_string.new(cmd)
 
         @process   = ChildProcess.build(*[cmd.to_a, arguments].flatten)
         @stdout_file = Tempfile.new("aruba-stdout")
