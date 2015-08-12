@@ -53,6 +53,7 @@ module Aruba
 
         before_run
 
+        @process.leader    = true
         @process.io.stdout = @stdout_file
         @process.io.stderr = @stderr_file
         @process.duplex    = @duplex
