@@ -9,8 +9,8 @@ Feature: Debug your command in cucumber-test-run
 
   Scenario: Can handle exit status 0
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
     exit 0
     """
@@ -28,8 +28,8 @@ Feature: Debug your command in cucumber-test-run
 
   Scenario: Can handle exit status 1
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
     exit 1
     """

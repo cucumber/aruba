@@ -49,13 +49,10 @@ Feature: Announce output during test run
 
   Scenario: Announce stdout
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    puts 'Hello World'
+    echo 'Hello World'
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
@@ -77,13 +74,10 @@ Feature: Announce output during test run
 
   Scenario: Announce stderr
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    $stderr.puts 'Hello World'
+    echo 'Hello World' >&2
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
@@ -105,14 +99,11 @@ Feature: Announce output during test run
 
   Scenario: Announce both stderr and stdout
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $LOAD_PATH << File.expand_path('../../lib', __FILE__)
-    require 'cli/app'
-
-    $stderr.puts 'Hello'
-    puts 'World'
+    echo 'Hello' >&2
+    echo 'World'
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
@@ -141,11 +132,10 @@ Feature: Announce output during test run
 
   Scenario: Announce command
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    $stderr.puts 'Hello'
-    puts 'World'
+    echo 'Hello World'
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
@@ -164,10 +154,10 @@ Feature: Announce output during test run
 
   Scenario: Announce change of environment variable
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts 'World'
+    echo 'Hello World'
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
@@ -189,10 +179,10 @@ Feature: Announce output during test run
 
   Scenario: Announce change of environment variable which contains special characters
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts 'World'
+    echo 'Hello World'
     """
     And a file named "features/exit_status.feature" with:
     """cucumber

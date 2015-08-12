@@ -9,10 +9,10 @@ Feature: Stdout of commands which were executed
 
   Scenario: Match output in stdout
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts "hello\nworld"
+    echo -e "hello\nworld"
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -27,10 +27,10 @@ Feature: Stdout of commands which were executed
 
   Scenario: Match stdout on several lines
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts 'GET /'
+    echo 'GET /'
     """
     And a file named "features/output.feature" with:
     """cucumber
@@ -47,10 +47,10 @@ Feature: Stdout of commands which were executed
 
   Scenario: Match output on several lines where stdout contains quotes
     Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
+    """bash
+    #!/usr/bin/env bash
 
-    puts 'GET "/"'
+    echo 'GET "/"'
     """
     And a file named "features/output.feature" with:
     """cucumber

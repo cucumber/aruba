@@ -5,7 +5,6 @@ $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'pry'
 
 require 'aruba/api'
-require 'aruba/reporting'
 
 module Aruba
   class MyConsole
