@@ -60,6 +60,10 @@ module Aruba
       def absolute?
         (%r{\A/} === to_s)
       end
+
+      def to_ary
+        __getobj__.to_a
+      end
     end
 
     # How many parts has the file name
