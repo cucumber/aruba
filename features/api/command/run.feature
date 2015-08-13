@@ -30,7 +30,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Find path for command', :type => :aruba do
-      it { expect { run('cli') }.to raise_error Aruba::LaunchError, /No such file or directory - cli/ }
+      it { expect { run('cli') }.to raise_error Aruba::LaunchError, /Command "cli" not found in PATH-variable/ }
     end
     """
     When I run `rspec`
