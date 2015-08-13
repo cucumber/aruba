@@ -1,3 +1,4 @@
+@ignore-ruby-older-19
 Feature: Report disk usage
 
   Sometimes you need to check, what amount of disk space a file consumes. We do
