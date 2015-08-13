@@ -62,7 +62,7 @@ module Aruba
       end
 
       def to_ary
-        __getobj__.to_a
+        to_a
       end
     end
 
