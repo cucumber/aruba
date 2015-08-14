@@ -1,14 +1,16 @@
-require 'rspec/matchers/built_in/base_matcher'
+require 'aruba/matchers/base/base_matcher'
 
 module Aruba
   module Matchers
     # @api private
     # Provides the implementation for `include_an_object`.
     # Not intended to be instantiated directly.
-    class IncludeAnObject < ::RSpec::Matchers::BuiltIn::BaseMatcher
+    class IncludeAnObject < BaseMatcher
       protected
 
+      # @private
       attr_reader :matcher, :failed_objects
+      # @private
       attr_accessor :any_succeeded_object
 
       public
@@ -96,14 +98,6 @@ module Aruba
         end.join
       end
 
-      def initialize_copy(other)
-        @matcher = @matcher.clone
-        super
-      end
-
-      def iterable?
-        @actual.respond_to?(:each_with_index)
-      end
     end
   end
 end
