@@ -45,7 +45,7 @@ Feature: Debug your command in cucumber-test-run
     When I successfully run `cucumber`
     Then the features should all pass
 
-  @ignore-ruby-older-193
+  @unsupported-on-ruby-older-193
   Scenario: You can use a debug repl in your cli program
 
     If you want to debug a strange error, which only occures in one of your

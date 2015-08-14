@@ -9,12 +9,12 @@ Feature: Run test suite of aruba
     And I successfully run `git clone https://github.com/cucumber/aruba.git`
     And I cd to "aruba"
 
-    @ignore
+  @ignore
   Scenario: Testing user interface
     Given I successfully run `cucumber`
     Then the features should all pass
 
-  @ignore-ruby-older-193
+  @unsupported-on-ruby-older-193
   Scenario: Testing compliance to ruby community guide
     Given I successfully run `rubocop`
     Then the features should all pass
