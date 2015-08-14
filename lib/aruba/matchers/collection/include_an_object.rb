@@ -97,7 +97,6 @@ module Aruba
           line =~ /\S/ ? '   ' + line : line
         end.join
       end
-
     end
   end
 end

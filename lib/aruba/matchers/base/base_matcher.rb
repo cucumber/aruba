@@ -12,7 +12,7 @@ module Aruba
       # @private
       attr_reader :actual, :expected, :rescued_exception
 
-      def initialize(expected=UNDEFINED)
+      def initialize(expected = UNDEFINED)
         @expected = expected unless UNDEFINED.equal?(expected)
       end
 
@@ -70,12 +70,14 @@ module Aruba
         end
 
         # @private
+        # rubocop:disable Style/PredicateName
         def self.has_default_failure_messages?(matcher)
           matcher.method(:failure_message).owner == self &&
             matcher.method(:failure_message_when_negated).owner == self
         rescue NameError
           false
         end
+        # rubocop:enable Style/PredicateName
       end
 
       include DefaultFailureMessages

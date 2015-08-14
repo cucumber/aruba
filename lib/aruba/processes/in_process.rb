@@ -60,7 +60,7 @@ module Aruba
         end
       end
 
-      def stop(reader)
+      def stop(*)
         @stopped     = true
         @exit_status = @kernel.exitstatus
       end

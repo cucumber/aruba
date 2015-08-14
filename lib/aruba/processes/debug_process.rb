@@ -50,7 +50,7 @@ module Aruba
       def close_io(*); end
 
       # Stop process
-      def stop(_reader)
+      def stop(*)
         @stopped = true
 
         @exit_status
