@@ -41,9 +41,13 @@ module Aruba
     end
 
     def stop_processes!
-      Aruba.platform.deprecated('The use of "#stop_processes!" is deprecated. Use "#all_commands.each { |c| c.stop(announcer) }" instead')
+      Aruba.platform.deprecated('The use of "#stop_processes!" is deprecated. Use "#stop_all_commands" instead')
 
-      all_commands.each { |c| stop_process(c) }
+      stop_all_commands
+    end
+
+    def stop_all_commands
+      all_commands.each { |c| c.stop(announcer) }
     end
 
     # Terminate all running processes
@@ -110,7 +114,7 @@ module Aruba
       Aruba.platform.deprecated('The use of "#all_stdout" is deprecated. Use `all_commands.map { |c| c.stdout }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output_on_stdout /output/" instead')
       # rubocop:enable Metrics/LineLength
 
-      all_commands.each { |c| c.stop(announcer) }
+      stop_all_commands
 
       if RUBY_VERSION < '1.9'
         out = ''
@@ -131,7 +135,7 @@ module Aruba
       Aruba.platform.deprecated('The use of "#all_stderr" is deprecated. Use `all_commands.map { |c| c.stderr }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output_on_stderr /output/" instead')
       # rubocop:enable Metrics/LineLength
 
-      all_commands.each { |c| c.stop(announcer) }
+      stop_all_commands
 
       if RUBY_VERSION < '1.9'
         out = ''

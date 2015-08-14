@@ -19,7 +19,9 @@ Feature: Set environment variable via API-method
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
-      before(:each) { run('env').stop(announcer) }
+
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=1' }
     end
@@ -35,7 +37,9 @@ Feature: Set environment variable via API-method
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '2' }
-      before(:each) { run('env').stop(announcer) }
+
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=2' }
     end
@@ -54,7 +58,9 @@ Feature: Set environment variable via API-method
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
-      before(:each) { run('env').stop(announcer) }
+
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=2' }
       it { expect(ENV['REALLY_LONG_LONG_VARIABLE']).to eq '1' }
@@ -76,7 +82,9 @@ Feature: Set environment variable via API-method
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
-      before(:each) { run('env').stop(announcer) }
+
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
 
       it do
         with_environment do
@@ -104,7 +112,9 @@ Feature: Set environment variable via API-method
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
-      before(:each) { run('env').stop(announcer) }
+
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
 
       it do
         with_environment 'REALLY_LONG_LONG_VARIABLE' => '3' do
@@ -131,14 +141,17 @@ Feature: Set environment variable via API-method
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
 
       describe 'Method XX' do
-        before(:each) { run('env').stop(announcer) }
+        before(:each) { run('env') }
+        before(:each) { stop_all_commands }
 
         it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=1' }
       end
 
       describe 'Method YY' do
         before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '2' }
-        before(:each) { run('env').stop(announcer) }
+
+        before(:each) { run('env') }
+        before(:each) { stop_all_commands }
 
         it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=2' }
       end
@@ -156,7 +169,9 @@ Feature: Set environment variable via API-method
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
-      before(:each) { run('env').stop(announcer) }
+
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
 
       it do
         begin
@@ -228,7 +243,8 @@ Feature: Set environment variable via API-method
 
         it { expect(ENV['REALLY_LONG_LONG_VARIABLE']).to eq '1' }
 
-        before(:each) { run('env').stop(announcer) }
+        before(:each) { run('env') }
+        before(:each) { stop_all_commands }
 
         it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
       end
@@ -242,7 +258,8 @@ Feature: Set environment variable via API-method
 
         it { expect(ENV['LONG_LONG_VARIABLE']).to eq '2' }
 
-        before(:each) { run('env').stop(announcer) }
+        before(:each) { run('env') }
+        before(:each) { stop_all_commands }
 
         it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
       end

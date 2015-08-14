@@ -17,7 +17,7 @@ require 'rspec/expectations/version'
 #     end
 RSpec::Matchers.define :be_an_existing_file do |_|
   match do |actual|
-    all_commands.each { |c| c.stop(announcer) }
+    stop_all_commands
 
     next false unless actual.is_a? String
 

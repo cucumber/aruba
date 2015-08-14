@@ -20,7 +20,7 @@ end
 
 After do
   restore_env
-  all_commands.each { |c| c.stop(announcer) }
+  terminate_all_commands
   process_monitor.clear
 end
 

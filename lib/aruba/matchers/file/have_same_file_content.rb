@@ -24,7 +24,7 @@ require 'fileutils'
 #     end
 RSpec::Matchers.define :have_same_file_content_like do |expected|
   match do |actual|
-    all_commands.each { |c| c.stop(announcer) }
+    stop_all_commands
 
     next false unless file?(actual) && file?(expected)
 

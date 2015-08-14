@@ -99,6 +99,40 @@ module Aruba
         process_monitor.last_command_stopped
       end
 
+      # Stop all commands
+      #
+      # @yield [Command]
+      #   If block is given use it to filter the commands which should be
+      #   stoppend.
+      def stop_all_commands(&block)
+        cmds = if block_given?
+                 all_commands.select(&block)
+               else
+                 all_commands
+               end
+
+        cmds.each { |c| c.stop(announcer) }
+
+        self
+      end
+
+      # Terminate all commands
+      #
+      # @yield [Command]
+      #   If block is given use it to filter the commands which should be
+      #   terminated.
+      def terminate_all_commands(&block)
+        cmds = if block_given?
+                 all_commands.select(&block)
+               else
+                 all_commands
+               end
+
+        cmds.each(&:terminate)
+
+        self
+      end
+
       # Run given command and stop it if timeout is reached
       #
       # @param [String] cmd

@@ -181,7 +181,7 @@ module Aruba
       def check_file_presence(paths, expect_presence = true)
         Aruba.platform.deprecated('The use of "check_file_presence" is deprecated. Use "expect().to be_an_existing_file" or "expect(all_paths).to all match /pattern/" instead')
 
-        all_commands.each { |c| c.stop(announcer) }
+        stop_all_commands
 
         Array(paths).each do |path|
           if path.kind_of? Regexp
@@ -217,7 +217,7 @@ module Aruba
       def check_file_size(paths_and_sizes)
         Aruba.platform.deprecated('The use of "#check_file_size" is deprecated. Use "expect(file).to have_file_size(size)", "expect(all_files).to all have_file_size(1)", "expect(all_files).to include a_file_with_size(1)" instead')
 
-        all_commands.each { |c| c.stop(announcer) }
+        stop_all_commands
 
         paths_and_sizes.each do |path, size|
           expect(path).to have_file_size size
@@ -245,7 +245,7 @@ module Aruba
       def check_binary_file_content(file, reference_file, expect_match = true)
         Aruba.platform.deprecated('The use of "#check_binary_file_content" is deprecated. Use "expect(file).to have_same_file_content_like(file)"')
 
-        all_commands.each { |c| c.stop(announcer) }
+        stop_all_commands
 
         if expect_match
           expect(file).to have_same_file_content_like reference_file
@@ -265,7 +265,7 @@ module Aruba
       def check_directory_presence(paths, expect_presence)
         Aruba.platform.deprecated('The use of "#check_directory_presence" is deprecated. Use "expect(directory).to be_an_existing_directory"')
 
-        all_commands.each { |c| c.stop(announcer) }
+        stop_all_commands
 
         paths.each do |path|
           path = expand_path(path)
@@ -282,7 +282,7 @@ module Aruba
       def prep_for_fs_check(&block)
         Aruba.platform.deprecated('The use of "prep_for_fs_check" is deprecated. Use apropriate methods and the new rspec matchers instead')
 
-        all_commands.each { |c| c.stop(announcer) }
+        stop_all_commands
 
         cd('') { block.call }
       end
@@ -324,7 +324,7 @@ module Aruba
       def check_file_content(file, content, expect_match = true)
         Aruba.platform.deprecated('The use of "#check_file_content" is deprecated. Use "expect(file).to have_file_content(content)" instead. For eq match use string, for partial match use /regex/')
 
-        all_commands.each { |c| c.stop(announcer) }
+        stop_all_commands
 
         if expect_match
           expect(file).to have_file_content content
@@ -858,9 +858,9 @@ module Aruba
 
       # @deprecated
       def stop_processes!
-        Aruba.platform.deprecated('The use of "#stop_processes!" is deprecated. Use "all_commands.each(&:stop)" instead')
+        Aruba.platform.deprecated('The use of "#stop_processes!" is deprecated. Use "#stop_all_commands" instead')
 
-        all_commands.each { |c| c.stop(announcer) }
+        stop_all_commands
       end
 
       # @deprecated
