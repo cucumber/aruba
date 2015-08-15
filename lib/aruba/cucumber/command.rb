@@ -63,7 +63,7 @@ When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$
   fail %(Invalid output channel "#{channel}" chosen. Please choose one of "output, stdout or stderr") unless %w(output stdout stderr).include? channel
 
   begin
-    Timeout.timeout(exit_timeout) do
+    Timeout.timeout(aruba.config.exit_timeout) do
       loop do
         output = if RUBY_VERSION < '1.9.3'
                    last_command_started.send channel.to_sym, :wait_for_io => 0
