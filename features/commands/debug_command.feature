@@ -6,6 +6,7 @@ Feature: Debug your command in cucumber-test-run
 
   Background:
     Given I use a fixture named "cli-app"
+    And the default aruba exit timeout is 60 seconds
 
   Scenario: Can handle exit status 0
     Given an executable named "bin/cli" with:
