@@ -25,30 +25,32 @@ Then /^the following step should fail with Spec::Expectations::ExpectationNotMet
   expect{steps multiline_step.to_s}.to raise_error(RSpec::Expectations::ExpectationNotMetError)
 end
 
-Then /^the output should be (\d+) bytes long$/ do |length|
-  expect(all_output.length).to eq length.to_i
-end
-
 Then /^the feature(?:s)? should( not)?(?: all)? pass$/ do |negated|
   if negated
     step 'the output should contain " failed)"'
     step 'the exit status should be 1'
   else
     step 'the output should not contain " failed)"'
+    step 'the output should not contain " undefined)"'
     step 'the exit status should be 0'
   end
 end
 
-Then /^the feature(?:s)? should( not)?(?: all)? pass with:$/ do |negated, string|
+Then /^the feature(?:s)? should( not)?(?: all)? pass with( regex)?:$/ do |negated, regex, string|
   if negated
     step 'the output should contain " failed)"'
     step 'the exit status should be 1'
   else
     step 'the output should not contain " failed)"'
+    step 'the output should not contain " undefined)"'
     step 'the exit status should be 0'
   end
 
-  step 'the output should contain:', string if string
+  if regex
+    step "the output should match %r<#{string}>"
+  else
+    step 'the output should contain:', string
+  end
 end
 
 Then /^the spec(?:s)? should( not)?(?: all)? pass(?: with (\d+) failures?)?$/ do |negated, count_failures|
@@ -66,7 +68,7 @@ Then /^the spec(?:s)? should( not)?(?: all)? pass(?: with (\d+) failures?)?$/ do
   end
 end
 
-Then /^the spec(?:s)? should( not)?(?: all)? pass with:$/ do |negated, string|
+Then /^the spec(?:s)? should( not)?(?: all)? pass with( regex)?:$/ do |negated, regex, string|
   if negated
     step 'the output should contain " failed)"'
     step 'the exit status should be 1'
@@ -75,7 +77,11 @@ Then /^the spec(?:s)? should( not)?(?: all)? pass with:$/ do |negated, string|
     step 'the exit status should be 0'
   end
 
-  step 'the output should contain:', string if string
+  if regex
+    step "the output should match %r<#{string}>"
+  else
+    step 'the output should contain:', string
+  end
 end
 
 Given(/^the default executable$/) do
@@ -103,6 +109,7 @@ Given(/^the default feature-test$/) do
   )
 end
 
-Given(/^(?:an|the) executable(?: named)? "([^"]*)" with:$/) do |file_name, file_content|
-  step %(a file named "#{file_name}" with mode "0755" and with:), file_content
+Then(/^aruba should be installed on the local system$/) do
+  run('gem list aruba')
+  expect(last_command_started).to have_output(/aruba/)
 end

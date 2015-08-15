@@ -2,16 +2,20 @@
 require 'ffi'
 java_version = (RUBY_DESCRIPTION.match(/.*?on.*?(1\.[\d]\..*? )/))[1] if defined?(JRUBY_VERSION)
 
-std_opts          = "--color --exclude features/fixtures --require features"
+std_opts          = "--color --exclude features/fixtures --require features --tags ~@unsupported-on"
 java_default_opts = "--tags ~@wip-jruby-java-1.6" if defined?(JRUBY_VERSION) && (java_version < '1.7.0')
 java_wip_opts     = "--tags @wip-jruby-java-1.6:3" if defined?(JRUBY_VERSION) && (java_version < '1.7.0')
 
 ignore_opts = []
-ignore_opts <<  "--tags ~@ignore-platform-java"    if RUBY_PLATFORM.include? 'java'
-ignore_opts <<  "--tags ~@ignore-platform-mri"     if !RUBY_PLATFORM.include? 'java'
-ignore_opts <<  "--tags ~@ignore-platform-windows" if FFI::Platform.windows?
-ignore_opts <<  "--tags ~@ignore-platform-unix"    if FFI::Platform.unix?
-ignore_opts <<  "--tags ~@ignore-platform-mac"    if FFI::Platform.mac?
+ignore_opts <<  '--tags ~@ignore'
+ignore_opts <<  '--tags ~@unsupported-on-platform-java'    if RUBY_PLATFORM.include? 'java'
+ignore_opts <<  '--tags ~@unsupported-on-platform-mri'     if !RUBY_PLATFORM.include? 'java'
+ignore_opts <<  '--tags ~@unsupported-on-platform-windows' if FFI::Platform.windows?
+ignore_opts <<  '--tags ~@unsupported-on-platform-unix'    if FFI::Platform.unix?
+ignore_opts <<  '--tags ~@unsupported-on-platform-mac'     if FFI::Platform.mac?
+ignore_opts <<  '--tags ~@unsupported-on-ruby-older-2'     if RUBY_VERSION < '2'
+ignore_opts <<  '--tags ~@unsupported-on-ruby-older-193'   if RUBY_VERSION < '1.9.3'
+ignore_opts <<  '--tags ~@unsupported-on-ruby-older-19'    if RUBY_VERSION < '1.9'
 ignore_opts = ignore_opts.join(' ')
 %>
 default: <%= std_opts %> --tags ~@wip <%= java_default_opts %> <%= ignore_opts %>

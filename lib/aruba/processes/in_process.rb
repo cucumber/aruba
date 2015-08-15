@@ -1,6 +1,7 @@
 require 'shellwords'
 require 'stringio'
 require 'aruba/processes/basic_process'
+require 'aruba/platform'
 
 module Aruba
   module Processes
@@ -29,6 +30,7 @@ module Aruba
         attr_accessor :main_class
       end
 
+      # @private
       attr_reader :main_class
 
       def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil)
@@ -42,13 +44,13 @@ module Aruba
         super
       end
 
-      def run!
+      def start
         fail "You need to call aruba.config.main_class = YourMainClass" unless main_class
 
         Dir.chdir @working_directory do
           before_run
 
-          in_environment 'PWD' => @working_directory do
+          Aruba.platform.with_environment environment.merge('PWD' => @working_directory) do
             main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
           end
 
@@ -58,7 +60,7 @@ module Aruba
         end
       end
 
-      def stop(reader)
+      def stop(*)
         @stopped     = true
         @exit_status = @kernel.exitstatus
       end
@@ -67,11 +69,11 @@ module Aruba
         @stdin.string
       end
 
-      def stdout
+      def stdout(*)
         @stdout.string
       end
 
-      def stderr
+      def stderr(*)
         @stderr.string
       end
 
@@ -87,23 +89,6 @@ module Aruba
 
       def terminate
         stop
-      end
-
-      private
-
-      def in_environment(env = {}, &block)
-        if RUBY_VERSION <= '1.9.3'
-          old_env = ENV.to_hash
-        else
-          old_env = ENV.to_h
-        end
-
-        ENV.update(environment).update(env)
-
-        block.call if block_given?
-      ensure
-        ENV.clear
-        ENV.update old_env
       end
     end
   end

@@ -34,7 +34,7 @@ RSpec::Matchers.define :have_permissions do |expected|
   end
 
   match do |actual|
-    stop_processes!
+    stop_all_commands
 
     @old_actual = actual
     @actual = permissions(expand_path(@old_actual))

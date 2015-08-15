@@ -1,6 +1,5 @@
 module Aruba
-  # Create things to make aruba work
-  module Creators
+  module Platforms
     # Normal File Creator
     # This class is not meant to be used directly by users.
     class ArubaFileCreator
@@ -14,7 +13,7 @@ module Aruba
       #
       # @param [TrueClass, FalseClass] check_presence (false)
       #   Check if file exist
-      def write(path, content, check_presence = false)
+      def call(path, content, check_presence = false)
         fail "Expected #{path} to be present" if check_presence && !Aruba.platform.file?(path)
 
         Aruba.platform.mkdir(File.dirname(path))

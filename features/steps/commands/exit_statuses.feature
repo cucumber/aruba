@@ -94,7 +94,7 @@ Feature: Check exit status of commands
     """
     Feature: Failing program
       Scenario: Run command
-        Given the default aruba timeout is 2 seconds
+        Given the default aruba exit timeout is 2 seconds
         When I successfully run `cli`
     """
     When I run `cucumber`
@@ -110,7 +110,7 @@ Feature: Check exit status of commands
     """
     Feature: Failing program
       Scenario: Run command
-        Given the default aruba timeout is 0 seconds
+        Given the default aruba exit timeout is 0 seconds
         When I successfully run `cli` for up to 2 seconds
     """
     When I run `cucumber`
@@ -126,7 +126,7 @@ Feature: Check exit status of commands
     """
     Feature: Failing program
       Scenario: Run command
-        Given the default aruba timeout is 0 seconds
+        Given the default aruba exit timeout is 0 seconds
         When I successfully run `cli` for up to 1 seconds
     """
     When I run `cucumber`

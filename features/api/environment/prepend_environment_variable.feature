@@ -15,14 +15,16 @@ Feature: Prepend environment variable
 
   Scenario: Non-existing variable
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { prepend_environment_variable 'LONG_LONG_VARIABLE', 'a' }
-      before(:each) { run('env') }
 
-      it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=a' }
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
+
+      it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=a' }
     end
     """
     When I run `rspec`
@@ -30,15 +32,17 @@ Feature: Prepend environment variable
 
   Scenario: Existing inner variable
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { prepend_environment_variable 'LONG_LONG_VARIABLE', 'a' }
       before(:each) { prepend_environment_variable 'LONG_LONG_VARIABLE', 'b' }
-      before(:each) { run('env') }
 
-      it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=ba' }
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
+
+      it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=ba' }
     end
     """
     When I run `rspec`
@@ -47,16 +51,18 @@ Feature: Prepend environment variable
 
   Scenario: Existing outer variable
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = 'a'
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { prepend_environment_variable 'REALLY_LONG_LONG_VARIABLE', 'b' }
-      before(:each) { run('env') }
 
-      it { expect(last_command.output).to include 'REALLY_LONG_LONG_VARIABLE=ba' }
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
+
+      it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=ba' }
 
       # Has no effect here, is not in block and not a command `run`
       it { expect(ENV['REALLY_LONG_LONG_VARIABLE']).to eq 'a' }
@@ -67,14 +73,16 @@ Feature: Prepend environment variable
 
   Scenario: Run some ruby code with previously set environment
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = 'a'
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { prepend_environment_variable 'REALLY_LONG_LONG_VARIABLE', 'b' }
+
       before(:each) { run('env') }
+      before(:each) { stop_all_commands }
 
       it do
         with_environment do
@@ -95,14 +103,16 @@ Feature: Prepend environment variable
     overwrites the variable
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = 'a'
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { prepend_environment_variable 'REALLY_LONG_LONG_VARIABLE', 'b' }
+
       before(:each) { run('env') }
+      before(:each) { stop_all_commands }
 
       it do
         with_environment 'REALLY_LONG_LONG_VARIABLE' => 'a' do

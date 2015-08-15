@@ -23,7 +23,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   end
 
   describe "#stderr" do
-    let(:command) { 'features/fixtures/spawn_process/stderr.sh yo' }
+    let(:command) { 'fixtures/spawn_process/stderr.sh yo' }
 
     before(:each) { process.run! }
 

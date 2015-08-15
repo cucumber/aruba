@@ -22,12 +22,12 @@ require 'rspec/expectations/version'
 #     end
 RSpec::Matchers.define :have_file_size do |expected|
   match do |actual|
-    stop_processes!
+    stop_all_commands
 
     next false unless file?(actual)
 
     @old_actual = actual
-    @actual = File.size(expand_path(actual))
+    @actual = file_size(actual)
     @expected = expected.to_i
 
     values_match?(@expected, @actual)

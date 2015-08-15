@@ -11,50 +11,52 @@ module Aruba
 
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
-      def run!
-        # rubocop:disable  Metrics/LineLength
-        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) unless which(command)
-        # rubocop:enable  Metrics/LineLength
-
-        if RUBY_VERSION < '1.9'
-          begin
-            old_env = ENV.to_hash.dup
-            ENV.update environment
-
-            Dir.chdir @working_directory do
-              @exit_status = system(@cmd) ? 0 : 1
-            end
-          ensure
-            ENV.clear
-            ENV.update old_env
+      def start
+        Dir.chdir @working_directory do
+          Aruba.platform.with_environment(environment) do
+            @exit_status = system(command, *arguments) ? 0 : 1
           end
-        elsif RUBY_VERSION < '2'
-          Dir.chdir @working_directory do
-            @exit_status = system(environment, @cmd) ? 0 : 1
-          end
-        else
-          @exit_status = system(environment, @cmd, :chdir => @working_directory) ? 0 : 1
         end
       end
       # rubocop:enable Metrics/CyclomaticComplexity
       # rubocop:enable Metrics/MethodLength
 
+      # Return stdin
+      #
+      # @return [NilClass]
+      #   Nothing
       def stdin(*); end
 
+      # Return stdout
+      #
+      # @return [String]
+      #   A predefined string to make users aware they are using the DebugProcess
       def stdout(*)
-        ''
+        'This is the debug launcher on STDOUT. If this output is unexpected, please check your setup.'
       end
 
+      # Return stderr
+      #
+      # @return [String]
+      #   A predefined string to make users aware they are using the DebugProcess
       def stderr(*)
-        ''
+        'This is the debug launcher on STDERR. If this output is unexpected, please check your setup.'
       end
 
-      def stop(_reader)
+      # Write to nothing
+      def write(*); end
+
+      # Close nothing
+      def close_io(*); end
+
+      # Stop process
+      def stop(*)
         @stopped = true
 
         @exit_status
       end
 
+      # Terminate process
       def terminate(*)
         stop
       end

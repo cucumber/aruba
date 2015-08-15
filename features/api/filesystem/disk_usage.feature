@@ -1,3 +1,4 @@
+@unsupported-on-ruby-older-19
 Feature: Report disk usage
 
   Sometimes you need to check, what amount of disk space a file consumes. We do
@@ -21,7 +22,7 @@ Feature: Report disk usage
 
   Scenario: Show disk usage for file
     Given a file named "spec/disk_usage_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'disk usage', :type => :aruba do
@@ -44,7 +45,7 @@ Feature: Report disk usage
     `#disk_usage` creates the sum of all given objects' sizes.
 
     Given a file named "spec/disk_usage_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'disk usage', :type => :aruba do
@@ -67,7 +68,7 @@ Feature: Report disk usage
 
   Scenario: Convert reported disk usage to KibiByte
     Given a file named "spec/disk_usage_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'disk usage', :type => :aruba do
@@ -87,7 +88,7 @@ Feature: Report disk usage
 
   Scenario: Convert reported disk usage to MebiByte
     Given a file named "spec/disk_usage_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'disk usage', :type => :aruba do
@@ -107,7 +108,7 @@ Feature: Report disk usage
 
   Scenario: Convert reported disk usage to GibiByte
     Given a file named "spec/disk_usage_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'disk usage', :type => :aruba do
@@ -127,7 +128,7 @@ Feature: Report disk usage
 
   Scenario: Compare two repored disk usages
     Given a file named "spec/disk_usage_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'disk usage', :type => :aruba do

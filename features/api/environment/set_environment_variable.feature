@@ -14,14 +14,16 @@ Feature: Set environment variable via API-method
 
   Scenario: Non-existing variable
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
-      before(:each) { run('env') }
 
-      it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=1' }
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
+
+      it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=1' }
     end
     """
     When I run `rspec`
@@ -29,15 +31,17 @@ Feature: Set environment variable via API-method
 
   Scenario: Existing variable set from within the test
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '2' }
-      before(:each) { run('env') }
 
-      it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=2' }
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
+
+      it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=2' }
     end
     """
     When I run `rspec`
@@ -47,16 +51,18 @@ Feature: Set environment variable via API-method
   Scenario: Existing variable set by some outer parent process
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
-      before(:each) { run('env') }
 
-      it { expect(last_command.output).to include 'REALLY_LONG_LONG_VARIABLE=2' }
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
+
+      it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=2' }
       it { expect(ENV['REALLY_LONG_LONG_VARIABLE']).to eq '1' }
     end
     """
@@ -69,14 +75,16 @@ Feature: Set environment variable via API-method
     avaiable for the code run within the block.
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
+
       before(:each) { run('env') }
+      before(:each) { stop_all_commands }
 
       it do
         with_environment do
@@ -97,14 +105,16 @@ Feature: Set environment variable via API-method
     Pass it an `Hash` containing the environment variables.
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
+
       before(:each) { run('env') }
+      before(:each) { stop_all_commands }
 
       it do
         with_environment 'REALLY_LONG_LONG_VARIABLE' => '3' do
@@ -124,7 +134,7 @@ Feature: Set environment variable via API-method
     scope, when you are using `RSpec`.
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
@@ -132,15 +142,18 @@ Feature: Set environment variable via API-method
 
       describe 'Method XX' do
         before(:each) { run('env') }
+        before(:each) { stop_all_commands }
 
-        it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=1' }
+        it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=1' }
       end
 
       describe 'Method YY' do
         before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '2' }
-        before(:each) { run('env') }
 
-        it { expect(last_command.output).to include 'LONG_LONG_VARIABLE=2' }
+        before(:each) { run('env') }
+        before(:each) { stop_all_commands }
+
+        it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=2' }
       end
     end
     """
@@ -149,14 +162,16 @@ Feature: Set environment variable via API-method
 
   Scenario: When an error occures the ENV is not polluted
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
 
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
+
       before(:each) { run('env') }
+      before(:each) { stop_all_commands }
 
       it do
         begin
@@ -182,7 +197,7 @@ Feature: Set environment variable via API-method
     the most inner block.
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     ENV['LONG_LONG_VARIABLE'] = '1'
@@ -212,7 +227,7 @@ Feature: Set environment variable via API-method
     run.
 
     Given a file named "spec/environment_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
@@ -229,8 +244,9 @@ Feature: Set environment variable via API-method
         it { expect(ENV['REALLY_LONG_LONG_VARIABLE']).to eq '1' }
 
         before(:each) { run('env') }
+        before(:each) { stop_all_commands }
 
-        it { expect(last_command.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
+        it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
       end
 
       context 'when arguments given' do
@@ -243,8 +259,9 @@ Feature: Set environment variable via API-method
         it { expect(ENV['LONG_LONG_VARIABLE']).to eq '2' }
 
         before(:each) { run('env') }
+        before(:each) { stop_all_commands }
 
-        it { expect(last_command.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
+        it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
       end
     end
     """

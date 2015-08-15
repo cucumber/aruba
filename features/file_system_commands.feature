@@ -4,18 +4,18 @@ Feature: file system commands
   As a developer using Cucumber
   I want to create temporary files
 
-  Scenario: create a dir
-    Given a directory named "foo/bar"
-    When I run `file foo/bar`
-    Then the stdout should contain "foo/bar: directory"
+  # Scenario: create a dir
+  #   Given a directory named "foo/bar"
+  #   When I run `file foo/bar`
+  #   Then the stdout should contain "foo/bar: directory"
 
-  Scenario: create a file
-    Given a file named "foo/bar/example.txt" with:
-      """
-      hello world
-      """
-    When I run `cat foo/bar/example.txt`
-    Then the output should contain exactly "hello world"
+  # Scenario: create a file
+  #   Given a file named "foo/bar/example.txt" with:
+  #     """
+  #     hello world
+  #     """
+  #   When I run `cat foo/bar/example.txt`
+  #   Then the output should contain exactly "hello world"
 
   Scenario: a file does not exist
     Given a file named "example.txt" does not exist

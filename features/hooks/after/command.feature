@@ -22,7 +22,7 @@ Feature: After command hooks
     RSpec.describe 'Hooks', :type => :aruba do
       before(:each) { run_simple 'echo running' }
 
-      it { expect(last_command.stdout.chomp).to eq 'running' }
+      it { expect(last_command_started.stdout.chomp).to eq 'running' }
     end
     """
     When I run `rspec`

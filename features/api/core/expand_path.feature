@@ -9,7 +9,7 @@ Feature: Expand paths with aruba
 
   Scenario: Use relative path
     Given a file named "spec/expand_path_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Expand path', :type => :aruba do
@@ -22,7 +22,7 @@ Feature: Expand paths with aruba
 
   Scenario: Change directory using cd
     Given a file named "spec/expand_path_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Expand path', :type => :aruba do
@@ -40,7 +40,7 @@ Feature: Expand paths with aruba
 
   Scenario: Warn if aruba's working directory does not exist
     Given a file named "spec/expand_path_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Expand path', :type => :aruba do
@@ -62,7 +62,7 @@ Feature: Expand paths with aruba
     you need to configure it explicitly via `Aruba.configure {}`.
 
     Given a file named "spec/expand_path_spec.rb" with:
-    """
+    """ruby
     require 'spec_helper'
 
     # Old before 1.0.0

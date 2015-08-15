@@ -12,6 +12,9 @@ module Aruba
         @environment       = environment
         @main_class        = main_class
         @exit_status       = nil
+
+        @exit_timeout = exit_timeout
+        @io_wait      = io_wait
       end
 
       # Return command line
@@ -20,8 +23,8 @@ module Aruba
       end
 
       # Output stderr and stdout
-      def output
-        stdout + stderr
+      def output(opts = {})
+        stdout(opts) + stderr(opts)
       end
 
       def write(*)
@@ -54,17 +57,34 @@ module Aruba
         @timed_out == true
       end
 
+      # @deprecated
+      # @private
+      def run!
+        Aruba.platform.deprecated('The use of "command#run!" is deprecated. You can simply use "command#start" instead.')
+
+        start
+      end
+
       # Hook which is run before command is run
       def before_run; end
 
       # Hook which is run after command is run
       def after_run; end
 
-      private
+      def inspect
+        out = stdout(:wait_for_io => 0) + stderr(:wait_for_io => 0)
 
-      def which(program)
-        Aruba.platform.which(program, environment['PATH'])
+        out = if out.length > 76
+                out[0, 75] + ' ...'
+              else
+                out
+              end
+
+        format '#<%s:%s commandline="%s": output="%s">', self.class, self.object_id, commandline, out
       end
+      alias_method :to_s, :inspect
+
+      private
 
       def command
         Shellwords.split(commandline).first

@@ -1,9 +1,16 @@
 require 'rbconfig'
 require 'pathname'
 
+require 'aruba/aruba_path'
+
 require 'aruba/platforms/simple_table'
 require 'aruba/platforms/unix_command_string'
 require 'aruba/platforms/unix_which'
+require 'aruba/platforms/determine_file_size'
+require 'aruba/platforms/determine_disk_usage'
+require 'aruba/platforms/aruba_file_creator'
+require 'aruba/platforms/aruba_fixed_size_file_creator'
+require 'aruba/platforms/local_environment'
 
 module Aruba
   # This abstracts OS-specific things
@@ -26,6 +33,26 @@ module Aruba
 
       def command_string
         UnixCommandString
+      end
+
+      def determine_file_size(*args)
+        DetermineFileSize.new.call(*args)
+      end
+
+      def determine_disk_usage(*args)
+        DetermineDiskUsage.new.call(*args)
+      end
+
+      def create_file(*args)
+        ArubaFileCreator.new.call(*args)
+      end
+
+      def create_fixed_size_file(*args)
+        ArubaFixedSizeFileCreator.new.call(*args)
+      end
+
+      def with_environment(env = {}, &block)
+        LocalEnvironment.new.call(env, &block)
       end
 
       def detect_ruby(cmd)
@@ -83,19 +110,8 @@ module Aruba
       def chdir(dir_name, &block)
         dir_name = ::File.expand_path(dir_name.to_s)
 
-        begin
-          if RUBY_VERSION <= '1.9.3'
-            old_env = ENV.to_hash.dup
-          else
-            old_env = ENV.to_h.dup
-          end
-
-          ENV['OLDPWD'] = getwd
-          ENV['PWD'] = dir_name
+        with_environment 'OLDPWD' => getwd, 'PWD' => dir_name do
           ::Dir.chdir(dir_name, &block)
-        ensure
-          ENV.clear
-          ENV.update old_env
         end
       end
 
@@ -107,6 +123,11 @@ module Aruba
       # Copy file/directory
       def cp(args, options)
         FileUtils.cp_r(args, options)
+      end
+
+      # Move file/directory
+      def mv(args, options)
+        FileUtils.mv(args, options)
       end
 
       # Change mode of file/directory
@@ -159,8 +180,8 @@ module Aruba
       #     * /bin/command.sh
       #     * command.sh
       def relative_command?(path)
-        p = Pathname.new(path)
-        p.relative? && p.basename != p
+        p = ArubaPath.new(path)
+        p.relative? && p.depth > 1
       end
 
       # Check if command is relative

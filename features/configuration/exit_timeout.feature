@@ -9,7 +9,7 @@ Feature: Configure timeout for command execution
 
   Scenario: Default value
     Given a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       puts %(The default value is "#{config.exit_timeout}")
     end
@@ -22,12 +22,12 @@ Feature: Configure timeout for command execution
 
   Scenario: Modify value
     Given an executable named "bin/cli" with:
-    """
+    """bash
     #!/bin/bash
     sleep 1
     """
     And a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       config.exit_timeout = 2
     end
@@ -37,12 +37,12 @@ Feature: Configure timeout for command execution
 
   Scenario: Fails if takes longer
     Given an executable named "bin/cli" with:
-    """
+    """ruby
     #!/bin/bash
     sleep 2
     """
     And a file named "features/support/aruba.rb" with:
-    """
+    """ruby
     Aruba.configure do |config|
       config.exit_timeout = 1
     end

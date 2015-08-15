@@ -2,9 +2,6 @@ require 'aruba/platform'
 
 require 'aruba/extensions/string/strip'
 
-require 'aruba/platforms/aruba_file_creator'
-require 'aruba/platforms/aruba_fixed_size_file_creator'
-require 'aruba/disk_usage_calculator'
 require 'aruba/aruba_path'
 
 Aruba.platform.require_matching_files('../matchers/file/*.rb', __FILE__)
@@ -124,7 +121,7 @@ module Aruba
       # @param [String] file_content
       #   The content which should be written to the file
       def write_file(name, content)
-        Creators::ArubaFileCreator.new.write(expand_path(name), content, false)
+        Aruba.platform.create_file(expand_path(name), content, false)
 
         self
       end
@@ -190,6 +187,53 @@ module Aruba
       end
       # rubocop:enable Metrics/CyclomaticComplexity
 
+      # Move a file and/or directory
+      #
+      # @param [String, Array] source
+      #   A single file or directory, multiple files or directories or multiple
+      #   files and directories. If multiple sources are given the destination
+      #   needs to be a directory
+      #
+      # @param [String] destination
+      #   A file or directory name. If multiple sources are given the destination
+      #   needs to be a directory
+      #
+      # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/MethodLength
+      def move(*args)
+        args = args.flatten
+        destination = args.pop
+        source = args
+
+        source.each do |s|
+          raise ArgumentError, "Using a fixture as source (#{source}) is not supported" if s.start_with? aruba.config.fixtures_path_prefix
+        end
+
+        raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported" if destination.start_with? aruba.config.fixtures_path_prefix
+
+        source.each do |s|
+          raise ArgumentError, %(The following source "#{s}" does not exist.) unless exist? s
+        end
+
+        raise ArgumentError, "Multiple sources can only be copied to a directory" if source.count > 1 && exist?(destination) && !directory?(destination)
+
+        source_paths     = source.map { |f| expand_path(f) }
+        destination_path = expand_path(destination)
+
+        if source_paths.count > 1
+          Aruba.platform.mkdir(destination_path)
+        else
+          Aruba.platform.mkdir(File.dirname(destination_path))
+          source_paths = source_paths.first
+        end
+
+        Aruba.platform.mv source_paths, destination_path
+
+        self
+      end
+      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/CyclomaticComplexity
+
       # Create a file with the given size
       #
       # The method does not check if file already exists. If the file name is a
@@ -201,7 +245,7 @@ module Aruba
       # @param [Integer] file_size
       #   The size of the file
       def write_fixed_size_file(name, size)
-        Creators::ArubaFixedSizeFileCreator.new.write(expand_path(name), size, false)
+        Aruba.platform.create_fixed_size_file(expand_path(name), size, false)
 
         self
       end
@@ -212,7 +256,7 @@ module Aruba
       # missing. If the file name is a path the method will create all neccessary
       # directories.
       def overwrite_file(name, content)
-        Creators::ArubaFileCreator.new.write(expand_path(name), content, true)
+        Aruba.platform.create_file(expand_path(name), content, true)
 
         self
       end
@@ -298,7 +342,7 @@ module Aruba
       # @yield
       #   Pass the content of the given file to this block
       def with_file_content(file, &block)
-        stop_processes!
+        expect(file).to be_an_existing_path
 
         content = read(file).join("\n")
 
@@ -316,14 +360,19 @@ module Aruba
       # @result [FileSize]
       #   Bytes on disk
       def disk_usage(*paths)
-        size = paths.flatten.map do |p|
-          DiskUsageCalculator.new.calc(
-            ArubaPath.new(expand_path(p)).blocks,
-            aruba.config.physical_block_size
-          )
-        end.inject(0, &:+)
+        expect(paths.flatten).to all_objects be_an_existing_path
 
-        FileSize.new(size)
+        Aruba.platform.determine_disk_usage paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }, aruba.config.physical_block_size
+      end
+
+      # Get size of file
+      #
+      # @return [Numeric]
+      #   The size of the file
+      def file_size(name)
+        expect(name).to be_an_existing_file
+
+        Aruba.platform.determine_file_size expand_path(name)
       end
     end
   end

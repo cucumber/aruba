@@ -12,13 +12,28 @@ module Aruba
     end
 
     def last_exit_status
+      Aruba.platform.deprecated('The use of "#last_exit_status" is deprecated. Use "last_command_(started|stopped).exit_status" instead')
+
       return @last_exit_status if @last_exit_status
-      stop_processes!
+      all_commands.each { |c| stop_process(c) }
       @last_exit_status
     end
 
+    def last_command_stopped
+      return @last_command_stopped if @last_command_stopped
+
+      all_commands.each { |c| stop_process(c) }
+
+      @last_command_stopped
+    end
+
+    def last_command_started
+      processes.last[1]
+    end
+
     def stop_process(process)
-      @last_exit_status = process.stop(announcer)
+      @last_command_stopped = process
+      @last_exit_status     = process.stop(announcer)
     end
 
     def terminate_process!(process)
@@ -26,13 +41,19 @@ module Aruba
     end
 
     def stop_processes!
-      processes.each do |_, process|
-        @last_exit_status = stop_process(process)
-      end
+      Aruba.platform.deprecated('The use of "#stop_processes!" is deprecated. Use "#stop_all_commands" instead')
+
+      stop_all_commands
+    end
+
+    def stop_all_commands
+      all_commands.each { |c| c.stop(announcer) }
     end
 
     # Terminate all running processes
     def terminate_processes
+      Aruba.platform.deprecated('The use of "#terminate_processes" is deprecated. Use "#all_commands.each(&:terminate)" instead')
+
       processes.each do |_, process|
         terminate_process(process)
         stop_process(process)
@@ -52,6 +73,8 @@ module Aruba
     end
 
     def only_processes
+      Aruba.platform.deprecated('The use of "#only_processes" is deprecated. Use "#all_commands" instead')
+
       processes.collect{ |_, process| process }
     end
 
@@ -87,7 +110,11 @@ module Aruba
     # @return [String]
     #   The stdout of all process which have run before
     def all_stdout
-      stop_processes!
+      # rubocop:disable Metrics/LineLength
+      Aruba.platform.deprecated('The use of "#all_stdout" is deprecated. Use `all_commands.map { |c| c.stdout }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output_on_stdout /output/" instead')
+      # rubocop:enable Metrics/LineLength
+
+      stop_all_commands
 
       if RUBY_VERSION < '1.9'
         out = ''
@@ -104,7 +131,11 @@ module Aruba
     # @return [String]
     #   The stderr of all process which have run before
     def all_stderr
-      stop_processes!
+      # rubocop:disable Metrics/LineLength
+      Aruba.platform.deprecated('The use of "#all_stderr" is deprecated. Use `all_commands.map { |c| c.stderr }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output_on_stderr /output/" instead')
+      # rubocop:enable Metrics/LineLength
+
+      stop_all_commands
 
       if RUBY_VERSION < '1.9'
         out = ''
@@ -121,11 +152,26 @@ module Aruba
     # @return [String]
     #   The stderr and stdout of all process which have run before
     def all_output
+      # rubocop:disable Metrics/LineLength
+      Aruba.platform.deprecated('The use of "#all_output" is deprecated. Use `all_commands.map { |c| c.output }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output /output/" instead')
+      # rubocop:enable Metrics/LineLength
+
       all_stdout << all_stderr
     end
 
+    # Return all commands
+    #
+    # @return [Array]
+    #   A list of all commands
+    def all_commands
+      processes.collect { |_, process| process }
+    end
+
+    # Clear list of processes
     def clear
       processes.clear
+
+      self
     end
   end
 end

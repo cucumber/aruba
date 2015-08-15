@@ -30,11 +30,9 @@ module Aruba
       def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil)
         super
 
-        @exit_timeout = exit_timeout
-        @io_wait      = io_wait
         @process      = nil
-        @output_cache = nil
-        @error_cache  = nil
+        @stdout_cache       = nil
+        @stderr_cache       = nil
       end
 
       # Run the command
@@ -44,9 +42,10 @@ module Aruba
       #
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
-      def run!
+      def start
         # gather fully qualified path
-        cmd = which(command)
+        cmd = Aruba.platform.which(command, environment['PATH'])
+
         # rubocop:disable  Metrics/LineLength
         fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if cmd.nil?
         # rubocop:enable  Metrics/LineLength
@@ -54,22 +53,25 @@ module Aruba
         cmd = Aruba.platform.command_string.new(cmd)
 
         @process   = ChildProcess.build(*[cmd.to_a, arguments].flatten)
-        @out       = Tempfile.new("aruba-out")
-        @err       = Tempfile.new("aruba-err")
+        @stdout_file = Tempfile.new("aruba-stdout")
+        @stderr_file = Tempfile.new("aruba-stderr")
         @exit_status = nil
-        @duplex    = true
+        @duplex      = true
 
         before_run
 
-        @process.io.stdout = @out
-        @process.io.stderr = @err
+        @process.leader    = true
+        @process.io.stdout = @stdout_file
+        @process.io.stderr = @stderr_file
         @process.duplex    = @duplex
         @process.cwd       = @working_directory
 
         @process.environment.update(environment)
 
         begin
-          @process.start
+          Aruba.platform.with_environment(environment) do
+            @process.start
+          end
         rescue ChildProcess::LaunchError => e
           raise LaunchError, "It tried to start #{cmd}. " + e.message
         end
@@ -81,35 +83,75 @@ module Aruba
       # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/CyclomaticComplexity
 
+      # Access to stdout of process
       def stdin
+        return if @process.nil?
+
         @process.io.stdin
       end
 
-      def stdout
-        wait_for_io do
+      # Access to stdout of process
+      #
+      # @param [Hash] opts
+      #   Options
+      #
+      # @option [Integer] wait_for_io
+      #   Wait for IO to be finished
+      #
+      # @return [String]
+      #   The content of stdout
+      def stdout(opts = {})
+        return @stdout_cache if @process.nil?
+
+        wait_for_io = opts.fetch(:wait_for_io, @io_wait)
+
+        wait_for_io wait_for_io do
           @process.io.stdout.flush
-          read(@out)
-        end || @output_cache
+          open(@stdout_file.path).read
+        end
       end
 
-      def stderr
-        wait_for_io do
+      # Access to stderr of process
+      #
+      # @param [Hash] opts
+      #   Options
+      #
+      # @option [Integer] wait_for_io
+      #   Wait for IO to be finished
+      #
+      # @return [String]
+      #   The content of stderr
+      def stderr(opts = {})
+        return @stderr_cache if @process.nil?
+
+        wait_for_io = opts.fetch(:wait_for_io, @io_wait)
+
+        wait_for_io wait_for_io do
           @process.io.stderr.flush
-          read(@err)
-        end || @error_cache
+          open(@stderr_file.path).read
+        end
       end
 
       def read_stdout
-        warn('The use of "#read_stdout" is deprecated. Use "#stdout" instead.')
-        stdout
+        # rubocop:disable Metrics/LineLength
+        Aruba.platform.deprecated('The use of "#read_stdout" is deprecated. Use "#stdout" instead. To reduce the time to wait for io, pass `:wait_for_io => 0` or some suitable for your use case')
+        # rubocop:enable Metrics/LineLength
+
+        stdout(:wait_for_io => 0)
       end
 
       def write(input)
+        return if @process.nil?
+
         @process.io.stdin.write(input)
         @process.io.stdin.flush
+
+        self
       end
 
       def close_io(name)
+        return if @process.nil?
+
         if RUBY_VERSION < '1.9'
           @process.io.send(name.to_sym).close
         else
@@ -152,10 +194,11 @@ module Aruba
 
       private
 
-      def wait_for_io(&block)
-        return unless @process
+      def wait_for_io(time_to_wait, &block)
+        return if @process.nil?
 
-        sleep @io_wait
+        sleep time_to_wait
+
         yield
       end
 
@@ -165,15 +208,15 @@ module Aruba
       end
 
       def close_and_cache_out
-        @output_cache = read @out
-        @out.close
-        @out = nil
+        @stdout_cache = read @stdout_file
+        @stdout_file.close
+        @stdout_file = nil
       end
 
       def close_and_cache_err
-        @error_cache = read @err
-        @err.close
-        @err = nil
+        @stderr_cache = read @stderr_file
+        @stderr_file.close
+        @stderr_file = nil
       end
     end
   end

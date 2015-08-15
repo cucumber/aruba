@@ -366,6 +366,18 @@
 
 * First release (David Chelimsky and Aslak Hellesøy)
 
+# Upcoming un-released versions
+
+## [v0.10.0](https://github.com/cucumber/aruba/compare/v0.8.1...v0.9.0)
+
+* Redefine #to_s and #inspect for BasicProcess to reduce the sheer amount of
+  information, if a command produces a lot of output
+* Added new matcher to check if an object is included + a error message for
+  failures which is similar to the `#all`-matcher of `RSpec`
+* Add `have_output`-, `have_output_on_stderr`, `have_output_on_stdout`-matchers
+* Replace all `assert_*` and `check_*`-methods through expectations
+* Add hook `@announce-output` to output both, stderr and stdout
+
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
 * Support for rubies older than 1.9.3 is discontinued - e.g 1.8.7 and 1.9.2
@@ -395,3 +407,25 @@
 * Use different working directories based on test suite - RSpec, Cucumber.
   It's `tmp/rspec` and `tmp/cucumber` now to make sure they do not overwrite
   the test results from each other.
+* The use of `@interactive` is discontinued. You need to use
+  `#last_command_started`-method to get access to the interactively started
+  command.
+* If multiple commands have been started, each output has to be check
+  separately
+
+  ```cucumber
+  Scenario: Detect stdout from all processes
+    When I run `printf "hello world!\n"`
+    And I run `cat` interactively
+    And I type "hola"
+    And I type ""
+    Then the stdout should contain:
+      """
+      hello world!
+      """
+    And the stdout should contain:
+      """
+      hola
+      """
+    And the stderr should not contain anything
+  ```

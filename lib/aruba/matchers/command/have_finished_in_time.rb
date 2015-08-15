@@ -14,15 +14,17 @@ require 'rspec/expectations/version'
 #   @example Use matcher
 #
 #     RSpec.describe do
-#       it { expect(last_command).to run_too_long }
-#       it { expect(last_command).not_to run_too_long }
-#       it { expect(last_command).to finish_its_run_in_time }
+#       it { expect(last_command_started).to run_too_long }
+#       it { expect(last_command_started).not_to run_too_long }
+#       it { expect(last_command_started).to finish_its_run_in_time }
 #     end
 # RSpec::Matchers.define :run_too_long do
 RSpec::Matchers.define :have_finished_in_time do
   match do |actual|
     @old_actual = actual
     @actual     = @old_actual.commandline
+
+    next false unless @old_actual.respond_to? :timed_out?
 
     @announcer ||= Aruba::Announcer.new(
       self,
@@ -34,8 +36,6 @@ RSpec::Matchers.define :have_finished_in_time do
     )
 
     @old_actual.stop(@announcer) unless @old_actual.stopped?
-
-    next false unless @old_actual.respond_to? :timed_out?
 
     @old_actual.timed_out? == false
   end

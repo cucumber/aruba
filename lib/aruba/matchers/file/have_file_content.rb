@@ -40,7 +40,7 @@ require 'rspec/expectations/version'
 #     end
 RSpec::Matchers.define :have_file_content do |expected|
   match do |actual|
-    stop_processes!
+    stop_all_commands
 
     next false unless file? actual
 

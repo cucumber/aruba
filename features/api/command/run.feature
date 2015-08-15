@@ -7,17 +7,17 @@ Feature: Run command
 
   Scenario: Existing executable
     Given an executable named "bin/cli" with:
-    """
+    """bash
     #!/bin/bash
     exit 0
     """
-    And a file named "spec/which_spec.rb" with:
-    """
+    And a file named "spec/run_spec.rb" with:
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
       before(:each) { run('cli') }
-      it { expect(last_command).to be_successfully_executed }
+      it { expect(last_command_started).to be_successfully_executed }
     end
     """
     When I run `rspec`
@@ -25,8 +25,8 @@ Feature: Run command
 
   Scenario: Non-existing executable
     Given a file named "bin/cli" does not exist
-    And a file named "spec/which_spec.rb" with:
-    """
+    And a file named "spec/run_spec.rb" with:
+    """ruby
     require 'spec_helper'
 
     RSpec.describe 'Find path for command', :type => :aruba do

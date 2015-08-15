@@ -22,6 +22,8 @@ Feature: Extract text from output
 
     RSpec.describe 'Run command', :type => :aruba do
       before(:each) { run('cli') }
+      before(:each) { stop_all_commands }
+
       it { expect(unescape_text(last_command.output)).to eq "text\ntext" }
     end
     """
@@ -40,6 +42,8 @@ Feature: Extract text from output
 
     RSpec.describe 'Run command', :type => :aruba do
       before(:each) { run('cli') }
+      before(:each) { stop_all_commands }
+
       it { expect(unescape_text(last_command.output)).to eq "texttext" }
     end
     """
@@ -58,6 +62,8 @@ Feature: Extract text from output
 
     RSpec.describe 'Run command', :type => :aruba do
       before(:each) { run('cli') }
+      before(:each) { stop_all_commands }
+
       it { expect(unescape_text(last_command.output)).to eq "text\"text" }
     end
     """
@@ -76,6 +82,8 @@ Feature: Extract text from output
 
     RSpec.describe 'Run command', :type => :aruba do
       before(:each) { run('cli') }
+      before(:each) { stop_all_commands }
+
       it { expect(unescape_text(last_command.output)).to eq "texttext" }
     end
     """
@@ -94,6 +102,8 @@ Feature: Extract text from output
 
     RSpec.describe 'Run command', :type => :aruba do
       before(:each) { run('cli') }
+      before(:each) { stop_all_commands }
+
       it { expect(unescape_text(last_command.output)).to eq "texttext" }
     end
     """
@@ -112,6 +122,8 @@ Feature: Extract text from output
 
     RSpec.describe 'Run command', :type => :aruba do
       before(:each) { run('cli') }
+      before(:each) { stop_all_commands }
+
       it { expect(unescape_text(last_command.output)).to eq "texttext" }
     end
     """

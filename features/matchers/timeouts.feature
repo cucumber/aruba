@@ -20,7 +20,7 @@ Feature: Check if a timeout occured during command execution
 
       before(:each) { run('cli') }
 
-      it { expect(last_command).to run_too_long }
+      it { expect(last_command_started).to run_too_long }
     end
     """
     When I run `rspec`
@@ -41,7 +41,7 @@ Feature: Check if a timeout occured during command execution
 
       before(:each) { run('cli') }
 
-      it { expect(last_command).to have_finished_in_time }
+      it { expect(last_command_started).to have_finished_in_time }
     end
     """
     When I run `rspec`

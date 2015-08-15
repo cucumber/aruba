@@ -1,21 +1,11 @@
 require 'aruba/aruba_path'
 require 'aruba/api'
+require 'aruba/platform'
 World(Aruba::Api)
 
 if Aruba::VERSION >= '1.0.0'
   Around do |_, block|
-    begin
-      if RUBY_VERSION < '1.9'
-        old_env = ENV.to_hash.dup
-      else
-        old_env = ENV.to_h.dup
-      end
-
-      block.call
-    ensure
-      ENV.clear
-      ENV.update old_env
-    end
+    Aruba.platform.with_environment(&block)
   end
 end
 
@@ -30,7 +20,7 @@ end
 
 After do
   restore_env
-  process_monitor.stop_processes!
+  terminate_all_commands
   process_monitor.clear
 end
 
@@ -50,6 +40,11 @@ Before('@announce-cmd') do
   Aruba.platform.deprecated 'The use of "@announce-cmd"-hook is deprecated. Please use "@announce-command"'
 
   announcer.activate :command
+end
+
+Before('@announce-output') do
+  announcer.activate :stdout
+  announcer.activate :stderr
 end
 
 Before('@announce-stdout') do
@@ -114,7 +109,9 @@ end
 # end
 
 Before('@ansi') do
-  Aruba.platform.deprecated('The use of "@ansi" is deprecated. Use "@keep-ansi-escape-sequences" instead')
+  # rubocop:disable Metrics/LineLength
+  Aruba::Platform.deprecated('The use of "@ansi" is deprecated. Use "@keep-ansi-escape-sequences" instead. But be aware, that this hook uses the aruba configuration and not an instance variable')
+  # rubocop:enable Metrics/LineLength
 
   aruba.config.remove_ansi_escape_sequences = false
 end
