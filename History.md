@@ -368,15 +368,25 @@
 
 # Upcoming un-released versions
 
-## [v0.10.0](https://github.com/cucumber/aruba/compare/v0.8.1...v0.9.0)
+## [v0.9.0.pre2](https://github.com/cucumber/aruba/compare/v0.9.0.pre...v0.9.0.pre2)
 
 * Redefine #to_s and #inspect for BasicProcess to reduce the sheer amount of
   information, if a command produces a lot of output
-* Added new matcher to check if an object is included + a error message for
+* Added new matcher `#all_objects` to check if an object is included + a error message for
   failures which is similar to the `#all`-matcher of `RSpec`
 * Add `have_output`-, `have_output_on_stderr`, `have_output_on_stdout`-matchers
 * Replace all `assert_*` and `check_*`-methods through expectations
 * Add hook `@announce-output` to output both, stderr and stdout
+* Add a lot of documentation (issue #260)
+* Replace `#last_command` through `#last_command_started` and
+  `#last_command_stopped` to make it more explicit
+* Improve syntax highlighting in cucumber feature tests by adding programming
+  language to `"""`-blocks
+* Rename tags `@ignore-*` to `@unsupported-on-*`
+* Introduce our own `BaseMatcher`-class to remove the dependency to `RSpec`'s
+  private matcher APIs
+* Now we make the process started via `SpawnProcess` the leader of the group to
+  kill all sub-processes more reliably
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
