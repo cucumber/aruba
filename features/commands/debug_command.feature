@@ -89,5 +89,5 @@ Feature: Debug your command in cucumber-test-run
     """
     Then the output should contain:
     """
-    pry(main)>
+    binding.pry
     """
