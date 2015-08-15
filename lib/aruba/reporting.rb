@@ -1,6 +1,9 @@
 require 'fileutils'
 
 if(ENV['ARUBA_REPORT_DIR'])
+  require 'aruba/platform'
+  Aruba.platform.deprecated 'The use of "aruba/reporting" is deprecated. This functionality will be removed with "1.0.0"'
+
   ENV['ARUBA_REPORT_TEMPLATES'] ||= File.dirname(__FILE__) + '/../../templates'
 
   require 'fileutils'
