@@ -23,6 +23,24 @@ Feature: Run command
     When I run `rspec`
     Then the specs should all pass
 
+  Scenario: Relative path to executable
+    Given an executable named "bin/cli" with:
+    """bash
+    #!/bin/bash
+    exit 0
+    """
+    And a file named "spec/run_spec.rb" with:
+    """ruby
+    require 'spec_helper'
+
+    RSpec.describe 'Run command', :type => :aruba do
+      before(:each) { run('bin/cli') }
+      it { expect(last_command_started).to be_successfully_executed }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+
   Scenario: Non-existing executable
     Given a file named "bin/cli" does not exist
     And a file named "spec/run_spec.rb" with:
