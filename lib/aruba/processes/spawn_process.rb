@@ -53,8 +53,12 @@ module Aruba
         cmd = Aruba.platform.command_string.new(cmd)
 
         @process   = ChildProcess.build(*[cmd.to_a, arguments].flatten)
-        @stdout_file = Tempfile.new("aruba-stdout")
-        @stderr_file = Tempfile.new("aruba-stderr")
+        @stdout_file = Tempfile.new("aruba-stdout-")
+        @stderr_file = Tempfile.new("aruba-stderr-")
+
+        @stdout_file.sync = true
+        @stderr_file.sync = true
+
         @exit_status = nil
         @duplex      = true
 
