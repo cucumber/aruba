@@ -49,7 +49,7 @@ Feature: Supported Testing Frameworks
     """
     require 'spec_helper'
 
-    RSpec.describe 'First Run', type: :aruba do
+    RSpec.describe 'First Run', :type => :aruba do
       let(:file) { 'file.txt' }
       let(:content) { 'Hello World' }
 
@@ -83,7 +83,9 @@ Feature: Supported Testing Frameworks
     """
     And a file named "test/use_aruba_with_minitest.rb" with:
     """
-    require_relative 'test_helper'
+    $LOAD_PATH.unshift File.expand_path('../test', __FILE__)
+
+    require 'test_helper'
     require 'minitest/autorun'
 
     class FirstRun < Minitest::Test
