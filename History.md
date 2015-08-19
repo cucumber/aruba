@@ -389,6 +389,13 @@
 
 # Upcoming un-released versions
 
+## [v0.10.0](https://github.com/cucumber/aruba/compare/v0.9.0...v0.10.0)
+
+* Add some new steps to make writing documentation easier using "cucumber",
+  "rspec", "minitest" together with "aruba" - see [Feature](features/getting_started/supported_testing_frameworks.feature)
+  for some examples
+* Write output of commands directly to disk if SpawnProcess is used (see https://github.com/cucumber/aruba/commit/85d74fcca4fff4e753776925d8b003cddaa8041d)
+
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
 * Support for rubies older than 1.9.3 is discontinued - e.g 1.8.7 and 1.9.2
