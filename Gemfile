@@ -75,6 +75,8 @@ group :development, :test do
     # Upload documentation
     gem 'relish', '~> 0.7.1'
   end
+
+  gem 'minitest', '~> 5.8.0'
 end
 
 platforms :rbx do
