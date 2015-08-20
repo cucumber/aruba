@@ -12,8 +12,9 @@ module Aruba
       ARGV.clear
       IRB.setup nil
 
-      IRB.conf[:PROMPT] = {}
       IRB.conf[:IRB_NAME] = 'aruba'
+
+      IRB.conf[:PROMPT] = {}
       IRB.conf[:PROMPT][:ARUBA] = {
         :PROMPT_I => '%N:%03n:%i> ',
         :PROMPT_N => '%N:%03n:%i> ',
