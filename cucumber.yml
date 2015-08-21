@@ -1,5 +1,8 @@
 <%
+$LOAD_PATH << ::File.expand_path('../lib', __FILE__)
+require 'aruba/version'
 require 'ffi'
+
 java_version = (RUBY_DESCRIPTION.match(/.*?on.*?(1\.[\d]\..*? )/))[1] if defined?(JRUBY_VERSION)
 
 std_opts          = "--color --exclude features/fixtures --require features --tags ~@unsupported-on"
@@ -16,6 +19,7 @@ ignore_opts <<  '--tags ~@unsupported-on-platform-mac'     if FFI::Platform.mac?
 ignore_opts <<  '--tags ~@unsupported-on-ruby-older-2'     if RUBY_VERSION < '2'
 ignore_opts <<  '--tags ~@unsupported-on-ruby-older-193'   if RUBY_VERSION < '1.9.3'
 ignore_opts <<  '--tags ~@unsupported-on-ruby-older-19'    if RUBY_VERSION < '1.9'
+ignore_opts <<  '--tags ~@requires-aruba-version-1'        if Aruba::VERSION < '1'
 ignore_opts = ignore_opts.join(' ')
 %>
 default: <%= std_opts %> --tags ~@wip <%= java_default_opts %> <%= ignore_opts %>

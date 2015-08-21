@@ -1,11 +1,7 @@
-Feature: Extract text from output
+Feature: Unescape special characters in text
 
-  If you need to strip down some command output to plain text, you can use the
-  `#unescape_text`-method for this.
-
-  You may want to have a look
-  [here](http://www.unixwerk.eu/unix/ansicodes.html) for a good overview for
-  ANSI escape sequences.
+  If have got some text include \n, \t and the like and need them to become
+  special characters again, you can use the `#unescape_text`-method for this.
 
   Background:
     Given I use a fixture named "cli-app"
@@ -16,7 +12,7 @@ Feature: Extract text from output
     #!/bin/bash
     echo -n 'text\ntext'
     """
-    And a file named "spec/which_spec.rb" with:
+    And a file named "spec/unescape_text_spec.rb" with:
     """
     require 'spec_helper'
 
@@ -36,7 +32,7 @@ Feature: Extract text from output
     #!/bin/bash
     echo -n 'text\etext'
     """
-    And a file named "spec/which_spec.rb" with:
+    And a file named "spec/unescape_text_spec.rb" with:
     """
     require 'spec_helper'
 
@@ -56,7 +52,7 @@ Feature: Extract text from output
     #!/bin/bash
     echo -n 'text\"text'
     """
-    And a file named "spec/which_spec.rb" with:
+    And a file named "spec/unescape_text_spec.rb" with:
     """
     require 'spec_helper'
 
@@ -76,7 +72,7 @@ Feature: Extract text from output
     #!/bin/bash
     echo -n 'text\033text'
     """
-    And a file named "spec/which_spec.rb" with:
+    And a file named "spec/unescape_text_spec.rb" with:
     """
     require 'spec_helper'
 
@@ -96,7 +92,7 @@ Feature: Extract text from output
     #!/bin/bash
     echo -n 'text\017text'
     """
-    And a file named "spec/which_spec.rb" with:
+    And a file named "spec/unescape_text_spec.rb" with:
     """
     require 'spec_helper'
 
@@ -116,7 +112,7 @@ Feature: Extract text from output
     #!/bin/bash
     echo -n 'text\016text'
     """
-    And a file named "spec/which_spec.rb" with:
+    And a file named "spec/unescape_text_spec.rb" with:
     """
     require 'spec_helper'
 

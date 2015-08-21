@@ -12,7 +12,7 @@ Feature: Extract text from output
     #!/bin/bash
     echo -n "\e[31mText"
     """
-    And a file named "spec/which_spec.rb" with:
+    And a file named "spec/extract_text_spec.rb" with:
     """
     require 'spec_helper'
 
@@ -32,7 +32,7 @@ Feature: Extract text from output
     #!/bin/bash
     echo -n "\033[31mText"
     """
-    And a file named "spec/which_spec.rb" with:
+    And a file named "spec/extract_text_spec.rb" with:
     """
     require 'spec_helper'
 
@@ -46,33 +46,13 @@ Feature: Extract text from output
     When I run `rspec`
     Then the specs should all pass
 
-    # Scenario: Output contains ansi escape codes enclosed by \[\]
-    #   Given an executable named "bin/cli" with:
-    #   """
-    #   #!/bin/bash
-    #   echo -n "\[\033[31m\]Text"
-    #   """
-    #   And a file named "spec/which_spec.rb" with:
-    #   """
-    #   require 'spec_helper'
-    # 
-    #   RSpec.describe 'Run command', :type => :aruba do
-    #     before(:each) { run('cli') }
-    #     before(:each) { stop_all_commands }
-    #
-    #     it { expect(extract_text(unescape_text(last_command.output))).to eq "Text" }
-    #   end
-    #   """
-    #   When I run `rspec`
-    #   Then the specs should all pass
-
     # Scenario: Output contains ansi escape code \016
     #   Given an executable named "bin/cli" with:
     #   """
     #   #!/bin/bash
     #   echo -n "\016Text"
     #   """
-    #   And a file named "spec/which_spec.rb" with:
+    #   And a file named "spec/extract_text_spec.rb" with:
     #   """
     #   require 'spec_helper'
     #
@@ -92,7 +72,7 @@ Feature: Extract text from output
     #   #!/bin/bash
     #   echo -n "\017Text"
     #   """
-    #   And a file named "spec/which_spec.rb" with:
+    #   And a file named "spec/extract_text_spec.rb" with:
     #   """
     #   require 'spec_helper'
     #

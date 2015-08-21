@@ -1,34 +1,26 @@
 When(/^I run "(.*)"$/)do |cmd|
   warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
 
-  cmd = unescape_text(cmd)
-  cmd = extract_text(cmd) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
+  cmd = sanitize_text(cmd)
   run_simple(cmd, false)
 end
 
 When(/^I run `([^`]*)`$/)do |cmd|
-  cmd = unescape_text(cmd)
-  cmd = extract_text(cmd) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
+  cmd = sanitize_text(cmd)
   run_simple(cmd, false)
 end
 
 When(/^I successfully run "(.*)"$/)do |cmd|
   warn(%{\e[35m    The  /^I successfully run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
 
-  cmd = unescape_text(cmd)
-  cmd = extract_text(cmd) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
+  cmd = sanitize_text(cmd)
   run_simple(cmd)
 end
 
 ## I successfully run `echo -n "Hello"`
 ## I successfully run `sleep 29` for up to 30 seconds
 When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
-  cmd = unescape_text(cmd)
-  cmd = extract_text(cmd) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
+  cmd = sanitize_text(cmd)
   run_simple(cmd, true, secs && secs.to_i)
 end
 
@@ -39,9 +31,7 @@ When(/^I run "([^"]*)" interactively$/) do |cmd|
 end
 
 When(/^I run `([^`]*)` interactively$/)do |cmd|
-  cmd = unescape_text(cmd)
-  cmd = extract_text(cmd) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
+  cmd = sanitize_text(cmd)
   @interactive = run(cmd)
 end
 
@@ -71,11 +61,8 @@ When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$
                    last_command_started.public_send channel.to_sym, :wait_for_io => 0
                  end
 
-        output = unescape_text(output)
-        output = extract_text(output) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        expected = unescape_text(expected)
-        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+        output   = sanitize_text(output)
+        expected = sanitize_text(expected)
 
         if output.include? expected
           last_command_started.terminate
@@ -98,10 +85,7 @@ When(/^I wait for (?:output|stdout) to contain:$/) do |expected|
   Timeout.timeout(exit_timeout) do
     loop do
       begin
-        expected = unescape_text(expected)
-        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        expect(last_command_started).to have_output Regexp.new(expected)
+        expect(last_command_started).to have_output an_output_string_including(expected)
       rescue ExpectationError
         sleep 0.1
         retry
@@ -116,10 +100,7 @@ When(/^I wait for (?:output|stdout) to contain "([^"]*)"$/) do |expected|
   Timeout.timeout(exit_timeout) do
     loop do
       begin
-        expected = unescape_text(expected)
-        expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-        expect(last_command_started).to have_output Regexp.new(expected)
+        expect(last_command_started).to have_output an_output_string_including(expected)
       rescue ExpectationError
         sleep 0.1
         retry
@@ -150,14 +131,11 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
                all_commands
              end
 
-  expected = unescape_text(expected).chomp
-  expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-  expected = if exactly
-               expected
-             else
-               Regexp.new(Regexp.escape(expected))
-             end
+  output_string_matcher = if exactly
+                            :an_output_string_being_eq
+                          else
+                            :an_output_string_including
+                          end
 
   if Aruba::VERSION < '1.0'
     combined_output = commands.map do |c|
@@ -166,15 +144,15 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
     end.join("\n")
 
     if negated
-      expect(combined_output).not_to match expected
+      expect(combined_output).not_to send(output_string_matcher, expected)
     else
-      expect(combined_output).to match expected
+      expect(combined_output).to send(output_string_matcher, expected)
     end
   else
     if negated
-      expect(commands).not_to include_an_object send(matcher, expected)
+      expect(commands).not_to include_an_object send(matcher, send(output_string_matcher, expected))
     else
-      expect(commands).to include_an_object send(matcher, expected)
+      expect(commands).to include_an_object send(matcher, send(output_string_matcher, expected))
     end
   end
 end
@@ -201,14 +179,11 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
                all_commands
              end
 
-  expected = unescape_text(expected).chomp
-  expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-  expected = if exactly
-               expected
-             else
-               Regexp.new(Regexp.escape(expected))
-             end
+  output_string_matcher = if exactly
+                            :an_output_string_being_eq
+                          else
+                            :an_output_string_including
+                          end
 
   if Aruba::VERSION < '1.0'
     combined_output = commands.map do |c|
@@ -217,15 +192,15 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
     end.join("\n")
 
     if negated
-      expect(combined_output).not_to match expected
+      expect(combined_output).not_to send(output_string_matcher, expected)
     else
-      expect(combined_output).to match expected
+      expect(combined_output).to send(output_string_matcher, expected)
     end
   else
     if negated
-      expect(commands).not_to include_an_object send(matcher, expected)
+      expect(commands).not_to include_an_object send(matcher, send(output_string_matcher, expected))
     else
-      expect(commands).to include_an_object send(matcher, expected)
+      expect(commands).to include_an_object send(matcher, send(output_string_matcher, expected))
     end
   end
 end
@@ -236,25 +211,25 @@ end
 # appear naturally in the output
 Then(/^the output should( not)? match \/([^\/]*)\/$/) do |negated, expected|
   if negated
-    expect(all_commands).not_to include_an_object have_output Regexp.new(expected, Regexp::MULTILINE)
+    expect(all_commands).not_to include_an_object have_output an_output_string_matching(expected)
   else
-    expect(all_commands).to include_an_object have_output Regexp.new(expected, Regexp::MULTILINE)
+    expect(all_commands).to include_an_object have_output an_output_string_matching(expected)
   end
 end
 
 Then(/^the output should( not)? match %r<([^>]*)>$/) do |negated, expected|
   if negated
-    expect(all_commands).not_to include_an_object have_output Regexp.new(expected, Regexp::MULTILINE)
+    expect(all_commands).not_to include_an_object have_output an_output_string_matching(expected)
   else
-    expect(all_commands).to include_an_object have_output Regexp.new(expected, Regexp::MULTILINE)
+    expect(all_commands).to include_an_object have_output an_output_string_matching(expected)
   end
 end
 
 Then(/^the output should( not)? match:$/) do |negated, expected|
   if negated
-    expect(all_commands).not_to include_an_object have_output Regexp.new(expected, Regexp::MULTILINE)
+    expect(all_commands).not_to include_an_object have_output an_output_string_matching(expected)
   else
-    expect(all_commands).to include_an_object have_output Regexp.new(expected, Regexp::MULTILINE)
+    expect(all_commands).to include_an_object have_output an_output_string_matching(expected)
   end
 end
 
@@ -267,10 +242,6 @@ Then(/^the exit status should( not)? be (\d+)$/) do |negated, exit_status|
 end
 
 Then(/^it should( not)? (pass|fail) with "(.*?)"$/) do |negated, pass_fail, expected|
-  expected = unescape_text(expected).chomp
-  expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-  expected = Regexp.new(Regexp.escape(expected))
-
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
@@ -278,17 +249,13 @@ Then(/^it should( not)? (pass|fail) with "(.*?)"$/) do |negated, pass_fail, expe
   end
 
   if negated
-    expect(last_command_stopped).not_to have_output expected
+    expect(last_command_stopped).not_to have_output an_output_string_including(expected)
   else
-    expect(last_command_stopped).to have_output expected
+    expect(last_command_stopped).to have_output an_output_string_including(expected)
   end
 end
 
 Then(/^it should( not)? (pass|fail) with:$/) do |negated, pass_fail, expected|
-  expected = unescape_text(expected).chomp
-  expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-  expected = Regexp.new(Regexp.escape(expected))
-
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
@@ -296,16 +263,13 @@ Then(/^it should( not)? (pass|fail) with:$/) do |negated, pass_fail, expected|
   end
 
   if negated
-    expect(last_command_stopped).not_to have_output expected
+    expect(last_command_stopped).not_to have_output an_output_string_including(expected)
   else
-    expect(last_command_stopped).to have_output expected
+    expect(last_command_stopped).to have_output an_output_string_including(expected)
   end
 end
 
 Then(/^it should( not)? (pass|fail) with exactly:$/) do |negated, pass_fail, expected|
-  expected = unescape_text(expected).chomp
-  expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
@@ -313,17 +277,13 @@ Then(/^it should( not)? (pass|fail) with exactly:$/) do |negated, pass_fail, exp
   end
 
   if negated
-    expect(last_command_stopped).not_to have_output expected
+    expect(last_command_stopped).not_to have_output an_output_string_eq(expected)
   else
-    expect(last_command_stopped).to have_output expected
+    expect(last_command_stopped).to have_output an_output_string_being_eq(expected)
   end
 end
 
-Then(/^it should( not)? (pass|fail) with regexp?:$/) do |negated, pass_fail, expected|
-  expected = unescape_text(expected).chomp
-  expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-  expected = Regexp.new(expected, Regexp::MULTILINE)
-
+Then(/^it should( not)? (pass|fail) (?:with regexp?|matching):$/) do |negated, pass_fail, expected|
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
@@ -331,9 +291,9 @@ Then(/^it should( not)? (pass|fail) with regexp?:$/) do |negated, pass_fail, exp
   end
 
   if negated
-    expect(last_command_stopped).not_to have_output expected
+    expect(last_command_stopped).not_to have_output an_output_string_matching(expected)
   else
-    expect(last_command_stopped).to have_output expected
+    expect(last_command_stopped).to have_output an_output_string_matching(expected)
   end
 end
 
@@ -354,10 +314,6 @@ end
 
 Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) do |channel, negated, table|
   table.raw.flatten.each do |expected|
-    expected = unescape_text(expected).chomp
-    expected = extract_text(expected) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-    expected = Regexp.new(Regexp.escape(expected))
-
     matcher = case channel.to_sym
               when :output
                 :have_output
@@ -370,9 +326,9 @@ Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:
               end
 
     if negated
-      expect(all_commands).not_to include_an_object send(matcher, expected)
+      expect(all_commands).not_to include_an_object have_output an_output_string_including(expected)
     else
-      expect(all_commands).to include_an_object send(matcher, expected)
+      expect(all_commands).to include_an_object have_output an_output_string_including(expected)
     end
   end
 end

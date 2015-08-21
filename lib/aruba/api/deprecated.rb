@@ -486,7 +486,7 @@ module Aruba
       # @return
       #   The string stripped from escape sequences
       def unescape(string, keep_ansi = false)
-        Aruba.platform.deprecated('The use of "#unescape" is deprecated. Please use "#unescape_text" and "#extract_text" intead')
+        Aruba.platform.deprecated('The use of "#unescape" is deprecated. Please use "#sanitize_text" intead')
 
         string = unescape_text(string)
         string = extract_text(string) if !keep_ansi || !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences

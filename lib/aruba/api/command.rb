@@ -19,25 +19,6 @@ end
 module Aruba
   module Api
     module Commands
-      # Unescape text
-      #
-      # '\n' => "\n"
-      # '\e' => "\e"
-      # '\033' => "\e"
-      # '\"' => '"'
-      def unescape_text(text)
-        text.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e").gsub('\033', "\e").gsub('\016', "\016").gsub('\017', "\017").gsub('\t', "\t")
-      end
-
-      # Remove ansi characters from text
-      def extract_text(text)
-        if Aruba::VERSION < '1'
-          text.gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, '')
-        else
-          text.gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, '').gsub(/\\\[|\\\]/, '').gsub(/\007|\016|\017/, '')
-        end
-      end
-
       # Resolve path for command using the PATH-environment variable
       #
       # @param [#to_s] program
