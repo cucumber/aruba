@@ -1,5 +1,14 @@
 # Latest Release
 
+## [v0.9.0](https://github.com/cucumber/aruba/compare/v0.9.0.pre2...v0.9.0)
+
+* Fix feature test
+* Fix ordering in console
+* Fix bug in console handling SIGINT
+* Deprecated Aruba/Reporting before we remove it
+
+# Old releases
+
 ## [v0.9.0.pre2](https://github.com/cucumber/aruba/compare/v0.9.0.pre...v0.9.0.pre2)
 
 * Redefine #to_s and #inspect for BasicProcess to reduce the sheer amount of
@@ -20,7 +29,6 @@
 * Now we make the process started via `SpawnProcess` the leader of the group to
   kill all sub-processes more reliably
 
-# Old releases
 
 ## [v0.9.0.pre](https://github.com/cucumber/aruba/compare/v0.8.1...v0.9.0.pre)
 
