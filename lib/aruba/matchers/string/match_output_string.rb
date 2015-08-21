@@ -32,6 +32,6 @@ end
 
 if RSpec::Expectations::Version::STRING >= '3.0'
   RSpec::Matchers.alias_matcher :an_output_string_matching, :match_output_string
-  RSpec::Matchers.alias_matcher :a_filename_matching, :match_output_string
+  RSpec::Matchers.alias_matcher :a_file_name_matching, :match_output_string
   RSpec::Matchers.alias_matcher :file_content_matching, :match_output_string
 end
