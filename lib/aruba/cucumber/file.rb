@@ -29,14 +29,11 @@ Given(/^(?:an|the) executable(?: named)? "([^"]*)" with:$/) do |file_name, file_
 end
 
 Given(/^(?:a|the) file(?: named)? "([^"]*)" with "([^"]*)"$/) do |file_name, file_content|
-  file_content = unescape_text(file_content)
-  file_content = extract_text(file_content) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
-
-  write_file(file_name, file_content)
+  write_file(file_name, unescape_text(file_content))
 end
 
 Given(/^(?:a|the) file(?: named)? "([^"]*)" with mode "([^"]*)" and with:$/) do |file_name, file_mode, file_content|
-  write_file(file_name, file_content)
+  write_file(file_name, unescape_text(file_content))
   chmod(file_mode, file_name)
 end
 
@@ -109,9 +106,9 @@ end
 
 Then(/^(?:a|the) file matching %r<(.*?)> should (not )?exist$/) do |pattern, expect_match|
   if expect_match
-    expect(all_paths).not_to include match Regexp.new(pattern)
+    expect(all_paths).not_to include a_file_name_matching(pattern)
   else
-    expect(all_paths).to include match Regexp.new(pattern)
+    expect(all_paths).to include match a_file_name_matching(pattern)
   end
 end
 
@@ -143,17 +140,17 @@ end
 
 Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain "([^"]*)"$/) do |file, negated, content|
   if negated
-    expect(file).not_to have_file_content Regexp.new(Regexp.escape(content.chomp))
+    expect(file).not_to have_file_content file_content_including(content.chomp)
   else
-    expect(file).to have_file_content Regexp.new(Regexp.escape(content.chomp))
+    expect(file).to have_file_content file_content_including(content.chomp)
   end
 end
 
 Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain:$/) do |file, negated, content|
   if negated
-    expect(file).not_to have_file_content Regexp.new(Regexp.escape(content.chomp))
+    expect(file).not_to have_file_content file_content_including(content.chomp)
   else
-    expect(file).to have_file_content Regexp.new(Regexp.escape(content.chomp))
+    expect(file).to have_file_content file_content_including(content.chomp)
   end
 end
 
@@ -167,17 +164,17 @@ end
 
 Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?match %r<([^\/]*)>$/) do |file, negated, content|
   if negated
-    expect(file).not_to have_file_content Regexp.new(content)
+    expect(file).not_to have_file_content file_content_matching(content)
   else
-    expect(file).to have_file_content Regexp.new(content)
+    expect(file).to have_file_content file_content_matching(content)
   end
 end
 
 Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?match \/([^\/]*)\/$/) do |file, negated, content|
   if negated
-    expect(file).not_to have_file_content Regexp.new(content)
+    expect(file).not_to have_file_content file_content_matching(content)
   else
-    expect(file).to have_file_content Regexp.new(content)
+    expect(file).to have_file_content file_content_matching(content)
   end
 end
 

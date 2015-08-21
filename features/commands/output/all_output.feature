@@ -385,6 +385,7 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
+  @requires-aruba-version-1
   Scenario: Detect output from all processes
     Given an executable named "bin/cli1" with:
     """bash

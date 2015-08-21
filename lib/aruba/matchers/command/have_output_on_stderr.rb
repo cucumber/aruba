@@ -30,8 +30,7 @@ RSpec::Matchers.define :have_output_on_stderr do |expected|
 
     @old_actual.stop(@announcer) unless @old_actual.stopped?
 
-    @actual = unescape_text(actual.stderr.chomp)
-    @actual = extract_text(@actual) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+    @actual = sanitize_text(actual.stderr)
 
     values_match?(expected, @actual)
   end

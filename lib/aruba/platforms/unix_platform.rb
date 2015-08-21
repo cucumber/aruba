@@ -217,7 +217,9 @@ module Aruba
       # @return
       #   The string stripped from escape sequences
       def unescape(string, keep_ansi = true)
-        deprecated('The use of "Aruba.platform.unescape" is deprecated. Please use "#unescape_text" and "#extract_text" instead')
+        # rubocop:disable Metrics/LineLength
+        deprecated('The use of "Aruba.platform.unescape" is deprecated. Please use "#unescape_text" and "#sanitize_text" instead. But be aware it uses a different implementation')
+        # rubocop:enable Metrics/LineLength
 
         string = string.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e")
         string = string.gsub(/\e\[\d+(?>(;\d+)*)m/, '') unless keep_ansi

@@ -7,6 +7,7 @@ Feature: All output of commands which were executed
   Background:
     Given I use a fixture named "cli-app"
 
+  @requires-aruba-version-1
   Scenario: Detect output from all processes normal and interactive ones
     Given an executable named "bin/cli1" with:
     """
