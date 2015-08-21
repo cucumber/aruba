@@ -35,6 +35,16 @@ module Aruba
         Aruba.platform.directory? expand_path(file)
       end
 
+      # Check if file exist and is executable
+      #
+      # @param [String] file
+      #   The file which should exist
+      def executable?(path)
+        path =  expand_path(path)
+
+        Aruba.platform.file?(path) && Aruba.platform.executable?(path)
+      end
+
       # Check if path is absolute
       #
       # @return [TrueClass, FalseClass]

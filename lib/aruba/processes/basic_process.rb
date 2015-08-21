@@ -9,9 +9,9 @@ module Aruba
     #
     # @private
     class BasicProcess
-      attr_reader :exit_status, :environment, :startup_wait_time
+      attr_reader :exit_status, :environment, :working_directory, :main_class, :io_wait_timeout, :exit_timeout, :startup_wait_time
 
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
+      def initialize(cmd, exit_timeout, io_wait_timeout, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
         @cmd               = cmd
         @working_directory = working_directory
         @environment       = environment
@@ -20,8 +20,8 @@ module Aruba
         @stop_signal       = stop_signal
         @startup_wait_time = startup_wait_time
 
-        @exit_timeout = exit_timeout
-        @io_wait      = io_wait
+        @exit_timeout    = exit_timeout
+        @io_wait_timeout = io_wait_timeout
       end
 
       # Return command line

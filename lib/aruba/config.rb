@@ -2,7 +2,7 @@ require 'contracts'
 
 require 'aruba/version'
 require 'aruba/basic_configuration'
-require 'aruba/config_wrapper'
+require 'aruba/in_config_wrapper'
 require 'aruba/hooks'
 
 require 'aruba/contracts/relative_path'

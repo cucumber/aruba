@@ -88,7 +88,7 @@ Then(/^the following files should (not )?exist:$/) do |negated, files|
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist$/) do |file, expect_match|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) do |file, expect_match|
   if expect_match
     expect(file).not_to be_an_existing_file
   else

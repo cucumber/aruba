@@ -1,3 +1,5 @@
+require 'aruba/platforms/announcer'
+
 module Aruba
   module Api
     module Deprecated
@@ -376,7 +378,7 @@ module Aruba
       #   The variables to be used for block.
       #
       # @yield
-      #   The block of code which should be run with the modified environment variables
+      #   The block of code which should be run with the changed environment variables
       def with_env(env = {}, &block)
         Aruba.platform.deprecated('The use of "#with_env" is deprecated. Use "#with_environment {}" instead. But be careful this uses a different implementation')
 
@@ -415,8 +417,9 @@ module Aruba
       def set_env(key, value)
         Aruba.platform.deprecated('The use of "#set_env" is deprecated. Please use "set_environment_variable" instead. But be careful, this method uses a different kind of implementation')
 
-        announcer.announce(:environment, key, value)
+        aruba.announcer.announce(:environment, key, value)
         set_environment_variable key, value
+
         original_env[key] = ENV.delete(key) unless original_env.key? key
         ENV[key] = value
       end
@@ -879,9 +882,9 @@ module Aruba
       #
       # Access to announcer
       def announcer
-        # Aruba.platform.deprecated('The use of "#announcer" is deprecated. Use "aruba.announcer" instead')
+        Aruba.platform.deprecated('The use of "#announcer" is deprecated. Use "aruba.announcer" instead')
 
-        @announcer ||= Announcer.new(
+        @announcer ||= Platforms::Announcer.new(
           self,
           :stdout => defined?(@announce_stdout),
           :stderr => defined?(@announce_stderr),
@@ -891,6 +894,20 @@ module Aruba
         )
 
         @announcer
+      end
+
+      # @private
+      def process_monitor
+        Aruba.platform.deprecated('The use of "#process_monitor" is deprecated.')
+
+        aruba.command_monitor
+      end
+
+      # @private
+      def processes
+        Aruba.platform.deprecated('The use of "#process_monitor" is deprecated. Please use "#all_commands" instead.')
+
+        aruba.command_monitor.send(:processes)
       end
     end
   end

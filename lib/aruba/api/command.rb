@@ -1,7 +1,6 @@
 require 'pathname'
 
 require 'aruba/platform'
-require 'aruba/process_monitor'
 require 'aruba/command'
 
 # require 'win32/file' if File::ALT_SEPARATOR
@@ -53,31 +52,17 @@ module Aruba
       # @return [Array]
       #   List of commands
       def all_commands
-        process_monitor.all_commands
-      end
-
-      # @private
-      def process_monitor
-        return @process_monitor if defined? @process_monitor
-
-        @process_monitor = ProcessMonitor.new(announcer)
-
-        @process_monitor
-      end
-
-      # @private
-      def processes
-        process_monitor.send(:processes)
+        aruba.command_monitor.registered_commands
       end
 
       # Last command started
       def last_command_started
-        process_monitor.last_command_started
+        aruba.command_monitor.last_command_started
       end
 
       # Last command stopped
       def last_command_stopped
-        process_monitor.last_command_stopped
+        aruba.command_monitor.last_command_stopped
       end
 
       # Stop all commands
@@ -92,7 +77,7 @@ module Aruba
                  all_commands
                end
 
-        cmds.each { |c| c.stop(announcer) }
+        cmds.each(&:stop)
 
         self
       end
@@ -112,6 +97,14 @@ module Aruba
         cmds.each(&:terminate)
 
         self
+      end
+
+      # Find a started command
+      #
+      # @param [String, Command] commandline
+      #   The commandline
+      def find_command(commandline)
+        aruba.command_monitor.find(commandline)
       end
 
       # Run given command and stop it if timeout is reached
@@ -144,13 +137,13 @@ module Aruba
         environment       = aruba.environment.to_h
         working_directory = expand_path('.')
 
-        announcer.announce(:full_environment, environment)
-        announcer.announce(:timeout, 'exit', exit_timeout)
-        announcer.announce(:timeout, 'io wait', io_wait_timeout)
-        announcer.announce(:wait_time, 'startup wait time', startup_wait_time)
+        aruba.announcer.announce(:full_environment, environment)
+        aruba.announcer.announce(:timeout, 'exit', exit_timeout)
+        aruba.announcer.announce(:timeout, 'io wait', io_wait_timeout)
+        aruba.announcer.announce(:wait_time, 'startup wait time', startup_wait_time)
 
-        announcer.announce(:directory, working_directory)
-        announcer.announce(:command, cmd)
+        aruba.announcer.announce(:directory, working_directory)
+        aruba.announcer.announce(:command, cmd)
 
         cmd               = Aruba.platform.detect_ruby(cmd)
 
@@ -172,7 +165,7 @@ module Aruba
                        aruba.config.main_class
                      end
 
-        command = Command.new(
+        aruba.command_monitor.start_command(
           cmd,
           :mode              => mode,
           :exit_timeout      => exit_timeout,
@@ -184,6 +177,8 @@ module Aruba
           :startup_wait_time => startup_wait_time
         )
 
+        command = aruba.command_monitor.find(cmd)
+
         if aruba.config.before? :cmd
           # rubocop:disable Metrics/LineLength
           Aruba.platform.deprecated('The use of "before"-hook" ":cmd" is deprecated. Use ":command" instead. Please be aware that this hook gets the command passed in not the cmdline itself. To get the commandline use "#cmd.commandline"')
@@ -192,11 +187,9 @@ module Aruba
         end
 
         aruba.config.before(:command, self, command)
-
-        process_monitor.register_process(cmd, command)
         command.start
 
-        announcer.announce(:stop_signal, command.pid, stop_signal) if stop_signal
+        aruba.announcer.announce(:stop_signal, command.pid, stop_signal) if stop_signal
 
         aruba.config.after(:command, self, command)
 
@@ -220,9 +213,12 @@ module Aruba
       #   Timeout for execution
       def run_simple(cmd, fail_on_error = true, exit_timeout = nil, io_wait_timeout = nil)
         command = run(cmd, exit_timeout, io_wait_timeout)
-        @last_exit_status = process_monitor.stop_process(command)
+        command.stop
 
-        @timed_out = command.timed_out?
+        if Aruba::VERSION < '1'
+          @last_exit_status = command.exit_status
+          @timed_out = command.timed_out?
+        end
 
         if fail_on_error
           expect(command).to have_finished_in_time

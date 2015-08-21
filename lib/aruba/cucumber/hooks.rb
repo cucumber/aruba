@@ -21,7 +21,7 @@ end
 After do
   restore_env
   terminate_all_commands
-  process_monitor.clear
+  aruba.command_monitor.clear
 end
 
 Before('~@no-clobber') do
@@ -29,85 +29,92 @@ Before('~@no-clobber') do
 end
 
 Before('@puts') do
-  announcer.mode = :puts
+  aruba.announcer.mode = :puts
 end
 
 Before('@announce-command') do
-  announcer.activate :command
+  aruba.announcer.activate :command
 end
 
 Before('@announce-cmd') do
   Aruba.platform.deprecated 'The use of "@announce-cmd"-hook is deprecated. Please use "@announce-command"'
 
-  announcer.activate :command
+  aruba.announcer.activate :command
 end
 
 Before('@announce-output') do
-  announcer.activate :stdout
-  announcer.activate :stderr
+  aruba.announcer.activate :stdout
+  aruba.announcer.activate :stderr
 end
 
 Before('@announce-stdout') do
-  announcer.activate :stdout
+  aruba.announcer.activate :stdout
 end
 
 Before('@announce-stderr') do
-  announcer.activate :stderr
+  aruba.announcer.activate :stderr
 end
 
 Before('@announce-dir') do
   Aruba.platform.deprecated 'The use of "@announce-dir"-hook is deprecated. Please use "@announce-directory"'
 
-  announcer.activate :directory
+  aruba.announcer.activate :directory
 end
 
 Before('@announce-directory') do
-  announcer.activate :directory
+  aruba.announcer.activate :directory
 end
 
 Before('@announce-stop-signal') do
-  announcer.activate :stop_signal
+  aruba.announcer.activate :stop_signal
 end
 
 Before('@announce-env') do
-  Aruba.platform.deprecated 'The use of "@announce-env"-hook is deprecated. Please use "@announce-modified-environment"'
+  Aruba.platform.deprecated 'The use of "@announce-env"-hook is deprecated. Please use "@announce-changed-environment"'
 
-  announcer.activate :environment
+  aruba.announcer.activate :environment
 end
 
 Before('@announce-environment') do
-  Aruba.platform.deprecated '@announce-environment is deprecated. Use @announce-modified-environment instead'
+  Aruba.platform.deprecated '@announce-environment is deprecated. Use @announce-changed-environment instead'
 
-  announcer.activate :modified_environment
+  aruba.announcer.activate :changed_environment
 end
 
 Before('@announce-full-environment') do
-  announcer.activate :full_environment
+  aruba.announcer.activate :full_environment
 end
 
 Before('@announce-modified-environment') do
-  announcer.activate :modified_environment
+  Aruba.platform.deprecated '@announce-modified-environment is deprecated. Use @announce-changed-environment instead'
+
+  aruba.announcer.activate :changed_environment
+end
+
+Before('@announce-changed-environment') do
+  aruba.announcer.activate :changed_environment
 end
 
 Before('@announce-timeout') do
-  announcer.activate :timeout
+  aruba.announcer.activate :timeout
 end
 
 Before('@announce-wait-time') do
-  announcer.activate :wait_time
+  aruba.announcer.activate :wait_time
 end
 
 Before('@announce') do
-  announcer.activate :command
-  announcer.activate :stdout
-  announcer.activate :stderr
-  announcer.activate :directory
-  announcer.activate :modified_environment
-  announcer.activate :full_environment
-  announcer.activate :environment
-  announcer.activate :timeout
-  announcer.activate :wait_time
-  announcer.activate :stop_signal
+  aruba.announcer.activate :changed_environment
+  aruba.announcer.activate :command
+  aruba.announcer.activate :directory
+  aruba.announcer.activate :environment
+  aruba.announcer.activate :full_environment
+  aruba.announcer.activate :modified_environment
+  aruba.announcer.activate :stderr
+  aruba.announcer.activate :stdout
+  aruba.announcer.activate :stop_signal
+  aruba.announcer.activate :timeout
+  aruba.announcer.activate :wait_time
 end
 
 Before('@debug') do

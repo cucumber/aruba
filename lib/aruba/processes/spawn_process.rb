@@ -29,12 +29,12 @@ module Aruba
       # @params [Integer] exit_timeout
       #   The timeout until we expect the command to be finished
       #
-      # @params [Integer] io_wait
+      # @params [Integer] io_wait_timeout
       #   The timeout until we expect the io to be finished
       #
       # @params [String] working_directory
       #   The directory where the command will be executed
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
+      def initialize(cmd, exit_timeout, io_wait_timeout, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
         super
 
         @process      = nil
@@ -168,7 +168,7 @@ module Aruba
       end
 
       # rubocop:disable Metrics/MethodLength
-      def stop(reader)
+      def stop(*)
         return @exit_status if stopped?
 
         begin
@@ -178,13 +178,6 @@ module Aruba
         end
 
         terminate
-
-        if reader
-          reader.announce :stdout, @stdout_cache
-          reader.announce :stderr, @stderr_cache
-        end
-
-        @exit_status
       end
       # rubocop:enable Metrics/MethodLength
 

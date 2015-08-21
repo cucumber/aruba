@@ -41,7 +41,7 @@ module Aruba
       #
       # Replace variables in command string
       def replace_variables(text)
-        text = text.gsub(/<pid-last-command-started>/, last_command_started.pid.to_s)
+        text = text.gsub(/<pid-last-command-started>/, last_command_started.pid.to_s) if text.include? '<pid-last-command-started>'
 
         text
       end

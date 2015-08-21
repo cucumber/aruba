@@ -42,37 +42,45 @@ RSpec.configure do |config|
     next unless self.class.include?(Aruba::Api)
 
     if example.metadata[:announce_environment]
-      Aruba.platform.deprecated 'announce_environment is deprecated. Use announce_modified_environment instead'
+      Aruba.platform.deprecated 'announce_environment is deprecated. Use announce_changed_environment instead'
 
-      announcer.activate(:modified_environment)
+      aruba.announcer.activate(:changed_environment)
     end
 
-    announcer.activate(:full_environment)     if example.metadata[:announce_full_environment]
-    announcer.activate(:modified_environment) if example.metadata[:announce_modified_environment]
-    announcer.activate(:command)              if example.metadata[:announce_command]
-    announcer.activate(:directory)            if example.metadata[:announce_directory]
-    announcer.activate(:stdout)               if example.metadata[:announce_stdout]
-    announcer.activate(:stderr)               if example.metadata[:announce_stderr]
-    announcer.activate(:timeout)              if example.metadata[:announce_timeout]
-    announcer.activate(:wait_time)            if example.metadata[:announce_wait_time]
-    announcer.activate(:stop_signal)          if example.metadata[:announce_stop_signal]
+    aruba.announcer.activate(:full_environment)     if example.metadata[:announce_full_environment]
+    aruba.announcer.activate(:changed_environment)  if example.metadata[:announce_changed_environment]
+
+    if example.metadata[:announce_modified_environment]
+      Aruba.platform.deprecated 'announce_modified_environment is deprecated. Use announce_changed_environment instead'
+
+      aruba.announcer.activate(:changed_environment)
+    end
+
+    aruba.announcer.activate(:command)              if example.metadata[:announce_command]
+    aruba.announcer.activate(:directory)            if example.metadata[:announce_directory]
+    aruba.announcer.activate(:full_environment)     if example.metadata[:announce_full_environment]
+    aruba.announcer.activate(:stderr)               if example.metadata[:announce_stderr]
+    aruba.announcer.activate(:stdout)               if example.metadata[:announce_stdout]
+    aruba.announcer.activate(:stop_signal)          if example.metadata[:announce_stop_signal]
+    aruba.announcer.activate(:timeout)              if example.metadata[:announce_timeout]
+    aruba.announcer.activate(:wait_time)            if example.metadata[:announce_wait_time]
 
     if example.metadata[:announce_output]
-      announcer.activate(:stderr)
-      announcer.activate(:stdout)
+      aruba.announcer.activate(:stderr)
+      aruba.announcer.activate(:stdout)
     end
 
     if example.metadata[:announce]
-      announcer.activate(:stderr)
-      announcer.activate(:stdout)
-      announcer.activate(:environment)
-      announcer.activate(:modified_environment)
-      announcer.activate(:full_environment)
-      announcer.activate(:command)
-      announcer.activate(:directory)
-      announcer.activate(:stop_signal)
-      announcer.activate(:timeout)
-      announcer.activate(:wait_time)
+      aruba.announcer.activate(:changed_environment)
+      aruba.announcer.activate(:command)
+      aruba.announcer.activate(:directory)
+      aruba.announcer.activate(:environment)
+      aruba.announcer.activate(:full_environment)
+      aruba.announcer.activate(:stderr)
+      aruba.announcer.activate(:stdout)
+      aruba.announcer.activate(:stop_signal)
+      aruba.announcer.activate(:timeout)
+      aruba.announcer.activate(:wait_time)
     end
   end
 

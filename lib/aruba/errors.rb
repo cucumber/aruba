@@ -11,6 +11,14 @@ module Aruba
   # Raised if one tries to use an unknown configuration option
   class UnknownOptionError < ArgumentError; end
 
-  # Rais if command already died
+  # Raised if command already died
   class CommandAlreadyStoppedError < Error; end
+
+  # Raised if one tries to access last command started, but no command
+  # has been started
+  class NoCommandHasBeenStartedError < StandardError; end
+
+  # Raised if one tries to access last command stopped, but no command
+  # has been stopped
+  class NoCommandHasBeenStoppedError < StandardError; end
 end

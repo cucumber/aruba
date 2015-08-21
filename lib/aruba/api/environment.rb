@@ -6,7 +6,7 @@ module Aruba
     module Environment
       # Set environment variable
       #
-      # @param [String] key
+      # @param [String] name
       #   The name of the environment variable as string, e.g. 'HOME'
       #
       # @param [String] value
@@ -15,17 +15,18 @@ module Aruba
         name = name.to_s
         value = value.to_s
 
-        announcer.announce(:environment, name, value)
-        announcer.announce(:modified_environment, name, value)
-
+        old_environment = aruba.environment.to_h
         aruba.environment[name] = value
+        new_environment = aruba.environment.to_h
+
+        aruba.event_bus.notify Events::AddedEnvironmentVariable.new(:old => old_environment, :new => new_environment, :changed => { :name => name, :value => value })
 
         self
       end
 
       # Append environment variable
       #
-      # @param [String] key
+      # @param [String] name
       #   The name of the environment variable as string, e.g. 'HOME'
       #
       # @param [String] value
@@ -34,16 +35,18 @@ module Aruba
         name = name.to_s
         value = value.to_s
 
+        old_environment = aruba.environment.to_h
         aruba.environment.append name, value
-        announcer.announce(:environment, name, aruba.environment[name])
-        announcer.announce(:modified_environment, name, aruba.environment[name])
+        new_environment = aruba.environment.to_h
+
+        aruba.event_bus.notify Events::ChangedEnvironmentVariable.new(:old => old_environment, :new => new_environment, :changed => { :name => name, :value => value })
 
         self
       end
 
       # Prepend environment variable
       #
-      # @param [String] key
+      # @param [String] name
       #   The name of the environment variable as string, e.g. 'HOME'
       #
       # @param [String] value
@@ -52,9 +55,11 @@ module Aruba
         name = name.to_s
         value = value.to_s
 
+        old_environment = aruba.environment.to_h
         aruba.environment.prepend name, value
-        announcer.announce(:environment, name, aruba.environment[name])
-        announcer.announce(:modified_environment, name, aruba.environment[name])
+        new_environment = aruba.environment.to_h
+
+        aruba.event_bus.notify Events::ChangedEnvironmentVariable.new(:old => old_environment, :new => new_environment, :changed => { :name => name, :value => value })
 
         self
       end
@@ -69,8 +74,7 @@ module Aruba
       def delete_environment_variable(name)
         name = name.to_s
 
-        announcer.announce(:environment, name, '')
-        announcer.announce(:modified_environment, name, '')
+        aruba.event_bus.notify Events::DeletedEnvironmentVariable.new(:old => old_environment, :new => new_environment, :changed => { :name => name, :value => '' })
 
         aruba.environment.delete name
 

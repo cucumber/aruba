@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe Aruba::ConfigWrapper do
+RSpec.describe Aruba::InConfigWrapper do
   subject(:wrapper) { described_class.new(config) }
 
   let(:config) { {} }

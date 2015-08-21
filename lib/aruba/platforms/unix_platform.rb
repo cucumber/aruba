@@ -11,6 +11,9 @@ require 'aruba/platforms/determine_disk_usage'
 require 'aruba/platforms/aruba_file_creator'
 require 'aruba/platforms/aruba_fixed_size_file_creator'
 require 'aruba/platforms/local_environment'
+require 'aruba/platforms/aruba_logger'
+require 'aruba/platforms/announcer'
+require 'aruba/platforms/command_monitor'
 
 module Aruba
   # This abstracts OS-specific things
@@ -33,6 +36,18 @@ module Aruba
 
       def command_string
         UnixCommandString
+      end
+
+      def announcer
+        Announcer
+      end
+
+      def command_monitor
+        CommandMonitor
+      end
+
+      def logger
+        ArubaLogger
       end
 
       def determine_file_size(*args)
@@ -151,8 +166,8 @@ module Aruba
       end
 
       # Path is executable
-      def executable_file?(f)
-        File.file?(f) && File.executable?(f)
+      def executable?(f)
+        File.executable?(f)
       end
 
       # Expand path

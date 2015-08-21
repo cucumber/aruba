@@ -1,5 +1,6 @@
 require 'contracts'
 require 'aruba/basic_configuration/option'
+require 'aruba/in_config_wrapper'
 
 module Aruba
   # Basic configuration for ProxyPacRb
@@ -19,7 +20,7 @@ module Aruba
         fail ArgumentError, 'contract-options is required' if contract.nil?
 
         Contract contract
-        add_option(name, block_given? ? yield(ConfigWrapper.new(known_options)) : default)
+        add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
 
         define_method(name) { find_option(name).value }
 
@@ -36,7 +37,7 @@ module Aruba
         fail ArgumentError, 'contract-options is required' if contract.nil?
 
         # Add writer
-        add_option(name, block_given? ? yield(ConfigWrapper.new(known_options)) : default)
+        add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
 
         Contract contract
         define_method("#{name}=") { |v| find_option(name).value = v }

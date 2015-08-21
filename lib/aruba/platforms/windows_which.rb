@@ -25,7 +25,7 @@ module Aruba
           # Expand `#path_exts`
           found = Dir[program].first
 
-          return File.expand_path(found) if found && Aruba.platform.executable_file?(found)
+          return File.expand_path(found) if found && Aruba.platform.executable?(found)
           nil
         end
       end
@@ -53,7 +53,7 @@ module Aruba
             found = Dir[file].first
 
             # Convert all forward slashes to backslashes if supported
-            if found && Aruba.platform.executable_file?(found)
+            if found && Aruba.platform.executable?(found)
               found.tr!(File::SEPARATOR, File::ALT_SEPARATOR)
               return found
             end

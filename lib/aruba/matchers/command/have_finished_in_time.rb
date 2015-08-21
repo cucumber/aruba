@@ -26,16 +26,7 @@ RSpec::Matchers.define :have_finished_in_time do
 
     next false unless @old_actual.respond_to? :timed_out?
 
-    @announcer ||= Aruba::Announcer.new(
-      self,
-      :stdout => @announce_stdout,
-      :stderr => @announce_stderr,
-      :dir    => @announce_dir,
-      :cmd    => @announce_cmd,
-      :env    => @announce_env
-    )
-
-    @old_actual.stop(@announcer) unless @old_actual.stopped?
+    @old_actual.stop unless @old_actual.stopped?
 
     @old_actual.timed_out? == false
   end
