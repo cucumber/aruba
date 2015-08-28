@@ -67,10 +67,6 @@ Feature: Supported Testing Frameworks
     """
     require 'aruba/api'
     """
-    And a file named "test/support/minitest.rb" with:
-    """
-    # require 'minitest/autorun'
-    """
     And a file named "test/test_helper.rb" with:
     """
     $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)

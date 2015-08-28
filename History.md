@@ -405,6 +405,8 @@
 * Write output of commands directly to disk if SpawnProcess is used (see https://github.com/cucumber/aruba/commit/85d74fcca4fff4e753776925d8b003cddaa8041d)
 * Refactored API of cucumber steps to reduce the need for more methods and make
   it easier for users to write their own steps (issue #306)
+* Added `aruba init` to the cli command to setup environment for aruba (issue
+  #308)
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 

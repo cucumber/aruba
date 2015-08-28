@@ -1,4 +1,4 @@
-# Simple Cli App
+# Empty Cli App
 
 This is a simple test cli app
 
@@ -22,13 +22,3 @@ Or install it yourself as:
 
 Place files in `lib/cli/app/`. They are loaded automatically. If you need a
 specific load order, use `require` in your files.
-
-### CLI
-
-```
-cli
-```
-
-### Library
-
-You can use `script/console` to load your library.
