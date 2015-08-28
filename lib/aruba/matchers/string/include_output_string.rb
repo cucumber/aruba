@@ -27,7 +27,7 @@ RSpec::Matchers.define :include_output_string do |expected|
 
   diffable
 
-  description { "output string includes: #{description_of expected}" }
+  description { "string includes: #{description_of expected}" }
 end
 
 if RSpec::Expectations::Version::STRING >= '3.0'
