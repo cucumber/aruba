@@ -13,6 +13,9 @@ rvm:
 - jruby-21mode
 - jruby
 - rbx
+- jruby-9.0.0.0
+- jruby-9.0.0.0-20mode
+- jruby-9.0.0.0-21mode
 matrix:
   allow_failures:
   - rvm: rbx
