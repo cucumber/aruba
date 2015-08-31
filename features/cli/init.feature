@@ -38,7 +38,6 @@ Feature: Initialize project with aruba
     """
     0 scenarios
     0 steps
-    0m0.000s
     """
 
   Scenario: Create files for Cucumber (Default)
