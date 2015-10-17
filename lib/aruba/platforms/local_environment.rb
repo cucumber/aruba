@@ -3,6 +3,8 @@ module Aruba
     class LocalEnvironment
       def call(env, &block)
         old_env = ENV.to_hash.dup
+
+        ENV.clear
         ENV.update env
 
         block.call if block_given?

@@ -392,11 +392,13 @@ module Aruba
       def restore_env
         # No output because we need to reset env on each scenario/spec run
         # Aruba.platform.deprecated('The use of "#restore_env" is deprecated. If you use "set_environment_variable" there\'s no need to restore the environment')
-
+        #
         original_env.each do |key, value|
           if value
             ENV[key] = value
+            aruba.environment[key] = value
           else
+            aruba.environment.delete key
             ENV.delete key
           end
         end
@@ -414,6 +416,7 @@ module Aruba
         Aruba.platform.deprecated('The use of "#set_env" is deprecated. Please use "set_environment_variable" instead. But be careful, this method uses a different kind of implementation')
 
         announcer.announce(:environment, key, value)
+        set_environment_variable key, value
         original_env[key] = ENV.delete(key) unless original_env.key? key
         ENV[key] = value
       end

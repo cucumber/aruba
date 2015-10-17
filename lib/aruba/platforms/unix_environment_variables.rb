@@ -107,6 +107,16 @@ module Aruba
         self
       end
 
+      # Delete variable
+      #
+      # @param [#to_s] name
+      #   The name of the variable
+      def delete(name)
+        env.delete name.to_s
+
+        self
+      end
+
       # Convert to hash
       #
       # @return [Hash]

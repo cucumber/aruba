@@ -58,6 +58,24 @@ module Aruba
 
         self
       end
+
+      # Remove existing environment variable
+      #
+      # @param [String] key
+      #   The name of the environment variable as string, e.g. 'HOME'
+      #
+      # @param [String] value
+      #   The value of the environment variable. Needs to be a string.
+      def delete_environment_variable(name)
+        name = name.to_s
+
+        announcer.announce(:environment, name, '')
+        announcer.announce(:modified_environment, name, '')
+
+        aruba.environment.delete name
+
+        self
+      end
     end
   end
 end

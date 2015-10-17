@@ -78,6 +78,10 @@ module Aruba
       def prepend(name, value)
         super(name.upcase, value)
       end
+
+      def delete(name, value)
+        super(name.upcase, value)
+      end
     end
   end
 end
