@@ -49,7 +49,7 @@ describe "Aruba JRuby Startup Helper"  do
       Aruba.config.before :command, self
     end
 
-    it { expect(ENV['JRUBY_OPTS']).to eq '--dev -X-C --1.9' }
+    it { expect(ENV['JRUBY_OPTS']).to eq '-W0 --dev -X-C --1.9' }
     it { expect(ENV['JAVA_OPTS']).to eq '-d32 -Xdebug' }
   end
 end

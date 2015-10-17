@@ -11,6 +11,9 @@ Aruba.configure do |config|
     # Faster startup for jruby
     ENV['JRUBY_OPTS'] = "--dev #{ENV['JRUBY_OPTS']}"  unless ENV['JRUBY_OPTS'].include? '--dev'
 
+    # Silence jruby to prevent warnings because of cext.enable=true
+    ENV['JRUBY_OPTS'] = "-W0 #{ENV['JRUBY_OPTS']}"  unless ENV['JRUBY_OPTS'].include? '-W0'
+
     # force jRuby to use client JVM for faster startup times
     ENV['JAVA_OPTS'] = "-d32 #{ENV['JAVA_OPTS']}" if RbConfig::CONFIG['host_os'] =~ /solaris|sunos/i && !ENV['JAVA_OPTS'].include?('-d32')
   end
