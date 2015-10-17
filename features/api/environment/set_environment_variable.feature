@@ -2,7 +2,7 @@ Feature: Set environment variable via API-method
 
   It is quite handy to modify the environment of a process. To make this
   possible, `aruba` provides several methods. One of these is
-  `#set_environment_variable`. Using this variable sets the value of a
+  `#set_environment_variable`. Using this sets the value of a
   non-existing variable and overwrites an existing value. Each variable name
   and each value is converted to a string. Otherwise `ruby` would complain
   about an invalid argument. To make use of a variable you can either use `#run`
@@ -17,7 +17,7 @@ Feature: Set environment variable via API-method
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Long running command', :type => :aruba do
+    RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
 
       before(:each) { run('env') }
@@ -34,7 +34,7 @@ Feature: Set environment variable via API-method
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Long running command', :type => :aruba do
+    RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '2' }
 
@@ -56,7 +56,7 @@ Feature: Set environment variable via API-method
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
 
-    RSpec.describe 'Long running command', :type => :aruba do
+    RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
 
       before(:each) { run('env') }
@@ -80,7 +80,7 @@ Feature: Set environment variable via API-method
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
 
-    RSpec.describe 'Long running command', :type => :aruba do
+    RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
 
       before(:each) { run('env') }
@@ -110,7 +110,7 @@ Feature: Set environment variable via API-method
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
 
-    RSpec.describe 'Long running command', :type => :aruba do
+    RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
 
       before(:each) { run('env') }
@@ -137,7 +137,7 @@ Feature: Set environment variable via API-method
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Long running command', :type => :aruba do
+    RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
 
       describe 'Method XX' do
@@ -167,7 +167,7 @@ Feature: Set environment variable via API-method
 
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
 
-    RSpec.describe 'Long running command', :type => :aruba do
+    RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
 
       before(:each) { run('env') }
@@ -203,7 +203,7 @@ Feature: Set environment variable via API-method
     ENV['LONG_LONG_VARIABLE'] = '1'
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
 
-    RSpec.describe 'Long running command', :type => :aruba do
+    RSpec.describe 'Environment command', :type => :aruba do
       it do
         with_environment 'REALLY_LONG_LONG_VARIABLE' => 2 do
           with_environment 'LONG_LONG_VARIABLE' => 3 do
@@ -230,7 +230,7 @@ Feature: Set environment variable via API-method
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Long running command', :type => :aruba do
+    RSpec.describe 'Environment command', :type => :aruba do
       # Please mind :context. This is run BEFORE the `around`-hook
       before(:context) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '1' }
 
