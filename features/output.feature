@@ -123,9 +123,9 @@ Feature: All output of commands which were executed
     And the stderr from "printf goodbye" should not contain "hello"
 
   Scenario: Detect second output from named source with custom name
-    When I set env variable "ARUBA_TEST_VAR" to "first"
+    When I set the environment variable "ARUBA_TEST_VAR" to "first"
     And I run `bash -c 'printf $ARUBA_TEST_VAR'`
     Then the output from "bash -c 'printf $ARUBA_TEST_VAR'" should contain "first"
-    When I set env variable "ARUBA_TEST_VAR" to "second"
+    When I set the environment variable "ARUBA_TEST_VAR" to "second"
     And I run `bash -c 'printf $ARUBA_TEST_VAR'`
     Then the output from "bash -c 'printf $ARUBA_TEST_VAR'" should contain "second"
