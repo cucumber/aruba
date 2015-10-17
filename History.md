@@ -1,13 +1,27 @@
 # Latest Release
 
+## [v0.10.0.pre](https://github.com/cucumber/aruba/compare/v0.9.0...v0.10.0)
+
+* Add some new steps to make writing documentation easier using "cucumber",
+  "rspec", "minitest" together with "aruba" - see [Feature](features/getting_started/supported_testing_frameworks.feature)
+  for some examples
+* Write output of commands directly to disk if SpawnProcess is used (see https://github.com/cucumber/aruba/commit/85d74fcca4fff4e753776925d8b003cddaa8041d)
+* Refactored API of cucumber steps to reduce the need for more methods and make
+  it easier for users to write their own steps (issue #306)
+* Added `aruba init` to the cli command to setup environment for aruba (issue
+  #308)
+* Added new method `delete_environment_variable` to remove environment variable
+* Added work around because of method name conflict between Capybara and RSpec
+  (https://github.com/cucumber/aruba/commit/1939c4049d5195ffdd967485f50119bdd86e98a0)
+
+# Old releases
+
 ## [v0.9.0](https://github.com/cucumber/aruba/compare/v0.9.0.pre2...v0.9.0)
 
 * Fix feature test
 * Fix ordering in console
 * Fix bug in console handling SIGINT
 * Deprecated Aruba/Reporting before we remove it
-
-# Old releases
 
 ## [v0.9.0.pre2](https://github.com/cucumber/aruba/compare/v0.9.0.pre...v0.9.0.pre2)
 
@@ -396,17 +410,6 @@
 * First release (David Chelimsky and Aslak Hellesøy)
 
 # Upcoming un-released versions
-
-## [v0.10.0](https://github.com/cucumber/aruba/compare/v0.9.0...v0.10.0)
-
-* Add some new steps to make writing documentation easier using "cucumber",
-  "rspec", "minitest" together with "aruba" - see [Feature](features/getting_started/supported_testing_frameworks.feature)
-  for some examples
-* Write output of commands directly to disk if SpawnProcess is used (see https://github.com/cucumber/aruba/commit/85d74fcca4fff4e753776925d8b003cddaa8041d)
-* Refactored API of cucumber steps to reduce the need for more methods and make
-  it easier for users to write their own steps (issue #306)
-* Added `aruba init` to the cli command to setup environment for aruba (issue
-  #308)
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
