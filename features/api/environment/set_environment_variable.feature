@@ -267,3 +267,21 @@ Feature: Set environment variable via API-method
     """
     When I run `rspec`
     Then the specs should all pass
+
+  @unsupported-on-platform-windows
+  Scenario: Mixed-Case variable
+    Given a file named "spec/environment_spec.rb" with:
+    """ruby
+    require 'spec_helper'
+
+    RSpec.describe 'Environment command', :type => :aruba do
+      before(:each) { set_environment_variable 'long_LONG_VARIABLE', '1' }
+
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
+
+      it { expect(last_command_started.output).to include 'long_LONG_VARIABLE=1' }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
