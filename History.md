@@ -1,6 +1,6 @@
 # Latest Release
 
-## [v0.10.0.pre](https://github.com/cucumber/aruba/compare/v0.9.0...v0.10.0)
+## [v0.10.0.pre](https://github.com/cucumber/aruba/compare/v0.9.0...v0.10.0.pre)
 
 * Add some new steps to make writing documentation easier using "cucumber",
   "rspec", "minitest" together with "aruba" - see [Feature](features/getting_started/supported_testing_frameworks.feature)
