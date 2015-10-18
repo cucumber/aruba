@@ -19,9 +19,9 @@ rvm:
 matrix:
   allow_failures:
   - rvm: rbx
-  - rvm: jrbuby-9.0.0.0
-  - rvm: jrbuby-9.0.0.0-20mode
-  - rvm: jrbuby-9.0.0.0-21mode
+  - rvm: jruby-9.0.0.0
+  - rvm: jruby-9.0.0.0-20mode
+  - rvm: jruby-9.0.0.0-21mode
 notifications:
   email:
   - cukes-devs@googlegroups.com
