@@ -1,6 +1,6 @@
 # Latest Release
 
-## [v0.10.0.pre](https://github.com/cucumber/aruba/compare/v0.9.0...v0.10.0)
+## [v0.10.0.pre](https://github.com/cucumber/aruba/compare/v0.9.0...v0.10.0.pre)
 
 * Add some new steps to make writing documentation easier using "cucumber",
   "rspec", "minitest" together with "aruba" - see [Feature](features/getting_started/supported_testing_frameworks.feature)
@@ -413,7 +413,9 @@
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
-* Support for rubies older than 1.9.3 is discontinued - e.g 1.8.7 and 1.9.2
+* Support for rubies with ruby-API older than 1.9.3 is discontinued - e.g 1.8.7
+  and 1.9.2
+* Support for JRuby older than 9.0.0 is discontinued - e.g `<= 1.7.x`
 * aruba requires "cucumber 2" for the feature steps. The rest of aruba should
   be usable by whatever testing framework you are using.
 * Overwriting methods for configuration is discontinued. You need to use
