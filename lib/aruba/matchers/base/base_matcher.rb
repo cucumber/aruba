@@ -1,4 +1,4 @@
-require 'rspec/support/object_formatter'
+require 'aruba/matchers/base/object_formatter'
 
 module Aruba
   module Matchers
@@ -87,7 +87,7 @@ module Aruba
       # a `description` method, returns the description; otherwise
       # returns `object.inspect`.
       def description_of(object)
-        RSpec::Support::ObjectFormatter.format(object)
+        Aruba::Matchers::ObjectFormatter.format(object)
       end
     end
   end
