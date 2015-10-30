@@ -82,7 +82,7 @@ When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$
 end
 
 When(/^I wait for (?:output|stdout) to contain:$/) do |expected|
-  Timeout.timeout(exit_timeout) do
+  Timeout.timeout(aruba.config.exit_timeout) do
     loop do
       begin
         expect(last_command_started).to have_output an_output_string_including(expected)
@@ -97,7 +97,7 @@ When(/^I wait for (?:output|stdout) to contain:$/) do |expected|
 end
 
 When(/^I wait for (?:output|stdout) to contain "([^"]*)"$/) do |expected|
-  Timeout.timeout(exit_timeout) do
+  Timeout.timeout(aruba.config.exit_timeout) do
     loop do
       begin
         expect(last_command_started).to have_output an_output_string_including(expected)
