@@ -1,11 +1,15 @@
 # Latest Release
 
+## [v0.10.0](https://github.com/cucumber/aruba/compare/v0.10.0.pre2...v0.10.0)
+
+* Fix '"#exit_timeout" is deprecated' error (issue #314)
+
+# Old releases
+
 ## [v0.10.0.pre2](https://github.com/cucumber/aruba/compare/v0.10.0.pre...v0.10.0.pre2)
 
 * Take over code from `RSpec::Support::ObjectFormatter` since `rspec-support`
   is not intended for public use.
-
-# Old releases
 
 ## [v0.10.0.pre](https://github.com/cucumber/aruba/compare/v0.9.0...v0.10.0)
 
