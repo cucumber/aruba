@@ -1,10 +1,14 @@
 # Latest Release
 
+## [v0.10.1](https://github.com/cucumber/aruba/compare/v0.10.0...v0.10.1)
+
+* Merged remove steps for file and directory from 4 into 2 step definitions
+
+# Old releases
+
 ## [v0.10.0](https://github.com/cucumber/aruba/compare/v0.10.0.pre2...v0.10.0)
 
 * Fix '"#exit_timeout" is deprecated' error (issue #314)
-
-# Old releases
 
 ## [v0.10.0.pre2](https://github.com/cucumber/aruba/compare/v0.10.0.pre...v0.10.0.pre2)
 
@@ -420,10 +424,6 @@
 * First release (David Chelimsky and Aslak Hellesøy)
 
 # Upcoming un-released versions
-
-## [v0.10.1](https://github.com/cucumber/aruba/compare/v0.10.0...v0.10.1)
-
-* Merged remove steps for file and directory from 4 into 2 step definitions
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
