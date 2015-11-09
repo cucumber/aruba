@@ -66,11 +66,11 @@ When(/^I append to "([^"]*)" with "([^"]*)"$/) do |file_name, file_content|
   append_to_file(file_name, file_content)
 end
 
-When(/^I remove (?:a|the) (file|directory)(?: named)? "([^"]*)"$/) do |name|
+When(/^I remove (?:a|the) (?:file|directory)(?: named)? "([^"]*)"$/) do |name|
   remove(name)
 end
 
-Given(/^(?:a|the) (file|directory)(?: named)? "([^"]*)" does not exist$/) do |name|
+Given(/^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" does not exist$/) do |name|
   remove(name, :force => true)
 end
 
