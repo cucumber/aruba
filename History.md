@@ -421,6 +421,10 @@
 
 # Upcoming un-released versions
 
+## [v0.10.1](https://github.com/cucumber/aruba/compare/v0.10.0...v0.10.1)
+
+* Merged remove steps for file and directory from 4 into 2 step definitions
+
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
 * Support for rubies older than 1.9.3 is discontinued - e.g 1.8.7 and 1.9.2

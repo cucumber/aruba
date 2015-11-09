@@ -50,10 +50,6 @@ Given(/^(?:an|the) empty file(?: named)? "([^"]*)" with mode "([^"]*)"$/) do |fi
   chmod(file_mode, file_name)
 end
 
-Given(/^(?:a|the) directory(?: named)? "([^"]*)" does not exist$/) do |directory_name|
-  remove(directory_name, :force => true)
-end
-
 When(/^I write to "([^"]*)" with:$/) do |file_name, file_content|
   write_file(file_name, file_content)
 end
@@ -70,16 +66,12 @@ When(/^I append to "([^"]*)" with "([^"]*)"$/) do |file_name, file_content|
   append_to_file(file_name, file_content)
 end
 
-When(/^I remove (?:a|the) file(?: named)? "([^"]*)"$/) do |file_name|
-  remove(file_name)
+When(/^I remove (?:a|the) (file|directory)(?: named)? "([^"]*)"$/) do |name|
+  remove(name)
 end
 
-Given(/^(?:a|the) file(?: named)? "([^"]*)" does not exist$/) do |file_name|
-  remove(file_name, :force => true)
-end
-
-When(/^I remove (?:a|the) directory(?: named)? "(.*?)"$/) do |directory_name|
-  remove(directory_name)
+Given(/^(?:a|the) (file|directory)(?: named)? "([^"]*)" does not exist$/) do |name|
+  remove(name, :force => true)
 end
 
 When(/^I cd to "([^"]*)"$/) do |dir|
