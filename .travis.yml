@@ -24,9 +24,10 @@ matrix:
   - rvm: jruby-9.0.0.0-21mode
 notifications:
   email:
-  - cukes-devs@googlegroups.com
-  irc:
-  - irc.freenode.org#cucumber
+    - cukes-devs@googlegroups.com
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/d4d9080e2a8c4910f609
 env:
   global:
    - secure: l8uznA5K4K9mZ1krmP3lTMD8WcJ32qGxFOR3jubKHcOBSLB4xSzU2aIqjyJdO+rLzebkwamhJc8pGSIWOUDQYvFiX7splK+uEkbBJ5huAhXtLF4Qgl86bCWbEXYzN7rvn0DQfpJAovyFMNRMnfo70XhwqWzFsaYa7Z0YbqYsJE4=
