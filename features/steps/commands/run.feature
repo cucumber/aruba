@@ -19,3 +19,4 @@ Feature: Run commands
     """
     When I run `cucumber`
     Then the features should all pass
+

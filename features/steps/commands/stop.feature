@@ -1,0 +1,237 @@
+Feature: Stop commands
+
+  After you've started a command, you might want to stop a command. To do that
+  you've got multiple possibilities.
+
+  Background:
+    Given I use a fixture named "cli-app"
+
+  Scenario: Terminate last command started
+
+    Terminating a command will send `SIGTERM` to the command.
+
+    Given an executable named "bin/cli1" with:
+    """bash
+    #!/bin/bash
+
+    function term {
+      echo Command1
+      exit 1
+    }
+
+    trap term TERM
+    while [ true ]; do sleep 1; done
+    """
+    And an executable named "bin/cli2" with:
+    """bash
+    #!/bin/bash
+
+    function term {
+      echo Command2
+      exit 0
+    }
+
+    trap term TERM
+    while [ true ]; do sleep 1; done
+    exit 2
+    """
+    And a file named "features/stop.feature" with:
+    """
+    Feature: Run it
+      Background:
+        Given the default aruba exit timeout is 1 second
+
+      Scenario: Run command
+        Given I run `cli1`
+        And I run `cli2`
+        When I terminate the command started last
+        Then the exit status should be 0
+        And the output should contain:
+        \"\"\"
+        Command2
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Stop last command started
+
+    Stopping a command will wait n seconds for the command to stop and then
+    send `SIGTERM` to the command. Normally "n" is defined by the default exit
+    timeout of aruba.
+
+    Given an executable named "bin/cli1" with:
+    """bash
+    #!/bin/bash
+
+    function term {
+      echo Command1
+      exit 1
+    }
+
+    trap term TERM
+    while [ true ]; do sleep 1; done
+    """
+    And an executable named "bin/cli2" with:
+    """bash
+    #!/bin/bash
+
+    function term {
+      echo Command2
+      exit 0
+    }
+
+    trap term TERM
+    while [ true ]; do sleep 1; done
+    exit 2
+    """
+    And a file named "features/stop.feature" with:
+    """
+    Feature: Run it
+      Background:
+        Given the default aruba exit timeout is 1 second
+
+      Scenario: Run command
+        Given I run `cli1`
+        And I run `cli2`
+        When I stop the command started last
+        Then the exit status should be 0
+        And the output should contain:
+        \"\"\"
+        Command2
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Terminate command given by commandline
+
+    Terminating a command will send `SIGTERM` to the command.
+
+    Given an executable named "bin/cli1" with:
+    """bash
+    #!/bin/bash
+
+    function term {
+      echo Command1
+      exit 1
+    }
+
+    trap term TERM
+    while [ true ]; do sleep 1; done
+    """
+    And an executable named "bin/cli2" with:
+    """bash
+    #!/bin/bash
+
+    function term {
+      echo Command2
+      exit 0
+    }
+
+    trap term TERM
+    while [ true ]; do sleep 1; done
+    exit 2
+    """
+    And a file named "features/stop.feature" with:
+    """
+    Feature: Run it
+      Background:
+        Given the default aruba exit timeout is 1 second
+
+      Scenario: Run command
+        Given I run `cli1`
+        And I run `cli2`
+        When I terminate the command "cli1"
+        Then the exit status should be 0
+        And the output should contain:
+        \"\"\"
+        Command2
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Stop last command given by commandline
+
+    Stopping a command will wait n seconds for the command to stop and then
+    send `SIGTERM` to the command. Normally "n" is defined by the default exit
+    timeout of aruba.
+
+    Given an executable named "bin/cli1" with:
+    """bash
+    #!/bin/bash
+
+    function term {
+      echo Command1
+      exit 1
+    }
+
+    trap term TERM
+    while [ true ]; do sleep 1; done
+    """
+    And an executable named "bin/cli2" with:
+    """bash
+    #!/bin/bash
+
+    function term {
+      echo Command2
+      exit 0
+    }
+
+    trap term TERM
+    while [ true ]; do sleep 1; done
+    exit 2
+    """
+    And a file named "features/stop.feature" with:
+    """
+    Feature: Run it
+      Background:
+        Given the default aruba exit timeout is 1 second
+
+      Scenario: Run command
+        Given I run `cli1`
+        And I run `cli2`
+        When I stop the command "cli1"
+        Then the exit status should be 0
+        And the output should contain:
+        \"\"\"
+        Command2
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Stop command with configured signal
+
+    You can define a default signal which is used to stop all commands.
+
+    Given an executable named "bin/cli" with:
+    """bash
+    #!/bin/bash
+    function usr1 {
+      echo "Exit..."
+      exit 0
+    }
+
+    function term {
+      echo "No! No exit here. Try USR1. I stop the command with exit 1."
+      exit 1
+    }
+
+    trap usr1 USR1
+    trap term TERM
+    while [ true ]; do sleep 1; done
+    """
+    And a file named "features/run.feature" with:
+    """
+    Feature: Run it
+      Scenario: Run command
+        Given the default aruba stop signal is "USR1"
+        And the default aruba exit timeout is 1 second
+        When I run `cli`
+        Then the exit status should be 0
+    """
+    When I run `cucumber`
+    Then the features should all pass
+

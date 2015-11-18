@@ -49,6 +49,26 @@ When(/^I pipe in (?:a|the) file(?: named)? "([^"]*)"$/) do |file|
   close_input
 end
 
+When(/^I stop the command (?:"([^"]*)"|(?:started last))$/) do |command|
+  if command
+    cmd = all_commands.find { |c| c.commandline == command }
+    fail ArgumentError, %(No command "#{command}" found) if cmd.nil?
+    cmd.stop(announcer)
+  else
+    last_command_started.stop(announcer)
+  end
+end
+
+When(/^I terminate the command (?:"([^"]*)"|(?:started last))$/) do |command|
+  if command
+    cmd = all_commands.find { |c| c.commandline == command }
+    fail ArgumentError, %(No command "#{command}" found) if cmd.nil?
+    cmd.terminate
+  else
+    last_command_started.terminate
+  end
+end
+
 When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$/) do |channel, expected|
   fail %(Invalid output channel "#{channel}" chosen. Please choose one of "output, stdout or stderr") unless %w(output stdout stderr).include? channel
 
