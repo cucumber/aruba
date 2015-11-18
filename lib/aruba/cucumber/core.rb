@@ -20,11 +20,11 @@ Given(/The default aruba timeout is (\d+) seconds/) do |seconds|
   aruba.config.exit_timeout = seconds.to_i
 end
 
-Given(/the default aruba io wait timeout is (\d+) seconds/) do |seconds|
+Given(/the default aruba io wait timeout is (\d+) seconds?/) do |seconds|
   aruba.config.io_wait_timeout = seconds.to_i
 end
 
-Given(/the default aruba exit timeout is (\d+) seconds/) do |seconds|
+Given(/the default aruba exit timeout is (\d+) seconds?/) do |seconds|
   aruba.config.exit_timeout = seconds.to_i
 end
 
