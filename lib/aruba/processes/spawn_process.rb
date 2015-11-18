@@ -53,8 +53,8 @@ module Aruba
         cmd = Aruba.platform.command_string.new(cmd)
 
         @process   = ChildProcess.build(*[cmd.to_a, arguments].flatten)
-        @stdout_file = Tempfile.new("aruba-stdout-")
-        @stderr_file = Tempfile.new("aruba-stderr-")
+        @stdout_file = Tempfile.new('aruba-stdout-')
+        @stderr_file = Tempfile.new('aruba-stderr-')
 
         @stdout_file.sync = true
         @stderr_file.sync = true
@@ -175,9 +175,10 @@ module Aruba
           @timed_out = true
 
           if @stop_signal
-            Process.kill @stop_signal, pid
-            # set the exit status
-            @process.wait
+            # send stop signal ...
+            send_signal @stop_signal
+            # ... and set the exit status
+            wait
           else
             @process.stop
           end
@@ -198,11 +199,19 @@ module Aruba
       end
       # rubocop:enable Metrics/MethodLength
 
+      # Wait for command to finish
+      def wait
+        return if @process.nil?
+
+        @process.wait
+      end
+
+      # Terminate command
       def terminate
         return unless @process
 
         if @stop_signal
-          Process.kill @stop_signal, pid
+          send_signal @stop_signal
         else
           @process.stop
         end
@@ -215,6 +224,14 @@ module Aruba
       # This is the PID of the spawned process.
       def pid
         @process.pid
+      end
+
+      # Send command a signal
+      #
+      # @param [String] signal
+      #   The signal, i.e. 'TERM'
+      def send_signal(signal)
+        Process.kill signal, pid
       end
 
       private

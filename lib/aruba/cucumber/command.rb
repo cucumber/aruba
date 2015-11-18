@@ -35,6 +35,11 @@ When(/^I run `([^`]*)` interactively$/)do |cmd|
   @interactive = run(cmd)
 end
 
+# Merge interactive and background after refactoring with event queue
+When(/^I run `([^`]*)` in background$/)do |cmd|
+  run(sanitize_text(cmd))
+end
+
 When(/^I type "([^"]*)"$/) do |input|
   type(unescape_text(input))
 end
@@ -59,13 +64,24 @@ When(/^I stop the command (?:"([^"]*)"|(?:started last))$/) do |command|
   end
 end
 
-When(/^I terminate the command (?:"([^"]*)"|(?:started last))$/) do |command|
+When(/^I (terminate|stop) the command (?:"([^"]*)"|(?:started last))$/) do |signal, command|
+  sleep 10
+
   if command
     cmd = all_commands.find { |c| c.commandline == command }
     fail ArgumentError, %(No command "#{command}" found) if cmd.nil?
-    cmd.terminate
+
+    if signal == 'terminate'
+      cmd.terminate
+    else
+      cmd.stop(announcer)
+    end
   else
-    last_command_started.terminate
+    if signal == 'terminate'
+      last_command_started.terminate
+    else
+      last_command_started.stop(announcer)
+    end
   end
 end
 

@@ -1,0 +1,34 @@
+Feature: Send running command a signal
+
+  You can send a running command a signal using
+  `last_command_started#send_signal`. This is only supported with
+  `aruba.config.command_launcher = :spawn` (default).
+
+  Background:
+    Given I use a fixture named "cli-app"
+
+  Scenario: Existing executable
+    Given an executable named "bin/cli" with:
+    """ruby
+    #!/usr/bin/env ruby
+
+    Signal.trap 'USR1' do
+      $stderr.puts 'Exit...'
+    end
+
+    loop { sleep 1 }
+    """
+    And a file named "spec/run_spec.rb" with:
+    """ruby
+    require 'spec_helper'
+
+    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3 do
+      before(:each) { run('cli') }
+      before(:each) { last_command_started.send_signal 'USR1' }
+      before(:each) { last_command_started.send_signal 'USR1' }
+      before(:each) { last_command_started.send_signal 'USR1' }
+      it { expect(last_command_started).to have_output /Exit/ }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass

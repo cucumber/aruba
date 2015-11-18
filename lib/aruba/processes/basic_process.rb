@@ -53,6 +53,14 @@ module Aruba
         NotImplementedError
       end
 
+      def send_signal(*)
+        NotImplementedError
+      end
+
+      def wait
+        NotImplementedError
+      end
+
       # Was process already stopped
       def stopped?
         @stopped == true
