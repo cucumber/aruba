@@ -33,7 +33,7 @@ module Aruba
       # @private
       attr_reader :main_class
 
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil)
         @cmd               = cmd
         @argv              = arguments
         @stdin             = StringIO.new
@@ -89,6 +89,13 @@ module Aruba
 
       def terminate
         stop
+      end
+
+      # Output pid of process
+      #
+      # This is the PID of the ruby process! So be careful
+      def pid
+        $PROCESS_ID
       end
     end
   end

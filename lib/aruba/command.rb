@@ -18,7 +18,8 @@ module Aruba
         opts.fetch(:io_wait_timeout),
         opts.fetch(:working_directory),
         opts.fetch(:environment),
-        opts.fetch(:main_class)
+        opts.fetch(:main_class),
+        opts.fetch(:stop_signal)
       )
     rescue KeyError => e
       raise ArgumentError, e.message

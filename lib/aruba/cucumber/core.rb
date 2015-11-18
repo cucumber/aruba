@@ -27,3 +27,7 @@ end
 Given(/the default aruba exit timeout is (\d+) seconds/) do |seconds|
   aruba.config.exit_timeout = seconds.to_i
 end
+
+Given(/the default aruba stop signal is "([^"]*)"/) do |signal|
+  aruba.config.stop_signal = signal
+end

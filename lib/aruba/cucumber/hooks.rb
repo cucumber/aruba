@@ -65,6 +65,10 @@ Before('@announce-directory') do
   announcer.activate :directory
 end
 
+Before('@announce-stop-signal') do
+  announcer.activate :stop_signal
+end
+
 Before('@announce-env') do
   Aruba.platform.deprecated 'The use of "@announce-env"-hook is deprecated. Please use "@announce-modified-environment"'
 
@@ -98,6 +102,7 @@ Before('@announce') do
   announcer.activate :full_environment
   announcer.activate :environment
   announcer.activate :timeout
+  announcer.activate :stop_signal
 end
 
 Before('@debug') do

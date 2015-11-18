@@ -84,6 +84,7 @@ module Aruba
       output_format :modified_environment, proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
       output_format :full_environment, proc { |h| Aruba.platform.simple_table(h) }
       output_format :timeout, '# %s-timeout: %s seconds'
+      output_format :stop_signal, proc { |p, s| format('Command will be stopped with `kill -%s %s`', s, p) }
       output_format :stderr, "<<-STDERR\n%s\nSTDERR"
       output_format :stdout, "<<-STDOUT\n%s\nSTDOUT"
 

@@ -27,12 +27,12 @@ module Aruba
       #
       # @params [String] working_directory
       #   The directory where the command will be executed
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil)
         super
 
         @process      = nil
-        @stdout_cache       = nil
-        @stderr_cache       = nil
+        @stdout_cache = nil
+        @stderr_cache = nil
       end
 
       # Run the command
@@ -163,6 +163,7 @@ module Aruba
         end
       end
 
+      # rubocop:disable Metrics/MethodLength
       def stop(reader)
         @stopped = true
 
@@ -172,7 +173,14 @@ module Aruba
           @process.poll_for_exit(@exit_timeout) unless @process.exited?
         rescue ChildProcess::TimeoutError
           @timed_out = true
-          @process.stop
+
+          if @stop_signal
+            Process.kill @stop_signal, pid
+            # set the exit status
+            @process.wait
+          else
+            @process.stop
+          end
         end
 
         @exit_status = @process.exit_code
@@ -188,12 +196,25 @@ module Aruba
 
         @exit_status
       end
+      # rubocop:enable Metrics/MethodLength
 
       def terminate
         return unless @process
 
-        @process.stop
+        if @stop_signal
+          Process.kill @stop_signal, pid
+        else
+          @process.stop
+        end
+
         stop nil
+      end
+
+      # Output pid of process
+      #
+      # This is the PID of the spawned process.
+      def pid
+        @process.pid
       end
 
       private

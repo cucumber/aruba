@@ -122,13 +122,18 @@ module Aruba
       # @param [Integer] timeout
       #   If the timeout is reached the command will be killed
       #
+      # @param [String] stop_signal
+      #   Use signal to stop command (Private)
+      #
       # @yield [SpawnProcess]
       #   Run block with process
       #
       # rubocop:disable Metrics/MethodLength
-      def run(cmd, exit_timeout = nil, io_wait_timeout = nil)
+      # rubocop:disable Metrics/CyclomaticComplexity
+      def run(cmd, exit_timeout = nil, io_wait_timeout = nil, stop_signal = nil)
         exit_timeout ||= aruba.config.exit_timeout
         io_wait_timeout ||= aruba.config.io_wait_timeout
+        stop_signal ||= aruba.config.stop_signal
 
         @commands ||= []
         @commands << cmd
@@ -169,7 +174,8 @@ module Aruba
           :io_wait_timeout   => io_wait_timeout,
           :working_directory => working_directory,
           :environment       => environment,
-          :main_class        => main_class
+          :main_class        => main_class,
+          :stop_signal       => stop_signal
         )
 
         if aruba.config.before? :cmd
@@ -184,10 +190,13 @@ module Aruba
         process_monitor.register_process(cmd, command)
         command.start
 
+        announcer.announce(:stop_signal, command.pid, stop_signal) if stop_signal
+
         aruba.config.after(:command, self, command)
 
         block_given? ? yield(command) : command
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
       # rubocop:enable Metrics/MethodLength
 
       # Run a command with aruba

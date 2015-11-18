@@ -1,14 +1,23 @@
 # Latest Release
 
+## [v0.11.0](https://github.com/cucumber/aruba/compare/v0.10.2...v0.11.0)
+
+* Set stop signal which should be used to stop a process after a timeout or
+  used to terminate a process. This can be used to stop processes running
+  docker + "systemd". If you send a systemd-enable container SIGINT it will be
+  stopped.
+
+# Old releases
+
 ## [v0.10.2](https://github.com/cucumber/aruba/compare/v0.10.1...v0.10.2)
 
 * Fixed problem in regex after merge of step definitions
+
 
 ## [v0.10.1](https://github.com/cucumber/aruba/compare/v0.10.0...v0.10.1)
 
 * Merged remove steps for file and directory from 4 into 2 step definitions
 
-# Old releases
 
 ## [v0.10.0](https://github.com/cucumber/aruba/compare/v0.10.0.pre2...v0.10.0)
 

@@ -6,12 +6,13 @@ module Aruba
     class BasicProcess
       attr_reader :exit_status, :environment
 
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil)
         @cmd               = cmd
         @working_directory = working_directory
         @environment       = environment
         @main_class        = main_class
         @exit_status       = nil
+        @stop_signal       = stop_signal
 
         @exit_timeout = exit_timeout
         @io_wait      = io_wait
@@ -20,6 +21,11 @@ module Aruba
       # Return command line
       def commandline
         @cmd
+      end
+
+      # Output pid of process
+      def pid
+        'No implemented'
       end
 
       # Output stderr and stdout
