@@ -461,6 +461,7 @@ Feature: Run commands in ruby process
     Feature: Run a command in process
       @in-process
       Scenario: Run command
+        Given the default aruba exit timeout is 2 seconds
         When I run `reverse.rb do_it` interactively
         When I type "hello"
         Then the output should contain:
@@ -468,6 +469,5 @@ Feature: Run commands in ruby process
         hello
         \"\"\"
     """
-    And the default aruba exit timeout is 2 seconds
     When I run `cucumber`
     Then the features should not pass
