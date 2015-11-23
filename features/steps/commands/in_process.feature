@@ -298,3 +298,133 @@ Feature: Run commands in ruby process
     """
     When I run `cucumber`
     Then the features should all pass
+
+  Scenario: Use $stderr, $stdout and $stdin to access IO
+
+    May may need/want to use the default `STDERR`, `STDOUT`, `STDIN`-constants
+    to access IO from within your script. Unfortunately this does not work with
+    the `:in_process`-command launcher. You need to use `$stderr`, `$stdout`
+    and `$stdin` instead.
+
+    For this example I chose `thor` to parse ARGV. Its `.start`-method accepts
+    an "Array" as ARGV and a "Hash" for some other options &ndash; `.start <ARGV>, <OPTIONS>`
+
+    Given a file named "lib/cli/app/runner.rb" with:
+    """
+    require 'cli/app/cli_parser'
+
+    module Cli
+      module App
+        class Runner
+          def initialize(argv, stdin, stdout, stderr, kernel)
+            @argv   = argv
+            $kernel = kernel
+            $stdin  = stdin
+            $stdout = stdout
+            $stderr = stderr
+          end
+
+          def execute!
+            Cli::App::CliParser.start @argv
+          end
+        end
+      end
+    end
+    """
+    And a file named "lib/cli/app/cli_parser.rb" with:
+    """
+    require 'thor'
+
+    module Cli
+      module App
+        class CliParser < Thor
+          def self.exit_on_failure?
+            true
+          end
+
+          desc 'do_it', 'Reverse input'
+          def do_it(*args)
+            $stderr.puts 'Hey ya, Hey ya, check, check, check'
+            $stdout.puts(args.flatten.map(&:reverse).join(' '))
+          end
+        end
+      end
+    end
+    """
+    And a file named "features/in_process.feature" with:
+    """
+    Feature: Run a command in process
+      @in-process
+      Scenario: Run command
+        When I run `reverse.rb do_it Hello World`
+        Then the stdout should contain:
+        \"\"\"
+        olleH dlroW
+        \"\"\"
+        And the stderr should contain:
+        \"\"\"
+        Hey ya, Hey ya, check, check, check
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Use $kernel to use Kernel to capture exit code
+
+    Ruby's `Kernel`-module provides some helper methods like `exit`.
+    Unfortunately running `#exit` with `:in_process` would make the whole ruby
+    interpreter exit. So you might want to use our `FakeKernel`-module module
+    instead which overwrites `#exit`. This will also make our tests for
+    checking the exit code work. This example also uses the `thor`-library.
+
+    Given a file named "lib/cli/app/runner.rb" with:
+    """
+    require 'cli/app/cli_parser'
+
+    module Cli
+      module App
+        class Runner
+          def initialize(argv, stdin, stdout, stderr, kernel)
+            @argv   = argv
+            $kernel = kernel
+            $stdin  = stdin
+            $stdout = stdout
+            $stderr = stderr
+          end
+
+          def execute!
+            Cli::App::CliParser.start @argv
+          end
+        end
+      end
+    end
+    """
+    And a file named "lib/cli/app/cli_parser.rb" with:
+    """
+    require 'thor'
+
+    module Cli
+      module App
+        class CliParser < Thor
+          def self.exit_on_failure?
+            true
+          end
+
+          desc 'do_it', 'Reverse input'
+          def do_it(*args)
+            $kernel.exit 5
+          end
+        end
+      end
+    end
+    """
+    And a file named "features/in_process.feature" with:
+    """
+    Feature: Run a command in process
+      @in-process
+      Scenario: Run command
+        When I run `reverse.rb do_it`
+        Then the exit status should be 5
+    """
+    When I run `cucumber`
+    Then the features should all pass
