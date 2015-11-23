@@ -12,8 +12,11 @@ Feature: Send running command a signal
     """ruby
     #!/usr/bin/env ruby
 
+    $stderr.puts 'Now I run the code'
+
     Signal.trap 'USR1' do
       $stderr.puts 'Exit...'
+      exit 0
     end
 
     loop { sleep 1 }
