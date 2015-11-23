@@ -34,6 +34,8 @@ Feature: Run commands in ruby process
   and not during "loadtime", when the `ruby`-interpreter reads in you class
   files.
 
+  **WARNING**: Using `:in_process` interactively is not supported
+
   Background:
     Given I use a fixture named "cli-app"
     And a file named "features/support/cli_app.rb" with:
@@ -428,3 +430,44 @@ Feature: Run commands in ruby process
     """
     When I run `cucumber`
     Then the features should all pass
+
+  Scenario: Using `:in_process` interactively is not supported
+
+    Reading from STDIN blocks ruby from going on. But writing to STDIN - e.g.
+    type some letters on keyboard - can only appear later, but this point is
+    never reached, because ruby is blocked.
+
+    Given a file named "lib/cli/app/runner.rb" with:
+    """
+    module Cli
+      module App
+        class Runner
+          def initialize(argv, stdin, stdout, stderr, kernel)
+            @stdin  = stdin
+          end
+
+          def execute!
+            while res = @stdin.gets.to_s.chomp
+              break if res == 'quit'
+              puts res.reverse
+            end
+          end
+        end
+      end
+    end
+    """
+    And a file named "features/in_process.feature" with:
+    """
+    Feature: Run a command in process
+      @in-process
+      Scenario: Run command
+        When I run `reverse.rb do_it` interactively
+        When I type "hello"
+        Then the output should contain:
+        \"\"\"
+        hello
+        \"\"\"
+    """
+    And the default aruba exit timeout is 2 seconds
+    When I run `cucumber`
+    Then the features should not pass
