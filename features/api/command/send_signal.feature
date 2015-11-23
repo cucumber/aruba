@@ -22,10 +22,8 @@ Feature: Send running command a signal
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3 do
+    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3, :startup_wait_time => 2 do
       before(:each) { run('cli') }
-      before(:each) { last_command_started.send_signal 'USR1' }
-      before(:each) { last_command_started.send_signal 'USR1' }
       before(:each) { last_command_started.send_signal 'USR1' }
       it { expect(last_command_started).to have_output /Exit/ }
     end

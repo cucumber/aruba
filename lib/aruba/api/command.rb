@@ -130,10 +130,11 @@ module Aruba
       #
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
-      def run(cmd, exit_timeout = nil, io_wait_timeout = nil, stop_signal = nil)
+      def run(cmd, exit_timeout = nil, io_wait_timeout = nil, stop_signal = nil, startup_wait_time = nil)
         exit_timeout ||= aruba.config.exit_timeout
         io_wait_timeout ||= aruba.config.io_wait_timeout
         stop_signal ||= aruba.config.stop_signal
+        startup_wait_time ||= aruba.config.startup_wait_time
 
         @commands ||= []
         @commands << cmd
@@ -175,7 +176,8 @@ module Aruba
           :working_directory => working_directory,
           :environment       => environment,
           :main_class        => main_class,
-          :stop_signal       => stop_signal
+          :stop_signal       => stop_signal,
+          :startup_wait_time => startup_wait_time
         )
 
         if aruba.config.before? :cmd

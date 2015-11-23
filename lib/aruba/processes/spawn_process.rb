@@ -27,7 +27,7 @@ module Aruba
       #
       # @params [String] working_directory
       #   The directory where the command will be executed
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
         super
 
         @process      = nil
@@ -75,6 +75,7 @@ module Aruba
         begin
           Aruba.platform.with_environment(environment) do
             @process.start
+            sleep startup_wait_time
           end
         rescue ChildProcess::LaunchError => e
           raise LaunchError, "It tried to start #{cmd}. " + e.message

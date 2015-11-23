@@ -4,15 +4,16 @@ require 'shellwords'
 module Aruba
   module Processes
     class BasicProcess
-      attr_reader :exit_status, :environment
+      attr_reader :exit_status, :environment, :startup_wait_time
 
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
         @cmd               = cmd
         @working_directory = working_directory
         @environment       = environment
         @main_class        = main_class
         @exit_status       = nil
         @stop_signal       = stop_signal
+        @startup_wait_time = startup_wait_time
 
         @exit_timeout = exit_timeout
         @io_wait      = io_wait
