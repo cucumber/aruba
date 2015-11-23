@@ -139,11 +139,18 @@ module Aruba
         @commands ||= []
         @commands << cmd
 
+        environment       = aruba.environment.to_h
+        working_directory = expand_path('.')
+
+        announcer.announce(:full_environment, environment)
+        announcer.announce(:timeout, 'exit', exit_timeout)
+        announcer.announce(:timeout, 'io wait', io_wait_timeout)
+        announcer.announce(:timeout, 'startup wait time', startup_wait_time)
+
+        announcer.announce(:directory, working_directory)
         announcer.announce(:command, cmd)
 
         cmd               = Aruba.platform.detect_ruby(cmd)
-        environment       = aruba.environment.to_h
-        working_directory = expand_path('.')
 
         mode = if Aruba.process
                  # rubocop:disable Metrics/LineLength
@@ -162,11 +169,6 @@ module Aruba
                      else
                        aruba.config.main_class
                      end
-
-        announcer.announce(:directory, working_directory)
-        announcer.announce(:timeout, 'exit', exit_timeout)
-        announcer.announce(:timeout, 'io wait', io_wait_timeout)
-        announcer.announce(:full_environment, environment)
 
         command = Command.new(
           cmd,
