@@ -15,10 +15,6 @@ group :debug do
     gem 'pry-debugger', '~> 0.2.3'
   end
 
-  if RUBY_VERSION >= '1.9.3' && !RUBY_PLATFORM.include?('java')
-    gem 'pry-stack_explorer', '~> 0.4.9'
-  end
-
   gem 'pry-doc', '~> 0.8.0'
 end
 
