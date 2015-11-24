@@ -389,7 +389,7 @@ Given(/^the (?:default )?aruba stop signal is "([^"]*)"$/) do |signal|
   aruba.config.stop_signal = signal
 end
 
-Given(/^I wait (\d+) seconds? for a command to start up$/) do |seconds|
+Given(/^I wait (\d+) seconds? for (?:a|the) command to start up$/) do |seconds|
   aruba.config.startup_wait_time = seconds.to_i
 end
 
