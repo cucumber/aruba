@@ -441,6 +441,7 @@
   startup when you run in background and want to sent it a signal.
 * Replace `<variable>` in commandline, e.g. `<pid-last-command-started>`
   [experimental]
+* Added announce formatter for time spans, e.g. `startup_wait_time`
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
