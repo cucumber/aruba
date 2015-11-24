@@ -27,7 +27,7 @@ Feature: Send a signal to command
     Feature: Run it
       Scenario: Run command
         Given the default aruba exit timeout is 5 seconds
-        And I wait 2 seconds for a command to start up
+        And I wait 5 seconds for a command to start up
         When I run `cli` in background
         And I send the signal "HUP" to the command started last
         Then the exit status should be 0
@@ -56,7 +56,7 @@ Feature: Send a signal to command
     Feature: Run it
       Scenario: Run command
         Given the default aruba exit timeout is 5 seconds
-        And I wait 2 seconds for a command to start up
+        And I wait 5 seconds for a command to start up
         When I run `cli` in background
         And I send the signal "HUP" to the command "cli"
         Then the exit status should be 0
@@ -92,7 +92,7 @@ Feature: Send a signal to command
     Feature: Run it
       Scenario: Run command
         Given the default aruba exit timeout is 5 seconds
-        And I wait 2 seconds for a command to start up
+        And I wait 5 seconds for a command to start up
         When I run `cli` in background
         And I run `kill -HUP <pid-last-command-started>`
         Then the output should contain:

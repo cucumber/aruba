@@ -39,12 +39,13 @@ Feature: Stop commands
     """
     Feature: Run it
       Background:
-        Given the default aruba exit timeout is 5 second
+        Given the default aruba exit timeout is 1 second
 
       Scenario: Run command
-        Given I run `cli1` in background
+        Given I wait 5 seconds for a command to start up
+        When I run `cli1` in background
         And I run `cli2` in background
-        When I terminate the command started last
+        And I terminate the command started last
         Then the exit status should be 0
         And the output should contain:
         \"\"\"
@@ -92,9 +93,10 @@ Feature: Stop commands
         Given the default aruba exit timeout is 5 seconds
 
       Scenario: Run command
-        Given I run `cli1` in background
+        Given I wait 5 seconds for a command to start up
+        When I run `cli1` in background
         And I run `cli2` in background
-        When I stop the command started last
+        And I stop the command started last
         Then the exit status should be 0
         And the output should contain:
         \"\"\"
@@ -140,9 +142,10 @@ Feature: Stop commands
         Given the default aruba exit timeout is 5 seconds
 
       Scenario: Run command
-        Given I run `cli1` in background
-        And I run `cli2` in background
-        When I terminate the command "cli1"
+        Given I wait 5 seconds for a command to start up
+        When I run `cli1` in background
+        When I run `cli2` in background
+        And I terminate the command "cli1"
         Then the exit status should be 0
         And the output should contain:
         \"\"\"
@@ -190,7 +193,8 @@ Feature: Stop commands
         Given the default aruba exit timeout is 5 seconds
 
       Scenario: Run command
-        Given I run `cli1` in background
+        Given I wait 5 seconds for a command to start up
+        When I run `cli1` in background
         And I run `cli2` in background
         When I stop the command "cli1"
         Then the exit status should be 0

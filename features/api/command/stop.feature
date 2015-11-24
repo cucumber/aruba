@@ -8,33 +8,6 @@ Feature: Stop command
   Background:
     Given I use a fixture named "cli-app"
 
-  Scenario: Stop all commands
-    Given an executable named "bin/cli" with:
-    """
-    #!/bin/bash
-    function term {
-      exit 0
-    }
-
-    trap term TERM
-
-    while [ true ]; do sleep 1; done
-    """
-    And a file named "spec/sanitize_spec.rb" with:
-    """
-    require 'spec_helper'
-
-    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3, :startup_wait_time => 2 do
-      before(:each) { 3.times { run('cli') } }
-
-      before(:each) { stop_all_commands }
-
-      it { expect(all_commands).to all be_successfully_executed }
-    end
-    """
-    When I run `rspec`
-    Then the specs should all pass
-
   Scenario: Stop successful command with configured signal
     Given an executable named "bin/cli" with:
     """bash
