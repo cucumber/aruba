@@ -136,6 +136,8 @@ module Aruba
         stop_signal ||= aruba.config.stop_signal
         startup_wait_time ||= aruba.config.startup_wait_time
 
+        cmd = replace_variables(cmd)
+
         @commands ||= []
         @commands << cmd
 

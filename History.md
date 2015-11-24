@@ -439,6 +439,8 @@
 * Added a configurable amount of time after a command was started -
   startup_wait_time. Otherwise you get problems when a process takes to long to
   startup when you run in background and want to sent it a signal.
+* Replace `<variable>` in commandline, e.g. `<pid-last-command-started>`
+  [experimental]
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
