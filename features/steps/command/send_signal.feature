@@ -2,8 +2,8 @@ Feature: Send a signal to command
 
   You can send a command a signal with the following steps:
 
-  - `When I send the signal "USR1" to the command started last`
-  - `When I send the signal "USR1" to the command "bin/cli"`
+  - `When I send the signal "HUP" to the command started last`
+  - `When I send the signal "HUP" to the command "bin/cli"`
 
   Or just use `kill` on compatible platforms.
 
@@ -14,12 +14,12 @@ Feature: Send a signal to command
     Given an executable named "bin/cli" with:
     """bash
     #!/usr/bin/env bash
-    function usr1 {
-      echo "Got signal USR1."
+    function hup {
+      echo "Got signal HUP."
       exit 0
     }
 
-    trap usr1 USR1
+    trap hup HUP
     while [ true ]; do sleep 1; done
     """
     And a file named "features/run.feature" with:
@@ -29,11 +29,11 @@ Feature: Send a signal to command
         Given the default aruba exit timeout is 5 seconds
         And I wait 2 seconds for a command to start up
         When I run `cli` in background
-        And I send the signal "USR1" to the command started last
+        And I send the signal "HUP" to the command started last
         Then the exit status should be 0
         And the output should contain:
         \"\"\"
-        Got signal USR1.
+        Got signal HUP.
         \"\"\"
     """
     When I run `cucumber`
@@ -43,12 +43,12 @@ Feature: Send a signal to command
     Given an executable named "bin/cli" with:
     """bash
     #!/usr/bin/env bash
-    function usr1 {
-      echo "Got signal USR1."
+    function hup {
+      echo "Got signal HUP."
       exit 0
     }
 
-    trap usr1 USR1
+    trap hup HUP
     while [ true ]; do sleep 1; done
     """
     And a file named "features/run.feature" with:
@@ -58,11 +58,11 @@ Feature: Send a signal to command
         Given the default aruba exit timeout is 5 seconds
         And I wait 2 seconds for a command to start up
         When I run `cli` in background
-        And I send the signal "USR1" to the command "cli"
+        And I send the signal "HUP" to the command "cli"
         Then the exit status should be 0
         And the output should contain:
         \"\"\"
-        Got signal USR1.
+        Got signal HUP.
         \"\"\"
     """
     When I run `cucumber`
@@ -79,12 +79,12 @@ Feature: Send a signal to command
     Given an executable named "bin/cli" with:
     """bash
     #!/usr/bin/env bash
-    function usr1 {
-      echo "Got signal USR1."
+    function hup {
+      echo "Got signal HUP."
       exit 0
     }
 
-    trap usr1 USR1
+    trap hup HUP
     while [ true ]; do sleep 1; done
     """
     And a file named "features/run.feature" with:
@@ -94,10 +94,10 @@ Feature: Send a signal to command
         Given the default aruba exit timeout is 5 seconds
         And I wait 2 seconds for a command to start up
         When I run `cli` in background
-        And I run `kill -USR1 <pid-last-command-started>`
+        And I run `kill -HUP <pid-last-command-started>`
         Then the output should contain:
         \"\"\"
-        Got signal USR1.
+        Got signal HUP.
         \"\"\"
     """
     When I run `cucumber`

@@ -209,17 +209,17 @@ Feature: Stop commands
     Given an executable named "bin/cli" with:
     """bash
     #!/bin/bash
-    function usr1 {
+    function hup {
       echo "Exit..."
       exit 0
     }
 
     function term {
-      echo "No! No exit here. Try USR1. I stop the command with exit 1."
+      echo "No! No exit here. Try HUP. I stop the command with exit 1."
       exit 1
     }
 
-    trap usr1 USR1
+    trap hup HUP
     trap term TERM
     while [ true ]; do sleep 1; done
     """
@@ -227,7 +227,7 @@ Feature: Stop commands
     """
     Feature: Run it
       Scenario: Run command
-        Given the default aruba stop signal is "USR1"
+        Given the default aruba stop signal is "HUP"
         And the default aruba exit timeout is 5 seconds
         When I run `cli`
         Then the exit status should be 0

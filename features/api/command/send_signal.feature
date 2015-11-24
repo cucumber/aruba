@@ -10,24 +10,24 @@ Feature: Send running command a signal
   Scenario: Existing executable
     Given an executable named "bin/cli" with:
     """ruby
-    #!/usr/bin/env ruby
+    #!/usr/bin/env bash
 
-    $stderr.puts 'Now I run the code'
-
-    Signal.trap 'USR1' do
-      $stderr.puts 'Exit...'
+    function hup {
+      echo 'Exit...' >&2
       exit 0
-    end
+    }
 
-    loop { sleep 1 }
+    trap hup HUP
+
+    while [ true ]; do sleep 1; done
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3, :startup_wait_time => 2 do
+    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 5, :startup_wait_time => 4 do
       before(:each) { run('cli') }
-      before(:each) { last_command_started.send_signal 'USR1' }
+      before(:each) { last_command_started.send_signal 'HUP' }
       it { expect(last_command_started).to have_output /Exit/ }
     end
     """
@@ -44,7 +44,7 @@ Feature: Send running command a signal
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3, :startup_wait_time => 2 do
+    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 5, :startup_wait_time => 4 do
       before(:each) { run('cli') }
       it { expect { last_command_started.send_signal 'HUP' }.to raise_error Aruba::CommandAlreadyStoppedError, /Command "cli" with PID/ }
     end

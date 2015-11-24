@@ -39,17 +39,17 @@ Feature: Stop command
     Given an executable named "bin/cli" with:
     """bash
     #!/bin/bash
-    function usr1 {
+    function hup {
       echo "Exit..."
       exit 0
     }
 
     function term {
-      echo "No! No exit here. Try USR1. I stop the command with exit 1."
+      echo "No! No exit here. Try HUP. I stop the command with exit 1."
       exit 1
     }
 
-    trap usr1 USR1
+    trap hup HUP
     trap term TERM
     while [ true ]; do sleep 1; done
     """
@@ -58,7 +58,7 @@ Feature: Stop command
     require 'spec_helper'
 
     Aruba.configure do |config|
-      config.stop_signal  = 'USR1'
+      config.stop_signal  = 'HUP'
       config.exit_timeout = 1
     end
 
@@ -74,17 +74,17 @@ Feature: Stop command
     Given an executable named "bin/cli" with:
     """bash
     #!/bin/bash
-    function usr1 {
+    function hup {
       echo "Exit..."
       exit 2
     }
 
     function term {
-      echo "No! No exit here. Try USR1. I stop the command with exit 1."
+      echo "No! No exit here. Try HUP. I stop the command with exit 1."
       exit 1
     }
 
-    trap usr1 USR1
+    trap hup HUP
     trap term TERM
     while [ true ]; do sleep 1; done
     """
@@ -93,7 +93,7 @@ Feature: Stop command
     require 'spec_helper'
 
     Aruba.configure do |config|
-      config.stop_signal  = 'USR1'
+      config.stop_signal  = 'HUP'
       config.exit_timeout = 1
     end
 
