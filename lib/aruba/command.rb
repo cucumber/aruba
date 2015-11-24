@@ -8,6 +8,7 @@ module Aruba
       launchers = []
       launchers << Processes::DebugProcess
       launchers << Processes::InProcess
+      launchers << Processes::NullProcess
       launchers << Processes::SpawnProcess
 
       launcher = launchers.find { |l| l.match? opts[:mode] }

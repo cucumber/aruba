@@ -1,3 +1,5 @@
+require 'aruba/processes/null_process'
+
 module Aruba
   class ProcessMonitor
     private
@@ -21,6 +23,16 @@ module Aruba
 
     def last_command_stopped
       return @last_command_stopped if @last_command_stopped
+      return Command.new('false',
+        :mode              => :null,
+        :exit_timeout      => 0,
+        :io_wait_timeout   => 0,
+        :working_directory => '/tmp',
+        :environment       => {},
+        :main_class        => nil,
+        :stop_signal       => nil,
+        :startup_wait_time => nil
+      ) if all_commands.empty?
 
       all_commands.each { |c| stop_process(c) }
 
@@ -28,6 +40,17 @@ module Aruba
     end
 
     def last_command_started
+      return Command.new('false',
+        :mode              => :null,
+        :exit_timeout      => 0,
+        :io_wait_timeout   => 0,
+        :working_directory => '/tmp',
+        :environment       => {},
+        :main_class        => nil,
+        :stop_signal       => nil,
+        :startup_wait_time => nil
+      ) unless processes.last.is_a? Array
+
       processes.last[1]
     end
 
