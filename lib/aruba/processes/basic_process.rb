@@ -3,6 +3,11 @@ require 'shellwords'
 
 module Aruba
   module Processes
+    # Basic Process
+    #
+    # `BasicProcess` is not meant for direct use - `BasicProcess.new` - by users.
+    #
+    # @private
     class BasicProcess
       attr_reader :exit_status, :environment, :startup_wait_time
 

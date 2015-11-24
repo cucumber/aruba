@@ -5,6 +5,13 @@ require 'aruba/platform'
 
 module Aruba
   module Processes
+    # Run command in your ruby process
+    #
+    # `InProcess` is not meant for direct use - `InProcess.new` - by
+    # users. Only it's public methods are part of the public API of aruba, e.g.
+    # `#stdin`, `#stdout`.
+    #
+    # @private
     class InProcess < BasicProcess
       # Use only if mode is in_process
       def self.match?(mode)

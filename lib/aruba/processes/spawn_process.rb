@@ -8,6 +8,13 @@ require 'aruba/platform'
 
 module Aruba
   module Processes
+    # Spawn a process for command
+    #
+    # `SpawnProcess` is not meant for direct use - `SpawnProcess.new` - by
+    # users. Only it's public methods are part of the public API of aruba, e.g.
+    # `#stdin`, `#stdout`.
+    #
+    # @private
     class SpawnProcess < BasicProcess
       # Use as default launcher
       def self.match?(mode)

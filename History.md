@@ -442,6 +442,8 @@
 * Replace `<variable>` in commandline, e.g. `<pid-last-command-started>`
   [experimental]
 * Added announce formatter for time spans, e.g. `startup_wait_time`
+* All `*Process`-classes e.g. `BasicProcess`, `SpawnProcess` etc. are marked as
+  private. Users should use `#run('cmd')` and don't use the classes directly.
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
