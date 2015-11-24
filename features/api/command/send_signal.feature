@@ -33,3 +33,21 @@ Feature: Send running command a signal
     """
     When I run `rspec`
     Then the specs should all pass
+
+  Scenario: Dying command
+    Given an executable named "bin/cli" with:
+    """ruby
+    #!/usr/bin/env bash
+    exit 1
+    """
+    And a file named "spec/run_spec.rb" with:
+    """ruby
+    require 'spec_helper'
+
+    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3, :startup_wait_time => 2 do
+      before(:each) { run('cli') }
+      it { expect { last_command_started.send_signal 'HUP' }.to raise_error Aruba::CommandAlreadyStoppedError, /Command "cli" with PID/ }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass

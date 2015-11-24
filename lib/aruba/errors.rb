@@ -10,4 +10,7 @@ module Aruba
 
   # Raised if one tries to use an unknown configuration option
   class UnknownOptionError < ArgumentError; end
+
+  # Rais if command already died
+  class CommandAlreadyStoppedError < Error; end
 end

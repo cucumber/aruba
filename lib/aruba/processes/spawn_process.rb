@@ -233,7 +233,11 @@ module Aruba
       # @param [String] signal
       #   The signal, i.e. 'TERM'
       def send_signal(signal)
+        fail CommandAlreadyStoppedError, %(Command "#{commandline}" with PID "#{pid}" has already stopped.) if @process.exited?
+
         Process.kill signal, pid
+      rescue Errno::ESRCH
+        raise CommandAlreadyStoppedError, %(Command "#{commandline}" with PID "#{pid}" has already stopped.)
       end
 
       private
