@@ -1,3 +1,7 @@
+if Aruba::VERSION < '1.0.0'
+  require 'aruba/cucumber/core'
+end
+
 When(/^I run "(.*)"$/)do |cmd|
   warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
 
@@ -54,19 +58,7 @@ When(/^I pipe in (?:a|the) file(?: named)? "([^"]*)"$/) do |file|
   close_input
 end
 
-When(/^I stop the command (?:"([^"]*)"|(?:started last))$/) do |command|
-  if command
-    cmd = all_commands.find { |c| c.commandline == command }
-    fail ArgumentError, %(No command "#{command}" found) if cmd.nil?
-    cmd.stop(announcer)
-  else
-    last_command_started.stop(announcer)
-  end
-end
-
 When(/^I (terminate|stop) the command (?:"([^"]*)"|(?:started last))$/) do |signal, command|
-  sleep 10
-
   if command
     cmd = all_commands.find { |c| c.commandline == command }
     fail ArgumentError, %(No command "#{command}" found) if cmd.nil?
@@ -366,5 +358,48 @@ Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:
     else
       expect(all_commands).to include_an_object have_output an_output_string_including(expected)
     end
+  end
+end
+
+Given(/the default aruba timeout is (\d+) seconds/) do |seconds|
+  # rubocop:disable Metrics/LineLength
+  Aruba.platform.deprecated(%{The /^the default aruba timeout is (\d+) seconds/ step definition is deprecated. Please use /^the default aruba exit timeout is (\d+) seconds/ step definition is deprecated.})
+  # rubocop:enable Metrics/LineLength
+
+  aruba.config.exit_timeout = seconds.to_i
+end
+
+Given(/The default aruba timeout is (\d+) seconds/) do |seconds|
+  # rubocop:disable Metrics/LineLength
+  Aruba.platform.deprecated(%{The /^The default aruba timeout is (\d+) seconds/ step definition is deprecated. Please use /^the default aruba exit timeout is (\d+) seconds/ step definition is deprecated.})
+  # rubocop:enable Metrics/LineLength
+
+  aruba.config.exit_timeout = seconds.to_i
+end
+
+Given(/^the (?:default )?aruba io wait timeout is (\d+) seconds?$/) do |seconds|
+  aruba.config.io_wait_timeout = seconds.to_i
+end
+
+Given(/^the (?:default )?aruba exit timeout is (\d+) seconds?$/) do |seconds|
+  aruba.config.exit_timeout = seconds.to_i
+end
+
+Given(/^the (?:default )?aruba stop signal is "([^"]*)"$/) do |signal|
+  aruba.config.stop_signal = signal
+end
+
+Given(/^I wait (\d+) seconds? for a command to start up$/) do |seconds|
+  aruba.config.startup_wait_time = seconds.to_i
+end
+
+When(/^I send the signal "([^"]*)" to the command (?:"([^"]*)"|(?:started last))$/) do |signal, command|
+  if command
+    cmd = all_commands.find { |c| c.commandline == command }
+    fail ArgumentError, %(No command "#{command}" found) if cmd.nil?
+
+    cmd.send_signal signal
+  else
+    last_command_started.send_signal signal
   end
 end
