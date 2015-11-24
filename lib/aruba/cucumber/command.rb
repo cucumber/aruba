@@ -64,15 +64,19 @@ When(/^I (terminate|stop) the command (?:"([^"]*)"|(?:started last))$/) do |sign
     fail ArgumentError, %(No command "#{command}" found) if cmd.nil?
 
     if signal == 'terminate'
-      cmd.terminate
+      # last_command_started.terminate
+      process_monitor.terminate_process!(process_monitor.get_process(command))
     else
-      cmd.stop(announcer)
+      # last_command_started.stop
+      process_monitor.stop_process(process_monitor.get_process(command))
     end
   else
     if signal == 'terminate'
-      last_command_started.terminate
+      # last_command_started.terminate
+      process_monitor.terminate_process!(last_command_started)
     else
-      last_command_started.stop(announcer)
+      # last_command_started.stop
+      process_monitor.stop_process(last_command_started)
     end
   end
 end
