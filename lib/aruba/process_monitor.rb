@@ -60,7 +60,8 @@ module Aruba
     end
 
     def terminate_process!(process)
-      process.terminate
+      @last_command_stopped = process
+      @last_exit_status     = process.terminate
     end
 
     def stop_processes!
