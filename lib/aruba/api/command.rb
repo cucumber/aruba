@@ -147,7 +147,7 @@ module Aruba
         announcer.announce(:full_environment, environment)
         announcer.announce(:timeout, 'exit', exit_timeout)
         announcer.announce(:timeout, 'io wait', io_wait_timeout)
-        announcer.announce(:time_span, 'startup wait time', startup_wait_time)
+        announcer.announce(:wait_time, 'startup wait time', startup_wait_time)
 
         announcer.announce(:directory, working_directory)
         announcer.announce(:command, cmd)

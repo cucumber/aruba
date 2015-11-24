@@ -53,6 +53,8 @@ RSpec.configure do |config|
     announcer.activate(:directory)            if example.metadata[:announce_directory]
     announcer.activate(:stdout)               if example.metadata[:announce_stdout]
     announcer.activate(:stderr)               if example.metadata[:announce_stderr]
+    announcer.activate(:timeout)              if example.metadata[:announce_timeout]
+    announcer.activate(:wait_time)            if example.metadata[:announce_wait_time]
     announcer.activate(:stop_signal)          if example.metadata[:announce_stop_signal]
 
     if example.metadata[:announce_output]
@@ -69,6 +71,8 @@ RSpec.configure do |config|
       announcer.activate(:command)
       announcer.activate(:directory)
       announcer.activate(:stop_signal)
+      announcer.activate(:timeout)
+      announcer.activate(:wait_time)
     end
   end
 

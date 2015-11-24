@@ -93,6 +93,10 @@ Before('@announce-timeout') do
   announcer.activate :timeout
 end
 
+Before('@announce-wait-time') do
+  announcer.activate :wait_time
+end
+
 Before('@announce') do
   announcer.activate :command
   announcer.activate :stdout
@@ -102,6 +106,7 @@ Before('@announce') do
   announcer.activate :full_environment
   announcer.activate :environment
   announcer.activate :timeout
+  announcer.activate :wait_time
   announcer.activate :stop_signal
 end
 
