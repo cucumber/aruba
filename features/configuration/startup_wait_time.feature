@@ -38,11 +38,11 @@ Feature: Set time to wait after spawning command
     end
 
     Aruba.configure do |config|
-      puts %(The default value is "#{config.startup_wait_time}")
+      puts %(The new value is "#{config.startup_wait_time}")
     end
     """
     Then I successfully run `cucumber`
     Then the output should contain:
     """
-    The default value is "0"
+    The new value is "2"
     """
