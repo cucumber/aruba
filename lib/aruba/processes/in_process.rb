@@ -5,6 +5,13 @@ require 'aruba/platform'
 
 module Aruba
   module Processes
+    # Run command in your ruby process
+    #
+    # `InProcess` is not meant for direct use - `InProcess.new` - by
+    # users. Only it's public methods are part of the public API of aruba, e.g.
+    # `#stdin`, `#stdout`.
+    #
+    # @private
     class InProcess < BasicProcess
       # Use only if mode is in_process
       def self.match?(mode)
@@ -33,7 +40,7 @@ module Aruba
       # @private
       attr_reader :main_class
 
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
         @cmd               = cmd
         @argv              = arguments
         @stdin             = StringIO.new
@@ -89,6 +96,13 @@ module Aruba
 
       def terminate
         stop
+      end
+
+      # Output pid of process
+      #
+      # This is the PID of the ruby process! So be careful
+      def pid
+        $PROCESS_ID
       end
     end
   end

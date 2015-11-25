@@ -3,15 +3,22 @@ require 'shellwords'
 
 module Aruba
   module Processes
+    # Basic Process
+    #
+    # `BasicProcess` is not meant for direct use - `BasicProcess.new` - by users.
+    #
+    # @private
     class BasicProcess
-      attr_reader :exit_status, :environment
+      attr_reader :exit_status, :environment, :startup_wait_time
 
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
         @cmd               = cmd
         @working_directory = working_directory
         @environment       = environment
         @main_class        = main_class
         @exit_status       = nil
+        @stop_signal       = stop_signal
+        @startup_wait_time = startup_wait_time
 
         @exit_timeout = exit_timeout
         @io_wait      = io_wait
@@ -20,6 +27,11 @@ module Aruba
       # Return command line
       def commandline
         @cmd
+      end
+
+      # Output pid of process
+      def pid
+        'No implemented'
       end
 
       # Output stderr and stdout
@@ -44,6 +56,14 @@ module Aruba
       end
 
       def close_io(*)
+        NotImplementedError
+      end
+
+      def send_signal(*)
+        NotImplementedError
+      end
+
+      def wait
         NotImplementedError
       end
 

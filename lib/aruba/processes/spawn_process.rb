@@ -8,6 +8,13 @@ require 'aruba/platform'
 
 module Aruba
   module Processes
+    # Spawn a process for command
+    #
+    # `SpawnProcess` is not meant for direct use - `SpawnProcess.new` - by
+    # users. Only it's public methods are part of the public API of aruba, e.g.
+    # `#stdin`, `#stdout`.
+    #
+    # @private
     class SpawnProcess < BasicProcess
       # Use as default launcher
       def self.match?(mode)
@@ -27,12 +34,12 @@ module Aruba
       #
       # @params [String] working_directory
       #   The directory where the command will be executed
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil)
+      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
         super
 
         @process      = nil
-        @stdout_cache       = nil
-        @stderr_cache       = nil
+        @stdout_cache = nil
+        @stderr_cache = nil
       end
 
       # Run the command
@@ -53,8 +60,8 @@ module Aruba
         cmd = Aruba.platform.command_string.new(cmd)
 
         @process   = ChildProcess.build(*[cmd.to_a, arguments].flatten)
-        @stdout_file = Tempfile.new("aruba-stdout-")
-        @stderr_file = Tempfile.new("aruba-stderr-")
+        @stdout_file = Tempfile.new('aruba-stdout-')
+        @stderr_file = Tempfile.new('aruba-stderr-')
 
         @stdout_file.sync = true
         @stderr_file.sync = true
@@ -75,6 +82,7 @@ module Aruba
         begin
           Aruba.platform.with_environment(environment) do
             @process.start
+            sleep startup_wait_time
           end
         rescue ChildProcess::LaunchError => e
           raise LaunchError, "It tried to start #{cmd}. " + e.message
@@ -89,7 +97,7 @@ module Aruba
 
       # Access to stdout of process
       def stdin
-        return if @process.nil?
+        return if @process.exited?
 
         @process.io.stdin
       end
@@ -105,11 +113,9 @@ module Aruba
       # @return [String]
       #   The content of stdout
       def stdout(opts = {})
-        return @stdout_cache if @process.nil?
+        return @stdout_cache if stopped?
 
-        wait_for_io = opts.fetch(:wait_for_io, @io_wait)
-
-        wait_for_io wait_for_io do
+        wait_for_io opts.fetch(:wait_for_io, @io_wait) do
           @process.io.stdout.flush
           open(@stdout_file.path).read
         end
@@ -126,11 +132,9 @@ module Aruba
       # @return [String]
       #   The content of stderr
       def stderr(opts = {})
-        return @stderr_cache if @process.nil?
+        return @stderr_cache if stopped?
 
-        wait_for_io = opts.fetch(:wait_for_io, @io_wait)
-
-        wait_for_io wait_for_io do
+        wait_for_io opts.fetch(:wait_for_io, @io_wait) do
           @process.io.stderr.flush
           open(@stderr_file.path).read
         end
@@ -145,7 +149,7 @@ module Aruba
       end
 
       def write(input)
-        return if @process.nil?
+        return if stopped?
 
         @process.io.stdin.write(input)
         @process.io.stdin.flush
@@ -154,7 +158,7 @@ module Aruba
       end
 
       def close_io(name)
-        return if @process.nil?
+        return if stopped?
 
         if RUBY_VERSION < '1.9'
           @process.io.send(name.to_sym).close
@@ -163,64 +167,93 @@ module Aruba
         end
       end
 
+      # rubocop:disable Metrics/MethodLength
       def stop(reader)
-        @stopped = true
-
-        return @exit_status unless @process
+        return @exit_status if stopped?
 
         begin
-          @process.poll_for_exit(@exit_timeout) unless @process.exited?
+          @process.poll_for_exit(@exit_timeout)
         rescue ChildProcess::TimeoutError
           @timed_out = true
-          @process.stop
         end
 
-        @exit_status = @process.exit_code
-        @process   = nil
-
-        close_and_cache_out
-        close_and_cache_err
+        terminate
 
         if reader
-          reader.announce :stdout, stdout
-          reader.announce :stderr, stderr
+          reader.announce :stdout, @stdout_cache
+          reader.announce :stderr, @stderr_cache
         end
 
         @exit_status
       end
+      # rubocop:enable Metrics/MethodLength
 
+      # Wait for command to finish
+      def wait
+        @process.wait
+      end
+
+      # Terminate command
       def terminate
-        return unless @process
+        return @exit_status if stopped?
 
-        @process.stop
-        stop nil
+        unless @process.exited?
+          if @stop_signal
+            # send stop signal ...
+            send_signal @stop_signal
+            # ... and set the exit status
+            wait
+          else
+            @process.stop
+          end
+        end
+
+        @exit_status  = @process.exit_code
+
+        @stdout_cache = read_temporary_output_file @stdout_file
+        @stderr_cache = read_temporary_output_file @stderr_file
+
+        # @stdout_file = nil
+        # @stderr_file = nil
+
+        @stopped      = true
+
+        @exit_status
+      end
+
+      # Output pid of process
+      #
+      # This is the PID of the spawned process.
+      def pid
+        @process.pid
+      end
+
+      # Send command a signal
+      #
+      # @param [String] signal
+      #   The signal, i.e. 'TERM'
+      def send_signal(signal)
+        fail CommandAlreadyStoppedError, %(Command "#{commandline}" with PID "#{pid}" has already stopped.) if @process.exited?
+
+        Process.kill signal, pid
+      rescue Errno::ESRCH
+        raise CommandAlreadyStoppedError, %(Command "#{commandline}" with PID "#{pid}" has already stopped.)
       end
 
       private
 
       def wait_for_io(time_to_wait, &block)
-        return if @process.nil?
-
-        sleep time_to_wait
-
-        yield
+        sleep time_to_wait.to_i
+        block.call
       end
 
-      def read(io)
-        io.rewind
-        io.read
-      end
+      def read_temporary_output_file(file)
+        file.flush
+        file.rewind
+        data = file.read
+        file.close
 
-      def close_and_cache_out
-        @stdout_cache = read @stdout_file
-        @stdout_file.close
-        @stdout_file = nil
-      end
-
-      def close_and_cache_err
-        @stderr_cache = read @stderr_file
-        @stderr_file.close
-        @stderr_file = nil
+        data
       end
     end
   end

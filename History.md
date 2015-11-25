@@ -4,11 +4,12 @@
 
 * Fixed problem in regex after merge of step definitions
 
+# Old releases
+
 ## [v0.10.1](https://github.com/cucumber/aruba/compare/v0.10.0...v0.10.1)
 
 * Merged remove steps for file and directory from 4 into 2 step definitions
 
-# Old releases
 
 ## [v0.10.0](https://github.com/cucumber/aruba/compare/v0.10.0.pre2...v0.10.0)
 
@@ -428,6 +429,21 @@
 * First release (David Chelimsky and Aslak Hellesøy)
 
 # Upcoming un-released versions
+
+## [v0.11.0](https://github.com/cucumber/aruba/compare/v0.10.2...v0.11.0)
+
+* Set stop signal which should be used to stop a process after a timeout or
+  used to terminate a process. This can be used to stop processes running
+  docker + "systemd". If you send a systemd-enable container SIGINT it will be
+  stopped.
+* Added a configurable amount of time after a command was started -
+  startup_wait_time. Otherwise you get problems when a process takes to long to
+  startup when you run in background and want to sent it a signal.
+* Replace `<variable>` in commandline, e.g. `<pid-last-command-started>`
+  [experimental]
+* Added announce formatter for time spans, e.g. `startup_wait_time`
+* All `*Process`-classes e.g. `BasicProcess`, `SpawnProcess` etc. are marked as
+  private. Users should use `#run('cmd')` and don't use the classes directly.
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 

@@ -8,6 +8,7 @@ module Aruba
       launchers = []
       launchers << Processes::DebugProcess
       launchers << Processes::InProcess
+      launchers << Processes::NullProcess
       launchers << Processes::SpawnProcess
 
       launcher = launchers.find { |l| l.match? opts[:mode] }
@@ -18,7 +19,9 @@ module Aruba
         opts.fetch(:io_wait_timeout),
         opts.fetch(:working_directory),
         opts.fetch(:environment),
-        opts.fetch(:main_class)
+        opts.fetch(:main_class),
+        opts.fetch(:stop_signal),
+        opts.fetch(:startup_wait_time)
       )
     rescue KeyError => e
       raise ArgumentError, e.message

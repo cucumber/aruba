@@ -28,7 +28,7 @@ RSpec::Matchers.define :have_output do |expected|
       :env    => @announce_env
     )
 
-    @old_actual.stop(@announcer) unless @old_actual.stopped?
+    @old_actual.stop(@announcer)
 
     @actual = sanitize_text(actual.output)
 

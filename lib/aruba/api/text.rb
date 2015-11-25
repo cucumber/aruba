@@ -36,6 +36,15 @@ module Aruba
 
         text.chomp
       end
+
+      # @experimental
+      #
+      # Replace variables in command string
+      def replace_variables(text)
+        text = text.gsub(/<pid-last-command-started>/, last_command_started.pid.to_s)
+
+        text
+      end
     end
   end
 end

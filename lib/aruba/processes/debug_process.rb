@@ -2,7 +2,13 @@ require 'aruba/processes/spawn_process'
 
 module Aruba
   module Processes
-    # Debug Process
+    # Run your command in `systemd()` to make debugging it easier
+    #
+    # `DebugProcess` is not meant for direct use - `InProcess.new` - by
+    # users. Only it's public methods are part of the public API of aruba, e.g.
+    # `#stdin`, `#stdout`.
+    #
+    # @private
     class DebugProcess < BasicProcess
       # Use only if mode is :debug
       def self.match?(mode)

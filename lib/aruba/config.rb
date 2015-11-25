@@ -29,7 +29,9 @@ module Aruba
     end
 
     option_accessor :exit_timeout, :contract => { Num => Num }, :default => 15
+    option_accessor :stop_signal, :contract => { Maybe[String] => Maybe[String] }, :default => nil
     option_accessor :io_wait_timeout, :contract => { Num => Num }, :default => 0.1
+    option_accessor :startup_wait_time, :contract => { Num => Num }, :default => 0
     option_accessor :fixtures_directories, :contract => { Array => ArrayOf[String] }, :default => %w(features/fixtures spec/fixtures test/fixtures fixtures)
     option_accessor :command_runtime_environment, :contract => { Hash => Hash }, :default => ENV.to_hash.dup
     # rubocop:disable Metrics/LineLength
