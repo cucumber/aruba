@@ -437,7 +437,8 @@ Feature: Run commands in ruby process
     type some letters on keyboard - can only appear later, but this point is
     never reached, because ruby is blocked.
 
-    Given a file named "lib/cli/app/runner.rb" with:
+    Given the default aruba exit timeout is 5 seconds
+    And a file named "lib/cli/app/runner.rb" with:
     """
     module Cli
       module App
@@ -470,4 +471,4 @@ Feature: Run commands in ruby process
         \"\"\"
     """
     When I run `cucumber`
-    Then the features should not pass
+    Then the exit status should not be 0
