@@ -3,6 +3,11 @@ Feature: Stop commands
   After you've started a command, you might want to stop a command. To do that
   you've got multiple possibilities.
 
+  On "JRuby" it's not possible to read the output of command which `echo`s a
+  string in a `signal`-handler - `TERM`, `HUP` etc. So please don't write
+  tests, which check on this, if your script needs to run on "JRuby". All other
+  output is logged to `STDERR` and/or `STDOUT` as normal.
+
   Background:
     Given I use a fixture named "cli-app"
 
@@ -15,41 +20,40 @@ Feature: Stop commands
     #!/bin/bash
 
     function term {
-      echo Command1
-      exit 1
+      exit 100
     }
 
     trap term TERM
+    echo "Hello, Aruba!"
     while [ true ]; do sleep 1; done
+    exit 1
     """
     And an executable named "bin/cli2" with:
     """bash
     #!/bin/bash
 
     function term {
-      echo Command2
-      exit 0
+      exit 155
     }
 
     trap term TERM
+    echo "Hello, Aruba!"
     while [ true ]; do sleep 1; done
-    exit 2
+    exit 1
     """
     And a file named "features/stop.feature" with:
     """
     Feature: Run it
-      Background:
-        Given the default aruba exit timeout is 1 second
-
       Scenario: Run command
-        Given I wait 5 seconds for a command to start up
+        Given the default aruba exit timeout is 1 second
+        And I wait 2 seconds for a command to start up
         When I run `cli1` in background
         And I run `cli2` in background
         And I terminate the command started last
-        Then the exit status should be 0
+        Then the exit status should be 155
         And the output should contain:
         \"\"\"
-        Command2
+        Hello, Aruba!
         \"\"\"
     """
     When I run `cucumber`
@@ -66,41 +70,42 @@ Feature: Stop commands
     #!/bin/bash
 
     function term {
-      echo Command1
-      exit 1
+      exit 100
     }
 
     trap term TERM
+    echo "Hello, Aruba!"
     while [ true ]; do sleep 1; done
+    exit 1
     """
     And an executable named "bin/cli2" with:
     """bash
     #!/bin/bash
 
     function term {
-      echo Command2
-      exit 0
+      exit 155
     }
 
     trap term TERM
+    echo "Hello, Aruba!"
     while [ true ]; do sleep 1; done
-    exit 2
+    exit 1
     """
     And a file named "features/stop.feature" with:
     """
     Feature: Run it
       Background:
-        Given the default aruba exit timeout is 5 seconds
 
       Scenario: Run command
-        Given I wait 5 seconds for a command to start up
+        Given the default aruba exit timeout is 5 seconds
+        And I wait 2 seconds for a command to start up
         When I run `cli1` in background
         And I run `cli2` in background
         And I stop the command started last
-        Then the exit status should be 0
+        Then the exit status should be 155
         And the output should contain:
         \"\"\"
-        Command2
+        Hello, Aruba!
         \"\"\"
     """
     When I run `cucumber`
@@ -108,18 +113,19 @@ Feature: Stop commands
 
   Scenario: Terminate command given by commandline
 
-    Terminating a command will send `SIGTERM` to the command.
+    Pass the commandline to the step to find the command, which should be
+    stopped.
 
     Given an executable named "bin/cli1" with:
     """bash
     #!/bin/bash
 
     function term {
-      echo Command1
-      exit 1
+      exit 100
     }
 
     trap term TERM
+    echo "Hello, Aruba!"
     while [ true ]; do sleep 1; done
     """
     And an executable named "bin/cli2" with:
@@ -127,11 +133,11 @@ Feature: Stop commands
     #!/bin/bash
 
     function term {
-      echo Command2
-      exit 0
+      exit 155
     }
 
     trap term TERM
+    echo "Hello, Aruba!"
     while [ true ]; do sleep 1; done
     exit 2
     """
@@ -142,20 +148,20 @@ Feature: Stop commands
         Given the default aruba exit timeout is 5 seconds
 
       Scenario: Run command
-        Given I wait 5 seconds for a command to start up
+        Given I wait 2 seconds for a command to start up
         When I run `cli1` in background
         When I run `cli2` in background
         And I terminate the command "cli1"
-        Then the exit status should be 0
+        Then the exit status should be 100
         And the output should contain:
         \"\"\"
-        Command2
+        Hello, Aruba!
         \"\"\"
     """
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Stop last command given by commandline
+  Scenario: Stop command given by commandline
 
     Stopping a command will wait n seconds for the command to stop and then
     send `SIGTERM` to the command. Normally "n" is defined by the default exit
@@ -166,25 +172,26 @@ Feature: Stop commands
     #!/bin/bash
 
     function term {
-      echo Command1
-      exit 1
+      exit 155
     }
 
     trap term TERM
+    echo "Hello, Aruba!"
     while [ true ]; do sleep 1; done
+    exit 1
     """
     And an executable named "bin/cli2" with:
     """bash
     #!/bin/bash
 
     function term {
-      echo Command2
-      exit 0
+      exit 100
     }
 
     trap term TERM
+    echo "Hello, Aruba!"
     while [ true ]; do sleep 1; done
-    exit 2
+    exit 1
     """
     And a file named "features/stop.feature" with:
     """
@@ -193,14 +200,14 @@ Feature: Stop commands
         Given the default aruba exit timeout is 5 seconds
 
       Scenario: Run command
-        Given I wait 5 seconds for a command to start up
+        Given I wait 2 seconds for a command to start up
         When I run `cli1` in background
         And I run `cli2` in background
         When I stop the command "cli1"
-        Then the exit status should be 0
+        Then the exit status should be 155
         And the output should contain:
         \"\"\"
-        Command2
+        Hello, Aruba!
         \"\"\"
     """
     When I run `cucumber`
@@ -214,18 +221,18 @@ Feature: Stop commands
     """bash
     #!/bin/bash
     function hup {
-      echo "Exit..."
-      exit 0
+      exit 155
     }
 
     function term {
-      echo "No! No exit here. Try HUP. I stop the command with exit 1."
-      exit 1
+      exit 100
     }
 
     trap hup HUP
     trap term TERM
+    echo "Hello, Aruba!"
     while [ true ]; do sleep 1; done
+    exit 1
     """
     And a file named "features/run.feature" with:
     """
@@ -234,8 +241,73 @@ Feature: Stop commands
         Given the default aruba stop signal is "HUP"
         And the default aruba exit timeout is 5 seconds
         When I run `cli`
-        Then the exit status should be 0
+        Then the exit status should be 155
     """
     When I run `cucumber`
     Then the features should all pass
 
+  @requires-ruby-platform-java
+  Scenario: STDERR/STDOUT is empty on JRUBY if output was written in "signal"-handler
+    Given an executable named "bin/cli1" with:
+    """bash
+    #!/bin/bash
+
+    function term {
+      echo 'Hello, TERM'
+      exit 100
+    }
+
+    trap term TERM
+    echo "Hello, Aruba!"
+    while [ true ]; do sleep 1; done
+    exit 1
+    """
+    And a file named "features/stop.feature" with:
+    """
+    Feature: Run it
+      Scenario: Run command
+        Given the default aruba exit timeout is 1 second
+        And I wait 2 seconds for a command to start up
+        When I run `cli1` in background
+        And I terminate the command started last
+        Then the exit status should be 100
+        And the output should not contain:
+        \"\"\"
+        Hello, TERM
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  @requires-ruby-platform-mri
+  Scenario: STDERR/STDOUT is written normally with MRI-Ruby if output was written in "signal"-handler
+    Given an executable named "bin/cli1" with:
+    """bash
+    #!/bin/bash
+
+    function term {
+      echo 'Hello, TERM'
+      exit 100
+    }
+
+    trap term TERM
+    echo "Hello, Aruba!"
+    while [ true ]; do sleep 1; done
+    exit 1
+    """
+    And a file named "features/stop.feature" with:
+    """
+    Feature: Run it
+      Scenario: Run command
+        Given the default aruba exit timeout is 1 second
+        And I wait 2 seconds for a command to start up
+        When I run `cli1` in background
+        And I terminate the command started last
+        Then the exit status should be 100
+        And the output should contain:
+        \"\"\"
+        Hello, TERM
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
