@@ -1,5 +1,11 @@
 # Latest Release
 
+## [v0.11.0.pre3](https://github.com/cucumber/aruba/compare/v0.11.pre2...v0.11.0.pre3)
+
+* Fixed syntax for proc on ruby 1.8.7
+
+# Old releases
+
 ## [v0.11.0.pre2](https://github.com/cucumber/aruba/compare/v0.11.pre...v0.11.0.pre2)
 
 * Integrate `EventBus` to decouple announcers from starting, stopping commands
@@ -18,7 +24,6 @@
   commands from last to first.
 * Added `be_an_executable` matcher
 
-# Old releases
 
 ## [v0.11.0.pre](https://github.com/cucumber/aruba/compare/v0.10.2...v0.11.0.pre)
 
