@@ -19,7 +19,7 @@ RSpec::Matchers.define :have_output_on_stderr do |expected|
 
     next false unless @old_actual.respond_to? :stderr
 
-    @old_actual.stop unless @old_actual.stopped?
+    @old_actual.stop
 
     @actual = sanitize_text(actual.stderr)
 

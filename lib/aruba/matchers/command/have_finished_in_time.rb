@@ -26,7 +26,7 @@ RSpec::Matchers.define :have_finished_in_time do
 
     next false unless @old_actual.respond_to? :timed_out?
 
-    @old_actual.stop unless @old_actual.stopped?
+    @old_actual.stop
 
     @old_actual.timed_out? == false
   end
