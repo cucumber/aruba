@@ -13,7 +13,9 @@ Linux / OS X  | Windows
 
 Features at a glance:
 
-* Test any command line application, implemented in any [programming language](features/getting_started/supported_programming_languages.feature) - e.g. Bash, Python, Ruby, Java, ...
+* Test any command line application, implemented in any [programming
+  language](features/getting_started/supported_programming_languages.feature) -
+  e.g. Bash, Python, Ruby, Java, ...
 * Manipulate the file system and the process environment
 * Automatically reset state of file system and process environment between tests
 
