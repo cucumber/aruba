@@ -33,7 +33,7 @@ module Aruba
     def events
       runtime.event_bus.register(
         :command_started,
-        ->(event) do
+        proc do |event|
           runtime.announcer.announce :command, event.entity.commandline
           runtime.announcer.announce :timeout, 'exit', event.entity.exit_timeout
           runtime.announcer.announce :timeout, 'io wait', event.entity.io_wait_timeout
@@ -43,7 +43,7 @@ module Aruba
 
       runtime.event_bus.register(
         :command_started,
-        ->(event) do
+        proc do |event|
           runtime.command_monitor.register_command event.entity
           runtime.command_monitor.last_command_started = event.entity
         end
@@ -51,7 +51,7 @@ module Aruba
 
       runtime.event_bus.register(
         :command_stopped,
-        ->(event) do
+        proc do |event|
           runtime.announcer.announce :stdout, event.entity.stdout
           runtime.announcer.announce :stderr, event.entity.stderr
         end
@@ -59,14 +59,14 @@ module Aruba
 
       runtime.event_bus.register(
         :command_stopped,
-        ->(event) do
+        proc do |event|
           runtime.command_monitor.last_command_stopped = event.entity
         end
       )
 
       runtime.event_bus.register(
         [:changed_environment_variable, :added_environment_variable, :deleted_environment_variable],
-        ->(event) do
+        proc do |event|
           runtime.announcer.announce :changed_environment, event.entity[:changed][:name], event.entity[:changed][:value]
           runtime.announcer.announce :environment, event.entity[:changed][:name], event.entity[:changed][:value]
         end
@@ -74,12 +74,12 @@ module Aruba
 
       runtime.event_bus.register(
         :changed_working_directory,
-        ->(event) { runtime.announcer.announce :directory, event.entity[:new] }
+        proc { |event| runtime.announcer.announce :directory, event.entity[:new] }
       )
 
       runtime.event_bus.register(
         :changed_configuration,
-        ->(event) { runtime.announcer.announce :configuration, event.entity[:changed][:name], event.entity[:changed][:value] }
+        proc { |event| runtime.announcer.announce :configuration, event.entity[:changed][:name], event.entity[:changed][:value] }
       )
     end
     # rubocop:enable Metrics/MethodLength
