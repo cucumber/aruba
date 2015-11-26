@@ -1,5 +1,25 @@
 # Latest Release
 
+## [v0.11.0.pre2](https://github.com/cucumber/aruba/compare/v0.11.pre...v0.11.0.pre2)
+
+* Integrate `EventBus` to decouple announcers from starting, stopping commands
+  etc. This uses nearly the same implementation like `cucumber`. (PR #309)
+* Starting/Stopping a command directly (`command.start`, `command.stop`) is now
+  reported to the command monitor and `last_command_stopped` is updated
+  correctly
+* Added `#restart` to `Command` to make it possible to restart a command
+* Added check to prevent a command which has already been started, to be
+  started again. Otherwise you've got hidden commands which are not stopped
+  after a cucumber/rspec/minitest run.
+* Adding alot of documentation to `aruba`
+* Refactored `#run`: Now it wants you to pass a `Hash` containing the options.
+  The old syntax is still supported, but is deprecated.
+* Added `#find_command` as experimental feature. It searches the started
+  commands from last to first.
+* Added `be_an_executable` matcher
+
+# Old releases
+
 ## [v0.11.0.pre](https://github.com/cucumber/aruba/compare/v0.10.2...v0.11.0.pre)
 
 * Set stop signal which should be used to stop a process after a timeout or
@@ -16,7 +36,6 @@
   private. Users should use `#run('cmd')` and don't use the classes directly.
 * `rvm`-methods are deprecated. They too ruby specific.
 
-# Old releases
 
 ## [v0.10.2](https://github.com/cucumber/aruba/compare/v0.10.1...v0.10.2)
 
@@ -446,24 +465,6 @@
 * First release (David Chelimsky and Aslak Hellesøy)
 
 # Upcoming un-released versions
-
-## [v0.11.0.pre2](https://github.com/cucumber/aruba/compare/v0.11.pre2...v0.11.0.pre2)
-
-* Integrate `EventBus` to decouple announcers from starting, stopping commands
-  etc. This uses nearly the same implementation like `cucumber`. (PR #309)
-* Starting/Stopping a command directly (`command.start`, `command.stop`) is now
-  reported to the command monitor and `last_command_stopped` is updated
-  correctly
-* Added `#restart` to `Command` to make it possible to restart a command
-* Added check to prevent a command which has already been started, to be
-  started again. Otherwise you've got hidden commands which are not stopped
-  after a cucumber/rspec/minitest run.
-* Adding alot of documentation to `aruba`
-* Refactored `#run`: Now it wants you to pass a `Hash` containing the options.
-  The old syntax is still supported, but is deprecated.
-* Added `#find_command` as experimental feature. It searches the started
-  commands from last to first.
-* Added `be_an_executable` matcher
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
