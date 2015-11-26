@@ -37,7 +37,7 @@ Feature: Replace variables
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect(replace_variables('<pid-last-command-started>')).to eq '0' }
+      it { expect { replace_variables('<pid-last-command-started>') }.to raise_error Aruba::NoCommandHasBeenStartedError }
     end
     """
     When I run `rspec`

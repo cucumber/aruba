@@ -1,5 +1,8 @@
+# Aruba
 module Aruba
+  # Platforms
   module Platforms
+    # Abstract environment variables
     class UnixEnvironmentVariables
       # We need to use this, because `nil` is a valid value as default
       UNDEFINED = Object.new.freeze

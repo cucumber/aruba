@@ -2,7 +2,7 @@ require 'contracts'
 
 require 'aruba/version'
 require 'aruba/basic_configuration'
-require 'aruba/config_wrapper'
+require 'aruba/in_config_wrapper'
 require 'aruba/hooks'
 
 require 'aruba/contracts/relative_path'
@@ -11,8 +11,11 @@ require 'aruba/contracts/enum'
 
 require 'aruba/contracts/is_power_of_two'
 
+# Aruba
 module Aruba
   # Aruba Configuration
+  #
+  # This defines the configuration options of aruba
   class Configuration < BasicConfiguration
     if Aruba::VERSION >= '1.0.0'
       option_reader :root_directory, :contract => { None => String }, :default => Dir.getwd
@@ -64,13 +67,21 @@ module Aruba
   end
 end
 
-# Main Module
+# Aruba
 module Aruba
   @config = Configuration.new
 
   class << self
     attr_reader :config
 
+    # Configure aruba
+    #
+    # @example How to configure aruba
+    #
+    #   Aruba.configure do |config|
+    #     config.<option> = <value>
+    #   end
+    #
     def configure(&block)
       @config.configure(&block)
 
@@ -79,10 +90,12 @@ module Aruba
   end
 end
 
+# Aruba
 module Aruba
   # Old Config
   #
   # @private
+  # @deprecated
   class Config < Configuration
     def initialize(*args)
       warn('The use of "Aruba::Config" is deprecated. Use "Aruba::Configuration" instead.')

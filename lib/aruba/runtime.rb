@@ -1,18 +1,77 @@
 require 'aruba/config'
-require 'aruba/aruba_logger'
+require 'aruba/aruba_path'
+require 'aruba/config_wrapper'
+require 'aruba/events'
+require 'event/bus'
 
 module Aruba
+  # Runtime of aruba
+  #
+  # Most methods are considered private. Please look for `(private)` in the
+  # attribute descriptions. Only a few like `#current_directory`,
+  # '#root_directory` and `#config` are considered to be part of the public
+  # API.
   class Runtime
-    attr_reader :config, :current_directory, :environment, :root_directory, :logger
+    # @!attribute [r] current_directory
+    #   Returns the current working directory
+    #
+    # @!attribute [r] root_directory
+    #   Returns the root directory of aruba
+    attr_reader :current_directory, :root_directory
 
-    def initialize
-      @config            = Aruba.config.make_copy
+    # @!attribute [r] config
+    #   Access configuration of aruba
+    #
+    # @!attribute [r] environment
+    #   Access environment of aruba (private)
+    #
+    # @!attribute [r] logger
+    #   Logger of aruba (private)
+    #
+    # @!attribute [r] command_monitor
+    #   Handler started commands (private)
+    #
+    # @!attribute [r] announcer
+    #   Announce information
+    #
+    # @!attribute [r] event_bus
+    #   Handle events (private)
+    #
+    attr_accessor :config, :environment, :logger, :command_monitor, :announcer, :event_bus
+
+    def initialize(opts = {})
+      @environment     = opts.fetch(:environment, Aruba.platform.environment_variables)
+      @event_bus     = ::Event::Bus.new(::Event::NameResolver.new(Aruba::Events))
+      @announcer       = opts.fetch(:announcer, Aruba.platform.announcer.new)
+
+      @config            = opts.fetch(:config, ConfigWrapper.new(Aruba.config.make_copy, @event_bus))
       @current_directory = ArubaPath.new(@config.working_directory)
       @root_directory    = ArubaPath.new(@config.root_directory)
-      @environment       = Aruba.platform.environment_variables
 
-      @logger      = ArubaLogger.new
+      if Aruba::VERSION < '1'
+        @command_monitor = opts.fetch(:command_monitor, Aruba.platform.command_monitor.new(:announcer => @announcer))
+      else
+        @command_monitor = opts.fetch(:command_monitor, Aruba.platform.command_monitor.new)
+      end
+
+      @logger = opts.fetch(:logger, Aruba.platform.logger.new)
       @logger.mode = @config.log_level
+
+      @setup_done = false
+    end
+
+    # @private
+    #
+    # Setup of aruba is finshed. Should be used only internally.
+    def setup_done
+      @setup_done = true
+    end
+
+    # @private
+    #
+    # Has aruba already been setup. Should be used only internally.
+    def setup_already_done?
+      @setup_done == true
     end
 
     # The path to the directory which contains fixtures

@@ -1,5 +1,8 @@
+# Aruba
 module Aruba
+  # Api
   module Api
+    # Text manipulation
     module Text
       # Unescape text
       #
@@ -40,8 +43,11 @@ module Aruba
       # @experimental
       #
       # Replace variables in command string
+      #
+      # @param [#to_s] text
+      #   The text to parse
       def replace_variables(text)
-        text = text.gsub(/<pid-last-command-started>/, last_command_started.pid.to_s)
+        text = text.gsub(/<pid-last-command-started>/, last_command_started.pid.to_s) if text.include? '<pid-last-command-started>'
 
         text
       end

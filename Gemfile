@@ -42,7 +42,7 @@ group :development, :test do
   gem 'simplecov', '~> 0.10'
 
   # Test api
-  gem 'rspec', '~> 3.3.0'
+  gem 'rspec', '~> 3.4'
   gem 'fuubar', '~> 2.0.0'
 
   # using platform for this make bundler complain about the same gem given

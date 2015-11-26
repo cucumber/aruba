@@ -11,7 +11,7 @@ end
 
 When(/^I run `([^`]*)`$/)do |cmd|
   cmd = sanitize_text(cmd)
-  run_simple(cmd, false)
+  run_simple(cmd, fail_on_error: false)
 end
 
 When(/^I successfully run "(.*)"$/)do |cmd|
@@ -25,7 +25,7 @@ end
 ## I successfully run `sleep 29` for up to 30 seconds
 When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
   cmd = sanitize_text(cmd)
-  run_simple(cmd, true, secs && secs.to_i)
+  run_simple(cmd, fail_on_error: true, exit_timeout: secs && secs.to_i)
 end
 
 When(/^I run "([^"]*)" interactively$/) do |cmd|
@@ -107,9 +107,6 @@ When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$
     end
   rescue ChildProcess::TimeoutError, TimeoutError
     last_command_started.terminate
-  ensure
-    announcer.announce :stdout, last_command_started.stdout
-    announcer.announce :stderr, last_command_started.stderr
   end
 end
 
@@ -158,7 +155,7 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
             end
 
   commands = if cmd
-               [process_monitor.get_process(Aruba.platform.detect_ruby(cmd))]
+               [aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))]
              else
                all_commands
              end
@@ -171,7 +168,7 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
 
   if Aruba::VERSION < '1.0'
     combined_output = commands.map do |c|
-      c.stop(announcer)
+      c.stop
       c.send(channel.to_sym).chomp
     end.join("\n")
 
@@ -206,7 +203,7 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
             end
 
   commands = if cmd
-               [process_monitor.get_process(Aruba.platform.detect_ruby(cmd))]
+               [aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))]
              else
                all_commands
              end
@@ -219,7 +216,7 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
 
   if Aruba::VERSION < '1.0'
     combined_output = commands.map do |c|
-      c.stop(announcer)
+      c.stop
       c.send(channel.to_sym).chomp
     end.join("\n")
 

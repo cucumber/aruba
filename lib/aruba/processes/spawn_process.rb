@@ -6,7 +6,9 @@ require 'aruba/errors'
 require 'aruba/processes/basic_process'
 require 'aruba/platform'
 
+# Aruba
 module Aruba
+  # Platforms
   module Processes
     # Spawn a process for command
     #
@@ -29,12 +31,12 @@ module Aruba
       # @params [Integer] exit_timeout
       #   The timeout until we expect the command to be finished
       #
-      # @params [Integer] io_wait
+      # @params [Integer] io_wait_timeout
       #   The timeout until we expect the io to be finished
       #
       # @params [String] working_directory
       #   The directory where the command will be executed
-      def initialize(cmd, exit_timeout, io_wait, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
+      def initialize(cmd, exit_timeout, io_wait_timeout, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
         super
 
         @process      = nil
@@ -50,6 +52,12 @@ module Aruba
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
       def start
+        # rubocop:disable Metrics/LineLength
+        fail CommandAlreadyStartedError, %(Command "#{commandline}" has already been started. Please `#stop` the command first and `#start` it again. Alternatively use `#restart`.\n#{caller.join("\n")}) if started?
+        # rubocop:enable Metrics/LineLength
+
+        @started = true
+
         # gather fully qualified path
         cmd = Aruba.platform.which(command, environment['PATH'])
 
@@ -157,6 +165,7 @@ module Aruba
         self
       end
 
+      # Close io
       def close_io(name)
         return if stopped?
 
@@ -167,8 +176,8 @@ module Aruba
         end
       end
 
-      # rubocop:disable Metrics/MethodLength
-      def stop(reader)
+      # Stop command
+      def stop(*)
         return @exit_status if stopped?
 
         begin
@@ -178,15 +187,7 @@ module Aruba
         end
 
         terminate
-
-        if reader
-          reader.announce :stdout, @stdout_cache
-          reader.announce :stderr, @stderr_cache
-        end
-
-        @exit_status
       end
-      # rubocop:enable Metrics/MethodLength
 
       # Wait for command to finish
       def wait
@@ -216,7 +217,7 @@ module Aruba
         # @stdout_file = nil
         # @stderr_file = nil
 
-        @stopped      = true
+        @started = false
 
         @exit_status
       end

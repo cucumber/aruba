@@ -1,8 +1,12 @@
 require 'aruba/platform'
 
+# Aruba
 module Aruba
+  # Platforms
   module Platforms
     # Implement `which(command)` for UNIX/Linux
+    #
+    # @private
     class UnixWhich
       # Bail out because this should never be reached
       class DefaultWhich
@@ -22,7 +26,7 @@ module Aruba
         end
 
         def call(program, path)
-          return File.expand_path(program) if Aruba.platform.executable_file?(program)
+          return File.expand_path(program) if Aruba.platform.executable?(program)
 
           nil
         end
@@ -43,7 +47,7 @@ module Aruba
             next unless Aruba.platform.exist?(dir) # In case of bogus second argument
 
             found = Dir[File.join(dir, program)].first
-            return found if found && Aruba.platform.executable_file?(found)
+            return found if found && Aruba.platform.executable?(found)
           end
 
           nil

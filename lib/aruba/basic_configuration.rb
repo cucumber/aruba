@@ -1,8 +1,12 @@
 require 'contracts'
 require 'aruba/basic_configuration/option'
+require 'aruba/in_config_wrapper'
 
+# Aruba
 module Aruba
-  # Basic configuration for ProxyPacRb
+  # Basic configuration for Aruba
+  #
+  # @private
   class BasicConfiguration
     include Contracts
 
@@ -11,6 +15,19 @@ module Aruba
         @known_options ||= {}
       end
 
+      # Define an option reader
+      #
+      # @param [Symbol] name
+      #   The name of the reader
+      #
+      # @param [Hash] opts
+      #   Options
+      #
+      # @option [Class, Module] contract
+      #   The contract for the option
+      #
+      # @option [Object] default
+      #   The default value
       def option_reader(name, opts = {})
         contract = opts[:contract]
         default  = opts[:default]
@@ -19,13 +36,27 @@ module Aruba
         fail ArgumentError, 'contract-options is required' if contract.nil?
 
         Contract contract
-        add_option(name, block_given? ? yield(ConfigWrapper.new(known_options)) : default)
+        add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
 
         define_method(name) { find_option(name).value }
 
         self
       end
 
+      # Define an option reader and writer
+      #
+      # @param [Symbol] name
+      #   The name of the reader
+      #
+      # @param [Hash] opts
+      #   Options
+      #
+      # @option [Class, Module] contract
+      #   The contract for the option
+      #
+      # @option [Object] default
+      #   The default value
+      #
       # rubocop:disable Metrics/CyclomaticComplexity
       def option_accessor(name, opts = {})
         contract = opts[:contract]
@@ -36,7 +67,7 @@ module Aruba
         fail ArgumentError, 'contract-options is required' if contract.nil?
 
         # Add writer
-        add_option(name, block_given? ? yield(ConfigWrapper.new(known_options)) : default)
+        add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
 
         Contract contract
         define_method("#{name}=") { |v| find_option(name).value = v }
@@ -66,6 +97,7 @@ module Aruba
 
     public
 
+    # Create configuration
     def initialize
       initialize_configuration
     end

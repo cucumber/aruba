@@ -5,6 +5,7 @@ require 'aruba/platforms/windows_command_string'
 require 'aruba/platforms/windows_environment_variables'
 require 'aruba/platforms/windows_which'
 
+# Aruba
 module Aruba
   # This abstracts OS-specific things
   module Platforms
@@ -15,6 +16,8 @@ module Aruba
     # any further notice.
     #
     # This includes all methods for the Windows platform
+    #
+    # @private
     class WindowsPlatform < UnixPlatform
       def self.match?
         FFI::Platform.windows?

@@ -19,16 +19,7 @@ RSpec::Matchers.define :have_output do |expected|
 
     next false unless @old_actual.respond_to? :output
 
-    @announcer ||= Aruba::Announcer.new(
-      self,
-      :stdout => @announce_stdout,
-      :stderr => @announce_stderr,
-      :dir    => @announce_dir,
-      :cmd    => @announce_cmd,
-      :env    => @announce_env
-    )
-
-    @old_actual.stop(@announcer)
+    @old_actual.stop
 
     @actual = sanitize_text(actual.output)
 

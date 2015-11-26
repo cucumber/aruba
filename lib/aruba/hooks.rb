@@ -1,3 +1,4 @@
+# Aruba
 module Aruba
   # Aruba Hooks
   class Hooks
@@ -7,6 +8,7 @@ module Aruba
 
     public
 
+    # Create store
     def initialize
       @store = {}
     end

@@ -1,7 +1,12 @@
 require 'aruba/platforms/disk_usage_calculator'
 
+# Aruba
 module Aruba
+  # Platforms
   module Platforms
+    # Determinate disk usage
+    #
+    # @private
     class DetermineDiskUsage
       def call(*args)
         args = args.flatten

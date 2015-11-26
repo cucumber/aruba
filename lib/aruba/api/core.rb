@@ -1,12 +1,13 @@
 require 'rspec/expectations'
-require 'aruba/announcer'
 require 'aruba/runtime'
 require 'aruba/errors'
+require 'aruba/setup'
 
 require 'aruba/config/jruby'
-require 'aruba/aruba_logger'
 
+# Aruba
 module Aruba
+  # Api
   module Api
     # Core methods of aruba
     #
@@ -25,9 +26,7 @@ module Aruba
       # artifacts of your tests. This does NOT clean up the current working
       # directory.
       def setup_aruba
-        Aruba.platform.rm File.join(Aruba.config.root_directory, Aruba.config.working_directory), :force => true
-        Aruba.platform.mkdir File.join(Aruba.config.root_directory, Aruba.config.working_directory)
-        Aruba.platform.chdir Aruba.config.root_directory
+        Aruba::Setup.new(aruba).call
 
         self
       end
@@ -52,8 +51,11 @@ module Aruba
           begin
             fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba.platform.directory? expand_path(dir)
 
+            old_directory = expand_path('.')
             aruba.current_directory << dir
-            announcer.announce :directory, expand_path(dir)
+            new_directory = expand_path('.')
+
+            aruba.event_bus.notify Events::ChangedWorkingDirectory.new(:old => old_directory, :new => new_directory)
 
             old_dir    = Aruba.platform.getwd
 
@@ -74,8 +76,11 @@ module Aruba
 
         fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba.platform.directory? expand_path(dir)
 
+        old_directory = expand_path('.')
         aruba.current_directory << dir
-        announcer.announce :directory, expand_path(dir)
+        new_directory = expand_path('.')
+
+        aruba.event_bus.notify Events::ChangedWorkingDirectory.new(:old => old_directory, :new => new_directory)
 
         self
       end
@@ -170,7 +175,7 @@ module Aruba
       #   The variables to be used for block.
       #
       # @yield
-      #   The block of code which should be run with the modified environment variables
+      #   The block of code which should be run with the changed environment variables
       def with_environment(env = {}, &block)
         old_aruba_env = aruba.environment.to_h
 

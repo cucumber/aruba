@@ -1,6 +1,10 @@
 require 'logger'
 
+# Aruba
 module Aruba
+  # Logger
+  #
+  # @private
   class ArubaLogger
     attr_reader :mode
 

@@ -8,8 +8,11 @@ Aruba.platform.require_matching_files('../matchers/file/*.rb', __FILE__)
 Aruba.platform.require_matching_files('../matchers/directory/*.rb', __FILE__)
 Aruba.platform.require_matching_files('../matchers/path/*.rb', __FILE__)
 
+# Aruba
 module Aruba
+  # Api
   module Api
+    # Filesystem methods
     module Filesystem
       # Check if file or directory exist
       #
@@ -33,6 +36,16 @@ module Aruba
       #   The file/directory which should exist
       def directory?(file)
         Aruba.platform.directory? expand_path(file)
+      end
+
+      # Check if file exist and is executable
+      #
+      # @param [String] file
+      #   The file which should exist
+      def executable?(path)
+        path =  expand_path(path)
+
+        Aruba.platform.file?(path) && Aruba.platform.executable?(path)
       end
 
       # Check if path is absolute

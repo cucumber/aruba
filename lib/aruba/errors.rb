@@ -11,6 +11,21 @@ module Aruba
   # Raised if one tries to use an unknown configuration option
   class UnknownOptionError < ArgumentError; end
 
-  # Rais if command already died
+  # Raised if command already died
   class CommandAlreadyStoppedError < Error; end
+
+  # Raised if one tries to access last command started, but no command
+  # has been started
+  class NoCommandHasBeenStartedError < Error; end
+
+  # Raised if one tries to access last command stopped, but no command
+  # has been stopped
+  class NoCommandHasBeenStoppedError < Error; end
+
+  # Raised if one looked for a command, but no matching was found
+  class CommandNotFoundError < ArgumentError; end
+
+  # Raised if command was already started, otherwise aruba forgets about the
+  # previous pid and you've got hidden commands run
+  class CommandAlreadyStartedError < Error; end
 end

@@ -1,7 +1,11 @@
+# Aruba
 module Aruba
+  # Platforms
   module Platforms
     # Normal File Creator
     # This class is not meant to be used directly by users.
+    #
+    # @private
     class ArubaFileCreator
       # Write File
       #

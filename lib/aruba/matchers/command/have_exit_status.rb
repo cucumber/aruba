@@ -20,7 +20,7 @@ RSpec::Matchers.define :have_exit_status do |expected|
   match do |actual|
     @old_actual = actual
 
-    @old_actual.stop(announcer) unless @old_actual.stopped?
+    @old_actual.stop
     @actual = actual.exit_status
 
     next false unless @old_actual.respond_to? :exit_status

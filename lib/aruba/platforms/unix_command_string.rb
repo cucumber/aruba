@@ -1,7 +1,9 @@
 require 'delegate'
 require 'shellwords'
 
+# Aruba
 module Aruba
+  # Platforms
   module Platforms
     # This is a command which should be run
     class UnixCommandString < SimpleDelegator
@@ -9,6 +11,7 @@ module Aruba
         __setobj__ cmd
       end
 
+      # Convert to array
       def to_a
         Shellwords.split __getobj__
       end

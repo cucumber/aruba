@@ -6,26 +6,6 @@ require 'fileutils'
 describe Aruba::Api  do
   include_context 'uses aruba API'
 
-  describe 'current_directory' do
-    it "should return the current dir as 'tmp/aruba'" do
-      expect(@aruba.aruba.current_directory.to_s).to match(/^tmp\/aruba$/)
-    end
-
-    it "can be cleared" do
-      write_file('test', 'test test test')
-
-      cd('.') do
-        expect(File.exist?('test')).to be true
-      end
-
-      setup_aruba
-
-      cd('.') do
-        expect(File.exist?('test')).to be false
-      end
-    end
-  end
-
   describe '#all_paths' do
     let(:name) { @file_name }
     let(:path) { @file_path }
@@ -1096,19 +1076,17 @@ describe Aruba::Api  do
 
   describe 'tags' do
     describe '@announce_stdout' do
-      after(:each) { @aruba.all_commands.each { |c| c.stop(@aruba.announcer) } }
+      after(:each) { @aruba.all_commands.each(&:stop) }
 
       context 'enabled' do
         before :each do
-          @aruba.announcer.activate(:stdout)
+          @aruba.aruba.announcer = instance_double 'Aruba::Platforms::Announcer'
+          expect(@aruba.aruba.announcer).to receive(:announce).with(:stdout, "hello world\n")
+          allow(@aruba.aruba.announcer).to receive(:announce)
         end
 
         it "should announce to stdout exactly once" do
-          result = capture(:stdout) do
-            @aruba.run_simple('echo "hello world"', false)
-          end
-
-          expect(result).to include('hello world')
+          @aruba.run_simple('echo "hello world"', false)
           expect(@aruba.all_output).to include('hello world')
         end
       end
@@ -1128,7 +1106,7 @@ describe Aruba::Api  do
 
   describe "#assert_not_matching_output" do
     before(:each){ @aruba.run_simple("echo foo", false) }
-    after(:each) { @aruba.all_commands.each { |c| c.stop(@aruba.announcer) } }
+    after(:each) { @aruba.all_commands.each(&:stop) }
 
     it "passes when the output doesn't match a regexp" do
       @aruba.assert_not_matching_output "bar", @aruba.all_output
@@ -1141,8 +1119,9 @@ describe Aruba::Api  do
   end
 
   describe '#run' do
-    before(:each){@aruba.run "cat"}
-    after(:each) { @aruba.all_commands.each { |c| c.stop(@aruba.announcer) } }
+    before(:each){ @aruba.run 'cat' }
+    after(:each) { @aruba.all_commands.each(&:stop) }
+
     it "respond to input" do
       @aruba.type "Hello"
       @aruba.type ""
@@ -1165,16 +1144,14 @@ describe Aruba::Api  do
 
   describe "#run_simple" do
     before(:each){@aruba.run_simple "true"}
-    after(:each) { @aruba.all_commands.each { |c| c.stop(@aruba.announcer) } }
+    after(:each) { @aruba.all_commands.each(&:stop) }
     describe "get_process" do
       it "returns a process" do
         expect(@aruba.get_process("true")).not_to be(nil)
       end
 
       it "raises a descriptive exception" do
-        expect do
-          expect(@aruba.get_process("false")).not_to be(nil)
-        end.to raise_error(ArgumentError, "No process named 'false' has been started")
+        expect { @aruba.get_process("false") }.to raise_error CommandNotFoundError, "No command named 'false' has been started"
       end
     end
   end
@@ -1195,7 +1172,7 @@ describe Aruba::Api  do
 
   describe "#set_environment_variable" do
     after(:each) do
-      @aruba.all_commands.each { |c| c.stop(@aruba.announcer) }
+      @aruba.all_commands.each(&:stop)
       @aruba.restore_env
     end
 
@@ -1214,7 +1191,7 @@ describe Aruba::Api  do
   end
 
   describe "#restore_env" do
-    after(:each) { @aruba.all_commands.each { |c| c.stop(@aruba.announcer) } }
+    after(:each) { @aruba.all_commands.each(&:stop) }
     it "restores environment variable" do
       @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.restore_env

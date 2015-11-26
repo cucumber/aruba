@@ -1,6 +1,8 @@
 require 'aruba/api'
 
+# Aruba
 module Aruba
+  # Consule
   class Console
     # Helpers for Aruba::Console
     module Help

@@ -19,7 +19,9 @@ require 'aruba/api/rvm'
 
 Aruba.platform.require_matching_files('../matchers/**/*.rb', __FILE__)
 
+# Aruba
 module Aruba
+  # Api
   module Api
     include Aruba::Api::Core
     include Aruba::Api::Commands

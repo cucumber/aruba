@@ -1,4 +1,6 @@
+# Aruba
 module Aruba
+  # Platforms
   module Platforms
     # Create files with fixed size
     #
@@ -6,6 +8,8 @@ module Aruba
     #
     # It uses a single null byte as content and really creates so called sparse
     # files.
+    #
+    # @private
     class ArubaFixedSizeFileCreator
       # Write File
       #
