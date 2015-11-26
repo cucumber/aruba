@@ -1,6 +1,18 @@
+# Aruba
 module Aruba
+  # Platforms
   module Platforms
+    # Local environemnt
+    #
+    # Wraps logic to make enviroment local and restorable
     class LocalEnvironment
+      # Run in environment
+      #
+      # @param [Hash] env
+      #   The environment
+      #
+      # @yield
+      #   The block of code which should with local ENV
       def call(env, &block)
         old_env = ENV.to_hash.dup
 

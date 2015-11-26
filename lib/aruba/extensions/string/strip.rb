@@ -1,3 +1,4 @@
+# String
 class String
   # Strips indentation in heredocs.
   #

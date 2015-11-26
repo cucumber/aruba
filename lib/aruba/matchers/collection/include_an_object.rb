@@ -1,6 +1,8 @@
 require 'aruba/matchers/base/base_matcher'
 
+# Aruba
 module Aruba
+  # Matchers
   module Matchers
     # @api private
     # Provides the implementation for `include_an_object`.

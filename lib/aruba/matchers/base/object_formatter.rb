@@ -1,7 +1,11 @@
+# Aruba
 module Aruba
+  # Matchers
   module Matchers
     # Provide additional output details beyond what `inspect` provides when
     # printing Time, DateTime, or BigDecimal
+    #
+    # @private
     module ObjectFormatter
       # @api private
       def self.format(object)

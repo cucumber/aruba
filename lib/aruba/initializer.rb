@@ -1,11 +1,19 @@
 require 'thor/group'
 require 'thor/actions'
 
+# Aruba
 module Aruba
+  # Initializers
+  #
+  # Initialize project with aruba configuration files
   module Initializers
+    # Common initializer
+    #
+    # @private
     class CommonInitializer < Thor::Group
       include Thor::Actions
 
+      # Add gem to gemfile
       def add_gem
         file = 'Gemfile'
         creator = if File.exist? file
@@ -25,8 +33,15 @@ module Aruba
   end
 end
 
+# Aruba
 module Aruba
+  # Initializers
   module Initializers
+    # Default Initializer
+    #
+    # This handles invalid values for initializer.
+    #
+    # @private
     class FailingInitializer
       class << self
         def match?(*)
@@ -41,8 +56,13 @@ module Aruba
   end
 end
 
+# Aruba
 module Aruba
+  # Initializer
   module Initializers
+    # Add aruba + rspec to project
+    #
+    # @private
     class RSpecInitializer < Thor::Group
       include Thor::Actions
 
@@ -82,8 +102,13 @@ EOS
   end
 end
 
+# Aruba
 module Aruba
+  # Initializer
   module Initializers
+    # Add aruba + aruba to project
+    #
+    # @private
     class CucumberInitializer < Thor::Group
       include Thor::Actions
 
@@ -102,8 +127,13 @@ EOS
   end
 end
 
+# Aruba
 module Aruba
+  # Initializer
   module Initializers
+    # Add aruba + minitest to project
+    #
+    # @private
     class MiniTestInitializer < Thor::Group
       include Thor::Actions
 
@@ -155,7 +185,13 @@ EOS
   end
 end
 
+# Aruba
 module Aruba
+  # The whole initializer
+  #
+  # This one uses the specific initializers to generate the needed files.
+  #
+  # @private
   class Initializer
     private
 
@@ -171,6 +207,7 @@ module Aruba
       @initializers << Initializers::FailingInitializer
     end
 
+    # Create files etc.
     def call(test_framework)
       begin
         initializers.find { |i| i.match? test_framework }.start [], {}

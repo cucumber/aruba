@@ -1,11 +1,14 @@
 require 'aruba/errors'
 
+# Aruba
 module Aruba
   # The command monitor is part of the private API of Aruba.
+  #
+  # @private
   class CommandMonitor
     private
 
-    attr_reader :event_bus, :announcer
+    attr_reader :announcer
 
     public
 
@@ -17,7 +20,7 @@ module Aruba
       end
 
       def method_missing(*)
-        fail NoCommandHasBeenStartedError, 'No last command stopped available'
+        fail NoCommandHasBeenStoppedError, 'No last command stopped available'
       end
     end
 
@@ -27,18 +30,18 @@ module Aruba
       end
 
       def method_missing(*)
-        fail NoCommandHasBeenStoppedError, 'No last command started available'
+        fail NoCommandHasBeenStartedError, 'No last command started available'
       end
     end
 
     # rubocop:disable Metrics/MethodLength
     def initialize(opts = {})
       @registered_commands = []
-      @event_bus = opts.fetch(:event_bus)
       @announcer = opts.fetch(:announcer)
 
       @last_command_stopped = DefaultLastCommandStopped.new
       @last_command_started = DefaultLastCommandStarted.new
+
     rescue KeyError => e
       raise ArgumentError, e.message
     end
@@ -54,22 +57,6 @@ module Aruba
       end
     else
       attr_reader :last_command_stopped
-    end
-
-    # Start given command
-    #
-    # @param [String] cmd
-    #   The commandline of the command
-    # @param [Numeric] timeout
-    #   The time to wait for the command to stop
-    def start_command(cmd, opts = {})
-      opts[:event_bus] = event_bus
-      command = Command.new(cmd, opts)
-      register_command(command)
-
-      command.start
-
-      self
     end
 
     # Set last command started
@@ -94,9 +81,9 @@ module Aruba
     #   This yields the found command
     def find(cmd)
       cmd = cmd.commandline if cmd.respond_to? :commandline
-      command = registered_commands.find { |c| c.commandline == cmd }
+      command = registered_commands.reverse.find { |c| c.commandline == cmd }
 
-      fail ArgumentError, "No command named '#{cmd}' has been started" if command.nil?
+      fail CommandNotFoundError, "No command named '#{cmd}' has been started" if command.nil?
 
       command
     end
@@ -232,9 +219,7 @@ module Aruba
       command
     end
 
-    private
-
-    # Register
+    # Register command to monitor
     def register_command(cmd)
       registered_commands << cmd
 

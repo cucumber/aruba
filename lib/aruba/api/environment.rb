@@ -1,6 +1,8 @@
 require 'aruba/platform'
 
+# Aruba
 module Aruba
+  # Api
   module Api
     # Environment methods of aruba
     module Environment
@@ -74,9 +76,11 @@ module Aruba
       def delete_environment_variable(name)
         name = name.to_s
 
-        aruba.event_bus.notify Events::DeletedEnvironmentVariable.new(:old => old_environment, :new => new_environment, :changed => { :name => name, :value => '' })
-
+        old_environment = aruba.environment.to_h
         aruba.environment.delete name
+        new_environment = aruba.environment.to_h
+
+        aruba.event_bus.notify Events::DeletedEnvironmentVariable.new(:old => old_environment, :new => new_environment, :changed => { :name => name, :value => '' })
 
         self
       end

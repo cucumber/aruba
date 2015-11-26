@@ -21,6 +21,9 @@ RSpec.configure do |config|
     end
 
     example.run
+
+    next unless self.class.include? Aruba::Api
+    stop_all_commands
   end
 
   if Aruba::VERSION >= '1.0.0'

@@ -1,5 +1,8 @@
+# Aruba
 module Aruba
+  # Platforms
   module Platforms
+    # Generate simple table
     class SimpleTable
       private
 
@@ -7,10 +10,18 @@ module Aruba
 
       public
 
+      # Create
+      #
+      # @param [Hash] hash
+      #   Input
       def initialize(hash)
         @hash = hash
       end
 
+      # Generate table
+      #
+      # @return [String]
+      #   The table
       def to_s
         longest_key = hash.keys.map(&:to_s).max_by(&:length)
         return [] if longest_key.nil?

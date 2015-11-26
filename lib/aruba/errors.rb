@@ -16,9 +16,16 @@ module Aruba
 
   # Raised if one tries to access last command started, but no command
   # has been started
-  class NoCommandHasBeenStartedError < StandardError; end
+  class NoCommandHasBeenStartedError < Error; end
 
   # Raised if one tries to access last command stopped, but no command
   # has been stopped
-  class NoCommandHasBeenStoppedError < StandardError; end
+  class NoCommandHasBeenStoppedError < Error; end
+
+  # Raised if one looked for a command, but no matching was found
+  class CommandNotFoundError < ArgumentError; end
+
+  # Raised if command was already started, otherwise aruba forgets about the
+  # previous pid and you've got hidden commands run
+  class CommandAlreadyStartedError < Error; end
 end

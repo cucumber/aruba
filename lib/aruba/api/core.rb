@@ -5,7 +5,9 @@ require 'aruba/setup'
 
 require 'aruba/config/jruby'
 
+# Aruba
 module Aruba
+  # Api
   module Api
     # Core methods of aruba
     #

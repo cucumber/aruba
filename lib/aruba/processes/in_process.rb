@@ -3,7 +3,9 @@ require 'stringio'
 require 'aruba/processes/basic_process'
 require 'aruba/platform'
 
+# Aruba
 module Aruba
+  # Platforms
   module Processes
     # Run command in your ruby process
     #
@@ -20,6 +22,9 @@ module Aruba
 
       attr_reader :exit_status
 
+      # Fake Kernel module of ruby
+      #
+      # @private
       class FakeKernel
         attr_reader :exitstatus
 
@@ -51,6 +56,7 @@ module Aruba
         super
       end
 
+      # Start command
       def start
         fail "You need to call aruba.config.main_class = YourMainClass" unless main_class
 
@@ -67,33 +73,43 @@ module Aruba
         end
       end
 
+      # Stop command
       def stop(*)
-        @stopped     = true
+        @started     = false
         @exit_status = @kernel.exitstatus
       end
 
+      # Access stdin
       def stdin
         @stdin.string
       end
 
+      # Access stdout
       def stdout(*)
         @stdout.string
       end
 
+      # Access stderr
       def stderr(*)
         @stderr.string
       end
 
+      # Write strint to stdin
+      #
+      # @param [String] input
+      #   Write string to stdin in
       def write(input)
         @stdin.write input
       end
 
+      # Close io
       def close_io(name)
         fail ArgumentError, 'Only stdin stdout and stderr are allowed to close' unless [:stdin, :stdout, :stderr].include? name
 
         get_instance_variable(name.to_sym).close
       end
 
+      # Terminate program
       def terminate
         stop
       end

@@ -1,6 +1,8 @@
 require 'aruba/processes/spawn_process'
 
+# Aruba
 module Aruba
+  # Processes
   module Processes
     # Run your command in `systemd()` to make debugging it easier
     #
@@ -57,7 +59,7 @@ module Aruba
 
       # Stop process
       def stop(*)
-        @stopped = true
+        @started = false
 
         @exit_status
       end

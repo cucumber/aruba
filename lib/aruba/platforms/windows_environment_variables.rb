@@ -1,6 +1,8 @@
 require 'aruba/platforms/unix_environment_variables'
 
+# Aruba
 module Aruba
+  # Platforms
   module Platforms
     # Windows is case-insensitive when it accesses its environment variables.
     # That means that at the Windows command line:

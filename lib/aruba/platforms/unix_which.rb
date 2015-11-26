@@ -1,8 +1,12 @@
 require 'aruba/platform'
 
+# Aruba
 module Aruba
+  # Platforms
   module Platforms
     # Implement `which(command)` for UNIX/Linux
+    #
+    # @private
     class UnixWhich
       # Bail out because this should never be reached
       class DefaultWhich

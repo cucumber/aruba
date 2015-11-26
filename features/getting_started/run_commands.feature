@@ -33,26 +33,16 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
-  Scenario: Ruby Program
-    Given an executable named "bin/cli" with:
-    """ruby
-    #!/usr/bin/env ruby
-
-    puts "Hello, Aruba!"
-    """
-    When I successfully run `cucumber`
-    Then the features should all pass
-
   Scenario: Bash Program run via bash
-    Given a file named "tmp/aruba/bin/cli.sh" with:
-    """bash
-    echo "Hello, Aruba!"
-    """
-    And a file named "features/hello_aruba.feature" with:
+    Given a file named "features/hello_aruba.feature" with:
     """
     Feature: Getting Started With Aruba
       Scenario: First Run of Command
-        Given I successfully run `bash bin/cli.sh`
+        Given a file named "cli.sh" with:
+        \"\"\"
+        echo "Hello, Aruba!"
+        \"\"\"
+        When I successfully run `bash ./cli.sh`
         Then the output should contain:
         \"\"\"
         Hello, Aruba!
@@ -72,15 +62,15 @@ Feature: Run commands with Aruba
     Then the features should all pass
 
   Scenario: Ruby Program via "ruby"
-    Given an executable named "bin/cli.rb" with:
-    """ruby
-    puts "Hello, Aruba!"
-    """
-    And a file named "features/hello_aruba.feature" with:
+    Given a file named "features/hello_aruba.feature" with:
     """
     Feature: Getting Started With Aruba
       Scenario: First Run of Command
-        Given I successfully run `ruby bin/cli.rb`
+        Given a file named "cli.rb" with:
+        \"\"\"
+        puts "Hello, Aruba!"
+        \"\"\"
+        When I successfully run `ruby ./cli.rb`
         Then the output should contain:
         \"\"\"
         Hello, Aruba!
@@ -100,15 +90,15 @@ Feature: Run commands with Aruba
     Then the features should all pass
 
   Scenario: Python Program via "python"
-    Given a file named "bin/cli.py" with:
-    """python
-    print("Hello, Aruba!")
-    """
-    And a file named "features/hello_aruba.feature" with:
+    Given a file named "features/hello_aruba.feature" with:
     """
     Feature: Getting Started With Aruba
       Scenario: First Run of Command
-        Given I successfully run `python bin/cli.py`
+        Given a file named "cli.py" with:
+        \"\"\"
+        print("Hello, Aruba!")
+        \"\"\"
+        When I successfully run `python ./cli.py`
         Then the output should contain:
         \"\"\"
         Hello, Aruba!
@@ -128,15 +118,15 @@ Feature: Run commands with Aruba
     Then the features should all pass
 
   Scenario: Perl Program via "perl"
-    Given an executable named "bin/cli.pl" with:
-    """perl
-    print "Hello, Aruba!\n";
-    """
-    And a file named "features/hello_aruba.feature" with:
+    Given a file named "features/hello_aruba.feature" with:
     """
     Feature: Getting Started With Aruba
       Scenario: First Run of Command
-        Given I successfully run `perl bin/cli.pl`
+        Given a file named "cli.pl" with:
+        \"\"\"perl
+        print "Hello, Aruba!\n";
+        \"\"\"
+        When I successfully run `perl ./cli.pl`
         Then the output should contain:
         \"\"\"
         Hello, Aruba!

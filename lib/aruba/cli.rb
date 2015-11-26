@@ -2,7 +2,11 @@ require 'thor'
 require 'aruba/console'
 require 'aruba/initializer'
 
+# Aruba
 module Aruba
+  # Command line Interface
+  #
+  # @private
   class Cli < Thor
     def self.exit_on_failure?
       true

@@ -1,8 +1,12 @@
 require 'shellwords'
 
+# Aruba
 module Aruba
+  # Platforms
   module Platforms
     # Announcer
+    #
+    # @private
     #
     # @example Activate your you own channel in cucumber
     #

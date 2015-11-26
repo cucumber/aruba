@@ -8,8 +8,11 @@ Aruba.platform.require_matching_files('../matchers/file/*.rb', __FILE__)
 Aruba.platform.require_matching_files('../matchers/directory/*.rb', __FILE__)
 Aruba.platform.require_matching_files('../matchers/path/*.rb', __FILE__)
 
+# Aruba
 module Aruba
+  # Api
   module Api
+    # Filesystem methods
     module Filesystem
       # Check if file or directory exist
       #

@@ -5,6 +5,7 @@ require 'aruba/command'
 
 # require 'win32/file' if File::ALT_SEPARATOR
 
+# Aruba
 module Aruba
   class << self
     # @deprecated
@@ -15,8 +16,11 @@ module Aruba
   # self.process = Aruba::Processes::SpawnProcess
 end
 
+# Aruba
 module Aruba
+  # Api
   module Api
+    # Command module
     module Commands
       # Resolve path for command using the PATH-environment variable
       #
@@ -112,22 +116,48 @@ module Aruba
       # @param [String] cmd
       #   The command which should be executed
       #
-      # @param [Integer] timeout
+      # @param [Hash] opts
+      #   Options
+      #
+      # @option [Integer] exit_timeout
       #   If the timeout is reached the command will be killed
       #
-      # @param [String] stop_signal
-      #   Use signal to stop command (Private)
+      # @option [Integer] io_wait_timeout
+      #   Wait for IO to finish
+      #
+      # @option [Integer] startup_wait_time
+      #   Wait for a command to start
+      #
+      # @option [String] stop_signal
+      #   Use signal to stop command
       #
       # @yield [SpawnProcess]
       #   Run block with process
       #
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
-      def run(cmd, exit_timeout = nil, io_wait_timeout = nil, stop_signal = nil, startup_wait_time = nil)
-        exit_timeout ||= aruba.config.exit_timeout
-        io_wait_timeout ||= aruba.config.io_wait_timeout
-        stop_signal ||= aruba.config.stop_signal
-        startup_wait_time ||= aruba.config.startup_wait_time
+      def run(*args)
+        fail ArgumentError, 'Please pass at least a command as first argument.' if args.size < 1
+
+        cmd = args.shift
+
+        if args.last.is_a? Hash
+          opts = args.pop
+
+          exit_timeout      = opts.fetch(:exit_timeout, aruba.config.exit_timeout)
+          io_wait_timeout   = opts.fetch(:io_wait_timeout, aruba.config.io_wait_timeout)
+          stop_signal       = opts.fetch(:stop_signal, aruba.config.stop_signal)
+          startup_wait_time = opts.fetch(:startup_wait_time, aruba.config.startup_wait_time)
+        else
+          if args.size > 1
+            Aruba.platform.deprecated("Please pass options to `#run` as named parameters/hash and don\'t use the old style, e.g. `#run('cmd', :exit_timeout => 5)`.")
+          end
+
+          exit_timeout      = args[0] || aruba.config.exit_timeout
+          io_wait_timeout   = args[1] || aruba.config.io_wait_timeout
+          stop_signal       = args[2] || aruba.config.stop_signal
+          startup_wait_time = args[3] || aruba.config.startup_wait_time
+        end
 
         cmd = replace_variables(cmd)
 
@@ -136,6 +166,7 @@ module Aruba
 
         environment       = aruba.environment.to_h
         working_directory = expand_path('.')
+        event_bus         = aruba.event_bus
 
         aruba.announcer.announce(:full_environment, environment)
         aruba.announcer.announce(:timeout, 'exit', exit_timeout)
@@ -145,7 +176,7 @@ module Aruba
         aruba.announcer.announce(:directory, working_directory)
         aruba.announcer.announce(:command, cmd)
 
-        cmd               = Aruba.platform.detect_ruby(cmd)
+        cmd = Aruba.platform.detect_ruby(cmd)
 
         mode = if Aruba.process
                  # rubocop:disable Metrics/LineLength
@@ -165,7 +196,7 @@ module Aruba
                        aruba.config.main_class
                      end
 
-        aruba.command_monitor.start_command(
+        command = Command.new(
           cmd,
           :mode              => mode,
           :exit_timeout      => exit_timeout,
@@ -174,10 +205,9 @@ module Aruba
           :environment       => environment,
           :main_class        => main_class,
           :stop_signal       => stop_signal,
-          :startup_wait_time => startup_wait_time
+          :startup_wait_time => startup_wait_time,
+          :event_bus         => event_bus
         )
-
-        command = aruba.command_monitor.find(cmd)
 
         if aruba.config.before? :cmd
           # rubocop:disable Metrics/LineLength
@@ -206,13 +236,44 @@ module Aruba
       # @param [String] cmd
       #   The command to be executed
       #
-      # @param [TrueClass,FalseClass] fail_on_error
+      # @param [Hash] options
+      #   Options for aruba
+      #
+      # @option [TrueClass,FalseClass] fail_on_error
       #   Should aruba fail on error?
       #
-      # @param [Integer] timeout
+      # @option [Integer] exit_timeout
       #   Timeout for execution
-      def run_simple(cmd, fail_on_error = true, exit_timeout = nil, io_wait_timeout = nil)
-        command = run(cmd, exit_timeout, io_wait_timeout)
+      #
+      # @option [Integer] io_wait_timeout
+      #   Timeout for IO - STDERR, STDOUT
+      #
+      # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/MethodLength
+      def run_simple(*args)
+        fail ArgumentError, 'Please pass at least a command as first argument.' if args.size < 1
+
+        cmd = args.shift
+
+        if args.last.is_a? Hash
+          opts = args.pop
+
+          fail_on_error   = opts.fetch(:fail_on_error, false) || false
+          exit_timeout    = opts.fetch(:exit_timeout, aruba.config.exit_timeout) || aruba.config.exit_timeout
+          io_wait_timeout = opts.fetch(:io_wait_timeout, aruba.config.io_wait_timeout) || aruba.config.io_wait_timeout
+        else
+          if args.size > 1
+            # rubocop:disable Metrics/LineLength
+            Aruba.platform.deprecated("Please pass options to `#run_simple` as named parameters/hash and don\'t use the old style with positional parameters, NEW: e.g. `#run_simple('cmd', :exit_timeout => 5)`.")
+            # rubocop:enable Metrics/LineLength
+          end
+
+          fail_on_error     = args[0] || true
+          exit_timeout      = args[1] || aruba.config.exit_timeout
+          io_wait_timeout   = args[2] || aruba.config.io_wait_timeout
+        end
+
+        command = run(cmd, :exit_timeout => exit_timeout, :io_wait_timeout => io_wait_timeout)
         command.stop
 
         if Aruba::VERSION < '1'
@@ -225,6 +286,8 @@ module Aruba
           expect(command).to be_successfully_executed
         end
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/MethodLength
 
       # Provide data to command via stdin
       #

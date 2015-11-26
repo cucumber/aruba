@@ -1,4 +1,11 @@
+# Aruba
 module Aruba
+  # In config wrapper
+  #
+  # Used to make the configuration read only if one needs to access an
+  # configuration option from with `Aruba::Config`.
+  #
+  # @private
   class InConfigWrapper
     attr_reader :config
     private :config

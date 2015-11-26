@@ -1,7 +1,10 @@
 require 'aruba/platforms/announcer'
 
+# Aruba
 module Aruba
+  # Api
   module Api
+    # Deprecated
     module Deprecated
       # @deprecated
       # The path to the directory which should contain all your test data
@@ -897,6 +900,7 @@ module Aruba
       end
 
       # @private
+      # @deprecated
       def process_monitor
         Aruba.platform.deprecated('The use of "#process_monitor" is deprecated.')
 
@@ -904,6 +908,7 @@ module Aruba
       end
 
       # @private
+      # @deprecated
       def processes
         Aruba.platform.deprecated('The use of "#process_monitor" is deprecated. Please use "#all_commands" instead.')
 

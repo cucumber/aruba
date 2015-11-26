@@ -44,6 +44,7 @@ module Aruba
       runtime.event_bus.register(
         :command_started,
         ->(event) do
+          runtime.command_monitor.register_command event.entity
           runtime.command_monitor.last_command_started = event.entity
         end
       )

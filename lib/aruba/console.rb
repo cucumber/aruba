@@ -3,8 +3,12 @@ require 'irb'
 require 'aruba/api'
 require 'aruba/console/help'
 
+# Aruba
 module Aruba
+  # Consule
   class Console
+    # Start the aruba console
+    #
     # rubocop:disable Metrics/MethodLength
     def start
       # Start IRB with current context:

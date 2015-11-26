@@ -1,6 +1,11 @@
 module Aruba
   # This wraps the current runtime configuration of aruba.
   # If an option is changed, it notifies the event queue.
+  #
+  # This class is not meant for direct use - ConfigWrapper.new - by normal
+  # users.
+  #
+  # @private
   class ConfigWrapper
     private
 
@@ -35,7 +40,12 @@ module Aruba
       config.respond_to? name
     end
 
-    # Compare
+    # Compare two configs
+    #
+    # The comparism is done based on their values. No hooks are compared.
+    #
+    # Somehow `#respond_to_missing?`, `method_missing?` and `respond_to?` don't
+    # help here.
     def ==(other)
       config == other
     end

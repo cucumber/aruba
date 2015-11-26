@@ -1,6 +1,8 @@
 require 'aruba/matchers/base/object_formatter'
 
+# Aruba
 module Aruba
+  # Matchers
   module Matchers
     # Base Matcher
     class BaseMatcher

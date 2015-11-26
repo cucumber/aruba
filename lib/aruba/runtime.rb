@@ -5,8 +5,38 @@ require 'aruba/events'
 require 'event/bus'
 
 module Aruba
+  # Runtime of aruba
+  #
+  # Most methods are considered private. Please look for `(private)` in the
+  # attribute descriptions. Only a few like `#current_directory`,
+  # '#root_directory` and `#config` are considered to be part of the public
+  # API.
   class Runtime
+    # @!attribute [r] current_directory
+    #   Returns the current working directory
+    #
+    # @!attribute [r] root_directory
+    #   Returns the root directory of aruba
     attr_reader :current_directory, :root_directory
+
+    # @!attribute [r] config
+    #   Access configuration of aruba
+    #
+    # @!attribute [r] environment
+    #   Access environment of aruba (private)
+    #
+    # @!attribute [r] logger
+    #   Logger of aruba (private)
+    #
+    # @!attribute [r] command_monitor
+    #   Handler started commands (private)
+    #
+    # @!attribute [r] announcer
+    #   Announce information
+    #
+    # @!attribute [r] event_bus
+    #   Handle events (private)
+    #
     attr_accessor :config, :environment, :logger, :command_monitor, :announcer, :event_bus
 
     def initialize(opts = {})
@@ -19,9 +49,9 @@ module Aruba
       @root_directory    = ArubaPath.new(@config.root_directory)
 
       if Aruba::VERSION < '1'
-        @command_monitor = opts.fetch(:command_monitor, Aruba.platform.command_monitor.new(event_bus: @event_bus, announcer: @announcer))
+        @command_monitor = opts.fetch(:command_monitor, Aruba.platform.command_monitor.new(:announcer => @announcer))
       else
-        @command_monitor = opts.fetch(:command_monitor, Aruba.platform.command_monitor.new(event_bus: @event_bus))
+        @command_monitor = opts.fetch(:command_monitor, Aruba.platform.command_monitor.new)
       end
 
       @logger = opts.fetch(:logger, Aruba.platform.logger.new)

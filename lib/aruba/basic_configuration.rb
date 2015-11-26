@@ -2,8 +2,11 @@ require 'contracts'
 require 'aruba/basic_configuration/option'
 require 'aruba/in_config_wrapper'
 
+# Aruba
 module Aruba
-  # Basic configuration for ProxyPacRb
+  # Basic configuration for Aruba
+  #
+  # @private
   class BasicConfiguration
     include Contracts
 
@@ -12,6 +15,19 @@ module Aruba
         @known_options ||= {}
       end
 
+      # Define an option reader
+      #
+      # @param [Symbol] name
+      #   The name of the reader
+      #
+      # @param [Hash] opts
+      #   Options
+      #
+      # @option [Class, Module] contract
+      #   The contract for the option
+      #
+      # @option [Object] default
+      #   The default value
       def option_reader(name, opts = {})
         contract = opts[:contract]
         default  = opts[:default]
@@ -27,6 +43,20 @@ module Aruba
         self
       end
 
+      # Define an option reader and writer
+      #
+      # @param [Symbol] name
+      #   The name of the reader
+      #
+      # @param [Hash] opts
+      #   Options
+      #
+      # @option [Class, Module] contract
+      #   The contract for the option
+      #
+      # @option [Object] default
+      #   The default value
+      #
       # rubocop:disable Metrics/CyclomaticComplexity
       def option_accessor(name, opts = {})
         contract = opts[:contract]
@@ -67,6 +97,7 @@ module Aruba
 
     public
 
+    # Create configuration
     def initialize
       initialize_configuration
     end

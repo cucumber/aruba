@@ -1151,7 +1151,7 @@ describe Aruba::Api  do
       end
 
       it "raises a descriptive exception" do
-        expect { @aruba.get_process("false") }.to raise_error ArgumentError, "No command named 'false' has been started"
+        expect { @aruba.get_process("false") }.to raise_error CommandNotFoundError, "No command named 'false' has been started"
       end
     end
   end

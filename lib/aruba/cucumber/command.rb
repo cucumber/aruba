@@ -11,7 +11,7 @@ end
 
 When(/^I run `([^`]*)`$/)do |cmd|
   cmd = sanitize_text(cmd)
-  run_simple(cmd, false)
+  run_simple(cmd, fail_on_error: false)
 end
 
 When(/^I successfully run "(.*)"$/)do |cmd|
@@ -25,7 +25,7 @@ end
 ## I successfully run `sleep 29` for up to 30 seconds
 When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
   cmd = sanitize_text(cmd)
-  run_simple(cmd, true, secs && secs.to_i)
+  run_simple(cmd, fail_on_error: true, exit_timeout: secs && secs.to_i)
 end
 
 When(/^I run "([^"]*)" interactively$/) do |cmd|

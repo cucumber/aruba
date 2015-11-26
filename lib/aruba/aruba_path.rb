@@ -3,7 +3,11 @@ require 'delegate'
 
 require 'aruba/file_size'
 
+# Aruba
 module Aruba
+  # Pathname for aruba files and directories
+  #
+  # @private
   class ArubaPath < Delegator
     def initialize(path)
       obj = [path.to_s].flatten
@@ -13,10 +17,12 @@ module Aruba
       @delegate_sd_obj = obj
     end
 
+    # Get path
     def __getobj__
       ::Pathname.new(::File.join(*@delegate_sd_obj))
     end
 
+    # Set path
     def __setobj__(obj)
       @delegate_sd_obj = [obj.to_s].flatten
     end

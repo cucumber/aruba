@@ -1,7 +1,9 @@
 require 'aruba/platform'
 require 'shellwords'
 
+# Aruba
 module Aruba
+  # Processes
   module Processes
     # Basic Process
     #
@@ -22,6 +24,8 @@ module Aruba
 
         @exit_timeout    = exit_timeout
         @io_wait_timeout = io_wait_timeout
+
+        @started         = false
       end
 
       # Return command line
@@ -67,9 +71,20 @@ module Aruba
         NotImplementedError
       end
 
+      # Restart a command
+      def restart
+        stop
+        start
+      end
+
       # Was process already stopped
       def stopped?
-        @stopped == true
+        @started == false
+      end
+
+      # Was process already started
+      def started?
+        @started == true
       end
 
       # Does the process failed to stop in time

@@ -1,8 +1,13 @@
 require 'aruba/api/environment'
 require 'aruba/api/command'
 
+# Aruba
 module Aruba
+  # Api
   module Api
+    # RVM
+    #
+    # @deprecated
     module Rvm
       # Use a clean rvm gemset
       #

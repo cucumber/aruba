@@ -3,7 +3,18 @@ require 'aruba/processes/spawn_process'
 require 'aruba/processes/in_process'
 require 'aruba/processes/debug_process'
 
+# Aruba
 module Aruba
+  # Command
+  #
+  # This class is not meant for direct use - Command.new, though it's API is
+  # public. As it is just a wrapper class, have a look at `BasicProcess` and
+  # the like for the public API.
+  #
+  # @see BasicProcess
+  # @see SpawnProcess
+  #
+  # @private
   class Command < SimpleDelegator
     private
 

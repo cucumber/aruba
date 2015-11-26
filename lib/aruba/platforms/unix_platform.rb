@@ -15,6 +15,7 @@ require 'aruba/platforms/aruba_logger'
 require 'aruba/platforms/announcer'
 require 'aruba/platforms/command_monitor'
 
+# Aruba
 module Aruba
   # This abstracts OS-specific things
   module Platforms
@@ -25,6 +26,8 @@ module Aruba
     # any further notice.
     #
     # This includes all methods for the UNIX platform
+    #
+    # @private
     class UnixPlatform
       def self.match?
         !FFI::Platform.windows?
