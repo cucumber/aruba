@@ -10,13 +10,23 @@ Feature: Create Directory
     Given a file named "features/create_directory.feature" with:
     """
     Feature: Create directory
-      Scenario: Create directory
+      Background:
         Given a directory named "dir1"
-        Given the directory "dir2"
-        Given the directory named "dir3"
+
+      Scenario: Create directory #1
         Then a directory named "dir1" should exist
-        And a directory named "dir2" should exist
-        And a directory named "dir3" should exist
+
+      Scenario: Create directory #2
+        Then a directory named "dir1" should exist
+
+      Scenario: Create directory #3
+        Then a directory named "dir1" should exist
+
+      Scenario: Create directory #4
+        Then a directory named "dir1" should exist
+
+      Scenario: Create directory #5
+        Then a directory named "dir1" should exist
     """
     When I run `cucumber`
     Then the features should all pass

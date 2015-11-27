@@ -50,3 +50,18 @@ Feature: Cleanup Aruba Working Directory
     """
     When I run `cucumber`
     Then the features should all pass
+
+  Scenario:  Current directory from previous scenario is reseted
+    Given a file named "features/non-existence.feature" with:
+    """
+    Feature: Reset
+      Scenario: Reset #1
+        Given a directory named "dir1"
+        When I cd to "dir1"
+
+      Scenario: Reset #2
+        When I run `pwd`
+        Then the output should match %r</tmp/aruba$>
+    """
+    When I run `cucumber`
+    Then the features should all pass

@@ -11,7 +11,7 @@ Given(/^I move (?:a|the) (file|directory)(?: (?:named|from))? "([^"]*)" to "([^"
   move source, destination
 end
 
-Given(/^(?:a|the) directory(?: named)? "([^"]*)"$/) do |dir_name|
+Given(/^(?:a|the|(?:an empty)) directory(?: named)? "([^"]*)"$/) do |dir_name|
   create_directory(dir_name)
 end
 
@@ -66,8 +66,8 @@ When(/^I append to "([^"]*)" with "([^"]*)"$/) do |file_name, file_content|
   append_to_file(file_name, file_content)
 end
 
-When(/^I remove (?:a|the) (?:file|directory)(?: named)? "([^"]*)"$/) do |name|
-  remove(name)
+When(/^I remove (?:a|the) (?:file|directory)(?: named)? "([^"]*)"( with full force)?$/) do |name, force_remove|
+  remove(name, :force => force_remove.nil? ? false : true)
 end
 
 Given(/^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" does not exist$/) do |name|
@@ -88,12 +88,23 @@ Then(/^the following files should (not )?exist:$/) do |negated, files|
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) do |file, expect_match|
-  if expect_match
-    expect(file).not_to be_an_existing_file
+Then(/^(?:a|the) (file|directory)(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) do |directory_or_file, path, expect_match|
+  if directory_or_file == 'file'
+    if expect_match
+      expect(path).not_to be_an_existing_file
+    else
+      expect(path).to be_an_existing_file
+    end
+  elsif directory_or_file == 'directory'
+    if expect_match
+      expect(path).not_to be_an_existing_directory
+    else
+      expect(path).to be_an_existing_directory
+    end
   else
-    expect(file).to be_an_existing_file
+    fail ArgumentError, %("#{directory_or_file}" can only be "directory" or "file".)
   end
+
 end
 
 Then(/^(?:a|the) file matching %r<(.*?)> should (not )?exist$/) do |pattern, expect_match|
@@ -119,14 +130,6 @@ Then(/^the following directories should (not )?exist:$/) do |negated, directorie
     expect(directories).not_to include an_existing_directory
   else
     expect(directories).to Aruba::Matchers.all be_an_existing_directory
-  end
-end
-
-Then(/^(?:a|the) directory(?: named)? "([^"]*)" should (not )?exist$/) do |directory, negated|
-  if negated
-    expect(directory).not_to be_an_existing_directory
-  else
-    expect(directory).to be_an_existing_directory
   end
 end
 
