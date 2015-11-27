@@ -5,7 +5,7 @@ Feature: Find a started command
   Background:
     Given I use a fixture named "cli-app"
 
-  Scenario: Exising command
+  Scenario: Existing command
     Given a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
@@ -23,7 +23,7 @@ Feature: Find a started command
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Non-Exising command
+  Scenario: Non-Existing command
     Given a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
