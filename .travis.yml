@@ -24,8 +24,11 @@ matrix:
   allow_failures:
   - rvm: rbx
   - rvm: jruby-9.0.0.0
+    env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false -Xcli.debug=true --debug'
   - rvm: jruby-9.0.0.0-20mode
+    env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false -Xcli.debug=true --debug'
   - rvm: jruby-9.0.0.0-21mode
+    env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false -Xcli.debug=true --debug'
 notifications:
   email:
     - cukes-devs@googlegroups.com
