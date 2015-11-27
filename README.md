@@ -43,6 +43,10 @@ For an up to date list of all supported ruby versions, please see our [`.travis.
 
 ## Usage
 
+Please also see this
+[feature test](https://github.com/cucumber/aruba/blob/master/features/getting_started/supported_testing_frameworks.feature)
+for the most up to date documentation.
+
 ### Cucumber
 
 To use `aruba` with cucumber, `require` the library in one of your ruby files
@@ -84,7 +88,52 @@ well. One might want to use it together with `rspec`.
 
 ### Minitest
 
-TBD :-)
+1. Add a file named "test/support/aruba.rb" with:
+
+   ~~~ ruby
+   require 'aruba/api'
+   ~~~
+
+2. Add a file named "test/test_helper.rb" with:
+
+   ~~~ruby
+   $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+
+   if RUBY_VERSION < '1.9.3'
+     ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require File.join(File.dirname(f), File.basename(f, '.rb')) }
+   else
+     ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
+   end
+   ~~~
+
+3. Add a file named "test/use_aruba_with_minitest.rb" with:
+
+   ~~~ruby
+   $LOAD_PATH.unshift File.expand_path('../test', __FILE__)
+
+   require 'test_helper'
+   require 'minitest/autorun'
+
+   class FirstRun < Minitest::Test
+     include Aruba::Api
+
+     def setup
+       aruba_setup
+     end
+
+     def getting_started_with_aruba
+       file = 'file.txt'
+       content = 'Hello World' 
+
+       write_file file, content
+       read(file).must_equal [content]
+     end
+   end
+   ~~~
+
+4. Run your tests
+
+   `ruby -Ilib:test test/use_aruba_with_minitest.rb`
 
 ## Documentation
 
