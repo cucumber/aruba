@@ -47,7 +47,7 @@ Please also see this
 [feature test](https://github.com/cucumber/aruba/blob/master/features/getting_started/supported_testing_frameworks.feature)
 for the most up to date documentation.
 
-### Intialize your project with "aruba"
+### Initialize your project with "aruba"
 
 There's an initializer to make it easier for you to getting started. If you
 prefer to setup `aruba` yourself, please move on to the next section.
