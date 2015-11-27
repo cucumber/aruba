@@ -47,44 +47,89 @@ Please also see this
 [feature test](https://github.com/cucumber/aruba/blob/master/features/getting_started/supported_testing_frameworks.feature)
 for the most up to date documentation.
 
+### Intialize your project with "aruba"
+
+There's an initializer to make it easier for you to getting started. If you
+prefer to setup `aruba` yourself, please move on to the next section.
+
+1. Go to your project's directory
+
+2. Make sure, it's under version control and all changes are committed to your
+   version control repository
+
+3. Run one of the following commands depending on the tools you use to test your project.
+
+   This assumes, that you use either `rspec`, `cucumber-ruby` or `minitest` to
+   write the tests for your project. Besides that, your tool can be implemented
+   in any programming language you like.
+
+   ~~~bash
+   aruba init --test-framework rspec
+   aruba init --test-framework cucumber
+   aruba init --test-framework minitest
+   ~~~
+
 ### Cucumber
 
-To use `aruba` with cucumber, `require` the library in one of your ruby files
-under `features/support` (e.g. `env.rb`)
+1. Create a file named "features/support/env.rb" with:
 
-```ruby
-require 'aruba/cucumber'
-```
+   ~~~ruby
+   require 'aruba/cucumber'
+   ~~~
 
-You now have a bunch of step definitions that you can use in your features. Look at [`lib/aruba/cucumber.rb`](lib/aruba/cucumber.rb)
-to see them all. Look at [`features/*.feature`](features/) for examples (which are also testing Aruba
-itself).
+2. Create a file named "features/use_aruba_with_cucumber.feature" with:
+
+   ~~~ruby
+   Feature: Cucumber
+     Scenario: First Run
+       Given a file named "file.txt" with:
+       """
+       Hello World
+       """
+       Then the file "file.txt" should contain:
+       """
+       Hello World
+       """
+   ~~~
+
+3. Run `cucumber`
 
 ### RSpec
 
-Originally written for `cucumber`, `aruba` can be helpful in other contexts as
-well. One might want to use it together with `rspec`.
+1. Create a file named "spec/support/aruba.rb" with:
 
-1. Create a directory named `spec/support`
-2. Create a file named `spec/support/aruba.rb` with:
+   ~~~ruby
+   require 'aruba/rspec'
+   ~~~
 
-  ```ruby
-  require 'aruba/rspec'
-  ```
+2. Create a file named "spec/spec_helper.rb" with:
 
-3. Add the following to your `spec/spec_helper.rb`
+   ~~~ruby
+   $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-  ```ruby
-  Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
-  ```
+   if RUBY_VERSION < '1.9.3'
+     ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require File.join(File.dirname(f), File.basename(f, '.rb')) }
+   else
+     ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
+   end
+   ~~~
 
-4. Add a type to your specs
+3. Create a file named named "spec/use_aruba_with_rspec_spec.rb" with:
 
-  ```ruby
-  RSpec.describe 'My feature', type: :aruba do
-    # [...]
-  end
-  ```
+   ~~~ruby
+   require 'spec_helper'
+
+   RSpec.describe 'First Run', :type => :aruba do
+     let(:file) { 'file.txt' }
+     let(:content) { 'Hello World' }
+
+     before(:each) { write_file file, content }
+
+     it { expect(read(file)).to eq [content] }
+   end
+   ~~~
+
+4. Run `rspec`
 
 ### Minitest
 
