@@ -87,7 +87,7 @@ Feature: STDOUT of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: 
+  Scenario: Detect stdout from named source
     Given a file named "features/output.feature" with:
     """
     Feature: Run command
