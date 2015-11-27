@@ -515,3 +515,74 @@ Feature: All output of commands which were executed
     """
     When I run `cucumber`
     Then the features should all pass
+
+  @requires-aruba-version-1
+  Scenario: Detect output from all processes normal and interactive ones
+    Given an executable named "bin/cli1" with:
+    """
+    #!/usr/bin/env bash
+    echo 'This is cli1'
+    """
+    And an executable named "bin/cli2" with:
+    """
+    #!/usr/bin/env ruby
+
+    while input = gets do
+      break if "" == input
+      puts input
+    end
+    """
+    And a file named "features/output.feature" with:
+    """
+    Feature: Run command
+      Scenario: Run command
+        When I run `cli1`
+        When I run `cli2` interactively
+        And I type "This is cli2"
+        And I type ""
+        Then the stdout should contain exactly:
+        \"\"\"
+        This is cli1
+        \"\"\"
+        And the stdout should contain exactly:
+        \"\"\"
+        This is cli2
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Detect output from named source
+    Given a file named "features/output.feature" with:
+    """
+    Feature: Run command
+      Scenario: Run command
+        When I run `printf 'simple'`
+        And I run `cat` interactively
+        And I type "interactive"
+        And I type ""
+        Then the output from "printf 'simple'" should contain "simple"
+        And the output from "printf 'simple'" should contain exactly "simple"
+        And the output from "printf 'simple'" should contain exactly:
+        \"\"\"
+        simple
+        \"\"\"
+        And the output from "cat" should not contain "simple"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Detect second output from named source with custom name
+    Given a file named "features/output.feature" with:
+    """
+    Feature: Run command
+      Scenario: Run command
+        When I set the environment variable "ARUBA_TEST_VAR" to "first"
+        And I run `bash -c 'printf $ARUBA_TEST_VAR'`
+        Then the output from "bash -c 'printf $ARUBA_TEST_VAR'" should contain "first"
+        When I set the environment variable "ARUBA_TEST_VAR" to "second"
+        And I run `bash -c 'printf $ARUBA_TEST_VAR'`
+        Then the output from "bash -c 'printf $ARUBA_TEST_VAR'" should contain "second"
+    """
+    When I run `cucumber`
+    Then the features should all pass
