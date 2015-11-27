@@ -1,11 +1,15 @@
 # Latest Release
 
-## [v0.11.0](https://github.com/cucumber/aruba/compare/v0.11.pre4...v0.11.0)
+## [v0.11.1](https://github.com/cucumber/aruba/compare/v0.11.pre4...v0.11.1)
 
 * Use fixed version of event-bus
 * Refactored and improved documentation (feature tests) in PR #309
 
 # Old releases
+
+## [v0.11.0](https://github.com/cucumber/aruba/compare/v0.11.pre4...v0.11.0)
+
+* Accidently pushed to rubygems.org - yanked it afterwards
 
 ## [v0.11.0.pre4](https://github.com/cucumber/aruba/compare/v0.11.pre3...v0.11.0.pre4)
 
