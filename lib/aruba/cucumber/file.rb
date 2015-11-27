@@ -104,7 +104,6 @@ Then(/^(?:a|the) (file|directory)(?: named)? "([^"]*)" should (not )?exist(?: an
   else
     fail ArgumentError, %("#{directory_or_file}" can only be "directory" or "file".)
   end
-
 end
 
 Then(/^(?:a|the) file matching %r<(.*?)> should (not )?exist$/) do |pattern, expect_match|
