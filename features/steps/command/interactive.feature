@@ -1,4 +1,4 @@
-Feature: Interactive process control
+Feature: Running an interactive command
 
   In order to test interactive command line applications
   As a developer using Cucumber

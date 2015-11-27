@@ -5,6 +5,16 @@ Feature: before_cmd hooks
 
   The command will be passed to the block.
 
+  You can hook into Aruba's lifecycle just before it runs a command and after it has run the command:
+
+  ```ruby
+  Aruba.configure do |config|
+    config.before :command do |cmd|
+      puts "About to run '#{cmd}'"
+    end
+  end
+  ```
+
   Background:
     Given I use a fixture named "cli-app"
 
