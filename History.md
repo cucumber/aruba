@@ -3,6 +3,7 @@
 ## [v0.11.0](https://github.com/cucumber/aruba/compare/v0.11.pre4...v0.11.0)
 
 * Use fixed version of event-bus
+* Refactored and improved documentation (feature tests) in PR #309
 
 # Old releases
 
