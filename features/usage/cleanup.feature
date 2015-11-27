@@ -1,4 +1,4 @@
-Feature: No clobber
+Feature: Cleanup Aruba Working Directory
 
   By default Aruba removes its scratch directory before
   every scenario. This isn't always the right thing
