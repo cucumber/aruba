@@ -62,3 +62,25 @@ Feature: Check file content
     """
     When I run `cucumber`
     Then the features should all pass
+
+  Scenario: Use non-ASCII UTF-8 characters
+    Given a file named "features/file_content.feature" with:
+    """
+    Feature: File content
+      Scenario: file content
+        Given a file named "test.txt" with:
+        \"\"\"
+        フィーチャ
+        \"\"\"
+        When I run `cat test.txt`
+        Then the output should contain:
+        \"\"\"
+        フィーチャ
+        \"\"\"
+        And the file named "test.txt" should contain:
+        \"\"\"
+        フィーチャ
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should all pass
