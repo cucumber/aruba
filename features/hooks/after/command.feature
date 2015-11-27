@@ -3,6 +3,16 @@ Feature: After command hooks
   You can configure Aruba to run blocks of code after it has run
   a command. The command will be passed to the block.
 
+  You can hook into Aruba's lifecycle just before it runs a command and after it has run the command:
+
+  ```ruby
+  Aruba.configure do |config|
+    config.after :command do |cmd|
+      puts "After the run of '#{cmd}'"
+    end
+  end
+  ```
+
   Background:
     Given I use a fixture named "cli-app"
 

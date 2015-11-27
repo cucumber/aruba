@@ -34,6 +34,17 @@ Feature: Run commands in ruby process
   and not during "loadtime", when the `ruby`-interpreter reads in you class
   files.
 
+  *Pros*:
+  * Very fast compared to spawning processes
+  * You can use libraries like
+    [simplecov](https://github.com/colszowka/simplecov) more easily, because
+    there is only one "process" which adds data to `simplecov`'s database
+
+  *Cons*:
+  * You might oversee some bugs: You might forget to require libraries in your
+    "production" code, because you have required them in your testing code
+  * Using `:in_process` interactively is not supported
+
   **WARNING**: Using `:in_process` interactively is not supported
 
   Background:
