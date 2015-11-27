@@ -1,16 +1,19 @@
 # Latest Release
 
+## [v0.11.0](https://github.com/cucumber/aruba/compare/v0.11.pre4...v0.11.0)
+
+* Use fixed version of event-bus
+
+# Old releases
+
 ## [v0.11.0.pre4](https://github.com/cucumber/aruba/compare/v0.11.pre3...v0.11.0.pre4)
 
 * Fixed syntax for Hash on ruby 1.8.7
 * Reorder rubies in .travis.yml
 
-# Old releases
-
 ## [v0.11.0.pre3](https://github.com/cucumber/aruba/compare/v0.11.pre2...v0.11.0.pre3)
 
 * Fixed syntax for proc on ruby 1.8.7
-
 
 ## [v0.11.0.pre2](https://github.com/cucumber/aruba/compare/v0.11.pre...v0.11.0.pre2)
 
