@@ -10,9 +10,6 @@ if Aruba::VERSION >= '1.0.0'
 end
 
 Before do
-  # this is ENV by default ...
-  aruba.environment.update aruba.config.command_runtime_environment
-
   # ... so every change needs to be done later
   prepend_environment_variable 'PATH', aruba.config.command_search_paths.join(':') + ':'
   set_environment_variable 'HOME', aruba.config.home_directory

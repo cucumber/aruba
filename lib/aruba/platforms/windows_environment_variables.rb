@@ -34,14 +34,14 @@ module Aruba
     # will always work.
     class WindowsEnvironmentVariables < UnixEnvironmentVariables
       def initialize(env = ENV.to_hash)
-        @env = Marshal.load(Marshal.dump(env))
+        @actions = []
 
         if RUBY_VERSION <= '1.9.3'
           # rubocop:disable Style/EachWithObject
-          @env = @env.inject({}) { |a, (k,v)| a[k.to_s.upcase] = v; a }
+          @env = env.inject({}) { |a, (k,v)| a[k.to_s.upcase] = v; a }
           # rubocop:enable Style/EachWithObject
         else
-          @env = @env.each_with_object({}) { |(k,v), a| a[k.to_s.upcase] = v }
+          @env = env.each_with_object({}) { |(k,v), a| a[k.to_s.upcase] = v }
         end
       end
 

@@ -30,7 +30,7 @@ module Aruba
 
       # @see UnixPlatform#environment_variables
       def environment_variables
-        WindowsEnvironmentVariables.new
+        WindowsEnvironmentVariables
       end
 
       # @see UnixPlatform#which
