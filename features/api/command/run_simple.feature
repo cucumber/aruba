@@ -40,7 +40,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_simple('cli', fail_on_error: true) }.to raise_error }
+      it { expect { run_simple('cli', :fail_on_error => true) }.to raise_error }
     end
     """
     When I run `rspec`
@@ -74,7 +74,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_simple('cli', fail_on_error: false) }.not_to raise_error }
+      it { expect { run_simple('cli', :fail_on_error => false) }.not_to raise_error }
     end
     """
     When I run `rspec`

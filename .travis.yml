@@ -3,32 +3,32 @@ language: ruby
 script: script/test
 install: script/bootstrap --without development debug
 rvm:
-- 1.8.7
-- 1.9.2
-- 1.9.3
-- 2.0.0
-- 2.1.7
-- 2.2.3
-- jruby
-- jruby-20mode
-- jruby-21mode
-- rbx
+  - 1.8.7
+  - 1.9.2
+  - 1.9.3
+  - 2.0.0
+  - 2.1.7
+  - 2.2.3
+  - jruby
+  - jruby-20mode
+  - jruby-21mode
+  - rbx
 matrix:
   include:
     - rvm: jruby-9.0.0.0
-      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false -Xcli.debug=true --debug'
+      env: JRUBY_OPTS='--dev'
     - rvm: jruby-9.0.0.0-20mode
-      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false -Xcli.debug=true --debug'
+      env: JRUBY_OPTS='--dev'
     - rvm: jruby-9.0.0.0-21mode
-      env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false -Xcli.debug=true --debug'
+      env: JRUBY_OPTS='--dev'
   allow_failures:
   - rvm: rbx
   - rvm: jruby-9.0.0.0
-    env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false -Xcli.debug=true --debug'
+    env: JRUBY_OPTS='--dev'
   - rvm: jruby-9.0.0.0-20mode
-    env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false -Xcli.debug=true --debug'
+    env: JRUBY_OPTS='--dev'
   - rvm: jruby-9.0.0.0-21mode
-    env: JRUBY_OPTS='--server -Xcompile.invokedynamic=false -Xcli.debug=true --debug'
+    env: JRUBY_OPTS='--dev'
 notifications:
   email:
     - cukes-devs@googlegroups.com
@@ -38,4 +38,5 @@ notifications:
 env:
   global:
    - secure: l8uznA5K4K9mZ1krmP3lTMD8WcJ32qGxFOR3jubKHcOBSLB4xSzU2aIqjyJdO+rLzebkwamhJc8pGSIWOUDQYvFiX7splK+uEkbBJ5huAhXtLF4Qgl86bCWbEXYzN7rvn0DQfpJAovyFMNRMnfo70XhwqWzFsaYa7Z0YbqYsJE4=
-   - JRUBY_OPTS='-Xcli.debug=true --debug'
+   # - JRUBY_OPTS='-Xcli.debug=true --debug'
+   - JRUBY_OPTS='--dev'
