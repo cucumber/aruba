@@ -144,19 +144,19 @@ module Aruba
         if args.last.is_a? Hash
           opts = args.pop
 
-          exit_timeout      = opts.fetch(:exit_timeout, aruba.config.exit_timeout)
-          io_wait_timeout   = opts.fetch(:io_wait_timeout, aruba.config.io_wait_timeout)
-          stop_signal       = opts.fetch(:stop_signal, aruba.config.stop_signal)
-          startup_wait_time = opts.fetch(:startup_wait_time, aruba.config.startup_wait_time)
+          exit_timeout      = opts[:exit_timeout].nil? ? aruba.config.exit_timeout : opts[:exit_timeout]
+          io_wait_timeout   = opts[:io_wait_timeout].nil? ? aruba.config.io_wait_timeout : opts[:io_wait_timeout]
+          stop_signal       = opts[:stop_signal].nil? ? aruba.config.stop_signal : opts[:stop_signal]
+          startup_wait_time = opts[:startup_wait_time].nil? ? aruba.config.startup_wait_time : opts[:startup_wait_time]
         else
           if args.size > 1
             Aruba.platform.deprecated("Please pass options to `#run` as named parameters/hash and don\'t use the old style, e.g. `#run('cmd', :exit_timeout => 5)`.")
           end
 
-          exit_timeout      = args[0] || aruba.config.exit_timeout
-          io_wait_timeout   = args[1] || aruba.config.io_wait_timeout
-          stop_signal       = args[2] || aruba.config.stop_signal
-          startup_wait_time = args[3] || aruba.config.startup_wait_time
+          exit_timeout      = args[0].nil? ? aruba.config.exit_timeout : args[0]
+          io_wait_timeout   = args[1].nil? ? aruba.config.io_wait_timeout : args[1]
+          stop_signal       = args[2].nil? ? aruba.config.stop_signal : args[2]
+          startup_wait_time = args[3].nil? ? aruba.config.startup_wait_time : args[3]
         end
 
         cmd = replace_variables(cmd)
@@ -257,10 +257,7 @@ module Aruba
 
         if args.last.is_a? Hash
           opts = args.pop
-
-          fail_on_error   = opts.fetch(:fail_on_error, false) || false
-          exit_timeout    = opts.fetch(:exit_timeout, aruba.config.exit_timeout) || aruba.config.exit_timeout
-          io_wait_timeout = opts.fetch(:io_wait_timeout, aruba.config.io_wait_timeout) || aruba.config.io_wait_timeout
+          fail_on_error = opts.delete(:fail_on_error) == true ? true : false
         else
           if args.size > 1
             # rubocop:disable Metrics/LineLength
@@ -268,12 +265,17 @@ module Aruba
             # rubocop:enable Metrics/LineLength
           end
 
-          fail_on_error     = args[0] || true
-          exit_timeout      = args[1] || aruba.config.exit_timeout
-          io_wait_timeout   = args[2] || aruba.config.io_wait_timeout
+          fail_on_error = args[0] == false ? false : true
+
+          opts = {
+            :exit_timeout      => (args[1] || aruba.config.exit_timeout),
+            :io_wait_timeout   => (args[2] || aruba.config.io_wait_timeout),
+            :stop_signal       => (args[3] || aruba.config.stop_signal),
+            :startup_wait_time => (args[4] || aruba.config.startup_wait_time)
+          }
         end
 
-        command = run(cmd, :exit_timeout => exit_timeout, :io_wait_timeout => io_wait_timeout)
+        command = run(cmd, opts)
         command.stop
 
         if Aruba::VERSION < '1'
