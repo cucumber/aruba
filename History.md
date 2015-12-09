@@ -1,26 +1,30 @@
 # Latest Release
 
-## [v0.11.1](https://github.com/cucumber/aruba/compare/v0.11.pre4...v0.11.1)
+## [v0.11.2](https://github.com/cucumber/aruba/compare/v0.11.1...v0.11.2)
+
+* Fixed problem with positional arguments in `#run_simple()` (issue #322)
+
+# Old releases
+
+## [v0.11.1](https://github.com/cucumber/aruba/compare/v0.11.0...v0.11.1)
 
 * Use fixed version of event-bus
 * Refactored and improved documentation (feature tests) in PR #309
 
-# Old releases
-
-## [v0.11.0](https://github.com/cucumber/aruba/compare/v0.11.pre4...v0.11.0)
+## [v0.11.0](https://github.com/cucumber/aruba/compare/v0.11.0.pre4...v0.11.0)
 
 * Accidently pushed to rubygems.org - yanked it afterwards
 
-## [v0.11.0.pre4](https://github.com/cucumber/aruba/compare/v0.11.pre3...v0.11.0.pre4)
+## [v0.11.0.pre4](https://github.com/cucumber/aruba/compare/v0.11.0.pre3...v0.11.0.pre4)
 
 * Fixed syntax for Hash on ruby 1.8.7
 * Reorder rubies in .travis.yml
 
-## [v0.11.0.pre3](https://github.com/cucumber/aruba/compare/v0.11.pre2...v0.11.0.pre3)
+## [v0.11.0.pre3](https://github.com/cucumber/aruba/compare/v0.11.0.pre2...v0.11.0.pre3)
 
 * Fixed syntax for proc on ruby 1.8.7
 
-## [v0.11.0.pre2](https://github.com/cucumber/aruba/compare/v0.11.pre...v0.11.0.pre2)
+## [v0.11.0.pre2](https://github.com/cucumber/aruba/compare/v0.11.0.pre...v0.11.0.pre2)
 
 * Integrate `EventBus` to decouple announcers from starting, stopping commands
   etc. This uses nearly the same implementation like `cucumber`. (PR #309)
