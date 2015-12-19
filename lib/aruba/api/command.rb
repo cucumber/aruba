@@ -180,7 +180,7 @@ module Aruba
 
         mode = if Aruba.process
                  # rubocop:disable Metrics/LineLength
-                 Aruba.platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "Aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "Aruba.configure { |config| config.main_class = <klass> }" instead.')
+                 Aruba.platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "aruba.configure { |config| config.main_class = <klass> }" instead.')
                  # rubocop:enable Metrics/LineLength
                  Aruba.process
                else
@@ -189,7 +189,7 @@ module Aruba
 
         main_class = if Aruba.process.respond_to?(:main_class) && Aruba.process.main_class
                        # rubocop:disable Metrics/LineLength
-                       Aruba.platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "Aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "Aruba.configure { |config| config.main_class = <klass> }" instead.')
+                       Aruba.platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "aruba.configure { |config| config.main_class = <klass> }" instead.')
                        # rubocop:enable Metrics/LineLength
                        Aruba.process.main_class
                      else
