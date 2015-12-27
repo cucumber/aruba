@@ -35,7 +35,7 @@ Use on ruby 1.8.7
 * Make sure you add something like that to your `Gemfile`. Otherwise you will
   get cucumber > 2 and this will fail on ruby 1.8.7
 
-  gem 'cucumber', ~> '1.3.20'
+  gem 'cucumber', '~> 1.3.20'
 
 With aruba >= 1.0 there will be breaking changes. Make sure to read https://github.com/cucumber/aruba/blob/master/History.md for 1.0.0
 EOS
