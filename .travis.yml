@@ -16,19 +16,19 @@ rvm:
   - rbx
 matrix:
   include:
-    - rvm: jruby-9.0.0.0
+    - rvm: jruby-9.0.1.0
       env: JRUBY_OPTS='--dev'
-    - rvm: jruby-9.0.0.0-20mode
+    - rvm: jruby-9.0.1.0-20mode
       env: JRUBY_OPTS='--dev'
-    - rvm: jruby-9.0.0.0-21mode
+    - rvm: jruby-9.0.1.0-21mode
       env: JRUBY_OPTS='--dev'
   allow_failures:
   - rvm: rbx
-  - rvm: jruby-9.0.0.0
+  - rvm: jruby-9.0.1.0
     env: JRUBY_OPTS='--dev'
-  - rvm: jruby-9.0.0.0-20mode
+  - rvm: jruby-9.0.1.0-20mode
     env: JRUBY_OPTS='--dev'
-  - rvm: jruby-9.0.0.0-21mode
+  - rvm: jruby-9.0.1.0-21mode
     env: JRUBY_OPTS='--dev'
 notifications:
   email:
