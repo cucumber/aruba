@@ -4,7 +4,7 @@ Feature: Define default process environment
 
   ~~~ruby
   Aruba.configure do |config|
-    config.command_runtime_environment = { 'LONG_LONG_VARIABLE' => 'x' }
+    config.command_runtime_environment = { 'MY_VARIABLE' => 'x' }
   end
   ~~~
 
