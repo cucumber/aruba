@@ -179,8 +179,10 @@ module Aruba
       def with_environment(env = {}, &block)
         old_aruba_env = aruba.environment.to_h
 
+        # make sure the old environment is really restored in "ENV"
         Aruba.platform.with_environment aruba.environment.update(env).to_h, &block
       ensure
+        # make sure the old environment is really restored in "aruba.environment"
         aruba.environment.clear
         aruba.environment.update old_aruba_env
       end

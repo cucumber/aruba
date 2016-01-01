@@ -164,7 +164,7 @@ module Aruba
         @commands ||= []
         @commands << cmd
 
-        environment       = aruba.environment.to_h
+        environment       = aruba.environment
         working_directory = expand_path('.')
         event_bus         = aruba.event_bus
 
@@ -202,7 +202,7 @@ module Aruba
           :exit_timeout      => exit_timeout,
           :io_wait_timeout   => io_wait_timeout,
           :working_directory => working_directory,
-          :environment       => environment,
+          :environment       => environment.to_hash,
           :main_class        => main_class,
           :stop_signal       => stop_signal,
           :startup_wait_time => startup_wait_time,
@@ -217,6 +217,7 @@ module Aruba
         end
 
         aruba.config.before(:command, self, command)
+
         command.start
 
         aruba.announcer.announce(:stop_signal, command.pid, stop_signal) if stop_signal

@@ -1,4 +1,4 @@
-Feature: Remove existing environment variable via API-method
+Feature: Delete existing environment variable via API-method
 
   It is quite handy to modify the environment of a process. To make this
   possible, `aruba` provides several methods. One of these is

@@ -69,6 +69,46 @@ Feature: Set environment variable via API-method
     When I run `rspec`
     Then the specs should all pass
 
+  Scenario: Set variable via ENV
+
+    Given a file named "spec/environment_spec.rb" with:
+    """ruby
+    require 'spec_helper'
+
+    RSpec.describe 'Environment command', :type => :aruba do
+      before(:each) { ENV['REALLY_LONG_LONG_VARIABLE'] = '2' }
+
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
+
+      it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=2' }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+
+  Scenario: Existing variable set in before block in RSpec
+
+    Setting environment variables with `#set_environment_variable('VAR', 'value')` takes
+    precedence before setting variables with `ENV['VAR'] = 'value'`.
+
+    Given a file named "spec/environment_spec.rb" with:
+    """ruby
+    require 'spec_helper'
+
+    RSpec.describe 'Environment command', :type => :aruba do
+      before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '1' }
+      before(:each) { ENV['REALLY_LONG_LONG_VARIABLE'] = '2' }
+
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
+
+      it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+
   Scenario: Run some ruby code in code with previously set environment
 
     The `#with_environment`-block makes the change environment temporary
@@ -301,6 +341,36 @@ Feature: Set environment variable via API-method
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=1' }
     end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+
+  Scenario: External ruby file / ruby gem modifying ENV
+
+    There are some Rubygems around which need to modify ENV['NODE_PATH'] like
+    [`ruby-stylus`](https://github.com/forgecrafted/ruby-stylus/blob/e7293362dc8cbf550f7c317d721ba6b9087e8833/lib/stylus.rb#L168).
+    This is supported by aruba as well.
+
+    Given a file named "spec/environment_spec.rb" with:
+    """ruby
+    require 'spec_helper'
+
+    $LOAD_PATH <<  File.expand_path('../../lib', __FILE__)
+
+    RSpec.describe 'Environment command', :type => :aruba do
+      before(:each) do
+        require 'my_library'
+      end
+
+      before(:each) { run('env') }
+      before(:each) { stop_all_commands }
+
+      it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=1' }
+    end
+    """
+    And a file named "lib/my_library.rb" with:
+    """
+    ENV['LONG_LONG_VARIABLE'] = '1'
     """
     When I run `rspec`
     Then the specs should all pass

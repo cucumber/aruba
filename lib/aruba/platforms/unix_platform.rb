@@ -34,7 +34,7 @@ module Aruba
       end
 
       def environment_variables
-        UnixEnvironmentVariables.new
+        UnixEnvironmentVariables
       end
 
       def command_string
