@@ -355,9 +355,11 @@ Feature: Set environment variable via API-method
     """ruby
     require 'spec_helper'
 
+    $LOAD_PATH <<  File.expand_path('../../lib', __FILE__)
+
     RSpec.describe 'Environment command', :type => :aruba do
       before(:each) do
-        require_relative File.expand_path('../../lib/my_library.rb', __FILE__)
+        require 'my_library'
       end
 
       before(:each) { run('env') }
