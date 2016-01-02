@@ -223,4 +223,4 @@ Please see the [CONTRIBUTING](CONTRIBUTING.md) file.
 
 ## Copyright
 
-Copyright (c) 2010-2015 Aslak Hellesøy et al. See [MIT License](LICENSE) for details.
+Copyright (c) 2010-2016 Aslak Hellesøy et al. See [MIT License](LICENSE) for details.
