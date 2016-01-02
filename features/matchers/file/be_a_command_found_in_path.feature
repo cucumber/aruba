@@ -53,6 +53,23 @@ Feature: Check if command can be found in PATH
     When I run `rspec`
     Then the specs should all pass
 
+  Scenario: Expect single non-executable file
+    Given a file named "spec/existing_executable_spec.rb" with:
+    """
+    require 'spec_helper'
+
+    RSpec.describe 'Check if command can be found in PATH', :type => :aruba do
+      let(:file) { 'file.sh' }
+
+      before(:each) { touch(file) }
+      before(:each) { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
+
+      it { expect(file).not_to be_a_command_found_in_path }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+
   Scenario: Expect multiple existing executable files
     Given a file named "spec/existing_executable_spec.rb" with:
     """
