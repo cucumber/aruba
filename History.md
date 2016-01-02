@@ -489,6 +489,10 @@
 
 # Upcoming un-released versions
 
+## [v0.12.0](https://github.com/cucumber/aruba/compare/v0.11.2...v0.12.0)
+
+* Add matcher to check if a command can be found in PATH
+
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
 * Support for rubies older than 1.9.3 is discontinued - e.g 1.8.7 and 1.9.2
