@@ -2,7 +2,7 @@
 
 ## [v0.12.0](https://github.com/cucumber/aruba/compare/v0.11.2...v0.12.0)
 
-* Add matcher to check if a command can be found in PATH
+* Add matcher to check if a command can be found in PATH (PR #336)
 * Fixed issue with environment variables set by external libraries (fix #321,
   issue #320)
 
