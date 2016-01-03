@@ -1,10 +1,17 @@
 # Latest Release
 
+## [v0.12.0](https://github.com/cucumber/aruba/compare/v0.11.2...v0.12.0)
+
+* Add matcher to check if a command can be found in PATH
+* Fixed issue with environment variables set by external libraries (fix #321,
+  issue #320)
+
+# Old releases
+
 ## [v0.11.2](https://github.com/cucumber/aruba/compare/v0.11.1...v0.11.2)
 
 * Fixed problem with positional arguments in `#run_simple()` (issue #322)
 
-# Old releases
 
 ## [v0.11.1](https://github.com/cucumber/aruba/compare/v0.11.0...v0.11.1)
 
@@ -488,10 +495,6 @@
 * First release (David Chelimsky and Aslak Hellesøy)
 
 # Upcoming un-released versions
-
-## [v0.12.0](https://github.com/cucumber/aruba/compare/v0.11.2...v0.12.0)
-
-* Add matcher to check if a command can be found in PATH
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
