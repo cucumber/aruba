@@ -250,8 +250,8 @@ module Aruba
       end
 
       # Transform hash to a string table which can be output on stderr/stdout
-      def simple_table(hash)
-        SimpleTable.new(hash).to_s
+      def simple_table(hash, opts = {})
+        SimpleTable.new(hash, opts).to_s
       end
 
       # Resolve path for command using the PATH-environment variable

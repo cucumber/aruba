@@ -6,7 +6,7 @@ module Aruba
     class SimpleTable
       private
 
-      attr_reader :hash
+      attr_reader :hash, :opts
 
       public
 
@@ -14,8 +14,11 @@ module Aruba
       #
       # @param [Hash] hash
       #   Input
-      def initialize(hash)
+      def initialize(hash, opts)
         @hash = hash
+        @opts = {
+          :sort => true
+        }.merge opts
       end
 
       # Generate table
@@ -35,11 +38,21 @@ module Aruba
             rows << format("# %-#{name_size}s => %s", k, v)
           end
 
-          rows.sort
+          if opts[:sort] == true
+            rows.sort
+          else
+            rows
+          end
         else
-          hash.each_with_object([]) do |(k,v), a|
+          result = hash.each_with_object([]) do |(k,v), a|
             a << format("# %-#{name_size}s => %s", k, v)
-          end.sort
+          end
+
+          if opts[:sort] == true
+            result.sort
+          else
+            result
+          end
         end
       end
     end
