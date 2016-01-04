@@ -13,6 +13,14 @@ echo -ne "$info_msg Checking if ruby installed? "
 which 'ruby' >/dev/null 2>error.log || ( echo -e "$error_msg\n\nCould not find \`ruby\`. Please install ruby or add it to PATH"; output_error_log; exit 1 )
 echo OK
 
+echo -ne "$info_msg Checking if bash installed? "
+which 'bash' >/dev/null 2>error.log || ( echo -e "$error_msg\n\nCould not find \`bash\`. Please install bash or add it to PATH"; output_error_log; exit 1 )
+echo OK
+
+echo -ne "$info_msg Checking if zsh installed? "
+which 'zsh' >/dev/null 2>error.log || ( echo -e "$error_msg\n\nCould not find \`zsh\`. Please install zsh or add it to PATH"; output_error_log; exit 1 )
+echo OK
+
 echo -e "$info_msg rubygem \"bundler\" "
 gem install bundler
 

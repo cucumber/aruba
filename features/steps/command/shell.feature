@@ -1,15 +1,17 @@
 Feature: Running shell commands
 
-  You can run an *ad hoc* script with the following step
+  You can run an *ad hoc* script with the following steps:
   - `When I run the following script:`
 
   Or you can run shell commands with:
-  - `I run the following (bash|zsh|fish|dash)? commands`
+  - `I run the following (bash|zsh|...shell)? commands`
+  - `I run the following (bash|zsh|...shell)? commands (in|with) \`interpreter\``
+  - `I run the following (bash|zsh|...shell)? commands (in|with) \`/path/to/interpreter\``
 
   Background:
     Given I use a fixture named "cli-app"
 
-  Scenario: Running ruby script
+  Scenario: Creating and running scripts
     Given a file named "features/shell.feature" with:
     """
     Feature: Running scripts
@@ -21,14 +23,7 @@ Feature: Running shell commands
         puts "Hello"
         \"\"\"
         Then the output should contain exactly "Hello"
-    """
-    When I run `cucumber`
-    Then the features should all pass
 
-  Scenario: Running python script
-    Given a file named "features/shell.feature" with:
-    """
-    Feature: Running scripts
       Scenario: Running python script
         When I run the following script:
         \"\"\"bash
@@ -75,15 +70,58 @@ Feature: Running shell commands
     """
     Feature: Running zsh scripts
       Scenario: Running zsh commands
-        When I run the following commands in `zsh`:
+        When I run the following commands with `zsh`:
         \"\"\"bash
         echo "Hello \c"
         echo $((2 + 2))
         \"\"\"
         Then the output should contain exactly "Hello 4"
+    """
+    When I run `cucumber`
+    Then the features should all pass
 
-      Scenario: Running zsh commands
+  Scenario: Running ruby commands
+    Given a file named "features/shell.feature" with:
+    """
+    Feature: Running scripts
+      Scenario: Running ruby commands
+        When I run the following commands with `ruby`:
+        \"\"\"ruby
+        puts "Hello, Aruba!"
+        \"\"\"
+        Then the output should contain exactly "Hello, Aruba!"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Running python commands
+    Given a file named "features/shell.feature" with:
+    """
+    Feature: Running scripts
+      Scenario: Running ruby commands
+        When I run the following commands with `python`:
+        \"\"\"ruby
+        print("Hello, Aruba!")
+        \"\"\"
+        Then the output should contain exactly "Hello, Aruba!"
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Running commands if full path to interpreter is given
+    Given a file named "features/shell.feature" with:
+    """
+    Feature: Running full path zsh
+      Scenario: Running zsh commands #1
         When I run the following commands with `/bin/zsh`:
+        \"\"\"bash
+        echo "Hello \c"
+        echo $((6 - 2))
+        \"\"\"
+        Then the output should contain exactly "Hello 4"
+
+      Scenario: Running zsh commands #1
+        When I run the following commands in `/bin/zsh`:
         \"\"\"bash
         echo "Hello \c"
         echo $((6 - 2))
@@ -93,25 +131,25 @@ Feature: Running shell commands
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Running fish commands
+  Scenario: Running commands if only the name of interpreter is given
     Given a file named "features/shell.feature" with:
     """
-    Feature: Running fish scripts
-      Scenario: Running fish commands
-        When I run the following commands in `fish`:
+    Feature: Running full path zsh
+      Scenario: Running zsh commands #1
+        When I run the following commands with `zsh`:
         \"\"\"bash
-        echo -n "Hello "
-        echo (echo fish)
+        echo "Hello \c"
+        echo $((6 - 2))
         \"\"\"
-        Then the output should contain exactly "Hello fish"
+        Then the output should contain exactly "Hello 4"
 
-      Scenario: Running fish commands with explicit path
-        When I run the following commands with `/usr/bin/env fish`:
+      Scenario: Running zsh commands #2
+        When I run the following commands in `zsh`:
         \"\"\"bash
-        echo -n "Hello "
-        echo (echo fish)
+        echo "Hello \c"
+        echo $((6 - 2))
         \"\"\"
-        Then the output should contain exactly "Hello fish"
+        Then the output should contain exactly "Hello 4"
     """
     When I run `cucumber`
     Then the features should all pass
