@@ -41,7 +41,7 @@ module Aruba
       # Announcer using Main#puts
       class PutsAnnouncer
         def announce(message)
-          Kernel.puts message
+          puts message
         end
 
         def mode?(m)
