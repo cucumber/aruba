@@ -254,3 +254,30 @@ Feature: Announce output during test run
     """
     # executable
     """
+
+  Scenario: Announce content of command
+    This will output the content of the executable command. Be careful doing
+    this with binary executables. This hook should be used with scripts only.
+
+    Given an executable named "bin/cli" with:
+    """bash
+    #!/usr/bin/env bash
+
+    echo 'Hello World'
+    """
+    And a file named "features/exit_status.feature" with:
+    """cucumber
+    Feature: Announce
+      @announce-command-content
+      Scenario: Run command
+        And I run `cli`
+        Then the exit status should be 0
+    """
+    When I run `cucumber`
+    Then the features should all pass
+    And the output should contain:
+    """
+    #!/usr/bin/env bash
+
+    echo 'Hello World'
+    """

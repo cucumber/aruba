@@ -156,8 +156,8 @@ module Aruba
       #
       # @param [Symbol] channel
       #   The name of the channel to activate
-      def activate(*channels)
-        channels.flatten.each { |c| channels[c.to_sym] = true }
+      def activate(*chns)
+        chns.flatten.each { |c| channels[c.to_sym] = true }
 
         self
       end

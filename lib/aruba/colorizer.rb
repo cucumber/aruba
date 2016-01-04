@@ -67,8 +67,6 @@ module Aruba
         result << "\e[0m" if Aruba::AnsiColor.coloring?
         result
       end
-
-      module_function c
     end
 
     # Regular expression that is used to scan for ANSI-sequences while
@@ -100,9 +98,6 @@ module Aruba
     def attributes
       ATTRIBUTE_NAMES
     end
-
-    # extend self
-    module_function :attributes, :uncolored
   end
 end
 

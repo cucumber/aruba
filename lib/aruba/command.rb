@@ -50,30 +50,24 @@ module Aruba
 
     # Stop command
     def stop(*)
-      unless __getobj__.stopped?
-        __getobj__.stop
-        event_bus.notify Events::CommandStopped.new(self)
-      end
+      __getobj__.stop
+      event_bus.notify Events::CommandStopped.new(self)
 
       self
     end
 
     # Terminate command
     def terminate(*)
-      unless __getobj__.stopped?
-        __getobj__.terminate
-        event_bus.notify Events::CommandStopped.new(self)
-      end
+      __getobj__.terminate
+      event_bus.notify Events::CommandStopped.new(self)
 
       self
     end
 
     # Start command
     def start
-      unless __getobj__.started?
-        __getobj__.start
-        event_bus.notify Events::CommandStarted.new(self)
-      end
+      __getobj__.start
+      event_bus.notify Events::CommandStarted.new(self)
 
       self
     end
