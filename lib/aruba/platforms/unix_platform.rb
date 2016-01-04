@@ -14,6 +14,7 @@ require 'aruba/platforms/local_environment'
 require 'aruba/platforms/aruba_logger'
 require 'aruba/platforms/announcer'
 require 'aruba/platforms/command_monitor'
+require 'aruba/platforms/filesystem_status'
 
 # Aruba
 module Aruba
@@ -39,6 +40,10 @@ module Aruba
 
       def command_string
         UnixCommandString
+      end
+
+      def filesystem_status
+        FilesystemStatus
       end
 
       def announcer

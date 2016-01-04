@@ -232,6 +232,23 @@ module Aruba
         raise CommandAlreadyStoppedError, %(Command "#{commandline}" with PID "#{pid}" has already stopped.)
       end
 
+      # Return file system stats for the given command
+      #
+      # @return [Aruba::Platforms::FilesystemStatus]
+      #   This returns a File::Stat-object
+      def filesystem_status
+        Aruba.platform.filesystem_status.new(command_string.to_s)
+      end
+
+      # Content of command
+      #
+      # @return [String]
+      #   The content of the script/command. This might be binary output as
+      #   string if your command is a binary executable.
+      def content
+        File.read command_string.to_s
+      end
+
       private
 
       def command_string

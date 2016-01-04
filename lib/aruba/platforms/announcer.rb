@@ -79,9 +79,16 @@ module Aruba
         output_format :modified_environment, proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
         output_format :stderr, "<<-STDERR\n%s\nSTDERR"
         output_format :stdout, "<<-STDOUT\n%s\nSTDOUT"
+        output_format :command_content, "<<-COMMAND\n%s\nCOMMAND"
         output_format :stop_signal, proc { |p, s| format('Command will be stopped with `kill -%s %s`', s, p) }
         output_format :timeout, '# %s-timeout: %s seconds'
         output_format :wait_time, '# %s: %s seconds'
+        output_format(
+          :command_filesystem_status, proc do |status|
+          puts 'Command Filesystem Status:'
+          Aruba.platform.simple_table(status.to_h, :sort => false)
+        end
+        )
 
         # rubocop:disable Metrics/LineLength
         if @options[:stdout]
