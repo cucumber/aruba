@@ -78,6 +78,10 @@ module Aruba
         LocalEnvironment.new.call(env, &block)
       end
 
+      def default_shell
+        'bash'
+      end
+
       def detect_ruby(cmd)
         if cmd =~ /^ruby\s/
           cmd.gsub(/^ruby\s/, "#{current_ruby} ")

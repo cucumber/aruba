@@ -62,7 +62,7 @@ Feature: Running shell commands
       Scenario: Running bash commands
         When I run the following commands with `bash`:
         \"\"\"bash
-        echo "Hello \c"
+        echo -n "Hello "
         echo `echo bash` # subshell
         \"\"\"
         Then the output should contain exactly "Hello bash"
@@ -98,7 +98,7 @@ Feature: Running shell commands
     """
     Feature: Running fish scripts
       Scenario: Running fish commands
-        When I run the following commands with `fish`:
+        When I run the following commands in `fish`:
         \"\"\"bash
         echo -n "Hello "
         echo (echo fish)
