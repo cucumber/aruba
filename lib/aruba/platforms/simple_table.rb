@@ -37,22 +37,16 @@ module Aruba
           hash.each do |k,v|
             rows << format("# %-#{name_size}s => %s", k, v)
           end
-
-          if opts[:sort] == true
-            rows.sort
-          else
-            rows
-          end
         else
-          result = hash.each_with_object([]) do |(k,v), a|
+          rows = hash.each_with_object([]) do |(k,v), a|
             a << format("# %-#{name_size}s => %s", k, v)
           end
+        end
 
-          if opts[:sort] == true
-            result.sort
-          else
-            result
-          end
+        if opts[:sort] == true
+          rows.sort.join("\n")
+        else
+          rows.join("\n")
         end
       end
     end

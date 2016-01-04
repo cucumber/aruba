@@ -1,4 +1,7 @@
 require 'shellwords'
+require 'aruba/colorizer'
+
+Aruba::AnsiColor.coloring = false if !STDOUT.tty? && !ENV.has_key?("AUTOTEST")
 
 # Aruba
 module Aruba
@@ -48,7 +51,7 @@ module Aruba
 
       private
 
-      attr_reader :announcers, :announcer, :channels, :output_formats
+      attr_reader :announcers, :announcer, :channels, :output_formats, :colorizer
 
       public
 
@@ -56,6 +59,8 @@ module Aruba
         @announcers = []
         @announcers << PutsAnnouncer.new
         @announcers << KernelPutsAnnouncer.new
+
+        @colorizer = Aruba::Colorizer.new
 
         @announcer         = @announcers.first
         @channels          = {}
@@ -75,7 +80,7 @@ module Aruba
         output_format :command, '$ %s'
         output_format :directory, '$ cd %s'
         output_format :environment, proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
-        output_format :full_environment, proc { |h| Aruba.platform.simple_table(h) }
+        output_format :full_environment, proc { |h| format("<<-ENVIRONMENT\n%s\nENVIRONMENT", Aruba.platform.simple_table(h)) }
         output_format :modified_environment, proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
         output_format :stderr, "<<-STDERR\n%s\nSTDERR"
         output_format :stdout, "<<-STDOUT\n%s\nSTDOUT"
@@ -83,12 +88,9 @@ module Aruba
         output_format :stop_signal, proc { |p, s| format('Command will be stopped with `kill -%s %s`', s, p) }
         output_format :timeout, '# %s-timeout: %s seconds'
         output_format :wait_time, '# %s: %s seconds'
-        output_format(
-          :command_filesystem_status, proc do |status|
-          puts 'Command Filesystem Status:'
-          Aruba.platform.simple_table(status.to_h, :sort => false)
-        end
-        )
+        # rubocop:disable Metrics/LineLength
+        output_format :command_filesystem_status, proc { |status| format("<<-COMMAND FILESYSTEM STATUS\n%s\nCOMMAND FILESYSTEM STATUS", Aruba.platform.simple_table(status.to_h, :sort => false)) }
+        # rubocop:enable Metrics/LineLength
 
         # rubocop:disable Metrics/LineLength
         if @options[:stdout]
@@ -187,6 +189,8 @@ module Aruba
                   else
                     the_output_format.call(*args)
                   end
+        message += "\n"
+        message = colorizer.cyan(message)
 
         announcer.announce(message)
 
