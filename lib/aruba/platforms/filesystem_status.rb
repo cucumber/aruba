@@ -60,7 +60,7 @@ module Aruba
           :ctime      => ctime,
           :atime      => atime,
           :mtime      => mtime,
-          :size       => size,
+          :size       => size
         }
       end
     end

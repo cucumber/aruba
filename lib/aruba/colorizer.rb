@@ -31,7 +31,7 @@ module Aruba
       [ :on_blue      ,  44 ],
       [ :on_magenta   ,  45 ],
       [ :on_cyan      ,  46 ],
-      [ :on_white     ,  47 ],
+      [ :on_white     ,  47 ]
     ]
 
     ATTRIBUTE_NAMES = ATTRIBUTES.transpose.first
@@ -53,26 +53,27 @@ module Aruba
 
     ATTRIBUTES.each do |c, v|
       define_method(c) do |string|
-          result = ''
-          result << "\e[#{v}m" if Aruba::AnsiColor.coloring?
-          if block_given?
-            result << yield
-          elsif string
-            result << string
-          elsif respond_to?(:to_str)
-            result << to_str
-          else
-            return result #only switch on
-          end
-          result << "\e[0m" if Aruba::AnsiColor.coloring?
-          result
+        result = ''
+        result << "\e[#{v}m" if Aruba::AnsiColor.coloring?
+        if block_given?
+          result << yield
+        elsif string
+          result << string
+        elsif respond_to?(:to_str)
+          result << to_str
+        else
+          return result #only switch on
+        end
+        result << "\e[0m" if Aruba::AnsiColor.coloring?
+        result
       end
+
+      module_function c
     end
 
     # Regular expression that is used to scan for ANSI-sequences while
     # uncoloring strings.
     COLORED_REGEXP = /\e\[(?:[34][0-7]|[0-9])?m/
-
 
     def self.included(klass)
       if klass == String
@@ -95,13 +96,13 @@ module Aruba
       end
     end
 
-    module_function
-
     # Returns an array of all Aruba::Platforms::AnsiColor attributes as symbols.
     def attributes
       ATTRIBUTE_NAMES
     end
-    extend self
+
+    # extend self
+    module_function :attributes, :uncolored
   end
 end
 
