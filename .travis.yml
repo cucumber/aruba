@@ -44,6 +44,4 @@ cache: apt
 addons:
   apt:
     packages:
-    - dash
-    - fish
     - zsh
