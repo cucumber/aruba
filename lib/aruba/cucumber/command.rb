@@ -36,7 +36,7 @@ When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do
   shell ||= Aruba.platform.default_shell
 
   Aruba::ScriptFile.new(:interpreter => shell, :content => commands,
-                 :path => expand_path('bin/myscript')).call
+                        :path => expand_path('bin/myscript')).call
   step 'I run `myscript`'
 end
 
