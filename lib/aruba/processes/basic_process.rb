@@ -67,6 +67,14 @@ module Aruba
         NotImplementedError
       end
 
+      def filesystem_status
+        NotImplementedError
+      end
+
+      def content
+        NotImplementedError
+      end
+
       def wait
         NotImplementedError
       end

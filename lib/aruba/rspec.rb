@@ -59,14 +59,16 @@ RSpec.configure do |config|
       aruba.announcer.activate(:changed_environment)
     end
 
-    aruba.announcer.activate(:command)              if example.metadata[:announce_command]
-    aruba.announcer.activate(:directory)            if example.metadata[:announce_directory]
-    aruba.announcer.activate(:full_environment)     if example.metadata[:announce_full_environment]
-    aruba.announcer.activate(:stderr)               if example.metadata[:announce_stderr]
-    aruba.announcer.activate(:stdout)               if example.metadata[:announce_stdout]
-    aruba.announcer.activate(:stop_signal)          if example.metadata[:announce_stop_signal]
-    aruba.announcer.activate(:timeout)              if example.metadata[:announce_timeout]
-    aruba.announcer.activate(:wait_time)            if example.metadata[:announce_wait_time]
+    aruba.announcer.activate(:command)                   if example.metadata[:announce_command]
+    aruba.announcer.activate(:directory)                 if example.metadata[:announce_directory]
+    aruba.announcer.activate(:full_environment)          if example.metadata[:announce_full_environment]
+    aruba.announcer.activate(:stderr)                    if example.metadata[:announce_stderr]
+    aruba.announcer.activate(:stdout)                    if example.metadata[:announce_stdout]
+    aruba.announcer.activate(:stop_signal)               if example.metadata[:announce_stop_signal]
+    aruba.announcer.activate(:timeout)                   if example.metadata[:announce_timeout]
+    aruba.announcer.activate(:wait_time)                 if example.metadata[:announce_wait_time]
+    aruba.announcer.activate(:command_content)           if example.metadata[:announce_command_content]
+    aruba.announcer.activate(:command_filesystem_status) if example.metadata[:announce_command_filesystem_status]
 
     if example.metadata[:announce_output]
       aruba.announcer.activate(:stderr)
@@ -84,6 +86,8 @@ RSpec.configure do |config|
       aruba.announcer.activate(:stop_signal)
       aruba.announcer.activate(:timeout)
       aruba.announcer.activate(:wait_time)
+      aruba.announcer.activate(:command_content)
+      aruba.announcer.activate(:command_filesystem_status)
     end
   end
 

@@ -496,6 +496,20 @@
 
 # Upcoming un-released versions
 
+## [v0.13.0](https://github.com/cucumber/aruba/compare/v0.12.0...v0.13.0)
+
+* Add two new hooks for rspec and cucumber to make troubleshooting feature
+  files easier (PR #338):
+  * command_content: Outputs command content - helpful for scripts
+  * command_filesystem_status: Outputs information like group, owner, mode,
+    atime, mtime
+* Colored announcer output similar to the color of `cucumber` tags: cyan
+* Fixed bug in announcer. It announces infomation several times due to
+  duplicate announce-calls.
+* Refactorings to internal `#simple_table`-method (internal)
+* Refactored Announcer, now it supports blocks for announce as well (internal)
+
+
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
 * Support for rubies older than 1.9.3 is discontinued - e.g 1.8.7 and 1.9.2

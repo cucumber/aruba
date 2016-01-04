@@ -168,14 +168,6 @@ module Aruba
         working_directory = expand_path('.')
         event_bus         = aruba.event_bus
 
-        aruba.announcer.announce(:full_environment, environment)
-        aruba.announcer.announce(:timeout, 'exit', exit_timeout)
-        aruba.announcer.announce(:timeout, 'io wait', io_wait_timeout)
-        aruba.announcer.announce(:wait_time, 'startup wait time', startup_wait_time)
-
-        aruba.announcer.announce(:directory, working_directory)
-        aruba.announcer.announce(:command, cmd)
-
         cmd = Aruba.platform.detect_ruby(cmd)
 
         mode = if Aruba.process

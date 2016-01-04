@@ -6,7 +6,7 @@ module Aruba
     class SimpleTable
       private
 
-      attr_reader :hash
+      attr_reader :hash, :opts
 
       public
 
@@ -14,8 +14,11 @@ module Aruba
       #
       # @param [Hash] hash
       #   Input
-      def initialize(hash)
+      def initialize(hash, opts)
         @hash = hash
+        @opts = {
+          :sort => true
+        }.merge opts
       end
 
       # Generate table
@@ -24,7 +27,7 @@ module Aruba
       #   The table
       def to_s
         longest_key = hash.keys.map(&:to_s).max_by(&:length)
-        return [] if longest_key.nil?
+        return '' if longest_key.nil?
 
         name_size  = longest_key.length
 
@@ -34,12 +37,16 @@ module Aruba
           hash.each do |k,v|
             rows << format("# %-#{name_size}s => %s", k, v)
           end
-
-          rows.sort
         else
-          hash.each_with_object([]) do |(k,v), a|
+          rows = hash.each_with_object([]) do |(k,v), a|
             a << format("# %-#{name_size}s => %s", k, v)
-          end.sort
+          end
+        end
+
+        if opts[:sort] == true
+          rows.sort.join("\n")
+        else
+          rows.join("\n")
         end
       end
     end

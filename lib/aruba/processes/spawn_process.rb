@@ -58,16 +58,7 @@ module Aruba
 
         @started = true
 
-        # gather fully qualified path
-        cmd = Aruba.platform.which(command, environment['PATH'])
-
-        # rubocop:disable  Metrics/LineLength
-        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if cmd.nil?
-        # rubocop:enable  Metrics/LineLength
-
-        cmd = Aruba.platform.command_string.new(cmd)
-
-        @process   = ChildProcess.build(*[cmd.to_a, arguments].flatten)
+        @process   = ChildProcess.build(*[command_string.to_a, arguments].flatten)
         @stdout_file = Tempfile.new('aruba-stdout-')
         @stderr_file = Tempfile.new('aruba-stderr-')
 
@@ -241,7 +232,35 @@ module Aruba
         raise CommandAlreadyStoppedError, %(Command "#{commandline}" with PID "#{pid}" has already stopped.)
       end
 
+      # Return file system stats for the given command
+      #
+      # @return [Aruba::Platforms::FilesystemStatus]
+      #   This returns a File::Stat-object
+      def filesystem_status
+        Aruba.platform.filesystem_status.new(command_string.to_s)
+      end
+
+      # Content of command
+      #
+      # @return [String]
+      #   The content of the script/command. This might be binary output as
+      #   string if your command is a binary executable.
+      def content
+        File.read command_string.to_s
+      end
+
       private
+
+      def command_string
+        # gather fully qualified path
+        cmd = Aruba.platform.which(command, environment['PATH'])
+
+        # rubocop:disable  Metrics/LineLength
+        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if cmd.nil?
+        # rubocop:enable  Metrics/LineLength
+
+        Aruba.platform.command_string.new(cmd)
+      end
 
       def wait_for_io(time_to_wait, &block)
         sleep time_to_wait.to_i

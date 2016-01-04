@@ -33,6 +33,14 @@ Before('@announce-command') do
   aruba.announcer.activate :command
 end
 
+Before('@announce-command-content') do
+  aruba.announcer.activate :command_content
+end
+
+Before('@announce-command-filesystem-status') do
+  aruba.announcer.activate :command_filesystem_status
+end
+
 Before('@announce-cmd') do
   Aruba.platform.deprecated 'The use of "@announce-cmd"-hook is deprecated. Please use "@announce-command"'
 
@@ -112,6 +120,8 @@ Before('@announce') do
   aruba.announcer.activate :stop_signal
   aruba.announcer.activate :timeout
   aruba.announcer.activate :wait_time
+  aruba.announcer.activate :command_content
+  aruba.announcer.activate :command_filesystem_status
 end
 
 Before('@debug') do

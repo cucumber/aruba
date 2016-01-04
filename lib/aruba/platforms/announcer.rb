@@ -1,4 +1,7 @@
 require 'shellwords'
+require 'aruba/colorizer'
+
+Aruba::AnsiColor.coloring = false if !STDOUT.tty? && !ENV.key?("AUTOTEST")
 
 # Aruba
 module Aruba
@@ -24,17 +27,6 @@ module Aruba
     #   Aruba.announcer.announce(:my_channel, 'my message')
     #
     class Announcer
-      # Dev null
-      class NullAnnouncer
-        def announce(*)
-          nil
-        end
-
-        def mode?(*)
-          true
-        end
-      end
-
       # Announcer using Kernel.puts
       class KernelPutsAnnouncer
         def announce(message)
@@ -49,7 +41,7 @@ module Aruba
       # Announcer using Main#puts
       class PutsAnnouncer
         def announce(message)
-          Kernel.puts message
+          puts message
         end
 
         def mode?(m)
@@ -59,7 +51,7 @@ module Aruba
 
       private
 
-      attr_reader :announcers, :default_announcer, :announcer, :channels, :output_formats
+      attr_reader :announcers, :announcer, :channels, :output_formats, :colorizer
 
       public
 
@@ -67,9 +59,9 @@ module Aruba
         @announcers = []
         @announcers << PutsAnnouncer.new
         @announcers << KernelPutsAnnouncer.new
-        @announcers << NullAnnouncer.new
 
-        @default_announcer = @announcers.last
+        @colorizer = Aruba::Colorizer.new
+
         @announcer         = @announcers.first
         @channels          = {}
         @output_formats    = {}
@@ -88,13 +80,17 @@ module Aruba
         output_format :command, '$ %s'
         output_format :directory, '$ cd %s'
         output_format :environment, proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
-        output_format :full_environment, proc { |h| Aruba.platform.simple_table(h) }
+        output_format :full_environment, proc { |h| format("<<-ENVIRONMENT\n%s\nENVIRONMENT", Aruba.platform.simple_table(h)) }
         output_format :modified_environment, proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
         output_format :stderr, "<<-STDERR\n%s\nSTDERR"
         output_format :stdout, "<<-STDOUT\n%s\nSTDOUT"
+        output_format :command_content, "<<-COMMAND\n%s\nCOMMAND"
         output_format :stop_signal, proc { |p, s| format('Command will be stopped with `kill -%s %s`', s, p) }
         output_format :timeout, '# %s-timeout: %s seconds'
         output_format :wait_time, '# %s: %s seconds'
+        # rubocop:disable Metrics/LineLength
+        output_format :command_filesystem_status, proc { |status| format("<<-COMMAND FILESYSTEM STATUS\n%s\nCOMMAND FILESYSTEM STATUS", Aruba.platform.simple_table(status.to_h, :sort => false)) }
+        # rubocop:enable Metrics/LineLength
 
         # rubocop:disable Metrics/LineLength
         if @options[:stdout]
@@ -135,7 +131,6 @@ module Aruba
 
       # Reset announcer
       def reset
-        @default_announcer = @announcers.last
         @announcer         = @announcers.first
       end
 
@@ -161,8 +156,8 @@ module Aruba
       #
       # @param [Symbol] channel
       #   The name of the channel to activate
-      def activate(channel)
-        channels[channel.to_sym] = true
+      def activate(*chns)
+        chns.flatten.each { |c| channels[c.to_sym] = true }
 
         self
       end
@@ -174,7 +169,11 @@ module Aruba
       #
       # @param [Array] args
       #   Arguments
-      def announce(channel, *args)
+      #
+      # @yield
+      #   If block is given, that one is called and the return value is used as
+      #   message to be announced.
+      def announce(channel, *args, &block)
         channel = channel.to_sym
 
         the_output_format = if output_formats.key? channel
@@ -183,11 +182,19 @@ module Aruba
                               proc { |v| format('%s', v) }
                             end
 
-        message = the_output_format.call(*args)
+        return unless activated?(channel)
 
-        announcer.announce(message) if channels[channel]
+        message = if block_given?
+                    the_output_format.call(block.call)
+                  else
+                    the_output_format.call(*args)
+                  end
+        message += "\n"
+        message = colorizer.cyan(message)
 
-        default_announcer.announce message
+        announcer.announce(message)
+
+        nil
       end
 
       # @deprecated

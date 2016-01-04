@@ -201,3 +201,83 @@ Feature: Announce output during test run
     """
     $ export MY_VAR=my\ value\ \
     """
+
+  Scenario: Announce file system status of command
+    This will output information like owner, group, atime, mtime, ctime, size,
+    mode and if command is executable.
+
+    Given an executable named "bin/cli" with:
+    """bash
+    #!/usr/bin/env bash
+
+    echo 'Hello World'
+    """
+    And a file named "features/exit_status.feature" with:
+    """cucumber
+    Feature: Announce
+      @announce-command-filesystem-status
+      Scenario: Run command
+        And I run `cli`
+        Then the exit status should be 0
+    """
+    When I run `cucumber`
+    Then the features should all pass
+    And the output should contain:
+    """
+    # mode       => 755
+    """
+    And the output should contain:
+    """
+    # owner
+    """
+    And the output should contain:
+    """
+    # group
+    """
+    And the output should contain:
+    """
+    # ctime
+    """
+    And the output should contain:
+    """
+    # mtime
+    """
+    And the output should contain:
+    """
+    # atime
+    """
+    And the output should contain:
+    """
+    # size
+    """
+    And the output should contain:
+    """
+    # executable
+    """
+
+  Scenario: Announce content of command
+    This will output the content of the executable command. Be careful doing
+    this with binary executables. This hook should be used with scripts only.
+
+    Given an executable named "bin/cli" with:
+    """bash
+    #!/usr/bin/env bash
+
+    echo 'Hello World'
+    """
+    And a file named "features/exit_status.feature" with:
+    """cucumber
+    Feature: Announce
+      @announce-command-content
+      Scenario: Run command
+        And I run `cli`
+        Then the exit status should be 0
+    """
+    When I run `cucumber`
+    Then the features should all pass
+    And the output should contain:
+    """
+    #!/usr/bin/env bash
+
+    echo 'Hello World'
+    """
