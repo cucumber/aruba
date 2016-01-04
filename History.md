@@ -506,6 +506,8 @@
     atime, mtime
 * Refactorings to internal `#simple_table`-method
 * Colored announcer output similar to the color of `cucumber` tags: cyan
+* Fixed bug in announcer. It announces infomation several times due to
+  duplicate announce-calls.
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
