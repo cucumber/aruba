@@ -30,7 +30,7 @@ require 'rspec/expectations/version'
 #     end
 RSpec::Matchers.define :have_permissions do |expected|
   def permissions(file)
-    @actual = format("%o", File::Stat.new(file).mode)[-4,4].gsub(/^0*/, '')
+    @actual = Aruba.platform.filesystem_status.new(file).mode
   end
 
   match do |actual|
