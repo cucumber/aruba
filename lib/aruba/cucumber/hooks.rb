@@ -120,6 +120,8 @@ Before('@announce') do
   aruba.announcer.activate :stop_signal
   aruba.announcer.activate :timeout
   aruba.announcer.activate :wait_time
+  aruba.announcer.activate :command_content
+  aruba.announcer.activate :command_filesystem_status
 end
 
 Before('@debug') do
