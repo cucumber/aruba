@@ -1,26 +1,12 @@
 # Latest Release
 
-## [v0.13.0](https://github.com/cucumber/aruba/compare/v0.12.0...v0.13.0)
-
-* Add two new hooks for rspec and cucumber to make troubleshooting feature
-  files easier (PR #338):
-  * command_content: Outputs command content - helpful for scripts
-  * command_filesystem_status: Outputs information like group, owner, mode,
-    atime, mtime
-* Colored announcer output similar to the color of `cucumber` tags: cyan
-* Fixed bug in announcer. It announces infomation several times due to
-  duplicate announce-calls.
-* Refactorings to internal `#simple_table`-method (internal)
-* Refactored Announcer, now it supports blocks for announce as well (internal)
-
-# Old releases
-
 ## [v0.12.0](https://github.com/cucumber/aruba/compare/v0.11.2...v0.12.0)
 
 * Add matcher to check if a command can be found in PATH (PR #336)
 * Fixed issue with environment variables set by external libraries (fix #321,
   issue #320)
 
+# Old releases
 
 ## [v0.11.2](https://github.com/cucumber/aruba/compare/v0.11.1...v0.11.2)
 
@@ -509,6 +495,20 @@
 * First release (David Chelimsky and Aslak Hellesøy)
 
 # Upcoming un-released versions
+
+## [v0.13.0](https://github.com/cucumber/aruba/compare/v0.12.0...v0.13.0)
+
+* Add two new hooks for rspec and cucumber to make troubleshooting feature
+  files easier (PR #338):
+  * command_content: Outputs command content - helpful for scripts
+  * command_filesystem_status: Outputs information like group, owner, mode,
+    atime, mtime
+* Colored announcer output similar to the color of `cucumber` tags: cyan
+* Fixed bug in announcer. It announces infomation several times due to
+  duplicate announce-calls.
+* Refactorings to internal `#simple_table`-method (internal)
+* Refactored Announcer, now it supports blocks for announce as well (internal)
+
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
