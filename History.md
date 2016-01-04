@@ -503,6 +503,7 @@
   * command_content: Outputs command content - helpful for scripts
   * command_filesystem_status: Outputs information like group, owner, mode,
     atime, mtime
+* Add generator to create ad hoc script file (PR #323, @AdrieanKhisbe)
 * Colored announcer output similar to the color of `cucumber` tags: cyan
 * Fixed bug in announcer. It announces infomation several times due to
   duplicate announce-calls.
