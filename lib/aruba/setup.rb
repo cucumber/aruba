@@ -52,8 +52,10 @@ module Aruba
       runtime.event_bus.register(
         :command_stopped,
         proc do |event|
-          runtime.announcer.announce :stdout, event.entity.stdout
-          runtime.announcer.announce :stderr, event.entity.stderr
+          runtime.announcer.announce(:stdout) { event.entity.stdout }
+          runtime.announcer.announce(:stderr) { event.entity.stderr }
+          runtime.announcer.announce(:command_content) { event.entity.content }
+          runtime.announcer.announce(:command_filesystem_status) { event.entity.filesystem_status }
         end
       )
 

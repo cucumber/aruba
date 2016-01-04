@@ -24,17 +24,6 @@ module Aruba
     #   Aruba.announcer.announce(:my_channel, 'my message')
     #
     class Announcer
-      # Dev null
-      class NullAnnouncer
-        def announce(*)
-          nil
-        end
-
-        def mode?(*)
-          true
-        end
-      end
-
       # Announcer using Kernel.puts
       class KernelPutsAnnouncer
         def announce(message)
@@ -59,7 +48,7 @@ module Aruba
 
       private
 
-      attr_reader :announcers, :default_announcer, :announcer, :channels, :output_formats
+      attr_reader :announcers, :announcer, :channels, :output_formats
 
       public
 
@@ -67,9 +56,7 @@ module Aruba
         @announcers = []
         @announcers << PutsAnnouncer.new
         @announcers << KernelPutsAnnouncer.new
-        @announcers << NullAnnouncer.new
 
-        @default_announcer = @announcers.last
         @announcer         = @announcers.first
         @channels          = {}
         @output_formats    = {}
@@ -135,7 +122,6 @@ module Aruba
 
       # Reset announcer
       def reset
-        @default_announcer = @announcers.last
         @announcer         = @announcers.first
       end
 
@@ -174,7 +160,11 @@ module Aruba
       #
       # @param [Array] args
       #   Arguments
-      def announce(channel, *args)
+      #
+      # @yield
+      #   If block is given, that one is called and the return value is used as
+      #   message to be announced.
+      def announce(channel, *args, &block)
         channel = channel.to_sym
 
         the_output_format = if output_formats.key? channel
@@ -183,11 +173,17 @@ module Aruba
                               proc { |v| format('%s', v) }
                             end
 
-        message = the_output_format.call(*args)
+        return unless activated?(channel)
 
-        announcer.announce(message) if channels[channel]
+        message = if block_given?
+                    the_output_format.call(block.call)
+                  else
+                    the_output_format.call(*args)
+                  end
 
-        default_announcer.announce message
+        announcer.announce(message)
+
+        nil
       end
 
       # @deprecated
