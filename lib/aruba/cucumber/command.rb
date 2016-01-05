@@ -1,6 +1,7 @@
 if Aruba::VERSION < '1.0.0'
   require 'aruba/cucumber/core'
 end
+require 'aruba/generators/script_file'
 
 When(/^I run "(.*)"$/)do |cmd|
   warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
@@ -26,6 +27,17 @@ end
 When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
   cmd = sanitize_text(cmd)
   run_simple(cmd, :fail_on_error => true, :exit_timeout => secs && secs.to_i)
+end
+
+When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do |shell, commands|
+  prepend_environment_variable('PATH', expand_path('bin') + ':')
+
+  Aruba.platform.mkdir(expand_path('bin'))
+  shell ||= Aruba.platform.default_shell
+
+  Aruba::ScriptFile.new(:interpreter => shell, :content => commands,
+                 :path => expand_path('bin/myscript')).call
+  step 'I run `myscript`'
 end
 
 When(/^I run "([^"]*)" interactively$/) do |cmd|
