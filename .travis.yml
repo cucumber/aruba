@@ -39,7 +39,6 @@ notifications:
 env:
   global:
    - secure: l8uznA5K4K9mZ1krmP3lTMD8WcJ32qGxFOR3jubKHcOBSLB4xSzU2aIqjyJdO+rLzebkwamhJc8pGSIWOUDQYvFiX7splK+uEkbBJ5huAhXtLF4Qgl86bCWbEXYzN7rvn0DQfpJAovyFMNRMnfo70XhwqWzFsaYa7Z0YbqYsJE4=
-   - JRUBY_OPTS='-Xcli.debug=true --debug'
 cache: apt
 addons:
   apt:
