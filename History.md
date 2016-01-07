@@ -509,6 +509,7 @@
   duplicate announce-calls.
 * Refactorings to internal `#simple_table`-method (internal)
 * Refactored Announcer, now it supports blocks for announce as well (internal)
+* Fixed circular require warnings (issue #339)
 
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
