@@ -19,7 +19,7 @@ end
 require 'rspec/core/rake_task'
 desc "Run RSpec"
 RSpec::Core::RakeTask.new do |spec|
-  spec.rspec_opts = ['--color', '--format documentation']
+  spec.rspec_opts = ['--color', '--format documentation', '--warnings']
 end
 
 namespace :travis do

@@ -1,5 +1,3 @@
-require 'aruba/platform'
-
 # Aruba
 module Aruba
   # Platforms
