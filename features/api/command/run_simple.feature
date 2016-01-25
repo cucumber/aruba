@@ -8,7 +8,7 @@ Feature: Run command
     Given this option is `true`, `aruba` fails if the `command` fails to run - exit code <> 0.
 
     For all other options see [run.feature](run.feature).
-    
+
   Background:
     Given I use a fixture named "cli-app"
 
@@ -107,7 +107,7 @@ Feature: Run command
     Given an executable named "bin/cli" with:
     """bash
     #!/usr/bin/env bash
- 
+
     function initialize_script {
       sleep 2
     }
@@ -205,3 +205,38 @@ Feature: Run command
     """
     When I run `rspec`
     Then the specs should all pass
+
+  Scenario: Activate announcer channels on failure
+
+    Given an executable named "bin/cli" with:
+    """bash
+    #!/bin/bash
+    echo "Hello, I'm STDOUT"
+    echo "Hello, I'm STDERR" 1>&2
+    exit 1
+    """
+    And a file named "spec/run_spec.rb" with:
+    """ruby
+    require 'spec_helper'
+
+    Aruba.configure do |config|
+      config.activate_announcer_on_command_failure = [:stdout, :stderr]
+    end
+
+    RSpec.describe 'Run command', :type => :aruba do
+      it { expect { run_simple('cli', :fail_on_error => true) }.to_not raise_error }
+    end
+    """
+    When I run `rspec`
+    Then the specs should not pass
+    And the output should contain:
+    """
+    <<-STDOUT
+    Hello, I'm STDOUT
+
+    STDOUT
+    <<-STDERR
+    Hello, I'm STDERR
+
+    STDERR
+    """

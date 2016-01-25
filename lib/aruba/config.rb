@@ -26,9 +26,9 @@ module Aruba
     option_accessor :working_directory, :contract => { Aruba::Contracts::RelativePath => Aruba::Contracts::RelativePath }, :default => 'tmp/aruba'
 
     if RUBY_VERSION < '1.9'
-      option_reader   :fixtures_path_prefix, :contract => { None => String }, :default => '%'
+      option_reader :fixtures_path_prefix, :contract => { None => String }, :default => '%'
     else
-      option_reader   :fixtures_path_prefix, :contract => { None => String }, :default => ?%
+      option_reader :fixtures_path_prefix, :contract => { None => String }, :default => ?%
     end
 
     option_accessor :exit_timeout, :contract => { Num => Num }, :default => 15
@@ -64,6 +64,8 @@ module Aruba
 
     option_accessor :physical_block_size, :contract => { Aruba::Contracts::IsPowerOfTwo => Aruba::Contracts::IsPowerOfTwo }, :default => 512
     option_accessor :console_history_file, :contract => { String => String }, :default => '~/.aruba_history'
+
+    option_accessor :activate_announcer_on_command_failure, :contract => { ArrayOf[Symbol] => ArrayOf[Symbol] }, :default => []
   end
 end
 
