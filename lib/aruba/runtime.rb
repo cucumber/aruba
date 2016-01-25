@@ -2,7 +2,7 @@ require 'aruba/config'
 require 'aruba/aruba_path'
 require 'aruba/config_wrapper'
 require 'aruba/events'
-require 'event/bus'
+require 'aruba/event_bus'
 
 module Aruba
   # Runtime of aruba
@@ -40,7 +40,7 @@ module Aruba
     attr_accessor :config, :environment, :logger, :command_monitor, :announcer, :event_bus
 
     def initialize(opts = {})
-      @event_bus       = ::Event::Bus.new(::Event::NameResolver.new(Aruba::Events))
+      @event_bus       = EventBus.new(EventBus::NameResolver.new(Aruba::Events))
       @announcer       = opts.fetch(:announcer, Aruba.platform.announcer.new)
       @config          = opts.fetch(:config, ConfigWrapper.new(Aruba.config.make_copy, @event_bus))
       @environment     = opts.fetch(:environment, Aruba.platform.environment_variables.new)

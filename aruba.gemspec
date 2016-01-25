@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'rspec-expectations', '>= 2.99'
   s.add_runtime_dependency 'contracts', '~> 0.9'
   s.add_runtime_dependency 'thor', '~> 0.19'
-  s.add_runtime_dependency 'event-bus', '~> 0.2'
 
   s.add_development_dependency 'bundler', '~> 1.11'
 
