@@ -114,7 +114,7 @@ module Aruba
       def stdout(opts = {})
         return @stdout_cache if stopped?
 
-        wait_for_io opts.fetch(:wait_for_io, @io_wait) do
+        wait_for_io opts.fetch(:wait_for_io, io_wait_timeout) do
           @process.io.stdout.flush
           open(@stdout_file.path).read
         end
@@ -133,7 +133,7 @@ module Aruba
       def stderr(opts = {})
         return @stderr_cache if stopped?
 
-        wait_for_io opts.fetch(:wait_for_io, @io_wait) do
+        wait_for_io opts.fetch(:wait_for_io, io_wait_timeout) do
           @process.io.stderr.flush
           open(@stderr_file.path).read
         end
