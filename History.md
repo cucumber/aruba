@@ -512,6 +512,8 @@
 * Fix circular require warnings (issue #339)
 * Fix use of old instances variable "@io_wait" (issue #341). Now the
   default value for io_wait_timeout can be set correctly.
+* Make it possible to announce information on command error, using a new option 
+  called `activate_announcer_on_command_failure` (PR #335, @njam)
 
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
