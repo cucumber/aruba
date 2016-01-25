@@ -277,8 +277,13 @@ module Aruba
         end
 
         if fail_on_error
-          expect(command).to have_finished_in_time
-          expect(command).to be_successfully_executed
+          begin
+            expect(command).to have_finished_in_time
+            expect(command).to be_successfully_executed
+          rescue RSpec::Expectations::ExpectationNotMetError => e
+            aruba.announcer.activate(aruba.config.activate_announcer_on_command_failure)
+            raise e
+          end
         end
       end
       # rubocop:enable Metrics/CyclomaticComplexity
