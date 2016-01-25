@@ -509,7 +509,9 @@
   duplicate announce-calls.
 * Refactorings to internal `#simple_table`-method (internal)
 * Refactored Announcer, now it supports blocks for announce as well (internal)
-* Fixed circular require warnings (issue #339)
+* Fix circular require warnings (issue #339)
+* Fix use of old instances variable "@io_wait" (issue #341). Now the
+  default value for io_wait_timeout can be set correctly.
 
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
