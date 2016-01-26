@@ -1,4 +1,78 @@
-# Latest Release
+#  UNRELEASED
+
+## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
+
+* Support for rubies older than 1.9.3 is discontinued - e.g 1.8.7 and 1.9.2
+* aruba requires "cucumber 2" for the feature steps. The rest of aruba should
+  be usable by whatever testing framework you are using.
+* Overwriting methods for configuration is discontinued. You need to use
+  `aruba.config.<variable>` or `Aruba.configure { |config| config.<variable>`
+  instead.
+* "aruba/reporting" will be removed. Please use `@debug`-tag + `byebug`,
+  `debugger`, `pry` to troubleshoot your feature tests.
+* Set environment variables will have only effect on `#run` and the like +
+  `#with_environment { }`.
+* The process environment will be fully resetted between tests. Sharing state
+  via ENV['VAR'] = 'shared state' between tests will not be possible anymore.
+  Please make that obvious by using explicit steps or use the aruba API for
+  that.
+* There will be a major cleanup for command execution. There will be only
+  `run` and `run_simple` left. `run_interactive` is replaced by `run`.
+* Setting the root directory of aruba via method overwrite or configuration -
+  this should be your project root directory where the test suite is run.
+* The direct use of "InProcess", "DebugProcess" and "SpawnProcess" is not
+  supported anymore. You need to use "Command" instead. But be careful, it has
+  a different API.
+* HOME can be configured via `Aruba.configure {}` and defaults to
+  `File.join(aruba.config.root_directory, aruba.config.working_directory?)`
+  if `aruba/cucumber` or `aruba/rspec` is used.
+* Use different working directories based on test suite - RSpec, Cucumber.
+  It's `tmp/rspec` and `tmp/cucumber` now to make sure they do not overwrite
+  the test results from each other.
+* The use of `@interactive` is discontinued. You need to use
+  `#last_command_started`-method to get access to the interactively started
+  command.
+* If multiple commands have been started, each output has to be check
+  separately
+
+  ```cucumber
+  Scenario: Detect stdout from all processes
+    When I run `printf "hello world!\n"`
+    And I run `cat` interactively
+    And I type "hola"
+    And I type ""
+    Then the stdout should contain:
+      """
+      hello world!
+      """
+    And the stdout should contain:
+      """
+      hola
+      """
+    And the stderr should not contain anything
+  ```
+
+# RELEASED
+
+## [v0.13.0](https://github.com/cucumber/aruba/compare/v0.12.0...v0.13.0)
+
+* Add two new hooks for rspec and cucumber to make troubleshooting feature
+  files easier (PR #338):
+  * command_content: Outputs command content - helpful for scripts
+  * command_filesystem_status: Outputs information like group, owner, mode,
+    atime, mtime
+* Add generator to create ad hoc script file (PR #323, @AdrieanKhisbe)
+* Colored announcer output similar to the color of `cucumber` tags: cyan
+* Fixed bug in announcer. It announces infomation several times due to
+  duplicate announce-calls.
+* Refactorings to internal `#simple_table`-method (internal)
+* Refactored Announcer, now it supports blocks for announce as well (internal)
+* Fix circular require warnings (issue #339)
+* Fix use of old instances variable "@io_wait" (issue #341). Now the
+  default value for io_wait_timeout can be set correctly.
+* Make it possible to announce information on command error, using a new option 
+  called `activate_announcer_on_command_failure` (PR #335, @njam)
+* Re-integrate `event-bus`-library into `aruba`-core (PR #342)
 
 ## [v0.12.0](https://github.com/cucumber/aruba/compare/v0.11.2...v0.12.0)
 
@@ -493,77 +567,3 @@
 ## [v0.1.0](https://github.com/cucumber/aruba/compare/ed6a175d23aaff62dbf355706996f276f304ae8b...v0.1.1)
 
 * First release (David Chelimsky and Aslak Hellesøy)
-
-# Upcoming un-released versions
-
-## [v0.13.0](https://github.com/cucumber/aruba/compare/v0.12.0...v0.13.0)
-
-* Add two new hooks for rspec and cucumber to make troubleshooting feature
-  files easier (PR #338):
-  * command_content: Outputs command content - helpful for scripts
-  * command_filesystem_status: Outputs information like group, owner, mode,
-    atime, mtime
-* Add generator to create ad hoc script file (PR #323, @AdrieanKhisbe)
-* Colored announcer output similar to the color of `cucumber` tags: cyan
-* Fixed bug in announcer. It announces infomation several times due to
-  duplicate announce-calls.
-* Refactorings to internal `#simple_table`-method (internal)
-* Refactored Announcer, now it supports blocks for announce as well (internal)
-* Fix circular require warnings (issue #339)
-* Fix use of old instances variable "@io_wait" (issue #341). Now the
-  default value for io_wait_timeout can be set correctly.
-* Make it possible to announce information on command error, using a new option 
-  called `activate_announcer_on_command_failure` (PR #335, @njam)
-* Re-integrate `event-bus`-library into `aruba`-core (PR #342)
-
-## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
-
-* Support for rubies older than 1.9.3 is discontinued - e.g 1.8.7 and 1.9.2
-* aruba requires "cucumber 2" for the feature steps. The rest of aruba should
-  be usable by whatever testing framework you are using.
-* Overwriting methods for configuration is discontinued. You need to use
-  `aruba.config.<variable>` or `Aruba.configure { |config| config.<variable>`
-  instead.
-* "aruba/reporting" will be removed. Please use `@debug`-tag + `byebug`,
-  `debugger`, `pry` to troubleshoot your feature tests.
-* Set environment variables will have only effect on `#run` and the like +
-  `#with_environment { }`.
-* The process environment will be fully resetted between tests. Sharing state
-  via ENV['VAR'] = 'shared state' between tests will not be possible anymore.
-  Please make that obvious by using explicit steps or use the aruba API for
-  that.
-* There will be a major cleanup for command execution. There will be only
-  `run` and `run_simple` left. `run_interactive` is replaced by `run`.
-* Setting the root directory of aruba via method overwrite or configuration -
-  this should be your project root directory where the test suite is run.
-* The direct use of "InProcess", "DebugProcess" and "SpawnProcess" is not
-  supported anymore. You need to use "Command" instead. But be careful, it has
-  a different API.
-* HOME can be configured via `Aruba.configure {}` and defaults to
-  `File.join(aruba.config.root_directory, aruba.config.working_directory?)`
-  if `aruba/cucumber` or `aruba/rspec` is used.
-* Use different working directories based on test suite - RSpec, Cucumber.
-  It's `tmp/rspec` and `tmp/cucumber` now to make sure they do not overwrite
-  the test results from each other.
-* The use of `@interactive` is discontinued. You need to use
-  `#last_command_started`-method to get access to the interactively started
-  command.
-* If multiple commands have been started, each output has to be check
-  separately
-
-  ```cucumber
-  Scenario: Detect stdout from all processes
-    When I run `printf "hello world!\n"`
-    And I run `cat` interactively
-    And I type "hola"
-    And I type ""
-    Then the stdout should contain:
-      """
-      hello world!
-      """
-    And the stdout should contain:
-      """
-      hola
-      """
-    And the stderr should not contain anything
-  ```
