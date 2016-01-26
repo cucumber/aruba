@@ -514,7 +514,7 @@
   default value for io_wait_timeout can be set correctly.
 * Make it possible to announce information on command error, using a new option 
   called `activate_announcer_on_command_failure` (PR #335, @njam)
-
+* Re-integrate `event-bus`-library into `aruba`-core (PR #342)
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 

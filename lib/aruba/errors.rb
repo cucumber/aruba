@@ -28,4 +28,10 @@ module Aruba
   # Raised if command was already started, otherwise aruba forgets about the
   # previous pid and you've got hidden commands run
   class CommandAlreadyStartedError < Error; end
+
+  # Raised if an event name cannot be resolved
+  class EventNameResolveError < StandardError; end
+
+  # Raised if given object is not an event
+  class NoEventError < StandardError; end
 end
