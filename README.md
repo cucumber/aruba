@@ -184,7 +184,7 @@ prefer to setup `aruba` yourself, please move on to the next section.
 
 ### User Documentation
 
-If you're interested in our steps and API, please browser our [feature
+If you're interested in our steps and API, please browse our [feature
 files](https://github.com/cucumber/aruba/tree/master/features). You can find a
 lot of examples there. A good starting point are [Getting
 Started](https://github.com/cucumber/aruba/tree/master/features/getting_started)
