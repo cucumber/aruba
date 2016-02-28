@@ -1,11 +1,10 @@
-Feature: Set environment variable via "cucumber"-step
+Feature: Prepend environment variable via "cucumber"-step
 
   It is quite handy to modify the environment of a process. To make this
   possible, `aruba` provides several steps. One of these is
-  `I set the environment variables to:`-step. Using this step sets the values of a
-  non-existing variables and overwrites an existing values. Each variable name
-  and each value is converted to a string. Otherwise `ruby` would complain
-  about an invalid argument.
+  `I prepend the values to environment variables:`-step. Using this step prepends
+  the values. Each variable name and each value is converted to a string.
+  Otherwise `ruby` would complain about an invalid argument.
 
   Background:
     Given I use the fixture "cli-app"
@@ -15,34 +14,38 @@ Feature: Set environment variable via "cucumber"-step
 
     echo $LONG_LONG_VARIABLE
     """
+    And a file named "features/support/variables.rb" with:
+    """
+    ENV['LONG_LONG_VARIABLE'] = '1'
+    """
 
-  Scenario: Set environment variable by using a step given in table
+  Scenario: Prepend environment variable by using a step given in table
     Given a file named "features/home_variable.feature" with:
     """
     Feature: Environment Variable
       Scenario: Run command
-        Given I set the environment variables to:
+        Given I prepend the values to the environment variables:
           | variable           | value      |
           | LONG_LONG_VARIABLE | long_value |
         When I run `cli`
         Then the output should contain:
         \"\"\"
-        long_value
+        long_value1
         \"\"\"
     """
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Set single environment variable by using a step
+  Scenario: Prepend single environment variable by using a step
     Given a file named "features/home_variable.feature" with:
     """
     Feature: Environment Variable
       Scenario: Run command
-        Given I set the environment variable "LONG_LONG_VARIABLE" to "long_value"
+        Given I prepend "long_value" to the environment variable "LONG_LONG_VARIABLE"
         When I run `cli`
         Then the output should contain:
         \"\"\"
-        long_value
+        long_value1
         \"\"\"
     """
     When I run `cucumber`

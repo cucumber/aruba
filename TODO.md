@@ -6,3 +6,8 @@
 * Add variation of check and stop of command if output contains
     Add something like `(?: of last command)?`. If this is true, just check the last command.
 * Use aruba.config.exit_timeout everywhere
+* Fix problem with long running commands in background:
+
+  Since we need to stop all commands to access the status of the last command
+  stopped, we have problems with long running commands
+

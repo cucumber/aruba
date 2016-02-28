@@ -416,3 +416,8 @@ When(/^I send the signal "([^"]*)" to the command (?:"([^"]*)"|(?:started last))
     last_command_started.send_signal signal
   end
 end
+
+Given(/^I look for executables in "(.*)" within the current directory$/) do |directory|
+  prepend_environment_variable 'PATH', expand_path(directory) + ':'
+end
+

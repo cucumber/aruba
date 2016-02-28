@@ -48,3 +48,19 @@ Feature: Run commands
 
     STDOUT
     """
+
+  Scenario: Run command found in "bin"-directory which is found in the current directory
+    Given a file named "features/run.feature" with:
+    """
+    Feature: Run it
+      Scenario: Run command
+        Given an executable named "bin/local_cli" with:
+        \"\"\"
+        #!/bin/bash
+        exit 0
+        \"\"\"
+        And I look for executables in "bin" within the current directory
+        When I successfully run `local_cli`
+    """
+    When I run `cucumber`
+    Then the features should all pass
