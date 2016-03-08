@@ -54,6 +54,12 @@
 
 # RELEASED
 
+## [v0.14.0](https://github.com/cucumber/aruba/compare/v0.13.0...v0.14.0)
+
+* Add `<project_root>/exe` to search path for commands: This is the new default if you setup a
+  project with bundler.
+* Add some more steps to modify environment
+
 ## [v0.13.0](https://github.com/cucumber/aruba/compare/v0.12.0...v0.13.0)
 
 * Add two new hooks for rspec and cucumber to make troubleshooting feature
