@@ -36,17 +36,11 @@ namespace :travis do
   end
 end
 
-if RUBY_VERSION < '1.9.3'
+task :rubocop do
   begin
-    require 'rubocop/rake_task'
-    RuboCop::RakeTask.new
-  rescue LoadError
-    desc 'Stub task to make rake happy'
-    task(:rubocop) {}
+    sh 'rubocop --fail-level E'
+  rescue
   end
-else
-  require 'rubocop/rake_task'
-  RuboCop::RakeTask.new
 end
 
 desc "Run tests, both RSpec and Cucumber"

@@ -7,7 +7,7 @@ module Aruba
     public
 
     def initialize(runtime)
-      @runtime      = runtime
+      @runtime = runtime
     end
 
     def call

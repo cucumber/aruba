@@ -125,7 +125,7 @@ module Aruba
 
         format '#<%s:%s commandline="%s": output="%s">', self.class, self.object_id, commandline, out
       end
-      alias_method :to_s, :inspect
+      alias to_s inspect
 
       private
 

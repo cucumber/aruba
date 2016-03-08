@@ -17,8 +17,6 @@ module Aruba
         mode == :debug || (mode.is_a?(Class) && mode <= DebugProcess)
       end
 
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/CyclomaticComplexity
       def start
         Dir.chdir @working_directory do
           Aruba.platform.with_environment(environment) do
@@ -26,8 +24,6 @@ module Aruba
           end
         end
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
-      # rubocop:enable Metrics/MethodLength
 
       # Return stdin
       #

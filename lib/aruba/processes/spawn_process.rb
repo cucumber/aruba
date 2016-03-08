@@ -50,7 +50,6 @@ module Aruba
       #   Run code for process which was started
       #
       # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/CyclomaticComplexity
       def start
         # rubocop:disable Metrics/LineLength
         fail CommandAlreadyStartedError, %(Command "#{commandline}" has already been started. Please `#stop` the command first and `#start` it again. Alternatively use `#restart`.\n#{caller.join("\n")}) if started?
@@ -58,7 +57,7 @@ module Aruba
 
         @started = true
 
-        @process   = ChildProcess.build(*[command_string.to_a, arguments].flatten)
+        @process = ChildProcess.build(*[command_string.to_a, arguments].flatten)
         @stdout_file = Tempfile.new('aruba-stdout-')
         @stderr_file = Tempfile.new('aruba-stderr-')
 
@@ -91,8 +90,7 @@ module Aruba
 
         yield self if block_given?
       end
-      # rubocop:enable Metrics/MethodLength
-      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/MethodLength
 
       # Access to stdout of process
       def stdin
@@ -264,7 +262,7 @@ module Aruba
 
       def wait_for_io(time_to_wait, &block)
         sleep time_to_wait.to_i
-        block.call
+        yield
       end
 
       def read_temporary_output_file(file)

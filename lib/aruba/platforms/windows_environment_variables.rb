@@ -36,23 +36,23 @@ module Aruba
       def initialize(env = ENV.to_hash)
         @actions = []
 
-        if RUBY_VERSION <= '1.9.3'
-          # rubocop:disable Style/EachWithObject
-          @env = env.inject({}) { |a, (k,v)| a[k.to_s.upcase] = v; a }
-          # rubocop:enable Style/EachWithObject
-        else
-          @env = env.each_with_object({}) { |(k,v), a| a[k.to_s.upcase] = v }
-        end
+        @env = if RUBY_VERSION <= '1.9.3'
+                 # rubocop:disable Style/EachWithObject
+                 env.inject({}) { |a, (k,v)| a[k.to_s.upcase] = v; a }
+               # rubocop:enable Style/EachWithObject
+               else
+                 env.each_with_object({}) { |(k,v), a| a[k.to_s.upcase] = v }
+               end
       end
 
       def update(other_env, &block)
-        if RUBY_VERSION <= '1.9.3'
-          # rubocop:disable Style/EachWithObject
-          other_env = other_env.inject({}) { |a, (k,v)| a[k.to_s.upcase] = v; a }
-          # rubocop:enable Style/EachWithObject
-        else
-          other_env = other_env.each_with_object({}) { |(k,v), a| a[k.to_s.upcase] = v }
-        end
+        other_env = if RUBY_VERSION <= '1.9.3'
+                      # rubocop:disable Style/EachWithObject
+                      other_env.inject({}) { |a, (k,v)| a[k.to_s.upcase] = v; a }
+                    # rubocop:enable Style/EachWithObject
+                    else
+                      other_env.each_with_object({}) { |(k,v), a| a[k.to_s.upcase] = v }
+                    end
 
         super(other_env, &block)
       end

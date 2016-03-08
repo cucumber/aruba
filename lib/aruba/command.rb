@@ -22,7 +22,6 @@ module Aruba
 
     public
 
-    # rubocop:disable Metrics/MethodLength
     def initialize(command, opts = {})
       launchers = []
       launchers << Processes::DebugProcess
@@ -46,7 +45,6 @@ module Aruba
     rescue KeyError => e
       raise ArgumentError, e.message
     end
-    # rubocop:enable Metrics/MethodLength
 
     # Stop command
     def stop(*)
@@ -71,6 +69,6 @@ module Aruba
 
       self
     end
-    alias_method :run!, :start
+    alias run! start
   end
 end

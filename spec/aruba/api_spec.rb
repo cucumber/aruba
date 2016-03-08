@@ -3,7 +3,7 @@ require 'securerandom'
 require 'aruba/api'
 require 'fileutils'
 
-describe Aruba::Api  do
+describe Aruba::Api do
   include_context 'uses aruba API'
 
   describe '#all_paths' do
@@ -110,7 +110,7 @@ describe Aruba::Api  do
     let(:content) { 'asdf' }
 
     before :each do
-      @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+      @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
     end
 
     context 'when does not exist' do
@@ -164,7 +164,7 @@ describe Aruba::Api  do
     let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
     before :each do
-      @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+      @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
     end
 
     context 'when does not exist' do
@@ -196,7 +196,7 @@ describe Aruba::Api  do
         context 'when has subdirectories' do
           context 'when is simple path' do
             let(:existing_files) { @aruba.list(name) }
-            let(:expected_files) { content.map { |c| File.join(name, c) }.sort  }
+            let(:expected_files) { content.map { |c| File.join(name, c) }.sort }
 
             it { expect(expected_files - existing_files).to be_empty}
           end
@@ -227,7 +227,7 @@ describe Aruba::Api  do
     let(:options) { {} }
 
     before :each do
-      @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+      @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
     end
 
     context 'when file' do
@@ -326,7 +326,7 @@ describe Aruba::Api  do
       let(:options) { {} }
 
       before :each do
-        @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+        @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
       end
 
       context 'when file' do
@@ -784,7 +784,7 @@ describe Aruba::Api  do
       let(:permissions) { '0655' }
 
       before :each do
-        @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+        @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
       end
 
       before(:each) do
@@ -822,7 +822,7 @@ describe Aruba::Api  do
       let(:permissions) { '0655' }
 
       before :each do
-        @aruba.set_environment_variable 'HOME',  File.expand_path(@aruba.aruba.current_directory)
+        @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
       end
 
       before(:each) do
@@ -1047,7 +1047,7 @@ describe Aruba::Api  do
           end . not_to raise_error
         end
 
-        it "raises RSpec::Expectations::ExpectationNotMetError when the inner expectations don't match"  do
+        it "raises RSpec::Expectations::ExpectationNotMetError when the inner expectations don't match" do
           expect do
             @aruba.with_file_content @file_name do |full_content|
               expect(full_content).to     match(/zoo/)
@@ -1125,20 +1125,20 @@ describe Aruba::Api  do
     it "respond to input" do
       @aruba.type "Hello"
       @aruba.type ""
-      expect(@aruba.all_output).to eq  "Hello\n"
+      expect(@aruba.all_output).to eq "Hello\n"
     end
 
     it "respond to close_input" do
       @aruba.type "Hello"
       @aruba.close_input
-      expect(@aruba.all_output).to eq  "Hello\n"
+      expect(@aruba.all_output).to eq "Hello\n"
     end
 
     it "pipes data" do
       @aruba.write_file(@file_name, "Hello\nWorld!")
       @aruba.pipe_in_file(@file_name)
       @aruba.close_input
-      expect(@aruba.all_output).to eq  "Hello\nWorld!"
+      expect(@aruba.all_output).to eq "Hello\nWorld!"
     end
   end
 

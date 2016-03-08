@@ -12,7 +12,7 @@ module Aruba
         :atime,
         :mtime,
         :size
-      ]
+      ].freeze
 
       extend Forwardable
 

@@ -19,7 +19,7 @@ module Aruba
         ENV.clear
         ENV.update env
 
-        block.call if block_given?
+        yield if block_given?
       ensure
         ENV.clear
         ENV.update old_env

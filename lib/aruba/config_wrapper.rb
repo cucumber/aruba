@@ -21,7 +21,7 @@ module Aruba
     # @param [#notify] event_bus
     #   The event queue which should be notified.
     def initialize(config, event_bus)
-      @config      = config
+      @config = config
       @event_bus = event_bus
     end
 

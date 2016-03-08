@@ -76,7 +76,7 @@ RSpec.describe 'File Matchers' do
       end
 
       context "when matcher" do
-        it { expect(have_file_content(a_string_starting_with "a").description).to eq('have file content: a string starting with "a"') }
+        it { expect(have_file_content(a_string_starting_with("a")).description).to eq('have file content: a string starting with "a"') }
       end
     end
 
@@ -99,7 +99,7 @@ RSpec.describe 'File Matchers' do
 
       example 'for a matcher' do
         expect do
-          expect(@file_name).to have_file_content(a_string_starting_with "z")
+          expect(@file_name).to have_file_content(a_string_starting_with("z"))
         end.to fail_with('expected "test.txt" to have file content: a string starting with "z"')
       end
     end

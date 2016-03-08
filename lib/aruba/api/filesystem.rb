@@ -43,7 +43,7 @@ module Aruba
       # @param [String] file
       #   The file which should exist
       def executable?(path)
-        path =  expand_path(path)
+        path = expand_path(path)
 
         Aruba.platform.file?(path) && Aruba.platform.executable?(path)
       end

@@ -25,9 +25,9 @@ Before do |scenario|
   simplecov_setup_pathname = Pathname.new(__FILE__).expand_path.parent.join('simplecov_setup')
 
   # set environment variable so child processes will merge their coverage data with parent process's coverage data.
-  if RUBY_VERSION < '1.9'
-    ENV['RUBYOPT'] = "-r rubygems -r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}"
-  else
-    ENV['RUBYOPT'] = "-r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}"
-  end
+  ENV['RUBYOPT'] = if RUBY_VERSION < '1.9'
+                     "-r rubygems -r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}"
+                   else
+                     "-r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}"
+                   end
 end

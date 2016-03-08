@@ -32,7 +32,7 @@ module Aruba
       [ :on_magenta   ,  45 ],
       [ :on_cyan      ,  46 ],
       [ :on_white     ,  47 ]
-    ]
+    ].freeze
 
     ATTRIBUTE_NAMES = ATTRIBUTES.transpose.first
     # :startdoc:

@@ -22,7 +22,7 @@ module Aruba
     def to_byte
       bytes
     end
-    alias_method :to_i, :to_byte
+    alias to_i to_byte
 
     # Convert to float
     def to_f
@@ -33,7 +33,7 @@ module Aruba
     def to_s
       to_i.to_s
     end
-    alias_method :inspect, :to_s
+    alias inspect to_s
 
     # Move to other
     def coerce(other)

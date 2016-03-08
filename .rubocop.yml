@@ -128,7 +128,7 @@ Style/SingleLineBlockParams:
   Enabled: false
 
 # Cop supports --auto-correct.
-Style/SingleSpaceBeforeFirstArg:
+Style/SpaceBeforeFirstArg:
   Enabled: false
 
 # Cop supports --auto-correct.
@@ -136,7 +136,7 @@ Style/SpaceAfterComma:
   Enabled: false
 
 # Cop supports --auto-correct.
-Style/SpaceAfterControlKeyword:
+Style/SpaceAroundKeyword:
   Enabled: false
 
 # Cop supports --auto-correct.
@@ -179,4 +179,10 @@ Style/RaiseArgs:
   Enabled: false
 
 Metrics/ParameterLists:
+  Enabled: false
+
+Style/IfInsideElse:
+  Enabled: false
+
+Style/IdenticalConditionalBranches:
   Enabled: false

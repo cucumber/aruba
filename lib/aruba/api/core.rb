@@ -57,7 +57,7 @@ module Aruba
 
             aruba.event_bus.notify Events::ChangedWorkingDirectory.new(:old => old_directory, :new => new_directory)
 
-            old_dir    = Aruba.platform.getwd
+            old_dir = Aruba.platform.getwd
 
             Aruba.platform.chdir File.join(aruba.root_directory, aruba.current_directory)
 

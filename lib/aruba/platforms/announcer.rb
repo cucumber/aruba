@@ -118,20 +118,20 @@ module Aruba
       # rubocop:enable Metrics/MethodLength
 
       def output_format(channel, string = '%s', &block)
-        if block_given?
-          output_formats[channel.to_sym] = block
-        elsif  string.is_a?(Proc)
-          output_formats[channel.to_sym] = string
-        else
-          output_formats[channel.to_sym] = proc { |*args| format(string, *args) }
-        end
+        output_formats[channel.to_sym] = if block_given?
+                                           block
+                                         elsif string.is_a?(Proc)
+                                           string
+                                         else
+                                           proc { |*args| format(string, *args) }
+                                         end
       end
 
       public
 
       # Reset announcer
       def reset
-        @announcer         = @announcers.first
+        @announcer = @announcers.first
       end
 
       # Change mode of announcer
@@ -185,7 +185,7 @@ module Aruba
         return unless activated?(channel)
 
         message = if block_given?
-                    the_output_format.call(block.call)
+                    the_output_format.call(yield)
                   else
                     the_output_format.call(*args)
                   end

@@ -289,7 +289,7 @@ module Aruba
 
         stop_all_commands
 
-        cd('') { block.call }
+        cd('') { yield }
       end
 
       # @deprecated
@@ -388,7 +388,7 @@ module Aruba
         env.each do |k,v|
           set_env k, v
         end
-        block.call
+        yield
         restore_env
       end
 
@@ -565,9 +565,7 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If arg1 is exactly the same as arg2 return true, otherwise false
       def assert_exact_output(expected, actual)
-        # rubocop:disable Metrics/LineLength
         Aruba.platform.deprecated('The use of "#assert_exact_output" is deprecated. Use "expect(command).to have_output \'exact\'" instead. There are also special matchers for "stdout" and "stderr"')
-        # rubocop:enable Metrics/LineLength
 
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
         expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to eq Aruba.platform.unescape(expected, aruba.config.keep_ansi)
@@ -580,9 +578,7 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If arg2 contains arg1 return true, otherwise false
       def assert_partial_output(expected, actual)
-        # rubocop:disable Metrics/LineLength
         Aruba.platform.deprecated('The use of "#assert_partial_output" is deprecated. Use "expect(command).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
-        # rubocop:enable Metrics/LineLength
 
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
         expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to include(Aruba.platform.unescape(expected, aruba.config.keep_ansi))
@@ -595,9 +591,7 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If arg2 matches arg1 return true, otherwise false
       def assert_matching_output(expected, actual)
-        # rubocop:disable Metrics/LineLength
         Aruba.platform.deprecated('The use of "#assert_matching_output" is deprecated. Use "expect(command).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
-        # rubocop:enable Metrics/LineLength
 
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
         expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
@@ -610,9 +604,7 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If arg2 does not match arg1 return true, otherwise false
       def assert_not_matching_output(expected, actual)
-        # rubocop:disable Metrics/LineLength
         Aruba.platform.deprecated('The use of "#assert_not_matching_output" is deprecated. Use "expect(command).not_to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
-        # rubocop:enable Metrics/LineLength
 
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
         expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
@@ -625,9 +617,7 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If arg2 does not match/include arg1 return true, otherwise false
       def assert_no_partial_output(unexpected, actual)
-        # rubocop:disable Metrics/LineLength
         Aruba.platform.deprecated('The use of "#assert_no_partial_output" is deprecated. Use "expect(command).not_to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
-        # rubocop:enable Metrics/LineLength
 
         actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
         if Regexp === unexpected
@@ -644,9 +634,7 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If output of interactive command includes arg1 return true, otherwise false
       def assert_partial_output_interactive(expected)
-        # rubocop:disable Metrics/LineLength
         Aruba.platform.deprecated('The use of "#assert_partial_output_interactive" is deprecated. Use "expect(last_command_started).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
-        # rubocop:enable Metrics/LineLength
 
         Aruba.platform.unescape(last_command_started.stdout, aruba.config.keep_ansi).include?(Aruba.platform.unescape(expected, aruba.config.keep_ansi)) ? true : false
       end
@@ -658,9 +646,7 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If exit status is 0 and arg1 is included in output return true, otherwise false
       def assert_passing_with(expected)
-        # rubocop:disable Metrics/LineLength
         Aruba.platform.deprecated('The use of "#assert_passing_with" is deprecated. Use "expect(all_commands).to all(be_successfully_executed).and include_an_object(have_output(/partial/))" or something similar instead. There are also special matchers for "stdout" and "stderr"')
-        # rubocop:enable Metrics/LineLength
 
         assert_success(true)
         assert_partial_output(expected, all_output)
@@ -673,9 +659,7 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If exit status is not equal 0 and arg1 is included in output return true, otherwise false
       def assert_failing_with(expected)
-        # rubocop:disable Metrics/LineLength
         Aruba.platform.deprecated('The use of "#assert_passing_with" is deprecated. Use "expect(all_commands).not_to include_an_object(be_successfully_executed).and include_an_object(have_output(/partial/))" or something similar instead. There are also special matchers for "stdout" and "stderr"')
-        # rubocop:enable Metrics/LineLength
 
         assert_success(false)
         assert_partial_output(expected, all_output)
@@ -689,9 +673,7 @@ module Aruba
       #   If arg1 is true, return true if command was successful
       #   If arg1 is false, return true if command failed
       def assert_success(success)
-        # rubocop:disable Metrics/LineLength
         Aruba.platform.deprecated('The use of "#assert_success" is deprecated. Use "expect(last_command_started).to be_successfully_executed" or with "not_to" or the negative form "have_failed_running" (requires rspec >= 3.1)')
-        # rubocop:enable Metrics/LineLength
 
         if success
           expect(last_command_started).to be_successfully_executed
@@ -702,18 +684,14 @@ module Aruba
 
       # @deprecated
       def assert_exit_status(status)
-        # rubocop:disable Metrics/LineLength
         Aruba.platform.deprecated('The use of "#assert_success" is deprecated. Use "expect(last_command_started).to have_exit_status(status)"')
-        # rubocop:enable Metrics/LineLength
 
         expect(last_command_started).to have_exit_status(status)
       end
 
       # @deprecated
       def assert_not_exit_status(status)
-        # rubocop:disable Metrics/LineLength
         Aruba.platform.deprecated('The use of "#assert_success" is deprecated. Use "expect(last_command_started).not_to have_exit_status(status)"')
-        # rubocop:enable Metrics/LineLength
 
         expect(last_exit_status).not_to eq(status),
           append_output_to("Exit status was #{last_exit_status} which was not expected.")

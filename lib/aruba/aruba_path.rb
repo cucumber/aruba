@@ -41,7 +41,7 @@ module Aruba
     def push(p)
       @delegate_sd_obj << p
     end
-    alias_method :<<, :push
+    alias << push
 
     # Remove last component of path
     #

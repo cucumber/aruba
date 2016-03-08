@@ -49,11 +49,11 @@ module Aruba
 
       @environment.update(@config.command_runtime_environment)
 
-      if Aruba::VERSION < '1'
-        @command_monitor = opts.fetch(:command_monitor, Aruba.platform.command_monitor.new(:announcer => @announcer))
-      else
-        @command_monitor = opts.fetch(:command_monitor, Aruba.platform.command_monitor.new)
-      end
+      @command_monitor = if Aruba::VERSION < '1'
+                           opts.fetch(:command_monitor, Aruba.platform.command_monitor.new(:announcer => @announcer))
+                         else
+                           opts.fetch(:command_monitor, Aruba.platform.command_monitor.new)
+                         end
 
       @logger = opts.fetch(:logger, Aruba.platform.logger.new)
       @logger.mode = @config.log_level

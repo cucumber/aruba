@@ -21,7 +21,7 @@ RSpec.shared_examples 'a basic configuration' do
     end
 
     context 'when one tries to write a value' do
-      it { expect{ config.new_opt = 1}.to raise_error NoMethodError  }
+      it { expect{ config.new_opt = 1}.to raise_error NoMethodError }
     end
 
     context 'when block is defined' do

@@ -35,7 +35,7 @@ module SpecHelpers
       captured_stream.unlink
       stream_io.reopen(origin_stream)
     end
-    alias_method :silence, :capture
+    alias silence capture
   end
 end
 

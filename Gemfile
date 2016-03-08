@@ -55,7 +55,7 @@ group :development, :test do
 
   if RUBY_VERSION >= '1.9.3'
     # Make aruba compliant to ruby community guide
-    gem 'rubocop', '~> 0.32.0'
+    gem 'rubocop', '~> 0.32'
   end
 
   if RUBY_VERSION >= '1.9.3'

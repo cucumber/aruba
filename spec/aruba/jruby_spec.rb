@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'aruba/api'
 
-describe "Aruba JRuby Startup Helper"  do
+describe "Aruba JRuby Startup Helper" do
   before(:all) do
     @fake_env = ENV.clone
   end

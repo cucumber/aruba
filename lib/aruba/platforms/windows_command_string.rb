@@ -23,7 +23,7 @@ module Aruba
         def to_s
           __getobj__.to_s
         end
-        alias_method :inspect, :to_s
+        alias inspect to_s
       end
     end
   end

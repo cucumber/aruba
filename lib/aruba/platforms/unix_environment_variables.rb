@@ -11,19 +11,17 @@ module Aruba
         def initialize(other_env, &block)
           @other_env = other_env
 
-          if RUBY_VERSION <= '1.9.3'
-            # rubocop:disable Style/EachWithObject
-            @other_env = @other_env.to_hash.inject({}) { |a, (k, v)| a[k] = v.to_s; a }
-            # rubocop:enable Style/EachWithObject
-          else
-            @other_env = @other_env.to_h.each_with_object({}) { |(k, v), a| a[k] = v.to_s }
-          end
+          @other_env = if RUBY_VERSION <= '1.9.3'
+                         # rubocop:disable Style/EachWithObject
+                         @other_env.to_hash.inject({}) { |a, (k, v)| a[k] = v.to_s; a }
+                       # rubocop:enable Style/EachWithObject
+                       else
+                         @other_env.to_h.each_with_object({}) { |(k, v), a| a[k] = v.to_s }
+                       end
 
-          if block_given?
-            @block     = block
-          else
-            @block     = nil
-          end
+          @block = if block_given?
+                     block
+                   end
         end
 
         def call(env)
@@ -62,11 +60,11 @@ module Aruba
       def initialize(env = ENV)
         @actions = []
 
-        if RUBY_VERSION < '2.0'
-          @env = env.to_hash
-        else
-          @env = env.to_h
-        end
+        @env = if RUBY_VERSION < '2.0'
+                 env.to_hash
+               else
+                 env.to_h
+               end
       end
 
       # Update environment with other en

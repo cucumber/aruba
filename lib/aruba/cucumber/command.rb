@@ -420,4 +420,3 @@ end
 Given(/^I look for executables in "(.*)" within the current directory$/) do |directory|
   prepend_environment_variable 'PATH', expand_path(directory) + ':'
 end
-
