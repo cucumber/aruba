@@ -90,8 +90,6 @@
 * Fixed issue with environment variables set by external libraries (fix #321,
   issue #320)
 
-# Old releases
-
 ## [v0.11.2](https://github.com/cucumber/aruba/compare/v0.11.1...v0.11.2)
 
 * Fixed problem with positional arguments in `#run_simple()` (issue #322)
