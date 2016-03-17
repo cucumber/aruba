@@ -54,6 +54,10 @@
 
 # RELEASED
 
+## [v0.14.1](https://github.com/cucumber/aruba/compare/v0.14.0...v0.14.1)
+
+* Fixed bug in framework step
+
 ## [v0.14.0](https://github.com/cucumber/aruba/compare/v0.13.0...v0.14.0)
 
 * Add `<project_root>/exe` to search path for commands: This is the new default if you setup a

@@ -47,10 +47,10 @@ end
 # RSpec
 Then /^the spec(?:s)? should( not)?(?: all)? pass with( regex)?:$/ do |negated, regex, string|
   if negated
-    step 'the output should contain " failed)"'
+    step 'the output should not contain "0 failures"'
     step 'the exit status should be 1'
   else
-    step 'the output should not contain " failed)"'
+    step 'the output should contain "0 failures"'
     step 'the exit status should be 0'
   end
 
