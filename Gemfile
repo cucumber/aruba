@@ -59,7 +59,7 @@ group :development, :test do
   end
 
   if RUBY_VERSION >= '1.9.3'
-    gem 'cucumber-pro', '~> 0.0'
+    # gem 'cucumber-pro', '~> 0.0'
   end
 
   if RUBY_VERSION >= '1.9.3'
