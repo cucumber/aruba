@@ -28,6 +28,7 @@ tmp
 .bundle
 doc
 Gemfile.lock
+Gemfile.local
 cucumber-pro.log
 
 ## Ruby versioniser

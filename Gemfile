@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 # Use dependencies from gemspec
 gemspec
 
+# Load local Gemfile
+load File.expand_path('../Gemfile.local', __FILE__) if File.file? File.expand_path('../Gemfile.local', __FILE__)
+
 # Debug aruba
 group :debug do
   if RUBY_VERSION >= '2' && !RUBY_PLATFORM.include?('java')

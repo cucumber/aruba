@@ -40,6 +40,19 @@ Make sure you bootstrap the environment first.
     # Run the test suite
     script/test
 
+## Installing your own gems used for development
+
+A `Gemfile.local`-file can be used to have your own gems installed to support
+your normal development workflow.
+
+Example:
+
+~~~ruby
+gem 'pry'
+gem 'pry-byebug'
+gem 'byebug'
+~~~
+
 ## Release Process
 
 * Bump the version number in `aruba.gemspec`
