@@ -6,6 +6,7 @@ Feature: After command hooks
   You can hook into Aruba's lifecycle just before it runs a command and after it has run the command:
 
   ```ruby
+  require 'aruba'
   Aruba.configure do |config|
     config.after :command do |cmd|
       puts "After the run of '#{cmd}'"
@@ -19,6 +20,7 @@ Feature: After command hooks
   Scenario: Run a simple command with an "after(:command)"-hook
     Given a file named "spec/support/hooks.rb" with:
     """
+    require 'aruba'
     Aruba.configure do |config|
       config.after :command do |cmd|
         puts "after the run of `#{cmd.commandline}`"
