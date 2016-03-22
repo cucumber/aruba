@@ -8,7 +8,8 @@ Feature: before_cmd hooks
   You can hook into Aruba's lifecycle just before it runs a command and after it has run the command:
 
   ```ruby
-  require 'aruba'
+  require_relative 'aruba'
+
   Aruba.configure do |config|
     config.before :command do |cmd|
       puts "About to run '#{cmd}'"
@@ -22,7 +23,8 @@ Feature: before_cmd hooks
   Scenario: Run a simple command with a "before(:command)"-hook
     Given a file named "spec/support/hooks.rb" with:
     """
-    require 'aruba'
+    require_relative 'aruba'
+
     Aruba.configure do |config|
       config.before :command do |cmd|
         puts "before the run of `#{cmd.commandline}`"
@@ -49,7 +51,8 @@ Feature: before_cmd hooks
   Scenario: Run a simple command with a "before(:cmd)"-hook (deprecated)
     Given a file named "spec/support/hooks.rb" with:
     """
-    require 'aruba'
+    require_relative 'aruba'
+
     Aruba.configure do |config|
       config.before :cmd do |cmd|
         puts "before the run of `#{cmd}`"
