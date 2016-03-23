@@ -55,7 +55,7 @@ gem 'byebug'
 
 ## Release Process
 
-* Bump the version number in `aruba.gemspec`
+* Bump the version number in `lib/aruba/version.rb`
 * Make sure `History.md` is updated with the upcoming version number, and has entries for all fixes.
 * No need to add a `History.md` header at this point - this should be done when a new change is made, later.
 
@@ -66,18 +66,18 @@ Now release it
     git commit -m "Release X.Y.Z"
     rake release
 
-Now email cukes@googlegroups.com with details of the new release. Just a copy / paste from the History.md file is normally fine.
+Now send a PR to https://github.com/cucumber/website adding an article about the with details of the new release and merge it - an aruba maintainer should normally allowed to merge PRs on `cucumber/website`. A copy of an old announcement can be used as basis for the new article. After this send an email with the link to the article to cukes@googlegroups.com. 
 
 ## Gaining Release Karma
 
 To become a release manager, create a pull request adding your name to the list below, and include your Rubygems email address in the ticket. One of the existing Release managers will then add you.
 
 Current release managers:
+  * Aslak Hellesøy ([@aslakhellesoy](http://github.com/aslakhellesoy))
+  * Dennis Günnewig ([@maxmeyer](http://github.com/maxmeyer), [@dg-rationdata](http://github.com/dg-rationdata))
   * Jarl Friis ([@jarl-dk](https://github.com/jarl-dk))
   * Matt Wynne ([@mattwynne](http://github.com/mattwynne))
-  * Aslak Hellesøy ([@aslakhellesoy](http://github.com/aslakhellesoy))
   * Tom Brand ([@tom025](https://github.com/tom025))
-  * Dennis Günnewig ([@maxmeyer](http://github.com/maxmeyer), [@dg-rationdata](http://github.com/dg-rationdata))
 
 To grant release karma, issue the following command:
 
