@@ -23,7 +23,11 @@ Feature: before_cmd hooks
   Scenario: Run a simple command with a "before(:command)"-hook
     Given a file named "spec/support/hooks.rb" with:
     """
-    require_relative 'aruba'
+    if RUBY_VERSION < '1.9.3'
+      require 'aruba'
+    else
+      require_relative 'aruba'
+    end
 
     Aruba.configure do |config|
       config.before :command do |cmd|
@@ -51,7 +55,11 @@ Feature: before_cmd hooks
   Scenario: Run a simple command with a "before(:cmd)"-hook (deprecated)
     Given a file named "spec/support/hooks.rb" with:
     """
-    require_relative 'aruba'
+    if RUBY_VERSION < '1.9.3'
+      require 'aruba'
+    else
+      require_relative 'aruba'
+    end
 
     Aruba.configure do |config|
       config.before :cmd do |cmd|
