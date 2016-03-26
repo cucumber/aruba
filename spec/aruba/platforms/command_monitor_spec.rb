@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe Aruba::CommandMonitor do
   subject do
-    described_class.new(announcer: announcer)
+    described_class.new(:announcer => announcer)
   end
 
   let(:announcer) { instance_double(Aruba::Platforms::Announcer) }
