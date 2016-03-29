@@ -54,24 +54,6 @@ module Aruba
       @delegate_sd_obj.pop
     end
 
-    if RUBY_VERSION < '1.9'
-      def to_s
-        __getobj__.to_s
-      end
-
-      def relative?
-        !(%r{\A/} === to_s)
-      end
-
-      def absolute?
-        (%r{\A/} === to_s)
-      end
-
-      def to_ary
-        to_a
-      end
-    end
-
     # How many parts has the file name
     #
     # @return [Integer]
@@ -83,14 +65,7 @@ module Aruba
     # path.depth # => 3
     #
     def depth
-      if RUBY_VERSION < '1.9'
-        items = []
-        __getobj__.each_filename { |f| items << f }
-
-        items.size
-      else
-        __getobj__.each_filename.to_a.size
-      end
+      __getobj__.each_filename.to_a.size
     end
 
     # Path ends with string
@@ -113,11 +88,7 @@ module Aruba
     #
     # @param [Integer, Range] index
     def [](index)
-      if RUBY_VERSION < '1.9'
-        to_s.chars.to_a[index].to_a.join('')
-      else
-        to_s[index]
-      end
+      to_s[index]
     end
 
     # Report count of blocks allocated on disk

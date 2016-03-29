@@ -158,11 +158,7 @@ module Aruba
       def close_io(name)
         return if stopped?
 
-        if RUBY_VERSION < '1.9'
-          @process.io.send(name.to_sym).close
-        else
-          @process.io.public_send(name.to_sym).close
-        end
+        @process.io.public_send(name.to_sym).close
       end
 
       # Stop command

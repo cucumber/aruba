@@ -116,15 +116,11 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
         let(:variable) { 'unknown' }
 
         context 'and no default is given' do
-          if RUBY_VERSION < '1.9'
-            it { expect { environment.fetch(variable) }.to raise_error IndexError }
-          else
-            unless defined? KeyError
-              class KeyError < StandardError; end
-            end
-
-            it { expect { environment.fetch(variable) }.to raise_error KeyError }
+          unless defined? KeyError
+            class KeyError < StandardError; end
           end
+
+          it { expect { environment.fetch(variable) }.to raise_error KeyError }
         end
 
         context 'and default is given' do
@@ -160,15 +156,11 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
         let(:variable) { 'unknown' }
 
         context 'and no default is given' do
-          if RUBY_VERSION < '1.9'
-            it { expect { environment.fetch(variable) }.to raise_error IndexError }
-          else
-            unless defined? KeyError
-              class KeyError < StandardError; end
-            end
-
-            it { expect { environment.fetch(variable) }.to raise_error KeyError }
+          unless defined? KeyError
+            class KeyError < StandardError; end
           end
+
+          it { expect { environment.fetch(variable) }.to raise_error KeyError }
         end
 
         context 'and default is given' do
@@ -204,15 +196,11 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
         let(:variable) { 'unknown' }
 
         context 'and no default is given' do
-          if RUBY_VERSION < '1.9'
-            it { expect { environment.fetch(variable) }.to raise_error IndexError }
-          else
-            unless defined? KeyError
-              class KeyError < StandardError; end
-            end
-
-            it { expect { environment.fetch(variable) }.to raise_error KeyError }
+          unless defined? KeyError
+            class KeyError < StandardError; end
           end
+
+          it { expect { environment.fetch(variable) }.to raise_error KeyError }
         end
 
         context 'and default is given' do

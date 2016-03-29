@@ -64,11 +64,6 @@ module Aruba
         def self.format_time(time)
           time.strftime("#{TIME_FORMAT}.#{format('%09d', time.nsec)} %z")
         end
-      else # for 1.8.7
-        # @private
-        def self.format_time(time)
-          time.strftime("#{TIME_FORMAT}.#{format('%06d', time.usec)} %z")
-        end
       end
 
       DATE_TIME_FORMAT = "%a, %d %b %Y %H:%M:%S.%N %z".freeze

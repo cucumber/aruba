@@ -10,11 +10,7 @@ module Aruba
       # Helpers for Resolvers
       module ResolveHelpers
         def camel_case(underscored_name)
-          if RUBY_VERSION < '1.9.3'
-            underscored_name.to_s.split('_').map { |word| word.upcase.chars.to_a[0] + word.chars.to_a[1..-1].join }.join
-          else
-            underscored_name.to_s.split('_').map { |word| word.upcase[0] + word[1..-1] }.join
-          end
+          underscored_name.to_s.split('_').map { |word| word.upcase[0] + word[1..-1] }.join
         end
 
         # Thanks ActiveSupport
@@ -36,11 +32,7 @@ module Aruba
             else
               candidate = constant.const_get(name)
 
-              if RUBY_VERSION < '1.9.3'
-                next candidate if constant.const_defined?(name)
-              else
-                next candidate if constant.const_defined?(name, false)
-              end
+              next candidate if constant.const_defined?(name, false)
 
               next candidate unless Object.const_defined?(name)
 

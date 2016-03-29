@@ -60,26 +60,6 @@ Before '@requires-posix-standard-tools' do |scenario|
   end
 end
 
-Before '@requires-ruby-version-193' do |scenario|
-  next if RUBY_VERSION >= '1.9.3'
-
-  if Cucumber::VERSION < '2'
-    scenario.skip_invoke!
-  else
-    skip_this_scenario
-  end
-end
-
-Before '@requires-ruby-version-19' do |scenario|
-  next if RUBY_VERSION >= '1.9'
-
-  if Cucumber::VERSION < '2'
-    scenario.skip_invoke!
-  else
-    skip_this_scenario
-  end
-end
-
 Before '@requires-ruby-version-2' do |scenario|
   next if RUBY_VERSION >= '2'
 

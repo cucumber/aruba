@@ -39,11 +39,7 @@ Feature: Supported Testing Frameworks
     """
     $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-    if RUBY_VERSION < '1.9.3'
-      ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require File.join(File.dirname(f), File.basename(f, '.rb')) }
-    else
-      ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
-    end
+    ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
     """
     And a file named "spec/use_aruba_with_rspec_spec.rb" with:
     """
@@ -71,11 +67,7 @@ Feature: Supported Testing Frameworks
     """
     $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-    if RUBY_VERSION < '1.9.3'
-      ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require File.join(File.dirname(f), File.basename(f, '.rb')) }
-    else
-      ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
-    end
+    ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
     """
     And a file named "test/use_aruba_with_minitest.rb" with:
     """
@@ -93,7 +85,7 @@ Feature: Supported Testing Frameworks
 
       def getting_started_with_aruba
         file = 'file.txt'
-        content = 'Hello World' 
+        content = 'Hello World'
 
         write_file file, content
         read(file).must_equal [content]

@@ -25,11 +25,7 @@ module Aruba
 
     option_accessor :working_directory, :contract => { Aruba::Contracts::RelativePath => Aruba::Contracts::RelativePath }, :default => 'tmp/aruba'
 
-    if RUBY_VERSION < '1.9'
-      option_reader :fixtures_path_prefix, :contract => { None => String }, :default => '%'
-    else
-      option_reader :fixtures_path_prefix, :contract => { None => String }, :default => ?%
-    end
+    option_reader :fixtures_path_prefix, :contract => { None => String }, :default => ?%
 
     option_accessor :exit_timeout, :contract => { Num => Num }, :default => 15
     option_accessor :stop_signal, :contract => { Maybe[String] => Maybe[String] }, :default => nil
