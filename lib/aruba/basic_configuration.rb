@@ -217,11 +217,7 @@ module Aruba
 
     # Set if name is option
     def set_if_option(name, *args)
-      if RUBY_VERSION < '1.9'
-        send("#{name}=".to_sym, *args) if option? name
-      else
-        public_send("#{name}=".to_sym, *args) if option? name
-      end
+      public_send("#{name}=".to_sym, *args) if option? name
     end
 
     private

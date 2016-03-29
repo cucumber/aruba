@@ -22,11 +22,7 @@ module Aruba
 
         Aruba.platform.mkdir(File.dirname(path))
 
-        if RUBY_VERSION < '1.9.3'
-          File.open(path, 'w') { |f| f << content }
-        else
-          File.write(path, content)
-        end
+        File.write(path, content)
 
         self
       end

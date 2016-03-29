@@ -18,11 +18,7 @@ module Aruba
 
     [:fatal, :warn, :debug, :info, :error, :unknown].each do |m|
       define_method m do |msg|
-        if RUBY_VERSION < '1.9'
-          logger.send m, msg
-        else
-          logger.public_send m, msg
-        end
+        logger.public_send m, msg
       end
     end
 
