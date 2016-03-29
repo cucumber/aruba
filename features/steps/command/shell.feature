@@ -72,7 +72,7 @@ Feature: Running shell commands
       Scenario: Running zsh commands
         When I run the following commands with `zsh`:
         \"\"\"bash
-        echo "Hello \c"
+        echo -e "Hello \c"
         echo $((2 + 2))
         \"\"\"
         Then the output should contain exactly "Hello 4"
@@ -115,15 +115,15 @@ Feature: Running shell commands
       Scenario: Running zsh commands #1
         When I run the following commands with `/bin/zsh`:
         \"\"\"bash
-        echo "Hello \c"
+        echo -e "Hello \c"
         echo $((6 - 2))
         \"\"\"
         Then the output should contain exactly "Hello 4"
 
       Scenario: Running zsh commands #1
-        When I run the following commands in `/bin/zsh`:
+        When I run the following commands in `/bin/zsh -e`:
         \"\"\"bash
-        echo "Hello \c"
+        echo -e "Hello \c"
         echo $((6 - 2))
         \"\"\"
         Then the output should contain exactly "Hello 4"
@@ -138,7 +138,7 @@ Feature: Running shell commands
       Scenario: Running zsh commands #1
         When I run the following commands with `zsh`:
         \"\"\"bash
-        echo "Hello \c"
+        echo -e "Hello \c"
         echo $((6 - 2))
         \"\"\"
         Then the output should contain exactly "Hello 4"
@@ -146,7 +146,7 @@ Feature: Running shell commands
       Scenario: Running zsh commands #2
         When I run the following commands in `zsh`:
         \"\"\"bash
-        echo "Hello \c"
+        echo -e "Hello \c"
         echo $((6 - 2))
         \"\"\"
         Then the output should contain exactly "Hello 4"
