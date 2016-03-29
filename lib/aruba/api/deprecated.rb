@@ -567,7 +567,7 @@ module Aruba
       def assert_exact_output(expected, actual)
         Aruba.platform.deprecated('The use of "#assert_exact_output" is deprecated. Use "expect(command).to have_output \'exact\'" instead. There are also special matchers for "stdout" and "stderr"')
 
-        actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
+        actual.force_encoding(expected.encoding)
         expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to eq Aruba.platform.unescape(expected, aruba.config.keep_ansi)
       end
 
@@ -580,7 +580,7 @@ module Aruba
       def assert_partial_output(expected, actual)
         Aruba.platform.deprecated('The use of "#assert_partial_output" is deprecated. Use "expect(command).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
 
-        actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
+        actual.force_encoding(expected.encoding)
         expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to include(Aruba.platform.unescape(expected, aruba.config.keep_ansi))
       end
 
@@ -593,7 +593,7 @@ module Aruba
       def assert_matching_output(expected, actual)
         Aruba.platform.deprecated('The use of "#assert_matching_output" is deprecated. Use "expect(command).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
 
-        actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
+        actual.force_encoding(expected.encoding)
         expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
       end
 
@@ -606,7 +606,7 @@ module Aruba
       def assert_not_matching_output(expected, actual)
         Aruba.platform.deprecated('The use of "#assert_not_matching_output" is deprecated. Use "expect(command).not_to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
 
-        actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
+        actual.force_encoding(expected.encoding)
         expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
       end
 
@@ -619,7 +619,7 @@ module Aruba
       def assert_no_partial_output(unexpected, actual)
         Aruba.platform.deprecated('The use of "#assert_no_partial_output" is deprecated. Use "expect(command).not_to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
 
-        actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
+        actual.force_encoding(unexpected.encoding)
         if Regexp === unexpected
           expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to match unexpected
         else
