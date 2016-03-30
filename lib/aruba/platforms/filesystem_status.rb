@@ -22,11 +22,7 @@ module Aruba
 
       public
 
-      if RUBY_VERSION >= '1.9.3'
-        def_delegators :@status, *METHODS
-      else
-        def_delegators :@status, :executable?, :ctime, :atime, :mtime, :size
-      end
+      def_delegators :@status, *METHODS
 
       def initialize(path)
         @status = File::Stat.new(path)
