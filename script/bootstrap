@@ -2,8 +2,8 @@
 
 set -e
 
-info_msg="\e[0;32m[INFO]\e[0;30m"
-error_msg="\e[0;31mFAILED\e[0;30m"
+info_msg="\e[0;32m[INFO]\e[39;39m"
+error_msg="\e[0;31mFAILED\e[39;49m"
 
 function output_error_log {
   [[ -f error.log ]] && ( cat error.log >&2; rm error.log)
