@@ -72,6 +72,7 @@ Feature: Running shell commands
       Scenario: Running zsh commands
         When I run the following commands with `zsh`:
         \"\"\"bash
+        unsetopt BSD_ECHO
         echo "Hello \c"
         echo $((2 + 2))
         \"\"\"
@@ -115,6 +116,7 @@ Feature: Running shell commands
       Scenario: Running zsh commands #1
         When I run the following commands with `/bin/zsh`:
         \"\"\"bash
+        unsetopt BSD_ECHO
         echo "Hello \c"
         echo $((6 - 2))
         \"\"\"
@@ -123,6 +125,7 @@ Feature: Running shell commands
       Scenario: Running zsh commands #1
         When I run the following commands in `/bin/zsh`:
         \"\"\"bash
+        unsetopt BSD_ECHO
         echo "Hello \c"
         echo $((6 - 2))
         \"\"\"
@@ -138,6 +141,7 @@ Feature: Running shell commands
       Scenario: Running zsh commands #1
         When I run the following commands with `zsh`:
         \"\"\"bash
+        unsetopt BSD_ECHO
         echo "Hello \c"
         echo $((6 - 2))
         \"\"\"
@@ -146,6 +150,7 @@ Feature: Running shell commands
       Scenario: Running zsh commands #2
         When I run the following commands in `zsh`:
         \"\"\"bash
+        unsetopt BSD_ECHO
         echo "Hello \c"
         echo $((6 - 2))
         \"\"\"
