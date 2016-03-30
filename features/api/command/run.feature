@@ -82,7 +82,7 @@ Feature: Run command
     Given an executable named "bin/cli" with:
     """bash
     #!/usr/bin/env bash
- 
+
     function initialize_script {
       sleep 2
     }
@@ -162,7 +162,7 @@ Feature: Run command
     Given an executable named "bin/cli1" with:
     """bash
     #!/usr/bin/env bash
- 
+
     function initialize_script {
       sleep 2
     }
@@ -241,7 +241,7 @@ Feature: Run command
     Given an executable named "bin/cli1" with:
     """bash
     #!/usr/bin/env bash
- 
+
     function initialize_script {
       sleep 2
     }
