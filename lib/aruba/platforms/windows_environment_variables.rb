@@ -36,23 +36,11 @@ module Aruba
       def initialize(env = ENV.to_hash)
         @actions = []
 
-        @env = if RUBY_VERSION <= '1.9.3'
-                 # rubocop:disable Style/EachWithObject
-                 env.inject({}) { |a, (k,v)| a[k.to_s.upcase] = v; a }
-               # rubocop:enable Style/EachWithObject
-               else
-                 env.each_with_object({}) { |(k,v), a| a[k.to_s.upcase] = v }
-               end
+        @env = env.each_with_object({}) { |(k,v), a| a[k.to_s.upcase] = v }
       end
 
       def update(other_env, &block)
-        other_env = if RUBY_VERSION <= '1.9.3'
-                      # rubocop:disable Style/EachWithObject
-                      other_env.inject({}) { |a, (k,v)| a[k.to_s.upcase] = v; a }
-                    # rubocop:enable Style/EachWithObject
-                    else
-                      other_env.each_with_object({}) { |(k,v), a| a[k.to_s.upcase] = v }
-                    end
+        other_env = other_env.each_with_object({}) { |(k,v), a| a[k.to_s.upcase] = v }
 
         super(other_env, &block)
       end

@@ -11,13 +11,9 @@ module Aruba
         def initialize(other_env, &block)
           @other_env = other_env
 
-          @other_env = if RUBY_VERSION <= '1.9.3'
-                         # rubocop:disable Style/EachWithObject
-                         @other_env.to_hash.inject({}) { |a, (k, v)| a[k] = v.to_s; a }
-                       # rubocop:enable Style/EachWithObject
-                       else
-                         @other_env.to_h.each_with_object({}) { |(k, v), a| a[k] = v.to_s }
-                       end
+          to_hash = RUBY_VERSION >= '2' ? :to_h : :to_hash
+
+          @other_env = @other_env.public_send(to_hash).each_with_object({}) { |(k, v), a| a[k] = v.to_s }
 
           @block = if block_given?
                      block
@@ -207,7 +203,7 @@ module Aruba
       private
 
       def prepared_environment
-        if RUBY_VERSION <= '1.9.3'
+        if RUBY_VERSION == '1.9.3'
           # rubocop:disable Style/EachWithObject
           actions.inject(ENV.to_hash.merge(env)) { |a, e| e.call(a) }
           # rubocop:enable Style/EachWithObject
