@@ -2,7 +2,7 @@
 
 set -e
 
-info_msg="\e[0;32m[INFO]\e[39;39m"
+info_msg="\e[0;32m[INFO]\e[39;49m"
 error_msg="\e[0;31mFAILED\e[39;49m"
 
 function output_error_log {
