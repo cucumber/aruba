@@ -43,24 +43,6 @@ Feature: Configure the home directory to be used with aruba
     The default value is "."
     """
 
-  Scenario: Set to aruba's working directory
-    Given a file named "features/support/aruba.rb" with:
-    """ruby
-    Aruba.configure do |config|
-      # Use aruba working directory
-      config.home_directory = File.join(config.root_directory, config.working_directory)
-    end
-
-    Aruba.configure do |config|
-      puts %(The default value is "#{config.home_directory}")
-    end
-    """
-    Then I successfully run `cucumber`
-    Then the output should contain:
-    """
-    The default value is "/home/
-    """
-
   Scenario: Set to some other path (deprecated)
     Given a file named "features/support/aruba.rb" with:
     """ruby

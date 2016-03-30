@@ -60,13 +60,13 @@ Feature: Run command
     Then the specs should all pass
 
   Scenario: Non-existing executable
-    Given a file named "bin/cli" does not exist
+    Given a file named "bin/cli-app" does not exist
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
     RSpec.describe 'Find path for command', :type => :aruba do
-      it { expect { run('cli') }.to raise_error Aruba::LaunchError, /Command "cli" not found in PATH-variable/ }
+      it { expect { run('cli-app') }.to raise_error Aruba::LaunchError, /Command "cli-app" not found in PATH-variable/ }
     end
     """
     When I run `rspec`
@@ -82,7 +82,7 @@ Feature: Run command
     Given an executable named "bin/cli" with:
     """bash
     #!/usr/bin/env bash
- 
+
     function initialize_script {
       sleep 2
     }
@@ -162,7 +162,7 @@ Feature: Run command
     Given an executable named "bin/cli1" with:
     """bash
     #!/usr/bin/env bash
- 
+
     function initialize_script {
       sleep 2
     }
@@ -241,7 +241,7 @@ Feature: Run command
     Given an executable named "bin/cli1" with:
     """bash
     #!/usr/bin/env bash
- 
+
     function initialize_script {
       sleep 2
     }
