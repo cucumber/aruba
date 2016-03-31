@@ -1,13 +1,27 @@
 Feature: Report disk usage
 
-  Sometimes you need to check, what amount of disk space a file consumes. We do
-  NOT support "directories" with `#disk_usage`. This does not work reliably
-  over different systems. Here can help `'#disk_usage`. But be careful, by
-  default it uses a block size of "512" (physical block size) to calculate the
-  usage. You may need to adjust this by using `Aruba.configure { |config|
-  config.physical_block_size = 4_096 }`. Don't get confused, if you check the
-  block size by using `File::Stat` (in ruby). It reports the block size of your
-  filesystem, which can be "4_096" for example.
+  Sometimes you need to check, what amount of disk space a file consumes.
+
+  This is useful, since many tiny files will usually take up a lot more disk
+  space than their sizes suggest.
+
+  While not be very accurate, `'#disk_usage` helps estimate this "real"
+  allocated size on disk.
+
+  NOTE 1: currently "directories" are NOT supported.
+
+  NOTE 2: Aruba assumes the 'physical block size' is 512 bytes. (It usually is).
+
+  If your OS/filesystem doesn't report the number of blocks used (and your
+  allocation unit size is not 4096 bytes), you can change the default "block
+  size" Aruba uses for calculations:
+
+  E.g. for a 32kB "allocation unit size" and 16 blocks used for a tiny file
+  (check `File::Stat.blocks` reported by Ruby), just divide the
+  two numbers to get the "physical block size" you need to set:
+
+  `Aruba.configure { |config| config.physical_block_size = 32_768 / 16 }`.
+
 
   We're gonna use the (correct) IEC-notation
   (https://en.wikipedia.org/wiki/Binary_prefix) here:
@@ -15,6 +29,7 @@ Feature: Report disk usage
     \* kilo => kibi
     \* mega => mebi
     \* giga => gibi
+
 
   Background:
     Given I use a fixture named "cli-app"

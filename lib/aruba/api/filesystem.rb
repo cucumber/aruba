@@ -372,10 +372,25 @@ module Aruba
       #
       # @result [FileSize]
       #   Bytes on disk
+
+      TYPICAL_FS_UNIT = 4096 # Very typical, except for giant or embedded filesystems
+      TYPICAL_DEV_BSIZE = 512 # Google DEV_BSIZE for more info
+
       def disk_usage(*paths)
         expect(paths.flatten).to Aruba::Matchers.all be_an_existing_path
+        expanded = paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }
 
-        Aruba.platform.determine_disk_usage paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }, aruba.config.physical_block_size
+        # TODO: change the API so that you could set something like
+        # aruba.config.fs_allocation_unit_size directly
+
+        block_multiplier = TYPICAL_FS_UNIT / TYPICAL_DEV_BSIZE
+        fs_unit_size = aruba.config.physical_block_size * block_multiplier
+
+        # TODO: the size argument here is unnecessary - ArubaPath should decide
+        # what the disk usage of a file is (even if Aruba.config needs to be
+        # read)
+        deprecated_block_count = fs_unit_size / block_multiplier
+        Aruba.platform.determine_disk_usage(expanded, deprecated_block_count)
       end
 
       # Get size of file
