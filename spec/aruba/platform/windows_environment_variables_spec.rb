@@ -497,4 +497,18 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
       end
     end
   end
+
+  describe '#delete' do
+    let(:variable) { 'my_variable' }
+    let(:old_environment) { { 'MY_VARIABLE' => '1' } }
+
+    it "deletes a value from the environment" do
+      environment.delete(variable)
+      expect(environment[variable]).to eq nil
+    end
+
+    it "returns deleted value" do
+      expect(environment.delete(variable)).to eq('1')
+    end
+  end
 end
