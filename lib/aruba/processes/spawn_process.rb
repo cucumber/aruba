@@ -83,7 +83,7 @@ module Aruba
             sleep startup_wait_time
           end
         rescue ChildProcess::LaunchError => e
-          raise LaunchError, "It tried to start #{cmd}. " + e.message
+          raise LaunchError, "It tried to start #{commandline}. " + e.message
         end
 
         after_run
