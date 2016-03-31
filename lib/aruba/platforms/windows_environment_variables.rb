@@ -69,8 +69,8 @@ module Aruba
         super(name.upcase, value)
       end
 
-      def delete(name, value)
-        super(name.upcase, value)
+      def delete(name)
+        super(name.upcase)
       end
     end
   end
