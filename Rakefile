@@ -55,7 +55,7 @@ namespace :docker do
 
   desc 'Build docker image'
   task :build, :nocache, :version do |_, args|
-    args.with_defaults(version: 'latest')
+    args.with_defaults(:version => 'latest')
 
     nocache        = args[:nocache]
     application_version = args[:version]
