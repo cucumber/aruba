@@ -1,5 +1,9 @@
 #  UNRELEASED
 
+## [v0.15.0](https://github.com/cucumber/aruba/compare/v0.14.1...v0.15.0)
+
+* Fixed wrong number of arguments in `Aruba::Platforms::WindowsEnvironmentVariables#delete` (issue #349, PR #358)
+
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
 * Support for rubies older than 1.9.3 is discontinued - e.g 1.8.7 and 1.9.2
