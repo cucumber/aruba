@@ -19,6 +19,7 @@ Your benefits:
 * Manipulate the file system and the process environment with helpers working similar like tools you may know from your shell
 * No worries about leaking state: The file system and the process environment will be reset between tests
 * Support by a helpful and welcoming community
+* The [documentation](features/) is our contract with you. You can expect `aruba` to work as documented
 
 Our Vision:
 
