@@ -23,7 +23,7 @@ Your benefits:
 
 Our Vision:
 
-* Help our users to build better command line applications
+* Help our users to build better command line applications written in any programming language
 * Make creating documentation for command line simple and fun
 * Support the cucumber community in its effort to create a specification for all official cucumber implementations
 
