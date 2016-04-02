@@ -77,7 +77,6 @@ Current release managers:
   * Dennis Günnewig ([@maxmeyer](http://github.com/maxmeyer), [@dg-rationdata](http://github.com/dg-rationdata))
   * Jarl Friis ([@jarl-dk](https://github.com/jarl-dk))
   * Matt Wynne ([@mattwynne](http://github.com/mattwynne))
-  * Tom Brand ([@tom025](https://github.com/tom025))
 
 To grant release karma, issue the following command:
 
