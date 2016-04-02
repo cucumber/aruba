@@ -48,56 +48,63 @@ task :test => [ 'travis:lint', :rubocop, :spec, :cucumber, :cucumber_wip]
 
 task :default => :test
 
-require 'uri'
+require 'yaml'
 namespace :docker do
-  image_name          = 'cucumber/aruba'
-  container_name      = 'cucumber-aruba-1'
+  config = YAML.load(IO.read('docker-compose.yml'))['services']
 
-  desc 'Build docker image'
-  task :build, :nocache, :version do |_, args|
-    args.with_defaults(:version => 'latest')
+  def build_image(config, options)
+    build_options = config['build']
+    application_version = options.delete(:version)
+    nocache = options.delete(:nocache)
 
-    nocache        = args[:nocache]
-    application_version = args[:version]
-    docker_file = 'Dockerfile'
+    cmdline = %W(docker build --no-cache=#{nocache})
 
-    cmdline = []
-    cmdline << 'docker'
-    cmdline << 'build'
-    cmdline << '--no-cache=true' if nocache == 'true'
-
-    %w(http_proxy https_proxy HTTP_PROXY HTTPS_PROXY).each do |var|
-      next unless ENV.key? var
-
-      proxy_uri = URI(ENV[var])
-      proxy_uri.host = '172.17.0.1'
-      cmdline << "--build-arg #{var}=#{proxy_uri}"
+    build_options['args'].each do |key, value|
+      cmdline << "--build-arg #{key}=#{value}"
     end
 
-    cmdline << "-t #{image_name}:#{application_version}"
-    cmdline << "-f #{docker_file}"
-    cmdline << File.dirname(docker_file)
+    cmdline << "-t #{config['image']}:#{application_version}"
+    cmdline << "-f #{build_options['dockerfile']}"
+    cmdline << build_options['context']
+    sh cmdline.join(' ')
+  end
+
+  def expand_volume_paths(volume_paths)
+    volume_paths.split(':').map { |path| File.expand_path(path) }.join(':')
+  end
+
+  def run_container(config, command)
+    cmdline = %W(docker run -it --rm --name #{config['container_name']} -w #{config['working_dir']})
+
+    volumes = config['volumes'].map { |volume| expand_volume_paths(volume) }
+    volumes.each { |volume| cmdline << "-v #{volume}" }
+
+    cmdline << config['image']
+    cmdline << (command ? command : config['command'])
+
+    puts "Running Docker with arguments:"
+    puts cmdline.inspect
 
     sh cmdline.join(' ')
   end
 
+  desc 'Build docker base image'
+  task :build, :nocache, :version do |_, args|
+    args.with_defaults(:version => 'latest')
+    args.with_defaults(:nocache => 'false')
+    build_image(config['base'], version: args[:version], nocache: args[:nocache])
+  end
+
   desc 'Run docker container'
   task :run, :command do |_, task_args|
+    tests = config['tests']
+
+    puts "Building/updating test image"
+    build_image(tests, version: 'test', nocache: 'false')
+
     command = task_args[:command]
+    command = "bash -l -c #{Shellwords.escape(command)}" if command
 
-    args =[]
-    args << '-it'
-    args << '--rm'
-    args << "--name #{container_name}"
-    args << "-v #{File.expand_path('.')}:/srv/app"
-
-    cmdline = []
-    cmdline << 'docker'
-    cmdline << 'run'
-    cmdline.concat args
-    cmdline << image_name
-    cmdline << command if command
-
-    sh cmdline.join(' ')
+    run_container(tests, command)
   end
 end

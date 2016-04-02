@@ -1,0 +1,34 @@
+# To build the base image (official Aruba base for this), run:
+#
+#   $ docker-compose build base
+#
+# To run the tests, run:
+#
+#   $ docker-compose run tests
+#
+
+version: '2'
+services:
+  base:
+    image: 'cucumber/aruba'
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+      args: &proxies
+        http_proxy: "${http_proxy}"
+        https_proxy: "${https_proxy}"
+        HTTP_PROXY: "${HTTP_PROXY}"
+        HTTPS_PROXY: "${HTTPS_PROXY}"
+
+  tests:
+    image: 'cucumber/aruba_cache'
+    container_name: 'cucumber-aruba-1'
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        <<: *proxies
+    working_dir: /home/guest/aruba
+    command: bash -l -c "./script/bootstrap && ./script/test"
+    volumes:
+      - .:/home/guest/aruba
