@@ -61,9 +61,7 @@ namespace :docker do
     application_version = args[:version]
     docker_file = 'Dockerfile'
 
-    cmdline = []
-    cmdline << 'docker'
-    cmdline << 'build'
+    cmdline = %W(docker build)
     cmdline << '--no-cache=true' if nocache == 'true'
 
     %w(http_proxy https_proxy HTTP_PROXY HTTPS_PROXY).each do |var|
@@ -85,19 +83,17 @@ namespace :docker do
   task :run, :command do |_, task_args|
     command = task_args[:command]
 
-    args =[]
-    args << '-it'
-    args << '--rm'
-    args << "--name #{container_name}"
-    args << "-v #{File.expand_path('.')}:/srv/app"
-
-    cmdline = []
-    cmdline << 'docker'
-    cmdline << 'run'
-    cmdline.concat args
+    cmdline = %W(docker run -it --rm --name #{container_name} -w /home/guest/aruba)
+    cmdline << "-v #{File.expand_path('.')}:/home/guest/aruba"
     cmdline << image_name
-    cmdline << command if command
+    if command
+      cmdline << "bash -l -c #{Shellwords.escape(command)}"
+    else
+      cmdline << "bash -l -c './script/bootstrap && ./script/test'"
+    end
 
+    STDOUT.puts "Running Docker with arguments:"
+    STDOUT.puts cmdline.inspect
     sh cmdline.join(' ')
   end
 end

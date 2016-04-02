@@ -1,0 +1,24 @@
+# To build the base image (official Aruba base for this), run:
+#
+#   $ docker-compose build base
+#
+# To run the tests, run:
+#
+#   $ docker-compose run tests
+#
+
+version: '2'
+services:
+  base:
+    image: 'cucumber/aruba'
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+
+  tests:
+    container_name: 'cucumber-aruba-1'
+    build: .
+    working_dir: /home/guest/aruba
+    command: bash -l -c "./script/bootstrap && ./script/test"
+    volumes:
+      - .:/home/guest/aruba

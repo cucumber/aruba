@@ -25,20 +25,61 @@ This document is a guide for those maintaining Aruba, and others who would like 
   bump version in a commit by itself so we can ignore when we merge your change)
 * Send us a pull request.
 
-## Bootstrap environment
+## Running tests using Docker (recommended!)
 
-To get started with `aruba`, you just need to bootstrap the environment by
-running the following command.
+NOTE: Since custom user shell/app settings can break tests, it's recommended
+to use Docker for running tests. The advantages are:
+
+1. You still can run tests based on modified sources.
+2. Almost as fast as running tests on your host.
+3. Guarantees tests won't be affected by your setup.
+4. You can avoid installing all the test-related gems on your system.
+5. You can test various combinations of different versions of Ruby and tools.
+6. It's easier to reproduce problems without messing around with your own system.
+7. You can share your container with others (so they can see the reproduced scenario too).
+
+To run tests using Docker, just run:
+
+    # Automaticaly build Docker image with cached gems and run tests
+    bundle exec rake docker:build && bundle exec rake docker:run
+
+or using Docker Compose:
+
+    # Automaticaly build Docker image with cached gems and run tests
+    docker-compose run tests
+
+And if you get any failures on a fresh checkout, report them first so they're
+fixed quickly.
+
+You can also run specific tests/scenarios/commands, e.g.:
+
+    # Run given cucumber scenario in Docker using rake
+    bundle exec rake "docker:run[cucumber features/steps/command/shell.feature:14]"
+
+or
+
+    # Run given cucumber scenario in Docker using Docker Compose
+    docker-compose run tests bash -l -c cucumber features/steps/command/shell.feature:14
+
+## Running tests locally (mail fail depending on your setup)
+
+First, bootstrap your environment with this command:
 
     # Bootstrap environment
     script/bootstrap
 
-## Running tests
+(This will check system requirements and install needed gems).
 
-Make sure you bootstrap the environment first.
+Then, you can run the tests.
 
     # Run the test suite
     script/test
+
+Or, you can run a specific test or scenario, e.g.
+
+    # Run only selected Cucumber scenario
+    script/test cucumber features/steps/command/shell.feature:14
+
 
 ## Installing your own gems used for development
 
@@ -66,7 +107,7 @@ Now release it
     git commit -m "Release X.Y.Z"
     rake release
 
-Now send a PR to https://github.com/cucumber/website adding an article about the with details of the new release and merge it - an aruba maintainer should normally allowed to merge PRs on `cucumber/website`. A copy of an old announcement can be used as basis for the new article. After this send an email with the link to the article to cukes@googlegroups.com. 
+Now send a PR to https://github.com/cucumber/website adding an article about the with details of the new release and merge it - an aruba maintainer should normally allowed to merge PRs on `cucumber/website`. A copy of an old announcement can be used as basis for the new article. After this send an email with the link to the article to cukes@googlegroups.com.
 
 ## Gaining Release Karma
 
