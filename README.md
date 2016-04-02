@@ -19,6 +19,12 @@ Features at a glance:
 * Manipulate the file system and the process environment
 * Automatically reset state of file system and process environment between tests
 
+Our Vision:
+
+* Help our users to build better command line applications
+* Make creating documentation for command line simple and fun
+* Support the cucumber community in its effort to create a specification for all official cucumber implementations
+
 ## Install
 
 Add this line to your application's `Gemfile`:
