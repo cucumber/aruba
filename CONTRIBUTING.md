@@ -4,12 +4,8 @@ We appreciate that. But before you do, please learn our basic rules:
 
 * This is not a support forum. If you have a question, please go to [The Cukes Google Group](http://groups.google.com/group/cukes).
 * Do you have an idea for a new feature? Then don't expect it to be implemented unless you or someone else sends a [pull request](https://help.github.com/articles/using-pull-requests). You might be better to start a discussion on [the google group](http://groups.google.com/group/cukes).
-* Reporting a bug? Please tell us:
-  * which version of Aruba you're using
-  * which version of Ruby you're using.
-  * How to reproduce it. Bugs with a failing test in a [pull request](https://help.github.com/articles/using-pull-requests) get fixed much quicker. Some bugs may never be fixed.
-* Want to paste some code or output? Put \`\`\` on a line above and below your code/output. See [GFM](https://help.github.com/articles/github-flavored-markdown)'s *Fenced Code Blocks* for details.
-* We love [pull requests](https://help.github.com/articles/using-pull-requests). But if you don't have a test to go with it we probably won't merge it.
+* Reporting a bug? Just follow our comments in the issue template
+* We love [pull requests](https://help.github.com/articles/using-pull-requests). The same here: Please consider our comments within the template we provide for your pull request(s).
 
 # Contributing to Aruba
 
