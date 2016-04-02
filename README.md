@@ -11,13 +11,14 @@ Linux / OS X  | Windows
 
 `aruba` is an extension for popular TDD and BDD frameworks like "Cucumber", "RSpec" and "Minitest" to make testing of commandline applications meaningful, easy and fun.
 
-Features at a glance:
+Your benefits:
 
-* Test any command line application, implemented in any [programming
+* Test any command line application implemented in any [programming
   language](features/getting_started/supported_programming_languages.feature) -
   e.g. Bash, Python, Ruby, Java, ...
-* Manipulate the file system and the process environment
-* Automatically reset state of file system and process environment between tests
+* Manipulate the file system and the process environment with helpers working similar like tools you may know from your shell
+* No worries about leaking state: The file system and the process environment will be reset between tests
+* Support by a helpful and welcoming community
 
 Our Vision:
 
