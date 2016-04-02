@@ -21,6 +21,14 @@ This document is a guide for those maintaining Aruba, and others who would like 
   bump version in a commit by itself so we can ignore when we merge your change)
 * Send us a pull request.
 
+## Development style
+
+* We try to follow the recommendations in the [Ruby Community Style Guide](https://github.com/bbatsov/ruby-style-guide) and use [`rubocop`](https://github.com/bbatsov/rubocop) to "enforce" it. Please see [.rubocop.yml](.rubocop.yml) for exceptions.
+* There should be `action`-methods and `getter`-methods in `aruba`. Only the latter should return values. Please expect the first ones to return `nil`.
+* Add documentation (aka acceptance tests) for new features using `aruba`'s steps and place them some where suitable in [here](features/).
+* Add unit tests where needed to cover edge cases which are not (directly) relevant for users
+* Add developer documentation in [`yardoc](http://yardoc.org/) to all relevant methods added
+
 ## Bootstrap environment
 
 To get started with `aruba`, you just need to bootstrap the environment by
