@@ -57,8 +57,7 @@ Feature: Running shell commands
       Scenario: Running bash commands
         When I run the following commands with `bash`:
         \"\"\"bash
-        echo -n "Hello "
-        echo `echo bash` # subshell
+        echo "Hello `echo bash`"
         \"\"\"
         Then the output should contain exactly "Hello bash"
     """
@@ -72,10 +71,9 @@ Feature: Running shell commands
       Scenario: Running zsh commands
         When I run the following commands with `zsh`:
         \"\"\"bash
-        echo "Hello \c"
-        echo $((2 + 2))
+        echo "Hello, Aruba!"
         \"\"\"
-        Then the output should contain exactly "Hello 4"
+        Then the output should contain exactly "Hello, Aruba!"
     """
     When I run `cucumber`
     Then the features should all pass
@@ -115,18 +113,16 @@ Feature: Running shell commands
       Scenario: Running zsh commands #1
         When I run the following commands with `/bin/zsh`:
         \"\"\"bash
-        echo "Hello \c"
-        echo $((6 - 2))
+        echo "Hello, Aruba!"
         \"\"\"
-        Then the output should contain exactly "Hello 4"
+        Then the output should contain exactly "Hello, Aruba!"
 
       Scenario: Running zsh commands #1
         When I run the following commands in `/bin/zsh`:
         \"\"\"bash
-        echo "Hello \c"
-        echo $((6 - 2))
+        echo "Hello, Aruba!"
         \"\"\"
-        Then the output should contain exactly "Hello 4"
+        Then the output should contain exactly "Hello, Aruba!"
     """
     When I run `cucumber`
     Then the features should all pass
@@ -138,18 +134,16 @@ Feature: Running shell commands
       Scenario: Running zsh commands #1
         When I run the following commands with `zsh`:
         \"\"\"bash
-        echo "Hello \c"
-        echo $((6 - 2))
+        echo "Hello, Aruba!"
         \"\"\"
-        Then the output should contain exactly "Hello 4"
+        Then the output should contain exactly "Hello, Aruba!"
 
       Scenario: Running zsh commands #2
         When I run the following commands in `zsh`:
         \"\"\"bash
-        echo "Hello \c"
-        echo $((6 - 2))
+        echo "Hello, Aruba!"
         \"\"\"
-        Then the output should contain exactly "Hello 4"
+        Then the output should contain exactly "Hello, Aruba!"
     """
     When I run `cucumber`
     Then the features should all pass
