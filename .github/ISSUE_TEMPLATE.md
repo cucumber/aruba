@@ -12,6 +12,10 @@
 <!--- If describing a bug, tell us what happens instead of the expected behavior -->
 <!--- If suggesting a change/improvement, explain the difference from current behavior -->
 
+<!--- If you have got some output place it in the code block below. Otherwise remove it. -->
+~~~
+~~~
+
 ## Possible Solution
 
 <!--- Not obligatory, but suggest a fix/reason for the bug, -->

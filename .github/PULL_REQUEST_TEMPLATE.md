@@ -13,6 +13,8 @@
 
 ## How Has This Been Tested?
 
+<!--- Please add tests for bugs and new features otherwise we probably won't merge it -->
+
 <!--- Please describe in detail how you tested your changes. -->
 <!--- Include details of your testing environment, tests ran to see how -->
 <!--- your change affects other areas of the code, etc. -->
