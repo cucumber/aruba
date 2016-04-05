@@ -58,10 +58,6 @@ module Aruba
     option_accessor :log_level, :contract => { Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent] => Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent] }, :default => :info
     # rubocop:enable Metrics/LineLength
 
-    # TODO: deprecate this value and replace with "filesystem allocation unit"
-    # equal to 4096 by default. "filesystem allocation unit" would represent
-    # the actual MINIMUM space taken in bytes by a 1-byte file
-    option_accessor :physical_block_size, :contract => { Aruba::Contracts::IsPowerOfTwo => Aruba::Contracts::IsPowerOfTwo }, :default => 512
     option_accessor :console_history_file, :contract => { String => String }, :default => '~/.aruba_history'
 
     option_accessor :activate_announcer_on_command_failure, :contract => { ArrayOf[Symbol] => ArrayOf[Symbol] }, :default => []
@@ -87,21 +83,6 @@ module Aruba
       @config.configure(&block)
 
       self
-    end
-  end
-end
-
-# Aruba
-module Aruba
-  # Old Config
-  #
-  # @private
-  # @deprecated
-  class Config < Configuration
-    def initialize(*args)
-      warn('The use of "Aruba::Config" is deprecated. Use "Aruba::Configuration" instead.')
-
-      super
     end
   end
 end

@@ -3,19 +3,6 @@ require 'pathname'
 require 'aruba/platform'
 require 'aruba/command'
 
-# require 'win32/file' if File::ALT_SEPARATOR
-
-# Aruba
-module Aruba
-  class << self
-    # @deprecated
-    attr_accessor :process
-  end
-
-  # @deprecated
-  # self.process = Aruba::Processes::SpawnProcess
-end
-
 # Aruba
 module Aruba
   # Api
@@ -149,9 +136,7 @@ module Aruba
           stop_signal       = opts[:stop_signal].nil? ? aruba.config.stop_signal : opts[:stop_signal]
           startup_wait_time = opts[:startup_wait_time].nil? ? aruba.config.startup_wait_time : opts[:startup_wait_time]
         else
-          if args.size > 1
-            Aruba.platform.deprecated("Please pass options to `#run` as named parameters/hash and don\'t use the old style, e.g. `#run('cmd', :exit_timeout => 5)`.")
-          end
+          raise NotImplementedError, "Commands can only be passed as string for now (unlike, e.g. Kernel.system())" if args.size > 1
 
           exit_timeout      = args[0].nil? ? aruba.config.exit_timeout : args[0]
           io_wait_timeout   = args[1].nil? ? aruba.config.io_wait_timeout : args[1]
@@ -170,23 +155,9 @@ module Aruba
 
         cmd = Aruba.platform.detect_ruby(cmd)
 
-        mode = if Aruba.process
-                 # rubocop:disable Metrics/LineLength
-                 Aruba.platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "Aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "Aruba.configure { |config| config.main_class = <klass> }" instead.')
-                 # rubocop:enable Metrics/LineLength
-                 Aruba.process
-               else
-                 aruba.config.command_launcher
-               end
+        mode = aruba.config.command_launcher
 
-        main_class = if Aruba.process.respond_to?(:main_class) && Aruba.process.main_class
-                       # rubocop:disable Metrics/LineLength
-                       Aruba.platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "Aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "Aruba.configure { |config| config.main_class = <klass> }" instead.')
-                       # rubocop:enable Metrics/LineLength
-                       Aruba.process.main_class
-                     else
-                       aruba.config.main_class
-                     end
+        main_class = aruba.config.main_class
 
         command = Command.new(
           cmd,
@@ -200,13 +171,6 @@ module Aruba
           :startup_wait_time => startup_wait_time,
           :event_bus         => event_bus
         )
-
-        if aruba.config.before? :cmd
-          # rubocop:disable Metrics/LineLength
-          Aruba.platform.deprecated('The use of "before"-hook" ":cmd" is deprecated. Use ":command" instead. Please be aware that this hook gets the command passed in not the cmdline itself. To get the commandline use "#cmd.commandline"')
-          # rubocop:enable Metrics/LineLength
-          aruba.config.before(:cmd, self, cmd)
-        end
 
         aruba.config.before(:command, self, command)
 
@@ -252,11 +216,7 @@ module Aruba
           opts = args.pop
           fail_on_error = opts.delete(:fail_on_error) == true ? true : false
         else
-          if args.size > 1
-            # rubocop:disable Metrics/LineLength
-            Aruba.platform.deprecated("Please pass options to `#run_simple` as named parameters/hash and don\'t use the old style with positional parameters, NEW: e.g. `#run_simple('cmd', :exit_timeout => 5)`.")
-            # rubocop:enable Metrics/LineLength
-          end
+          raise NotImplementedError, "Commands can only be passed as string for now (unlike, e.g. Kernel.system())" if args.size > 1
 
           fail_on_error = args[0] == false ? false : true
 

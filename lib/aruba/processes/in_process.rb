@@ -37,11 +37,6 @@ module Aruba
         end
       end
 
-      class << self
-        # @deprecated
-        attr_accessor :main_class
-      end
-
       # @private
       attr_reader :main_class
 

@@ -46,23 +46,6 @@ Feature: Run command
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Require executable to succeed (set by option, deprecated)
-    Given an executable named "bin/cli" with:
-    """bash
-    #!/bin/bash
-    exit 1
-    """
-    And a file named "spec/run_spec.rb" with:
-    """ruby
-    require 'spec_helper'
-
-    RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_simple('cli', true) }.to raise_error }
-    end
-    """
-    When I run `rspec`
-    Then the specs should all pass
-
   Scenario: Ignore failure of executable (set by option)
     Given an executable named "bin/cli" with:
     """bash
@@ -75,23 +58,6 @@ Feature: Run command
 
     RSpec.describe 'Run command', :type => :aruba do
       it { expect { run_simple('cli', :fail_on_error => false) }.not_to raise_error }
-    end
-    """
-    When I run `rspec`
-    Then the specs should all pass
-
-  Scenario: Ignore failure of executable (set by option, deprecated)
-    Given an executable named "bin/cli" with:
-    """bash
-    #!/bin/bash
-    exit 1
-    """
-    And a file named "spec/run_spec.rb" with:
-    """ruby
-    require 'spec_helper'
-
-    RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_simple('cli', false) }.not_to raise_error }
     end
     """
     When I run `rspec`

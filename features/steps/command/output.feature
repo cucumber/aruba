@@ -417,40 +417,12 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Detect output from all processes (deprecated)
-    Given an executable named "bin/cli1" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'This is cli1'
-    """
-    And an executable named "bin/cli2" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'This is cli2'
-    """
-    And a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `cli1`
-        When I run `cli2`
-        Then the stdout should contain exactly:
-        \"\"\"
-        This is cli1
-        This is cli2
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
   Scenario: Handle little output
     Given an executable named "bin/cli" with:
     """bash
     #!/usr/bin/env bash
 
-    for ((c=0; c<256; c = c+1)); do 
+    for ((c=0; c<256; c = c+1)); do
       echo -n "a"
     done
     """

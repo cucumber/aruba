@@ -101,14 +101,6 @@ module Aruba
         @timed_out == true
       end
 
-      # @deprecated
-      # @private
-      def run!
-        Aruba.platform.deprecated('The use of "command#run!" is deprecated. You can simply use "command#start" instead.')
-
-        start
-      end
-
       # Hook which is run before command is run
       def before_run; end
 

@@ -20,7 +20,7 @@ Feature: Unescape special characters in text
       before(:each) { run('cli') }
       before(:each) { stop_all_commands }
 
-      it { expect(unescape_text(last_command.output)).to eq "text\ntext" }
+      it { expect(unescape_text(last_command_started.output)).to eq "text\ntext" }
     end
     """
     When I run `rspec`
@@ -40,7 +40,7 @@ Feature: Unescape special characters in text
       before(:each) { run('cli') }
       before(:each) { stop_all_commands }
 
-      it { expect(unescape_text(last_command.output)).to eq "texttext" }
+      it { expect(unescape_text(last_command_started.output)).to eq "texttext" }
     end
     """
     When I run `rspec`
@@ -60,7 +60,7 @@ Feature: Unescape special characters in text
       before(:each) { run('cli') }
       before(:each) { stop_all_commands }
 
-      it { expect(unescape_text(last_command.output)).to eq "text\"text" }
+      it { expect(unescape_text(last_command_started.output)).to eq "text\"text" }
     end
     """
     When I run `rspec`
@@ -80,7 +80,7 @@ Feature: Unescape special characters in text
       before(:each) { run('cli') }
       before(:each) { stop_all_commands }
 
-      it { expect(unescape_text(last_command.output)).to eq "texttext" }
+      it { expect(unescape_text(last_command_started.output)).to eq "texttext" }
     end
     """
     When I run `rspec`
@@ -100,7 +100,7 @@ Feature: Unescape special characters in text
       before(:each) { run('cli') }
       before(:each) { stop_all_commands }
 
-      it { expect(unescape_text(last_command.output)).to eq "texttext" }
+      it { expect(unescape_text(last_command_started.output)).to eq "texttext" }
     end
     """
     When I run `rspec`
@@ -120,7 +120,7 @@ Feature: Unescape special characters in text
       before(:each) { run('cli') }
       before(:each) { stop_all_commands }
 
-      it { expect(unescape_text(last_command.output)).to eq "texttext" }
+      it { expect(unescape_text(last_command_started.output)).to eq "texttext" }
     end
     """
     When I run `rspec`
