@@ -26,6 +26,7 @@ module Aruba
         @io_wait_timeout = io_wait_timeout
 
         @started         = false
+        @timed_out       = false
       end
 
       # Return command line
