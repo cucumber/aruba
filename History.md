@@ -5,6 +5,11 @@
 * Fixed wrong number of arguments in `Aruba::Platforms::WindowsEnvironmentVariables#delete` (issue #349, PR #358, credit @e2)
 * Fixed colors in `script/bootstrap` (PR  #352, credit @e2)
 * Fixed use of removed `Utils`-module (PR #347, credit @e2)
+* Fixed exception handler in BasicProcess (PR #357, credit @e2)
+* Fixed step to check for existing of files (PR #375, credit @rubbish)
+* Fixed unset instance variable (PR ##372, credit @e2)
+* Added vision and hints to project README (PR #366)
+* Fixed setting environment variables on Windows (PR #358, credit @e2)
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
