@@ -136,9 +136,6 @@ module Aruba
     # TODO: Aruba.config.physical_block_size could be allowed to be nil
     # (So the unit size can be autodetected)
 
-    TYPICAL_FS_UNIT = 4096
-    TYPICAL_DEV_BSIZE = 512 # Google DEV_BSIZE for more info
-
     # Report minimum disk space used
     #
     # This estimates the minimum bytes allocated by the path.
@@ -159,7 +156,7 @@ module Aruba
     # Ideally, Aruba should provide e.g. `Aruba.config.fs_allocation_unit`
     # (with 4096 as the default), so you wouldn't have to "divide by 8".
     #
-    # (TYPICAL_FS_UNIT / TYPICAL_DEV_BSIZE = 4096 / 512 = 8)
+    # (typical_fs_unit / typical_dev_bsize = 4096 / 512 = 8)
     #
     #
     # @return [Integer]
@@ -176,7 +173,10 @@ module Aruba
       blocks = stat.blocks
       return (blocks * dev_bsize) if blocks
 
-      block_multiplier = TYPICAL_FS_UNIT / TYPICAL_DEV_BSIZE
+      typical_fs_unit = 4096
+      typical_dev_bsize = 512 # google dev_bsize for more info
+
+      block_multiplier = typical_fs_unit / typical_dev_bsize
       fs_unit_size = dev_bsize * block_multiplier
       fs_units = (stat.size + fs_unit_size - 1) / fs_unit_size
       fs_units = 1 if fs_units.zero?
