@@ -27,19 +27,25 @@ We appreciate that. But before you do, please learn our basic rules:
 * Reporting a bug? Just follow our comments in the issue template
 * We love [pull requests](https://help.github.com/articles/using-pull-requests). The same here: Please consider our comments within the template we provide for your pull request(s).
 
-# Contributing to Aruba
-
-This document is a guide for those maintaining Aruba, and others who would like to submit patches.
 
 ## Note on Patches/Pull Requests
 
+**Contributors**
+
 * Fork the project. Make a branch for your change.
-* Make your feature addition or bug fix.
+* Make your feature addition or bug fix -- if you're unsure if your addition will be accepted, open an issue for discussion first
 * Make sure your patch is well covered by tests. We don't accept changes that aren't tested.
 * Please do not change the Rakefile, version, or history.
   (if you want to have your own version, that is fine but
   bump version in a commit by itself so we can ignore when we merge your change)
+* Make sure your pull request complies to our development style
 * Send us a pull request.
+
+**Maintainers**
+
+* Use pull requests for larger or controversial changes made by yourself or changes you might expected to break the build
+* Commit smaller changes directly to master, e.g. fixing typos, adding tests or adding documentation
+* Make sure all tests are green before merging a pull request
 
 ## Development style
 
