@@ -1,4 +1,24 @@
-## About to create a new Github Issue?
+# Contributing to the Cucumber Aruba Project
+
+We would love to get help from you as "user" and "contributor".
+
+**Users**
+
+* Tell us how "Aruba" works for you
+* Spread the word if you like our work and please tell us if somethings is (utterly) wrong
+* Encourage people in testing their code and keep communicating their needs
+
+**Contributors**
+
+* Send us bug fixes
+* Add new features to the code
+* Discuss changes
+* Add missing documentation
+* Improve our test coverage
+
+The rest of this document is a guide for those maintaining Aruba, and others who would like to submit patches.
+
+## Issues
 
 We appreciate that. But before you do, please learn our basic rules:
 
