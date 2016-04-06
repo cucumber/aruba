@@ -27,7 +27,16 @@ This document is a guide for those maintaining Aruba, and others who would like 
 * There should be `action`-methods and `getter`-methods in `aruba`. Only the latter should return values. Please expect the first ones to return `nil`.
 * Add documentation (aka acceptance tests) for new features using `aruba`'s steps and place them some where suitable in [here](features/).
 * Add unit tests where needed to cover edge cases which are not (directly) relevant for users
-* Add developer documentation in [`yardoc](http://yardoc.org/) to all relevant methods added
+* Add developer documentation in [`yardoc`](http://yardoc.org/) to all relevant methods added
+* Format your commits messages following those seven rules -- see [this blog post](http://chris.beams.io/posts/git-commit/) for a well written explanation about the why.
+  1. Separate subject from body with a blank line
+  2. Limit the subject line to 50 characters
+  3. Capitalize the subject line
+  4. Do not end the subject line with a period
+  5. Use the imperative mood in the subject line
+  6. Wrap the body at 72 characters
+  7. Use the body to explain what and why vs. how (optional if subject is self-explanatory)
+  8. Use Markdown Markup to style your message (only if required)
 
 ## Bootstrap environment
 
