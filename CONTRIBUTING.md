@@ -1,29 +1,68 @@
-## About to create a new Github Issue?
+# Contributing to the Cucumber Aruba Project
+
+We would love to get help from you as "user" and "contributor".
+
+**Users**
+
+* Tell us how "Aruba" works for you
+* Spread the word if you like our work and please tell us if somethings is (utterly) wrong
+* Encourage people in testing their code and keep communicating their needs
+
+**Contributors**
+
+* Send us bug fixes
+* Add new features to the code
+* Discuss changes
+* Add missing documentation
+* Improve our test coverage
+
+The rest of this document is a guide for those maintaining Aruba, and others who would like to submit patches.
+
+## Issues
 
 We appreciate that. But before you do, please learn our basic rules:
 
 * This is not a support forum. If you have a question, please go to [The Cukes Google Group](http://groups.google.com/group/cukes).
 * Do you have an idea for a new feature? Then don't expect it to be implemented unless you or someone else sends a [pull request](https://help.github.com/articles/using-pull-requests). You might be better to start a discussion on [the google group](http://groups.google.com/group/cukes).
-* Reporting a bug? Please tell us:
-  * which version of Aruba you're using
-  * which version of Ruby you're using.
-  * How to reproduce it. Bugs with a failing test in a [pull request](https://help.github.com/articles/using-pull-requests) get fixed much quicker. Some bugs may never be fixed.
-* Want to paste some code or output? Put \`\`\` on a line above and below your code/output. See [GFM](https://help.github.com/articles/github-flavored-markdown)'s *Fenced Code Blocks* for details.
-* We love [pull requests](https://help.github.com/articles/using-pull-requests). But if you don't have a test to go with it we probably won't merge it.
+* Reporting a bug? Just follow our comments in the issue template
+* We love [pull requests](https://help.github.com/articles/using-pull-requests). The same here: Please consider our comments within the template we provide for your pull request(s).
 
-# Contributing to Aruba
-
-This document is a guide for those maintaining Aruba, and others who would like to submit patches.
 
 ## Note on Patches/Pull Requests
 
+**Contributors**
+
 * Fork the project. Make a branch for your change.
-* Make your feature addition or bug fix.
+* Make your feature addition or bug fix -- if you're unsure if your addition will be accepted, open an issue for discussion first
 * Make sure your patch is well covered by tests. We don't accept changes that aren't tested.
 * Please do not change the Rakefile, version, or history.
   (if you want to have your own version, that is fine but
   bump version in a commit by itself so we can ignore when we merge your change)
+* Make sure your pull request complies to our development style
 * Send us a pull request.
+
+**Maintainers**
+
+* Use pull requests for larger or controversial changes made by yourself or changes you might expected to break the build
+* Commit smaller changes directly to master, e.g. fixing typos, adding tests or adding documentation
+* Make sure all tests are green before merging a pull request
+
+## Development style
+
+* We try to follow the recommendations in the [Ruby Community Style Guide](https://github.com/bbatsov/ruby-style-guide) and use [`rubocop`](https://github.com/bbatsov/rubocop) to "enforce" it. Please see [.rubocop.yml](.rubocop.yml) for exceptions.
+* There should be `action`-methods and `getter`-methods in `aruba`. Only the latter should return values. Please expect the first ones to return `nil`.
+* Add documentation (aka acceptance tests) for new features using `aruba`'s steps and place them some where suitable in [here](features/).
+* Add unit tests where needed to cover edge cases which are not (directly) relevant for users
+* Add developer documentation in [`yardoc`](http://yardoc.org/) to all relevant methods added
+* Format your commits messages following those seven rules -- see [this blog post](http://chris.beams.io/posts/git-commit/) for a well written explanation about the why.
+  1. Separate subject from body with a blank line
+  2. Limit the subject line to 50 characters
+  3. Capitalize the subject line
+  4. Do not end the subject line with a period
+  5. Use the imperative mood in the subject line
+  6. Wrap the body at 72 characters
+  7. Use the body to explain what and why vs. how (optional if subject is self-explanatory)
+  8. Use Markdown Markup to style your message (only if required)
 
 ## Bootstrap environment
 
@@ -77,7 +116,6 @@ Current release managers:
   * Dennis Günnewig ([@maxmeyer](http://github.com/maxmeyer), [@dg-rationdata](http://github.com/dg-rationdata))
   * Jarl Friis ([@jarl-dk](https://github.com/jarl-dk))
   * Matt Wynne ([@mattwynne](http://github.com/mattwynne))
-  * Tom Brand ([@tom025](https://github.com/tom025))
 
 To grant release karma, issue the following command:
 
