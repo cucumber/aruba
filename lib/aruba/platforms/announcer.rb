@@ -139,6 +139,15 @@ module Aruba
         self
       end
 
+      # Deactivates a channel
+      #
+      # @param [Symbol] channel
+      #   The name of the channel to activate
+      def deactivate(*chns)
+        chns.flatten.each { |c| channels[c.to_sym] = false }
+        self
+      end
+
       # Announce information to channel
       #
       # @param [Symbol] channel

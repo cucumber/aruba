@@ -228,8 +228,17 @@ module Aruba
           }
         end
 
+        # Prevent duplicate announce
+        activated = [:stdout, :stderr].select do |channel|
+          aruba.announcer.activated?(channel)
+        end
+        aruba.announcer.deactivate(*activated)
+
         command = run(cmd, opts)
         command.stop
+
+        # Reenable for stop_all_commands
+        aruba.announcer.activate(*activated)
 
         if Aruba::VERSION < '1'
           @last_exit_status = command.exit_status
