@@ -8,7 +8,7 @@ RSpec.describe 'Directory Matchers' do
 
   describe 'to_be_an_existing_directory' do
     let(:name) { 'test.d' }
-    let(:path) { File.join(@aruba.current_directory, name) }
+    let(:path) { File.join(expand_path('.'), name) }
 
     context 'when directory exists' do
       before :each do
@@ -25,7 +25,7 @@ RSpec.describe 'Directory Matchers' do
 
   describe 'to_have_sub_directory' do
     let(:name) { 'test.d' }
-    let(:path) { File.join(@aruba.current_directory, name) }
+    let(:path) { File.join(expand_path('.'), name) }
     let(:content) { %w(subdir.1.d subdir.2.d) }
 
     context 'when directory exists' do

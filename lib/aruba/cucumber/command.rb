@@ -3,23 +3,9 @@ if Aruba::VERSION < '1.0.0'
 end
 require 'aruba/generators/script_file'
 
-When(/^I run "(.*)"$/)do |cmd|
-  warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-
-  cmd = sanitize_text(cmd)
-  run_simple(cmd, false)
-end
-
 When(/^I run `([^`]*)`$/)do |cmd|
   cmd = sanitize_text(cmd)
   run_simple(cmd, :fail_on_error => false)
-end
-
-When(/^I successfully run "(.*)"$/)do |cmd|
-  warn(%{\e[35m    The  /^I successfully run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-
-  cmd = sanitize_text(cmd)
-  run_simple(cmd)
 end
 
 ## I successfully run `echo -n "Hello"`
@@ -38,12 +24,6 @@ When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do
   Aruba::ScriptFile.new(:interpreter => shell, :content => commands,
                         :path => expand_path('bin/myscript')).call
   step 'I run `myscript`'
-end
-
-When(/^I run "([^"]*)" interactively$/) do |cmd|
-  Aruba.platform.deprecated(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-
-  step %(I run `#{cmd}` interactively)
 end
 
 When(/^I run `([^`]*)` interactively$/)do |cmd|
@@ -76,19 +56,15 @@ When(/^I (terminate|stop) the command (?:"([^"]*)"|(?:started last))$/) do |sign
     fail ArgumentError, %(No command "#{command}" found) if cmd.nil?
 
     if signal == 'terminate'
-      # last_command_started.terminate
-      process_monitor.terminate_process!(process_monitor.get_process(command))
+      cmd.terminate
     else
-      # last_command_started.stop
-      process_monitor.stop_process(process_monitor.get_process(command))
+      cmd.stop
     end
   else
     if signal == 'terminate'
-      # last_command_started.terminate
-      process_monitor.terminate_process!(last_command_started)
+      last_command_started.terminate
     else
-      # last_command_started.stop
-      process_monitor.stop_process(last_command_started)
+      last_command_started.stop
     end
   end
 end
@@ -149,6 +125,7 @@ When(/^I wait for (?:output|stdout) to contain "([^"]*)"$/) do |expected|
 end
 
 Then(/^the output should be (\d+) bytes long$/) do |size|
+  all_output = all_commands.map { |c| c.output }.join("\n")
   expect(all_output).to have_output_size size.to_i
 end
 
@@ -368,22 +345,6 @@ Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:
       expect(all_commands).to include_an_object have_output an_output_string_including(expected)
     end
   end
-end
-
-Given(/the default aruba timeout is (\d+) seconds/) do |seconds|
-  # rubocop:disable Metrics/LineLength
-  Aruba.platform.deprecated(%{The /^the default aruba timeout is (\d+) seconds/ step definition is deprecated. Please use /^the default aruba exit timeout is (\d+) seconds/ step definition is deprecated.})
-  # rubocop:enable Metrics/LineLength
-
-  aruba.config.exit_timeout = seconds.to_i
-end
-
-Given(/The default aruba timeout is (\d+) seconds/) do |seconds|
-  # rubocop:disable Metrics/LineLength
-  Aruba.platform.deprecated(%{The /^The default aruba timeout is (\d+) seconds/ step definition is deprecated. Please use /^the default aruba exit timeout is (\d+) seconds/ step definition is deprecated.})
-  # rubocop:enable Metrics/LineLength
-
-  aruba.config.exit_timeout = seconds.to_i
 end
 
 Given(/^the (?:default )?aruba io wait timeout is (\d+) seconds?$/) do |seconds|

@@ -83,7 +83,7 @@ module Aruba
             sleep startup_wait_time
           end
         rescue ChildProcess::LaunchError => e
-          raise LaunchError, "It tried to start #{cmd}. " + e.message
+          raise LaunchError, "It tried to start #{commandline}. " + e.message
         end
 
         after_run
@@ -135,14 +135,6 @@ module Aruba
           @process.io.stderr.flush
           open(@stderr_file.path).read
         end
-      end
-
-      def read_stdout
-        # rubocop:disable Metrics/LineLength
-        Aruba.platform.deprecated('The use of "#read_stdout" is deprecated. Use "#stdout" instead. To reduce the time to wait for io, pass `:wait_for_io => 0` or some suitable for your use case')
-        # rubocop:enable Metrics/LineLength
-
-        stdout(:wait_for_io => 0)
       end
 
       def write(input)

@@ -362,22 +362,6 @@ module Aruba
         yield(content)
       end
 
-      # Calculate disk usage for file(s) and/or directories
-      #
-      # It shows the disk usage for a single file/directory. If multiple paths
-      # are given, it sum their size up.
-      #
-      # @param [Array, Path] paths
-      #   The paths
-      #
-      # @result [FileSize]
-      #   Bytes on disk
-      def disk_usage(*paths)
-        expect(paths.flatten).to Aruba::Matchers.all be_an_existing_path
-
-        Aruba.platform.determine_disk_usage paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }, aruba.config.physical_block_size
-      end
-
       # Get size of file
       #
       # @return [Numeric]

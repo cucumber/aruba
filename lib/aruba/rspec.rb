@@ -16,7 +16,6 @@ RSpec.configure do |config|
   # Setup environment for aruba
   config.around :each do |example|
     if self.class.include? Aruba::Api
-      restore_env
       setup_aruba
     end
 
@@ -44,20 +43,8 @@ RSpec.configure do |config|
   config.before :each do |example|
     next unless self.class.include?(Aruba::Api)
 
-    if example.metadata[:announce_environment]
-      Aruba.platform.deprecated 'announce_environment is deprecated. Use announce_changed_environment instead'
-
-      aruba.announcer.activate(:changed_environment)
-    end
-
     aruba.announcer.activate(:full_environment)     if example.metadata[:announce_full_environment]
     aruba.announcer.activate(:changed_environment)  if example.metadata[:announce_changed_environment]
-
-    if example.metadata[:announce_modified_environment]
-      Aruba.platform.deprecated 'announce_modified_environment is deprecated. Use announce_changed_environment instead'
-
-      aruba.announcer.activate(:changed_environment)
-    end
 
     aruba.announcer.activate(:command)                   if example.metadata[:announce_command]
     aruba.announcer.activate(:directory)                 if example.metadata[:announce_directory]

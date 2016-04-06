@@ -91,29 +91,6 @@ module Aruba
         # rubocop:disable Metrics/LineLength
         output_format :command_filesystem_status, proc { |status| format("<<-COMMAND FILESYSTEM STATUS\n%s\nCOMMAND FILESYSTEM STATUS", Aruba.platform.simple_table(status.to_h, :sort => false)) }
         # rubocop:enable Metrics/LineLength
-
-        # rubocop:disable Metrics/LineLength
-        if @options[:stdout]
-          warn('The use of "@announce_stdout-instance" variable and "options[:stdout] = true" for Announcer.new is deprecated. Please use "announcer.activate(:stdout)" instead.')
-          activate :stdout
-        end
-        if @options[:stderr]
-          warn('The use of "@announce_stderr-instance" variable and "options[:stderr] = true" for Announcer.new is deprecated. Please use "announcer.activate(:stderr)" instead.')
-          activate :stderr
-        end
-        if @options[:dir]
-          warn('The use of "@announce_dir-instance" variable and "options[:dir] = true" for Announcer.new is deprecated. Please use "announcer.activate(:directory)" instead.')
-          activate :directory
-        end
-        if @options[:cmd]
-          warn('The use of "@announce_cmd-instance" variable and "options[:cmd] = true" for Announcer.new is deprecated. Please use "announcer.activate(:command)" instead.')
-          activate :command
-        end
-        if @options[:env]
-          warn('The use of "@announce_env-instance" variable and "options[:env] = true" for Announcer.new is deprecated. Please use "announcer.activate(:modified_environment)" instead.')
-          activate :modified_enviroment
-        end
-        # rubocop:enable Metrics/LineLength
       end
       # rubocop:enable Metrics/MethodLength
 
@@ -162,6 +139,15 @@ module Aruba
         self
       end
 
+      # Deactivates a channel
+      #
+      # @param [Symbol] channel
+      #   The name of the channel to activate
+      def deactivate(*chns)
+        chns.flatten.each { |c| channels[c.to_sym] = false }
+        self
+      end
+
       # Announce information to channel
       #
       # @param [Symbol] channel
@@ -195,37 +181,6 @@ module Aruba
         announcer.announce(message)
 
         nil
-      end
-
-      # @deprecated
-      def stdout(content)
-        warn('The announcer now has a new api to activate channels. Please use this one: announce(:stdout, message)')
-        announce :stdout, content
-      end
-
-      # @deprecated
-      def stderr(content)
-        warn('The announcer now has a new api to activate channels. Please use this one: announce(:stderr, message)')
-        announce :stderr, content
-      end
-
-      # @deprecated
-      def dir(dir)
-        warn('The announcer now has a new api to activate channels. Please use this one announce(:directory, message)')
-        announce :directory, dir
-      end
-
-      # @deprecated
-      def cmd(cmd)
-        warn('The announcer now has a new api to activate channels. Please use this one announce(:command, message)')
-        announce :command, cmd
-      end
-
-      # @deprecated
-      def env(name, value)
-        warn('The announcer now has a new api to activate channels. Please use this one: announce(:changed_environment, key, value)')
-
-        announce :changed_environment, name, value
       end
     end
   end

@@ -90,15 +90,5 @@ module Aruba
     def [](index)
       to_s[index]
     end
-
-    # Report count of blocks allocated on disk
-    #
-    # This reports the amount of blocks which are allocated by the path.
-    #
-    # @return [Integer]
-    #   The count of blocks on disk
-    def blocks
-      File::Stat.new(to_s).blocks
-    end
   end
 end

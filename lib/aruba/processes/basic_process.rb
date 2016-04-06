@@ -26,6 +26,7 @@ module Aruba
         @io_wait_timeout = io_wait_timeout
 
         @started         = false
+        @timed_out       = false
       end
 
       # Return command line
@@ -100,14 +101,6 @@ module Aruba
         @timed_out == true
       end
 
-      # @deprecated
-      # @private
-      def run!
-        Aruba.platform.deprecated('The use of "command#run!" is deprecated. You can simply use "command#start" instead.')
-
-        start
-      end
-
       # Hook which is run before command is run
       def before_run; end
 
@@ -115,16 +108,13 @@ module Aruba
       def after_run; end
 
       def inspect
-        out = stdout(:wait_for_io => 0) + stderr(:wait_for_io => 0)
+        out = truncate("#{stdout(:wait_for_io => 0).inspect}", 35)
+        err = truncate("#{stderr(:wait_for_io => 0).inspect}", 35)
 
-        out = if out.length > 76
-                out[0, 75] + ' ...'
-              else
-                out
-              end
-
-        format '#<%s:%s commandline="%s": output="%s">', self.class, self.object_id, commandline, out
+        fmt = '#<%s:%s commandline="%s": stdout=%s stderr=%s>'
+        format fmt, self.class, self.object_id, commandline, out, err
       end
+
       alias to_s inspect
 
       private
@@ -137,6 +127,11 @@ module Aruba
         return Shellwords.split(commandline)[1..-1] if Shellwords.split(commandline).size > 1
 
         []
+      end
+
+      def truncate(string, max_length)
+        return string if string.length <= max_length
+        string[0, max_length - 1] + ' ...'
       end
     end
   end

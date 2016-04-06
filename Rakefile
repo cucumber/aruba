@@ -47,3 +47,53 @@ desc "Run tests, both RSpec and Cucumber"
 task :test => [ 'travis:lint', :rubocop, :spec, :cucumber, :cucumber_wip]
 
 task :default => :test
+
+require 'uri'
+namespace :docker do
+  image_name          = 'cucumber/aruba'
+  container_name      = 'cucumber-aruba-1'
+
+  desc 'Build docker image'
+  task :build, :nocache, :version do |_, args|
+    args.with_defaults(:version => 'latest')
+
+    nocache        = args[:nocache]
+    application_version = args[:version]
+    docker_file = 'Dockerfile'
+
+    cmdline = %W(docker build)
+    cmdline << '--no-cache=true' if nocache == 'true'
+
+    %w(http_proxy https_proxy HTTP_PROXY HTTPS_PROXY).each do |var|
+      next unless ENV.key? var
+
+      proxy_uri = URI(ENV[var])
+      proxy_uri.host = '172.17.0.1'
+      cmdline << "--build-arg #{var}=#{proxy_uri}"
+    end
+
+    cmdline << "-t #{image_name}:#{application_version}"
+    cmdline << "-f #{docker_file}"
+    cmdline << File.dirname(docker_file)
+
+    sh cmdline.join(' ')
+  end
+
+  desc 'Run docker container'
+  task :run, :command do |_, task_args|
+    command = task_args[:command]
+
+    cmdline = %W(docker run -it --rm --name #{container_name} -w /home/guest/aruba)
+    cmdline << "-v #{File.expand_path('.')}:/home/guest/aruba"
+    cmdline << image_name
+    if command
+      cmdline << "bash -l -c #{Shellwords.escape(command)}"
+    else
+      cmdline << "bash -l -c './script/bootstrap && ./script/test'"
+    end
+
+    STDOUT.puts "Running Docker with arguments:"
+    STDOUT.puts cmdline.inspect
+    sh cmdline.join(' ')
+  end
+end
