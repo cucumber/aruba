@@ -6,6 +6,13 @@ require 'fileutils'
 describe Aruba::Api do
   include_context 'uses aruba API'
 
+  def wait_for(time = 1, interval = 0.05)
+    (time / interval).round.times do
+      break if yield
+      sleep interval
+    end
+  end
+
   describe '#all_paths' do
     let(:name) { @file_name }
     let(:path) { @file_path }
@@ -930,12 +937,14 @@ describe Aruba::Api do
     it "respond to input" do
       @aruba.type "Hello"
       @aruba.type ""
+      wait_for { @aruba.last_command_started.stdout =~ /Hello/ }
       expect(@aruba.last_command_started.stdout).to eq "Hello\n"
     end
 
     it "respond to close_input" do
       @aruba.type "Hello"
       @aruba.close_input
+      wait_for { @aruba.last_command_started.stdout =~ /Hello/ }
       expect(@aruba.last_command_started.stdout).to eq "Hello\n"
     end
 
@@ -943,6 +952,7 @@ describe Aruba::Api do
       @aruba.write_file(@file_name, "Hello\nWorld!")
       @aruba.pipe_in_file(@file_name)
       @aruba.close_input
+      wait_for { @aruba.last_command_started.stdout =~ /Hello/ }
       expect(@aruba.last_command_started.stdout).to eq "Hello\nWorld!"
     end
   end
@@ -964,13 +974,6 @@ describe Aruba::Api do
   describe "#set_environment_variable" do
     after(:each) do
       @aruba.all_commands.each(&:stop)
-    end
-
-    def wait_for(time = 1, interval = 0.05)
-      (time / interval).round.times do
-        break if yield
-        sleep interval
-      end
     end
 
     it "set environment variable" do
