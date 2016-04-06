@@ -39,6 +39,7 @@ We appreciate that. But before you do, please learn our basic rules:
   (if you want to have your own version, that is fine but
   bump version in a commit by itself so we can ignore when we merge your change)
 * Make sure your pull request complies to our development style
+* Rebase your branch if needed to reduce clutter in our git history
 * Send us a pull request.
 
 **Maintainers**
