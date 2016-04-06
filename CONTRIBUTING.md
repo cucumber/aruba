@@ -46,6 +46,7 @@ We appreciate that. But before you do, please learn our basic rules:
 
 * Use pull requests for larger or controversial changes made by yourself or changes you might expected to break the build
 * Commit smaller changes directly to master, e.g. fixing typos, adding tests or adding documentation
+* Update [History.md](History.md) when a pull request is merged
 * Make sure all tests are green before merging a pull request
 
 ## Development style
