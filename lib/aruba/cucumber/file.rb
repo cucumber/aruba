@@ -79,7 +79,7 @@ When(/^I cd to "([^"]*)"$/) do |dir|
 end
 
 Then(/^the following files should (not )?exist:$/) do |negated, files|
-  files = files.rows.flatten
+  files = files.raw.flatten
 
   if negated
     expect(files).not_to include an_existing_file
