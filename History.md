@@ -11,6 +11,7 @@
 * Added vision and hints to project README (PR #366)
 * Fixed setting environment variables on Windows (PR #358, credit @e2)
 * Fixed the logic to determine disk usage (PR #359, credit @e2)
+* Prefixed exception in `rescue`-call to make it fail with a proper error message (issue #376)
 
 ## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
 
