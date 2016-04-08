@@ -1,6 +1,6 @@
-Feature: Run command
+Feature: Run command in a simpler fashion
 
-  To run a command use the `#run`-method. There are some configuration options
+  To run a command use the `#run_simple`-method. There are some configuration options
   which are relevant here:
 
   - `fail_on_error`:
