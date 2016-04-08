@@ -40,6 +40,7 @@ We appreciate that. But before you do, please learn our basic rules:
   bump version in a commit by itself so we can ignore when we merge your change)
 * Make sure your pull request complies to our development style
 * Rebase your branch if needed to reduce clutter in our git history
+* Make sure you don't break other people's code - On major changes: First deprecated, than bump major version, than make breaking changes
 * Send us a pull request.
 
 **Maintainers**
