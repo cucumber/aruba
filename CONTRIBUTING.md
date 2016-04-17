@@ -43,6 +43,7 @@ Please...
 * Make sure your pull request complies to our development style
 * Rebase your branch if needed to reduce clutter in our git history
 * Make sure you don't break other people's code &ndash; On major changes: First deprecated, than bump major version, than make breaking changes
+* Split up your changes into reviewable "git"-commits which combine all lines/files relevant for a single change
 * Send us a pull request.
 
 **Maintainers**
