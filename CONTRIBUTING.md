@@ -32,15 +32,17 @@ We appreciate that. But before you do, please learn our basic rules:
 
 **Contributors**
 
+Please...
+
 * Fork the project. Make a branch for your change.
-* Make your feature addition or bug fix -- if you're unsure if your addition will be accepted, open an issue for discussion first
+* Make your feature addition or bug fix &ndash; if you're unsure if your addition will be accepted, open an issue for discussion first
 * Make sure your patch is well covered by tests. We don't accept changes that aren't tested.
 * Please do not change the Rakefile, version, or history.
   (if you want to have your own version, that is fine but
   bump version in a commit by itself so we can ignore when we merge your change)
 * Make sure your pull request complies to our development style
 * Rebase your branch if needed to reduce clutter in our git history
-* Make sure you don't break other people's code - On major changes: First deprecated, than bump major version, than make breaking changes
+* Make sure you don't break other people's code &ndash; On major changes: First deprecated, than bump major version, than make breaking changes
 * Send us a pull request.
 
 **Maintainers**
