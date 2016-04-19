@@ -8,7 +8,7 @@ Bundler.setup
 task :default => :test
 
 desc 'Run the whole test suite. Any failure will stop rake going on'
-task :test => %w(lint:travis lint:code_style test:rspec test:cucumber test:cucumber_wip)
+task :test => %w(lint:travis lint:code_style lint:licenses test:rspec test:cucumber test:cucumber_wip)
 
 task :cucumber do
   $stderr.puts '[DEPRECATED] The use of task "cucumber" is deprecated. Please use "test:cucumber"'

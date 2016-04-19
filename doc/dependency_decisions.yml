@@ -14,3 +14,23 @@
   - :who: 
     :why: 
     :when: 2015-04-28 13:39:40.984464786 Z
+- - :ignore_group
+  - development
+  - :who: 
+    :why: 
+    :when: 2016-04-19 21:35:58.945568982 Z
+- - :ignore_group
+  - test
+  - :who: 
+    :why: 
+    :when: 2016-04-19 21:36:02.006089986 Z
+- - :approve
+  - contracts
+  - :who: 
+    :why: 
+    :when: 2016-04-19 21:38:58.571635580 Z
+- - :whitelist
+  - ruby
+  - :who: 
+    :why: 
+    :when: 2016-04-19 21:40:01.747535503 Z
