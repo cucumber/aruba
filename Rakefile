@@ -1,5 +1,7 @@
 $LOAD_PATH << File.expand_path('../', __FILE__)
 
+require 'aruba/tasks/docker_helpers'
+
 require 'bundler'
 Bundler.setup
 
@@ -73,56 +75,33 @@ namespace :rubygem do
 end
 
 namespace :docker do
-  Psych.load_file('docker-compose.yml')['services']
-
   desc 'Build docker image'
-  task :build, :nocache, :version do |_, args|
+  task :build, :cache, :version do |_, args|
     args.with_defaults(:version => 'latest')
     args.with_defaults(:cache => true)
 
-    docker_compose_configuration = Psych.load_file(@opts[:dockerfile])['services']
+    docker_compose_file = Aruba::DockerComposeFile.new(File.expand_path('../docker-compose.yml', __FILE__))
+    docker_run_instance = Aruba::DockerRunInstance.new(docker_compose_file, :base)
 
-    nocache             = args[:nocache]
-    application_version = args[:version]
-    docker_file         = docker_compose_configuration[:dockerfile]
+    builder = Aruba::DockerBuildCommandLineBuilder.new(
+      docker_run_instance,
+      cache: args[:cache],
+      version: args[:version]
+    )
 
-    cmdline = []
-    cmdline << 'docker'
-    cmdline << 'build'
-    cmdline << '--no-cache=true' if nocache == 'true'
-
-    %w(http_proxy https_proxy HTTP_PROXY HTTPS_PROXY).each do |var|
-      next unless ENV.key? var
-
-      proxy_uri = URI(ENV[var])
-      proxy_uri.host = '172.17.0.1'
-      cmdline << "--build-arg #{var}=#{proxy_uri}"
-    end
-
-    cmdline << "-t #{image_name}:#{application_version}"
-    cmdline << "-f #{docker_file}"
-    cmdline << File.dirname(docker_file)
-
-    sh cmdline.join(' ')
+    sh builder.to_cli
   end
 
   desc 'Run docker container'
-  task :run, :command do |_, task_args|
-    command = task_args[:command]
+  task :run, :command do |_, args|
+    docker_compose_file = Aruba::DockerComposeFile.new(File.expand_path('../docker-compose.yml', __FILE__))
+    docker_run_instance = Aruba::DockerRunInstance.new(docker_compose_file, :base)
 
-    args =[]
-    args << '-it'
-    args << '--rm'
-    args << "--name #{container_name}"
-    args << "-v #{File.expand_path('.')}:/srv/app"
+    builder = Aruba::DockerRunCommandLineBuilder.new(
+      docker_run_instance,
+      command: args[:command]
+    )
 
-    cmdline = []
-    cmdline << 'docker'
-    cmdline << 'run'
-    cmdline.concat args
-    cmdline << image_name
-    cmdline << command if command
-
-    sh cmdline.join(' ')
+    sh builder.to_cli
   end
 end
