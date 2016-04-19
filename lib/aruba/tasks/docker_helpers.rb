@@ -37,8 +37,6 @@ module Aruba
     def to_cli
       cache               = opts[:cache]
       application_version = opts[:version]
-      require 'pry'
-      binding.pry
       docker_file         = run_instance.docker_file
       docker_image        = run_instance.image
 
