@@ -27,6 +27,9 @@ Our Vision:
 * Make creating documentation for command line simple and fun
 * Support the cucumber community in its effort to create a specification for all official cucumber implementations
 
+Our Focus:
+* Test the user-interaction with the commands at runtime &ndash; this excludes the process of installation/deployment of commands like installing Rubygems with `gem install <your-gem>`.
+
 ## Install
 
 Add this line to your application's `Gemfile`:
