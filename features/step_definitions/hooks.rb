@@ -1,5 +1,71 @@
 require 'cucumber/platform'
 
+Before '@requires-python' do |scenario|
+  # Add test here
+  # next unless `python`.empty?
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
+end
+
+Before '@requires-zsh' do |scenario|
+  # Add test here
+  # next unless `python`.empty?
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
+end
+
+Before '@requires-javac' do |scenario|
+  # Add test here
+  # next unless `javac`.empty?
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
+end
+
+Before '@requires-perl' do |scenario|
+  # Add test here
+  # next unless `perl`.empty?
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
+end
+
+Before '@requires-ruby' do |scenario|
+  # Add test here
+  # next unless `ruby`.empty?
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
+end
+
+Before '@requires-printf' do |scenario|
+  # Add test here
+  # next unless `printf`.empty?
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
+end
+
 Before '@requires-ruby-version-193' do |scenario|
   next if RUBY_VERSION >= '1.9.3'
 
