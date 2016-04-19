@@ -38,6 +38,11 @@ RUN apt-get update -qq \
   && apt-get -y install openjdk-7-jdk --no-install-recommends \
   && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
 
+# Cache needed gems - for faster test reruns
+ADD Gemfile Gemfile.lock aruba.gemspec /home/guest/cache/aruba/
+ADD lib/aruba/version.rb /home/guest/cache/aruba/lib/aruba/version.rb
+RUN chown -R guest:guest /home/guest/cache
+
 USER guest
 ENV HOME /home/guest
 WORKDIR /home/guest
@@ -47,16 +52,14 @@ RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A170311380
   && /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc" \
   && curl -L get.rvm.io | bash -s stable \
   && /bin/bash -l -c "rvm install 2.3.0 && rvm cleanup all" \
-  && /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
-
-# Cache needed gems - for faster test reruns
-ADD Gemfile Gemfile.lock aruba.gemspec /home/guest/cache/aruba/
-ADD lib/aruba/version.rb /home/guest/cache/aruba/lib/aruba/version.rb
-RUN chown -R guest:guest /home/guest/cache
+  && /bin/bash -l -c "gem install bundler --no-ri --no-rdoc" \
+  && echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc \
+  && echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"' >> ~/.zshrc
 
 # Download and install aruba + dependencies
-WORKDIR /home/guest/cache
+WORKDIR /home/guest/cache/aruba
 RUN bash -l -c "bundle install"
 
 # Default working directory
+RUN mkdir -p /home/guest/aruba
 WORKDIR /home/guest/aruba
