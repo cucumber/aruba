@@ -69,18 +69,7 @@ We appreciate that. But before you do, please learn our basic rules:
 
 ## Bootstrap environment
 
-To get started with `aruba`, you just need to bootstrap the environment by
-running the following command.
-
-    # Bootstrap environment
-    script/bootstrap
-
-## Running tests
-
-Make sure you bootstrap the environment first.
-
-    # Run the test suite
-    script/test
+See [TESTING.md](TESTING.md) for details on setting up and running Aruba tests.
 
 ## Installing your own gems used for development
 
@@ -108,7 +97,7 @@ Now release it
     git commit -m "Release X.Y.Z"
     rake release
 
-Now send a PR to https://github.com/cucumber/website adding an article about the with details of the new release and merge it - an aruba maintainer should normally allowed to merge PRs on `cucumber/website`. A copy of an old announcement can be used as basis for the new article. After this send an email with the link to the article to cukes@googlegroups.com. 
+Now send a PR to https://github.com/cucumber/website adding an article about the with details of the new release and merge it - an aruba maintainer should normally allowed to merge PRs on `cucumber/website`. A copy of an old announcement can be used as basis for the new article. After this send an email with the link to the article to cukes@googlegroups.com.
 
 ## Gaining Release Karma
 
