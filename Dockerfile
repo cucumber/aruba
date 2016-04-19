@@ -55,7 +55,9 @@ ADD lib/aruba/version.rb /home/guest/cache/aruba/lib/aruba/version.rb
 RUN chown -R guest:guest /home/guest/cache
 USER guest
 
-# Actually download
-RUN bash -l -c "cd cache/aruba && bundle install"
+# Download and install aruba + dependencies
+WORKDIR /home/guest/cache
+RUN bash -l -c "bundle install"
 
+# Default working directory
 WORKDIR /home/guest/aruba
