@@ -62,7 +62,7 @@ namespace :lint do
 
   desc 'Lint our code with "rubocop"'
   task :coding_guidelines do
-    sh 'rubocop'
+    sh 'rubocop --fail-level E'
   end
 
   desc 'Check for relevant licenses in project'
