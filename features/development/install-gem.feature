@@ -1,6 +1,6 @@
 Feature: Install gem
 
-  As a aruba developer
+  As a aruba contributor
   I want to build the `aruba` gem
   In order to install it
 

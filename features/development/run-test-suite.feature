@@ -31,3 +31,20 @@ Feature: Run test suite
     """
     rake test:cucumber
     """
+
+  Scenario: Run whole test suite via rake
+
+    When I successfully run `rake -T test`
+    Then the output should contain:
+    """
+    rake test
+    """
+
+  @ignore
+  Scenario: Run whole test suite via "test"-script
+
+    When I successfully run `script/test`
+    Then the output should contain:
+    """
+    rake test
+    """
