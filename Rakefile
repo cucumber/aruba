@@ -8,7 +8,7 @@ Bundler.setup
 task :default => :test
 
 desc 'Run the whole test suite. Any failure will stop rake going on'
-task :test => %w(lint:travis lint:code_style lint:licenses test:rspec test:cucumber test:cucumber_wip)
+task :test => %w(lint:travis lint:coding_guidelines lint:licenses test:rspec test:cucumber test:cucumber_wip)
 
 task :cucumber do
   $stderr.puts '[DEPRECATED] The use of task "cucumber" is deprecated. Please use "test:cucumber"'
@@ -26,8 +26,8 @@ task :spec do
 end
 
 task :rubocop do
-  $stderr.puts '[DEPRECATED] The use of task "rubocop" is deprecated. Please use "lint:code_style"'
-  Rake::Task['test:code_style'].invoke
+  $stderr.puts '[DEPRECATED] The use of task "rubocop" is deprecated. Please use "lint:coding_guidelines"'
+  Rake::Task['test:coding_guidelines'].invoke
 end
 
 namespace :test do
@@ -61,11 +61,8 @@ namespace :lint do
   end
 
   desc 'Lint our code with "rubocop"'
-  task :code_style do
-    begin
-      sh 'rubocop --fail-level E'
-    rescue
-    end
+  task :coding_guidelines do
+    sh 'rubocop'
   end
 
   desc 'Check for relevant licenses in project'
@@ -73,7 +70,6 @@ namespace :lint do
     sh 'license_finder'
   end
 end
-
 
 namespace :rubygem do
   Bundler::GemHelper.install_tasks
