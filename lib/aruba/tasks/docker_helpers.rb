@@ -31,7 +31,7 @@ module Aruba
 
     def initialize(run_instance, opts = {})
       @run_instance = run_instance
-      @opts     = opts
+      @opts = opts
     end
 
     def to_cli
@@ -70,7 +70,7 @@ module Aruba
 
     def initialize(run_instance, opts = {})
       @run_instance = run_instance
-      @opts     = opts
+      @opts = opts
     end
 
     def to_cli
