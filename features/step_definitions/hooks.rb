@@ -1,8 +1,7 @@
 require 'cucumber/platform'
 
 Before '@requires-python' do |scenario|
-  # Add test here
-  # next unless `python`.empty?
+  next unless Aruba.platform.which('python').nil?
 
   if Cucumber::VERSION < '2'
     scenario.skip_invoke!
@@ -12,8 +11,7 @@ Before '@requires-python' do |scenario|
 end
 
 Before '@requires-zsh' do |scenario|
-  # Add test here
-  # next unless `python`.empty?
+  next unless Aruba.platform.which('zsh').nil?
 
   if Cucumber::VERSION < '2'
     scenario.skip_invoke!
@@ -23,8 +21,7 @@ Before '@requires-zsh' do |scenario|
 end
 
 Before '@requires-javac' do |scenario|
-  # Add test here
-  # next unless `javac`.empty?
+  next unless Aruba.platform.which('javac').nil?
 
   if Cucumber::VERSION < '2'
     scenario.skip_invoke!
@@ -34,8 +31,7 @@ Before '@requires-javac' do |scenario|
 end
 
 Before '@requires-perl' do |scenario|
-  # Add test here
-  # next unless `perl`.empty?
+  next unless Aruba.platform.which('perl').nil?
 
   if Cucumber::VERSION < '2'
     scenario.skip_invoke!
@@ -45,8 +41,7 @@ Before '@requires-perl' do |scenario|
 end
 
 Before '@requires-ruby' do |scenario|
-  # Add test here
-  # next unless `ruby`.empty?
+  next unless Aruba.platform.which('ruby').nil?
 
   if Cucumber::VERSION < '2'
     scenario.skip_invoke!
@@ -55,9 +50,8 @@ Before '@requires-ruby' do |scenario|
   end
 end
 
-Before '@requires-printf' do |scenario|
-  # Add test here
-  # next unless `printf`.empty?
+Before '@requires-posix-standard-tools' do |scenario|
+  next unless Aruba.platform.which('printf').nil?
 
   if Cucumber::VERSION < '2'
     scenario.skip_invoke!

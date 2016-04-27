@@ -23,6 +23,7 @@ Feature: Run commands with Aruba
         \"\"\"
     """
 
+  @requires-bash
   Scenario: Bash Program
     Given an executable named "bin/cli" with:
     """bash
@@ -33,6 +34,7 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
+  @requires-bash
   Scenario: Bash Program run via bash
     Given a file named "features/hello_aruba.feature" with:
     """
@@ -51,6 +53,7 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
+  @requires-ruby
   Scenario: Ruby Program
     Given an executable named "bin/cli" with:
     """ruby
@@ -61,6 +64,7 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
+  @requires-ruby
   Scenario: Ruby Program via "ruby"
     Given a file named "features/hello_aruba.feature" with:
     """
@@ -79,6 +83,7 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
+  @requires-python
   Scenario: Python Program
     Given an executable named "bin/cli" with:
     """python
@@ -89,6 +94,7 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
+  @requires-python
   Scenario: Python Program via "python"
     Given a file named "features/hello_aruba.feature" with:
     """
@@ -107,6 +113,7 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
+  @requires-perl
   Scenario: Perl Program
     Given an executable named "bin/cli" with:
     """perl
@@ -117,6 +124,7 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
+  @requires-perl
   Scenario: Perl Program via "perl"
     Given a file named "features/hello_aruba.feature" with:
     """
@@ -135,6 +143,7 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
+  @requires-java
   Scenario: Java Program
 
     It's even possible to compile and run Java programs with Aruba.
@@ -162,6 +171,7 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
+  @requires-posix-standard-tools
   Scenario: POSIX standard tools
     Given a file named "features/hello_aruba.feature" with:
     """
