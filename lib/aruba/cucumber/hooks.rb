@@ -124,14 +124,6 @@ Before('@announce') do
   aruba.announcer.activate :command_filesystem_status
 end
 
-Before('@debug') do
-  aruba.config.command_launcher = :debug
-end
-
-# After('@debug') do
-#   aruba.config.command_launcher = :spawn
-# end
-
 Before('@ansi') do
   # rubocop:disable Metrics/LineLength
   Aruba::Platform.deprecated('The use of "@ansi" is deprecated. Use "@keep-ansi-escape-sequences" instead. But be aware, that this hook uses the aruba configuration and not an instance variable')
@@ -157,4 +149,32 @@ end
 
 Before('@disable-bundler') do
   unset_bundler_env_vars
+end
+
+Before('@spawn') do
+  Aruba.platform.deprecated('The use of "@spawn" is deprecated. Use "@command-launcher-spawn" instead')
+
+  aruba.config.command_launcher = :spawn
+end
+
+Before('@in_process') do
+  Aruba.platform.deprecated('The use of "@in_process" is deprecated. Use "@command-launcher-in-process" instead')
+
+  aruba.config.command_launcher = :in_process
+end
+
+Before('@debug') do
+  aruba.config.command_launcher = :debug
+end
+
+Before('@command-launcher-spawn') do
+  aruba.config.command_launcher = :spawn
+end
+
+Before('@command-launcher-in-process') do
+  aruba.config.command_launcher = :in_process
+end
+
+Before('@command-launcher-debug') do
+  aruba.config.command_launcher = :debug
 end
