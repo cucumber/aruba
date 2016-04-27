@@ -100,7 +100,7 @@ namespace :docker do
 
     builder = Aruba::DockerRunCommandLineBuilder.new(
       docker_run_instance,
-      command: args[:command]
+      command: args[:command] || docker_run_instance.command,
     )
 
     sh builder.to_cli

@@ -70,7 +70,7 @@ module Aruba
 
     def initialize(run_instance, opts = {})
       @run_instance = run_instance
-      @opts = opts
+      @opts         = opts
     end
 
     def to_cli
@@ -86,13 +86,19 @@ module Aruba
       cmdline << "--name #{run_instance.container_name}"
 
       volumes.each do |v|
-        cmdline << "-v #{v}"
+        cmdline << "-v #{expand_volume_paths(v)}"
       end
 
       cmdline << image
       cmdline << command if command
 
       cmdline.join(' ')
+    end
+
+    private
+
+    def expand_volume_paths(volume_paths)
+      volume_paths.split(':').map { |path| File.expand_path(path) }.join(':')
     end
   end
 
@@ -129,6 +135,10 @@ module Aruba
 
     def container_name(instance)
       fetch(instance)['container_name']
+    end
+
+    def command(instance)
+      fetch(instance)['command']
     end
 
     def working_directory(instance)
