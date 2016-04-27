@@ -63,3 +63,5 @@ RUN bash -l -c "bundle install"
 # Default working directory
 RUN mkdir -p /home/guest/aruba
 WORKDIR /home/guest/aruba
+
+CMD ["bundle exec rake test"]
