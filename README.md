@@ -12,6 +12,8 @@ stil | [![Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=still)](
 
 `aruba` is an extension for popular TDD and BDD frameworks like "Cucumber", "RSpec" and "Minitest" to make testing of commandline applications meaningful, easy and fun.
 
+**This is the [latest](https://github.com/cucumber/aruba/blob/master/README.md) version of our README.md. If you want to see the one of the last released version of "aruba", please have a look at this [one](https://github.com/cucumber/aruba/blob/still/README.md).**
+
 Your benefits:
 
 * Test any command line application implemented in any [programming
@@ -30,8 +32,6 @@ Our Vision:
 
 Our Focus:
 * Test the user-interaction with the commands at runtime &ndash; this excludes the process of installation/deployment of commands like installing Rubygems with `gem install <your-gem>`.
-
-**This is the [latest](https://github.com/cucumber/aruba/blob/master/README.md) version of our README.md. If you want to see the one of the last released version of "aruba", please have a look at this [one](https://github.com/cucumber/aruba/blob/still/README.md).**
 
 ## Install
 
