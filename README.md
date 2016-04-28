@@ -30,6 +30,8 @@ Our Vision:
 Our Focus:
 * Test the user-interaction with the commands at runtime &ndash; this excludes the process of installation/deployment of commands like installing Rubygems with `gem install <your-gem>`.
 
+**This is the [latest](https://github.com/cucumber/aruba/blob/master/README.md) version of our README.md. If you want to see the one of the last released version of "aruba", please have a look at this [one](https://github.com/cucumber/aruba/blob/still/README.md).**
+
 ## Install
 
 Add this line to your application's `Gemfile`:
