@@ -21,6 +21,6 @@ services:
         HTTP_PROXY: "${HTTP_PROXY}"
         HTTPS_PROXY: "${HTTPS_PROXY}"
     working_dir: /home/guest/aruba
-    command: /bin/bash
+    command: /bin/bash -l -c "bundle exec rake test"
     volumes:
       - .:/home/guest/aruba
