@@ -1,6 +1,4 @@
-#  UNRELEASED
-
-## [v0.15.0](https://github.com/cucumber/aruba/compare/v0.14.1...v0.15.0)
+## [v1.0.0.alpha](https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha)
 
 * Fixed wrong number of arguments in `Aruba::Platforms::WindowsEnvironmentVariables#delete` (issue #349, PR #358, credit @e2)
 * Fixed colors in `script/bootstrap` (PR  #352, credit @e2)
@@ -12,9 +10,14 @@
 * Fixed setting environment variables on Windows (PR #358, credit @e2)
 * Fixed the logic to determine disk usage (PR #359, credit @e2)
 * Prefixed exception in `rescue`-call to make it fail with a proper error message (issue #376)
-
-## [v1.0.0](https://github.com/cucumber/aruba/compare/v0.11.0...v1.0.0)
-
+* Run and build aruba in isolated environment via docker (credit @e2 in #353, PR #382)
+* Run container with docker-compose without making docker-compose a required dependency. Rake tasks read in the docker-compose.yml instead (PR #382)
+* Document developer rake tasks via cucumber features (PR #382)
+* Add more hints to CONTRIBUTING.md (PR #382)
+* Add TESTING.md (WIP) (credit @e2) (PR #382)
+* Cleanup rake tasks via separate namespaces (PR #382)
+* Some more minor fixes (PR #382)
+* Don't run feature test if executable required for test is not installed (python, bash, zsh, javac, ...) (PR #382)
 * Support for rubies older than 1.9.3 is discontinued - e.g 1.8.7 and 1.9.2
 * aruba requires "cucumber 2" for the feature steps. The rest of aruba should
   be usable by whatever testing framework you are using.
@@ -64,8 +67,6 @@
       """
     And the stderr should not contain anything
   ```
-
-# RELEASED
 
 ## [v0.14.1](https://github.com/cucumber/aruba/compare/v0.14.0...v0.14.1)
 
