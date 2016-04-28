@@ -1,5 +1,6 @@
 ## [v1.0.0.alpha](https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha)
 
+* Drop support for ruby < 1.9.3 and rubinius
 * Fixed wrong number of arguments in `Aruba::Platforms::WindowsEnvironmentVariables#delete` (issue #349, PR #358, credit @e2)
 * Fixed colors in `script/bootstrap` (PR  #352, credit @e2)
 * Fixed use of removed `Utils`-module (PR #347, credit @e2)
