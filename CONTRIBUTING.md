@@ -147,6 +147,11 @@ script/test
 # Release gem
 git commit -m "Version bump"
 script/release
+
+# Merge changes back to have an correct documentation
+git checkout still
+git merge master
+git push
 ~~~
 
 Now send a PR to https://github.com/cucumber/website adding an article about the with details of the new release and merge it - an aruba maintainer should normally allowed to merge PRs on `cucumber/website`. A copy of an old announcement can be used as basis for the new article. After this send an email with the link to the article to cukes@googlegroups.com. 
