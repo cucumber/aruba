@@ -3,16 +3,9 @@
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.svg)](https://codeclimate.com/github/cucumber/aruba)
 [![Join the chat at https://gitter.im/cucumber/aruba](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cucumber/aruba?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Build status:
-
-Version       | Linux / OS X | Windows
-------------- |------------- | -------------
-master | [![Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=master)](https://travis-ci.org/cucumber/aruba) | [![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl?svg=true)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/master)
-stil | [![Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=still)](https://travis-ci.org/cucumber/aruba) | [![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl?svg=true)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/still)
+**This is the [latest](https://github.com/cucumber/aruba/blob/master/README.md) version of our README.md. If you want to see the one of the last released version of "aruba", please have a look at this [one](https://github.com/cucumber/aruba/blob/still/README.md).**
 
 `aruba` is an extension for popular TDD and BDD frameworks like "Cucumber", "RSpec" and "Minitest" to make testing of commandline applications meaningful, easy and fun.
-
-This is the [latest](https://github.com/cucumber/aruba/blob/master/README.md) version of our README.md. If you want to see the one of the last released version of "aruba", please have a look at this [one](https://github.com/cucumber/aruba/blob/still/README.md).
 
 Your benefits:
 
@@ -32,6 +25,53 @@ Our Vision:
 
 Our Focus:
 * Test the user-interaction with the commands at runtime &ndash; this excludes the process of installation/deployment of commands like installing Rubygems with `gem install <your-gem>`.
+
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3">
+        Build status
+      </th>
+    </tr>
+    <tr>
+      <th>
+        Version
+      </th>
+      <th>
+        Linux / OS X
+      </th>
+      <th>
+        Windows
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        master
+      </td>
+      <td>
+        [![Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=master)](https://travis-ci.org/cucumber/aruba)
+      </td>
+      <td>
+        [![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl?svg=true)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/master)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        still
+      </td>
+      <td>
+        [![Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=still)](https://travis-ci.org/cucumber/aruba)
+      </td>
+      <td>
+        [![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl?svg=true)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/still)
+      </td>
+    </tr>
+  </tbody>
+<table>
+
 
 ## Install
 
