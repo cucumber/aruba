@@ -116,8 +116,10 @@ module Aruba
       def after_run; end
 
       def inspect
+        # rubocop:disable Style/UnneededInterpolation
         out = truncate("#{stdout(:wait_for_io => 0).inspect}", 35)
         err = truncate("#{stderr(:wait_for_io => 0).inspect}", 35)
+        # rubocop:enable Style/UnneededInterpolation
 
         fmt = '#<%s:%s commandline="%s": stdout=%s stderr=%s>'
         format fmt, self.class, self.object_id, commandline, out, err

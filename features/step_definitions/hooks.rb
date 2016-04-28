@@ -1,5 +1,65 @@
 require 'cucumber/platform'
 
+Before '@requires-python' do |scenario|
+  next unless Aruba.platform.which('python').nil?
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
+end
+
+Before '@requires-zsh' do |scenario|
+  next unless Aruba.platform.which('zsh').nil?
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
+end
+
+Before '@requires-javac' do |scenario|
+  next unless Aruba.platform.which('javac').nil?
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
+end
+
+Before '@requires-perl' do |scenario|
+  next unless Aruba.platform.which('perl').nil?
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
+end
+
+Before '@requires-ruby' do |scenario|
+  next unless Aruba.platform.which('ruby').nil?
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
+end
+
+Before '@requires-posix-standard-tools' do |scenario|
+  next unless Aruba.platform.which('printf').nil?
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
+end
+
 Before '@requires-ruby-version-193' do |scenario|
   next if RUBY_VERSION >= '1.9.3'
 

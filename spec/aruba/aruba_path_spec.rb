@@ -146,7 +146,7 @@ RSpec.describe Aruba::ArubaPath do
 
         context "when the file doesn't fit in multiple units" do
           let(:size) { 50_000 }
-          it { is_expected.to eq 104 }  # 13 * 4k units = 140 * 512 byte blocks
+          it { is_expected.to eq 104 } # 13 * 4k units = 140 * 512 byte blocks
         end
       end
 

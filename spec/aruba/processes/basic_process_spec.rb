@@ -12,7 +12,7 @@ RSpec.describe Aruba::Processes::BasicProcess do
     Class.new(described_class) do
       def initialize(*args)
         @stdout = args.shift
-        @stderr= args.shift
+        @stderr = args.shift
         super(*args)
       end
 
@@ -23,7 +23,6 @@ RSpec.describe Aruba::Processes::BasicProcess do
       def stderr(*args)
         @stderr
       end
-
     end.new(stdout, stderr, cmd, exit_timeout, io_wait_timeout, working_directory)
   end
 

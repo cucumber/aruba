@@ -1,5 +1,7 @@
 ## Summary
 
+<!-- This sections are meant as guidance for you. If some doesn't fit, skip them. -->
+
 <!--- Provide a general summary of your changes in the Title above -->
 
 ## Details

@@ -1,5 +1,7 @@
 # Contributing to the Cucumber Aruba Project
 
+## Introduction
+
 We would love to get help from you as "user" and "contributor".
 
 **Users**
@@ -18,7 +20,11 @@ We would love to get help from you as "user" and "contributor".
 
 The rest of this document is a guide for those maintaining Aruba, and others who would like to submit patches.
 
-## Issues
+## Contributing to the "aruba" project
+
+It would be great if all people who want to contribute to the "aruba" project &ndash; contributors and maintiners &ndash; follow the guidelines in this section. There are also "Getting started"-sections both for [contributors](#getting-started-as-a-contributor) and [maintainers]((#getting-started-as-a-maintainer).
+
+### Issues
 
 We appreciate that. But before you do, please learn our basic rules:
 
@@ -28,19 +34,22 @@ We appreciate that. But before you do, please learn our basic rules:
 * We love [pull requests](https://help.github.com/articles/using-pull-requests). The same here: Please consider our comments within the template we provide for your pull request(s).
 
 
-## Note on Patches/Pull Requests
+### Pull Requests
 
 **Contributors**
 
+Please...
+
 * Fork the project. Make a branch for your change.
-* Make your feature addition or bug fix -- if you're unsure if your addition will be accepted, open an issue for discussion first
+* Make your feature addition or bug fix &ndash; if you're unsure if your addition will be accepted, open an issue for discussion first
 * Make sure your patch is well covered by tests. We don't accept changes that aren't tested.
 * Please do not change the Rakefile, version, or history.
   (if you want to have your own version, that is fine but
   bump version in a commit by itself so we can ignore when we merge your change)
 * Make sure your pull request complies to our development style
 * Rebase your branch if needed to reduce clutter in our git history
-* Make sure you don't break other people's code - On major changes: First deprecated, than bump major version, than make breaking changes
+* Make sure you don't break other people's code &ndash; On major changes: First deprecated, than bump major version, than make breaking changes
+* Split up your changes into reviewable "git"-commits which combine all lines/files relevant for a single change
 * Send us a pull request.
 
 **Maintainers**
@@ -50,7 +59,7 @@ We appreciate that. But before you do, please learn our basic rules:
 * Update [History.md](History.md) when a pull request is merged
 * Make sure all tests are green before merging a pull request
 
-## Development style
+### Development style
 
 * We try to follow the recommendations in the [Ruby Community Style Guide](https://github.com/bbatsov/ruby-style-guide) and use [`rubocop`](https://github.com/bbatsov/rubocop) to "enforce" it. Please see [.rubocop.yml](.rubocop.yml) for exceptions.
 * There should be `action`-methods and `getter`-methods in `aruba`. Only the latter should return values. Please expect the first ones to return `nil`.
@@ -67,20 +76,43 @@ We appreciate that. But before you do, please learn our basic rules:
   7. Use the body to explain what and why vs. how (optional if subject is self-explanatory)
   8. Use Markdown Markup to style your message (only if required)
 
-## Bootstrap environment
+
+## Getting started as a "Contributor"
+
+### Bootstrap environment
 
 To get started with `aruba`, you just need to bootstrap the environment by
 running the following command.
 
-    # Bootstrap environment
-    script/bootstrap
+~~~bash
+# Bootstrap environment
+script/bootstrap
+~~~
 
-## Running tests
+### Running tests
 
-Make sure you bootstrap the environment first.
+Make sure you bootstrap the environment first. Then run the following command
+to run the test suite.
 
-    # Run the test suite
-    script/test
+~~~bash
+# Run the test suite
+script/test
+~~~
+
+If you have problems because our assumptions about your local setup are wrong.
+Try this instead. This requires the `docker`-command/project to be installed on
+your local system.
+
+~~~bash
+# Build the docker container
+bundle exec rake docker:build
+
+# Run the whole test suite in "docker"-container
+RUN_IN_DOCKER=1 script/test
+
+# Run only selected scenario
+RUN_IN_DOCKER=1 script/test cucumber features/steps/command/shell.feature:14
+~~~
 
 ## Installing your own gems used for development
 
@@ -95,7 +127,9 @@ gem 'pry-byebug'
 gem 'byebug'
 ~~~
 
-## Release Process
+## Getting started as a "Maintainer"
+
+### Release Process
 
 * Bump the version number in `lib/aruba/version.rb`
 * Make sure `History.md` is updated with the upcoming version number, and has entries for all fixes.
@@ -103,14 +137,26 @@ gem 'byebug'
 
 Now release it
 
-    bundle update
-    bundle exec rake
-    git commit -m "Release X.Y.Z"
-    rake release
+~~~bash
+# update dependencies
+bundle update
+
+# Run test suite
+script/test
+
+# Release gem
+git commit -m "Version bump"
+script/release
+
+# Merge changes back to have an correct documentation
+git checkout still
+git merge master
+git push
+~~~
 
 Now send a PR to https://github.com/cucumber/website adding an article about the with details of the new release and merge it - an aruba maintainer should normally allowed to merge PRs on `cucumber/website`. A copy of an old announcement can be used as basis for the new article. After this send an email with the link to the article to cukes@googlegroups.com. 
 
-## Gaining Release Karma
+### Gaining Release Karma
 
 To become a release manager, create a pull request adding your name to the list below, and include your Rubygems email address in the ticket. One of the existing Release managers will then add you.
 

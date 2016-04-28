@@ -1,5 +1,7 @@
 ## Summary
 
+<!-- This sections are meant as guidance for you. If some doesn't fit, skip them. In general: Please provide as much information as you can to help us solving your problem -->
+
 <!--- Provide a general summary of the issue in the Title above -->
 
 ## Expected Behavior
