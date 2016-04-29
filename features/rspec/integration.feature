@@ -13,7 +13,7 @@ Feature: Getting started with RSpec and aruba
 
       \* Setup Aruba Test directory
       \* Clear environment (ENV)
-      \* Make HOME-variable configarable via `arub.config.home_directory`
+      \* Make HOME-variable configurable via `arub.config.home_directory`
       \* Configure `aruba` via `RSpec`-metadata
       \* Activate announcers based on `RSpec`-metadata
 
