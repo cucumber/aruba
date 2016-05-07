@@ -20,7 +20,7 @@ Before '@requires-zsh' do |scenario|
   end
 end
 
-Before '@requires-javac' do |scenario|
+Before '@requires-java' do |scenario|
   next unless Aruba.platform.which('javac').nil?
 
   if Cucumber::VERSION < '2'
