@@ -12,7 +12,7 @@ Feature: Replace variables
     Given I use a fixture named "cli-app"
 
   Scenario: PID of last command started
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     exit 0

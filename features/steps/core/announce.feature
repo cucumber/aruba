@@ -48,7 +48,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce stdout
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -73,7 +73,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce stderr
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -98,7 +98,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce both stderr and stdout
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -131,7 +131,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce command
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -153,7 +153,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce change of environment variable
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -178,7 +178,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce change of environment variable which contains special characters
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -206,7 +206,7 @@ Feature: Announce output during test run
     This will output information like owner, group, atime, mtime, ctime, size,
     mode and if command is executable.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -259,7 +259,7 @@ Feature: Announce output during test run
     This will output the content of the executable command. Be careful doing
     this with binary executables. This hook should be used with scripts only.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 

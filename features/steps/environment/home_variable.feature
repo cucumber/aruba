@@ -11,7 +11,7 @@ Feature: Mock the HOME variable
 
   Background:
     Given I use the fixture "cli-app"
-    And an executable named "bin/cli" with:
+    And an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
 

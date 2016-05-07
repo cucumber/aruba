@@ -7,7 +7,7 @@ Feature: Unescape special characters in text
     Given I use a fixture named "cli-app"
 
   Scenario: Output contains \n
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\ntext'
@@ -27,7 +27,7 @@ Feature: Unescape special characters in text
     Then the specs should all pass
 
   Scenario: Output contains \e
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\etext'
@@ -47,7 +47,7 @@ Feature: Unescape special characters in text
     Then the specs should all pass
 
   Scenario: Output contains \"
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\"text'
@@ -67,7 +67,7 @@ Feature: Unescape special characters in text
     Then the specs should all pass
 
   Scenario: Output contains \033
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\033text'
@@ -87,7 +87,7 @@ Feature: Unescape special characters in text
     Then the specs should all pass
 
   Scenario: Output contains \017
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\017text'
@@ -107,7 +107,7 @@ Feature: Unescape special characters in text
     Then the specs should all pass
 
   Scenario: Output contains \016
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\016text'

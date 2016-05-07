@@ -9,7 +9,7 @@ Feature: Debug your command in cucumber-test-run
     And the default aruba exit timeout is 60 seconds
 
   Scenario: Can handle exit status 0
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -28,7 +28,7 @@ Feature: Debug your command in cucumber-test-run
     Then the features should all pass
 
   Scenario: Can handle exit status 1
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -60,7 +60,7 @@ Feature: Debug your command in cucumber-test-run
     We are going to demonstrate this using `pry`, but any other interactive
     debugger for any other programming language should also work.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """ruby
     #!/usr/bin/env ruby
 

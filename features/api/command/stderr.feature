@@ -8,7 +8,7 @@ Feature: Access STDERR of command
     And the default aruba io wait timeout is 1 seconds
 
   Scenario: Existing executable
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     echo 'Hello, Aruba!' >&2
@@ -27,7 +27,7 @@ Feature: Access STDERR of command
     Then the specs should all pass
 
   Scenario: Waiting for output to "appear" after 2 seconds
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     sleep 1
