@@ -37,6 +37,7 @@ Feature: Overview of steps
         Then(/^
         \"\"\"
     """
+    And the default aruba exit timeout is 60 seconds
     When I run `cucumber`
     Then the features should all pass
 
