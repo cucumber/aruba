@@ -21,7 +21,7 @@ Feature: Configure timeout for command execution
     """
 
   Scenario: Modify value
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     sleep 1
@@ -42,7 +42,7 @@ Feature: Configure timeout for command execution
     Then I successfully run `cucumber`
 
   Scenario: Fails if takes longer
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """ruby
     #!/bin/bash
     sleep 2

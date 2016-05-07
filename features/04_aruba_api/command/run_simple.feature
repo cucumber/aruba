@@ -13,7 +13,7 @@ Feature: Run command
     Given I use a fixture named "cli-app"
 
   Scenario: Require executable to succeed (by default value)
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 1
@@ -30,7 +30,7 @@ Feature: Run command
     Then the specs should all pass
 
   Scenario: Require executable to succeed (set by option)
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 1
@@ -47,7 +47,7 @@ Feature: Run command
     Then the specs should all pass
 
   Scenario: Require executable to succeed (set by option, deprecated)
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 1
@@ -64,7 +64,7 @@ Feature: Run command
     Then the specs should all pass
 
   Scenario: Ignore failure of executable (set by option)
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 1
@@ -81,7 +81,7 @@ Feature: Run command
     Then the specs should all pass
 
   Scenario: Ignore failure of executable (set by option, deprecated)
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 1
@@ -104,7 +104,7 @@ Feature: Run command
     Otherwise methods like `#send_signal` don't work since they require the
     command to be running and have setup it's signal handler.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -140,7 +140,7 @@ Feature: Run command
     If you have got a "long running" command, you should consider using the
     `exit_timeout`-option.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -171,7 +171,7 @@ Feature: Run command
     `#run_command_and_stop()` does not make sense. The command is stopped internally when
     its exit status is checked.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -208,7 +208,7 @@ Feature: Run command
 
   Scenario: Activate announcer channels on failure
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     echo "Hello, I'm STDOUT"

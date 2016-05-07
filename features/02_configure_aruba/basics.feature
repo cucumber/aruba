@@ -13,7 +13,7 @@ Feature: Usage of configuration
 
   Background:
     Given I use a fixture named "cli-app"
-    And an executable named "bin/cli" with:
+    And an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     trap "exit 128" SIGTERM SIGINT

@@ -24,7 +24,7 @@ Feature: Run command
     Given I use a fixture named "cli-app"
 
   Scenario: Existing executable
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 0
@@ -42,7 +42,7 @@ Feature: Run command
     Then the specs should all pass
 
   Scenario: Relative path to executable
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 0
@@ -52,7 +52,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('bin/cli') }
+      before(:each) { run_command('bin/aruba-test-cli') }
       it { expect(last_command_started).to be_successfully_executed }
     end
     """
@@ -60,7 +60,7 @@ Feature: Run command
     Then the specs should all pass
 
   Scenario: Non-existing executable
-    Given a file named "bin/cli" does not exist
+    Given a file named "bin/aruba-test-cli" does not exist
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
@@ -79,7 +79,7 @@ Feature: Run command
     Otherwise methods like `#send_signal` don't work since they require the
     command to be running and have setup it's signal handler.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
  
@@ -129,7 +129,7 @@ Feature: Run command
     If you have got a "long running" command, you should consider using the
     `exit_timeout`-option.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -159,7 +159,7 @@ Feature: Run command
     If you commands with a long and short startup phases, you should consider
     using the `startup_wait_time`-option local to the `#run_command`-call.
 
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/usr/bin/env bash
  
@@ -187,7 +187,7 @@ Feature: Run command
 
     while [ true ]; do sleep 0.2; done
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/usr/bin/env bash
 
@@ -238,7 +238,7 @@ Feature: Run command
     If you commands with a long and short startup phases, you should consider
     using the `startup_wait_time`-option local to the `#run_command`-call.
 
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/usr/bin/env bash
  
@@ -266,7 +266,7 @@ Feature: Run command
 
     while [ true ]; do sleep 0.2; done
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/usr/bin/env bash
 
@@ -317,7 +317,7 @@ Feature: Run command
     If need to mix "long running" and "short running" commands, you should consider using the
     `exit_timeout`-option local to the `#run_command`-method.
 
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/usr/bin/env bash
 
@@ -328,7 +328,7 @@ Feature: Run command
 
     do_some_work
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/usr/bin/env bash
 
@@ -358,7 +358,7 @@ Feature: Run command
     If need to mix "long running" and "short running" commands, you should consider using the
     `exit_timeout`-option local to the `#run_command`-method.
 
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/usr/bin/env bash
 
@@ -369,7 +369,7 @@ Feature: Run command
 
     do_some_work
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/usr/bin/env bash
 
@@ -395,7 +395,7 @@ Feature: Run command
     Then the specs should all pass
 
   Scenario: Starting command twice fails
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 0

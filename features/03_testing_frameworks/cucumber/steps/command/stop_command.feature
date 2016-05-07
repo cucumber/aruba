@@ -15,7 +15,7 @@ Feature: Stop commands
 
     Terminating a command will send `SIGTERM` to the command.
 
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
 
@@ -28,7 +28,7 @@ Feature: Stop commands
     while [ true ]; do sleep 1; done
     exit 1
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/bin/bash
 
@@ -65,7 +65,7 @@ Feature: Stop commands
     send `SIGTERM` to the command. Normally "n" is defined by the default exit
     timeout of aruba.
 
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
 
@@ -78,7 +78,7 @@ Feature: Stop commands
     while [ true ]; do sleep 1; done
     exit 1
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/bin/bash
 
@@ -116,7 +116,7 @@ Feature: Stop commands
     Pass the commandline to the step to find the command, which should be
     stopped.
 
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
 
@@ -128,7 +128,7 @@ Feature: Stop commands
     echo "Hello, Aruba!"
     while [ true ]; do sleep 1; done
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/bin/bash
 
@@ -167,7 +167,7 @@ Feature: Stop commands
     send `SIGTERM` to the command. Normally "n" is defined by the default exit
     timeout of aruba.
 
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
 
@@ -180,7 +180,7 @@ Feature: Stop commands
     while [ true ]; do sleep 1; done
     exit 1
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/bin/bash
 
@@ -217,7 +217,7 @@ Feature: Stop commands
 
     You can define a default signal which is used to stop all commands.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     function hup {
@@ -248,7 +248,7 @@ Feature: Stop commands
 
   @requires-ruby-platform-java
   Scenario: STDERR/STDOUT is empty on JRUBY if output was written in "signal"-handler
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
 
@@ -281,7 +281,7 @@ Feature: Stop commands
 
   @requires-ruby-platform-mri
   Scenario: STDERR/STDOUT is written normally with MRI-Ruby if output was written in "signal"-handler
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
 
