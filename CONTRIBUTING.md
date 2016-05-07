@@ -134,6 +134,7 @@ gem 'byebug'
 * Bump the version number in `lib/aruba/version.rb`
 * Make sure `History.md` is updated with the upcoming version number, and has entries for all fixes.
 * No need to add a `History.md` header at this point - this should be done when a new change is made, later.
+* If a major version is released, update the `still`-branch which points to "old" major version
 
 Now release it
 
@@ -148,6 +149,7 @@ script/test
 git commit -m "Version bump"
 script/release
 
+# If it's a major relase:
 # Merge changes back to have an correct documentation
 git checkout still
 git merge master
