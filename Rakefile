@@ -1,6 +1,7 @@
 $LOAD_PATH << File.expand_path('../', __FILE__)
 
 require 'aruba/tasks/docker_helpers'
+require 'aruba/platform'
 
 require 'bundler'
 Bundler.setup
@@ -11,22 +12,22 @@ desc 'Run the whole test suite. Any failure will stop rake going on'
 task :test => %w(lint:travis lint:coding_guidelines lint:licenses test:rspec test:cucumber test:cucumber_wip)
 
 task :cucumber do
-  $stderr.puts '[DEPRECATED] The use of task "cucumber" is deprecated. Please use "test:cucumber"'
+  Aruba.platform.deprecated 'The use of task "cucumber" is deprecated. Please use "test:cucumber"'
   Rake::Task['test:cucumber'].invoke
 end
 
 task :cucumber_wip do
-  $stderr.puts '[DEPRECATED] The use of task "cucumber_wip" is deprecated. Please use "test:cucumber_wip"'
+  Aruba.platform.deprecated 'The use of task "cucumber_wip" is deprecated. Please use "test:cucumber_wip"'
   Rake::Task['test:cucumber_wip'].invoke
 end
 
 task :spec do
-  $stderr.puts '[DEPRECATED] The use of task "spec" is deprecated. Please use "test:rspec"'
+  Aruba.platform.deprecated 'The use of task "spec" is deprecated. Please use "test:rspec"'
   Rake::Task['test:rspec'].invoke
 end
 
 task :rubocop do
-  $stderr.puts '[DEPRECATED] The use of task "rubocop" is deprecated. Please use "lint:coding_guidelines"'
+  Aruba.platform.deprecated 'The use of task "rubocop" is deprecated. Please use "lint:coding_guidelines"'
   Rake::Task['test:coding_guidelines'].invoke
 end
 
