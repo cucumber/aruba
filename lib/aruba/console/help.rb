@@ -18,13 +18,7 @@ module Aruba
 
       # List available methods in aruba
       def aruba_methods
-        ms = if RUBY_VERSION < '1.9'
-               # rubocop:disable Style/EachWithObject
-               (Aruba::Api.instance_methods - Module.instance_methods).inject([]) { |a, e| a << format("* %s", e); a }.sort
-               # rubocop:enable Style/EachWithObject
-             else
-               (Aruba::Api.instance_methods - Module.instance_methods).each_with_object([]) { |e, a| a << format("* %s", e) }.sort
-             end
+        ms = (Aruba::Api.instance_methods - Module.instance_methods).each_with_object([]) { |e, a| a << format("* %s", e) }.sort
 
         puts "Available Methods:\n" + ms.join("\n")
 

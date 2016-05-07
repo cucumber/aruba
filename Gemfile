@@ -13,7 +13,7 @@ group :debug do
     gem 'pry-byebug', '~> 3.1.0'
   end
 
-  if RUBY_VERSION < '2' && RUBY_VERSION > '1.9' && !RUBY_PLATFORM.include?('java')
+  if RUBY_VERSION < '2' && !RUBY_PLATFORM.include?('java')
     gem 'debugger', '~> 1.6.8'
     gem 'pry-debugger', '~> 0.2.3'
   end
@@ -48,32 +48,20 @@ group :development, :test do
   gem 'rspec', '~> 3.4'
   gem 'fuubar', '~> 2.0.0'
 
-  # using platform for this make bundler complain about the same gem given
+  # using platform for this makes bundler complain about the same gem given
   # twice
-  if RUBY_VERSION < '1.9.3'
-    gem 'cucumber', '~> 1.3.20'
-  else
-    gem 'cucumber', '~> 2.0'
-  end
+  gem 'cucumber', '~> 2.0'
 
-  if RUBY_VERSION >= '1.9.3'
-    # Make aruba compliant to ruby community guide
-    gem 'rubocop', '~> 0.32'
-  end
+  # Make aruba compliant to ruby community guide
+  gem 'rubocop', '~> 0.32'
 
-  if RUBY_VERSION >= '1.9.3'
-    # gem 'cucumber-pro', '~> 0.0'
-  end
+  # gem 'cucumber-pro', '~> 0.0'
 
-  if RUBY_VERSION >= '1.9.3'
-    # License compliance
-    gem 'license_finder', '~> 2.0.4'
-  end
+  # License compliance
+  gem 'license_finder', '~> 2.0.4'
 
-  if RUBY_VERSION >= '1.9.3'
-    # Upload documentation
-    gem 'relish', '~> 0.7.1'
-  end
+  # Upload documentation
+  gem 'relish', '~> 0.7.1'
 
   gem 'minitest', '~> 5.8.0'
 end

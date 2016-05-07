@@ -134,13 +134,7 @@ module Aruba
     def all_stdout
       registered_commands.each(&:stop)
 
-      if RUBY_VERSION < '1.9.3'
-        # rubocop:disable Style/EachWithObject
-        registered_commands.inject("") { |a, e| a << e.stdout; a }
-        # rubocop:enable Style/EachWithObject
-      else
-        registered_commands.each_with_object("") { |e, a| a << e.stdout }
-      end
+      registered_commands.each_with_object("") { |e, a| a << e.stdout }
     end
 
     # @deprecated
@@ -151,13 +145,7 @@ module Aruba
     def all_stderr
       registered_commands.each(&:stop)
 
-      if RUBY_VERSION < '1.9.3'
-        # rubocop:disable Style/EachWithObject
-        registered_commands.inject("") { |a, e| a << e.stderr; a }
-        # rubocop:enable Style/EachWithObject
-      else
-        registered_commands.each_with_object("") { |e, a| a << e.stderr }
-      end
+      registered_commands.each_with_object("") { |e, a| a << e.stderr }
     end
 
     # @deprecated

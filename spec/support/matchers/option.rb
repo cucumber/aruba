@@ -15,11 +15,7 @@ end
 RSpec::Matchers.define :have_option_value do |expected|
   match do |actual|
     @old_actual = actual
-    @actual     = if RUBY_VERSION < '1.9'
-                    subject.send(actual.to_sym)
-                  else
-                    subject.public_send(actual.to_sym)
-                  end
+    @actual     = subject.public_send(actual.to_sym)
     values_match? expected, @actual
   end
 
