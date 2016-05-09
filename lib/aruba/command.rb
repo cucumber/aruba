@@ -48,6 +48,8 @@ module Aruba
 
     # Stop command
     def stop(*)
+      fail Aruba::UserError, 'Please start a command first, before stopping it' if __getobj__.stopped?
+
       __getobj__.stop
       event_bus.notify Events::CommandStopped.new(self)
 
@@ -56,6 +58,8 @@ module Aruba
 
     # Terminate command
     def terminate(*)
+      return if __getobj__.stopped?
+
       __getobj__.terminate
       event_bus.notify Events::CommandStopped.new(self)
 
@@ -64,6 +68,8 @@ module Aruba
 
     # Start command
     def start
+      fail Aruba::UserError, 'Please stop a command first, before starting it' if __getobj__.started?
+
       __getobj__.start
       event_bus.notify Events::CommandStarted.new(self)
 
