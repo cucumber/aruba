@@ -781,7 +781,7 @@ describe Aruba::Api do
 
       let(:file_name) { @file_name }
       let(:file_path) { @file_path }
-      let(:permissions) { '0655' }
+      let(:permissions) { '0644' }
 
       before :each do
         @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
@@ -797,12 +797,12 @@ describe Aruba::Api do
 
       context 'when file exists' do
         context 'and permissions are given as string' do
-          it { expect(actual_permissions).to eq('0655') }
+          it { expect(actual_permissions).to eq('0644') }
         end
 
         context 'and permissions are given as octal number' do
-          let(:permissions) { 0655 }
-          it { expect(actual_permissions).to eq('0655') }
+          let(:permissions) { 0644 }
+          it { expect(actual_permissions).to eq('0644') }
         end
 
         context 'and path has ~ in it' do
@@ -810,7 +810,7 @@ describe Aruba::Api do
           let(:file_name) { File.join('~', path) }
           let(:file_path) { File.join(@aruba.aruba.current_directory, path) }
 
-          it { expect(actual_permissions).to eq('0655') }
+          it { expect(actual_permissions).to eq('0644') }
         end
       end
     end
@@ -819,7 +819,7 @@ describe Aruba::Api do
       let(:file_name) { @file_name }
       let(:file_path) { @file_path }
 
-      let(:permissions) { '0655' }
+      let(:permissions) { '0644' }
 
       before :each do
         @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
@@ -868,7 +868,7 @@ describe Aruba::Api do
           end
 
           context 'and fails because the permissions are the same although they should be different' do
-            let(:different_permissions) { 0655 }
+            let(:different_permissions) { 0644 }
 
             it { expect { @aruba.check_filesystem_permissions(different_permissions, file_name, false) }.to raise_error }
           end
