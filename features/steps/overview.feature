@@ -8,7 +8,7 @@ Feature: Overview of steps
     Given I use a fixture named "cli-app"
 
   Scenario: Use information found in repository
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     git clone https://github.com/cucumber/aruba.git

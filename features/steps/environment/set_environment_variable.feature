@@ -9,7 +9,7 @@ Feature: Set environment variable via "cucumber"-step
 
   Background:
     Given I use the fixture "cli-app"
-    And an executable named "bin/cli" with:
+    And an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
 

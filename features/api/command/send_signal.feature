@@ -8,7 +8,7 @@ Feature: Send running command a signal
     Given I use a fixture named "cli-app"
 
   Scenario: Existing executable
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """ruby
     #!/usr/bin/env bash
 
@@ -35,7 +35,7 @@ Feature: Send running command a signal
     Then the specs should all pass
 
   Scenario: Dying command
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """ruby
     #!/usr/bin/env bash
     exit 1

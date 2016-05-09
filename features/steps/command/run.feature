@@ -6,7 +6,7 @@ Feature: Run commands
     Given I use a fixture named "cli-app"
 
   Scenario: Run command found in path
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     exit 0
@@ -21,7 +21,7 @@ Feature: Run commands
     Then the features should all pass
 
   Scenario: Activate desired announcers when running command fails
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo "Hello, I'm STDOUT"

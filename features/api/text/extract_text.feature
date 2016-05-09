@@ -7,7 +7,7 @@ Feature: Extract text from output
     Given I use a fixture named "cli-app"
 
   Scenario: Output contains ansi escape codes prefixed by \e
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n "\e[31mText"
@@ -27,7 +27,7 @@ Feature: Extract text from output
     Then the specs should all pass
 
   Scenario: Output contains ansi escape codes prefixed by \033
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n "\033[31mText"
@@ -47,7 +47,7 @@ Feature: Extract text from output
     Then the specs should all pass
 
     # Scenario: Output contains ansi escape code \016
-    #   Given an executable named "bin/cli" with:
+    #   Given an executable named "bin/aruba-test-cli" with:
     #   """
     #   #!/bin/bash
     #   echo -n "\016Text"
@@ -67,7 +67,7 @@ Feature: Extract text from output
     #   Then the specs should all pass
 
     # Scenario: Output contains ansi escape code \017
-    #   Given an executable named "bin/cli" with:
+    #   Given an executable named "bin/aruba-test-cli" with:
     #   """
     #   #!/bin/bash
     #   echo -n "\017Text"

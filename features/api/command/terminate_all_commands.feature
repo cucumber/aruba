@@ -6,7 +6,7 @@ Feature: Terminate all commands
     Given I use a fixture named "cli-app"
 
   Scenario: Multiple commands are running
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     sleep 3
@@ -28,7 +28,7 @@ Feature: Terminate all commands
     Then the specs should all pass
 
   Scenario: Terminate all commands for which the block returns true
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     sleep 1

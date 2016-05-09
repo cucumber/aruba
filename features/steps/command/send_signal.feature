@@ -3,7 +3,7 @@ Feature: Send a signal to command
   You can send a command a signal with the following steps:
 
   - `When I send the signal "HUP" to the command started last`
-  - `When I send the signal "HUP" to the command "bin/cli"`
+  - `When I send the signal "HUP" to the command "bin/aruba-test-cli"`
 
   Or just use `kill` on compatible platforms.
 
@@ -11,7 +11,7 @@ Feature: Send a signal to command
     Given I use a fixture named "cli-app"
 
   Scenario: Sending signal to the command started last
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
     function hup {
@@ -40,7 +40,7 @@ Feature: Send a signal to command
     Then the features should all pass
 
   Scenario: Sending signal to a command given by command line
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
     function hup {
@@ -76,7 +76,7 @@ Feature: Send a signal to command
     PID of the last command started. Please note, this feature is experimental.
     The name of the variable may change without further notice.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
     function hup {

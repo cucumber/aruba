@@ -13,7 +13,7 @@ Feature: Stop command
     Given I use a fixture named "cli-app"
 
   Scenario: Stop command started last
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     function term {
@@ -37,7 +37,7 @@ Feature: Stop command
     Then the specs should all pass
 
   Scenario: Find and stop command
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     function term {
@@ -61,7 +61,7 @@ Feature: Stop command
     Then the specs should all pass
 
   Scenario: Stop successful command with configured signal
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     function hup {
@@ -96,7 +96,7 @@ Feature: Stop command
     Then the specs should all pass
 
   Scenario: Stop unsuccessful command with configured signal
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     function hup {

@@ -25,7 +25,7 @@ Feature: Run commands with Aruba
 
   @requires-bash
   Scenario: Bash Program
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -55,7 +55,7 @@ Feature: Run commands with Aruba
 
   @requires-ruby
   Scenario: Ruby Program
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -85,7 +85,7 @@ Feature: Run commands with Aruba
 
   @requires-python
   Scenario: Python Program
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """python
     #!/usr/bin/env python
 
@@ -115,7 +115,7 @@ Feature: Run commands with Aruba
 
   @requires-perl
   Scenario: Perl Program
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """perl
     #!/usr/bin/env perl
 

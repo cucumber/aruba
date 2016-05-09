@@ -103,7 +103,7 @@ Feature: Run commands in ruby process
     Then the features should all pass
 
   Scenario: Mixing custom code and normal cli
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo $*

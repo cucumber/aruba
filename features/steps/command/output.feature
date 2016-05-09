@@ -8,7 +8,7 @@ Feature: All output of commands which were executed
     Given I use a fixture named "cli-app"
 
   Scenario: Detect subset of one-line output
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -25,7 +25,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect absence of one-line output
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -42,7 +42,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect subset of multiline output
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -62,7 +62,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect absence of subset of multiline output
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -97,7 +97,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect exact one-line output for ruby commands
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """ruby
     #!/usr/bin/env ruby
 
@@ -117,7 +117,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect exact one-line output with ANSI output
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -139,7 +139,7 @@ Feature: All output of commands which were executed
 
   Scenario: Detect exact one-line output with ANSI output stripped by default
     Given the default aruba exit timeout is 12 seconds
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -159,7 +159,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect exact multiline output
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -180,7 +180,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect subset of one-line output
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -197,7 +197,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect subset of one-line output with regex
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -214,7 +214,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect subset of multiline output with regex
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -237,7 +237,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Negative matching of one-line output with regex
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -254,7 +254,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Negative matching of multiline output with regex
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -278,7 +278,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Match passing exit status and partial output
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -299,7 +299,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Match passing exit status and exact output
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -321,7 +321,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Match failing exit status and partial output
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -343,7 +343,7 @@ Feature: All output of commands which were executed
 
 
   Scenario: Match failing exit status and exact output
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -365,7 +365,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Match failing exit status and output with regex
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -387,13 +387,13 @@ Feature: All output of commands which were executed
 
   @requires-aruba-version-1
   Scenario: Detect output from all processes
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/usr/bin/env bash
 
     echo 'This is cli1'
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/usr/bin/env bash
 
@@ -418,13 +418,13 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect output from all processes (deprecated)
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/usr/bin/env bash
 
     echo 'This is cli1'
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/usr/bin/env bash
 
@@ -446,7 +446,7 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Handle little output
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -473,7 +473,7 @@ Feature: All output of commands which were executed
     I want to make sure that large amounts of output aren't buffered
 
     Given the default aruba exit timeout is 10 seconds
-    And an executable named "bin/cli" with:
+    And an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -495,7 +495,7 @@ Feature: All output of commands which were executed
 
   Scenario: Handle tons of interactive output
     Given the default aruba exit timeout is 10 seconds
-    And an executable named "bin/cli" with:
+    And an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -518,12 +518,12 @@ Feature: All output of commands which were executed
 
   @requires-aruba-version-1
   Scenario: Detect output from all processes normal and interactive ones
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """
     #!/usr/bin/env bash
     echo 'This is cli1'
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """
     #!/usr/bin/env ruby
 

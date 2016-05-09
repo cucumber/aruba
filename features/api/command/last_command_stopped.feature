@@ -70,7 +70,7 @@ Feature: Return last command stopped
 
   @requires-aruba-version-1
   Scenario: No command has been stopped
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     while [ true ]; do sleep 1; done

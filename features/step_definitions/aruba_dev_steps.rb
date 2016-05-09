@@ -26,7 +26,7 @@ Then /^the following step should fail with Spec::Expectations::ExpectationNotMet
 end
 
 Given(/^the default executable$/) do
-  step 'an executable named "bin/cli" with:', <<-EOS
+  step 'an executable named "bin/aruba-test-cli" with:', <<-EOS
 #!/usr/bin/env ruby
 
 $LOAD_PATH << File.expand_path('../../lib', __FILE__)
