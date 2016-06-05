@@ -253,6 +253,9 @@ documentation found there may be not complete.
 
 **Table of Contents**
 
+There are some things which are still undocumented. We would like to encourage
+you to add documentation for those and send us a PR.
+
 * [Getting Started](features/getting_started)
   * [Cleanup Working Directory](features/getting_started/cleanup.feature)
   * [Install library](features/getting_started/install.feature)
