@@ -253,15 +253,15 @@ documentation found there may be not complete.
 **Table of Contents**
 
 * [Getting Started](features/getting_started)
-  * [cleanup](features/getting_started/cleanup.feature)
-  * [install](features/getting_started/install.feature)
-  * [supported testing frameworks](features/getting_started/supported_testing_frameworks.feature)
-  * [writing good tests.feature](features/getting_started/writing_good_feature_tests.feature)
-  * [run commands](features/getting_started/run_commands.feature)
+  * [Cleanup Working Directory](features/getting_started/cleanup.feature)
+  * [Install library](features/getting_started/install.feature)
+  * [Supported Testing Frameworks](features/getting_started/supported_testing_frameworks.feature)
+  * [Writing Good Tests.feature](features/getting_started/writing_good_feature_tests.feature)
+  * [Run Commands](features/getting_started/run_commands.feature)
 
 * [Use aruba command](features/cli)
-  * [console](features/cli/console.feature)
-  * [init](features/cli/init.feature)
+  * [Start aruba console to try API](features/cli/console.feature)
+  * [Initialize project with "aruba"](features/cli/init.feature)
 
 * [Use with test frameworks](features/testing_frameworks)
   * [RSpec](features/testing_frameworks/rspec)
