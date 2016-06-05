@@ -231,19 +231,20 @@ prefer to setup `aruba` yourself, please move on to the next section.
 ### User Documentation
 
 If you're interested in our steps and API, please browse our [feature
-files](https://github.com/cucumber/aruba/tree/master/features). You can find a
+files](features/). You can find a
 lot of examples there. A good starting point are [Getting
-Started](https://github.com/cucumber/aruba/tree/master/features/getting_started)
+Started](features/getting_started/)
 and [Step
-Overview](https://github.com/cucumber/aruba/blob/master/features/steps/overview.feature).
+Overview](features/testing_frameworks/cucumber/steps/overview.feature).
 A more or less full list of our steps can be found
-[here](https://github.com/cucumber/aruba/tree/master/features/steps). Our API
+[here](features/testing_frameworks/cucumber/steps/). Our API
 is documentated
-[here](https://github.com/cucumber/aruba/tree/master/features/api) and some
+[here](features/api/) and some
 more information about how to configure `aruba`, can be found
-[here](https://github.com/cucumber/aruba/tree/master/features/configuration).
+[here](features/configuration/).
 The "RSpec" matchers provided by `aruba`, are documented
-[here](https://github.com/cucumber/aruba/tree/master/features/matchers).
+[here](features/matchers/) you can use them with any testing framework we
+support.
 
 You can find our documentation on
 [Relish](http://www.relishapp.com/cucumber/aruba/docs) as well. Unfortunately
@@ -266,9 +267,13 @@ documentation found there may be not complete.
 * [Use with test frameworks](features/testing_frameworks)
   * [RSpec](features/testing_frameworks/rspec)
     * [Setup](features/testing_frameworks/rspec/setup.feature)
+    * [Hooks](features/testing_frameworks/rspec/hooks)
+      * [After Command](features/testing_frameworks/rspec/hooks/after/command.feature)
+      * [Before Command](features/testing_frameworks/rspec/hooks/before/command.feature)
+
   * [Cucumber](features/testing_frameworks/cucumber)
     * [Setup](features/testing_frameworks/cucumber/setup.feature)
-    * [Get overview over steps](features/steps/overview.feature)
+    * [Get overview over steps](features/testing_frameworks/cucumber/steps/overview.feature)
     * [Announce Information](features/testing_frameworks/cucumber/announce.feature)
     * [Step definitions](features/testing_frameworks/cucumber/steps/command)
       * [Command](features/testing_frameworks/cucumber/steps/command)
@@ -308,6 +313,9 @@ documentation found there may be not complete.
         * [remove directory](features/testing_frameworks/cucumber/steps/filesystem/remove_directory.feature)
         * [remove file](features/testing_frameworks/cucumber/steps/filesystem/remove_file.feature)
         * [use fixture](features/testing_frameworks/cucumber/steps/filesystem/use_fixture.feature)
+    * [Hooks](features/testing_frameworks/cucumber/hooks)
+      * [After Command](features/testing_frameworks/cucumber/hooks/after/command.feature)
+      * [Before Command](features/testing_frameworks/cucumber/hooks/before/command.feature)
 
 * [Configuration](features/configuration)
   * [activate announcer on command failure](features/configuration/activate_announcer_on_command_failure.feature)
@@ -339,10 +347,6 @@ documentation found there may be not complete.
   * [run aruba console](features/development/run-aruba-console.feature)
   * [run docker container](features/development/run-docker-container.feature)
   * [run test suite](features/development/run-test-suite.feature)
-
-* [Hooks](features/hooks)
-  * [After Command](features/hooks/after/command.feature)
-  * [Before Command](features/hooks/before/command.feature)
 
 * [Matchers](features/matchers)
   * [collection](features/matchers/collection)
