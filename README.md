@@ -164,7 +164,7 @@ prefer to setup `aruba` yourself, please move on to the next section.
    ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
    ~~~
 
-3. Create a file named named "spec/use_aruba_with_rspec_spec.rb" with:
+3. Create a file named "spec/use_aruba_with_rspec_spec.rb" with:
 
    ~~~ruby
    require 'spec_helper'
