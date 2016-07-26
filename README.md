@@ -248,7 +248,7 @@ support.
 
 You can find our documentation on
 [Relish](http://www.relishapp.com/cucumber/aruba/docs) as well. Unfortunately
-"Relish" does not like the way we structered our feature tests. So this
+"Relish" does not like the way we structured our feature tests. So this
 documentation found there may be not complete.
 
 **Table of Contents**
