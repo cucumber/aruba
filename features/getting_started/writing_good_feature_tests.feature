@@ -22,7 +22,7 @@ Feature: Writing good feature tests with aruba to create documentations
 
   This way Gherkin won't recognize these lines as special tokens, and the
   reporter will render them as Markdown. (The reporter strips away any leading
-  the backslashes before handing it off to the Markdown parser).
+  backslashes before handing it off to the Markdown parser).
 
   Another option is to use alternative Markdown syntax and omit conflicts and
   escaping altogether:
