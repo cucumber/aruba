@@ -24,7 +24,7 @@ Feature: Run test suite
 
   Scenario: Run acceptance tests with `cucumber` for features which are under active development
 
-    This task is for running tests for features which are Work in Progress and therefor might fail the suite.
+    This task is for running tests for features which are Work in Progress and therefore might fail the suite.
 
     When I successfully run `rake -T test:cucumber_wip`
     Then the output should contain:
