@@ -61,9 +61,11 @@ group :development, :test do
   gem 'license_finder', '~> 2.0.4'
 
   # Upload documentation
-  gem 'relish', '~> 0.7.1'
+  # gem 'relish', '~> 0.7.1'
 
   gem 'minitest', '~> 5.8.0'
+
+  gem 'json', '~>1.8'
 end
 
 platforms :rbx do
