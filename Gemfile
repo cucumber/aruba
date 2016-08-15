@@ -67,12 +67,14 @@ group :development, :test do
     gem 'license_finder', '~> 2.0.4'
   end
 
-  if RUBY_VERSION >= '1.9.3'
-    # Upload documentation
-    gem 'relish', '~> 0.7.1'
-  end
+  # if RUBY_VERSION >= '1.9.3'
+  #   # Upload documentation
+  #   gem 'relish', '~> 0.7.1'
+  # end
 
   gem 'minitest', '~> 5.8.0'
+
+  gem 'json', '~> 1.8'
 end
 
 platforms :rbx do
