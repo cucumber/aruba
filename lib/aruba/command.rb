@@ -56,6 +56,8 @@ module Aruba
 
     # Terminate command
     def terminate(*)
+      return if __getobj__.stopped?
+
       __getobj__.terminate
       event_bus.notify Events::CommandStopped.new(self)
 
