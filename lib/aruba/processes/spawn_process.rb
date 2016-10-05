@@ -64,6 +64,9 @@ module Aruba
         @stdout_file.sync = true
         @stderr_file.sync = true
 
+        @stdout_file.binmode
+        @stderr_file.binmode
+
         @exit_status = nil
         @duplex      = true
 
