@@ -81,7 +81,7 @@ RSpec.describe 'Command Matchers' do
         File.open(expand_path('cmd.sh'), 'w') { |f| f.puts string }
 
         File.chmod 0755, expand_path('cmd.sh')
-        prepend_environment_variable 'PATH', "#{expand_path('.')}:"
+        prepend_environment_variable 'PATH', "#{expand_path('.')}#{File::PATH_SEPARATOR}"
       end
 
       let(:cmd) { "cmd.sh #{output}" }
@@ -118,7 +118,7 @@ RSpec.describe 'Command Matchers' do
         File.open(expand_path('cmd.sh'), 'w') { |f| f.puts string }
 
         File.chmod 0755, expand_path('cmd.sh')
-        prepend_environment_variable 'PATH', "#{expand_path('.')}:"
+        prepend_environment_variable 'PATH', "#{expand_path('.')}#{File::PATH_SEPARATOR}"
       end
 
       let(:cmd) { "cmd.sh #{output}" }
@@ -155,7 +155,7 @@ RSpec.describe 'Command Matchers' do
         File.open(expand_path('cmd.sh'), 'w') { |f| f.puts string }
 
         File.chmod 0755, expand_path('cmd.sh')
-        prepend_environment_variable 'PATH', "#{expand_path('.')}:"
+        prepend_environment_variable 'PATH', "#{expand_path('.')}#{File::PATH_SEPARATOR}"
       end
 
       let(:cmd) { "cmd.sh #{output}" }

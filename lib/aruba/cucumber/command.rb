@@ -30,7 +30,7 @@ When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
 end
 
 When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do |shell, commands|
-  prepend_environment_variable('PATH', expand_path('bin') + ':')
+  prepend_environment_variable('PATH', expand_path('bin') + File::PATH_SEPARATOR)
 
   Aruba.platform.mkdir(expand_path('bin'))
   shell ||= Aruba.platform.default_shell
@@ -418,5 +418,5 @@ When(/^I send the signal "([^"]*)" to the command (?:"([^"]*)"|(?:started last))
 end
 
 Given(/^I look for executables in "(.*)" within the current directory$/) do |directory|
-  prepend_environment_variable 'PATH', expand_path(directory) + ':'
+  prepend_environment_variable 'PATH', expand_path(directory) + File::PATH_SEPARATOR
 end
