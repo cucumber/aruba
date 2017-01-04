@@ -156,7 +156,7 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain exactly:$/) do 
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?match %r<([^\/]*)>$/) do |file, negated, content|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?match %r<([^>]*)>$/) do |file, negated, content|
   if negated
     expect(file).not_to have_file_content file_content_matching(content)
   else
