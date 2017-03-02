@@ -8,6 +8,8 @@ rvm:
   - 2.1.8
   - 2.2.4
   - 2.3.0
+  - 2.4.0
+  - ruby-head
   - jruby
   - jruby-20mode
   - jruby-21mode
@@ -20,12 +22,14 @@ matrix:
     - rvm: jruby-9.0.1.0-21mode
       env: JRUBY_OPTS='--dev'
   allow_failures:
+  - rvm: ruby-head
   - rvm: jruby-9.0.1.0
     env: JRUBY_OPTS='--dev'
   - rvm: jruby-9.0.1.0-20mode
     env: JRUBY_OPTS='--dev'
   - rvm: jruby-9.0.1.0-21mode
     env: JRUBY_OPTS='--dev'
+  fast_finish: true
 notifications:
   email:
     - cukes-devs@googlegroups.com
