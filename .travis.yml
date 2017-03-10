@@ -31,8 +31,6 @@ matrix:
     env: JRUBY_OPTS='--dev'
   fast_finish: true
 notifications:
-  email:
-    - cukes-devs@googlegroups.com
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/d4d9080e2a8c4910f609
