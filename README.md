@@ -26,52 +26,12 @@ Our Vision:
 Our Focus:
 * Test the user-interaction with the commands at runtime &ndash; this excludes the process of installation/deployment of commands like installing Rubygems with `gem install <your-gem>`.
 
+## Build Status
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3">
-        Build status
-      </th>
-    </tr>
-    <tr>
-      <th>
-        Version
-      </th>
-      <th>
-        Linux / OS X
-      </th>
-      <th>
-        Windows
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        master
-      </td>
-      <td>
-        [![Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=master)](https://travis-ci.org/cucumber/aruba)
-      </td>
-      <td>
-        [![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl?svg=true)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/master)
-      </td>
-    </tr>
-    <tr>
-      <td>
-        still
-      </td>
-      <td>
-        [![Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=still)](https://travis-ci.org/cucumber/aruba)
-      </td>
-      <td>
-        [![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl?svg=true)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/still)
-      </td>
-    </tr>
-  </tbody>
-<table>
-
+|Version|Linux / OS X|Windows|
+| ------ | ------ | ------ |
+| master | [![Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=master)](https://travis-ci.org/cucumber/aruba) | [![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl?svg=true)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/master)|
+| still | [![Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=still)](https://travis-ci.org/cucumber/aruba) | [![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl?svg=true)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/still)
 
 ## Install
 
@@ -214,7 +174,7 @@ prefer to setup `aruba` yourself, please move on to the next section.
 
      def getting_started_with_aruba
        file = 'file.txt'
-       content = 'Hello World' 
+       content = 'Hello World'
 
        write_file file, content
        read(file).must_equal [content]
