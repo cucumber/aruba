@@ -116,7 +116,7 @@ module Aruba
       #   The command to by run
       #
       # @see #cmd
-      # @deprectated
+      # @deprecated
       def run_interactive(cmd)
         Aruba.platform.deprecated('The use of "#run_interactive" is deprecated. You can simply use "run" instead')
 
