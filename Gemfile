@@ -65,7 +65,7 @@ group :development, :test do
 
   gem 'minitest', '~> 5.8.0'
 
-  gem 'json', '~>1.8'
+  gem 'json', '>= 1.8', '< 3'
 end
 
 platforms :rbx do
