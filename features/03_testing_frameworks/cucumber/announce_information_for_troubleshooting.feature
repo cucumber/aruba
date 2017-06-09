@@ -59,7 +59,7 @@ Feature: Announce output during test run
     Feature: Announce
       @announce-stdout
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -84,7 +84,7 @@ Feature: Announce output during test run
     Feature: Announce
       @announce-stderr
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -110,7 +110,7 @@ Feature: Announce output during test run
     Feature: Announce
       @announce-output
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -142,14 +142,14 @@ Feature: Announce output during test run
     Feature: Announce
       @announce-cmd
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
     Then the features should all pass
     And the output should contain:
     """
-    $ cli
+    $ aruba-test-cli
     """
 
   Scenario: Announce change of environment variable
@@ -167,7 +167,7 @@ Feature: Announce output during test run
         When I set the environment variables to:
           | variable | value    |
           | MY_VAR   | my_value |
-        And I run `cli`
+        And I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -192,7 +192,7 @@ Feature: Announce output during test run
         When I set the environment variables to:
           | variable | value      |
           | MY_VAR   | my value ! |
-        And I run `cli`
+        And I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -217,7 +217,7 @@ Feature: Announce output during test run
     Feature: Announce
       @announce-command-filesystem-status
       Scenario: Run command
-        And I run `cli`
+        And I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -270,7 +270,7 @@ Feature: Announce output during test run
     Feature: Announce
       @announce-command-content
       Scenario: Run command
-        And I run `cli`
+        And I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`

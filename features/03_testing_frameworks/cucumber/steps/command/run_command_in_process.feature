@@ -140,7 +140,7 @@ Feature: Run commands in ruby process
         \"\"\"
 
       Scenario: Run command
-        When I run `cli Hello World`
+        When I run `aruba-test-cli Hello World`
         Then the output should contain:
         \"\"\"
         Hello World
