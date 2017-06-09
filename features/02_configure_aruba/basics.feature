@@ -21,10 +21,8 @@ Feature: Usage of configuration
     """
 
   Scenario: Setting default values for option for RSpec
-    Given a file named "spec/support/aruba.rb" with:
+    Given a file named "spec/support/aruba_config.rb" with:
     """ruby
-    require 'aruba/rspec'
-
     Aruba.configure do |config|
       config.exit_timeout = 1
     end
@@ -54,10 +52,8 @@ Feature: Usage of configuration
     want to set the default timeout for all commands to the maximum value only
     to prevent those commands from failing.
 
-    Given a file named "spec/support/aruba.rb" with:
+    Given a file named "spec/support/aruba_config.rb" with:
     """ruby
-    require 'aruba/rspec'
-
     Aruba.configure do |config|
       config.exit_timeout = 1
     end
@@ -97,10 +93,8 @@ Feature: Usage of configuration
     Then the specs should all pass
 
   Scenario: Setting default values for option for Cucumber
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
-    require 'aruba/cucumber'
-
     Aruba.configure do |config|
       config.exit_timeout = 1
     end
@@ -125,10 +119,8 @@ Feature: Usage of configuration
     want to set the default timeout for all commands to the maximum value only
     to prevent those commands from failing.
 
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
-    require 'aruba/cucumber'
-
     Aruba.configure do |config|
       config.exit_timeout = 1
     end
