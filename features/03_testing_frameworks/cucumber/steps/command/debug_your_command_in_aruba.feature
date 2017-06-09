@@ -21,7 +21,7 @@ Feature: Debug your command in cucumber-test-run
 
       @debug
       Scenario: Run program with debug code
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I successfully run `cucumber`
@@ -40,7 +40,7 @@ Feature: Debug your command in cucumber-test-run
 
       @debug
       Scenario: Run program with debug code
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 1
     """
     When I successfully run `cucumber`
@@ -78,7 +78,7 @@ Feature: Debug your command in cucumber-test-run
 
       @debug
       Scenario: Run program with debug code
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber` interactively

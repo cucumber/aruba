@@ -109,11 +109,11 @@ Feature: Usage of configuration
     """
     Feature: Run it
       Scenario: Fast command
-        When I run `cli 0`
+        When I run `aruba-test-cli 0`
         Then the exit status should be 0
 
       Scenario: Slow command
-        When I run `cli 2`
+        When I run `aruba-test-cli 2`
         Then the exit status should be 128
     """
     When I run `cucumber`
@@ -143,16 +143,16 @@ Feature: Usage of configuration
     """
     Feature: Run it
       Scenario: Fast command
-        When I run `cli 0`
+        When I run `aruba-test-cli 0`
         Then the exit status should be 0
 
       @slow-command
       Scenario: Slow command known by the developer
-        When I run `cli 2`
+        When I run `aruba-test-cli 2`
         Then the exit status should be 0
 
       Scenario: Slow command which might be a failure
-        When I run `cli 3`
+        When I run `aruba-test-cli 3`
         Then the exit status should be 128
     """
     When I run `cucumber`

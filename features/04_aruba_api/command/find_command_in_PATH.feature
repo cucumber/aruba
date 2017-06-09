@@ -17,7 +17,7 @@ Feature: Get path to command
     require 'spec_helper'
 
     RSpec.describe 'Find path for command', :type => :aruba do
-      it { expect(which('cli')).to match %r{tmp/aruba/cli-app/bin/aruba-test-cli} }
+      it { expect(which('aruba-test-cli')).to match %r{tmp/aruba/cli-app/bin/aruba-test-cli} }
     end
     """
     When I run `rspec`
@@ -30,7 +30,7 @@ Feature: Get path to command
     require 'spec_helper'
 
     RSpec.describe 'Find path for command', :type => :aruba do
-      it { expect(which('cli')).to be_nil }
+      it { expect(which('aruba-test-cli')).to be_nil }
     end
     """
     When I run `rspec`

@@ -16,7 +16,7 @@ Feature: Run commands with Aruba
     """
     Feature: Getting Started With Aruba
       Scenario: First Run of Command
-        Given I successfully run `cli`
+        Given I successfully run `aruba-test-cli`
         Then the output should contain:
         \"\"\"
         Hello, Aruba!

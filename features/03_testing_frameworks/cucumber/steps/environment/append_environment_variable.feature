@@ -27,7 +27,7 @@ Feature: Append environment variable via "cucumber"-step
         Given I append the values to the environment variables:
           | variable           | value      |
           | LONG_LONG_VARIABLE | long_value |
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain:
         \"\"\"
         1long_value
@@ -42,7 +42,7 @@ Feature: Append environment variable via "cucumber"-step
     Feature: Environment Variable
       Scenario: Run command
         Given I append "long_value" to the environment variable "LONG_LONG_VARIABLE"
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain:
         \"\"\"
         1long_value

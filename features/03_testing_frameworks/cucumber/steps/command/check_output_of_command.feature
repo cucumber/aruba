@@ -18,7 +18,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain "hello world"
     """
     When I run `cucumber`
@@ -35,7 +35,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should not contain "good-bye"
     """
     When I run `cucumber`
@@ -52,7 +52,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain:
         \"\"\"
         hello
@@ -72,7 +72,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should not contain:
         \"\"\"
         good-bye
@@ -107,7 +107,7 @@ Feature: All output of commands which were executed
     Feature: Run command
       @keep-ansi-escape-sequences
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain exactly:
         \"\"\"
         \e[36mhello world\e[0m
@@ -128,7 +128,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain exactly:
         \"\"\"
         hello world
@@ -148,7 +148,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain exactly:
         \"\"\"
         hello
@@ -169,7 +169,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain "hello world"
     """
     When I run `cucumber`
@@ -186,7 +186,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should match /^hello(, world)?/
     """
     When I run `cucumber`
@@ -203,7 +203,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should match:
         \"\"\"
         he..o
@@ -226,7 +226,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should not match /ruby is a better perl$/
     """
     When I run `cucumber`
@@ -243,7 +243,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should not match:
         \"\"\"
         ruby
@@ -268,7 +268,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then it should pass with:
         \"\"\"
         hello
@@ -289,7 +289,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then it should pass with exactly:
         \"\"\"
         hello
@@ -311,7 +311,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then it should fail with:
         \"\"\"
         hello
@@ -333,7 +333,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then it should fail with:
         \"\"\"
         hello
@@ -355,7 +355,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then it should fail with regex:
         \"\"\"
         hello\s*world
@@ -382,8 +382,8 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli1`
-        When I run `cli2`
+        When I run `aruba-test-cli1`
+        When I run `aruba-test-cli2`
         Then the stdout should contain exactly:
         \"\"\"
         This is cli1
@@ -413,8 +413,8 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli1`
-        When I run `cli2`
+        When I run `aruba-test-cli1`
+        When I run `aruba-test-cli2`
         Then the stdout should contain exactly:
         \"\"\"
         This is cli1
@@ -437,7 +437,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Flushing output
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain "a"
         And the output should be 256 bytes long
         And the exit status should be 0
@@ -464,7 +464,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Flushing output
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain "a"
         And the output should be 65536 bytes long
         And the exit status should be 0
@@ -486,7 +486,7 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Flushing output
       Scenario: Run command
-        When I run `cli` interactively
+        When I run `aruba-test-cli` interactively
         And I type "65536"
         Then the output should contain "a"
         And the output should be 65536 bytes long
@@ -515,8 +515,8 @@ Feature: All output of commands which were executed
     """
     Feature: Run command
       Scenario: Run command
-        When I run `cli1`
-        When I run `cli2` interactively
+        When I run `aruba-test-cli1`
+        When I run `aruba-test-cli2` interactively
         And I type "This is cli2"
         And I type ""
         Then the stdout should contain exactly:

@@ -24,7 +24,7 @@ Feature: Mock the HOME variable
     Feature: Home Variable
       Scenario: Run command
         Given a mocked home directory
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should match %r<HOME:.*tmp/aruba$>
     """
     When I run `cucumber`
@@ -36,7 +36,7 @@ Feature: Mock the HOME variable
     Feature: Home Variable
       @mocked-home-directory
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should match %r<HOME:.*tmp/aruba$>
     """
     When I run `cucumber`
@@ -55,7 +55,7 @@ Feature: Mock the HOME variable
     """
     Feature: Home Variable
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should match %r<HOME:.*tmp/aruba$>
     """
     When I run `cucumber`
