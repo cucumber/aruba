@@ -1,5 +1,6 @@
 ## [v1.0.0.alpha](https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha)
 
+* Fix running commands on Windows (#387)
 * Set permissions to values which are supported on Windows (PR [#398](https://github.com/cucumber/aruba/issues/398), issue [#388](https://github.com/cucumber/aruba/issues/388)
 * Remove Aruba::Reporting (PR #389)
 * Rename bin/cli to bin/aruba-test-cli to prevent name conflict (PR #390)
