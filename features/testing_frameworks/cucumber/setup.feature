@@ -52,7 +52,7 @@ Feature: Getting started with Cucumber and aruba
 
     Before do
       # Make sure you command can be found by "aruba"
-      prepend_environment_variable 'PATH', aruba.config.command_search_paths.join(':') + ':'
+      prepend_environment_variable 'PATH', aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
 
       # Mock HOME-directory
       set_environment_variable 'HOME', aruba.config.home_directory
