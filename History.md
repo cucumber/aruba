@@ -54,6 +54,10 @@
 
 # RELEASED
 
+## [v0.14.3](https://github.com/cucumber/aruba/compare/v0.14.1...v0.14.3)
+
+* Fix path bug (#422)
+
 ## [v0.14.1](https://github.com/cucumber/aruba/compare/v0.14.0...v0.14.1)
 
 * Fixed bug in framework step
