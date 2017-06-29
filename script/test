@@ -6,5 +6,4 @@ if [ "$RUN_IN_DOCKER" == '1' ]; then
   bundle exec rake "docker:run[$*]"
 else
   bundle exec rake test $*
-  echo bundle exec rake test $*
 fi
