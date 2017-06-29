@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'aruba/processes/spawn_process'
 
 RSpec.describe Aruba::Processes::SpawnProcess do

@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'aruba/event_bus'
 
 # rubocop:disable Style/Documentation
