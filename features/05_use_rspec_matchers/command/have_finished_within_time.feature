@@ -13,7 +13,7 @@ Feature: Check if a timeout occured during command execution
     RSpec.describe 'Short running command', :type => :aruba do
       before(:each) { aruba.config.exit_timeout = 5 }
 
-      before(:each) { run('aruba-test-cli') }
+      before(:each) { run_command('aruba-test-cli') }
 
       it { expect(last_command_started).to have_finished_in_time }
     end

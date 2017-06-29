@@ -1086,7 +1086,7 @@ describe Aruba::Api do
         end
 
         it "should announce to stdout exactly once" do
-          @aruba.run_simple('echo "hello world"', false)
+          @aruba.run_command_and_stop('echo "hello world"', false)
           expect(@aruba.all_output).to include('hello world')
         end
       end
@@ -1094,7 +1094,7 @@ describe Aruba::Api do
       context 'disabled' do
         it "should not announce to stdout" do
           result = capture(:stdout) do
-            @aruba.run_simple('echo "hello world"', false)
+            @aruba.run_command_and_stop('echo "hello world"', false)
           end
 
           expect(result).not_to include('hello world')
@@ -1105,7 +1105,7 @@ describe Aruba::Api do
   end
 
   describe "#assert_not_matching_output" do
-    before(:each){ @aruba.run_simple("echo foo", false) }
+    before(:each){ @aruba.run_command_and_stop("echo foo", false) }
     after(:each) { @aruba.all_commands.each(&:stop) }
 
     it "passes when the output doesn't match a regexp" do
@@ -1142,8 +1142,8 @@ describe Aruba::Api do
     end
   end
 
-  describe "#run_simple" do
-    before(:each){@aruba.run_simple "true"}
+  describe "#run_command_and_stop" do
+    before(:each){@aruba.run_command_and_stop "true"}
     after(:each) { @aruba.all_commands.each(&:stop) }
     describe "get_process" do
       it "returns a process" do

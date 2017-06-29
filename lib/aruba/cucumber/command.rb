@@ -48,12 +48,12 @@ end
 
 When(/^I run `([^`]*)` interactively$/)do |cmd|
   cmd = sanitize_text(cmd)
-  @interactive = run(cmd)
+  @interactive = run_command(cmd)
 end
 
 # Merge interactive and background after refactoring with event queue
 When(/^I run `([^`]*)` in background$/)do |cmd|
-  run(sanitize_text(cmd))
+  run_command(sanitize_text(cmd))
 end
 
 When(/^I type "([^"]*)"$/) do |input|
