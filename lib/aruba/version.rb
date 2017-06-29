@@ -1,3 +1,3 @@
 module Aruba
-  VERSION = '0.14.1'.freeze
+  VERSION = '1.0.0-alpha.1'.freeze
 end
