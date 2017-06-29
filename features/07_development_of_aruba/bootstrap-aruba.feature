@@ -6,7 +6,7 @@ Feature: Bootstrap "aruba"
 
   Scenario: Run the bootstrap script
 
-    When I successfully run `script/bootstrap`
+    When I successfully run `bin/bootstrap`
     Then the output should contain:
     """
     [INFO] Checking if ruby installed? OK
