@@ -273,11 +273,6 @@ module Aruba
         command = run_command(cmd, opts)
         command.stop
 
-        if Aruba::VERSION < '1'
-          @last_exit_status = command.exit_status
-          @timed_out = command.timed_out?
-        end
-
         if fail_on_error
           begin
             expect(command).to have_finished_in_time

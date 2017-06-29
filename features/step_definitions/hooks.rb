@@ -71,13 +71,7 @@ Before '@requires-ruby-version-2' do |scenario|
 end
 
 Before '@requires-aruba-version-1' do |scenario|
-  next if Aruba::VERSION > '1'
-
-  if Cucumber::VERSION < '2'
-    scenario.skip_invoke!
-  else
-    skip_this_scenario
-  end
+  next
 end
 
 Before '@requires-ruby-platform-java' do |scenario|

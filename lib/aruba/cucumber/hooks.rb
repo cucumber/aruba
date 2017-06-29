@@ -3,10 +3,8 @@ require 'aruba/api'
 require 'aruba/platform'
 World(Aruba::Api)
 
-if Aruba::VERSION >= '1.0.0'
-  Around do |_, block|
-    with_environment(&block)
-  end
+Around do |_, block|
+  with_environment(&block)
 end
 
 Before do
