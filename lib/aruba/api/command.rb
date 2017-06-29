@@ -243,7 +243,7 @@ module Aruba
       #
       # rubocop:disable Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/MethodLength
-      def run_simple(*args)
+      def run_command_and_stop(*args)
         fail ArgumentError, 'Please pass at least a command as first argument.' if args.empty?
 
         cmd = args.shift
@@ -254,7 +254,7 @@ module Aruba
         else
           if args.size > 1
             # rubocop:disable Metrics/LineLength
-            Aruba.platform.deprecated("Please pass options to `#run_simple` as named parameters/hash and don\'t use the old style with positional parameters, NEW: e.g. `#run_simple('cmd', :exit_timeout => 5)`.")
+            Aruba.platform.deprecated("Please pass options to `#run_command_and_stop` as named parameters/hash and don\'t use the old style with positional parameters, NEW: e.g. `#run_command_and_stop('cmd', :exit_timeout => 5)`.")
             # rubocop:enable Metrics/LineLength
           end
 

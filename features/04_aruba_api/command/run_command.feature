@@ -7,7 +7,7 @@ Feature: Run command
 
     Given this option `aruba` waits n seconds after it started the command.
     This is most useful when using `#run()` and not really makes sense for
-    `#run_simple()`.
+    `#run_command_and_stop()`.
 
     You can use `#run()` + `startup_wait_time` to start background jobs.
 
