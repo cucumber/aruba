@@ -51,6 +51,6 @@ Given(/^the default feature-test$/) do
 end
 
 Then(/^aruba should be installed on the local system$/) do
-  run('gem list aruba')
+  run_command('gem list aruba')
   expect(last_command_started).to have_output(/aruba/)
 end

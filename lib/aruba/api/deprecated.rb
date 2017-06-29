@@ -120,7 +120,7 @@ module Aruba
       def run_interactive(cmd)
         Aruba.platform.deprecated('The use of "#run_interactive" is deprecated. You can simply use "run" instead')
 
-        run(cmd)
+        run_command(cmd)
       end
 
       # @deprecated

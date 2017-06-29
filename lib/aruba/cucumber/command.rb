@@ -7,26 +7,26 @@ When(/^I run "(.*)"$/)do |cmd|
   warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
 
   cmd = sanitize_text(cmd)
-  run_simple(cmd, false)
+  run_command_and_stop(cmd, false)
 end
 
 When(/^I run `([^`]*)`$/)do |cmd|
   cmd = sanitize_text(cmd)
-  run_simple(cmd, :fail_on_error => false)
+  run_command_and_stop(cmd, :fail_on_error => false)
 end
 
 When(/^I successfully run "(.*)"$/)do |cmd|
   warn(%{\e[35m    The  /^I successfully run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
 
   cmd = sanitize_text(cmd)
-  run_simple(cmd)
+  run_command_and_stop(cmd)
 end
 
 ## I successfully run `echo -n "Hello"`
 ## I successfully run `sleep 29` for up to 30 seconds
 When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
   cmd = sanitize_text(cmd)
-  run_simple(cmd, :fail_on_error => true, :exit_timeout => secs && secs.to_i)
+  run_command_and_stop(cmd, :fail_on_error => true, :exit_timeout => secs && secs.to_i)
 end
 
 When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do |shell, commands|
@@ -48,12 +48,12 @@ end
 
 When(/^I run `([^`]*)` interactively$/)do |cmd|
   cmd = sanitize_text(cmd)
-  @interactive = run(cmd)
+  @interactive = run_command(cmd)
 end
 
 # Merge interactive and background after refactoring with event queue
 When(/^I run `([^`]*)` in background$/)do |cmd|
-  run(sanitize_text(cmd))
+  run_command(sanitize_text(cmd))
 end
 
 When(/^I type "([^"]*)"$/) do |input|
