@@ -1,5 +1,9 @@
-## [v1.0.0.alpha](https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha)
+## [v1.0.0-alpha.1](https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha)
 
+* Fix dependency error for install (#427)
+* Actually fail the build if rake test fails (#433)
+* Improve frozen-string-literals compatibility. (#436)
+* Fix running commands on Windows (#387)
 * Fix running commands on Windows (#387)
 * Set permissions to values which are supported on Windows (PR [#398](https://github.com/cucumber/aruba/issues/398), issue [#388](https://github.com/cucumber/aruba/issues/388)
 * Remove Aruba::Reporting (PR #389)
