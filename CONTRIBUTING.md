@@ -86,7 +86,7 @@ running the following command.
 
 ~~~bash
 # Bootstrap environment
-script/bootstrap
+bin/bootstrap
 ~~~
 
 ### Running tests
@@ -96,7 +96,7 @@ to run the test suite.
 
 ~~~bash
 # Run the test suite
-script/test
+bin/test
 ~~~
 
 If you have problems because our assumptions about your local setup are wrong.
@@ -108,10 +108,10 @@ your local system.
 bundle exec rake docker:build
 
 # Run the whole test suite in "docker"-container
-RUN_IN_DOCKER=1 script/test
+RUN_IN_DOCKER=1 bin/test
 
 # Run only selected scenario
-RUN_IN_DOCKER=1 script/test cucumber features/steps/command/shell.feature:14
+RUN_IN_DOCKER=1 bin/test cucumber features/steps/command/shell.feature:14
 ~~~
 
 ## Installing your own gems used for development
@@ -143,11 +143,11 @@ Now release it
 bundle update
 
 # Run test suite
-script/test
+bin/test
 
 # Release gem
 git commit -m "Version bump"
-script/release
+bin/release
 
 # If it's a major relase:
 # Merge changes back to have an correct documentation

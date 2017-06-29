@@ -43,7 +43,7 @@ Feature: Run test suite
   @ignore
   Scenario: Run whole test suite via "test"-script
 
-    When I successfully run `script/test`
+    When I successfully run `bin/test`
     Then the output should contain:
     """
     rake test
