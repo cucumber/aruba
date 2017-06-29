@@ -1,5 +1,6 @@
 ## [v1.0.0-alpha.1](https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha)
 
+* Rename methods which run commands (#438)
 * Fix dependency error for install (#427)
 * Actually fail the build if rake test fails (#433)
 * Improve frozen-string-literals compatibility. (#436)
