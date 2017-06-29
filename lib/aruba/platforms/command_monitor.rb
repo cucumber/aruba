@@ -134,7 +134,7 @@ module Aruba
     def all_stdout
       registered_commands.each(&:stop)
 
-      registered_commands.each_with_object("") { |e, a| a << e.stdout }
+      registered_commands.each_with_object("".dup) { |e, a| a << e.stdout }
     end
 
     # @deprecated
@@ -145,7 +145,7 @@ module Aruba
     def all_stderr
       registered_commands.each(&:stop)
 
-      registered_commands.each_with_object("") { |e, a| a << e.stderr }
+      registered_commands.each_with_object("".dup) { |e, a| a << e.stderr }
     end
 
     # @deprecated
