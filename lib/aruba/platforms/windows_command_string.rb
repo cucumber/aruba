@@ -16,8 +16,8 @@ module Aruba
 
       # Convert to array
       def to_a
-        Shellwords.split( __getobj__.gsub('\\', 'ARUBA_TMP_PATHSEPARATOR') ).
-          map { |w| w.gsub('ARUBA_TMP_PATHSEPARATOR', '\\') }
+        Shellwords.split( __getobj__.gsub('\\', 'ARUBA_TMP_PATHSEPARATOR') )
+                  .map { |w| w.gsub('ARUBA_TMP_PATHSEPARATOR', '\\') }
       end
     end
   end
