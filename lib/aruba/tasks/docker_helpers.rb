@@ -145,10 +145,6 @@ module Aruba
       fetch(instance)['working_dir']
     end
 
-    def command(instance)
-      fetch(instance)['command']
-    end
-
     private
 
     def fetch(instance)
