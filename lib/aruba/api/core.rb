@@ -61,7 +61,7 @@ module Aruba
 
             Aruba.platform.chdir File.join(aruba.root_directory, aruba.current_directory)
 
-            result = Aruba.platform.with_environment(
+            result = with_environment(
               'OLDPWD' => old_dir,
               'PWD' => File.expand_path(File.join(aruba.root_directory, aruba.current_directory)),
               &block
