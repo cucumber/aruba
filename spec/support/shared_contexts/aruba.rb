@@ -44,9 +44,3 @@ RSpec.shared_context 'needs to expand paths' do
     @aruba.expand_path(*args)
   end
 end
-
-RSpec.shared_context 'needs to run with environment' do
-  def with_environment(*args, &block)
-    @aruba.with_environment(*args, &block)
-  end
-end
