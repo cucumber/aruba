@@ -141,11 +141,13 @@ module Aruba
       #   expand_path('/foo/bar')
       #
       def expand_path(file_name, dir_string = nil)
-        message = "Filename #{file_name} needs to be a string." \
-          ' It cannot be nil or empty either. '\
-          "Please use `expand_path('.')` if you want the current directory to be expanded."
+        unless file_name.is_a?(String) && !file_name.empty?
+          message = "Filename #{file_name} needs to be a string." \
+            ' It cannot be nil or empty either. '\
+            "Please use `expand_path('.')` if you want the current directory to be expanded."
 
-        raise ArgumentError, message unless file_name.is_a?(String) && !file_name.empty?
+          raise ArgumentError, message
+        end
 
         unless Aruba.platform.directory? File.join(aruba.config.root_directory,
                                                    aruba.config.working_directory)
@@ -154,9 +156,9 @@ module Aruba
         end
 
         prefix = file_name[0]
-        rest = file_name[2..-1]
 
         if aruba.config.fixtures_path_prefix == prefix
+          rest = file_name[2..-1]
           path = File.join(*[aruba.fixtures_directory, rest].compact)
           unless Aruba.platform.exist? path
             aruba_fixture_candidates = aruba.config.fixtures_directories
