@@ -9,8 +9,8 @@ load File.expand_path('../Gemfile.local', __FILE__) if File.file? File.expand_pa
 # Debug aruba
 group :debug do
   if RUBY_VERSION >= '2' && !RUBY_PLATFORM.include?('java')
-    gem 'byebug', '~> 4.0.5'
-    gem 'pry-byebug', '~> 3.1.0'
+    gem 'byebug', '~> 9.0'
+    gem 'pry-byebug', '~> 3.4'
   end
 
   if RUBY_VERSION < '2' && !RUBY_PLATFORM.include?('java')
@@ -38,7 +38,7 @@ group :development, :test do
 
     # Reporting
     gem 'bcat', '~> 0.6.2'
-    gem 'kramdown', '~> 1.7.0'
+    gem 'kramdown', '~> 1.14'
   end
 
   # Code Coverage
@@ -46,7 +46,7 @@ group :development, :test do
 
   # Test api
   gem 'rspec', '~> 3.4'
-  gem 'fuubar', '~> 2.0.0'
+  gem 'fuubar', '~> 2.2.0'
 
   # using platform for this makes bundler complain about the same gem given
   # twice
@@ -58,14 +58,14 @@ group :development, :test do
   # gem 'cucumber-pro', '~> 0.0'
 
   # License compliance
-  gem 'license_finder', '~> 2.0.4'
+  gem 'license_finder', '~> 3.0'
 
   # Upload documentation
   # gem 'relish', '~> 0.7.1'
 
   gem 'minitest', '~> 5.8.0'
 
-  gem 'json', '~>1.8'
+  gem 'json', '~>2.1'
 end
 
 platforms :rbx do
