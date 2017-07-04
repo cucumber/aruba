@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'aruba/config'
 
 describe Aruba::Hooks do
   it 'executes a stored hook' do
