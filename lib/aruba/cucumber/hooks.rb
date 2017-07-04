@@ -5,7 +5,7 @@ World(Aruba::Api)
 
 if Aruba::VERSION >= '1.0.0'
   Around do |_, block|
-    Aruba.platform.with_environment(&block)
+    with_environment(&block)
   end
 end
 
