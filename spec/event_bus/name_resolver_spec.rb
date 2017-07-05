@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'aruba/event_bus/name_resolver'
 
 describe Aruba::EventBus::NameResolver do
