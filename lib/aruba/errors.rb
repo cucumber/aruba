@@ -34,4 +34,7 @@ module Aruba
 
   # Raised if given object is not an event
   class NoEventError < StandardError; end
+
+  # Action called for un supported platform
+  class PlatformNotSupportedError < StandardError; end
 end
