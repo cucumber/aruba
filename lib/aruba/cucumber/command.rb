@@ -1,6 +1,3 @@
-if Aruba::VERSION < '1.0.0'
-  require 'aruba/cucumber/core'
-end
 require 'aruba/generators/script_file'
 
 When(/^I run "(.*)"$/)do |cmd|

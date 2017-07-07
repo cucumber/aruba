@@ -4,12 +4,6 @@ require 'aruba'
 require 'aruba/api'
 require 'aruba/version'
 
-if Aruba::VERSION >= '1.0.0'
-  Aruba.configure do |config|
-    config.working_directory = 'tmp/rspec'
-  end
-end
-
 RSpec.configure do |config|
   config.include Aruba::Api, :type => :aruba
 
