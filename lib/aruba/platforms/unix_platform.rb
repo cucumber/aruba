@@ -3,6 +3,7 @@ require 'pathname'
 
 require 'aruba/aruba_path'
 
+require 'aruba/api_actions/which'
 require 'aruba/platforms/simple_table'
 require 'aruba/platforms/unix_command_string'
 require 'aruba/platforms/unix_which'
@@ -259,7 +260,7 @@ module Aruba
       #   The PATH, a string concatenated with ":", e.g. /usr/bin/:/bin on a
       #   UNIX-system
       def which(program, path = ENV['PATH'])
-        UnixWhich.new.call(program, path)
+        ApiActions::Which.new(current_platform: CurrentPlatform.new).call(program, path)
       end
     end
   end

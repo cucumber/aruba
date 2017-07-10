@@ -12,6 +12,8 @@ if Aruba::VERSION <= '1.1.0'
   require 'aruba/api/deprecated'
 end
 
+require 'aruba/api_builder'
+
 require 'aruba/api/environment'
 require 'aruba/api/filesystem'
 require 'aruba/api/text'
