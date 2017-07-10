@@ -37,7 +37,7 @@ Our most current documentation to get started with `aruba`, can be found on [![S
 
 ### Channels
 
-For support, please have a look at the ["support website"](https://cucumber.io/support) of "Cucumber". You have different options to reach out for help: Recommended for "aruba" are using the "Slack" channels - e.g. "aruba-devs" or "general" ([Register account](https://cucumberbdd-slack-invite.herokuapp.com/)) and the "Issues"-page on [GitHub](https://github.com/cucumber/aruba/issues). Adressing one of the matainers might directly would be helpful.
+For support, please have a look at the ["support website"](https://cucumber.io/support) of "Cucumber". You have different options to reach out for help: Recommended for `aruba` are using the "Slack" channels - e.g. "aruba-devs" or "general" ([Register account](https://cucumberbdd-slack-invite.herokuapp.com/)) and the "Issues"-page on [GitHub](https://github.com/cucumber/aruba/issues). Adressing one of the maintainers directly would be helpful.
 
 ### Maintainers
 
