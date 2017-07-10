@@ -523,8 +523,6 @@ module Aruba
       end
 
       # @deprecated
-      # rubocop:disable Metrics/CyclomaticComplexity
-      # rubocop:disable Metrics/MethodLength
       def check_for_deprecated_variables
         if defined? @aruba_exit_timeout
           Aruba.platform.deprecated('The use of "@aruba_exit_timeout" is deprecated. Use "#aruba.config.exit_timeout = <numeric>" instead')

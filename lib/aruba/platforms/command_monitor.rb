@@ -34,7 +34,6 @@ module Aruba
       end
     end
 
-    # rubocop:disable Metrics/MethodLength
     def initialize(opts = {})
       @registered_commands = []
       @announcer = opts.fetch(:announcer)
