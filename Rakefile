@@ -34,17 +34,17 @@ end
 namespace :test do
   desc 'Run cucumber tests'
   task :cucumber do
-    sh 'cucumber'
+    sh 'bundle exec cucumber'
   end
 
   desc 'Run cucumber tests which are "WORK IN PROGRESS" and are allowed to fail'
   task :cucumber_wip do
-    sh 'cucumber -p wip'
+    sh 'bundle exec cucumber -p wip'
   end
 
   desc 'Run rspec tests'
   task :rspec do
-    sh 'rspec'
+    sh 'bundle exec rspec'
   end
 end
 
@@ -63,12 +63,12 @@ namespace :lint do
 
   desc 'Lint our code with "rubocop"'
   task :coding_guidelines do
-    sh 'rubocop --fail-level E'
+    sh 'bundle exec rubocop --fail-level E'
   end
 
   desc 'Check for relevant licenses in project'
   task :licenses do
-    sh 'license_finder'
+    sh 'bundle exec license_finder'
   end
 end
 
