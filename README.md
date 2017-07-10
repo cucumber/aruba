@@ -1,5 +1,5 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cucumber/aruba/master/LICENSE)
-[![Docs](https://img.shields.io/badge/docs-build-blue.svg)](https://app.cucumber.pro/projects/aruba)
+[![Docs](https://img.shields.io/badge/cucumberpro-aruba-3d10af.svg)](https://app.cucumber.pro/projects/aruba)
 [![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
 [![Dependency Status](https://gemnasium.com/cucumber/aruba.svg)](https://gemnasium.com/cucumber/aruba)
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.svg)](https://codeclimate.com/github/cucumber/aruba)
