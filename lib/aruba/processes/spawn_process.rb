@@ -90,7 +90,6 @@ module Aruba
 
         yield self if block_given?
       end
-      # rubocop:disable Metrics/MethodLength
 
       # Access to stdout of process
       def stdin
@@ -249,9 +248,7 @@ module Aruba
         # gather fully qualified path
         cmd = Aruba.platform.which(command, environment['PATH'])
 
-        # rubocop:disable  Metrics/LineLength
         fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if cmd.nil?
-        # rubocop:enable  Metrics/LineLength
 
         Aruba.platform.command_string.new(cmd)
       end

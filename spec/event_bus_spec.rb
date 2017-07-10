@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'aruba/event_bus'
 
-# rubocop:disable Style/Documentation
 module Events
   class TestEvent; end
   class AnotherTestEvent; end
@@ -13,7 +12,6 @@ class MyHandler
 end
 
 class MyMalformedHandler; end
-# rubocop:enable Style/Documentation
 
 describe Aruba::EventBus do
   subject(:bus) { described_class.new(name_resolver) }

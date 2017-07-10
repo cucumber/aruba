@@ -16,7 +16,6 @@ module Aruba
         # Thanks ActiveSupport
         # (Only needed to support Ruby 1.9.3 and JRuby)
         # rubocop:disable Metrics/CyclomaticComplexity
-        # rubocop:disable Metrics/MethodLength
         def constantize(camel_cased_word)
           names = camel_cased_word.split('::')
 
@@ -52,7 +51,6 @@ module Aruba
           end
         end
         # rubocop:enable Metrics/CyclomaticComplexity
-        # rubocop:enable Metrics/MethodLength
       end
 
       # @private

@@ -40,11 +40,8 @@ module Aruba
     option_accessor :remove_ansi_escape_sequences, :contract => { Bool => Bool }, :default => true
     # rubocop:disable Metrics/LineLength
     option_accessor :command_launcher, :contract => { Aruba::Contracts::Enum[:in_process, :spawn, :debug] => Aruba::Contracts::Enum[:in_process, :spawn, :debug] }, :default => :spawn
-    # rubocop:enable Metrics/LineLength
     option_accessor :main_class, :contract => { Class => Maybe[Class] }, :default => nil
-    # rubocop:disable Metrics/LineLength
 
-    # rubocop:disable Metrics/LineLength
     if Aruba::VERSION >= '1.0.0'
       option_accessor :home_directory, :contract => { Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath] => Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath] } do |config|
         File.join(config.root_directory.value, config.working_directory.value)
@@ -52,11 +49,8 @@ module Aruba
     else
       option_accessor :home_directory, :contract => { Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath] => Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath] }, :default => ENV['HOME']
     end
-    # rubocop:enable Metrics/LineLength
 
-    # rubocop:disable Metrics/LineLength
     option_accessor :log_level, :contract => { Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent] => Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent] }, :default => :info
-    # rubocop:enable Metrics/LineLength
 
     # TODO: deprecate this value and replace with "filesystem allocation unit"
     # equal to 4096 by default. "filesystem allocation unit" would represent
