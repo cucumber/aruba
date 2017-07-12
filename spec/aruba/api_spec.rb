@@ -7,19 +7,6 @@ describe Aruba::Api do
   include_context 'uses aruba API'
 
   describe 'files' do
-    describe '#relative?' do
-      let(:name) { @file_name }
-      let(:path) { File.expand_path(File.join(@aruba.aruba.current_directory, name)) }
-
-      context 'when is absolute path' do
-        it { expect(@aruba).not_to be_relative(path) }
-      end
-
-      context 'when is relative path' do
-        it { expect(@aruba).to be_relative(name) }
-      end
-    end
-
     describe '#exist?' do
       context 'when is file' do
         let(:name) { @file_name }
