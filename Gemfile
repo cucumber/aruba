@@ -58,7 +58,11 @@ group :development, :test do
   # gem 'cucumber-pro', '~> 0.0'
 
   # License compliance
-  gem 'license_finder', '~> 3.0'
+  if RUBY_VERSION < '2.3'
+    gem 'license_finder', '~> 2.0'
+  else
+    gem 'license_finder', '~> 3.0'
+  end
 
   # Upload documentation
   # gem 'relish', '~> 0.7.1'
