@@ -19,7 +19,7 @@ Feature: Overview of steps
     """
     Feature: Run it
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain:
         \"\"\"
         Cloning into 'aruba'...

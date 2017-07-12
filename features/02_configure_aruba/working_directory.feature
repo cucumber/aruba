@@ -8,7 +8,7 @@ Feature: Configure working directory of aruba
     Given I use the fixture "cli-app"
 
   Scenario: Default value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """
     Aruba.configure do |config|
       puts %(The default value is "#{config.working_directory}")
@@ -21,7 +21,7 @@ Feature: Configure working directory of aruba
     """
 
   Scenario: Modify value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """
     Aruba.configure do |config|
       config.working_directory = 'tmp/cucumber'

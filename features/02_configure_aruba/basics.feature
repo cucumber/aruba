@@ -21,10 +21,8 @@ Feature: Usage of configuration
     """
 
   Scenario: Setting default values for option for RSpec
-    Given a file named "spec/support/aruba.rb" with:
+    Given a file named "spec/support/aruba_config.rb" with:
     """ruby
-    require 'aruba/rspec'
-
     Aruba.configure do |config|
       config.exit_timeout = 1
     end
@@ -54,10 +52,8 @@ Feature: Usage of configuration
     want to set the default timeout for all commands to the maximum value only
     to prevent those commands from failing.
 
-    Given a file named "spec/support/aruba.rb" with:
+    Given a file named "spec/support/aruba_config.rb" with:
     """ruby
-    require 'aruba/rspec'
-
     Aruba.configure do |config|
       config.exit_timeout = 1
     end
@@ -97,10 +93,8 @@ Feature: Usage of configuration
     Then the specs should all pass
 
   Scenario: Setting default values for option for Cucumber
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
-    require 'aruba/cucumber'
-
     Aruba.configure do |config|
       config.exit_timeout = 1
     end
@@ -109,11 +103,11 @@ Feature: Usage of configuration
     """
     Feature: Run it
       Scenario: Fast command
-        When I run `cli 0`
+        When I run `aruba-test-cli 0`
         Then the exit status should be 0
 
       Scenario: Slow command
-        When I run `cli 2`
+        When I run `aruba-test-cli 2`
         Then the exit status should be 128
     """
     When I run `cucumber`
@@ -125,10 +119,8 @@ Feature: Usage of configuration
     want to set the default timeout for all commands to the maximum value only
     to prevent those commands from failing.
 
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
-    require 'aruba/cucumber'
-
     Aruba.configure do |config|
       config.exit_timeout = 1
     end
@@ -143,16 +135,16 @@ Feature: Usage of configuration
     """
     Feature: Run it
       Scenario: Fast command
-        When I run `cli 0`
+        When I run `aruba-test-cli 0`
         Then the exit status should be 0
 
       @slow-command
       Scenario: Slow command known by the developer
-        When I run `cli 2`
+        When I run `aruba-test-cli 2`
         Then the exit status should be 0
 
       Scenario: Slow command which might be a failure
-        When I run `cli 3`
+        When I run `aruba-test-cli 3`
         Then the exit status should be 128
     """
     When I run `cucumber`

@@ -16,7 +16,7 @@ Feature: Check exit status of commands
     """
     Feature: Exit status
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -32,7 +32,7 @@ Feature: Check exit status of commands
     """
     Feature: Failing program
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 1
     """
     When I run `cucumber`
@@ -48,7 +48,7 @@ Feature: Check exit status of commands
     """
     Feature: Failing program
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should not be 0
     """
     When I run `cucumber`
@@ -64,7 +64,7 @@ Feature: Check exit status of commands
     """
     Feature: Failing program
       Scenario: Run command
-        When I successfully run `cli`
+        When I successfully run `aruba-test-cli`
     """
     When I run `cucumber`
     Then the features should all pass
@@ -79,7 +79,7 @@ Feature: Check exit status of commands
     """
     Feature: Failing program
       Scenario: Run command
-        When I successfully run `cli`
+        When I successfully run `aruba-test-cli`
     """
     When I run `cucumber`
     Then the features should not all pass
@@ -95,7 +95,7 @@ Feature: Check exit status of commands
     Feature: Failing program
       Scenario: Run command
         Given the default aruba exit timeout is 2 seconds
-        When I successfully run `cli`
+        When I successfully run `aruba-test-cli`
     """
     When I run `cucumber`
     Then the features should all pass
@@ -111,7 +111,7 @@ Feature: Check exit status of commands
     Feature: Failing program
       Scenario: Run command
         Given the default aruba exit timeout is 0 seconds
-        When I successfully run `cli` for up to 2 seconds
+        When I successfully run `aruba-test-cli` for up to 2 seconds
     """
     When I run `cucumber`
     Then the features should all pass
@@ -127,10 +127,10 @@ Feature: Check exit status of commands
     Feature: Failing program
       Scenario: Run command
         Given the default aruba exit timeout is 0 seconds
-        When I successfully run `cli` for up to 1 seconds
+        When I successfully run `aruba-test-cli` for up to 1 seconds
     """
     When I run `cucumber`
     Then the features should not all pass with:
     """
-    expected "cli" to have finished in time
+    expected "aruba-test-cli" to have finished in time
     """

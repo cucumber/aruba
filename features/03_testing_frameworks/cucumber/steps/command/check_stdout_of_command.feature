@@ -18,7 +18,7 @@ Feature: STDOUT of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the stdout should contain "hello"
         Then the stderr should not contain "hello"
     """
@@ -36,7 +36,7 @@ Feature: STDOUT of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the stdout should contain:
         \"\"\"
         GET /
@@ -56,7 +56,7 @@ Feature: STDOUT of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the stdout should contain:
         \"\"\"
         GET "/"

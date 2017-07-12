@@ -22,7 +22,7 @@ Feature: Running an interactive command
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli` interactively
+        When I run `aruba-test-cli` interactively
         And I type "hello, world"
         And I type "quit"
         Then it should pass with "dlrow ,olleh"

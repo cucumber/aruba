@@ -8,7 +8,7 @@ Feature: Configure timeout for command execution
     Given I use the fixture "cli-app"
 
   Scenario: Default value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       puts %(The default value is "#{config.exit_timeout}")
@@ -26,7 +26,7 @@ Feature: Configure timeout for command execution
     #!/bin/bash
     sleep 1
     """
-    And a file named "features/support/aruba.rb" with:
+    And a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       config.exit_timeout = 2
@@ -41,7 +41,7 @@ Feature: Configure timeout for command execution
     #!/bin/bash
     sleep 2
     """
-    And a file named "features/support/aruba.rb" with:
+    And a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       config.exit_timeout = 1

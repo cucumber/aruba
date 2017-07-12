@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'aruba/event_bus'
 
 module Events
   class TestEvent; end

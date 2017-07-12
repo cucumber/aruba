@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'aruba/processes/basic_process'
 
 RSpec.describe Aruba::Processes::BasicProcess do
   let(:cmd) { 'foobar' }

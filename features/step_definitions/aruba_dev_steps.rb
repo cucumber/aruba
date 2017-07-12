@@ -45,7 +45,7 @@ Given(/^the default feature-test$/) do
       This is the default feature
 
       Scenario: Run command
-        Given I successfully run `cli`
+        Given I successfully run `aruba-test-cli`
     EOS
   )
 end

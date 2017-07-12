@@ -1,5 +1,8 @@
 Feature: Check if a timeout occured during command execution
 
+  Background:
+    Given I use a fixture named "cli-app"
+
   Scenario: Check if command finishes in time
     Given an executable named "bin/aruba-test-cli" with:
     """

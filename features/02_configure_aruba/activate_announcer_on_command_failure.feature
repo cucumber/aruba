@@ -8,7 +8,7 @@ Feature: Configure announcer activation on command failure
     Given I use the fixture "cli-app"
 
   Scenario: Default value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       puts %(The default value is "#{config.activate_announcer_on_command_failure.inspect}")
@@ -21,7 +21,7 @@ Feature: Configure announcer activation on command failure
     """
 
   Scenario: Modify value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       config.activate_announcer_on_command_failure = [:foo, :bar]
