@@ -69,7 +69,7 @@ Feature: Expand paths with aruba
     RSpec.describe 'Expand path', :type => :aruba do
       let(:path) { '~/path/to/dir' }
 
-      it { expect(expand_path(path)).to match %r</home/[^/]+/path/to/dir> }
+      it { expect(expand_path(path)).to match %r</home/([^/]+/)+path/to/dir> }
     end
 
     # New from 1.0.0
