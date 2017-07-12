@@ -18,26 +18,6 @@ describe Aruba::Api do
         expect(File.exist?(File.expand_path(@directory_path))).to be_truthy
       end
     end
-
-    describe '#cd' do
-      context 'with a block given' do
-        it 'runs the passed block in the given directory' do
-          @aruba.create_directory @directory_name
-          full_path = File.expand_path(@directory_path)
-          @aruba.cd @directory_name do
-            expect(Dir.pwd).to eq full_path
-          end
-          expect(Dir.pwd).not_to eq full_path
-        end
-
-        it 'does not touch non-directory environment the passed block' do
-          @aruba.create_directory @directory_name
-          @aruba.cd @directory_name do
-            expect(ENV['HOME']).not_to be_nil
-          end
-        end
-      end
-    end
   end
 
   describe '#read' do
