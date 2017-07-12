@@ -76,7 +76,16 @@ prefer to setup `aruba` yourself, please move on to the next section.
    aruba init --test-framework minitest
    ~~~
 
-### Cucumber
+### Your First Tests with "aruba"
+
+1. Clone "Getting Started"-application
+
+   ~~~bash
+   git clone https://github.com/cli-testing/aruba-getting-started.git
+   cd aruba-getting-started
+   ~~~
+
+#### Cucumber
 
 1. Create a file named "features/support/env.rb" with:
 
@@ -91,64 +100,62 @@ prefer to setup `aruba` yourself, please move on to the next section.
      Scenario: First Run
        Given a file named "file.txt" with:
        """
-       Hello World
+       Hello, Aruba!
        """
-       When 
+       When I run `aruba-test-cli file.txt` 
        Then the file "file.txt" should contain:
        """
-       Hello World
+       Hello, Aruba!
        """
    ~~~
 
 3. Run `cucumber`
 
-### RSpec
+   ~~~bash
+   bundle exec cucumber
+   ~~~
 
-1. Create a file named "spec/support/aruba.rb" with:
+#### RSpec
+
+1. Create a file named "spec/spec_helper.rb" with the following content. If the
+   file already exists add the line to the file.
 
    ~~~ruby
    require 'aruba/rspec'
    ~~~
 
-2. Create a file named "spec/spec_helper.rb" with:
-
-   ~~~ruby
-   $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-
-   ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
-   ~~~
-
-3. Create a file named "spec/use_aruba_with_rspec_spec.rb" with:
+2. Create a file named "spec/use_aruba_with_rspec_spec.rb" with:
 
    ~~~ruby
    require 'spec_helper'
 
    RSpec.describe 'First Run', :type => :aruba do
      let(:file) { 'file.txt' }
-     let(:content) { 'Hello World' }
+     let(:content) { 'Hello, Aruba!' }
 
      before(:each) { write_file file, content }
+     before(:each) { run_command('aruba-test-cli file.txt') }
 
-     it { expect(read(file)).to eq [content] }
+     # Full string
+     it { expect(last_command_started).to have_output content }
+
+     # Substring
+     it { expect(last_command_started).to have_output(/Hello/) }
    end
    ~~~
 
-4. Run `rspec`
+3. Run `rspec`
 
-### Minitest
-
-1. Add a file named "test/support/aruba.rb" with:
-
-   ~~~ ruby
-   require 'aruba/api'
+   ~~~bash
+   bundle exec rspec
    ~~~
 
-2. Add a file named "test/test_helper.rb" with:
+#### Minitest
+
+1. Add a file named "test/test_helper.rb" with:
 
    ~~~ruby
-   $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-
-   ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
+   require 'aruba/api'
    ~~~
 
 3. Add a file named "test/use_aruba_with_minitest.rb" with:
@@ -163,22 +170,26 @@ prefer to setup `aruba` yourself, please move on to the next section.
      include Aruba::Api
 
      def setup
-       aruba_setup
+       setup_aruba
      end
 
-     def getting_started_with_aruba
+     def test_getting_started_with_aruba
        file = 'file.txt'
-       content = 'Hello World'
+       content = 'Hello, Aruba!'
 
        write_file file, content
-       read(file).must_equal [content]
+
+       run_command_and_stop 'aruba-test-cli file.txt'
+       assert_equal last_command_started.output.chomp, content
      end
    end
    ~~~
 
 4. Run your tests
 
-   `ruby -Ilib:test test/use_aruba_with_minitest.rb`
+   ~~~bash
+   bundle exec ruby -Ilib:test test/use_aruba_with_minitest.rb
+   ~~~
 
 A full documentation of the API can be found
 [here](http://www.rubydoc.info/github/cucumber/aruba/master/frames).
