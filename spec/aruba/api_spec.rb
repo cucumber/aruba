@@ -102,6 +102,26 @@ describe Aruba::Api do
         expect(File.exist?(File.expand_path(@directory_path))).to be_truthy
       end
     end
+
+    describe '#cd' do
+      context 'with a block given' do
+        it 'runs the passed block in the given directory' do
+          @aruba.create_directory @directory_name
+          full_path = File.expand_path(@directory_path)
+          @aruba.cd @directory_name do
+            expect(Dir.pwd).to eq full_path
+          end
+          expect(Dir.pwd).not_to eq full_path
+        end
+
+        it 'does not touch non-directory environment the passed block' do
+          @aruba.create_directory @directory_name
+          @aruba.cd @directory_name do
+            expect(ENV['HOME']).not_to be_nil
+          end
+        end
+      end
+    end
   end
 
   describe '#read' do
@@ -1070,6 +1090,48 @@ describe Aruba::Api do
         end
 
         expect(ENV[variable]).to eq '1'
+      end
+
+      it 'works together with #set_environment_variable' do
+        variable = 'THIS_IS_A_ENV_VAR'
+        @aruba.set_environment_variable variable, '1'
+
+        @aruba.with_environment do
+          expect(ENV[variable]).to eq '1'
+          @aruba.set_environment_variable variable, '0'
+          @aruba.with_environment do
+            expect(ENV[variable]).to eq '0'
+          end
+          expect(ENV[variable]).to eq '1'
+        end
+      end
+
+      it 'works with a mix of ENV and #set_environment_variable' do
+        variable = 'THIS_IS_A_ENV_VAR'
+        @aruba.set_environment_variable variable, '1'
+        ENV[variable] = '2'
+        expect(ENV[variable]).to eq '2'
+
+        @aruba.with_environment do
+          expect(ENV[variable]).to eq '1'
+          @aruba.set_environment_variable variable, '0'
+          @aruba.with_environment do
+            expect(ENV[variable]).to eq '0'
+          end
+          expect(ENV[variable]).to eq '1'
+        end
+        expect(ENV[variable]).to eq '2'
+      end
+
+      it 'keeps values not set in argument' do
+        variable = 'THIS_IS_A_ENV_VAR'
+        ENV[variable] = '2'
+        expect(ENV[variable]).to eq '2'
+
+        @aruba.with_environment do
+          expect(ENV[variable]).to eq '2'
+        end
+        expect(ENV[variable]).to eq '2'
       end
     end
   end

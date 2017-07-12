@@ -12,6 +12,12 @@ RSpec.configure do |config|
     if self.class.include? Aruba::Api
       restore_env
       setup_aruba
+
+      # Modify PATH to include project/bin
+      prepend_environment_variable 'PATH', aruba.config.command_search_paths.join(':') + ':'
+
+      # Use configured home directory as HOME
+      set_environment_variable 'HOME', aruba.config.home_directory
     end
 
     example.run
@@ -22,7 +28,11 @@ RSpec.configure do |config|
 
   if Aruba::VERSION >= '1.0.0'
     config.around :each do |example|
-      Aruba.platform.with_environment do
+      if self.class.include? Aruba::Api
+        with_environment do
+          example.run
+        end
+      else
         example.run
       end
     end
@@ -83,19 +93,5 @@ RSpec.configure do |config|
       aruba.announcer.activate(:command_content)
       aruba.announcer.activate(:command_filesystem_status)
     end
-  end
-
-  # Modify PATH to include project/bin
-  config.before :each do
-    next unless self.class.include? Aruba::Api
-
-    prepend_environment_variable 'PATH', aruba.config.command_search_paths.join(':') + ':'
-  end
-
-  # Use configured home directory as HOME
-  config.before :each do |example|
-    next unless self.class.include? Aruba::Api
-
-    set_environment_variable 'HOME', aruba.config.home_directory
   end
 end
