@@ -7,13 +7,6 @@ describe Aruba::Api do
   include_context 'uses aruba API'
 
   describe 'files' do
-    context '#write_file' do
-      it 'writes file' do
-        @aruba.write_file(@file_name, '')
-
-        expect(File.exist?(@file_path)).to eq true
-      end
-    end
 
     context '#write_fixed_size_file' do
       it "should write a fixed sized file" do
