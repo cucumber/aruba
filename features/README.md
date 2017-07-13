@@ -78,11 +78,12 @@ prefer to setup `aruba` yourself, please move on to the next section.
 
 ### Your First Tests with "aruba"
 
-1. Clone "Getting Started"-application
+1. Clone the "Getting Started" application and install its dependencies
 
    ~~~bash
    git clone https://github.com/cli-testing/aruba-getting-started.git
    cd aruba-getting-started
+   bundle install
    ~~~
 
 #### Cucumber
