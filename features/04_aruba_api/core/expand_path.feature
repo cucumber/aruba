@@ -56,8 +56,7 @@ Feature: Expand paths with aruba
 
   Scenario: Use ~ in path
 
-    Now this useses the HOME-variable from your normal shell HOME-variable.
-    From 1.0.0 on HOME will be `File.join(aruba.config.root_directory,
+    Aruba sets HOME to `File.join(aruba.config.root_directory,
     aruba.config.working_directory)`. If you want HOME have some other value,
     you need to configure it explicitly via `Aruba.configure {}`.
 
@@ -65,20 +64,8 @@ Feature: Expand paths with aruba
     """ruby
     require 'spec_helper'
 
-    # Old before 1.0.0
     RSpec.describe 'Expand path', :type => :aruba do
       let(:path) { '~/path/to/dir' }
-
-      it { expect(expand_path(path)).to match %r</home/([^/]+/)+path/to/dir> }
-    end
-
-    # New from 1.0.0
-    RSpec.describe 'Expand path', :type => :aruba do
-      let(:path) { '~/path/to/dir' }
-
-      before(:each) do
-        set_environment_variable('HOME', File.join(aruba.config.root_directory, aruba.config.working_directory))
-      end
 
       it { expect(expand_path(path)).to eq File.join(aruba.config.root_directory, aruba.config.working_directory, 'path/to/dir') }
     end
