@@ -29,25 +29,6 @@ Feature: STDERR of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Detect stderr from all processes (deprecated)
-    Given a file named "features/output.feature" with:
-    """
-    Feature: Run command
-      Scenario: Run command
-        When I run `bash -c 'printf "hello world!\n" >&2'`
-        And I run `bash -c 'cat >&2 '` interactively
-        And I type "hola"
-        And I type ""
-        Then the stderr should contain:
-        \"\"\"
-        hello world!
-        hola
-        \"\"\"
-        And the stdout should not contain anything
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
   Scenario: Detect stderr from named source
     Given a file named "features/output.feature" with:
     """
