@@ -48,6 +48,7 @@ Feature: Getting started with Cucumber and aruba
     Given a file named "features/support/env.rb" with:
     """
     require 'aruba/api'
+    require 'aruba/cucumber/file'
     World(Aruba::Api)
 
     Before do
