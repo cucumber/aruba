@@ -11,20 +11,20 @@
 
 Add this line to your application's `Gemfile`:
 
-~~~
+~~~ruby
 gem 'aruba'
 ~~~
 
 And then execute:
 
-~~~
-$ bundle
+~~~bash
+bundle
 ~~~
 
 Or install it yourself as:
 
-~~~
-$ gem install aruba
+~~~bash
+gem install aruba
 ~~~
 
 ## Usage
