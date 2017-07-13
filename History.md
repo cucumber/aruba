@@ -1,3 +1,13 @@
+## [v1.0.0-alpha.2](https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha)
+
+* Update examples for usage in README
+* Fix environment manipulation (#442)
+* Update supported ruby versions in .travis.yml (#449)
+* Use license_finder version which is usable for rubies `< 2.3` (#451)
+* Wrap test runners in `bundle exec` (#447)
+* Fix wording in README (#445)
+* Restructure README and upload feature files to cucumber.pro (#444)
+
 ## [v1.0.0-alpha.1](https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha)
 
 * Use new proposed structure for gems by bundler (#439)
