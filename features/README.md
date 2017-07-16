@@ -51,7 +51,7 @@ gem install aruba
 # Usage
 
 **Note:** Please also see this
-[feature test](https://github.com/cucumber/aruba/tree/master/features/getting_started/supported_testing_frameworks.feature)
+[feature test](https://github.com/cucumber/aruba/tree/master/features/01_getting_started_with_aruba/supported_testing_frameworks.feature)
 for the most up to date documentation.
 
 ## Getting started
