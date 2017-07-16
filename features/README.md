@@ -56,33 +56,16 @@ for the most up to date documentation.
 
 ## Getting started
 
-There's an initializer to make it easier for you to getting started. If you
-prefer to setup `aruba` yourself, please move on to the next section.
-
-1. Go to your project's directory
-
-2. Make sure, it's under version control and all changes are committed to your
-   version control repository
-
-3. Run one of the following commands depending on the tools you use to test your project.
-
-   This assumes, that you use either `rspec`, `cucumber-ruby` or `minitest` to
-   write the tests for your project. Besides that, your tool can be implemented
-   in any programming language you like.
-
-   ~~~bash
-   aruba init --test-framework rspec
-   aruba init --test-framework cucumber
-   aruba init --test-framework minitest
-   ~~~
-
-### Your First Tests with "aruba"
-
-1. Clone the "Getting Started" application and install its dependencies
+1. Clone the "Getting Started" application and make the cloned repository your current working directory
 
    ~~~bash
    git clone https://github.com/cli-testing/aruba-getting-started.git
    cd aruba-getting-started
+   ~~~
+
+2. Install the required depencies
+
+   ~~~bash
    bundle install
    ~~~
 
@@ -118,8 +101,7 @@ prefer to setup `aruba` yourself, please move on to the next section.
 
 ### RSpec
 
-1. Create a file named "spec/spec_helper.rb" with the following content. If the
-   file already exists add the line to the file.
+1. Add the following line to "spec/spec_helper.rb"-file.
 
    ~~~ruby
    require 'aruba/rspec'
@@ -194,6 +176,28 @@ prefer to setup `aruba` yourself, please move on to the next section.
 
 A full documentation of the API can be found
 [here](http://www.rubydoc.info/github/cucumber/aruba/master/frames).
+
+# Initialize an existing project
+
+There's an initializer to make it easier for you to getting started. If you
+prefer to setup `aruba` yourself, please move on to the next section.
+
+1. Go to your project's directory
+
+2. Make sure, it's under version control and all changes are committed to your
+   version control repository
+
+3. Run one of the following commands depending on the tools you use to test your project.
+
+   This assumes, that you use either `rspec`, `cucumber-ruby` or `minitest` to
+   write the tests for your project. Besides that, your tool can be implemented
+   in any programming language you like.
+
+   ~~~bash
+   aruba init --test-framework rspec
+   aruba init --test-framework cucumber
+   aruba init --test-framework minitest
+   ~~~
 
 # Copyright
 
