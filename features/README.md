@@ -12,7 +12,7 @@
 Your benefits:
 
 * Test any command line application implemented in any [programming
-  language](https://github.com/cucumber/aruba/tree/master/features/getting_started/supported_programming_languages.feature) -
+  language](https://github.com/cucumber/aruba/tree/master/features/01_getting_started_with_aruba/supported_testing_frameworks.feature) -
   e.g. Bash, Python, Ruby, Java, ...
 * Manipulate the file system and the process environment with helpers working similar like tools you may know from your shell
 * No worries about leaking state: The file system and the process environment will be reset between tests
