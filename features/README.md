@@ -177,8 +177,7 @@ A full documentation of the API can be found
 
 # Initialize an existing project
 
-There's an initializer to make it easier for you to getting started. If you
-prefer to setup `aruba` yourself, please move on to the next section.
+There's an initializer to make it easier for you to get started.
 
 1. Go to your project's directory
 
