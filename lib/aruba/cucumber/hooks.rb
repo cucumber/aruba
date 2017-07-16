@@ -93,7 +93,6 @@ end
 
 Before('@keep-ansi-escape-sequences') do
   aruba.config.remove_ansi_escape_sequences = false
-  aruba.config.keep_ansi = true
 end
 
 Before '@mocked-home-directory' do

@@ -31,7 +31,7 @@ module Aruba
       #   The text to sanitize
       def sanitize_text(text)
         text = unescape_text(text)
-        text = extract_text(text) if !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+        text = extract_text(text) if aruba.config.remove_ansi_escape_sequences
 
         text.chomp
       end
