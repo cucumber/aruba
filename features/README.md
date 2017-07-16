@@ -101,7 +101,7 @@ for the most up to date documentation.
 
 ### RSpec
 
-1. Add the following line to "spec/spec_helper.rb"-file.
+1. Add the following line to the "spec/spec_helper.rb"-file.
 
    ~~~ruby
    require 'aruba/rspec'
@@ -135,7 +135,7 @@ for the most up to date documentation.
 
 ### Minitest
 
-1. Add a file named "test/test_helper.rb" with:
+1. Add the following line to the "test/test_helper.rb"-file.
 
    ~~~ruby
    require 'aruba/api'
