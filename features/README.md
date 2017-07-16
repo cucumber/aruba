@@ -63,7 +63,7 @@ for the most up to date documentation.
    cd aruba-getting-started
    ~~~
 
-2. Install the required depencies
+2. Install the required dependencies
 
    ~~~bash
    bundle install
@@ -101,7 +101,7 @@ for the most up to date documentation.
 
 ### RSpec
 
-1. Add the following line to the "spec/spec_helper.rb"-file.
+1. Add the following line to the "spec/spec_helper.rb" file.
 
    ~~~ruby
    require 'aruba/rspec'
@@ -135,7 +135,7 @@ for the most up to date documentation.
 
 ### Minitest
 
-1. Add the following line to the "test/test_helper.rb"-file.
+1. Add the following line to the "test/test_helper.rb" file.
 
    ~~~ruby
    require 'aruba/api'
@@ -182,7 +182,7 @@ prefer to setup `aruba` yourself, please move on to the next section.
 
 1. Go to your project's directory
 
-2. Make sure, it's under version control and all changes are committed to your
+2. Make sure it's under version control and all changes are committed to your
    version control repository
 
 3. Run one of the following commands depending on the tools you use to test your project.
