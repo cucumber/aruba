@@ -28,7 +28,7 @@ Our Vision:
 Our Focus:
 * Test the user-interaction with the commands at runtime &ndash; this excludes the process of installation/deployment of commands like installing Rubygems with `gem install <your-gem>`.
 
-## Install
+# Install
 
 Add this line to your application's `Gemfile`:
 
@@ -48,13 +48,13 @@ Or install it yourself as:
 gem install aruba
 ~~~
 
-## Usage
+# Usage
 
 Please also see this
 [feature test](https://github.com/cucumber/aruba/tree/master/features/getting_started/supported_testing_frameworks.feature)
 for the most up to date documentation.
 
-### Initialize your project with "aruba"
+## Getting started
 
 There's an initializer to make it easier for you to getting started. If you
 prefer to setup `aruba` yourself, please move on to the next section.
@@ -86,7 +86,7 @@ prefer to setup `aruba` yourself, please move on to the next section.
    bundle install
    ~~~
 
-#### Cucumber
+### Cucumber
 
 1. Create a file named "features/support/env.rb" with:
 
@@ -116,7 +116,7 @@ prefer to setup `aruba` yourself, please move on to the next section.
    bundle exec cucumber
    ~~~
 
-#### RSpec
+### RSpec
 
 1. Create a file named "spec/spec_helper.rb" with the following content. If the
    file already exists add the line to the file.
@@ -151,7 +151,7 @@ prefer to setup `aruba` yourself, please move on to the next section.
    bundle exec rspec
    ~~~
 
-#### Minitest
+### Minitest
 
 1. Add a file named "test/test_helper.rb" with:
 
@@ -195,6 +195,6 @@ prefer to setup `aruba` yourself, please move on to the next section.
 A full documentation of the API can be found
 [here](http://www.rubydoc.info/github/cucumber/aruba/master/frames).
 
-## Copyright
+# Copyright
 
 Copyright (c) 2010-2017 Aslak Hellesøy et al. See [MIT License](LICENSE) for details.
