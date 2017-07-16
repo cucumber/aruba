@@ -101,7 +101,7 @@ Feature: Sanitize text from output
       before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
-      it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
+      it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
     end
     """
     When I run `rspec`
@@ -121,7 +121,7 @@ Feature: Sanitize text from output
       before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
-      it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
+      it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
     end
     """
     When I run `rspec`
@@ -167,6 +167,46 @@ Feature: Sanitize text from output
     When I run `rspec`
     Then the specs should all pass
 
+  Scenario: Output contains \017, but removable is disabled by configuration
+    Given an executable named "bin/aruba-test-cli" with:
+    """
+    #!/bin/bash
+    echo -n 'text\017text'
+    """
+    And a file named "spec/sanitize_spec.rb" with:
+    """
+    require 'spec_helper'
+
+    RSpec.describe 'Run command', :type => :aruba, :remove_ansi_escape_sequences => false, :keep_ansi => true do
+      before(:each) { run_command('aruba-test-cli') }
+      before(:each) { stop_all_commands }
+
+      it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+
+  Scenario: Output contains \016, but removable is disabled by configuration
+    Given an executable named "bin/aruba-test-cli" with:
+    """
+    #!/bin/bash
+    echo -n 'text\016text'
+    """
+    And a file named "spec/sanitize_spec.rb" with:
+    """
+    require 'spec_helper'
+
+    RSpec.describe 'Run command', :type => :aruba, :remove_ansi_escape_sequences => false, :keep_ansi => true do
+      before(:each) { run_command('aruba-test-cli') }
+      before(:each) { stop_all_commands }
+
+      it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+
   Scenario: Output contains ansi escape codes prefixed by \e, but removable is disabled by configuration
     Given an executable named "bin/aruba-test-cli" with:
     """
@@ -186,43 +226,3 @@ Feature: Sanitize text from output
     """
     When I run `rspec`
     Then the specs should all pass
-
-    # Scenario: Output contains ansi escape code \016
-    #   Given an executable named "bin/aruba-test-cli" with:
-    #   """
-    #   #!/bin/bash
-    #   echo -n "\016Text"
-    #   """
-    #   And a file named "spec/sanitize_spec.rb" with:
-    #   """
-    #   require 'spec_helper'
-    #
-    #   RSpec.describe 'Run command', :type => :aruba do
-    #     before(:each) { run_command('aruba-test-cli') }
-    #     before(:each) { stop_all_commands }
-    #
-    #     it { expect(sanitize_text(last_command_started.output)).to eq "Text" }
-    #   end
-    #   """
-    #   When I run `rspec`
-    #   Then the specs should all pass
-
-    # Scenario: Output contains ansi escape code \017
-    #   Given an executable named "bin/aruba-test-cli" with:
-    #   """
-    #   #!/bin/bash
-    #   echo -n "\017Text"
-    #   """
-    #   And a file named "spec/sanitize_spec.rb" with:
-    #   """
-    #   require 'spec_helper'
-    #
-    #   RSpec.describe 'Run command', :type => :aruba do
-    #     before(:each) { run_command('aruba-test-cli') }
-    #     before(:each) { stop_all_commands }
-    #
-    #     it { expect(sanitize_text(last_command_started.output)).to eq "Text" }
-    #   end
-    #   """
-    #   When I run `rspec`
-    #   Then the specs should all pass
