@@ -144,8 +144,6 @@ for the most up to date documentation.
 3. Add a file named "test/use_aruba_with_minitest.rb" with:
 
    ~~~ruby
-   $LOAD_PATH.unshift File.expand_path('../test', __FILE__)
-
    require 'test_helper'
    require 'minitest/autorun'
 
@@ -171,7 +169,7 @@ for the most up to date documentation.
 4. Run your tests
 
    ~~~bash
-   bundle exec ruby -Ilib:test test/use_aruba_with_minitest.rb
+   bundle exec ruby -I lib:test test/use_aruba_with_minitest.rb
    ~~~
 
 A full documentation of the API can be found
