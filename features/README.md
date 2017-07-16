@@ -12,12 +12,12 @@
 Your benefits:
 
 * Test any command line application implemented in any [programming
-  language](https://github.com/cucumber/aruba/tree/master/features/01_getting_started_with_aruba/supported_testing_frameworks.feature) -
+  language](https://app.cucumber.pro/projects/Aruba/documents/master/features/01_getting_started_with_aruba/supported_testing_frameworks.feature) -
   e.g. Bash, Python, Ruby, Java, ...
 * Manipulate the file system and the process environment with helpers working similar like tools you may know from your shell
 * No worries about leaking state: The file system and the process environment will be reset between tests
 * Support by a helpful and welcoming community &ndash; see our [Code of Conduct](https://github.com/cucumber/cucumber/blob/master/CODE_OF_CONDUCT.md)
-* The [documentation](https://github.com/cucumber/aruba/tree/master/features/) is our contract with you. You can expect `aruba` to work as documented
+* The [documentation](https://app.cucumber.pro/projects/aruba) is our contract with you. You can expect `aruba` to work as documented
 
 Our Vision:
 
@@ -51,7 +51,7 @@ gem install aruba
 # Usage
 
 **Note:** Please also see this
-[feature test](https://github.com/cucumber/aruba/tree/master/features/01_getting_started_with_aruba/supported_testing_frameworks.feature)
+[feature test](https://app.cucumber.pro/projects/Aruba/documents/master/features/01_getting_started_with_aruba/supported_testing_frameworks.feature)
 for the most up to date documentation.
 
 ## Getting started
