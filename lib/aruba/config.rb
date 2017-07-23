@@ -17,11 +17,7 @@ module Aruba
   #
   # This defines the configuration options of aruba
   class Configuration < BasicConfiguration
-    if Aruba::VERSION >= '1.0.0'
-      option_reader :root_directory, :contract => { None => String }, :default => Dir.getwd
-    else
-      option_accessor :root_directory, :contract => { String => String }, :default => Dir.getwd
-    end
+    option_reader :root_directory, :contract => { None => String }, :default => Dir.getwd
 
     option_accessor :working_directory, :contract => { Aruba::Contracts::RelativePath => Aruba::Contracts::RelativePath }, :default => 'tmp/aruba'
 

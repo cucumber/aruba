@@ -22,11 +22,7 @@ module Aruba
       # @param [#to_s] text
       #   Input
       def extract_text(text)
-        if Aruba::VERSION < '1'
-          text.gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, '')
-        else
-          text.gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, '').gsub(/\\\[|\\\]/, '').gsub(/\007|\016|\017/, '')
-        end
+        text.gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, '').gsub(/\\\[|\\\]/, '').gsub(/\007|\016|\017/, '')
       end
 
       # Unescape special characters and remove ANSI characters
