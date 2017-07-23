@@ -1,15 +1,18 @@
 Feature: Cleanup Aruba Working Directory
 
-  By default Aruba removes its scratch directory before
-  every scenario. This isn't always the right thing
-  to do, especially when the path to the default directory
-  has been changed. Use @no-clobber to stop Aruba from
-  cleaning up after itself.
+  By default Aruba removes its scratch directory *before* every scenario. This
+  isn't always the right thing to do, especially when the path to the default
+  directory has been changed. Use the `@no-clobber`-tag on your scenarios to
+  stop Aruba from cleaning up *before* it runs.
 
   Background:
     Given I use a fixture named "cli-app"
 
   Scenario: Changes in the filesystem
+
+    This assumes you use the default configuration, having `tmp/aruba` as your
+    default working directory in your project root.
+
     Given a file named "tmp/aruba/file.txt" with "content"
     And a directory named "tmp/aruba/dir.d"
     And a file named "features/flushing.feature" with:
