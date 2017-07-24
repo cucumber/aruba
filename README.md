@@ -33,6 +33,22 @@ gem install aruba
 
 Our most current documentation to get started with `aruba` as a user can be found on [![See our documentation on Cucumber Pro](https://github.com/cucumber-ltd/brand/raw/master/images/png/notm/cucumber-pro-black/cucumber-pro-black-32.png)](https://app.cucumber.pro/projects/aruba). It is generated from our feature files describing the use of `aruba`.
 
+### As a user getting started with a some ruby testing framework
+
+* **Cucumber**:
+
+    If you're new to the "Cucumber" ecosystem, it's worth to visit
+[the project's documentation site](https://cucumber.io/docs). This also includes
+information about how to write feature files in "Gherkin".
+
+* **RSpec**:
+
+    If you want to use "aruba" with "RSpec" and you need some information about how to use "RSpec", please visit [their website](http://rspec.info/documentation/).
+
+* **minitest**:
+
+    The documentation for "minitest" can be found [here](http://docs.seattlerb.org/minitest/).
+
 ### As a developer getting started with "aruba"
 
 A full documentation of the API for developers can be found on
