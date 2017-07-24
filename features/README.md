@@ -5,9 +5,7 @@
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.svg)](https://codeclimate.com/github/cucumber/aruba)
 [![Support](https://img.shields.io/badge/cucumber-support-orange.svg)](https://cucumber.io/support)
 
-**This is the [latest](https://github.com/cucumber/aruba/blob/master/features/README.md) version of our README.md.**
-
-<!-- **If you want to see the one of the last released version of "aruba", please have a look at this [one](https://github.com/cucumber/aruba/blob/still/features/README.md).** -->
+**This is the [latest](https://github.com/cucumber/aruba/blob/master/features/README.md) version of our README.md (Branch: "[master](https://github.com/cucumber/aruba/tree/master)").**
 
 `aruba` is an extension for popular TDD and BDD frameworks like "Cucumber", "RSpec" and "Minitest" to make testing of commandline applications meaningful, easy and fun.
 
