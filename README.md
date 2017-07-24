@@ -5,7 +5,7 @@
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.svg)](https://codeclimate.com/github/cucumber/aruba)
 [![Support](https://img.shields.io/badge/cucumber-support-orange.svg)](https://cucumber.io/support)
 
-**This is the [latest](https://github.com/cucumber/aruba/blob/master/README.md) version of our README.md. There is also [the README of the latest released version of "aruba"](https://github.com/cucumber/aruba/blob/still/README.md).**
+**This is the [latest](https://github.com/cucumber/aruba/blob/master/README.md) version of our README.md (Branch: "[master](https://github.com/cucumber/aruba/tree/master)"). There is also [the README of the latest released version of "aruba"](https://github.com/cucumber/aruba/blob/still/README.md) (Branch: "[still](https://github.com/cucumber/aruba/tree/still)").**
 
 ## Install
 
@@ -32,6 +32,22 @@ gem install aruba
 ### As a user getting started with "aruba"
 
 Our most current documentation to get started with `aruba` as a user can be found on [![See our documentation on Cucumber Pro](https://github.com/cucumber-ltd/brand/raw/master/images/png/notm/cucumber-pro-black/cucumber-pro-black-32.png)](https://app.cucumber.pro/projects/aruba). It is generated from our feature files describing the use of `aruba`.
+
+### As a user getting started with a some ruby testing framework
+
+* **Cucumber**:
+
+    If you're new to the "Cucumber" ecosystem, it's worth to visit
+[the project's documentation site](https://cucumber.io/docs). This also includes
+information about how to write feature files in "Gherkin".
+
+* **RSpec**:
+
+    If you want to use "aruba" with "RSpec" and you need some information about how to use "RSpec", please visit [their website](http://rspec.info/documentation/).
+
+* **minitest**:
+
+    The documentation for "minitest" can be found [here](http://docs.seattlerb.org/minitest/).
 
 ### As a developer getting started with "aruba"
 
