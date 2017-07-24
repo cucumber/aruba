@@ -5,7 +5,7 @@
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.svg)](https://codeclimate.com/github/cucumber/aruba)
 [![Support](https://img.shields.io/badge/cucumber-support-orange.svg)](https://cucumber.io/support)
 
-**This is the [latest](https://github.com/cucumber/aruba/blob/master/README.md) version of our README.md. There is also [the README of the latest released version of "aruba"](https://github.com/cucumber/aruba/blob/still/README.md).**
+**This is the [latest](https://github.com/cucumber/aruba/blob/master/README.md) version of our README.md (Branch: "[master](https://github.com/cucumber/aruba/tree/master)"). There is also [the README of the latest released version of "aruba"](https://github.com/cucumber/aruba/blob/still/README.md) (Branch: "[still](https://github.com/cucumber/aruba/tree/still)").**
 
 ## Install
 
