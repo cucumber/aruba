@@ -1,4 +1,13 @@
-## [v1.0.0-alpha.2](https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha)
+## [v1.0.0-alpha.2](https://github.com/cucumber/aruba/compare/v1.0.0.alpha.2...v1.0.0.alpha.3)
+
+**Not released yet**
+
+* Remove development gems for unsupported Rubinius platform
+* Improve documentation for users and developers (#454, #456, #457, #460, #459)
+* Fix UTF-8 issues with jRuby (#464, stamhankar999)
+* Fix bugs in Travis build (#462)
+
+## [v1.0.0-alpha.2](https://github.com/cucumber/aruba/compare/v1.0.0.alpha.1...v1.0.0.alpha.2)
 
 * Update examples for usage in README
 * Fix environment manipulation (#442)
@@ -8,7 +17,7 @@
 * Fix wording in README (#445)
 * Restructure README and upload feature files to cucumber.pro (#444)
 
-## [v1.0.0-alpha.1](https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha)
+## [v1.0.0-alpha.1](https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha.1)
 
 * Use new proposed structure for gems by bundler (#439)
 * Rename methods which run commands (#438)
