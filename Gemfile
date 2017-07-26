@@ -71,8 +71,3 @@ group :development, :test do
 
   gem 'json', '~>2.1'
 end
-
-platforms :rbx do
-  gem 'rubysl', '~> 2.0'
-  gem 'rubinius-developer_tools'
-end
