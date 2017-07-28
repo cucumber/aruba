@@ -34,12 +34,12 @@ end
 namespace :test do
   desc 'Run cucumber tests'
   task :cucumber do
-    sh 'bundle exec cucumber'
+    sh 'bundle exec cucumber -f progress'
   end
 
   desc 'Run cucumber tests which are "WORK IN PROGRESS" and are allowed to fail'
   task :cucumber_wip do
-    sh 'bundle exec cucumber -p wip'
+    sh 'bundle exec cucumber -p wip -f progress'
   end
 
   desc 'Run rspec tests'
