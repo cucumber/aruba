@@ -1,8 +1,8 @@
 [![master Linux/OS X Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=master)](https://travis-ci.org/cucumber/aruba)
-[![master Windows Build Status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl/branch/master?svg=true&passingText=master%20windows%20passing&failingText=master%20windows%20failing&pendingText==master%20windows%20pending)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/master)
+[![master Windows Build Status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl/branch/master?svg=true&passingText=master%20windows%20passing&failingText=master%20windows%20failing&pendingText=master%20windows%20pending)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/master)
 ([master](https://github.com/cucumber/aruba/tree/master)),
 [![still Linux/OS X Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=still)](https://travis-ci.org/cucumber/aruba)
-[![still Wiindows Build Status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl/branch/still?svg=true&passingText=still%20windows%20passing&failingText=still%20windows%20failing&pendingText==master%20windows%20pending)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/still)
+[![still Wiindows Build Status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl/branch/still?svg=true&passingText=still%20windows%20passing&failingText=still%20windows%20failing&pendingText=master%20windows%20pending)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/still)
 ([still](https://github.com/cucumber/aruba/tree/still))
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cucumber/aruba/master/LICENSE)
