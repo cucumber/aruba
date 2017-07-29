@@ -31,6 +31,10 @@ matrix:
   - rvm: jruby-9.1.12.0-21mode
     env: JRUBY_OPTS='--dev'
   fast_finish: true
+branches:
+  only:
+    - master
+    - still
 notifications:
   webhooks:
     urls:
