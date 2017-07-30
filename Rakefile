@@ -31,21 +31,23 @@ task :rubocop do
   Rake::Task['test:coding_guidelines'].invoke
 end
 
+require 'cucumber/rake/task'
+require 'rspec/core/rake_task'
+
 namespace :test do
-  desc 'Run cucumber tests'
-  task :cucumber do
-    sh 'bundle exec cucumber -f progress'
+  Cucumber::Rake::Task.new do |t|
+    t.cucumber_opts = %w{--format progress}
   end
 
-  desc 'Run cucumber tests which are "WORK IN PROGRESS" and are allowed to fail'
-  task :cucumber_wip do
-    sh 'bundle exec cucumber -p wip -f progress'
+  Cucumber::Rake::Task.new(:cucumber_wip, 'Run Cucumber features '\
+                           'which are "WORK IN PROGRESS" and '\
+                           'are allowed to fail') do |t|
+    t.cucumber_opts = %w{--format progress}
+    t.profile = 'wip'
   end
 
-  desc 'Run rspec tests'
-  task :rspec do
-    sh 'bundle exec rspec'
-  end
+  desc 'Run RSpec tests'
+  RSpec::Core::RakeTask.new(:rspec)
 end
 
 namespace :lint do
