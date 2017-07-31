@@ -2,47 +2,70 @@ sudo: false
 language: ruby
 script: bin/test
 install: bin/bootstrap --path vendor/bundle --without development debug
-rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.10
-  - 2.2.7
-  - 2.3.4
-  - 2.4.1
-  - ruby-head
-  - jruby
-  - jruby-20mode
-  - jruby-21mode
-  - jruby-9.1.12.0
 matrix:
   include:
+    - rvm: ruby-head
+      os: linux
+      # - rvm: ruby-head
+      # - os: osx
+      # # TravisCI OSX doesn't work with Ruby 2.4.1 yet (https://github.com/travis-ci/travis-ci/issues/7848)
+    - rvm: 2.4.1
+      os: linux
+      # - rvm: 2.4.1
+      # - os: osx
+      # # TravisCI OSX doesn't work with Ruby 2.4.1 yet (https://github.com/travis-ci/travis-ci/issues/7848)
+    - rvm: 2.4.0
+      os: osx
+    - rvm: 2.3.4
+      os: linux
+    - rvm: 2.3.4
+      os: osx
+    - rvm: 2.2
+      os: linux
+    - rvm: 2.2
+      os: osx
+    - rvm: 2.1
+      os: linux
+    - rvm: 2.1
+      os: osx
+    - rvm: 2.0.0
+      os: linux
+    - rvm: 2.0.0
+      os: osx
+    - rvm: 1.9.3
+      os: linux
+    - rvm: 1.9.3
+      os: osx
+    - rvm: jruby
+      os: linux
     - rvm: jruby-9.1.12.0
-      env: JRUBY_OPTS='--dev'
-    - rvm: jruby-9.1.12.0-20mode
-      env: JRUBY_OPTS='--dev'
-    - rvm: jruby-9.1.12.0-21mode
-      env: JRUBY_OPTS='--dev'
+      os: linux
+    - rvm: jruby-9.1.12.0
+      os: osx
+      env:
   allow_failures:
-  - rvm: ruby-head
-  - rvm: jruby-9.1.12.0
-    env: JRUBY_OPTS='--dev'
-  - rvm: jruby-9.1.12.0-20mode
-    env: JRUBY_OPTS='--dev'
-  - rvm: jruby-9.1.12.0-21mode
-    env: JRUBY_OPTS='--dev'
+    - rvm: ruby-head
+    - rvm: jruby
+    - rvm: jruby-9.1.12.0
   fast_finish: true
 branches:
   only:
     - master
     - still
-notifications:
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/d4d9080e2a8c4910f609
+# notifications:
+#   slack: cucumberbdd:oQFVhzsx4R94KWmjlejAJYnM
 env:
   global:
    - secure: l8uznA5K4K9mZ1krmP3lTMD8WcJ32qGxFOR3jubKHcOBSLB4xSzU2aIqjyJdO+rLzebkwamhJc8pGSIWOUDQYvFiX7splK+uEkbBJ5huAhXtLF4Qgl86bCWbEXYzN7rvn0DQfpJAovyFMNRMnfo70XhwqWzFsaYa7Z0YbqYsJE4=
-   - JRUBY_OPTS='--dev'
+   # Travis by default also have "-Dcext.enabled=false" set in
+   # JRUBY_OPTS, but JRuby 9 does not support C extensions at all
+   # so it issues warning that will mess up the sterr checks.
+   - JRUBY_OPTS="--dev --debug"
+   # Somehow a "ASCII-8BIT to UTF-8 conversion error" appears for
+   # JRuby 9
+   - LC_ALL=en_US.UTF-8
+   - LANG=en_US.UTF-8
+   - LANGUAGE=en_US.UTF-8
 cache: apt
 addons:
   apt:
