@@ -1,16 +1,12 @@
-[![master Linux/OS X Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=master)](https://travis-ci.org/cucumber/aruba)
-[![master Windows Build Status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl/branch/master?svg=true&passingText=master%20windows%20passing&failingText=master%20windows%20failing&pendingText=master%20windows%20pending)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/master)
-([master](https://github.com/cucumber/aruba/tree/master)),
-[![still Linux/OS X Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=still)](https://travis-ci.org/cucumber/aruba)
-[![still Wiindows Build Status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl/branch/still?svg=true&passingText=still%20windows%20passing&failingText=still%20windows%20failing&pendingText=master%20windows%20pending)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/still)
-([still](https://github.com/cucumber/aruba/tree/still))
-
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cucumber/aruba/master/LICENSE)
 [![Docs](https://img.shields.io/badge/cucumber.pro-aruba-3d10af.svg)](https://app.cucumber.pro/projects/aruba)
 [![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
 [![Dependency Status](https://gemnasium.com/cucumber/aruba.svg)](https://gemnasium.com/cucumber/aruba)
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.svg)](https://codeclimate.com/github/cucumber/aruba)
 [![Support](https://img.shields.io/badge/cucumber-support-orange.svg)](https://cucumber.io/support)
+
+[![Build Status for "master" on Linux/Mac OS](https://travis-ci.org/cucumber/aruba.svg?branch=master)](https://travis-ci.org/cucumber/aruba) 
+[![Build status for "master" on Windows](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl/branch/master?svg=true&passingText=master%20windows%20passing&failingText=master%20windows%20failing&pendingText=master%20windows%20pending)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/master)
 
 **This is the [latest](https://github.com/cucumber/aruba/blob/master/README.md) version of our README.md (Branch: "[master](https://github.com/cucumber/aruba/tree/master)"). There is also [the README of the latest released version of "aruba"](https://github.com/cucumber/aruba/blob/still/README.md) (Branch: "[still](https://github.com/cucumber/aruba/tree/still)").**
 
@@ -84,3 +80,19 @@ For an up-to-date list of all supported Ruby versions, please see our [`.travis.
 ## Contributing
 
 Please see the [CONTRIBUTING](CONTRIBUTING.md) file.
+
+## Code branches
+
+We use two branches for development: "master" and "still". The "master" branch
+contains the code of the current major version. The "still" branch is used for the
+old major version. New features are only added to "master". The still branch is
+still maintained, but only get fixes for major bugs though having the still
+branch shall be considered as experimental - we need to find out how work it is
+to maintain two branches of code.
+
+## Build Status
+
+|Version|Linux / OS X|Windows|
+| ------ | ------ | ------ |
+| master | [![Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=master)](https://travis-ci.org/cucumber/aruba) | [![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl/branch/master?svg=true&passingText=master%20windows%20passing&failingText=master%20windows%20failing&pendingText==master%20windows%20pending)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/master)|
+| still | [![Build Status](https://travis-ci.org/cucumber/aruba.svg?branch=still)](https://travis-ci.org/cucumber/aruba) | [![Build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl/branch/still?svg=true&passingText=still%20windows%20passing&failingText=still%20windows%20failing&pendingText=master%20windows%20pending)](https://ci.appveyor.com/project/cucumberbdd/aruba/branch/still)
