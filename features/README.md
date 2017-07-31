@@ -174,8 +174,19 @@ for the most up to date documentation.
 
 ## Development
 
+### Api Documentation
+
 A full documentation of the API can be found
 [here](http://www.rubydoc.info/github/cucumber/aruba/master/frames).
+
+### Code branches
+
+We use two branches for development: "master" and "still". The "master" branch
+contains the code of the current major version. The "still" branch is used for the
+old major version. New features are only added to "master". The still branch is
+still maintained, but only get fixes for major bugs though having the still
+branch shall be considered as experimental - we need to find out how work it is
+to maintain two branches of code.
 
 # Initialize an existing project
 
