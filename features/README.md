@@ -59,7 +59,7 @@ for the most up to date documentation.
 1. Clone the "Getting Started" application and make the cloned repository your current working directory
 
    ~~~bash
-   git clone https://github.com/cli-testing/aruba-getting-started.git
+   git clone https://github.com/cucumber/aruba-getting-started.git
    cd aruba-getting-started
    ~~~
 
