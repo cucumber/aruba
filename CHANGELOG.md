@@ -4,8 +4,20 @@ Please see [CONTRIBUTING.md](https://github.com/cucumber/cucumber/blob/master/CO
 
 **Not released yet**
 
-* Remove development gems for unsupported Rubinius platform
+### Added
+
+### Changed
+
+* Link fixes, formatting updates, etc. to bring CHANGELOG inline with cucumber/cucumber's [#521](https://github.com/cucumber/cucumber/issues/251) ([#482](https://github.com/cucumber/aruba/pull/482), [jaysonesmith](https://github.com/jaysonesmith))
+* Rename History.md to CHANGELOG.md as part of cucumber/cucumber's [#521](https://github.com/cucumber/cucumber/issues/251) ([#481](https://github.com/cucumber/aruba/pull/481), [jaysonesmith](https://github.com/jaysonesmith))
 * Improve documentation for users and developers ([#454](https://github.com/cucumber/aruba/issues/454), [#456](https://github.com/cucumber/aruba/issues/456), [#457](https://github.com/cucumber/aruba/issues/457), [#460](https://github.com/cucumber/aruba/issues/460), [#459](https://github.com/cucumber/aruba/issues/459))
+
+### Removed
+
+* Remove development gems for unsupported Rubinius platform
+
+## Fixed
+
 * Fix UTF-8 issues with jRuby ([#464](https://github.com/cucumber/aruba/issues/464), [stamhankar999](https://github.com/stamhankar999))
 * Fix bugs in Travis build ([#462](https://github.com/cucumber/aruba/issues/462))
 
