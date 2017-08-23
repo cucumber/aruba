@@ -1,3 +1,5 @@
+Please see [CONTRIBUTING.md](https://github.com/cucumber/cucumber/blob/master/CONTRIBUTING.md) on how to contribute to Cucumber.
+
 ## [v1.0.0-alpha.2](https://github.com/cucumber/aruba/compare/v1.0.0.alpha.2...v1.0.0.alpha.3)
 
 **Not released yet**
