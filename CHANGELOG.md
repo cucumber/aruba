@@ -16,7 +16,7 @@ Please see [CONTRIBUTING.md](https://github.com/cucumber/cucumber/blob/master/CO
 
 * Remove development gems for unsupported Rubinius platform
 
-## Fixed
+### Fixed
 
 * Fix UTF-8 issues with jRuby ([#464](https://github.com/cucumber/aruba/issues/464), [stamhankar999](https://github.com/stamhankar999))
 * Fix bugs in Travis build ([#462](https://github.com/cucumber/aruba/issues/462))
