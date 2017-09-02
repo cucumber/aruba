@@ -8,10 +8,6 @@ require 'aruba/platform'
 require 'aruba/api/core'
 require 'aruba/api/command'
 
-if Aruba::VERSION <= '1.1.0'
-  require 'aruba/api/deprecated'
-end
-
 require 'aruba/api/environment'
 require 'aruba/api/filesystem'
 require 'aruba/api/text'
@@ -28,9 +24,6 @@ module Aruba
     include Aruba::Api::Environment
     include Aruba::Api::Filesystem
     include Aruba::Api::Rvm
-    if Aruba::VERSION <= '1.1.0'
-      include Aruba::Api::Deprecated
-    end
     include Aruba::Api::Text
   end
 end
