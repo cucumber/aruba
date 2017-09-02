@@ -26,15 +26,13 @@ RSpec.configure do |config|
     stop_all_commands
   end
 
-  if Aruba::VERSION >= '1.0.0'
-    config.around :each do |example|
-      if self.class.include? Aruba::Api
-        with_environment do
-          example.run
-        end
-      else
+  config.around :each do |example|
+    if self.class.include? Aruba::Api
+      with_environment do
         example.run
       end
+    else
+      example.run
     end
   end
 
