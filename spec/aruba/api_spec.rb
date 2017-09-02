@@ -1235,7 +1235,6 @@ describe Aruba::Api do
   describe "#set_environment_variable" do
     after(:each) do
       @aruba.all_commands.each(&:stop)
-      @aruba.restore_env
     end
 
     it "set environment variable" do
@@ -1249,23 +1248,6 @@ describe Aruba::Api do
       @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'false'
       @aruba.run_command "env"
       expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=false")
-    end
-  end
-
-  describe "#restore_env" do
-    after(:each) { @aruba.all_commands.each(&:stop) }
-    it "restores environment variable" do
-      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
-      @aruba.restore_env
-      @aruba.run_command "env"
-      expect(@aruba.all_output).not_to include("LONG_LONG_ENV_VARIABLE")
-    end
-    it "restores environment variable that has been set multiple times" do
-      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
-      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'false'
-      @aruba.restore_env
-      @aruba.run_command "env"
-      expect(@aruba.all_output).not_to include("LONG_LONG_ENV_VARIABLE")
     end
   end
 end # Aruba::Api
