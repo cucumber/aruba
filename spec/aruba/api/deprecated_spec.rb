@@ -109,7 +109,7 @@ RSpec.describe 'Deprecated API' do
         context 'but fails because the permissions are different' do
           let(:expected_permissions) { 0666 }
 
-          it { expect { @aruba.check_filesystem_permissions(expected_permissions, file_name, true) }.to raise_error }
+          it { expect { @aruba.check_filesystem_permissions(expected_permissions, file_name, true) }.to raise_error RSpec::Expectations::ExpectationNotMetError }
         end
       end
 
@@ -123,7 +123,7 @@ RSpec.describe 'Deprecated API' do
         context 'and fails because the permissions are the same although they should be different' do
           let(:different_permissions) { 0655 }
 
-          it { expect { @aruba.check_filesystem_permissions(different_permissions, file_name, false) }.to raise_error }
+          it { expect { @aruba.check_filesystem_permissions(different_permissions, file_name, false) }.to raise_error RSpec::Expectations::ExpectationNotMetError }
         end
       end
     end
@@ -204,7 +204,7 @@ RSpec.describe 'Deprecated API' do
         end
 
         context 'and this is not expected' do
-          it { expect { @aruba.check_binary_file_content(file_name, reference_file, false) }.to raise_error }
+          it { expect { @aruba.check_binary_file_content(file_name, reference_file, false) }.to raise_error RSpec::Expectations::ExpectationNotMetError }
         end
       end
 
@@ -216,7 +216,7 @@ RSpec.describe 'Deprecated API' do
         end
 
         context 'and this is not expected' do
-          it { expect { @aruba.check_binary_file_content(file_name, reference_file, true) }.to raise_error }
+          it { expect { @aruba.check_binary_file_content(file_name, reference_file, true) }.to raise_error RSpec::Expectations::ExpectationNotMetError }
         end
       end
     end
@@ -275,7 +275,7 @@ RSpec.describe 'Deprecated API' do
 
     it "should check an existing file size and fail" do
       @aruba.write_fixed_size_file(@file_name, @file_size)
-      expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error
+      expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error RSpec::Expectations::ExpectationNotMetError
     end
 
     it "works with ~ in path name" do
@@ -289,7 +289,7 @@ RSpec.describe 'Deprecated API' do
 
     it "should check an existing file size and fail" do
       @aruba.write_fixed_size_file(@file_name, @file_size)
-      expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error
+      expect { @aruba.check_file_size([[@file_name, @file_size + 1]]) }.to raise_error RSpec::Expectations::ExpectationNotMetError
     end
   end
 
