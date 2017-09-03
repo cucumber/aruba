@@ -1159,7 +1159,6 @@ describe Aruba::Api do
   describe "#set_environment_variable" do
     after(:each) do
       @aruba.all_commands.each(&:stop)
-      @aruba.restore_env
     end
 
     it "set environment variable" do

@@ -16,7 +16,6 @@ Before do
 end
 
 After do
-  restore_env
   terminate_all_commands
   aruba.command_monitor.clear
 end
