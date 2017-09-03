@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'securerandom'
 
 RSpec.shared_context 'uses aruba API' do
   def random_string(options = {})
