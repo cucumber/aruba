@@ -794,7 +794,7 @@ describe Aruba::Api do
       end
     end
 
-    describe '#filesystem_permissions' do
+    describe '#chmod' do
       def actual_permissions
         format( "%o" , File::Stat.new(file_path).mode )[-4,4]
       end
@@ -812,7 +812,7 @@ describe Aruba::Api do
       end
 
       before(:each) do
-        @aruba.filesystem_permissions(permissions, file_name)
+        @aruba.chmod(permissions, file_name)
       end
 
       context 'when file exists' do
