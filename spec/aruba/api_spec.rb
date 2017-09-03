@@ -1087,7 +1087,7 @@ describe Aruba::Api do
 
         it "should announce to stdout exactly once" do
           @aruba.run_simple('echo "hello world"', false)
-          expect(@aruba.all_output).to include('hello world')
+          expect(@aruba.last_command_started.output).to include('hello world')
         end
       end
 
@@ -1098,7 +1098,7 @@ describe Aruba::Api do
           end
 
           expect(result).not_to include('hello world')
-          expect(@aruba.all_output).to include('hello world')
+          expect(@aruba.last_command_started.output).to include('hello world')
         end
       end
     end
@@ -1111,20 +1111,20 @@ describe Aruba::Api do
     it "respond to input" do
       @aruba.type "Hello"
       @aruba.type ""
-      expect(@aruba.all_output).to eq "Hello\n"
+      expect(@aruba.last_command_started).to have_output "Hello"
     end
 
     it "respond to close_input" do
       @aruba.type "Hello"
       @aruba.close_input
-      expect(@aruba.all_output).to eq "Hello\n"
+      expect(@aruba.last_command_started).to have_output "Hello"
     end
 
     it "pipes data" do
       @aruba.write_file(@file_name, "Hello\nWorld!")
       @aruba.pipe_in_file(@file_name)
       @aruba.close_input
-      expect(@aruba.all_output).to eq "Hello\nWorld!"
+      expect(@aruba.last_command_started).to have_output "Hello\nWorld!"
     end
   end
 
@@ -1164,14 +1164,16 @@ describe Aruba::Api do
     it "set environment variable" do
       @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.run "env"
-      expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=true")
+      expect(@aruba.last_command_started.output).
+        to include("LONG_LONG_ENV_VARIABLE=true")
     end
 
     it "overwrites environment variable" do
       @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'false'
       @aruba.run "env"
-      expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=false")
+      expect(@aruba.last_command_started.output).
+        to include("LONG_LONG_ENV_VARIABLE=false")
     end
   end
 
