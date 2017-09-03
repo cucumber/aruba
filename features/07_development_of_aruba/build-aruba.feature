@@ -9,4 +9,4 @@ Feature: Build Aruba Gem
     To build the `aruba`-gem you can use the `gem:build`-rake task.
 
     Given I successfully run `rake rubygem:build`
-    Then the output should match %r<aruba \d+\.\d+\.\d+ built to pkg/aruba-\d+\.\d+\.\d+.gem>
+    Then the output should match %r<aruba \d+\.\d+\.\d+[\.\w]* built to pkg/aruba-\d+\.\d+\.\d+[\.\w]*\.gem>
