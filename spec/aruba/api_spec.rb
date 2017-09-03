@@ -834,58 +834,6 @@ describe Aruba::Api do
       end
     end
 
-    context '#check_file_presence' do
-      before(:each) { File.open(@file_path, 'w') { |f| f << "" } }
-
-      it "should check existence using plain match" do
-        file_name = 'nested/dir/hello_world.txt'
-        file_path = File.join(@aruba.aruba.current_directory, file_name)
-
-        Aruba.platform.mkdir(File.dirname(file_path))
-        File.open(file_path, 'w') { |f| f << "" }
-
-        @aruba.check_file_presence(file_name)
-        @aruba.check_file_presence([file_name])
-        @aruba.check_file_presence([file_name], true)
-        @aruba.check_file_presence(['asdf'], false)
-      end
-
-      it "should check existence using regex" do
-        file_name = 'nested/dir/hello_world.txt'
-        file_path = File.join(@aruba.aruba.current_directory, file_name)
-
-        Aruba.platform.mkdir(File.dirname(file_path))
-        File.open(file_path, 'w') { |f| f << "" }
-
-        @aruba.check_file_presence([ /test123/ ], false )
-        @aruba.check_file_presence([ /hello_world.txt$/ ], true )
-        @aruba.check_file_presence([ /dir/ ], true )
-        @aruba.check_file_presence([ %r{nested/.+/} ], true )
-      end
-
-      it "is no problem to mix both" do
-        file_name = 'nested/dir/hello_world.txt'
-        file_path = File.join(@aruba.aruba.current_directory, file_name)
-
-        Aruba.platform.mkdir(File.dirname(file_path))
-        File.open(file_path, 'w') { |f| f << "" }
-
-        @aruba.check_file_presence([ file_name, /nested/  ], true )
-        @aruba.check_file_presence([ /test123/, 'asdf' ], false )
-      end
-
-      it "works with ~ in path name" do
-        file_path = File.join('~', random_string)
-
-        @aruba.with_environment 'HOME' => File.expand_path(@aruba.aruba.current_directory) do
-          Aruba.platform.mkdir(File.dirname(File.expand_path(file_path)))
-          File.open(File.expand_path(file_path), 'w') { |f| f << "" }
-
-          @aruba.check_file_presence( [ file_path ], true )
-        end
-      end
-    end
-
     context "#with_file_content" do
       before :each do
         @aruba.write_file(@file_name, "foo bar baz")
