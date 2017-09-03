@@ -97,7 +97,10 @@ RSpec.describe 'Path Matchers' do
         context 'but fails because the permissions are different' do
           let(:expected_permissions) { 0o666 }
 
-          it { expect { expect(file_name).to have_permissions expected_permissions }.to raise_error }
+          it do
+            expect { expect(file_name).to have_permissions expected_permissions }
+              .to raise_error RSpec::Expectations::ExpectationNotMetError
+          end
         end
       end
 
@@ -111,7 +114,10 @@ RSpec.describe 'Path Matchers' do
         context 'and fails because the permissions are the same although they should be different' do
           let(:different_permissions) { 0o644 }
 
-          it { expect { expect(file_name).not_to have_permissions different_permissions }.to raise_error }
+          it do
+            expect { expect(file_name).not_to have_permissions different_permissions }
+              .to raise_error RSpec::Expectations::ExpectationNotMetError
+          end
         end
       end
     end

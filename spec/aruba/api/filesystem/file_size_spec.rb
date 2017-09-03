@@ -22,7 +22,7 @@ RSpec.describe 'Filesystem Api' do
 
     context 'when file does not exist' do
       let(:name) { 'non_existing_file' }
-      it { expect { size }.to raise_error }
+      it { expect { size }.to raise_error RSpec::Expectations::ExpectationNotMetError }
     end
   end
 end
