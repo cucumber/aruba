@@ -663,12 +663,6 @@ describe Aruba::Api do
       end
     end
 
-    context '#absolute_path' do
-      context 'when file_name is array of path names' do
-        it { silence(:stderr) { expect(@aruba.absolute_path(['path', @file_name])).to eq File.expand_path(File.join(aruba.current_directory, 'path', @file_name)) } }
-      end
-    end
-
     context '#expand_path' do
       context 'when file_name is given' do
         it { expect(@aruba.expand_path(@file_name)).to eq File.expand_path(@file_path) }
