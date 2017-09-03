@@ -42,7 +42,7 @@ RSpec.describe 'Path Matchers' do
 
   describe 'to_be_an_absolute_path' do
     let(:name) { @file_name }
-    let(:path) { File.expand_path(File.join(@aruba.current_directory, name)) }
+    let(:path) { @aruba.expand_path(name) }
 
     context 'when is absolute path' do
       it { expect(path).to be_an_absolute_path }
@@ -70,7 +70,7 @@ RSpec.describe 'Path Matchers' do
 
     context 'when directory' do
       let(:name) { 'test.d' }
-      let(:path) { File.join(@aruba.current_directory, name) }
+      let(:path) { @aruba.expand_path(name) }
 
       context 'exists' do
         before :each do
