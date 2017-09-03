@@ -1162,14 +1162,14 @@ describe Aruba::Api do
     end
 
     it "set environment variable" do
-      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
+      @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.run "env"
       expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=true")
     end
 
     it "overwrites environment variable" do
-      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
-      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'false'
+      @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
+      @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'false'
       @aruba.run "env"
       expect(@aruba.all_output).to include("LONG_LONG_ENV_VARIABLE=false")
     end
