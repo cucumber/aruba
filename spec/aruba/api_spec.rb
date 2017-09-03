@@ -958,20 +958,6 @@ describe Aruba::Api do
     end
   end
 
-  describe "#run_command_and_stop" do
-    before(:each){@aruba.run_command_and_stop "true"}
-    after(:each) { @aruba.all_commands.each(&:stop) }
-    describe "get_process" do
-      it "returns a process" do
-        expect(@aruba.get_process("true")).not_to be(nil)
-      end
-
-      it "raises a descriptive exception" do
-        expect { @aruba.get_process("false") }.to raise_error CommandNotFoundError, "No command named 'false' has been started"
-      end
-    end
-  end
-
   describe 'fixtures' do
     let(:api) do
       klass = Class.new do
