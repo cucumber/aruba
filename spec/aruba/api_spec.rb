@@ -886,47 +886,6 @@ describe Aruba::Api do
       end
     end
 
-    context "check file content" do
-      before :example do
-        @aruba.write_file(@file_name, "foo bar baz")
-      end
-
-      describe "#check_binary_file_content" do
-        let(:file_name) { @file_name }
-        let(:file_path) { @file_path }
-
-        let(:reference_file) { 'fixture' }
-        let(:reference_file_content) { 'foo bar baz' }
-
-        before :each do
-          @aruba.write_file(reference_file, reference_file_content)
-        end
-
-        context 'when files are the same' do
-          context 'and this is expected' do
-            it { @aruba.check_binary_file_content(file_name, reference_file) }
-            it { @aruba.check_binary_file_content(file_name, reference_file, true) }
-          end
-
-          context 'and this is not expected' do
-            it { expect { @aruba.check_binary_file_content(file_name, reference_file, false) }.to raise_error }
-          end
-        end
-
-        context 'when files are not the same' do
-          let(:reference_file_content) { 'bar' }
-
-          context 'and this is expected' do
-            it { @aruba.check_binary_file_content(file_name, reference_file, false) }
-          end
-
-          context 'and this is not expected' do
-            it { expect { @aruba.check_binary_file_content(file_name, reference_file, true) }.to raise_error }
-          end
-        end
-      end
-    end
-
     context "#with_file_content" do
       before :each do
         @aruba.write_file(@file_name, "foo bar baz")

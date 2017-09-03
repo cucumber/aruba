@@ -105,6 +105,42 @@ RSpec.describe 'File Matchers' do
     end
   end
 
+  describe "to have_same_file_content_like" do
+    let(:file_name) { @file_name }
+    let(:file_path) { @file_path }
+
+    let(:reference_file) { 'fixture' }
+
+    before :each do
+      @aruba.write_file(@file_name, "foo bar baz")
+      @aruba.write_file(reference_file, reference_file_content)
+    end
+
+    context 'when files are the same' do
+      let(:reference_file_content) { 'foo bar baz' }
+
+      context 'and this is expected' do
+        it { expect(file_name).to have_same_file_content_like reference_file }
+      end
+
+      context 'and this is not expected' do
+        it { expect { expect(file_name).not_to have_same_file_content_like reference_file }.to raise_error }
+      end
+    end
+
+    context 'when files are not the same' do
+      let(:reference_file_content) { 'bar' }
+
+      context 'and this is expected' do
+        it { expect(file_name).not_to have_same_file_content_like reference_file }
+      end
+
+      context 'and this is not expected' do
+        it { expect { expect(file_name).to have_same_file_content_like reference_file }.to raise_error }
+      end
+    end
+  end
+
   describe 'to_have_file_size' do
     context 'when file exists' do
       before :each do
