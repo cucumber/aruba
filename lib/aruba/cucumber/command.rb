@@ -146,7 +146,7 @@ When(/^I wait for (?:output|stdout) to contain "([^"]*)"$/) do |expected|
 end
 
 Then(/^the output should be (\d+) bytes long$/) do |size|
-  expect(all_output).to have_output_size size.to_i
+  expect(last_command_started.output).to have_output_size size.to_i
 end
 
 Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain( exactly)? "([^"]*)"$/) do |channel, cmd, negated, exactly, expected|
