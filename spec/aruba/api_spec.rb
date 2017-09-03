@@ -1166,20 +1166,6 @@ describe Aruba::Api do
     end
   end
 
-  describe "#assert_not_matching_output" do
-    before(:each){ @aruba.run_command_and_stop("echo foo", false) }
-    after(:each) { @aruba.all_commands.each(&:stop) }
-
-    it "passes when the output doesn't match a regexp" do
-      @aruba.assert_not_matching_output "bar", @aruba.all_output
-    end
-    it "fails when the output does match a regexp" do
-      expect do
-        @aruba.assert_not_matching_output "foo", @aruba.all_output
-      end . to raise_error RSpec::Expectations::ExpectationNotMetError
-    end
-  end
-
   describe '#run_command' do
     before(:each){ @aruba.run_command 'cat' }
     after(:each) { @aruba.all_commands.each(&:stop) }
