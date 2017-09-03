@@ -293,4 +293,16 @@ RSpec.describe 'Deprecated API' do
     end
   end
 
+  describe "#get_process" do
+    before(:each){@aruba.run_simple "true"}
+    after(:each) { @aruba.all_commands.each(&:stop) }
+
+    it "returns a process" do
+      expect(@aruba.get_process("true")).not_to be(nil)
+    end
+
+    it "raises a descriptive exception" do
+      expect { @aruba.get_process("false") }.to raise_error CommandNotFoundError, "No command named 'false' has been started"
+    end
+  end
 end
