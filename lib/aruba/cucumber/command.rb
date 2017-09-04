@@ -268,6 +268,10 @@ Then(/^the output should( not)? match:$/) do |negated, expected|
 end
 
 Then(/^the exit status should( not)? be (\d+)$/) do |negated, exit_status|
+  if last_command_stopped.nil?
+    last_command_started.stop
+  end
+
   if negated
     expect(last_command_stopped).not_to have_exit_status exit_status.to_i
   else
@@ -276,6 +280,8 @@ Then(/^the exit status should( not)? be (\d+)$/) do |negated, exit_status|
 end
 
 Then(/^it should( not)? (pass|fail) with "(.*?)"$/) do |negated, pass_fail, expected|
+  last_command_started.stop
+
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
@@ -290,6 +296,8 @@ Then(/^it should( not)? (pass|fail) with "(.*?)"$/) do |negated, pass_fail, expe
 end
 
 Then(/^it should( not)? (pass|fail) with:$/) do |negated, pass_fail, expected|
+  last_command_started.stop
+
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
@@ -304,6 +312,8 @@ Then(/^it should( not)? (pass|fail) with:$/) do |negated, pass_fail, expected|
 end
 
 Then(/^it should( not)? (pass|fail) with exactly:$/) do |negated, pass_fail, expected|
+  last_command_started.stop
+
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
@@ -318,6 +328,8 @@ Then(/^it should( not)? (pass|fail) with exactly:$/) do |negated, pass_fail, exp
 end
 
 Then(/^it should( not)? (pass|fail) (?:with regexp?|matching):$/) do |negated, pass_fail, expected|
+  last_command_started.stop
+
   if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else

@@ -1,7 +1,8 @@
 Feature: Check exit status of commands
 
   Use the `the exit status should be \d`-step to check the exit status of the
-  last command which was executed.
+  last command which was finished. If no commands have finished yet, it stops
+  the one that was started last.
 
   Background:
     Given I use a fixture named "cli-app"
