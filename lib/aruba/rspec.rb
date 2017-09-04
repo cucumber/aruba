@@ -16,7 +16,6 @@ RSpec.configure do |config|
   # Setup environment for aruba
   config.around :each do |example|
     if self.class.include? Aruba::Api
-      restore_env
       setup_aruba
     end
 

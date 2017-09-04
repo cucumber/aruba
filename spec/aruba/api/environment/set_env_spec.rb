@@ -9,6 +9,10 @@ RSpec.describe 'Command Environment' do
     end
   end
 
+  before do
+    allow(Aruba.platform).to receive(:deprecated)
+  end
+
   describe '#set_env' do
     context 'when non-existing variable' do
       before :each do
