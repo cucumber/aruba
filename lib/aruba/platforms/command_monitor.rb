@@ -45,18 +45,7 @@ module Aruba
       raise ArgumentError, e.message
     end
 
-    if Aruba::VERSION < '1'
-      # Return the last command stopped
-      def last_command_stopped
-        return @last_command_stopped unless @last_command_stopped.nil?
-
-        registered_commands.each(&:stop)
-
-        @last_command_stopped
-      end
-    else
-      attr_reader :last_command_stopped
-    end
+    attr_reader :last_command_stopped
 
     # Set last command started
     #
