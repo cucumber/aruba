@@ -48,8 +48,7 @@ module Aruba
     # @example
     #   path = ArubaPath.new 'path/to/dir.d'
     #   path.pop
-    #   puts path
-    #   # => path/to
+    #   puts path # => path/to
     def pop
       @delegate_sd_obj.pop
     end
@@ -60,9 +59,8 @@ module Aruba
     #   The count of file name parts
     #
     # @example
-    #
-    # path = ArubaPath.new('path/to/file.txt')
-    # path.depth # => 3
+    #   path = ArubaPath.new('path/to/file.txt')
+    #   path.depth # => 3
     #
     def depth
       __getobj__.each_filename.to_a.size

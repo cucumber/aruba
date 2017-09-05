@@ -18,7 +18,7 @@ module Aruba
     # @param [String, Symbol] label
     #   The name of the hook
     #
-    # @para [Proc] block
+    # @param [Proc] block
     #   The block which should be run for the hook
     def append(label, block)
       if store.key?(label.to_sym) && store[label.to_sym].respond_to?(:<<)

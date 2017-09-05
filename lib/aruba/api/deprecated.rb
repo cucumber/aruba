@@ -116,7 +116,7 @@ module Aruba
       #   The command to by run
       #
       # @see #cmd
-      # @deprectated
+      # @deprecated
       def run_interactive(cmd)
         Aruba.platform.deprecated('The use of "#run_interactive" is deprecated. You can simply use "run" instead')
 
@@ -208,15 +208,11 @@ module Aruba
       # @deprecated
       # Check the file size of paths
       #
-      # @params [Hash] paths_and_sizes
+      # @param [Hash] paths_and_sizes
       #   A hash containing the path (key) and the expected size (value)
       #
       # @example
-      #
-      #   paths_and_sizes = {
-      #     'file' => 10
-      #   }
-      #
+      #   paths_and_sizes = { 'file' => 10 }
       #   check_file_size(paths_and_sizes)
       #
       def check_file_size(paths_and_sizes)

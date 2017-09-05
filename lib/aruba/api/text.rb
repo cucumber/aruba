@@ -36,9 +36,7 @@ module Aruba
         text.chomp
       end
 
-      # @experimental
-      #
-      # Replace variables in command string
+      # Replace variables in command string (experimental)
       #
       # @param [#to_s] text
       #   The text to parse

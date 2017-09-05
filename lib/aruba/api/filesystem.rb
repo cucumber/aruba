@@ -40,8 +40,10 @@ module Aruba
 
       # Check if file exist and is executable
       #
-      # @param [String] file
-      #   The file which should exist
+      # @param [String] path
+      #   The path which should exist and be executable
+      #
+      # @return [Boolean]
       def executable?(path)
         path = expand_path(path)
 
@@ -50,16 +52,14 @@ module Aruba
 
       # Check if path is absolute
       #
-      # @return [TrueClass, FalseClass]
-      #   Result of check
+      # @return [Boolean]
       def absolute?(path)
         ArubaPath.new(path).absolute?
       end
 
       # Check if path is relative
       #
-      # @return [TrueClass, FalseClass]
-      #   Result of check
+      # @return [Boolean]
       def relative?(path)
         ArubaPath.new(path).relative?
       end
@@ -69,7 +69,7 @@ module Aruba
       # @return [Array]
       #   List of files and directories
       def all_paths
-        list('.').map { |p| expand_path(p) }
+        list('.').map { |path| expand_path(path) }
       end
 
       # Return all existing files in current directory
@@ -128,10 +128,10 @@ module Aruba
       # The method does not check if file already exists. If the file name is a
       # path the method will create all neccessary directories.
       #
-      # @param [String] file_name
+      # @param [String] name
       #   The name of the file
       #
-      # @param [String] file_content
+      # @param [String] content
       #   The content which should be written to the file
       def write_file(name, content)
         Aruba.platform.create_file(expand_path(name), content, false)
@@ -252,10 +252,10 @@ module Aruba
       # The method does not check if file already exists. If the file name is a
       # path the method will create all neccessary directories.
       #
-      # @param [String] file_name
+      # @param [String] name
       #   The name of the file
       #
-      # @param [Integer] file_size
+      # @param [Integer] size
       #   The size of the file
       def write_fixed_size_file(name, size)
         Aruba.platform.create_fixed_size_file(expand_path(name), size, false)
@@ -297,8 +297,8 @@ module Aruba
                  mode
                end
 
-        args.each { |p| raise "Expected #{p} to be present" unless exist?(p) }
-        paths = args.map { |p| expand_path(p) }
+        args.each { |path| raise "Expected #{path} to be present" unless exist?(path) }
+        paths = args.map { |path| expand_path(path) }
 
         Aruba.platform.chmod(mode, paths, options)
 
@@ -342,7 +342,7 @@ module Aruba
                     {}
                   end
 
-        args = args.map { |p| expand_path(p) }
+        args = args.map { |path| expand_path(path) }
 
         Aruba.platform.rm(args, options)
       end
@@ -370,12 +370,11 @@ module Aruba
       # @param [Array, Path] paths
       #   The paths
       #
-      # @result [FileSize]
+      # @return [FileSize]
       #   Bytes on disk
-
       def disk_usage(*paths)
         expect(paths.flatten).to Aruba::Matchers.all be_an_existing_path
-        expanded = paths.flatten.map { |p| ArubaPath.new(expand_path(p)) }
+        expanded = paths.flatten.map { |path| ArubaPath.new(expand_path(path)) }
 
         # TODO: change the API so that you could set something like
         # aruba.config.fs_allocation_unit_size directly
@@ -394,6 +393,9 @@ module Aruba
       end
 
       # Get size of file
+      #
+      # @param [String] name
+      #   File name
       #
       # @return [Numeric]
       #   The size of the file
