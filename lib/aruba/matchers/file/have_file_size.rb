@@ -6,7 +6,7 @@ require 'rspec/expectations/version'
 #   @param [Fixnum] size
 #     The size to check
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if path does not have size

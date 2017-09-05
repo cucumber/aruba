@@ -4,7 +4,7 @@
 #   @param [String, Regexp] pattern
 #     The pattern to use.
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if there are no files/directories which match the pattern

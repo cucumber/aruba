@@ -4,7 +4,7 @@ require 'rspec/expectations/version'
 #   This matchers checks if <command> run too long. Say the timeout is 10
 #   seconds and it takes <command> to finish in 15. This matchers will succeed.
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if command not to run too long

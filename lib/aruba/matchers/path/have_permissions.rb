@@ -6,7 +6,7 @@ require 'rspec/expectations/version'
 #   @param [Fixnum, String] permissions
 #     The permissions as octal number, e.g. `0700`, or String, e.g. `'0700'`
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if file has permissions

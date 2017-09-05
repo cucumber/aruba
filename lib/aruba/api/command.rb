@@ -234,7 +234,7 @@ module Aruba
       # @param [Hash] options
       #   Options for aruba
       #
-      # @option options [TrueClass,FalseClass] fail_on_error
+      # @option options [Boolean] fail_on_error
       #   Should aruba fail on error?
       #
       # @option options [Integer] exit_timeout

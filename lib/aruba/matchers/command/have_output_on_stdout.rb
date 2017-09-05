@@ -1,7 +1,7 @@
 # @!method have_output_on_stdout
 #   This matchers checks if <command> has created output on stdout
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if command has not created output on stdout

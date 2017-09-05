@@ -6,7 +6,7 @@ require 'aruba/matchers/command/have_finished_in_time'
 # @!method be_successfuly_executed
 #   This matchers checks if execution of <command> was successful
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if command was not successful

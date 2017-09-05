@@ -15,7 +15,7 @@ module Aruba
       # @param [Object] content
       #   The content of the file
       #
-      # @param [TrueClass, FalseClass] check_presence (false)
+      # @param [Boolean] check_presence (false)
       #   Check if file exist
       def call(path, content, check_presence = false)
         fail "Expected #{path} to be present" if check_presence && !Aruba.platform.file?(path)

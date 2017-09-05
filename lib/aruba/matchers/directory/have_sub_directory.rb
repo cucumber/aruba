@@ -6,7 +6,7 @@ require 'rspec/expectations/version'
 #   @param [Array] sub_directory
 #      A list of sub-directory relative to current directory
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if directory does not have sub-directory

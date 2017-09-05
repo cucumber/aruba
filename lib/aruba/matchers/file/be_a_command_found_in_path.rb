@@ -3,7 +3,7 @@ require 'rspec/expectations/version'
 # @!method be_a_command_found_in_path
 #   This matchers checks if <command> can be found in path
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if command was not found in PATH

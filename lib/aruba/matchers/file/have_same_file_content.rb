@@ -9,7 +9,7 @@ require 'fileutils'
 #     The name of the file which should be compared with the file in the
 #     `expect()`-call.
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if file1 is not equal file2

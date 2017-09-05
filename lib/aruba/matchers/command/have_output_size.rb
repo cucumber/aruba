@@ -4,7 +4,7 @@
 #   @param [String] output
 #     The content which should be checked
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if output does not have size

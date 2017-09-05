@@ -1,7 +1,7 @@
 # @!method have_output
 #   This matchers checks if <command> has created output
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if command has not created output
