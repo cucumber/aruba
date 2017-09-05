@@ -119,16 +119,16 @@ module Aruba
       # @param [Hash] opts
       #   Options
       #
-      # @option [Integer] exit_timeout
+      # @option opts [Integer] exit_timeout
       #   If the timeout is reached the command will be killed
       #
-      # @option [Integer] io_wait_timeout
+      # @option opts [Integer] io_wait_timeout
       #   Wait for IO to finish
       #
-      # @option [Integer] startup_wait_time
+      # @option opts [Integer] startup_wait_time
       #   Wait for a command to start
       #
-      # @option [String] stop_signal
+      # @option opts [String] stop_signal
       #   Use signal to stop command
       #
       # @yield [SpawnProcess]
@@ -234,13 +234,13 @@ module Aruba
       # @param [Hash] options
       #   Options for aruba
       #
-      # @option [TrueClass,FalseClass] fail_on_error
+      # @option options [Boolean] fail_on_error
       #   Should aruba fail on error?
       #
-      # @option [Integer] exit_timeout
+      # @option options [Integer] exit_timeout
       #   Timeout for execution
       #
-      # @option [Integer] io_wait_timeout
+      # @option options [Integer] io_wait_timeout
       #   Timeout for IO - STDERR, STDOUT
       #
       # rubocop:disable Metrics/CyclomaticComplexity

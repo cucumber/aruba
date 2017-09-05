@@ -1,18 +1,17 @@
 # @!method match_output_string(string)
 #   This matchers checks if the output string of a command matches regular expression.
 #
-#   @param [Integer] status
-#     The value of the exit status
+#   @param [String] string
+#     The value of the output string
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
-#     false:
+#     False:
 #     * if the output string does not match regex
-#     true:
+#     True:
 #     * if the output string matches regex
 #
 #   @example Use matcher
-#
 #     RSpec.describe do
 #       it { expect(last_command_started).to have_output an_output_string_matching regex) }
 #       it { expect(last_command_started).to have_output match_output_string regex) }

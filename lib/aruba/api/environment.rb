@@ -13,6 +13,8 @@ module Aruba
       #
       # @param [String] value
       #   The value of the environment variable. Needs to be a string.
+      #
+      # @return [self]
       def set_environment_variable(name, value)
         name = name.to_s
         value = value.to_s
@@ -33,6 +35,8 @@ module Aruba
       #
       # @param [String] value
       #   The value of the environment variable. Needs to be a string.
+      #
+      # @return [self]
       def append_environment_variable(name, value)
         name = name.to_s
         value = value.to_s
@@ -53,6 +57,8 @@ module Aruba
       #
       # @param [String] value
       #   The value of the environment variable. Needs to be a string.
+      #
+      # @return [self]
       def prepend_environment_variable(name, value)
         name = name.to_s
         value = value.to_s
@@ -68,11 +74,10 @@ module Aruba
 
       # Remove existing environment variable
       #
-      # @param [String] key
+      # @param [String] name
       #   The name of the environment variable as string, e.g. 'HOME'
       #
-      # @param [String] value
-      #   The value of the environment variable. Needs to be a string.
+      # @return [self]
       def delete_environment_variable(name)
         name = name.to_s
 

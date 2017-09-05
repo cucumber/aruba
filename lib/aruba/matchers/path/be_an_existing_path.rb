@@ -3,7 +3,7 @@ require 'rspec/expectations/version'
 # @!method be_an_existing_path
 #   This matchers checks if <path> exists in filesystem
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if path does not exist

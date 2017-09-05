@@ -7,7 +7,7 @@ require 'rspec/expectations/version'
 #   @param [String, Regexp, Matcher] content
 #     Specifies the content of the file
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if file does not exist

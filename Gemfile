@@ -44,6 +44,13 @@ group :development, :test do
   # Code Coverage
   gem 'simplecov', '~> 0.10'
 
+  # API docs generation
+  gem 'yard', '~>0.9.9'
+
+  if RUBY_VERSION >= '2.3.0'
+    gem 'yard-junk', '~> 0'
+  end
+
   # Test api
   gem 'rspec', '~> 3.4'
   gem 'fuubar', '~> 2.2.0'

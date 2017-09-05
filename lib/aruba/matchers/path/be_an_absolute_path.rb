@@ -3,7 +3,7 @@ require 'rspec/expectations/version'
 # @!method be_an_absolute_path
 #   This matchers checks if <path> exists in filesystem
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if path is not absolute

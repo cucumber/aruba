@@ -1,7 +1,7 @@
 # @!method have_output_on_stderr
 #   This matchers checks if <command> has created output on stderr
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if command has not created output on stderr

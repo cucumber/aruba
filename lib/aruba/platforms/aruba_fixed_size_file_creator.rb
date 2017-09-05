@@ -19,7 +19,7 @@ module Aruba
       # @param [Numeric] size
       #   The size of the file
       #
-      # @param [TrueClass, FalseClass] check_presence (false)
+      # @param [Boolean] check_presence (false)
       #   Check if file exist
       def call(path, size, check_presence)
         fail "Expected #{path} to be present" if check_presence && !Aruba.platform.file?(path)

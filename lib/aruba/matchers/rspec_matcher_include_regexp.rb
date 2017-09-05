@@ -4,7 +4,7 @@
 #   @param [Regexp] regexp
 #     The regular expression to use
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if regexp does not match

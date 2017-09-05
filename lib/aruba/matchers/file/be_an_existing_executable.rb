@@ -4,7 +4,7 @@ require 'shellwords'
 # @!method be_an_existing_executable
 #   This matchers checks if <file> exists in filesystem
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if file does not exist

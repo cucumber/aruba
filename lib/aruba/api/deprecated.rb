@@ -116,7 +116,7 @@ module Aruba
       #   The command to by run
       #
       # @see #cmd
-      # @deprectated
+      # @deprecated
       def run_interactive(cmd)
         Aruba.platform.deprecated('The use of "#run_interactive" is deprecated. You can simply use "run" instead')
 
@@ -208,15 +208,11 @@ module Aruba
       # @deprecated
       # Check the file size of paths
       #
-      # @params [Hash] paths_and_sizes
+      # @param [Hash] paths_and_sizes
       #   A hash containing the path (key) and the expected size (value)
       #
       # @example
-      #
-      #   paths_and_sizes = {
-      #     'file' => 10
-      #   }
-      #
+      #   paths_and_sizes = { 'file' => 10 }
       #   check_file_size(paths_and_sizes)
       #
       def check_file_size(paths_and_sizes)
@@ -560,7 +556,7 @@ module Aruba
       #
       # Full compare arg1 and arg2
       #
-      # @return [TrueClass, FalseClass]
+      # @return [Boolean]
       #   If arg1 is exactly the same as arg2 return true, otherwise false
       def assert_exact_output(expected, actual)
         Aruba.platform.deprecated('The use of "#assert_exact_output" is deprecated. Use "expect(command).to have_output \'exact\'" instead. There are also special matchers for "stdout" and "stderr"')
@@ -573,7 +569,7 @@ module Aruba
       #
       # Partial compare arg1 and arg2
       #
-      # @return [TrueClass, FalseClass]
+      # @return [Boolean]
       #   If arg2 contains arg1 return true, otherwise false
       def assert_partial_output(expected, actual)
         Aruba.platform.deprecated('The use of "#assert_partial_output" is deprecated. Use "expect(command).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
@@ -586,7 +582,7 @@ module Aruba
       #
       # Regex Compare arg1 and arg2
       #
-      # @return [TrueClass, FalseClass]
+      # @return [Boolean]
       #   If arg2 matches arg1 return true, otherwise false
       def assert_matching_output(expected, actual)
         Aruba.platform.deprecated('The use of "#assert_matching_output" is deprecated. Use "expect(command).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
@@ -599,7 +595,7 @@ module Aruba
       #
       # Negative regex compare arg1 and arg2
       #
-      # @return [TrueClass, FalseClass]
+      # @return [Boolean]
       #   If arg2 does not match arg1 return true, otherwise false
       def assert_not_matching_output(expected, actual)
         Aruba.platform.deprecated('The use of "#assert_not_matching_output" is deprecated. Use "expect(command).not_to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
@@ -612,7 +608,7 @@ module Aruba
       #
       # Negative partial compare arg1 and arg2
       #
-      # @return [TrueClass, FalseClass]
+      # @return [Boolean]
       #   If arg2 does not match/include arg1 return true, otherwise false
       def assert_no_partial_output(unexpected, actual)
         Aruba.platform.deprecated('The use of "#assert_no_partial_output" is deprecated. Use "expect(command).not_to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
@@ -629,7 +625,7 @@ module Aruba
       #
       # Partial compare output of interactive command and arg1
       #
-      # @return [TrueClass, FalseClass]
+      # @return [Boolean]
       #   If output of interactive command includes arg1 return true, otherwise false
       def assert_partial_output_interactive(expected)
         Aruba.platform.deprecated('The use of "#assert_partial_output_interactive" is deprecated. Use "expect(last_command_started).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
@@ -641,7 +637,7 @@ module Aruba
       #
       # Check if command succeeded and if arg1 is included in output
       #
-      # @return [TrueClass, FalseClass]
+      # @return [Boolean]
       #   If exit status is 0 and arg1 is included in output return true, otherwise false
       def assert_passing_with(expected)
         Aruba.platform.deprecated('The use of "#assert_passing_with" is deprecated. Use "expect(all_commands).to all(be_successfully_executed).and include_an_object(have_output(/partial/))" or something similar instead. There are also special matchers for "stdout" and "stderr"')
@@ -654,7 +650,7 @@ module Aruba
       #
       # Check if command failed and if arg1 is included in output
       #
-      # @return [TrueClass, FalseClass]
+      # @return [Boolean]
       #   If exit status is not equal 0 and arg1 is included in output return true, otherwise false
       def assert_failing_with(expected)
         Aruba.platform.deprecated('The use of "#assert_passing_with" is deprecated. Use "expect(all_commands).not_to include_an_object(be_successfully_executed).and include_an_object(have_output(/partial/))" or something similar instead. There are also special matchers for "stdout" and "stderr"')
@@ -667,7 +663,7 @@ module Aruba
       #
       # Check exit status of process
       #
-      # @return [TrueClass, FalseClass]
+      # @return [Boolean]
       #   If arg1 is true, return true if command was successful
       #   If arg1 is false, return true if command failed
       def assert_success(success)

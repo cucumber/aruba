@@ -4,7 +4,7 @@
 #   @param [Integer] status
 #     The value of the exit status
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if command does not have exit status

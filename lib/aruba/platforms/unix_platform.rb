@@ -195,7 +195,7 @@ module Aruba
 
       # Check if command is relative
       #
-      # @return [TrueClass, FalseClass]
+      # @return [Boolean]
       #   true
       #     * bin/command.sh
       #
@@ -209,7 +209,7 @@ module Aruba
 
       # Check if command is relative
       #
-      # @return [TrueClass, FalseClass]
+      # @return [Boolean]
       #   true
       #     * command.sh
       #

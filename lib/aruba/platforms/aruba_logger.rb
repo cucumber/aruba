@@ -10,11 +10,31 @@ module Aruba
 
     # Create logger
     #
-    # @param [Logger] logger (::Logger.new( $stderr ))
-    #   The logger with should be used to output data
+    # @param [Hash] opts
+    #   Options
+    #
+    # @option opts [Symbol] :default_mode Log level
     def initialize(opts = {})
       @mode = opts.fetch(:default_mode, :info)
     end
+
+    # @!method fatal(msg)
+    # Log a fatal level log message
+
+    # @!method warn(msg)
+    # Log a warn level log message
+
+    # @!method debug(msg)
+    # Log a debug level log message
+
+    # @!method info(msg)
+    # Log an info level log message
+
+    # @!method error(msg)
+    # Log an error level log message
+
+    # @!method unknown(msg)
+    # Log an unknown level log message
 
     [:fatal, :warn, :debug, :info, :error, :unknown].each do |m|
       define_method m do |msg|

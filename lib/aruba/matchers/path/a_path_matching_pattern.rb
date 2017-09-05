@@ -7,7 +7,7 @@ require 'rspec/expectations/version'
 #   @param [String, Regexp, Matcher] pattern
 #     Specifies the pattern
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if pattern does not match

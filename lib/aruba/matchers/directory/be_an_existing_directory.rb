@@ -3,7 +3,7 @@ require 'rspec/expectations/version'
 # @!method be_an_existing_directory
 #   This matchers checks if <directory> exists in filesystem
 #
-#   @return [TrueClass, FalseClass] The result
+#   @return [Boolean] The result
 #
 #     false:
 #     * if directory does not exist
