@@ -55,7 +55,6 @@ Feature: Return last command stopped
     Then the specs should all pass
 
 
-  @requires-aruba-version-1
   Scenario: No command has been started
     Given a file named "spec/run_spec.rb" with:
     """ruby
@@ -68,7 +67,6 @@ Feature: Return last command stopped
     When I run `rspec`
     Then the specs should all pass
 
-  @requires-aruba-version-1
   Scenario: No command has been stopped
     Given an executable named "bin/aruba-test-cli" with:
     """bash

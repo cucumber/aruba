@@ -70,10 +70,6 @@ Before '@requires-ruby-version-2' do |scenario|
   end
 end
 
-Before '@requires-aruba-version-1' do |scenario|
-  next
-end
-
 Before '@requires-ruby-platform-java' do |scenario|
   # leave if java
   next if RUBY_PLATFORM.include? 'java'
