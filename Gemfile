@@ -21,6 +21,13 @@ group :debug do
   gem 'pry-doc', '~> 0.8.0'
 end
 
+group :development do
+  # Needed for lint:yard:junk task
+  if RUBY_VERSION >= '2.3.0'
+    gem 'yard-junk', '~> 0'
+  end
+end
+
 group :development, :test do
   # we use this to demonstrate interactive debugging within our feature tests
   if RUBY_VERSION >= '2'
@@ -29,7 +36,7 @@ group :development, :test do
     gem 'pry', '~>0.9.12'
   end
 
-  # Run development tasks
+  # Run development and test tasks
   gem 'rake', '~> 10.4.2'
 
   if RUBY_VERSION >= '2.0.0'
@@ -46,10 +53,6 @@ group :development, :test do
 
   # API docs generation
   gem 'yard', '~>0.9.9'
-
-  if RUBY_VERSION >= '2.3.0'
-    gem 'yard-junk', '~> 0'
-  end
 
   # Test api
   gem 'rspec', '~> 3.4'
