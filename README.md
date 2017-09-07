@@ -68,6 +68,7 @@ For support, please have a look at the ["support website"](https://cucumber.io/s
 Currently, this gem is mainly maintained by this group of people:
 
 * [@maxmeyer](https://github.com/maxmeyer)
+* [@mvz](https://github.com/mvz)
 
 ## Release Policy
 
