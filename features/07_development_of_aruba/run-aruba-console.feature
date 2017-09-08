@@ -4,6 +4,7 @@ Feature: Running the interactive "aruba" developer console
   I want to use the interactive aruba console
   In order to try out the "aruba" api
 
+  @requires-readline
   Scenario: Running aruba interactively
 
     This starts a pry console with "aruba"'s api loaded.
