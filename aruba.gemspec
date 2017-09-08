@@ -24,9 +24,6 @@ Gem::Specification.new do |spec|
   spec.rubygems_version = ">= 1.6.1"
   spec.required_ruby_version = '>= 1.9.3'
 
-  # spec.post_install_message = <<-EOS
-  # EOS
-
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
