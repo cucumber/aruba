@@ -171,23 +171,10 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
                             :an_output_string_including
                           end
 
-  if Aruba::VERSION < '1.0'
-    combined_output = commands.map do |c|
-      c.stop
-      c.send(channel.to_sym).chomp
-    end.join("\n")
-
-    if negated
-      expect(combined_output).not_to send(output_string_matcher, expected)
-    else
-      expect(combined_output).to send(output_string_matcher, expected)
-    end
+  if negated
+    expect(commands).not_to include_an_object send(matcher, send(output_string_matcher, expected))
   else
-    if negated
-      expect(commands).not_to include_an_object send(matcher, send(output_string_matcher, expected))
-    else
-      expect(commands).to include_an_object send(matcher, send(output_string_matcher, expected))
-    end
+    expect(commands).to include_an_object send(matcher, send(output_string_matcher, expected))
   end
 end
 
@@ -219,23 +206,10 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
                             :an_output_string_including
                           end
 
-  if Aruba::VERSION < '1.0'
-    combined_output = commands.map do |c|
-      c.stop
-      c.send(channel.to_sym).chomp
-    end.join("\n")
-
-    if negated
-      expect(combined_output).not_to send(output_string_matcher, expected)
-    else
-      expect(combined_output).to send(output_string_matcher, expected)
-    end
+  if negated
+    expect(commands).not_to include_an_object send(matcher, send(output_string_matcher, expected))
   else
-    if negated
-      expect(commands).not_to include_an_object send(matcher, send(output_string_matcher, expected))
-    else
-      expect(commands).to include_an_object send(matcher, send(output_string_matcher, expected))
-    end
+    expect(commands).to include_an_object send(matcher, send(output_string_matcher, expected))
   end
 end
 
