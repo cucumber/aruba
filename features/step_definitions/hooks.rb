@@ -106,7 +106,6 @@ end
 Before '@requires-readline' do
   begin
     require 'readline'
-    next
   rescue LoadError
     if Cucumber::VERSION < '2'
       skip_invoke!
