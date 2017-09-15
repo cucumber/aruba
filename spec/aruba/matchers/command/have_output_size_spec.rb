@@ -8,7 +8,11 @@ RSpec.describe 'Output Matchers' do
   end
 
   describe '#to_have_output_size' do
-    let(:obj) { 'string' }
+    let(:obj) { double('Process') }
+
+    before(:each) do
+      allow(obj).to receive(:output).and_return('string')
+    end
 
     context 'when has size' do
       context 'when is string' do
