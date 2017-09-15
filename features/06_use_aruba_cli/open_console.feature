@@ -3,7 +3,6 @@ Feature: Aruba Console
   Background:
     Given a mocked home directory
 
-  @requires-readline
   Scenario: Start console
     Given I run `aruba console` interactively
     When I close the stdin stream
@@ -13,7 +12,6 @@ Feature: Aruba Console
     """
 
   @unsupported-on-platform-java
-  @requires-readline
   Scenario: Show help
     Given I run `aruba console` interactively
     And I type "aruba_help"
@@ -32,7 +30,6 @@ Feature: Aruba Console
     """
 
   @unsupported-on-platform-java
-  @requires-readline
   Scenario: Show methods
     Given I run `aruba console` interactively
     And I type "aruba_methods"
@@ -47,7 +44,6 @@ Feature: Aruba Console
     """
 
   @unsupported-on-platform-java
-  @requires-readline
   Scenario: Has history
     Given I run `aruba console` interactively
     And I type "aruba_methods"
