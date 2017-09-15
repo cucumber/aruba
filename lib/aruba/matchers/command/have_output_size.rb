@@ -18,10 +18,15 @@
 #     end
 RSpec::Matchers.define :have_output_size do |expected|
   match do |actual|
-    next false unless actual.respond_to? :size
+    @old_actual = actual
 
-    @actual = actual.size
-    values_match? expected, @actual
+    next false unless @old_actual.respond_to? :output
+
+    @old_actual.stop
+
+    @actual = sanitize_text(actual.output).size
+
+    values_match? expected.to_i, @actual
   end
 
   description { "output has size #{description_of expected}" }
