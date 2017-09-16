@@ -2,15 +2,6 @@
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-require 'pry'
+require 'aruba/console'
 
-require 'aruba/api'
-
-module Aruba
-  class MyConsole
-    include Aruba::Api
-  end
-end
-
-include Aruba
-Pry.start MyConsole.new
+Aruba::Console.new.start

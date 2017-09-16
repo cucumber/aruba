@@ -6,7 +6,7 @@ Feature: Running the interactive "aruba" developer console
 
   Scenario: Running aruba interactively
 
-    This starts a pry console with "aruba"'s api loaded.
+    This starts an IRB console with "aruba"'s api loaded.
 
     When I run `bin/console` interactively
     And I type "exit"

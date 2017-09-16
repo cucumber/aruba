@@ -103,6 +103,18 @@ Before '@unsupported-on-platform-windows' do |scenario|
   end
 end
 
+Before '@requires-readline' do
+  begin
+    require 'readline'
+  rescue LoadError
+    if Cucumber::VERSION < '2'
+      skip_invoke!
+    else
+      skip_this_scenario
+    end
+  end
+end
+
 Before '@unsupported-on-platform-unix' do |scenario|
   # leave if not windows
   next unless FFI::Platform.unix?
