@@ -68,25 +68,18 @@ When(/^I pipe in (?:a|the) file(?: named)? "([^"]*)"$/) do |file|
 end
 
 When(/^I (terminate|stop) the command (?:"([^"]*)"|(?:started last))$/) do |signal, command|
-  if command
-    cmd = all_commands.find { |c| c.commandline == command }
-    fail ArgumentError, %(No command "#{command}" found) if cmd.nil?
+  monitor = aruba.command_monitor
 
-    if signal == 'terminate'
-      # last_command_started.terminate
-      process_monitor.terminate_process!(process_monitor.get_process(command))
-    else
-      # last_command_started.stop
-      process_monitor.stop_process(process_monitor.get_process(command))
-    end
+  cmd = if command
+          monitor.find(command)
+        else
+          last_command_started
+        end
+
+  if signal == 'terminate'
+    monitor.terminate_process!(cmd)
   else
-    if signal == 'terminate'
-      # last_command_started.terminate
-      process_monitor.terminate_process!(last_command_started)
-    else
-      # last_command_started.stop
-      process_monitor.stop_process(last_command_started)
-    end
+    monitor.stop_process(cmd)
   end
 end
 
