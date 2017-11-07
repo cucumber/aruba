@@ -20,7 +20,7 @@ Feature: Extract text from output
       before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
-      it { expect(extract_text(unescape_text(last_command.output))).to eq "Text" }
+      it { expect(extract_text(unescape_text(last_command_started.output))).to eq "Text" }
     end
     """
     When I run `rspec`
@@ -40,7 +40,7 @@ Feature: Extract text from output
       before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
-      it { expect(extract_text(unescape_text(last_command.output))).to eq "Text" }
+      it { expect(extract_text(unescape_text(last_command_started.output))).to eq "Text" }
     end
     """
     When I run `rspec`
@@ -60,7 +60,7 @@ Feature: Extract text from output
     #     before(:each) { run_command('aruba-test-cli') }
     #     before(:each) { stop_all_commands }
     #
-    #     it { expect(extract_text(unescape_text(last_command.output))).to eq "Text" }
+    #     it { expect(extract_text(unescape_text(last_command_started.output))).to eq "Text" }
     #   end
     #   """
     #   When I run `rspec`
@@ -80,7 +80,7 @@ Feature: Extract text from output
     #     before(:each) { run_command('aruba-test-cli') }
     #     before(:each) { stop_all_commands }
     #
-    #     it { expect(extract_text(unescape_text(last_command.output))).to eq "Text" }
+    #     it { expect(extract_text(unescape_text(last_command_started.output))).to eq "Text" }
     #   end
     #   """
     #   When I run `rspec`
