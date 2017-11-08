@@ -13,9 +13,6 @@ ignore_opts = []
 ignore_opts <<  '--tags ~@ignore'
 ignore_opts <<  '--tags ~@unsupported-on-platform-java'    if RUBY_PLATFORM.include? 'java'
 ignore_opts <<  '--tags ~@unsupported-on-platform-mri'     if !RUBY_PLATFORM.include? 'java'
-ignore_opts <<  '--tags ~@unsupported-on-platform-windows' if FFI::Platform.windows?
-ignore_opts <<  '--tags ~@unsupported-on-platform-unix'    if FFI::Platform.unix?
-ignore_opts <<  '--tags ~@unsupported-on-platform-mac'     if FFI::Platform.mac?
 ignore_opts <<  '--tags ~@unsupported-on-ruby-older-2'     if RUBY_VERSION < '2'
 ignore_opts = ignore_opts.join(' ')
 %>
