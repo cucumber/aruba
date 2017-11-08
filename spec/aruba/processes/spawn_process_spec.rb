@@ -28,6 +28,11 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     before(:each) { process.stop }
 
     context 'when invoked once' do
+      it 'has the right args' do
+        expect(process.command).to eq 'ruby'
+        expect(process.arguments).to eq ['-e', 'warn "yo"']
+      end
+
       it { expect(process.stderr).to eq "yo\n" }
     end
 
