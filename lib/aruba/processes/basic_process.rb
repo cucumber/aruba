@@ -15,7 +15,7 @@ module Aruba
         :io_wait_timeout, :exit_timeout, :startup_wait_time, :stop_signal
 
       def initialize(cmd, exit_timeout, io_wait_timeout, working_directory,
-                     environment = ENV.to_hash.dup,
+                     environment = Aruba.platform.environment_variables.hash_from_env,
                      main_class = nil, stop_signal = nil, startup_wait_time = 0)
         @cmd               = cmd
         @working_directory = working_directory
