@@ -28,16 +28,12 @@ module Aruba
     #   env["PATH"]
     #   # => nil
     class WindowsEnvironmentVariables < UnixEnvironmentVariables
-      def initialize(env = ENV.to_hash)
-        @actions = []
-
-        @env = env.each_with_object({}) { |(k, v), a| a[k.to_s.upcase] = v }
+      def initialize(env = ENV)
+        super(upcase_env env)
       end
 
       def update(other_env, &block)
-        other_env = other_env.each_with_object({}) { |(k, v), a| a[k.to_s.upcase] = v }
-
-        super(other_env, &block)
+        super(upcase_env(other_env), &block)
       end
 
       def fetch(name, default = UnixEnvironmentVariables::UNDEFINED)
@@ -66,6 +62,16 @@ module Aruba
 
       def delete(name)
         super(name.upcase)
+      end
+
+      def to_h
+        actions.inject(upcase_env(ENV).merge(env)) { |a, e| e.call(a) }
+      end
+
+      private
+
+      def upcase_env(env)
+        env.each_with_object({}) { |(k, v), a| a[k.to_s.upcase] = v }
       end
     end
   end

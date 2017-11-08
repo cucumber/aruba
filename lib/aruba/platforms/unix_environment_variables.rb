@@ -73,7 +73,7 @@ module Aruba
       def update(other_env)
         actions << UpdateAction.new(other_env)
 
-        UnixEnvironmentVariables.new(to_h)
+        self
       end
 
       # Fetch variable from environment
@@ -184,11 +184,7 @@ module Aruba
       # @return [Hash]
       #   A new hash from environment
       def to_h
-        if RUBY_VERSION < '2.0'
-          Marshal.load(Marshal.dump(prepared_environment.to_hash))
-        else
-          Marshal.load(Marshal.dump(prepared_environment.to_h))
-        end
+        actions.inject(ENV.to_hash.merge(env)) { |a, e| e.call(a) }
       end
 
       # Reset environment
@@ -198,16 +194,6 @@ module Aruba
         actions.clear
 
         value
-      end
-
-      private
-
-      def prepared_environment
-        if RUBY_VERSION == '1.9.3'
-          actions.inject(ENV.to_hash.merge(env)) { |a, e| e.call(a) }
-        else
-          actions.each_with_object(ENV.to_hash.merge(env)) { |e, a| a = e.call(a) }
-        end
       end
     end
   end
