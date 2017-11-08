@@ -71,20 +71,7 @@ RSpec.describe 'Command Matchers' do
     end
 
     context 'when have output hello world on stderr' do
-      before :each do
-        string = <<-EOS.strip_heredoc
-        #!/usr/bin/env bash
-
-        echo $* >&2
-        EOS
-
-        File.open(expand_path('cmd.sh'), 'w') { |f| f.puts string }
-
-        File.chmod 0o755, expand_path('cmd.sh')
-        prepend_environment_variable 'PATH', "#{expand_path('.')}#{File::PATH_SEPARATOR}"
-      end
-
-      let(:cmd) { "cmd.sh #{output}" }
+      let(:cmd) { "ruby -e 'warn \"#{output}\"'" }
 
       before(:each) { run_command(cmd) }
 
@@ -108,20 +95,7 @@ RSpec.describe 'Command Matchers' do
     end
 
     context 'when have output hello world on stderr' do
-      before :each do
-        string = <<-EOS.strip_heredoc
-        #!/usr/bin/env bash
-
-        echo $* >&2
-        EOS
-
-        File.open(expand_path('cmd.sh'), 'w') { |f| f.puts string }
-
-        File.chmod 0o755, expand_path('cmd.sh')
-        prepend_environment_variable 'PATH', "#{expand_path('.')}#{File::PATH_SEPARATOR}"
-      end
-
-      let(:cmd) { "cmd.sh #{output}" }
+      let(:cmd) { "ruby -e 'warn \"#{output}\"'" }
 
       before(:each) { run_command(cmd) }
 
@@ -145,20 +119,7 @@ RSpec.describe 'Command Matchers' do
     end
 
     context 'when have output hello world on stderr' do
-      before :each do
-        string = <<-EOS.strip_heredoc
-        #!/usr/bin/env bash
-
-        echo $* >&2
-        EOS
-
-        File.open(expand_path('cmd.sh'), 'w') { |f| f.puts string }
-
-        File.chmod 0o755, expand_path('cmd.sh')
-        prepend_environment_variable 'PATH', "#{expand_path('.')}#{File::PATH_SEPARATOR}"
-      end
-
-      let(:cmd) { "cmd.sh #{output}" }
+      let(:cmd) { "ruby -e 'warn \"#{output}\"'" }
 
       before(:each) { run_command(cmd) }
 
