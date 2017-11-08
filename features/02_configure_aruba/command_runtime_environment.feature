@@ -23,7 +23,7 @@ Feature: Define default process environment
     ENV['LONG_LONG_VARIABLE'] = 'y'
 
     Aruba.configure do |config|
-      config.command_runtime_environment = { 'LONG_LONG_VARIABLE' => 'x' } 
+      config.command_runtime_environment = { 'LONG_LONG_VARIABLE' => 'x' }
     end
 
     RSpec.describe 'Environment command', :type => :aruba do
@@ -44,7 +44,7 @@ Feature: Define default process environment
     ENV['LONG_LONG_VARIABLE'] = 'y'
 
     Aruba.configure do |config|
-      config.command_runtime_environment = { 'LONG_LONG_VARIABLE' => 'x' } 
+      config.command_runtime_environment = { 'LONG_LONG_VARIABLE' => 'x' }
     end
 
     RSpec.describe 'Environment command', :type => :aruba do
@@ -67,7 +67,7 @@ Feature: Define default process environment
     ENV['LONG_LONG_VARIABLE'] = 'y'
 
     Aruba.configure do |config|
-      config.command_runtime_environment = { 'LONG_LONG_VARIABLE' => 'x' } 
+      config.command_runtime_environment = { 'LONG_LONG_VARIABLE' => 'x' }
     end
 
     RSpec.describe 'Environment command', :type => :aruba do
@@ -90,7 +90,7 @@ Feature: Define default process environment
     ENV['LONG_LONG_VARIABLE'] = 'y'
 
     Aruba.configure do |config|
-      config.command_runtime_environment = { 'LONG_LONG_VARIABLE' => 'x' } 
+      config.command_runtime_environment = { 'LONG_LONG_VARIABLE' => 'x' }
     end
 
     RSpec.describe 'Environment command', :type => :aruba do
@@ -113,7 +113,7 @@ Feature: Define default process environment
     ENV['LONG_LONG_VARIABLE'] = 'y'
 
     Aruba.configure do |config|
-      config.command_runtime_environment = { 'LONG_LONG_VARIABLE' => 'x' } 
+      config.command_runtime_environment = { 'LONG_LONG_VARIABLE' => 'x' }
     end
 
     RSpec.describe 'Environment command', :type => :aruba do
