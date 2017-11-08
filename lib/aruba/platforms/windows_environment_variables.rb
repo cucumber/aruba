@@ -64,14 +64,18 @@ module Aruba
         super(name.upcase)
       end
 
-      def to_h
-        actions.inject(upcase_env(ENV).merge(env)) { |a, e| e.call(a) }
+      def self.hash_from_env
+        upcase_env(ENV)
+      end
+
+      def self.upcase_env(env)
+        env.each_with_object({}) { |(k, v), a| a[k.to_s.upcase] = v }
       end
 
       private
 
       def upcase_env(env)
-        env.each_with_object({}) { |(k, v), a| a[k.to_s.upcase] = v }
+        self.class.upcase_env(env)
       end
     end
   end

@@ -184,7 +184,7 @@ module Aruba
       # @return [Hash]
       #   A new hash from environment
       def to_h
-        actions.inject(ENV.to_hash.merge(env)) { |a, e| e.call(a) }
+        actions.inject(hash_from_env.merge(env)) { |a, e| e.call(a) }
       end
 
       # Reset environment
@@ -194,6 +194,16 @@ module Aruba
         actions.clear
 
         value
+      end
+
+      def self.hash_from_env
+        ENV.to_hash
+      end
+
+      private
+
+      def hash_from_env
+        self.class.hash_from_env
       end
     end
   end
