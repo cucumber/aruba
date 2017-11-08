@@ -1,14 +1,12 @@
 require 'spec_helper'
 
 RSpec.describe Aruba::Processes::SpawnProcess do
-  subject(:process) { described_class.new(command, exit_timeout, io_wait, working_directory, environment, main_class) }
+  subject(:process) { described_class.new(command, exit_timeout, io_wait, working_directory) }
 
   let(:command) { 'echo "yo"' }
   let(:exit_timeout) { 1 }
   let(:io_wait) { 1 }
   let(:working_directory) { Dir.getwd }
-  let(:environment) { ENV.to_hash.dup }
-  let(:main_class) { nil }
 
   describe "#stdout" do
     before(:each) { process.start }
