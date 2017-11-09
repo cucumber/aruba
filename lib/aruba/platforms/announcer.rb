@@ -196,37 +196,6 @@ module Aruba
 
         nil
       end
-
-      # @deprecated
-      def stdout(content)
-        warn('The announcer now has a new api to activate channels. Please use this one: announce(:stdout, message)')
-        announce :stdout, content
-      end
-
-      # @deprecated
-      def stderr(content)
-        warn('The announcer now has a new api to activate channels. Please use this one: announce(:stderr, message)')
-        announce :stderr, content
-      end
-
-      # @deprecated
-      def dir(dir)
-        warn('The announcer now has a new api to activate channels. Please use this one announce(:directory, message)')
-        announce :directory, dir
-      end
-
-      # @deprecated
-      def cmd(cmd)
-        warn('The announcer now has a new api to activate channels. Please use this one announce(:command, message)')
-        announce :command, cmd
-      end
-
-      # @deprecated
-      def env(name, value)
-        warn('The announcer now has a new api to activate channels. Please use this one: announce(:changed_environment, key, value)')
-
-        announce :changed_environment, name, value
-      end
     end
   end
 end
