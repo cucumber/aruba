@@ -11,26 +11,6 @@ task :default => :test
 desc 'Run the whole test suite. Any failure will stop rake going on'
 task :test => %w(lint:travis lint:coding_guidelines lint:licenses test:rspec test:cucumber test:cucumber_wip)
 
-task :cucumber do
-  Aruba.platform.deprecated 'The use of task "cucumber" is deprecated. Please use "test:cucumber"'
-  Rake::Task['test:cucumber'].invoke
-end
-
-task :cucumber_wip do
-  Aruba.platform.deprecated 'The use of task "cucumber_wip" is deprecated. Please use "test:cucumber_wip"'
-  Rake::Task['test:cucumber_wip'].invoke
-end
-
-task :spec do
-  Aruba.platform.deprecated 'The use of task "spec" is deprecated. Please use "test:rspec"'
-  Rake::Task['test:rspec'].invoke
-end
-
-task :rubocop do
-  Aruba.platform.deprecated 'The use of task "rubocop" is deprecated. Please use "lint:coding_guidelines"'
-  Rake::Task['test:coding_guidelines'].invoke
-end
-
 require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
 
