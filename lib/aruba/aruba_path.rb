@@ -89,19 +89,6 @@ module Aruba
       to_s[index]
     end
 
-    # Report count of blocks allocated on disk
-    #
-    # This reports the amount of blocks which are allocated by the path.
-    #
-    # @return [Integer]
-    #   The count of blocks on disk
-    #
-    # @deprecated
-    def blocks
-      min_bytes_used = minimum_disk_space_used
-      min_bytes_used / Aruba.config.physical_block_size
-    end
-
     # TODO: Aruba.config.physical_block_size could be allowed to be nil
     # (So the unit size can be autodetected)
 
