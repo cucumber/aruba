@@ -10,39 +10,9 @@ RSpec.describe 'Path Matchers' do
     @aruba.expand_path(*args)
   end
 
-  describe 'to_match_path_pattern' do
-    context 'when pattern is string' do
-      context 'when there is file which matches path pattern' do
-        before :each do
-          Aruba.platform.write_file(@file_path, '')
-        end
-
-        it { expect(all_paths).to match_path_pattern(expand_path(@file_name)) }
-      end
-
-      context 'when there is not file which matches path pattern' do
-        it { expect(all_paths).not_to match_path_pattern('test') }
-      end
-    end
-
-    context 'when pattern is regex' do
-      context 'when there is file which matches path pattern' do
-        before :each do
-          Aruba.platform.write_file(@file_path, '')
-        end
-
-        it { expect(all_paths).to match_path_pattern(/test/) }
-      end
-
-      context 'when there is not file which matches path pattern' do
-        it { expect(all_paths).not_to match_path_pattern(/test/) }
-      end
-    end
-  end
-
   describe 'to_be_an_absolute_path' do
     let(:name) { @file_name }
-    let(:path) { File.expand_path(File.join(@aruba.current_directory, name)) }
+    let(:path) { @aruba.expand_path(name) }
 
     context 'when is absolute path' do
       it { expect(path).to be_an_absolute_path }
@@ -70,7 +40,7 @@ RSpec.describe 'Path Matchers' do
 
     context 'when directory' do
       let(:name) { 'test.d' }
-      let(:path) { File.join(@aruba.current_directory, name) }
+      let(:path) { @aruba.expand_path(name) }
 
       context 'exists' do
         before :each do
@@ -82,6 +52,73 @@ RSpec.describe 'Path Matchers' do
 
       context 'does not exist' do
         it { expect(name).not_to be_an_existing_path }
+      end
+    end
+  end
+
+  describe 'to have_permissions' do
+    let(:file_name) { @file_name }
+    let(:file_path) { @file_path }
+
+    let(:permissions) { '0644' }
+
+    before :each do
+      @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
+    end
+
+    before(:each) do
+      File.open(file_path, 'w') { |f| f << "" }
+    end
+
+    before(:each) do
+      @aruba.chmod(permissions, file_name)
+    end
+
+    context 'when file exists' do
+      context 'and should have permissions' do
+        context 'and permissions are given as string' do
+          it { expect(file_name).to have_permissions permissions }
+        end
+
+        context 'and permissions are given as octal number' do
+          let(:permissions) { 0o666 }
+
+          it { expect(file_name).to have_permissions permissions }
+        end
+
+        context 'and path includes ~' do
+          let(:string) { random_string }
+          let(:file_name) { File.join('~', string) }
+          let(:file_path) { File.join(@aruba.aruba.current_directory, string) }
+
+          it { expect(file_name).to have_permissions permissions }
+        end
+
+        context 'but fails because the permissions are different' do
+          let(:expected_permissions) { 0o666 }
+
+          it do
+            expect { expect(file_name).to have_permissions expected_permissions }
+              .to raise_error RSpec::Expectations::ExpectationNotMetError
+          end
+        end
+      end
+
+      context 'and should not have permissions' do
+        context 'and succeeds when the difference is expected and permissions are different' do
+          let(:different_permissions) { 0o666 }
+
+          it { expect(file_name).not_to have_permissions different_permissions }
+        end
+
+        context 'and fails because the permissions are the same although they should be different' do
+          let(:different_permissions) { 0o644 }
+
+          it do
+            expect { expect(file_name).not_to have_permissions different_permissions }
+              .to raise_error RSpec::Expectations::ExpectationNotMetError
+          end
+        end
       end
     end
   end

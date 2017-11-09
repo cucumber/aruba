@@ -53,7 +53,6 @@ Feature: Getting started with RSpec and aruba
     There might be some use cases where you want to build an aruba integration
     of your own. You need to include the API and make sure, that you run
 
-      \* `restore_env` (only for aruba < 1.0.0)
       \* `setup_aruba`
 
     before any method of aruba is used.
