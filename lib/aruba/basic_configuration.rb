@@ -121,22 +121,6 @@ module Aruba
       obj
     end
 
-    # Get access to hooks
-    def hooks
-      # rubocop:disable Metrics/LineLength
-      Aruba.platform.deprecated 'The use of the "#aruba.config.hooks" is deprecated. Please use "#aruba.config.before(:name) {}" to define and "#aruba.config.before(:name, *args)" to run a hook. This method will become private in the next major version.'
-      # rubocop:enable Metrics/LineLength
-
-      @hooks
-    end
-
-    # @deprecated
-    def before_cmd(&block)
-      Aruba.platform.deprecated 'The use of the "#before_cmd"-hook is deprecated. Please define with "#before(:command) {}" instead'
-
-      before(:command, &block)
-    end
-
     # Define or run before-hook
     #
     # @param [Symbol, String] name
