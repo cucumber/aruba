@@ -77,9 +77,9 @@ When(/^I (terminate|stop) the command (?:"([^"]*)"|(?:started last))$/) do |sign
         end
 
   if signal == 'terminate'
-    monitor.terminate_process!(cmd)
+    cmd.terminate
   else
-    monitor.stop_process(cmd)
+    cmd.stop
   end
 end
 
