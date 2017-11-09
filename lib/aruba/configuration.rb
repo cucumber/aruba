@@ -76,18 +76,3 @@ module Aruba
     end
   end
 end
-
-# Aruba
-module Aruba
-  # Old Config
-  #
-  # @private
-  # @deprecated
-  class Config < Configuration
-    def initialize(*args)
-      warn('The use of "Aruba::Config" is deprecated. Use "Aruba::Configuration" instead.')
-
-      super
-    end
-  end
-end

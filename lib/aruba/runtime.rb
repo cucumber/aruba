@@ -1,4 +1,4 @@
-require 'aruba/config'
+require 'aruba/configuration'
 require 'aruba/aruba_path'
 require 'aruba/config_wrapper'
 require 'aruba/events'
