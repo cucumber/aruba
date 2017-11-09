@@ -7,17 +7,6 @@ require 'aruba/command'
 
 # Aruba
 module Aruba
-  class << self
-    # @deprecated
-    attr_accessor :process
-  end
-
-  # @deprecated
-  # self.process = Aruba::Processes::SpawnProcess
-end
-
-# Aruba
-module Aruba
   # Api
   module Api
     # Command module
@@ -136,30 +125,11 @@ module Aruba
       #
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
-      def run_command(*args)
-        fail ArgumentError, 'Please pass at least a command as first argument.' if args.empty?
-
-        cmd = args.shift
-
-        if args.last.is_a? Hash
-          opts = args.pop
-
-          exit_timeout      = opts[:exit_timeout].nil? ? aruba.config.exit_timeout : opts[:exit_timeout]
-          io_wait_timeout   = opts[:io_wait_timeout].nil? ? aruba.config.io_wait_timeout : opts[:io_wait_timeout]
-          stop_signal       = opts[:stop_signal].nil? ? aruba.config.stop_signal : opts[:stop_signal]
-          startup_wait_time = opts[:startup_wait_time].nil? ? aruba.config.startup_wait_time : opts[:startup_wait_time]
-        else
-          if args.size > 1
-            # rubocop:disable Metrics/LineLength
-            Aruba.platform.deprecated("Please pass options to `#run` as named parameters/hash and don\'t use the old style, e.g. `#run_command('cmd', :exit_timeout => 5)`.")
-            # rubocop:enable Metrics/LineLength
-          end
-
-          exit_timeout      = args[0].nil? ? aruba.config.exit_timeout : args[0]
-          io_wait_timeout   = args[1].nil? ? aruba.config.io_wait_timeout : args[1]
-          stop_signal       = args[2].nil? ? aruba.config.stop_signal : args[2]
-          startup_wait_time = args[3].nil? ? aruba.config.startup_wait_time : args[3]
-        end
+      def run_command(cmd, opts = {})
+        exit_timeout      = opts[:exit_timeout].nil? ? aruba.config.exit_timeout : opts[:exit_timeout]
+        io_wait_timeout   = opts[:io_wait_timeout].nil? ? aruba.config.io_wait_timeout : opts[:io_wait_timeout]
+        stop_signal       = opts[:stop_signal].nil? ? aruba.config.stop_signal : opts[:stop_signal]
+        startup_wait_time = opts[:startup_wait_time].nil? ? aruba.config.startup_wait_time : opts[:startup_wait_time]
 
         cmd = replace_variables(cmd)
 
@@ -172,23 +142,9 @@ module Aruba
 
         cmd = Aruba.platform.detect_ruby(cmd)
 
-        mode = if Aruba.process
-                 # rubocop:disable Metrics/LineLength
-                 Aruba.platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "Aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "Aruba.configure { |config| config.main_class = <klass> }" instead.')
-                 # rubocop:enable Metrics/LineLength
-                 Aruba.process
-               else
-                 aruba.config.command_launcher
-               end
+        mode = aruba.config.command_launcher
 
-        main_class = if Aruba.process.respond_to?(:main_class) && Aruba.process.main_class
-                       # rubocop:disable Metrics/LineLength
-                       Aruba.platform.deprecated('The use of "Aruba.process = <process>" and "Aruba.process.main_class" is deprecated. Use "Aruba.configure { |config| config.command_launcher = :in_process|:debug|:spawn }" and "Aruba.configure { |config| config.main_class = <klass> }" instead.')
-                       # rubocop:enable Metrics/LineLength
-                       Aruba.process.main_class
-                     else
-                       aruba.config.main_class
-                     end
+        main_class = aruba.config.main_class
 
         command = Command.new(
           cmd,
@@ -202,13 +158,6 @@ module Aruba
           :startup_wait_time => startup_wait_time,
           :event_bus         => event_bus
         )
-
-        if aruba.config.before? :cmd
-          # rubocop:disable Metrics/LineLength
-          Aruba.platform.deprecated('The use of "before"-hook" ":cmd" is deprecated. Use ":command" instead. Please be aware that this hook gets the command passed in not the cmdline itself. To get the commandline use "#cmd.commandline"')
-          # rubocop:enable Metrics/LineLength
-          aruba.config.before(:cmd, self, cmd)
-        end
 
         aruba.config.before(:command, self, command)
 
@@ -243,32 +192,12 @@ module Aruba
       # @option options [Integer] io_wait_timeout
       #   Timeout for IO - STDERR, STDOUT
       #
-      # rubocop:disable Metrics/CyclomaticComplexity
-      # rubocop:disable Metrics/MethodLength
-      def run_command_and_stop(*args)
-        fail ArgumentError, 'Please pass at least a command as first argument.' if args.empty?
-
-        cmd = args.shift
-
-        if args.last.is_a? Hash
-          opts = args.pop
-          fail_on_error = opts.delete(:fail_on_error) == true ? true : false
-        else
-          if args.size > 1
-            # rubocop:disable Metrics/LineLength
-            Aruba.platform.deprecated("Please pass options to `#run_command_and_stop` as named parameters/hash and don\'t use the old style with positional parameters, NEW: e.g. `#run_command_and_stop('cmd', :exit_timeout => 5)`.")
-            # rubocop:enable Metrics/LineLength
-          end
-
-          fail_on_error = args[0] == false ? false : true
-
-          opts = {
-            :exit_timeout      => (args[1] || aruba.config.exit_timeout),
-            :io_wait_timeout   => (args[2] || aruba.config.io_wait_timeout),
-            :stop_signal       => (args[3] || aruba.config.stop_signal),
-            :startup_wait_time => (args[4] || aruba.config.startup_wait_time)
-          }
-        end
+      def run_command_and_stop(cmd, opts = {})
+        fail_on_error = if opts.key?(:fail_on_error)
+                          opts.delete(:fail_on_error) == true ? true : false
+                        else
+                          true
+                        end
 
         command = run_command(cmd, opts)
         command.stop
@@ -283,8 +212,6 @@ module Aruba
           end
         end
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
-      # rubocop:enable Metrics/MethodLength
 
       # Provide data to command via stdin
       #

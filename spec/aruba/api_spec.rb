@@ -916,7 +916,7 @@ describe Aruba::Api do
         end
 
         it "should announce to stdout exactly once" do
-          @aruba.run_command_and_stop('echo "hello world"', false)
+          @aruba.run_command_and_stop('echo "hello world"', fail_on_error: false)
           expect(@aruba.last_command_started.output).to include('hello world')
         end
       end
@@ -924,7 +924,7 @@ describe Aruba::Api do
       context 'disabled' do
         it "should not announce to stdout" do
           result = capture(:stdout) do
-            @aruba.run_command_and_stop('echo "hello world"', false)
+            @aruba.run_command_and_stop('echo "hello world"', fail_on_error: false)
           end
 
           expect(result).not_to include('hello world')

@@ -47,31 +47,3 @@ Feature: before_cmd hooks
     """
     before the run of `echo running`
     """
-
-  Scenario: Run a simple command with a "before(:cmd)"-hook (deprecated)
-    Given a file named "spec/support/hooks.rb" with:
-    """
-    require_relative 'aruba'
-
-    Aruba.configure do |config|
-      config.before :cmd do |cmd|
-        puts "before the run of `#{cmd}`"
-      end
-    end
-    """
-    And a file named "spec/hook_spec.rb" with:
-    """
-    require 'spec_helper'
-
-    RSpec.describe 'Hooks', :type => :aruba do
-      before(:each) { run_command_and_stop 'echo running' }
-
-      it { expect(last_command_started.stdout.chomp).to eq 'running' }
-    end
-    """
-    When I run `rspec`
-    Then the specs should all pass
-    And the output should contain:
-    """
-    before the run of `echo running`
-    """
