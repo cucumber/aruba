@@ -7,26 +7,6 @@ Feature: Announce output during test run
   Background:
     Given I use a fixture named "cli-app"
 
-  Scenario: Announce change of directory (deprecated)
-    Given a file named "features/exit_status.feature" with:
-    """cucumber
-    Feature: Announce
-      @announce-dir
-      Scenario: Run command
-        Given a directory named "dir.d"
-        When I cd to "dir.d"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-    And the output should contain:
-    """
-    $ cd /
-    """
-    And the output should contain:
-    """
-    tmp/aruba/dir.d
-    """
-
   Scenario: Announce change of directory
     Given a file named "features/exit_status.feature" with:
     """cucumber
@@ -140,7 +120,7 @@ Feature: Announce output during test run
     And a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
-      @announce-cmd
+      @announce-command
       Scenario: Run command
         When I run `aruba-test-cli`
         Then the exit status should be 0
@@ -162,7 +142,7 @@ Feature: Announce output during test run
     And a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
-      @announce-env
+      @announce-changed-environment
       Scenario: Run command
         When I set the environment variables to:
           | variable | value    |
@@ -187,7 +167,7 @@ Feature: Announce output during test run
     And a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
-      @announce-env
+      @announce-changed-environment
       Scenario: Run command
         When I set the environment variables to:
           | variable | value      |
