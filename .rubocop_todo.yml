@@ -1,17 +1,3 @@
-# Cop supports --auto-correct.
-# Configuration parameters: SupportedStyles.
-Style/HashSyntax:
-  Enabled: false
-
-Metrics/ModuleLength:
-  Exclude:
-    - lib/aruba/api.rb
-    - lib/aruba/api/*.rb
-    - lib/aruba/platform.rb
-
-Metrics/AbcSize:
-  Enabled: false
-
 Lint/AmbiguousRegexpLiteral:
   Enabled: false
 
@@ -30,6 +16,12 @@ Lint/UnusedMethodArgument:
 Lint/UselessAssignment:
   Enabled: false
 
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
 # Configuration parameters: AllowURI.
 Metrics/LineLength:
   Max: 169
@@ -41,6 +33,18 @@ Metrics/LineLength:
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
   Max: 18
+
+Metrics/ModuleLength:
+  Exclude:
+    - lib/aruba/api.rb
+    - lib/aruba/api/*.rb
+    - lib/aruba/platform.rb
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -62,9 +66,6 @@ Style/ClassCheck:
 Style/ClassVars:
   Enabled: false
 
-Metrics/ClassLength:
-  Enabled: false
-
 # Cop supports --auto-correct.
 # Configuration parameters: PreferredMethods.
 Style/CollectionMethods:
@@ -75,6 +76,17 @@ Style/Documentation:
 
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:
+  Enabled: false
+
+# Cop supports --auto-correct.
+# Configuration parameters: SupportedStyles.
+Style/HashSyntax:
+  Enabled: false
+
+Style/IdenticalConditionalBranches:
+  Enabled: false
+
+Style/IfInsideElse:
   Enabled: false
 
 # Configuration parameters: MaxLineLength.
@@ -91,9 +103,6 @@ Style/LeadingCommentSpace:
 # Cop supports --auto-correct.
 # Configuration parameters: PreferredDelimiters.
 Style/PercentLiteralDelimiters:
-  Enabled: false
-
-Metrics/PerceivedComplexity:
   Enabled: false
 
 # Configuration parameters: SupportedStyles.
@@ -169,16 +178,4 @@ Style/StringLiterals:
 # Cop supports --auto-correct.
 # Configuration parameters: ExactNameMatch, AllowPredicates, AllowDSLWriters, Whitelist.
 Style/TrivialAccessors:
-  Enabled: false
-
-Style/RaiseArgs:
-  Enabled: false
-
-Metrics/ParameterLists:
-  Enabled: false
-
-Style/IfInsideElse:
-  Enabled: false
-
-Style/IdenticalConditionalBranches:
   Enabled: false
