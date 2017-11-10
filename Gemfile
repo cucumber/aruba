@@ -48,7 +48,6 @@ group :development, :test do
     gem 'travis-yaml'
 
     # Reporting
-    gem 'bcat', '~> 0.6.2'
     gem 'kramdown', '~> 1.14'
   end
 
