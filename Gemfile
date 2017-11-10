@@ -18,7 +18,11 @@ group :debug do
     gem 'pry-debugger', '~> 0.2.3'
   end
 
-  gem 'pry-doc', '~> 0.8.0'
+  if RUBY_VERSION < '2'
+    gem 'pry-doc', '~> 0.8.0'
+  else
+    gem 'pry-doc', '~> 0.11.1'
+  end
 end
 
 group :development do
