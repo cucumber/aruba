@@ -77,7 +77,7 @@ group :development, :test do
   # Upload documentation
   # gem 'relish', '~> 0.7.1'
 
-  gem 'minitest', '~> 5.8.0'
+  gem 'minitest', '~> 5.10.3'
 
   gem 'json', '~>2.1'
 end
