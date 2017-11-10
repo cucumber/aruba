@@ -31,9 +31,9 @@ end
 group :development, :test do
   # we use this to demonstrate interactive debugging within our feature tests
   if RUBY_VERSION >= '2'
-    gem 'pry', '~> 0.10.1'
+    gem 'pry', '~> 0.11.2'
   else
-    gem 'pry', '~>0.9.12'
+    gem 'pry', '~> 0.9.12'
   end
 
   # Run development and test tasks
