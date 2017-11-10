@@ -41,7 +41,7 @@ group :development, :test do
   end
 
   # Run development and test tasks
-  gem 'rake', '~> 10.4.2'
+  gem 'rake', '~> 12.2.1'
 
   if RUBY_VERSION >= '2.0.0'
     # Lint travis yaml
