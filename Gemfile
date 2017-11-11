@@ -18,7 +18,11 @@ group :debug do
     gem 'pry-debugger', '~> 0.2.3'
   end
 
-  gem 'pry-doc', '~> 0.8.0'
+  if RUBY_VERSION < '2'
+    gem 'pry-doc', '~> 0.8.0'
+  else
+    gem 'pry-doc', '~> 0.11.1'
+  end
 end
 
 group :development do
@@ -31,20 +35,19 @@ end
 group :development, :test do
   # we use this to demonstrate interactive debugging within our feature tests
   if RUBY_VERSION >= '2'
-    gem 'pry', '~> 0.10.1'
+    gem 'pry', '~> 0.11.2'
   else
-    gem 'pry', '~>0.9.12'
+    gem 'pry', '~> 0.9.12'
   end
 
   # Run development and test tasks
-  gem 'rake', '~> 10.4.2'
+  gem 'rake', '~> 12.2.1'
 
   if RUBY_VERSION >= '2.0.0'
     # Lint travis yaml
     gem 'travis-yaml'
 
     # Reporting
-    gem 'bcat', '~> 0.6.2'
     gem 'kramdown', '~> 1.14'
   end
 
@@ -71,13 +74,13 @@ group :development, :test do
   if RUBY_VERSION < '2.3'
     gem 'license_finder', '~> 2.0'
   else
-    gem 'license_finder', '~> 3.0', '>= 3.0.2'
+    gem 'license_finder', '~> 3.0.2'
   end
 
   # Upload documentation
   # gem 'relish', '~> 0.7.1'
 
-  gem 'minitest', '~> 5.8.0'
+  gem 'minitest', '~> 5.10.3'
 
   gem 'json', '~>2.1'
 end
