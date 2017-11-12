@@ -26,7 +26,7 @@ module Aruba
 
         Aruba.platform.mkdir(File.dirname(path))
 
-        File.open(path, "wb"){ |f| f.seek(size - 1); f.write("\0") }
+        File.open(path, "wb") { |f| f.seek(size - 1); f.write("\0") }
 
         self
       end

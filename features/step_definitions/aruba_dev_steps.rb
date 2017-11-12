@@ -22,7 +22,7 @@ Then /^aruba should fail with "([^"]*)"$/ do |error_message|
 end
 
 Then /^the following step should fail with Spec::Expectations::ExpectationNotMetError:$/ do |multiline_step|
-  expect{steps multiline_step.to_s}.to raise_error(RSpec::Expectations::ExpectationNotMetError)
+  expect { steps multiline_step.to_s }.to raise_error(RSpec::Expectations::ExpectationNotMetError)
 end
 
 Given(/^the default executable$/) do

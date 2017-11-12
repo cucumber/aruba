@@ -95,7 +95,7 @@ module Aruba
       private
 
       def windows_executable_extentions
-        ENV['PATHEXT'] ? format('.{%s}', ENV['PATHEXT'].tr(';', ',').tr('.','')).downcase : '.{exe,com,bat}'
+        ENV['PATHEXT'] ? format('.{%s}', ENV['PATHEXT'].tr(';', ',').tr('.', '')).downcase : '.{exe,com,bat}'
       end
     end
   end

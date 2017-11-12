@@ -31,7 +31,7 @@ RSpec::Matchers.define :have_same_file_content_like do |expected|
     @actual = expand_path(actual)
     @expected = expand_path(expected)
 
-    FileUtils.compare_file(@actual,@expected)
+    FileUtils.compare_file(@actual, @expected)
   end
 
   failure_message do |actual|

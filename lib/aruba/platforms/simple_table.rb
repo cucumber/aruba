@@ -34,11 +34,11 @@ module Aruba
         if RUBY_VERSION < '2'
           rows = []
 
-          hash.each do |k,v|
+          hash.each do |k, v|
             rows << format("# %-#{name_size}s => %s", k, v)
           end
         else
-          rows = hash.each_with_object([]) do |(k,v), a|
+          rows = hash.each_with_object([]) do |(k, v), a|
             a << format("# %-#{name_size}s => %s", k, v)
           end
         end

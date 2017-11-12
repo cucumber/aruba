@@ -31,11 +31,11 @@ module Aruba
       def initialize(env = ENV.to_hash)
         @actions = []
 
-        @env = env.each_with_object({}) { |(k,v), a| a[k.to_s.upcase] = v }
+        @env = env.each_with_object({}) { |(k, v), a| a[k.to_s.upcase] = v }
       end
 
       def update(other_env, &block)
-        other_env = other_env.each_with_object({}) { |(k,v), a| a[k.to_s.upcase] = v }
+        other_env = other_env.each_with_object({}) { |(k, v), a| a[k.to_s.upcase] = v }
 
         super(other_env, &block)
       end

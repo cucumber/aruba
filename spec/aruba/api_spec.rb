@@ -124,7 +124,7 @@ describe Aruba::Api do
   end
 
   describe '#read' do
-    let(:name) { 'test.txt'}
+    let(:name) { 'test.txt' }
     let(:path) { File.join(@aruba.aruba.current_directory, name) }
     let(:content) { 'asdf' }
 
@@ -199,7 +199,7 @@ describe Aruba::Api do
         end
 
         context 'when normal file' do
-          it { expect{ @aruba.list(name) }.to raise_error ArgumentError }
+          it { expect { @aruba.list(name) }.to raise_error ArgumentError }
         end
       end
 
@@ -217,7 +217,7 @@ describe Aruba::Api do
             let(:existing_files) { @aruba.list(name) }
             let(:expected_files) { content.map { |c| File.join(name, c) }.sort }
 
-            it { expect(expected_files - existing_files).to be_empty}
+            it { expect(expected_files - existing_files).to be_empty }
           end
 
           context 'when path contains ~' do
@@ -228,7 +228,7 @@ describe Aruba::Api do
             let(:existing_files) { @aruba.list(name) }
             let(:expected_files) { content.map { |c| File.join(string, c) } }
 
-            it { expect(expected_files - existing_files).to be_empty}
+            it { expect(expected_files - existing_files).to be_empty }
           end
         end
 
@@ -241,7 +241,7 @@ describe Aruba::Api do
   end
 
   describe '#remove' do
-    let(:name) { 'test.txt'}
+    let(:name) { 'test.txt' }
     let(:path) { File.join(@aruba.aruba.current_directory, name) }
     let(:options) { {} }
 
@@ -658,7 +658,7 @@ describe Aruba::Api do
         end
 
         context 'when source is non-existing' do
-          it { expect { @aruba.copy source, destination }.to raise_error ArgumentError}
+          it { expect { @aruba.copy source, destination }.to raise_error ArgumentError }
         end
       end
     end
@@ -763,7 +763,7 @@ describe Aruba::Api do
 
     describe '#chmod' do
       def actual_permissions
-        format( "%o" , File::Stat.new(file_path).mode )[-4,4]
+        format("%o", File::Stat.new(file_path).mode)[-4, 4]
       end
 
       let(:file_name) { @file_name }
@@ -935,7 +935,7 @@ describe Aruba::Api do
   end
 
   describe '#run_command' do
-    before(:each){ @aruba.run_command 'cat' }
+    before(:each) { @aruba.run_command 'cat' }
     after(:each) { @aruba.all_commands.each(&:stop) }
 
     it "respond to input" do
