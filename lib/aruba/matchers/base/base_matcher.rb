@@ -72,14 +72,14 @@ module Aruba
         end
 
         # @private
-        # rubocop:disable Style/PredicateName
+        # rubocop:disable Naming/PredicateName
         def self.has_default_failure_messages?(matcher)
           matcher.method(:failure_message).owner == self &&
             matcher.method(:failure_message_when_negated).owner == self
         rescue NameError
           false
         end
-        # rubocop:enable Style/PredicateName
+        # rubocop:enable Naming/PredicateName
       end
 
       include DefaultFailureMessages
