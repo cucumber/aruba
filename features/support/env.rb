@@ -12,11 +12,10 @@ require 'aruba/cucumber'
 require 'rspec/expectations'
 
 Before do |scenario|
-  command_name = if scenario.respond_to?(:feature) && scenario.respond_to?(:name)
-                   "#{scenario.feature.name} #{scenario.name}"
-                 else
-                   raise TypeError.new("Don't know how to extract command name from #{scenario.class}")
-                 end
+  unless scenario.respond_to?(:feature) && scenario.respond_to?(:name)
+    raise TypeError, "Don't know how to extract command name from #{scenario.class}"
+  end
+  command_name = "#{scenario.feature.name} #{scenario.name}"
 
   # Used in simplecov_setup so that each scenario has a different name and their coverage results are merged instead
   # of overwriting each other as 'Cucumber Features'
