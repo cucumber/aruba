@@ -38,12 +38,6 @@ Before('@announce-command-filesystem-status') do
   aruba.announcer.activate :command_filesystem_status
 end
 
-Before('@announce-cmd') do
-  Aruba.platform.deprecated 'The use of "@announce-cmd"-hook is deprecated. Please use "@announce-command"'
-
-  aruba.announcer.activate :command
-end
-
 Before('@announce-output') do
   aruba.announcer.activate :stdout
   aruba.announcer.activate :stderr
@@ -57,12 +51,6 @@ Before('@announce-stderr') do
   aruba.announcer.activate :stderr
 end
 
-Before('@announce-dir') do
-  Aruba.platform.deprecated 'The use of "@announce-dir"-hook is deprecated. Please use "@announce-directory"'
-
-  aruba.announcer.activate :directory
-end
-
 Before('@announce-directory') do
   aruba.announcer.activate :directory
 end
@@ -71,26 +59,8 @@ Before('@announce-stop-signal') do
   aruba.announcer.activate :stop_signal
 end
 
-Before('@announce-env') do
-  Aruba.platform.deprecated 'The use of "@announce-env"-hook is deprecated. Please use "@announce-changed-environment"'
-
-  aruba.announcer.activate :environment
-end
-
-Before('@announce-environment') do
-  Aruba.platform.deprecated '@announce-environment is deprecated. Use @announce-changed-environment instead'
-
-  aruba.announcer.activate :changed_environment
-end
-
 Before('@announce-full-environment') do
   aruba.announcer.activate :full_environment
-end
-
-Before('@announce-modified-environment') do
-  Aruba.platform.deprecated '@announce-modified-environment is deprecated. Use @announce-changed-environment instead'
-
-  aruba.announcer.activate :changed_environment
 end
 
 Before('@announce-changed-environment') do
@@ -121,23 +91,8 @@ Before('@announce') do
   aruba.announcer.activate :command_filesystem_status
 end
 
-Before('@ansi') do
-  # rubocop:disable Metrics/LineLength
-  Aruba::Platform.deprecated('The use of "@ansi" is deprecated. Use "@keep-ansi-escape-sequences" instead. But be aware, that this hook uses the aruba configuration and not an instance variable')
-  # rubocop:enable Metrics/LineLength
-
-  aruba.config.remove_ansi_escape_sequences = false
-end
-
 Before('@keep-ansi-escape-sequences') do
   aruba.config.remove_ansi_escape_sequences = false
-  aruba.config.keep_ansi = true
-end
-
-Before '@mocked_home_directory' do
-  Aruba.platform.deprecated('The use of "@mocked_home_directory" is deprecated. Use "@mocked-home-directory" instead')
-
-  set_environment_variable 'HOME', expand_path('.')
 end
 
 Before '@mocked-home-directory' do
@@ -146,18 +101,6 @@ end
 
 Before('@disable-bundler') do
   unset_bundler_env_vars
-end
-
-Before('@spawn') do
-  Aruba.platform.deprecated('The use of "@spawn" is deprecated. Use "@command-launcher-spawn" instead')
-
-  aruba.config.command_launcher = :spawn
-end
-
-Before('@in_process') do
-  Aruba.platform.deprecated('The use of "@in_process" is deprecated. Use "@command-launcher-in-process" instead')
-
-  aruba.config.command_launcher = :in_process
 end
 
 Before('@debug') do

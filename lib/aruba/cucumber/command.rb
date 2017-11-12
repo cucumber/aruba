@@ -1,22 +1,8 @@
 require 'aruba/generators/script_file'
 
-When(/^I run "(.*)"$/)do |cmd|
-  warn(%{\e[35m    The /^I run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-
-  cmd = sanitize_text(cmd)
-  run_command_and_stop(cmd, false)
-end
-
 When(/^I run `([^`]*)`$/)do |cmd|
   cmd = sanitize_text(cmd)
   run_command_and_stop(cmd, :fail_on_error => false)
-end
-
-When(/^I successfully run "(.*)"$/)do |cmd|
-  warn(%{\e[35m    The  /^I successfully run "(.*)"$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-
-  cmd = sanitize_text(cmd)
-  run_command_and_stop(cmd)
 end
 
 ## I successfully run `echo -n "Hello"`
@@ -35,12 +21,6 @@ When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do
   Aruba::ScriptFile.new(:interpreter => shell, :content => commands,
                         :path => expand_path('bin/myscript')).call
   step 'I run `myscript`'
-end
-
-When(/^I run "([^"]*)" interactively$/) do |cmd|
-  Aruba.platform.deprecated(%{\e[35m    The /^I run "([^"]*)" interactively$/ step definition is deprecated. Please use the `backticks` version\e[0m})
-
-  step %(I run `#{cmd}` interactively)
 end
 
 When(/^I run `([^`]*)` interactively$/)do |cmd|
@@ -77,9 +57,9 @@ When(/^I (terminate|stop) the command (?:"([^"]*)"|(?:started last))$/) do |sign
         end
 
   if signal == 'terminate'
-    monitor.terminate_process!(cmd)
+    cmd.terminate
   else
-    monitor.stop_process(cmd)
+    cmd.stop
   end
 end
 
@@ -344,22 +324,6 @@ Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:
       expect(all_commands).to include_an_object have_output an_output_string_including(expected)
     end
   end
-end
-
-Given(/the default aruba timeout is (\d+) seconds/) do |seconds|
-  # rubocop:disable Metrics/LineLength
-  Aruba.platform.deprecated(%{The /^the default aruba timeout is (\d+) seconds/ step definition is deprecated. Please use /^the default aruba exit timeout is (\d+) seconds/ step definition is deprecated.})
-  # rubocop:enable Metrics/LineLength
-
-  aruba.config.exit_timeout = seconds.to_i
-end
-
-Given(/The default aruba timeout is (\d+) seconds/) do |seconds|
-  # rubocop:disable Metrics/LineLength
-  Aruba.platform.deprecated(%{The /^The default aruba timeout is (\d+) seconds/ step definition is deprecated. Please use /^the default aruba exit timeout is (\d+) seconds/ step definition is deprecated.})
-  # rubocop:enable Metrics/LineLength
-
-  aruba.config.exit_timeout = seconds.to_i
 end
 
 Given(/^the (?:default )?aruba io wait timeout is (\d+) seconds?$/) do |seconds|

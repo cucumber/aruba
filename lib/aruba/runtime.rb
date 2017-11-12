@@ -1,4 +1,4 @@
-require 'aruba/config'
+require 'aruba/configuration'
 require 'aruba/aruba_path'
 require 'aruba/config_wrapper'
 require 'aruba/events'
@@ -77,11 +77,12 @@ module Aruba
     # @return [ArubaPath]
     #   The directory to where your fixtures are stored
     def fixtures_directory
-      unless @fixtures_directory
+      @fixtures_directory ||= begin
         candidates = config.fixtures_directories.map { |dir| File.join(root_directory, dir) }
-        @fixtures_directory = candidates.find { |d| Aruba.platform.directory? d }
+        directory = candidates.find { |d| Aruba.platform.directory? d }
 
-        fail "No existing fixtures directory found in #{candidates.map { |d| format('"%s"', d) }.join(', ')}. " unless @fixtures_directory
+        fail "No existing fixtures directory found in #{candidates.map { |d| format('"%s"', d) }.join(', ')}." unless directory
+        directory
       end
 
       fail %(Fixtures directory "#{@fixtures_directory}" is not a directory) unless Aruba.platform.directory?(@fixtures_directory)

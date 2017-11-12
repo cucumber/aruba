@@ -98,14 +98,6 @@ module Aruba
         ::File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
       end
 
-      # @deprecated
-      # Add newline at the end
-      def ensure_newline(str)
-        deprecated('The use of "#ensure_newline" is deprecated. It will be removed soon')
-
-        str.chomp << "\n"
-      end
-
       def require_matching_files(pattern, base)
         ::Dir.glob(::File.expand_path(pattern, base)).each { |f| require_relative f }
       end
@@ -224,23 +216,6 @@ module Aruba
       # Write to file
       def write_file(path, content)
         File.write(path, content)
-      end
-
-      # Unescape string
-      #
-      # @param [String] string
-      #   The string which should be unescaped, e.g. the output of a command
-      #
-      # @return
-      #   The string stripped from escape sequences
-      def unescape(string, keep_ansi = true)
-        # rubocop:disable Metrics/LineLength
-        deprecated('The use of "Aruba.platform.unescape" is deprecated. Please use "#unescape_text" and "#sanitize_text" instead. But be aware it uses a different implementation')
-        # rubocop:enable Metrics/LineLength
-
-        string = string.gsub('\n', "\n").gsub('\"', '"').gsub('\e', "\e")
-        string = string.gsub(/\e\[\d+(?>(;\d+)*)m/, '') unless keep_ansi
-        string
       end
 
       # Transform hash to a string table which can be output on stderr/stdout
