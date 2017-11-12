@@ -13,7 +13,7 @@ module Aruba
       #
       # @yield
       #   The block of code which should with local ENV
-      def call(env, &block)
+      def call(env)
         old_env = ENV.to_hash.dup
 
         ENV.clear

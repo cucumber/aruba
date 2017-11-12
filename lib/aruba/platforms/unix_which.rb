@@ -23,7 +23,7 @@ module Aruba
           Aruba.platform.absolute_path?(program) || Aruba.platform.relative_command?(program)
         end
 
-        def call(program, path)
+        def call(program, _path)
           return File.expand_path(program) if Aruba.platform.executable?(program)
 
           nil

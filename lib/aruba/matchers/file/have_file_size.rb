@@ -33,11 +33,11 @@ RSpec::Matchers.define :have_file_size do |expected|
     values_match?(@expected, @actual)
   end
 
-  failure_message do |actual|
+  failure_message do |_actual|
     format("expected that file \"%s\" has size \"%s\", but has \"%s\"", @old_actual, @actual, @expected)
   end
 
-  failure_message_when_negated do |actual|
+  failure_message_when_negated do |_actual|
     format("expected that file \"%s\" does not have size \"%s\", but has \"%s\"", @old_actual, @actual, @expected)
   end
 end

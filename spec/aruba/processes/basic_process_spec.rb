@@ -16,11 +16,11 @@ RSpec.describe Aruba::Processes::BasicProcess do
         super(*args)
       end
 
-      def stdout(*args)
+      def stdout(*_args)
         @stdout
       end
 
-      def stderr(*args)
+      def stderr(*_args)
         @stderr
       end
     end.new(stdout, stderr, cmd, exit_timeout, io_wait_timeout, working_directory)

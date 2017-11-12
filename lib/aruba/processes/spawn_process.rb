@@ -19,7 +19,7 @@ module Aruba
     # @private
     class SpawnProcess < BasicProcess
       # Use as default launcher
-      def self.match?(mode)
+      def self.match?(_mode)
         true
       end
 
@@ -260,7 +260,7 @@ module Aruba
         Aruba.platform.command_string.new(cmd)
       end
 
-      def wait_for_io(time_to_wait, &block)
+      def wait_for_io(time_to_wait)
         sleep time_to_wait.to_i
         yield
       end

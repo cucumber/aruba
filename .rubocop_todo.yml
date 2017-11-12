@@ -143,31 +143,6 @@ Lint/UnneededDisable:
   Exclude:
     - 'lib/aruba/event_bus/name_resolver.rb'
 
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'lib/aruba/cucumber/file.rb'
-    - 'lib/aruba/matchers/file/have_file_size.rb'
-    - 'lib/aruba/matchers/path/have_permissions.rb'
-    - 'lib/aruba/platforms/announcer.rb'
-    - 'spec/aruba/api_spec.rb'
-
-# Offense count: 11
-# Cop supports --auto-correct.
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'lib/aruba/api/filesystem.rb'
-    - 'lib/aruba/platforms/announcer.rb'
-    - 'lib/aruba/platforms/local_environment.rb'
-    - 'lib/aruba/platforms/unix_which.rb'
-    - 'lib/aruba/platforms/windows_which.rb'
-    - 'lib/aruba/processes/spawn_process.rb'
-    - 'lib/aruba/tasks/docker_helpers.rb'
-    - 'spec/aruba/processes/basic_process_spec.rb'
-
 # Offense count: 2
 Lint/UselessAssignment:
   Exclude:

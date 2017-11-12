@@ -112,7 +112,7 @@ module Aruba
       # @param [Symbol] m
       #   The mode to set
       def mode=(m)
-        @announcer = @announcers.find { |a| f.mode? m.to_sym }
+        @announcer = @announcers.find { |_a| f.mode? m.to_sym }
 
         self
       end
@@ -146,7 +146,7 @@ module Aruba
       # @yield
       #   If block is given, that one is called and the return value is used as
       #   message to be announced.
-      def announce(channel, *args, &block)
+      def announce(channel, *args)
         channel = channel.to_sym
 
         the_output_format = if output_formats.key? channel

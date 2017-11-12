@@ -625,7 +625,7 @@ describe Aruba::Api do
                 @aruba.copy source, destination
               end
 
-              it { source.each { |s| expect(destination_files).to all be_an_existing_file } }
+              it { expect(destination_files).to all be_an_existing_file }
             end
 
             context 'when destination is not a directory' do

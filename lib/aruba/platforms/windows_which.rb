@@ -23,7 +23,7 @@ module Aruba
           Aruba.platform.absolute_path?(program) || Aruba.platform.relative_command?(program)
         end
 
-        def call(program, path)
+        def call(program, _path)
           # Expand `#path_exts`
           found = Dir[program].first
 

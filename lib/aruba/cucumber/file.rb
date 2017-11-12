@@ -3,11 +3,11 @@ Given(/^I use (?:a|the) fixture(?: named)? "([^"]*)"$/) do |name|
   cd name
 end
 
-Given(/^I copy (?:a|the) (file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) do |file_or_directory, source, destination|
+Given(/^I copy (?:a|the) (?:file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) do |source, destination|
   copy source, destination
 end
 
-Given(/^I move (?:a|the) (file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) do |file_or_directory, source, destination|
+Given(/^I move (?:a|the) (?:file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) do |source, destination|
   move source, destination
 end
 
