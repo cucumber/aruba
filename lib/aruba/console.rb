@@ -20,10 +20,10 @@ module Aruba
 
       IRB.conf[:PROMPT] = {}
       IRB.conf[:PROMPT][:ARUBA] = {
-        :PROMPT_I => '%N:%03n:%i> ',
-        :PROMPT_S => '%N:%03n:%i%l ',
-        :PROMPT_C => '%N:%03n:%i* ',
-        :RETURN => "# => %s\n"
+        PROMPT_I: '%N:%03n:%i> ',
+        PROMPT_S: '%N:%03n:%i%l ',
+        PROMPT_C: '%N:%03n:%i* ',
+        RETURN: "# => %s\n"
       }
       IRB.conf[:PROMPT_MODE] = :ARUBA
 

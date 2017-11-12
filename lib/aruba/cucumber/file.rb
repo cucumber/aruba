@@ -67,11 +67,11 @@ When(/^I append to "([^"]*)" with "([^"]*)"$/) do |file_name, file_content|
 end
 
 When(/^I remove (?:a|the) (?:file|directory)(?: named)? "([^"]*)"( with full force)?$/) do |name, force_remove|
-  remove(name, :force => force_remove.nil? ? false : true)
+  remove(name, force: force_remove.nil? ? false : true)
 end
 
 Given(/^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" does not exist$/) do |name|
-  remove(name, :force => true)
+  remove(name, force: true)
 end
 
 When(/^I cd to "([^"]*)"$/) do |dir|

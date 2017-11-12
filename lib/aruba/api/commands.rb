@@ -148,15 +148,15 @@ module Aruba
 
         command = Command.new(
           cmd,
-          :mode              => mode,
-          :exit_timeout      => exit_timeout,
-          :io_wait_timeout   => io_wait_timeout,
-          :working_directory => working_directory,
-          :environment       => environment.to_hash,
-          :main_class        => main_class,
-          :stop_signal       => stop_signal,
-          :startup_wait_time => startup_wait_time,
-          :event_bus         => event_bus
+          mode: mode,
+          exit_timeout: exit_timeout,
+          io_wait_timeout: io_wait_timeout,
+          working_directory: working_directory,
+          environment: environment.to_hash,
+          main_class: main_class,
+          stop_signal: stop_signal,
+          startup_wait_time: startup_wait_time,
+          event_bus: event_bus
         )
 
         aruba.config.before(:command, self, command)

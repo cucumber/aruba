@@ -5,7 +5,7 @@ require 'aruba/api'
 require 'aruba/version'
 
 RSpec.configure do |config|
-  config.include Aruba::Api, :type => :aruba
+  config.include Aruba::Api, type: :aruba
 
   # Setup environment for aruba
   config.around :each do |example|

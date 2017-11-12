@@ -23,7 +23,7 @@ module Aruba
         aruba.environment[name] = value
         new_environment = aruba.environment.to_h
 
-        aruba.event_bus.notify Events::AddedEnvironmentVariable.new(:old => old_environment, :new => new_environment, :changed => { :name => name, :value => value })
+        aruba.event_bus.notify Events::AddedEnvironmentVariable.new(old: old_environment, new: new_environment, changed: { name: name, value: value })
 
         self
       end
@@ -45,7 +45,7 @@ module Aruba
         aruba.environment.append name, value
         new_environment = aruba.environment.to_h
 
-        aruba.event_bus.notify Events::ChangedEnvironmentVariable.new(:old => old_environment, :new => new_environment, :changed => { :name => name, :value => value })
+        aruba.event_bus.notify Events::ChangedEnvironmentVariable.new(old: old_environment, new: new_environment, changed: { name: name, value: value })
 
         self
       end
@@ -67,7 +67,7 @@ module Aruba
         aruba.environment.prepend name, value
         new_environment = aruba.environment.to_h
 
-        aruba.event_bus.notify Events::ChangedEnvironmentVariable.new(:old => old_environment, :new => new_environment, :changed => { :name => name, :value => value })
+        aruba.event_bus.notify Events::ChangedEnvironmentVariable.new(old: old_environment, new: new_environment, changed: { name: name, value: value })
 
         self
       end
@@ -85,7 +85,7 @@ module Aruba
         aruba.environment.delete name
         new_environment = aruba.environment.to_h
 
-        aruba.event_bus.notify Events::DeletedEnvironmentVariable.new(:old => old_environment, :new => new_environment, :changed => { :name => name, :value => '' })
+        aruba.event_bus.notify Events::DeletedEnvironmentVariable.new(old: old_environment, new: new_environment, changed: { name: name, value: '' })
 
         self
       end

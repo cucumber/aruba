@@ -5,8 +5,8 @@ RSpec.describe '.simple_table' do
   context 'when valid hash' do
     let(:hash) do
       {
-        :key1 => 'value',
-        :key2 => 'value'
+        key1: 'value',
+        key2: 'value'
       }
     end
     let(:rows) { ['# key1 => value', '# key2 => value'] }

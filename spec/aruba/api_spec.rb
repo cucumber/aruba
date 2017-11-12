@@ -285,7 +285,7 @@ describe Aruba::Api do
         end
 
         context 'when is forced to delete file' do
-          let(:options) { { :force => true } }
+          let(:options) { { force: true } }
 
           it_behaves_like 'a non-existing file'
         end
@@ -330,7 +330,7 @@ describe Aruba::Api do
         end
 
         context 'when is forced to delete directory' do
-          let(:options) { { :force => true } }
+          let(:options) { { force: true } }
 
           it_behaves_like 'a non-existing directory'
         end
@@ -376,7 +376,7 @@ describe Aruba::Api do
 
           context 'and the mtime should be set statically' do
             let(:time) { Time.parse('2014-01-01 10:00:00') }
-            let(:options) { { :mtime => Time.parse('2014-01-01 10:00:00') } }
+            let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
 
             it_behaves_like 'an existing file'
             it { expect(File.mtime(path)).to eq time }
@@ -403,7 +403,7 @@ describe Aruba::Api do
 
           context 'and the mtime should be set statically' do
             let(:time) { Time.parse('2014-01-01 10:00:00') }
-            let(:options) { { :mtime => Time.parse('2014-01-01 10:00:00') } }
+            let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
 
             it_behaves_like 'an existing directory'
             it { Array(path).each { |p| expect(File.mtime(p)).to eq time } }

@@ -49,14 +49,14 @@ module Aruba
       #   A hash of values
       def to_h
         {
-          :owner      => owner,
-          :group      => group,
-          :mode       => mode,
-          :executable => executable?,
-          :ctime      => ctime,
-          :atime      => atime,
-          :mtime      => mtime,
-          :size       => size
+          owner: owner,
+          group: group,
+          mode: mode,
+          executable: executable?,
+          ctime: ctime,
+          atime: atime,
+          mtime: mtime,
+          size: size
         }
       end
     end

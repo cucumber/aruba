@@ -55,7 +55,7 @@ module Aruba
             aruba.current_directory << dir
             new_directory = expand_path('.')
 
-            aruba.event_bus.notify Events::ChangedWorkingDirectory.new(:old => old_directory, :new => new_directory)
+            aruba.event_bus.notify Events::ChangedWorkingDirectory.new(old: old_directory, new: new_directory)
 
             old_dir = Aruba.platform.getwd
 
@@ -80,7 +80,7 @@ module Aruba
         aruba.current_directory << dir
         new_directory = expand_path('.')
 
-        aruba.event_bus.notify Events::ChangedWorkingDirectory.new(:old => old_directory, :new => new_directory)
+        aruba.event_bus.notify Events::ChangedWorkingDirectory.new(old: old_directory, new: new_directory)
 
         self
       end

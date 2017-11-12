@@ -17,7 +17,7 @@ module Aruba
       def initialize(hash, opts)
         @hash = hash
         @opts = {
-          :sort => true
+          sort: true
         }.merge opts
       end
 
