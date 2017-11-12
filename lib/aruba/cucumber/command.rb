@@ -18,7 +18,7 @@ When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do
   Aruba.platform.mkdir(expand_path('bin'))
   shell ||= Aruba.platform.default_shell
 
-  Aruba::ScriptFile.new(:interpreter => shell, :content => commands, :path => full_path).call
+  Aruba::ScriptFile.new(interpreter: shell, content: commands, path: full_path).call
   step "I run `#{full_path}`"
 end
 
