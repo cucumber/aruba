@@ -27,25 +27,32 @@ module Aruba
     #   Aruba.announcer.announce(:my_channel, 'my message')
     #
     class Announcer
+      # Base Announcer class
+      class BaseAnnouncer
+        def mode?(m)
+          mode == m
+        end
+      end
+
       # Announcer using Kernel.puts
-      class KernelPutsAnnouncer
+      class KernelPutsAnnouncer < BaseAnnouncer
         def announce(message)
           Kernel.puts message
         end
 
-        def mode?(m)
-          :kernel_puts == m
+        def mode
+          :kernel_puts
         end
       end
 
       # Announcer using Main#puts
-      class PutsAnnouncer
+      class PutsAnnouncer < BaseAnnouncer
         def announce(message)
           puts message
         end
 
-        def mode?(m)
-          :puts == m
+        def mode
+          :puts
         end
       end
 
@@ -112,9 +119,16 @@ module Aruba
       # @param [Symbol] m
       #   The mode to set
       def mode=(m)
-        @announcer = @announcers.find { |_a| f.mode? m.to_sym }
+        @announcer = @announcers.find { |a| a.mode? m.to_sym }
 
         self
+      end
+
+      # Fecth mode of announcer
+      #
+      # @return [Symbol] The current announcer mode
+      def mode
+        @announcer.mode
       end
 
       # Check if channel is activated
