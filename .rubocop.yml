@@ -3,5 +3,6 @@ AllCops:
     - tmp/**/*
     - vendor/**/*
   DisplayCopNames: true
+  TargetRubyVersion: 1.9
 
 inherit_from: .rubocop_todo.yml
