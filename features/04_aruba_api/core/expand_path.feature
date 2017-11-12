@@ -38,7 +38,7 @@ Feature: Expand paths with aruba
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Warn if aruba's working directory does not exist
+  Scenario: Raise an error if aruba's working directory does not exist
     Given a file named "spec/expand_path_spec.rb" with:
     """ruby
     require 'spec_helper'
@@ -48,7 +48,7 @@ Feature: Expand paths with aruba
 
       let(:path) { 'path/to/dir' }
 
-      it { expect { expand_path(path) }.to output(/working directory does not exist/).to_stderr }
+      it { expect { expand_path(path) }.to raise_error(/working directory does not exist/) }
     end
     """
     When I run `rspec`
