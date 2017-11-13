@@ -6,10 +6,13 @@ require 'aruba/platform'
 require 'bundler'
 Bundler.setup
 
-task :default => :test
+task default: [:lint, :test]
 
-desc 'Run the whole test suite. Any failure will stop rake going on'
-task :test => %w(lint:travis lint:coding_guidelines lint:licenses test:rspec test:cucumber test:cucumber_wip)
+desc 'Run all linters.'
+task test: %w(lint:travis lint:coding_guidelines lint:licenses)
+
+desc 'Run the whole test suite.'
+task test: %w(test:rspec test:cucumber test:cucumber_wip)
 
 require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
@@ -45,7 +48,11 @@ namespace :lint do
 
   desc 'Lint our code with "rubocop"'
   task :coding_guidelines do
-    sh 'bundle exec rubocop --fail-level E'
+    if RUBY_VERSION >= '2'
+      sh 'bundle exec rubocop --fail-level E'
+    else
+      warn 'Your ruby version is not supported for code linting'
+    end
   end
 
   desc 'Check for relevant licenses in project'
@@ -68,8 +75,8 @@ end
 namespace :docker do
   desc 'Build docker image'
   task :build, :cache, :version do |_, args|
-    args.with_defaults(:version => 'latest')
-    args.with_defaults(:cache => true)
+    args.with_defaults(version: 'latest')
+    args.with_defaults(cache: true)
 
     docker_compose_file = Aruba::DockerComposeFile.new(File.expand_path('../docker-compose.yml', __FILE__))
     docker_run_instance = Aruba::DockerRunInstance.new(docker_compose_file, :base)

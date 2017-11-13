@@ -70,7 +70,19 @@ env:
    - LC_ALL=en_US.UTF-8
    - LANG=en_US.UTF-8
    - LANGUAGE=en_US.UTF-8
+
+jobs:
+  include:
+    - stage: lint
+      script: bundle exec rake lint
+      rvm: 2.4.1
+      os: linux
+stages:
+  - lint
+  - test
+
 cache: apt
+
 addons:
   apt:
     packages:
