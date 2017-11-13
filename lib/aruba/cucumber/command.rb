@@ -13,14 +13,13 @@ When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
 end
 
 When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do |shell, commands|
-  prepend_environment_variable('PATH', expand_path('bin') + File::PATH_SEPARATOR)
+  full_path = expand_path('bin/myscript')
 
   Aruba.platform.mkdir(expand_path('bin'))
   shell ||= Aruba.platform.default_shell
 
-  Aruba::ScriptFile.new(:interpreter => shell, :content => commands,
-                        :path => expand_path('bin/myscript')).call
-  step 'I run `myscript`'
+  Aruba::ScriptFile.new(interpreter: shell, content: commands, path: full_path).call
+  step "I run `#{full_path}`"
 end
 
 When(/^I run `([^`]*)` interactively$/)do |cmd|

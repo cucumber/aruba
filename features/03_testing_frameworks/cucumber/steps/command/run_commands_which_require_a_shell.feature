@@ -4,13 +4,15 @@ Feature: Running shell commands
   - `When I run the following script:`
 
   Or you can run shell commands with:
-  - `I run the following (bash|zsh|...shell)? commands`
-  - `I run the following (bash|zsh|...shell)? commands (in|with) \`interpreter\``
-  - `I run the following (bash|zsh|...shell)? commands (in|with) \`/path/to/interpreter\``
+  - `I run the following (commands|script)`
+  - `I run the following (commands|script) (in|with) \`interpreter\``
+  - `I run the following (commands|script) (in|with) \`/path/to/interpreter\``
 
   Background:
     Given I use a fixture named "cli-app"
 
+  @requires-ruby
+  @requires-python
   Scenario: Creating and running scripts
     Given a file named "features/shell.feature" with:
     """
@@ -50,6 +52,7 @@ Feature: Running shell commands
     When I run `cucumber`
     Then the features should all pass
 
+  @requires-bash
   Scenario: Running bash commands
     Given a file named "features/shell.feature" with:
     """
@@ -64,6 +67,7 @@ Feature: Running shell commands
     When I run `cucumber`
     Then the features should all pass
 
+  @requires-zsh
   Scenario: Running zsh commands
     Given a file named "features/shell.feature" with:
     """
@@ -78,6 +82,7 @@ Feature: Running shell commands
     When I run `cucumber`
     Then the features should all pass
 
+  @requires-ruby
   Scenario: Running ruby commands
     Given a file named "features/shell.feature" with:
     """
@@ -92,13 +97,14 @@ Feature: Running shell commands
     When I run `cucumber`
     Then the features should all pass
 
+  @requires-python
   Scenario: Running python commands
     Given a file named "features/shell.feature" with:
     """
     Feature: Running scripts
-      Scenario: Running ruby commands
+      Scenario: Running python commands
         When I run the following commands with `python`:
-        \"\"\"ruby
+        \"\"\"python
         print("Hello, Aruba!")
         \"\"\"
         Then the output should contain exactly "Hello, Aruba!"
@@ -106,6 +112,7 @@ Feature: Running shell commands
     When I run `cucumber`
     Then the features should all pass
 
+  @requires-zsh
   Scenario: Running commands if full path to interpreter is given
     Given a file named "features/shell.feature" with:
     """
@@ -127,6 +134,7 @@ Feature: Running shell commands
     When I run `cucumber`
     Then the features should all pass
 
+  @requires-zsh
   Scenario: Running commands if only the name of interpreter is given
     Given a file named "features/shell.feature" with:
     """
