@@ -53,6 +53,12 @@ group :development, :test do
     gem 'cucumber', '~> 2.0'
   end
 
+  if RUBY_VERSION < '1.9.2'
+    gem 'contracts', '~> 0.15.0'
+  else
+    gem 'contracts', '~> 0.16.0'
+  end
+
   if RUBY_VERSION >= '1.9.3'
     # Make aruba compliant to ruby community guide
     gem 'rubocop', '~> 0.32', '< 0.41.1'
