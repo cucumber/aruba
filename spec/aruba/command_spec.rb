@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Aruba::Command do
-  subject do
+  let(:command) do
     described_class.new(
       'true',
       event_bus: event_bus,
@@ -26,41 +26,67 @@ RSpec.describe Aruba::Command do
 
   context '#started' do
     before :each do
-      allow(event_bus).to receive(:notify) { |a| a.is_a?(Events::CommandStarted) }
+      allow(event_bus).to receive(:notify).with(Events::CommandStarted)
     end
 
     before :each do
-      subject.start
+      command.start
     end
 
-    it { is_expected.to be_started }
+    it 'leaves the command in the started state' do
+      expect(command).to be_started
+    end
   end
 
   context '#stopped' do
     before :each do
-      allow(event_bus).to receive(:notify) { |a| a.is_a?(Events::CommandStarted) }
-      allow(event_bus).to receive(:notify) { |a| a.is_a?(Events::CommandStopped) }
+      allow(event_bus).to receive(:notify).with(Events::CommandStarted)
+      allow(event_bus).to receive(:notify).with(Events::CommandStopped)
     end
 
     before :each do
-      subject.start
-      subject.stop
+      command.start
+      command.stop
     end
 
-    it { is_expected.to be_stopped }
+    it 'leaves the command in the stopped state' do
+      expect(command).to be_stopped
+    end
+
+    it 'notifies the event bus only once per run' do
+      command.stop
+      expect(event_bus).to have_received(:notify).with(Events::CommandStopped).once
+    end
+
+    it 'prevents #terminate from notifying the event bus' do
+      command.terminate
+      expect(event_bus).to have_received(:notify).with(Events::CommandStopped).once
+    end
   end
 
   context '#terminate' do
     before :each do
-      allow(event_bus).to receive(:notify) { |a| a.is_a?(Events::CommandStarted) }
-      allow(event_bus).to receive(:notify) { |a| a.is_a?(Events::CommandStopped) }
+      allow(event_bus).to receive(:notify).with(Events::CommandStarted)
+      allow(event_bus).to receive(:notify).with(Events::CommandStopped)
     end
 
     before :each do
-      subject.start
-      subject.terminate
+      command.start
+      command.terminate
     end
 
-    it { is_expected.to be_stopped }
+    it 'leaves the command in the stopped state' do
+      expect(command).to be_stopped
+    end
+
+    it 'notifies the event bus only once per run' do
+      command.terminate
+      expect(event_bus).to have_received(:notify).with(Events::CommandStopped).once
+    end
+
+    it 'prevents #stop from notifying the event bus' do
+      command.stop
+      expect(event_bus).to have_received(:notify).with(Events::CommandStopped).once
+    end
   end
 end
