@@ -30,6 +30,10 @@ matrix:
     env: JRUBY_OPTS='--dev'
   - rvm: jruby-9.0.1.0-21mode
     env: JRUBY_OPTS='--dev'
+branches:
+  only:
+    - master
+    - still
 notifications:
   email:
     - cukes-devs@googlegroups.com
