@@ -70,7 +70,7 @@ module Aruba
                  all_commands
                end
 
-        cmds.each(&:stop)
+        cmds.each { |cmd| cmd.stop unless cmd.stopped? }
 
         self
       end
