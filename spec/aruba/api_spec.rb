@@ -906,7 +906,7 @@ describe Aruba::Api do
 
   describe 'tags' do
     describe '@announce_stdout' do
-      after(:each) { @aruba.all_commands.each(&:stop) }
+      after(:each) { @aruba.stop_all_commands }
 
       context 'enabled' do
         before :each do
@@ -936,7 +936,7 @@ describe Aruba::Api do
 
   describe '#run_command' do
     before(:each){ @aruba.run_command 'cat' }
-    after(:each) { @aruba.all_commands.each(&:stop) }
+    after(:each) { @aruba.stop_all_commands }
 
     it "respond to input" do
       @aruba.type "Hello"
@@ -974,7 +974,7 @@ describe Aruba::Api do
 
   describe "#set_environment_variable" do
     after(:each) do
-      @aruba.all_commands.each(&:stop)
+      @aruba.stop_all_commands
     end
 
     it "set environment variable" do
