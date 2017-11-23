@@ -22,7 +22,7 @@ Feature: Running shell commands
 
         puts "Hello"
         \"\"\"
-        Then the output should contain exactly "Hello"
+        Then the output should contain "Hello"
 
       Scenario: Running python script
         When I run the following script:
@@ -89,7 +89,7 @@ Feature: Running shell commands
         \"\"\"ruby
         puts "Hello, Aruba!"
         \"\"\"
-        Then the output should contain exactly "Hello, Aruba!"
+        Then the output should contain "Hello, Aruba!"
     """
     When I run `cucumber`
     Then the features should all pass
