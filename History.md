@@ -3,6 +3,9 @@
 ## [v0.14.3](https://github.com/cucumber/aruba/compare/v0.14.2...v0.14.3)
 
 * Fix path bug (#422)
+* Ensure non-deprecated methods do not use deprecated methods
+* Update dependency on childprocess
+* Fix encoding output on JRuby
 
 #  RELEASED
 
