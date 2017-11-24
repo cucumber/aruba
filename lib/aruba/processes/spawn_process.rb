@@ -274,7 +274,11 @@ module Aruba
         data = file.read
         file.close
 
-        data.force_encoding('UTF-8')
+        if RUBY_VERSION >= '1.9'
+          data.force_encoding('UTF-8')
+        else
+          data
+        end
       end
     end
   end
