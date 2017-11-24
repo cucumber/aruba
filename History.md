@@ -1,4 +1,4 @@
-#  UNRELEASED
+#  RELEASED
 
 ## [v0.14.3](https://github.com/cucumber/aruba/compare/v0.14.2...v0.14.3)
 
@@ -6,8 +6,6 @@
 * Ensure non-deprecated methods do not use deprecated methods
 * Update dependency on childprocess
 * Fix encoding output on JRuby
-
-#  RELEASED
 
 ## [v0.14.2](https://github.com/cucumber/aruba/compare/v0.14.1...v0.14.2)
 
