@@ -923,7 +923,7 @@ describe Aruba::Api do
 
     it "set environment variable" do
       @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
-      @aruba.run "env"
+      @aruba.run_simple "env"
       expect(@aruba.last_command_started.output).
         to include("LONG_LONG_ENV_VARIABLE=true")
     end
@@ -931,7 +931,7 @@ describe Aruba::Api do
     it "overwrites environment variable" do
       @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'false'
-      @aruba.run "env"
+      @aruba.run_simple "env"
       expect(@aruba.last_command_started.output).
         to include("LONG_LONG_ENV_VARIABLE=false")
     end

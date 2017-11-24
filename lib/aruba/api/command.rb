@@ -282,6 +282,7 @@ module Aruba
             expect(command).to be_successfully_executed
           rescue RSpec::Expectations::ExpectationNotMetError => e
             aruba.announcer.activate(aruba.config.activate_announcer_on_command_failure)
+            aruba.event_bus.notify Events::CommandStopped.new(command)
             raise e
           end
         end

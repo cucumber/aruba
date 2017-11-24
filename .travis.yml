@@ -10,7 +10,7 @@ rvm:
   - 2.1.8
   - 2.2.4
   - 2.3.0
-  - jruby
+  - jruby-1.7.26
   - jruby-20mode
   - jruby-21mode
   - rbx
@@ -30,6 +30,10 @@ matrix:
     env: JRUBY_OPTS='--dev'
   - rvm: jruby-9.0.1.0-21mode
     env: JRUBY_OPTS='--dev'
+branches:
+  only:
+    - master
+    - still
 notifications:
   email:
     - cukes-devs@googlegroups.com

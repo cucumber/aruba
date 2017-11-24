@@ -8,8 +8,7 @@ require 'cucumber/rake/task'
 
 Cucumber::Rake::Task.new do |t|
   t.cucumber_opts = ""
-  # t.cucumber_opts = "--format Cucumber::Pro --out cucumber-pro.log" if ENV['CUCUMBER_PRO_TOKEN']
-  t.cucumber_opts << "--format pretty"
+  t.cucumber_opts << "--format progress"
 end
 
 Cucumber::Rake::Task.new(:cucumber_wip) do |t|
@@ -19,7 +18,7 @@ end
 require 'rspec/core/rake_task'
 desc "Run RSpec"
 RSpec::Core::RakeTask.new do |spec|
-  spec.rspec_opts = ['--color', '--format documentation', '--warnings']
+  spec.rspec_opts = ['--color', '--format progress', '--warnings']
 end
 
 namespace :travis do

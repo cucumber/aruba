@@ -64,6 +64,9 @@ module Aruba
         @stdout_file.sync = true
         @stderr_file.sync = true
 
+        @stdout_file.binmode
+        @stderr_file.binmode
+
         @exit_status = nil
         @duplex      = true
 
@@ -92,7 +95,7 @@ module Aruba
       end
       # rubocop:disable Metrics/MethodLength
 
-      # Access to stdout of process
+      # Access to stdin of process
       def stdin
         return if @process.exited?
 
@@ -271,7 +274,11 @@ module Aruba
         data = file.read
         file.close
 
-        data
+        if RUBY_VERSION >= '1.9'
+          data.force_encoding('UTF-8')
+        else
+          data
+        end
       end
     end
   end
