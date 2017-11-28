@@ -11,13 +11,18 @@ module Aruba
     # @private
     class WindowsCommandString < SimpleDelegator
       def initialize(cmd)
-        __setobj__ format('%s /c "%s"', Aruba.platform.which('cmd.exe'), cmd)
+        __setobj__ cmd
       end
 
       # Convert to array
       def to_a
-        Shellwords.split( __getobj__.gsub('\\', 'ARUBA_TMP_PATHSEPARATOR') )
-                  .map { |w| w.gsub('ARUBA_TMP_PATHSEPARATOR', '\\') }
+        [cmd_path, '/c', __getobj__]
+      end
+
+      private
+
+      def cmd_path
+        Aruba.platform.which('cmd.exe')
       end
     end
   end
