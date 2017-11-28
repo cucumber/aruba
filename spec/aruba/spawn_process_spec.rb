@@ -56,5 +56,41 @@ RSpec.describe Aruba::Processes::SpawnProcess do
 
       it { expect {process.start}.to raise_error Aruba::LaunchError }
     end
+
+    context 'with a command with a space in the path on unix' do
+      let(:child) { instance_double(ChildProcess::AbstractProcess).as_null_object }
+      let(:io) { instance_double(ChildProcess::AbstractIO).as_null_object }
+      let(:command) { 'foo' }
+      let(:command_path) { '/path with space/foo' }
+
+      before do
+        allow(Aruba.platform).to receive(:command_string).and_return Aruba::Platforms::UnixCommandString
+        allow(Aruba.platform).to receive(:which).with(command, anything).and_return(command_path)
+        allow(ChildProcess).to receive(:build).with(command_path).and_return(child)
+        allow(child).to receive(:io).and_return io
+        allow(child).to receive(:environment).and_return({})
+      end
+
+      it { expect { process.start }.to_not raise_error }
+    end
+
+    context 'with a command with a space in the path on windows' do
+      let(:child) { instance_double(ChildProcess::AbstractProcess).as_null_object }
+      let(:io) { instance_double(ChildProcess::AbstractIO).as_null_object }
+      let(:command) { 'foo' }
+      let(:cmd_path) { 'C:\Some Path\cmd.exe' }
+      let(:command_path) { 'D:\Bar Baz\foo' }
+
+      before do
+        allow(Aruba.platform).to receive(:command_string).and_return Aruba::Platforms::WindowsCommandString
+        allow(Aruba.platform).to receive(:which).with('cmd.exe').and_return(cmd_path)
+        allow(Aruba.platform).to receive(:which).with(command, anything).and_return(command_path)
+        allow(ChildProcess).to receive(:build).with(cmd_path, '/c', command_path).and_return(child)
+        allow(child).to receive(:io).and_return io
+        allow(child).to receive(:environment).and_return({})
+      end
+
+      it { expect { process.start }.to_not raise_error }
+    end
   end
 end

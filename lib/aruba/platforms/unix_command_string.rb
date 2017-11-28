@@ -13,7 +13,7 @@ module Aruba
 
       # Convert to array
       def to_a
-        Shellwords.split __getobj__
+        [__getobj__]
       end
 
       if RUBY_VERSION < '1.9'
