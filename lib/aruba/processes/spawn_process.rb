@@ -69,7 +69,7 @@ module Aruba
 
         @started = true
 
-        @process = ChildProcess.build(command_string.to_s, *arguments)
+        @process = ChildProcess.build(*command_string.to_a, *arguments)
         @stdout_file = Tempfile.new('aruba-stdout-')
         @stderr_file = Tempfile.new('aruba-stderr-')
 
