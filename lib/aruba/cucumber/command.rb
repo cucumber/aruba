@@ -19,7 +19,7 @@ When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do
   shell ||= Aruba.platform.default_shell
 
   Aruba::ScriptFile.new(interpreter: shell, content: commands, path: full_path).call
-  step "I run `#{full_path}`"
+  run_command_and_stop(Shellwords.escape(full_path), fail_on_error: false)
 end
 
 When(/^I run `([^`]*)` interactively$/)do |cmd|
