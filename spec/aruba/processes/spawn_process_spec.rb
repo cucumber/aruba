@@ -90,5 +90,20 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         expect { process.start }.to raise_error(Aruba::LaunchError, "It tried to start foo. Foobar!")
       end
     end
+
+    context 'with a command with a space in the path' do
+      let(:child) { instance_double(ChildProcess::AbstractProcess).as_null_object }
+      let(:io) { instance_double(ChildProcess::AbstractIO).as_null_object }
+      let(:command) { 'foo' }
+
+      before do
+        allow(Aruba.platform).to receive(:which).with(command, anything).and_return("/path with space/foo")
+        allow(ChildProcess).to receive(:build).with('/path with space/foo').and_return(child)
+        allow(child).to receive(:io).and_return io
+        allow(child).to receive(:environment).and_return({})
+      end
+
+      it { expect { process.start }.to_not raise_error }
+    end
   end
 end
