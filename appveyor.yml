@@ -15,7 +15,6 @@ install:
   - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
   - ruby --version
   - gem --version
-  - gem install bundler
   - bundler --version
   - bundle install
   - cinst ansicon
