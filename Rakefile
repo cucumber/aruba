@@ -9,7 +9,7 @@ Bundler.setup
 task default: [:lint, :test]
 
 desc 'Run all linters.'
-task test: %w(lint:travis lint:coding_guidelines lint:licenses)
+task lint: %w(lint:travis lint:coding_guidelines lint:licenses)
 
 desc 'Run the whole test suite.'
 task test: %w(test:rspec test:cucumber test:cucumber_wip)
