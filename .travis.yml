@@ -3,25 +3,10 @@ language: ruby
 script: bundle exec rake test
 install: bin/bootstrap --path vendor/bundle --without development debug
 
-os:
-  - linux
-  - osx
-
-rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1
-  - 2.2
-  - 2.3.4
-  - 2.4.0
-  - 2.4.1
-  - jruby
-  - jruby-9.1.13.0
-  - ruby-head
-
-matrix:
+jobs:
   include:
     - rvm: ruby-head
+      stage: test
       os: linux
       # - rvm: ruby-head
       # - os: osx
@@ -59,6 +44,10 @@ matrix:
       os: linux
     - rvm: jruby-9.1.13.0
       os: osx
+    - stage: lint
+      script: bundle exec rake lint
+      rvm: 2.4.1
+      os: linux
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby
@@ -68,10 +57,12 @@ matrix:
     - rvm: 2.0.0
       os: osx
   fast_finish: true
+
 branches:
   only:
     - master
     - still
+
 # notifications:
 #   slack: cucumberbdd:oQFVhzsx4R94KWmjlejAJYnM
 env:
@@ -86,13 +77,6 @@ env:
    - LC_ALL=en_US.UTF-8
    - LANG=en_US.UTF-8
    - LANGUAGE=en_US.UTF-8
-
-jobs:
-  include:
-    - stage: lint
-      script: bundle exec rake lint
-      rvm: 2.4.1
-      os: linux
 
 cache: apt
 
