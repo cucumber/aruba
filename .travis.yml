@@ -1,7 +1,24 @@
 sudo: false
 language: ruby
-script: bin/test
+script: bundle exec rake test
 install: bin/bootstrap --path vendor/bundle --without development debug
+
+os:
+  - linux
+  - osx
+
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1
+  - 2.2
+  - 2.3.4
+  - 2.4.0
+  - 2.4.1
+  - jruby
+  - jruby-9.1.13.0
+  - ruby-head
+
 matrix:
   include:
     - rvm: ruby-head
@@ -42,7 +59,6 @@ matrix:
       os: linux
     - rvm: jruby-9.1.13.0
       os: osx
-      env:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby
@@ -73,16 +89,10 @@ env:
 
 jobs:
   include:
-    - stage: test
-      script: bundle exec rake test
     - stage: lint
       script: bundle exec rake lint
       rvm: 2.4.1
       os: linux
-
-stages:
-  - test
-  - lint
 
 cache: apt
 
