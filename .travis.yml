@@ -73,13 +73,16 @@ env:
 
 jobs:
   include:
+    - stage: test
+      script: bundle exec rake test
     - stage: lint
       script: bundle exec rake lint
       rvm: 2.4.1
       os: linux
+
 stages:
-  - lint
   - test
+  - lint
 
 cache: apt
 
