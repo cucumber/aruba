@@ -10,10 +10,6 @@ module Aruba
     #
     # @private
     class WindowsCommandString < SimpleDelegator
-      def initialize(cmd)
-        __setobj__ cmd
-      end
-
       # Convert to array
       def to_a
         [cmd_path, '/c', __getobj__]
