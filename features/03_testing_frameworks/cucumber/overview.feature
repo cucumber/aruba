@@ -4,45 +4,9 @@ Feature: Overview of steps
   Who would like to use `aruba`
   But didn't know which steps are available
 
-  Background:
-    Given I use a fixture named "cli-app"
-
-  Scenario: Use information found in repository
-    Given an executable named "bin/aruba-test-cli" with:
-    """
-    #!/bin/bash
-    git clone https://github.com/cucumber/aruba.git
-    cd aruba
-    grep -E "When|Given|Then" lib/aruba/cucumber/*.rb | awk -F ":" '{ $1 = ""; print $0}' |sort
-    """
-    And a file named "features/run.feature" with:
-    """
-    Feature: Run it
-      Scenario: Run command
-        When I run `aruba-test-cli`
-        Then the output should contain:
-        \"\"\"
-        Cloning into 'aruba'...
-        \"\"\"
-        And the output should contain:
-        \"\"\"
-        Given(/^
-        \"\"\"
-        And the output should contain:
-        \"\"\"
-        When(/^
-        \"\"\"
-        And the output should contain:
-        \"\"\"
-        Then(/^
-        \"\"\"
-    """
-    And the default aruba exit timeout is 60 seconds
-    When I run `cucumber`
-    Then the features should all pass
-
   Scenario: Use cucumber output formatter
-    Given a file named "features/run.feature" with:
+    Given I use a fixture named "cli-app"
+    And a file named "features/run.feature" with:
     """
     Feature: Run it
       Scenario: Run command
