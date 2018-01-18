@@ -18,6 +18,10 @@ After do
   aruba.command_monitor.clear
 end
 
+Before('@no-clobber') do
+  setup_aruba(clobber: false)
+end
+
 Before('~@no-clobber') do
   setup_aruba
 end
