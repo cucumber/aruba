@@ -86,10 +86,8 @@ Please see the [CONTRIBUTING](CONTRIBUTING.md) file.
 
 We use two branches for development: "master" and "still". The "master" branch
 contains the code of the current major version. The "still" branch is used for the
-old major version. New features are only added to "master". The still branch is
-still maintained, but only get fixes for major bugs though having the still
-branch shall be considered as experimental - we need to find out how work it is
-to maintain two branches of code.
+old major version. New features are only added to "master". The "still" branch is
+still maintained, but only get fixes for major bugs. The "still" branch should be considered as experimental, as we need to find out how much work it is to maintain two branches of code.
 
 ## Build Status
 
