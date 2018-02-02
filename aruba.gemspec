@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'childprocess', '~> 0.8.0'
   spec.add_runtime_dependency 'ffi', '~> 1.9', '>= 1.9.10'
   spec.add_runtime_dependency 'rspec-expectations', '~> 3.4', '>= 3.4.0'
-  spec.add_runtime_dependency 'contracts', '~> 0.14'
+  spec.add_runtime_dependency 'contracts', '~> 0.13'
   spec.add_runtime_dependency 'thor', '~> 0.19'
 
   spec.add_development_dependency 'bundler', '~> 1.11'
