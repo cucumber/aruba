@@ -10,10 +10,10 @@ module Aruba
       @runtime = runtime
     end
 
-    def call
+    def call(clobber: true)
       return if runtime.setup_already_done?
 
-      working_directory
+      working_directory(clobber: clobber)
       events
 
       runtime.setup_done
@@ -23,8 +23,10 @@ module Aruba
 
     private
 
-    def working_directory
-      Aruba.platform.rm File.join(runtime.config.root_directory, runtime.config.working_directory), :force => true
+    def working_directory(clobber: true)
+      if clobber
+        Aruba.platform.rm File.join(runtime.config.root_directory, runtime.config.working_directory), :force => true
+      end
       Aruba.platform.mkdir File.join(runtime.config.root_directory, runtime.config.working_directory)
       Aruba.platform.chdir runtime.config.root_directory
     end
