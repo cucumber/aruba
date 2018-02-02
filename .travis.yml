@@ -1,7 +1,7 @@
 sudo: false
 language: ruby
 script: bundle exec rake test
-install: bin/bootstrap --path vendor/bundle --without development debug
+bundler_args: --without development debug
 
 jobs:
   include:
