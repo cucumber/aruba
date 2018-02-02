@@ -21,7 +21,7 @@ After do
 end
 
 Before('@no-clobber') do
-  setup_aruba(clobber: false)
+  setup_aruba(false)
 end
 
 Before('~@no-clobber') do
