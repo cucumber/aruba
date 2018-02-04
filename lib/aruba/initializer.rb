@@ -68,7 +68,7 @@ module Aruba
 
       no_commands do
         def self.match?(framework)
-          :rspec == framework.downcase.to_sym
+          framework.downcase.to_sym == :rspec
         end
       end
 
@@ -109,7 +109,7 @@ module Aruba
 
       no_commands do
         def self.match?(framework)
-          :cucumber == framework.downcase.to_sym
+          framework.downcase.to_sym == :cucumber
         end
       end
 
@@ -134,7 +134,7 @@ module Aruba
 
       no_commands do
         def self.match?(framework)
-          :minitest == framework.downcase.to_sym
+          framework.downcase.to_sym == :minitest
         end
       end
 

@@ -32,7 +32,7 @@ RSpec.shared_context 'uses aruba API' do
     @file_path = @aruba.expand_path(@file_name)
     @aruba.setup_aruba
 
-    raise "We must work with relative paths, everything else is dangerous" if ?/ == @aruba.aruba.current_directory[0]
+    raise "We must work with relative paths, everything else is dangerous" if @aruba.aruba.current_directory[0] == ?/
   end
 end
 

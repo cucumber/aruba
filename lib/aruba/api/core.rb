@@ -141,7 +141,7 @@ module Aruba
           # rubocop:enable Metrics/LineLength
 
           path
-        elsif '~' == prefix
+        elsif prefix == '~'
           path = with_environment do
             ArubaPath.new(File.expand_path(file_name))
           end

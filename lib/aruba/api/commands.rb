@@ -218,7 +218,7 @@ module Aruba
       # @param [String] input
       #   The input for the command
       def type(input)
-        return close_input if "" == input
+        return close_input if input == ""
         last_command_started.write(input << "\n")
       end
 
