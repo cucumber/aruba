@@ -253,14 +253,6 @@ Style/Encoding:
     - 'fixtures/empty-app/cli-app.gemspec'
     - 'spec/spec_helper.rb'
 
-# Offense count: 3
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'features/support/env.rb'
-    - 'lib/aruba/api/command.rb'
-    - 'lib/aruba/colorizer.rb'
-
 # Offense count: 2
 Style/IdenticalConditionalBranches:
   Exclude:
