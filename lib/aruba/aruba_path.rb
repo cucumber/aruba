@@ -74,14 +74,6 @@ module Aruba
       to_s.end_with? string
     end
 
-    # Path starts with string
-    #
-    # @param [String] string
-    #   The string to check
-    def start_with?(string)
-      to_s.start_with? string
-    end
-
     # Return string at index
     #
     # @param [Integer, Range] index

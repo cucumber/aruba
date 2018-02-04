@@ -79,10 +79,6 @@ RSpec.describe Aruba::ArubaPath do
     it { expect(path).to be_end_with 'dir' }
   end
 
-  describe '#start_with?' do
-    it { expect(path).to be_start_with 'path/to' }
-  end
-
   describe '#relative?' do
     it { expect(path).to be_relative }
   end
