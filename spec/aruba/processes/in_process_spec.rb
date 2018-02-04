@@ -43,8 +43,11 @@ RSpec.describe Aruba::Processes::InProcess do
 
   describe "#stdout" do
     let(:main_class) { StdoutRunner }
-    before(:each) { process.start }
-    before(:each) { process.stop }
+
+    before do
+      process.start
+      process.stop
+    end
 
     context 'when invoked once' do
       it { expect(process.stdout).to eq "yo\n" }
@@ -57,8 +60,11 @@ RSpec.describe Aruba::Processes::InProcess do
 
   describe "#stderr" do
     let(:main_class) { StderrRunner }
-    before(:each) { process.start }
-    before(:each) { process.stop }
+
+    before do
+      process.start
+      process.stop
+    end
 
     context 'when invoked once' do
       it { expect(process.stderr).to eq "yo\n" }
@@ -70,7 +76,7 @@ RSpec.describe Aruba::Processes::InProcess do
   end
 
   describe "#stop" do
-    before(:each) { process.start }
+    before { process.start }
 
     context 'when stopped successfully' do
       it { expect { process.stop }.not_to raise_error }
