@@ -367,15 +367,3 @@ Style/SignalException:
 # SupportedStyles: single_quotes, double_quotes
 Style/StringLiterals:
   Enabled: false
-
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: all_comparison_operators, equality_operators_only
-Style/YodaCondition:
-  Exclude:
-    - 'lib/aruba/api/command.rb'
-    - 'lib/aruba/api/core.rb'
-    - 'lib/aruba/initializer.rb'
-    - 'lib/aruba/platforms/announcer.rb'
-    - 'spec/support/shared_contexts/aruba.rb'
