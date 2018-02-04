@@ -194,7 +194,7 @@ module Aruba
       #
       def run_command_and_stop(cmd, opts = {})
         fail_on_error = if opts.key?(:fail_on_error)
-                          opts.delete(:fail_on_error) == true ? true : false
+                          opts.delete(:fail_on_error) == true
                         else
                           true
                         end

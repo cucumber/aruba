@@ -316,12 +316,6 @@ Style/RaiseArgs:
   Exclude:
     - 'features/support/env.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/RedundantConditional:
-  Exclude:
-    - 'lib/aruba/api/command.rb'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 Style/RedundantSelf:
