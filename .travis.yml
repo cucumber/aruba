@@ -34,10 +34,12 @@ jobs:
       os: linux
     - rvm: 2.0.0
       os: osx
+      osx_image: xcode8
     - rvm: 1.9.3
       os: linux
     - rvm: 1.9.3
       os: osx
+      osx_image: xcode8
     - rvm: jruby
       os: linux
     - rvm: jruby-9.1.13.0
@@ -52,10 +54,6 @@ jobs:
     - rvm: ruby-head
     - rvm: jruby
     - rvm: jruby-9.1.13.0
-    - rvm: 1.9.3
-      os: osx
-    - rvm: 2.0.0
-      os: osx
   fast_finish: true
 
 branches:
