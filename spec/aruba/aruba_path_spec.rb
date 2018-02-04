@@ -43,17 +43,6 @@ RSpec.describe Aruba::ArubaPath do
     it { expect(path.to_s).to eq 'path/to/dir' }
   end
 
-  describe '#relative?' do
-    context 'when is relative' do
-      it { expect(path).to be_relative }
-    end
-
-    context 'when is absolute' do
-      let(:new_path) { '/absolute/path' }
-      it { expect(path).not_to be_relative }
-    end
-  end
-
   describe '#[]' do
     context 'when single index' do
       it { expect(path[0]).to eq 'p' }
@@ -73,14 +62,5 @@ RSpec.describe Aruba::ArubaPath do
       let(:new_path) { '/path/to/dir' }
       it { expect(path.depth).to eq 3 }
     end
-  end
-
-  describe '#relative?' do
-    it { expect(path).to be_relative }
-  end
-
-  describe '#absolute?' do
-    let(:new_path) { '/path/to/dir' }
-    it { expect(path).to be_absolute }
   end
 end

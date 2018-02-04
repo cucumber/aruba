@@ -1,4 +1,4 @@
-require 'aruba/aruba_path'
+require 'aruba/platform'
 
 # Aruba
 module Aruba
@@ -11,7 +11,7 @@ module Aruba
       # @param [Object] value
       #   The value to be checked
       def self.valid?(value)
-        ArubaPath.new(value).absolute?
+        Aruba.platform.absolute_path? value
       rescue
         false
       end

@@ -54,14 +54,14 @@ module Aruba
       #
       # @return [Boolean]
       def absolute?(path)
-        ArubaPath.new(path).absolute?
+        Aruba.platform.absolute_path?(path)
       end
 
       # Check if path is relative
       #
       # @return [Boolean]
       def relative?(path)
-        ArubaPath.new(path).relative?
+        Aruba.platform.relative_path?(path)
       end
 
       # Return all existing paths (directories, files) in current dir

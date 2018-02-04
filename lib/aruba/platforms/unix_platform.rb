@@ -195,8 +195,8 @@ module Aruba
       #     * /bin/command.sh
       #     * command.sh
       def relative_command?(path)
-        p = ArubaPath.new(path)
-        p.relative? && p.depth > 1
+        p = Pathname.new(path)
+        p.relative? && p.basename != p
       end
 
       # Check if command is relative
