@@ -66,14 +66,6 @@ module Aruba
       __getobj__.each_filename.to_a.size
     end
 
-    # Path ends with string
-    #
-    # @param [String] string
-    #   The string to check
-    def end_with?(string)
-      to_s.end_with? string
-    end
-
     # Return string at index
     #
     # @param [Integer, Range] index
