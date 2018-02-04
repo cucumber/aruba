@@ -6,7 +6,7 @@ Feature: Change working directory
     Given I use a fixture named "cli-app"
 
   Scenario: Change to an existing sub directory
-    Given a file named "features/non-existence.feature" with:
+    Given a file named "features/existence.feature" with:
     """
     Feature: Working Directory
       Scenario: Working Directory
@@ -31,3 +31,20 @@ Feature: Change working directory
     """
     When I run `cucumber`
     Then the features should not pass
+
+  Scenario: Change to home directory
+    Given a file named "features/home.feature" with:
+    """
+    Feature: Working Directory
+      Scenario: Working Directory
+        Given a file named "example.txt" with:
+        \"\"\"
+        hello world
+        \"\"\"
+        When I cd to "~"
+        And I run `cat example.txt`
+        Then the output should contain "hello world"
+        And the file "example.txt" should exist
+    """
+    When I run `cucumber`
+    Then the features should all pass
