@@ -143,31 +143,6 @@ Lint/UnneededDisable:
   Exclude:
     - 'lib/aruba/event_bus/name_resolver.rb'
 
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'lib/aruba/cucumber/file.rb'
-    - 'lib/aruba/matchers/file/have_file_size.rb'
-    - 'lib/aruba/matchers/path/have_permissions.rb'
-    - 'lib/aruba/platforms/announcer.rb'
-    - 'spec/aruba/api_spec.rb'
-
-# Offense count: 11
-# Cop supports --auto-correct.
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'lib/aruba/api/filesystem.rb'
-    - 'lib/aruba/platforms/announcer.rb'
-    - 'lib/aruba/platforms/local_environment.rb'
-    - 'lib/aruba/platforms/unix_which.rb'
-    - 'lib/aruba/platforms/windows_which.rb'
-    - 'lib/aruba/processes/spawn_process.rb'
-    - 'lib/aruba/tasks/docker_helpers.rb'
-    - 'spec/aruba/processes/basic_process_spec.rb'
-
 # Offense count: 2
 Lint/UselessAssignment:
   Exclude:
@@ -278,21 +253,6 @@ Style/Encoding:
     - 'fixtures/empty-app/cli-app.gemspec'
     - 'spec/spec_helper.rb'
 
-# Offense count: 3
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'features/support/env.rb'
-    - 'lib/aruba/api/command.rb'
-    - 'lib/aruba/colorizer.rb'
-
-# Offense count: 130
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-Style/HashSyntax:
-  Enabled: false
-
 # Offense count: 2
 Style/IdenticalConditionalBranches:
   Exclude:
@@ -356,12 +316,6 @@ Style/RaiseArgs:
   Exclude:
     - 'features/support/env.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/RedundantConditional:
-  Exclude:
-    - 'lib/aruba/api/command.rb'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 Style/RedundantSelf:
@@ -399,15 +353,3 @@ Style/SignalException:
 # SupportedStyles: single_quotes, double_quotes
 Style/StringLiterals:
   Enabled: false
-
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: all_comparison_operators, equality_operators_only
-Style/YodaCondition:
-  Exclude:
-    - 'lib/aruba/api/command.rb'
-    - 'lib/aruba/api/core.rb'
-    - 'lib/aruba/initializer.rb'
-    - 'lib/aruba/platforms/announcer.rb'
-    - 'spec/support/shared_contexts/aruba.rb'

@@ -1,4 +1,4 @@
-Given(/^a mocked home directory$/)do
+Given(/^a mocked home directory$/) do
   set_environment_variable 'HOME', expand_path('.')
 end
 

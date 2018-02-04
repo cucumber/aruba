@@ -25,7 +25,7 @@ module Aruba
 
     def working_directory(clobber = true)
       if clobber
-        Aruba.platform.rm File.join(runtime.config.root_directory, runtime.config.working_directory), :force => true
+        Aruba.platform.rm File.join(runtime.config.root_directory, runtime.config.working_directory), force: true
       end
       Aruba.platform.mkdir File.join(runtime.config.root_directory, runtime.config.working_directory)
       Aruba.platform.chdir runtime.config.root_directory

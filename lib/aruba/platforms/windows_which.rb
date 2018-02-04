@@ -23,7 +23,7 @@ module Aruba
           Aruba.platform.absolute_path?(program) || Aruba.platform.relative_command?(program)
         end
 
-        def call(program, path)
+        def call(program, _path)
           # Expand `#path_exts`
           found = Dir[program].first
 
@@ -95,7 +95,7 @@ module Aruba
       private
 
       def windows_executable_extentions
-        ENV['PATHEXT'] ? format('.{%s}', ENV['PATHEXT'].tr(';', ',').tr('.','')).downcase : '.{exe,com,bat}'
+        ENV['PATHEXT'] ? format('.{%s}', ENV['PATHEXT'].tr(';', ',').tr('.', '')).downcase : '.{exe,com,bat}'
       end
     end
   end

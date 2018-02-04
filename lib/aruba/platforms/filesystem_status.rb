@@ -30,7 +30,7 @@ module Aruba
 
       # Return permissions
       def mode
-        format("%o", status.mode)[-4,4].gsub(/^0*/, '')
+        format("%o", status.mode)[-4, 4].gsub(/^0*/, '')
       end
 
       # Return owner
@@ -49,14 +49,14 @@ module Aruba
       #   A hash of values
       def to_h
         {
-          :owner      => owner,
-          :group      => group,
-          :mode       => mode,
-          :executable => executable?,
-          :ctime      => ctime,
-          :atime      => atime,
-          :mtime      => mtime,
-          :size       => size
+          owner: owner,
+          group: group,
+          mode: mode,
+          executable: executable?,
+          ctime: ctime,
+          atime: atime,
+          mtime: mtime,
+          size: size
         }
       end
     end

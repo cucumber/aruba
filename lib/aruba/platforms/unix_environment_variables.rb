@@ -133,7 +133,7 @@ module Aruba
         name  = name.to_s
         value = self[name].to_s + value.to_s
 
-        actions << UpdateAction.new(name => value )
+        actions << UpdateAction.new(name => value)
 
         value
       end

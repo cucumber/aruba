@@ -1,15 +1,15 @@
 require 'aruba/generators/script_file'
 
-When(/^I run `([^`]*)`$/)do |cmd|
+When(/^I run `([^`]*)`$/) do |cmd|
   cmd = sanitize_text(cmd)
-  run_command_and_stop(cmd, :fail_on_error => false)
+  run_command_and_stop(cmd, fail_on_error: false)
 end
 
 ## I successfully run `echo -n "Hello"`
 ## I successfully run `sleep 29` for up to 30 seconds
-When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
+When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/) do |cmd, secs|
   cmd = sanitize_text(cmd)
-  run_command_and_stop(cmd, :fail_on_error => true, :exit_timeout => secs && secs.to_i)
+  run_command_and_stop(cmd, fail_on_error: true, exit_timeout: secs && secs.to_i)
 end
 
 When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do |shell, commands|
@@ -22,13 +22,13 @@ When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do
   run_command_and_stop(Shellwords.escape(full_path), fail_on_error: false)
 end
 
-When(/^I run `([^`]*)` interactively$/)do |cmd|
+When(/^I run `([^`]*)` interactively$/) do |cmd|
   cmd = sanitize_text(cmd)
   @interactive = run_command(cmd)
 end
 
 # Merge interactive and background after refactoring with event queue
-When(/^I run `([^`]*)` in background$/)do |cmd|
+When(/^I run `([^`]*)` in background$/) do |cmd|
   run_command(sanitize_text(cmd))
 end
 
@@ -68,7 +68,7 @@ When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$
   begin
     Timeout.timeout(aruba.config.exit_timeout) do
       loop do
-        output = last_command_started.public_send channel.to_sym, :wait_for_io => 0
+        output = last_command_started.public_send channel.to_sym, wait_for_io: 0
 
         output   = sanitize_text(output)
         expected = sanitize_text(expected)

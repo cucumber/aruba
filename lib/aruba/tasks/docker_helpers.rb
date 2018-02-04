@@ -13,7 +13,7 @@ module Aruba
       @instance = instance
     end
 
-    def method_missing(m, *args, &block)
+    def method_missing(m, *_args)
       @file.public_send m, instance
     end
 

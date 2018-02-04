@@ -15,11 +15,11 @@ RSpec.describe Aruba::InConfigWrapper do
     end
 
     context 'when one tries to pass arguments to option' do
-      it { expect{ wrapper.opt('arg') }.to raise_error ArgumentError, 'Options take no argument' }
+      it { expect { wrapper.opt('arg') }.to raise_error ArgumentError, 'Options take no argument' }
     end
   end
 
   context 'when option is not defined' do
-    it { expect{ wrapper.opt }.to raise_error ArgumentError, 'Option "opt" is unknown. Please use only earlier defined options' }
+    it { expect { wrapper.opt }.to raise_error ArgumentError, 'Option "opt" is unknown. Please use only earlier defined options' }
   end
 end

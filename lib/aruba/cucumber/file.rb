@@ -3,11 +3,11 @@ Given(/^I use (?:a|the) fixture(?: named)? "([^"]*)"$/) do |name|
   cd name
 end
 
-Given(/^I copy (?:a|the) (file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) do |file_or_directory, source, destination|
+Given(/^I copy (?:a|the) (?:file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) do |source, destination|
   copy source, destination
 end
 
-Given(/^I move (?:a|the) (file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) do |file_or_directory, source, destination|
+Given(/^I move (?:a|the) (?:file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) do |source, destination|
   move source, destination
 end
 
@@ -67,11 +67,11 @@ When(/^I append to "([^"]*)" with "([^"]*)"$/) do |file_name, file_content|
 end
 
 When(/^I remove (?:a|the) (?:file|directory)(?: named)? "([^"]*)"( with full force)?$/) do |name, force_remove|
-  remove(name, :force => force_remove.nil? ? false : true)
+  remove(name, force: force_remove.nil? ? false : true)
 end
 
 Given(/^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" does not exist$/) do |name|
-  remove(name, :force => true)
+  remove(name, force: true)
 end
 
 When(/^I cd to "([^"]*)"$/) do |dir|

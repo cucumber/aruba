@@ -72,7 +72,7 @@ module Aruba
         define_method("#{name}=") { |v| find_option(name).value = v }
 
         # Add reader
-        option_reader name, :contract => { None => contract.values.first }
+        option_reader name, contract: { None => contract.values.first }
       end
 
       private
@@ -80,7 +80,7 @@ module Aruba
       def add_option(name, value = nil)
         return if known_options.key?(name)
 
-        known_options[name] = Option.new(:name => name, :value => value)
+        known_options[name] = Option.new(name: name, value: value)
 
         self
       end

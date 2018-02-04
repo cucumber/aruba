@@ -148,15 +148,15 @@ module Aruba
 
         command = Command.new(
           cmd,
-          :mode              => mode,
-          :exit_timeout      => exit_timeout,
-          :io_wait_timeout   => io_wait_timeout,
-          :working_directory => working_directory,
-          :environment       => environment.to_hash,
-          :main_class        => main_class,
-          :stop_signal       => stop_signal,
-          :startup_wait_time => startup_wait_time,
-          :event_bus         => event_bus
+          mode: mode,
+          exit_timeout: exit_timeout,
+          io_wait_timeout: io_wait_timeout,
+          working_directory: working_directory,
+          environment: environment.to_hash,
+          main_class: main_class,
+          stop_signal: stop_signal,
+          startup_wait_time: startup_wait_time,
+          event_bus: event_bus
         )
 
         aruba.config.before(:command, self, command)
@@ -194,7 +194,7 @@ module Aruba
       #
       def run_command_and_stop(cmd, opts = {})
         fail_on_error = if opts.key?(:fail_on_error)
-                          opts.delete(:fail_on_error) == true ? true : false
+                          opts.delete(:fail_on_error) == true
                         else
                           true
                         end
@@ -202,14 +202,14 @@ module Aruba
         command = run_command(cmd, opts)
         command.stop
 
-        if fail_on_error
-          begin
-            expect(command).to have_finished_in_time
-            expect(command).to be_successfully_executed
-          rescue ::RSpec::Expectations::ExpectationNotMetError => e
-            aruba.announcer.activate(aruba.config.activate_announcer_on_command_failure)
-            raise e
-          end
+        return unless fail_on_error
+
+        begin
+          expect(command).to have_finished_in_time
+          expect(command).to be_successfully_executed
+        rescue ::RSpec::Expectations::ExpectationNotMetError => e
+          aruba.announcer.activate(aruba.config.activate_announcer_on_command_failure)
+          raise e
         end
       end
 
@@ -218,7 +218,7 @@ module Aruba
       # @param [String] input
       #   The input for the command
       def type(input)
-        return close_input if "" == input
+        return close_input if input == ""
         last_command_started.write(input << "\n")
       end
 

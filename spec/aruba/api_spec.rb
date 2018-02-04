@@ -124,7 +124,7 @@ describe Aruba::Api do
   end
 
   describe '#read' do
-    let(:name) { 'test.txt'}
+    let(:name) { 'test.txt' }
     let(:path) { File.join(@aruba.aruba.current_directory, name) }
     let(:content) { 'asdf' }
 
@@ -199,7 +199,7 @@ describe Aruba::Api do
         end
 
         context 'when normal file' do
-          it { expect{ @aruba.list(name) }.to raise_error ArgumentError }
+          it { expect { @aruba.list(name) }.to raise_error ArgumentError }
         end
       end
 
@@ -217,7 +217,7 @@ describe Aruba::Api do
             let(:existing_files) { @aruba.list(name) }
             let(:expected_files) { content.map { |c| File.join(name, c) }.sort }
 
-            it { expect(expected_files - existing_files).to be_empty}
+            it { expect(expected_files - existing_files).to be_empty }
           end
 
           context 'when path contains ~' do
@@ -228,7 +228,7 @@ describe Aruba::Api do
             let(:existing_files) { @aruba.list(name) }
             let(:expected_files) { content.map { |c| File.join(string, c) } }
 
-            it { expect(expected_files - existing_files).to be_empty}
+            it { expect(expected_files - existing_files).to be_empty }
           end
         end
 
@@ -241,7 +241,7 @@ describe Aruba::Api do
   end
 
   describe '#remove' do
-    let(:name) { 'test.txt'}
+    let(:name) { 'test.txt' }
     let(:path) { File.join(@aruba.aruba.current_directory, name) }
     let(:options) { {} }
 
@@ -285,7 +285,7 @@ describe Aruba::Api do
         end
 
         context 'when is forced to delete file' do
-          let(:options) { { :force => true } }
+          let(:options) { { force: true } }
 
           it_behaves_like 'a non-existing file'
         end
@@ -330,7 +330,7 @@ describe Aruba::Api do
         end
 
         context 'when is forced to delete directory' do
-          let(:options) { { :force => true } }
+          let(:options) { { force: true } }
 
           it_behaves_like 'a non-existing directory'
         end
@@ -376,7 +376,7 @@ describe Aruba::Api do
 
           context 'and the mtime should be set statically' do
             let(:time) { Time.parse('2014-01-01 10:00:00') }
-            let(:options) { { :mtime => Time.parse('2014-01-01 10:00:00') } }
+            let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
 
             it_behaves_like 'an existing file'
             it { expect(File.mtime(path)).to eq time }
@@ -403,7 +403,7 @@ describe Aruba::Api do
 
           context 'and the mtime should be set statically' do
             let(:time) { Time.parse('2014-01-01 10:00:00') }
-            let(:options) { { :mtime => Time.parse('2014-01-01 10:00:00') } }
+            let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
 
             it_behaves_like 'an existing directory'
             it { Array(path).each { |p| expect(File.mtime(p)).to eq time } }
@@ -625,7 +625,7 @@ describe Aruba::Api do
                 @aruba.copy source, destination
               end
 
-              it { source.each { |s| expect(destination_files).to all be_an_existing_file } }
+              it { expect(destination_files).to all be_an_existing_file }
             end
 
             context 'when destination is not a directory' do
@@ -658,7 +658,7 @@ describe Aruba::Api do
         end
 
         context 'when source is non-existing' do
-          it { expect { @aruba.copy source, destination }.to raise_error ArgumentError}
+          it { expect { @aruba.copy source, destination }.to raise_error ArgumentError }
         end
       end
     end
@@ -763,7 +763,7 @@ describe Aruba::Api do
 
     describe '#chmod' do
       def actual_permissions
-        format( "%o" , File::Stat.new(file_path).mode )[-4,4]
+        format("%o", File::Stat.new(file_path).mode)[-4, 4]
       end
 
       let(:file_name) { @file_name }
@@ -935,7 +935,7 @@ describe Aruba::Api do
   end
 
   describe '#run_command' do
-    before(:each){ @aruba.run_command 'cat' }
+    before(:each) { @aruba.run_command 'cat' }
     after(:each) { @aruba.all_commands.each(&:stop) }
 
     it "respond to input" do
