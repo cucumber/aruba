@@ -62,8 +62,8 @@ module Aruba
         DetermineFileSize.new.call(*args)
       end
 
-      def determine_disk_usage(*args)
-        DetermineDiskUsage.new.call(*args)
+      def determine_disk_usage(paths)
+        DetermineDiskUsage.new.call(paths)
       end
 
       def create_file(*args)
