@@ -48,6 +48,8 @@ module Aruba
 
     # Stop command
     def stop(*)
+      return if __getobj__.stopped?
+
       __getobj__.stop
       event_bus.notify Events::CommandStopped.new(self)
 
@@ -56,6 +58,8 @@ module Aruba
 
     # Terminate command
     def terminate(*)
+      return if __getobj__.stopped?
+
       __getobj__.terminate
       event_bus.notify Events::CommandStopped.new(self)
 

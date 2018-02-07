@@ -18,6 +18,7 @@ module Aruba
       end
 
       def start
+        @started = true
         Dir.chdir @working_directory do
           Aruba.platform.with_environment(environment) do
             @exit_status = system(command, *arguments) ? 0 : 1

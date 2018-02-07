@@ -55,6 +55,8 @@ module Aruba
       def start
         fail "You need to call aruba.config.main_class = YourMainClass" unless main_class
 
+        @started = true
+
         Dir.chdir @working_directory do
           before_run
 
