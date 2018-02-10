@@ -117,6 +117,11 @@ module Aruba
       #   # => <path>/test/fixtures/file
       #   expand_path('%/file')
       #
+      # @example Absolute directory
+      #
+      #   # => /foo/bar
+      #   expand_path('/foo/bar')
+      #
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
       def expand_path(file_name, dir_string = nil)
