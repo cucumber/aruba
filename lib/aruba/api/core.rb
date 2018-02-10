@@ -152,7 +152,8 @@ module Aruba
           path.to_s
         else
           directory = File.join(aruba.root_directory, aruba.current_directory)
-          ArubaPath.new(File.join(*[directory, dir_string, file_name].compact)).expand_path.to_s
+          directory = File.expand_path(dir_string, directory) if dir_string
+          File.expand_path(file_name, directory)
         end
       end
       # rubocop:enable Metrics/MethodLength
