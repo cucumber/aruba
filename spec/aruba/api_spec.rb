@@ -668,8 +668,25 @@ describe Aruba::Api do
         it { expect(@aruba.expand_path(@file_name)).to eq File.expand_path(@file_path) }
       end
 
-      context 'when file_path is given' do
+      context 'when an absolute file_path is given' do
+        let(:logger) { @aruba.aruba.logger }
+
+        before do
+          allow(@aruba.aruba.logger).to receive :warn
+        end
+
         it { expect(@aruba.expand_path(@file_path)).to eq @file_path }
+
+        it 'warns about it' do
+          @aruba.expand_path(@file_path)
+          expect(logger).to have_received(:warn).with /Using absolute paths in Aruba is not recommended/
+        end
+
+        it 'does not warn about it if told not to' do
+          @aruba.aruba.config.allow_absolute_paths = true
+          @aruba.expand_path(@file_path)
+          expect(logger).not_to have_received(:warn)
+        end
       end
 
       context 'when path contains "."' do

@@ -50,6 +50,7 @@ module Aruba
     option_accessor :console_history_file, contract: { String => String }, default: '~/.aruba_history'
 
     option_accessor :activate_announcer_on_command_failure, contract: { ArrayOf[Symbol] => ArrayOf[Symbol] }, default: []
+    option_accessor :allow_absolute_paths, contract: { Bool => Bool }, default: false
   end
 end
 

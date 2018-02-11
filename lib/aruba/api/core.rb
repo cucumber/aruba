@@ -156,6 +156,10 @@ module Aruba
 
           path.to_s
         elsif absolute? file_name
+          unless aruba.config.allow_absolute_paths
+            aruba.logger.warn 'Using absolute paths in Aruba is not recommended.' \
+              ' Set config.allow_absolute_paths = true to silence this warning'
+          end
           file_name
         else
           directory = File.join(aruba.root_directory, aruba.current_directory)
