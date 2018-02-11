@@ -2,13 +2,12 @@ require 'spec_helper'
 
 RSpec.describe Aruba::Processes::InProcess do
   class Runner
-    def initialize(argv, stdin, stdout, stderr, kernel)
+    def initialize(_argv, _stdin, stdout, stderr, _kernel)
       @stdout = stdout
       @stderr = stderr
     end
 
-    def execute!
-    end
+    def execute!; end
   end
 
   class StdoutRunner < Runner
