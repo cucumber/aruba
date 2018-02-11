@@ -679,7 +679,7 @@ describe Aruba::Api do
 
         it 'warns about it' do
           @aruba.expand_path(@file_path)
-          expect(logger).to have_received(:warn).with /Using absolute paths in Aruba is not recommended/
+          expect(logger).to have_received(:warn).with(/Using absolute paths in Aruba is not recommended/)
         end
 
         it 'does not warn about it if told not to' do
