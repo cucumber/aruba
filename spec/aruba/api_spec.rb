@@ -654,6 +654,10 @@ describe Aruba::Api do
         it { expect(@aruba.expand_path(@file_name)).to eq File.expand_path(@file_path) }
       end
 
+      context 'when file_path is given' do
+        it { expect(@aruba.expand_path(@file_path)).to eq @file_path }
+      end
+
       context 'when path contains "."' do
         it { expect(@aruba.expand_path('.')).to eq File.expand_path(aruba.current_directory) }
       end
