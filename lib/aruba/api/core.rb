@@ -155,6 +155,8 @@ module Aruba
           fail ArgumentError, %(Expanding "~/" to a relative path "#{path}" is not allowed) unless path.absolute?
 
           path.to_s
+        elsif absolute? file_name
+          file_name
         else
           directory = File.join(aruba.root_directory, aruba.current_directory)
           directory = File.expand_path(dir_string, directory) if dir_string
