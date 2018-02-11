@@ -124,6 +124,7 @@ module Aruba
       #
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/PerceivedComplexity
       def expand_path(file_name, dir_string = nil)
         # rubocop:disable Metrics/LineLength
         message = %(Filename "#{file_name}" needs to be a string. It cannot be nil or empty either.  Please use `expand_path('.')` if you want the current directory to be expanded.)
@@ -168,7 +169,8 @@ module Aruba
         end
       end
       # rubocop:enable Metrics/MethodLength
-      # rubocop:enable  Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/PerceivedComplexity
 
       # Run block with environment
       #
