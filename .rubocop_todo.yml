@@ -299,14 +299,6 @@ Style/NumericPredicate:
 Style/PercentLiteralDelimiters:
   Exclude:
     - 'Rakefile'
-    - 'lib/aruba/cli.rb'
-    - 'lib/aruba/configuration.rb'
-    - 'lib/aruba/console/help.rb'
-    - 'lib/aruba/cucumber/command.rb'
-    - 'lib/aruba/tasks/docker_helpers.rb'
-    - 'spec/aruba/api_spec.rb'
-    - 'spec/aruba/aruba_path_spec.rb'
-    - 'spec/aruba/matchers/directory_spec.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
