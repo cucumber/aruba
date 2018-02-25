@@ -59,7 +59,7 @@ group :development, :test do
 
   # Test api
   gem 'rspec', '~> 3.4'
-  gem 'fuubar', '~> 2.2.0'
+  gem 'fuubar', '~> 2.2'
 
   # using platform for this makes bundler complain about the same gem given
   # twice
