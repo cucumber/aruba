@@ -61,10 +61,6 @@ group :development, :test do
   gem 'rspec', '~> 3.4'
   gem 'fuubar', '~> 2.2'
 
-  # using platform for this makes bundler complain about the same gem given
-  # twice
-  gem 'cucumber', '~> 2.0'
-
   if RUBY_VERSION >= '2.0.0'
     # Make aruba compliant to ruby community guide
     gem 'rubocop', '~> 0.50.0'
