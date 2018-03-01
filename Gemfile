@@ -8,14 +8,17 @@ load File.expand_path('../Gemfile.local', __FILE__) if File.file? File.expand_pa
 
 # Debug aruba
 group :debug do
-  if RUBY_VERSION >= '2' && !RUBY_PLATFORM.include?('java')
-    gem 'byebug', '~> 10.0'
-    gem 'pry-byebug', '~> 3.4'
-  end
-
-  if RUBY_VERSION < '2' && !RUBY_PLATFORM.include?('java')
-    gem 'debugger', '~> 1.6.8'
-    gem 'pry-debugger', '~> 0.2.3'
+  unless RUBY_PLATFORM.include?('java')
+    if RUBY_VERSION >= '2.2'
+      gem 'byebug', '~> 10.0'
+      gem 'pry-byebug', '~> 3.4'
+    elsif RUBY_VERSION >= '2'
+      gem 'byebug', '~> 9.0'
+      gem 'pry-byebug', '~> 3.4'
+    else
+      gem 'debugger', '~> 1.6.8'
+      gem 'pry-debugger', '~> 0.2.3'
+    end
   end
 
   if RUBY_VERSION < '2'
