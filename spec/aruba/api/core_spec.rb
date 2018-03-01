@@ -21,7 +21,7 @@ describe Aruba::Api::Core do
         expect(Dir.pwd).not_to eq full_path
       end
 
-      it 'does not touch non-directory environment the passed block' do
+      it 'does not touch non-directory environment of the passed block' do
         @aruba.create_directory @directory_name
         @aruba.cd @directory_name do
           expect(ENV['HOME']).not_to be_nil

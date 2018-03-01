@@ -8,7 +8,7 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:name) { @file_name }
     let(:path) { @file_path }
 
-    context 'when file exist' do
+    context 'when file exists' do
       before :each do
         Aruba.platform.write_file(path, '')
       end
@@ -16,7 +16,7 @@ RSpec.describe Aruba::Api::Filesystem do
       it { expect(all_paths).to include expand_path(name) }
     end
 
-    context 'when directory exist' do
+    context 'when directory exists' do
       let(:name) { 'test_dir' }
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
@@ -27,7 +27,7 @@ RSpec.describe Aruba::Api::Filesystem do
       it { expect(all_paths).to include expand_path(name) }
     end
 
-    context 'when nothing exist' do
+    context 'when nothing exists' do
       it { expect(all_paths).to eq [] }
     end
   end
@@ -36,7 +36,7 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:name) { @file_name }
     let(:path) { @file_path }
 
-    context 'when file exist' do
+    context 'when file exists' do
       before :each do
         Aruba.platform.write_file(path, '')
       end
@@ -44,7 +44,7 @@ RSpec.describe Aruba::Api::Filesystem do
       it { expect(all_files).to include expand_path(name) }
     end
 
-    context 'when directory exist' do
+    context 'when directory exists' do
       let(:name) { 'test_dir' }
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
@@ -55,7 +55,7 @@ RSpec.describe Aruba::Api::Filesystem do
       it { expect(all_files).to eq [] }
     end
 
-    context 'when nothing exist' do
+    context 'when nothing exists' do
       it { expect(all_files).to eq [] }
     end
   end
@@ -64,7 +64,7 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:name) { @file_name }
     let(:path) { @file_path }
 
-    context 'when file exist' do
+    context 'when file exists' do
       before :each do
         Aruba.platform.write_file(path, '')
       end
@@ -72,7 +72,7 @@ RSpec.describe Aruba::Api::Filesystem do
       it { expect(all_directories).to eq [] }
     end
 
-    context 'when directory exist' do
+    context 'when directory exists' do
       let(:name) { 'test_dir' }
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
@@ -83,7 +83,7 @@ RSpec.describe Aruba::Api::Filesystem do
       it { expect(all_directories).to include expand_path(name) }
     end
 
-    context 'when nothing exist' do
+    context 'when nothing exists' do
       it { expect(all_directories).to eq [] }
     end
   end
@@ -93,7 +93,7 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:path) { @file_path }
     let(:size) { file_size(name) }
 
-    context 'when file exist' do
+    context 'when file exists' do
       before :each do
         File.open(path, 'w') { |f| f.print 'a' }
       end
@@ -116,66 +116,61 @@ RSpec.describe Aruba::Api::Filesystem do
       @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
     end
 
-    context 'when file' do
+    context 'when touching a file that does not exist' do
       before :each do
         @aruba.touch(name, options)
       end
 
-      context 'when does not exist' do
-        context 'and should be created in existing directory' do
-          it { expect(File.size(path)).to eq 0 }
-          it_behaves_like 'an existing file'
-        end
+      context 'and should be created in an existing directory' do
+        it { expect(File.size(path)).to eq 0 }
+        it_behaves_like 'an existing file'
+      end
 
-        context 'and should be created in non-existing directory' do
-          let(:name) { 'directory/test' }
-          let(:path) { File.join(@aruba.aruba.current_directory, 'directory/test') }
+      context 'and should be created in a non-existing directory' do
+        let(:name) { 'directory/test' }
+        let(:path) { File.join(@aruba.aruba.current_directory, 'directory/test') }
 
-          it_behaves_like 'an existing file'
-        end
+        it_behaves_like 'an existing file'
+      end
 
-        context 'and path includes ~' do
-          let(:string) { random_string }
-          let(:name) { File.join('~', string) }
-          let(:path) { File.join(@aruba.aruba.current_directory, string) }
+      context 'and path includes ~' do
+        let(:string) { random_string }
+        let(:name) { File.join('~', string) }
+        let(:path) { File.join(@aruba.aruba.current_directory, string) }
 
-          it_behaves_like 'an existing file'
-        end
+        it_behaves_like 'an existing file'
+      end
 
-        context 'and the mtime should be set statically' do
-          let(:time) { Time.parse('2014-01-01 10:00:00') }
-          let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
+      context 'and the mtime should be set statically' do
+        let(:time) { Time.parse('2014-01-01 10:00:00') }
+        let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
 
-          it_behaves_like 'an existing file'
-          it { expect(File.mtime(path)).to eq time }
-        end
+        it_behaves_like 'an existing file'
+        it { expect(File.mtime(path)).to eq time }
+      end
 
-        context 'and multiple file names are given' do
-          let(:name) { %w(file1 file2 file3) }
-          let(:path) { %w(file1 file2 file3).map { |p| File.join(@aruba.aruba.current_directory, p) } }
-          it_behaves_like 'an existing file'
-        end
+      context 'and multiple file names are given' do
+        let(:name) { %w(file1 file2 file3) }
+        let(:path) { %w(file1 file2 file3).map { |p| File.join(@aruba.aruba.current_directory, p) } }
+        it_behaves_like 'an existing file'
       end
     end
 
-    context 'when directory' do
+    context 'when touching an existing directory' do
       let(:name) { %w(directory1) }
       let(:path) { Array(name).map { |p| File.join(@aruba.aruba.current_directory, p) } }
 
-      context 'when exist' do
-        before(:each) { Array(path).each { |p| Aruba.platform.mkdir p } }
+      before do
+        Array(path).each { |p| Aruba.platform.mkdir p }
+        @aruba.touch(name, options)
+      end
 
-        before :each do
-          @aruba.touch(name, options)
-        end
+      context 'and the mtime should be set statically' do
+        let(:time) { Time.parse('2014-01-01 10:00:00') }
+        let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
 
-        context 'and the mtime should be set statically' do
-          let(:time) { Time.parse('2014-01-01 10:00:00') }
-          let(:options) { { mtime: Time.parse('2014-01-01 10:00:00') } }
-
-          it_behaves_like 'an existing directory'
-          it { Array(path).each { |p| expect(File.mtime(p)).to eq time } }
-        end
+        it_behaves_like 'an existing directory'
+        it { Array(path).each { |p| expect(File.mtime(p)).to eq time } }
       end
     end
   end
@@ -197,21 +192,21 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:name) { @file_name }
     let(:path) { File.expand_path(File.join(@aruba.aruba.current_directory, name)) }
 
-    context 'when is absolute path' do
+    context 'when given an absolute path' do
       it { expect(@aruba).not_to be_relative(path) }
     end
 
-    context 'when is relative path' do
+    context 'when given a relative path' do
       it { expect(@aruba).to be_relative(name) }
     end
   end
 
   describe '#exist?' do
-    context 'when is file' do
+    context 'when given a file' do
       let(:name) { @file_name }
       let(:path) { @file_path }
 
-      context 'when exists' do
+      context 'when it exists' do
         before :each do
           Aruba.platform.write_file(path, '')
         end
@@ -219,16 +214,16 @@ RSpec.describe Aruba::Api::Filesystem do
         it { expect(@aruba).to be_exist(name) }
       end
 
-      context 'when does not exist' do
+      context 'when it does not exist' do
         it { expect(@aruba).not_to be_exist(name) }
       end
     end
 
-    context 'when is directory' do
+    context 'when given a directory' do
       let(:name) { 'test.d' }
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
-      context 'when exists' do
+      context 'when it exists' do
         before :each do
           Aruba.platform.mkdir(path)
         end
@@ -236,18 +231,18 @@ RSpec.describe Aruba::Api::Filesystem do
         it { expect(@aruba).to be_exist(name) }
       end
 
-      context 'when does not exist' do
+      context 'when it does not exist' do
         it { expect(@aruba).not_to be_exist(name) }
       end
     end
   end
 
   describe '#file?' do
-    context 'when is file' do
+    context 'when given a file' do
       let(:name) { @file_name }
       let(:path) { @file_path }
 
-      context 'when exists' do
+      context 'when it exists' do
         before :each do
           Aruba.platform.write_file(path, '')
         end
@@ -260,11 +255,11 @@ RSpec.describe Aruba::Api::Filesystem do
       end
     end
 
-    context 'when is directory' do
+    context 'when given a directory' do
       let(:name) { 'test.d' }
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
-      context 'when exists' do
+      context 'when it exists' do
         before :each do
           Aruba.platform.mkdir(path)
         end
@@ -279,11 +274,11 @@ RSpec.describe Aruba::Api::Filesystem do
   end
 
   describe '#directory?' do
-    context 'when is file' do
+    context 'when given a file' do
       let(:name) { @file_name }
       let(:path) { @file_path }
 
-      context 'when exists' do
+      context 'when it exists' do
         before :each do
           Aruba.platform.write_file(path, '')
         end
@@ -296,11 +291,11 @@ RSpec.describe Aruba::Api::Filesystem do
       end
     end
 
-    context 'when is directory' do
+    context 'when given a directory' do
       let(:name) { 'test.d' }
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
-      context 'when exists' do
+      context 'when it exists' do
         before :each do
           Aruba.platform.mkdir(path)
         end
@@ -568,7 +563,7 @@ RSpec.describe Aruba::Api::Filesystem do
       it { expect { @aruba.read(name) }.to raise_error ArgumentError }
     end
 
-    context 'when exists' do
+    context 'when it exists' do
       context 'when file' do
         before :each do
           File.open(File.expand_path(path), 'w') { |f| f << content }
@@ -600,8 +595,8 @@ RSpec.describe Aruba::Api::Filesystem do
       context 'when directory' do
         let(:name) { 'test.d' }
 
-        before :each do
-          Array(path).each { |p| Aruba.platform.mkdir p }
+        before do
+          Aruba.platform.mkdir path
         end
 
         it { expect { @aruba.read(name) }.to raise_error ArgumentError }
@@ -622,7 +617,7 @@ RSpec.describe Aruba::Api::Filesystem do
       it { expect { @aruba.list(name) }.to raise_error ArgumentError }
     end
 
-    context 'when exists' do
+    context 'when it exists' do
       context 'when file' do
         let(:name) { 'test.txt' }
 
@@ -636,12 +631,9 @@ RSpec.describe Aruba::Api::Filesystem do
       end
 
       context 'when directory' do
-        before :each do
-          Array(path).each { |p| Aruba.platform.mkdir p }
-        end
-
-        before :each do
-          Array(content).each { |p| Aruba.platform.mkdir File.join(path, p) }
+        before do
+          Aruba.platform.mkdir path
+          Array(content).each { |it| Aruba.platform.mkdir File.join(path, it) }
         end
 
         context 'when has subdirectories' do
@@ -681,13 +673,11 @@ RSpec.describe Aruba::Api::Filesystem do
       @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
     end
 
-    context 'when file' do
-      context 'when exists' do
-        before :each do
-          Array(path).each { |p| File.open(File.expand_path(p), 'w') { |f| f << "" } }
-        end
+    context 'when given a file' do
+      context 'when it exists' do
+        before do
+          Array(path).each { |it| File.open(File.expand_path(it), 'w') { |f| f << "" } }
 
-        before :each do
           @aruba.remove(name, options)
         end
 
@@ -696,27 +686,27 @@ RSpec.describe Aruba::Api::Filesystem do
         end
 
         context 'when are multiple files' do
-          let(:file_name) { %w(file1 file2 file3) }
-          let(:file_path) { %w(file1 file2 file3).map { |p| File.join(@aruba.aruba.current_directory, p) } }
+          let(:name) { %w(file1 file2 file3) }
+          let(:path) { name.map { |it| File.join(@aruba.aruba.current_directory, it) } }
 
           it_behaves_like 'a non-existing file'
         end
 
         context 'when path contains ~' do
           let(:string) { random_string }
-          let(:file_name) { File.join('~', string) }
-          let(:file_path) { File.join(@aruba.aruba.current_directory, string) }
+          let(:name) { File.join('~', string) }
+          let(:path) { File.join(@aruba.aruba.current_directory, string) }
 
           it_behaves_like 'a non-existing file'
         end
       end
 
-      context 'when does not exist' do
-        before :each do
+      context 'when it does not exist' do
+        before do
           @aruba.remove(name, options)
         end
 
-        context 'when is forced to delete file' do
+        context 'when forced to delete the file' do
           let(:options) { { force: true } }
 
           it_behaves_like 'a non-existing file'
@@ -724,12 +714,12 @@ RSpec.describe Aruba::Api::Filesystem do
       end
     end
 
-    context 'when is directory' do
+    context 'when given a directory' do
       let(:name) { 'test.d' }
 
-      context 'when exists' do
-        before :each do
-          Array(path).each { |p| Aruba.platform.mkdir p }
+      context 'when it exists' do
+        before do
+          Array(path).each { |it| Aruba.platform.mkdir it }
         end
 
         before :each do
@@ -741,27 +731,27 @@ RSpec.describe Aruba::Api::Filesystem do
         end
 
         context 'when are multiple directorys' do
-          let(:directory_name) { %w(directory1 directory2 directory3) }
-          let(:directory_path) { %w(directory1 directory2 directory3).map { |p| File.join(@aruba.aruba.current_directory, p) } }
+          let(:name) { %w(directory1 directory2 directory3) }
+          let(:path) { name.map { |it| File.join(@aruba.aruba.current_directory, it) } }
 
           it_behaves_like 'a non-existing directory'
         end
 
         context 'when path contains ~' do
           let(:string) { random_string }
-          let(:directory_name) { File.join('~', string) }
-          let(:directory_path) { File.join(@aruba.aruba.current_directory, string) }
+          let(:name) { File.join('~', string) }
+          let(:path) { File.join(@aruba.aruba.current_directory, string) }
 
           it_behaves_like 'a non-existing directory'
         end
       end
 
-      context 'when does not exist' do
+      context 'when it does not exist' do
         before :each do
           @aruba.remove(name, options)
         end
 
-        context 'when is forced to delete directory' do
+        context 'when forced to delete the directory' do
           let(:options) { { force: true } }
 
           it_behaves_like 'a non-existing directory'
