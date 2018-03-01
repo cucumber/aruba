@@ -76,7 +76,7 @@ group :development, :test do
   if RUBY_VERSION < '2.3'
     gem 'license_finder', '~> 2.0'
   else
-    gem 'license_finder', '~> 3.0.2'
+    gem 'license_finder', '~> 5.0.3'
   end
 
   # Upload documentation
