@@ -117,8 +117,14 @@ module Aruba
       #   # => <path>/test/fixtures/file
       #   expand_path('%/file')
       #
+      # @example Absolute directory
+      #
+      #   # => /foo/bar
+      #   expand_path('/foo/bar')
+      #
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/PerceivedComplexity
       def expand_path(file_name, dir_string = nil)
         # rubocop:disable Metrics/LineLength
         message = %(Filename "#{file_name}" needs to be a string. It cannot be nil or empty either.  Please use `expand_path('.')` if you want the current directory to be expanded.)
@@ -150,13 +156,21 @@ module Aruba
           fail ArgumentError, %(Expanding "~/" to a relative path "#{path}" is not allowed) unless path.absolute?
 
           path.to_s
+        elsif absolute? file_name
+          unless aruba.config.allow_absolute_paths
+            aruba.logger.warn 'Using absolute paths in Aruba is not recommended.' \
+              ' Set config.allow_absolute_paths = true to silence this warning'
+          end
+          file_name
         else
           directory = File.join(aruba.root_directory, aruba.current_directory)
-          ArubaPath.new(File.join(*[directory, dir_string, file_name].compact)).expand_path.to_s
+          directory = File.expand_path(dir_string, directory) if dir_string
+          File.expand_path(file_name, directory)
         end
       end
       # rubocop:enable Metrics/MethodLength
-      # rubocop:enable  Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/PerceivedComplexity
 
       # Run block with environment
       #

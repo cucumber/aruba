@@ -5,4 +5,9 @@ AllCops:
   DisplayCopNames: true
   TargetRubyVersion: 1.9
 
+# Use older RuboCop default
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%w': ()
+
 inherit_from: .rubocop_todo.yml

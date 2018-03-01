@@ -26,7 +26,7 @@ RSpec.describe Aruba::Command do
 
   describe '#start' do
     before do
-      allow(event_bus).to receive(:notify).with(Events::CommandStarted)
+      allow(event_bus).to receive(:notify).with(Aruba::Events::CommandStarted)
       command.start
     end
 
@@ -37,8 +37,8 @@ RSpec.describe Aruba::Command do
 
   describe '#stop' do
     before do
-      allow(event_bus).to receive(:notify).with(Events::CommandStarted)
-      allow(event_bus).to receive(:notify).with(Events::CommandStopped)
+      allow(event_bus).to receive(:notify).with(Aruba::Events::CommandStarted)
+      allow(event_bus).to receive(:notify).with(Aruba::Events::CommandStopped)
       command.start
       command.stop
     end
@@ -47,19 +47,19 @@ RSpec.describe Aruba::Command do
 
     it 'notifies the event bus only once per run' do
       command.stop
-      expect(event_bus).to have_received(:notify).with(Events::CommandStopped).once
+      expect(event_bus).to have_received(:notify).with(Aruba::Events::CommandStopped).once
     end
 
     it 'prevents #terminate from notifying the event bus' do
       command.terminate
-      expect(event_bus).to have_received(:notify).with(Events::CommandStopped).once
+      expect(event_bus).to have_received(:notify).with(Aruba::Events::CommandStopped).once
     end
   end
 
   describe '#terminate' do
     before do
-      allow(event_bus).to receive(:notify).with(Events::CommandStarted)
-      allow(event_bus).to receive(:notify).with(Events::CommandStopped)
+      allow(event_bus).to receive(:notify).with(Aruba::Events::CommandStarted)
+      allow(event_bus).to receive(:notify).with(Aruba::Events::CommandStopped)
       command.start
       command.terminate
     end
@@ -68,12 +68,12 @@ RSpec.describe Aruba::Command do
 
     it 'notifies the event bus only once per run' do
       command.terminate
-      expect(event_bus).to have_received(:notify).with(Events::CommandStopped).once
+      expect(event_bus).to have_received(:notify).with(Aruba::Events::CommandStopped).once
     end
 
     it 'prevents #stop from notifying the event bus' do
       command.stop
-      expect(event_bus).to have_received(:notify).with(Events::CommandStopped).once
+      expect(event_bus).to have_received(:notify).with(Aruba::Events::CommandStopped).once
     end
   end
 end
