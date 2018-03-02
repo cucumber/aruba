@@ -24,12 +24,12 @@ Feature: Configure timeout for command execution
     Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
-    sleep 1
+    sleep 0.1
     """
     And a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 2
+      config.exit_timeout = 0.2
     end
     """
     And the default feature-test
@@ -39,12 +39,12 @@ Feature: Configure timeout for command execution
     Given an executable named "bin/aruba-test-cli" with:
     """ruby
     #!/bin/bash
-    sleep 2
+    sleep 0.2
     """
     And a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 1
+      config.exit_timeout = 0.1
     end
     """
     And the default feature-test
