@@ -249,6 +249,10 @@ module Aruba
         File.read command_string.to_s
       end
 
+      def interactive?
+        true
+      end
+
       private
 
       def command_string

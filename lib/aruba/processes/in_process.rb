@@ -117,6 +117,10 @@ module Aruba
       def pid
         $PROCESS_ID
       end
+
+      def interactive?
+        false
+      end
     end
   end
 end
