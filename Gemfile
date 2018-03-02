@@ -8,20 +8,23 @@ load File.expand_path('../Gemfile.local', __FILE__) if File.file? File.expand_pa
 
 # Debug aruba
 group :debug do
-  if RUBY_VERSION >= '2' && !RUBY_PLATFORM.include?('java')
-    gem 'byebug', '~> 9.0'
-    gem 'pry-byebug', '~> 3.4'
-  end
-
-  if RUBY_VERSION < '2' && !RUBY_PLATFORM.include?('java')
-    gem 'debugger', '~> 1.6.8'
-    gem 'pry-debugger', '~> 0.2.3'
+  unless RUBY_PLATFORM.include?('java')
+    if RUBY_VERSION >= '2.2'
+      gem 'byebug', '~> 10.0'
+      gem 'pry-byebug', '~> 3.4'
+    elsif RUBY_VERSION >= '2'
+      gem 'byebug', '~> 9.0'
+      gem 'pry-byebug', '~> 3.4'
+    else
+      gem 'debugger', '~> 1.6.8'
+      gem 'pry-debugger', '~> 0.2.3'
+    end
   end
 
   if RUBY_VERSION < '2'
     gem 'pry-doc', '~> 0.8.0'
   else
-    gem 'pry-doc', '~> 0.11.1'
+    gem 'pry-doc', '~> 0.13.1'
   end
 end
 
@@ -41,7 +44,7 @@ group :development, :test do
   end
 
   # Run development and test tasks
-  gem 'rake', '~> 12.2.1'
+  gem 'rake', '~> 12.0'
 
   if RUBY_VERSION >= '2.0.0'
     # Lint travis yaml
@@ -59,11 +62,7 @@ group :development, :test do
 
   # Test api
   gem 'rspec', '~> 3.4'
-  gem 'fuubar', '~> 2.2.0'
-
-  # using platform for this makes bundler complain about the same gem given
-  # twice
-  gem 'cucumber', '~> 2.0'
+  gem 'fuubar', '~> 2.2'
 
   if RUBY_VERSION >= '2.0.0'
     # Make aruba compliant to ruby community guide
@@ -76,13 +75,13 @@ group :development, :test do
   if RUBY_VERSION < '2.3'
     gem 'license_finder', '~> 2.0'
   else
-    gem 'license_finder', '~> 3.0.2'
+    gem 'license_finder', '~> 5.0.3'
   end
 
   # Upload documentation
   # gem 'relish', '~> 0.7.1'
 
-  gem 'minitest', '~> 5.10.3'
+  gem 'minitest', '~> 5.8'
 
   gem 'json', '~>2.1'
 end
