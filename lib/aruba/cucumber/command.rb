@@ -63,8 +63,6 @@ When(/^I (terminate|stop) the command (?:"([^"]*)"|(?:started last))$/) do |sign
 end
 
 When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$/) do |channel, expected|
-  fail %(Invalid output channel "#{channel}" chosen. Please choose one of "output, stdout or stderr") unless %w(output stdout stderr).include? channel
-
   begin
     Timeout.timeout(aruba.config.exit_timeout) do
       loop do
