@@ -265,7 +265,7 @@ module Aruba
       end
 
       def wait_for_io(time_to_wait)
-        sleep time_to_wait.to_i
+        sleep time_to_wait
         yield
       end
 
