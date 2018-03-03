@@ -3,8 +3,6 @@ require 'aruba/runtime'
 require 'aruba/errors'
 require 'aruba/setup'
 
-require 'aruba/config/jruby'
-
 # Aruba
 module Aruba
   # Api

@@ -2,16 +2,26 @@ require 'rbconfig'
 
 # ideas taken from: http://blog.headius.com/2010/03/jruby-startup-time-tips.html
 Aruba.configure do |config|
-  config.before :command do
+  config.before :command do |command|
     next unless RUBY_PLATFORM == 'java'
 
+    env = command.environment
+
+    jruby_opts = env['JRUBY_OPTS'] || ''
+
     # disable JIT since these processes are so short lived
-    ENV['JRUBY_OPTS'] = "-X-C #{ENV['JRUBY_OPTS']}" unless (ENV['JRUBY_OPTS'] || '') .include? '-X-C'
+    jruby_opts = "-X-C #{jruby_opts}" unless jruby_opts.include? '-X-C'
 
     # Faster startup for jruby
-    ENV['JRUBY_OPTS'] = "--dev #{ENV['JRUBY_OPTS']}" unless (ENV['JRUBY_OPTS'] || '').include? '--dev'
+    jruby_opts = "--dev #{jruby_opts}" unless jruby_opts.include? '--dev'
 
-    # force jRuby to use client JVM for faster startup times
-    ENV['JAVA_OPTS'] = "-d32 #{ENV['JAVA_OPTS']}" if RbConfig::CONFIG['host_os'] =~ /solaris|sunos/i && !(ENV['JAVA_OPTS'] || '').include?('-d32')
+    env['JRUBY_OPTS'] = jruby_opts
+
+    if RbConfig::CONFIG['host_os'] =~ /solaris|sunos/i
+      java_opts = env['JAVA_OPTS'] || ''
+
+      # force jRuby to use client JVM for faster startup times
+      env['JAVA_OPTS'] = "-d32 #{java_opts}" unless java_opts.include?('-d32')
+    end
   end
 end
