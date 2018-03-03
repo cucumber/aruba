@@ -43,6 +43,4 @@ RSpec::Matchers.define :have_same_file_content_like do |expected|
   end
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :a_file_with_same_content_like, :have_same_file_content_like
-end
+RSpec::Matchers.alias_matcher :a_file_with_same_content_like, :have_same_file_content_like

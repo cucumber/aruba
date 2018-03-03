@@ -31,6 +31,4 @@ RSpec::Matchers.define :be_an_absolute_path do |_|
   end
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :an_absolute_path, :be_an_absolute_path
-end
+RSpec::Matchers.alias_matcher :an_absolute_path, :be_an_absolute_path

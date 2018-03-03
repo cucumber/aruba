@@ -32,6 +32,4 @@ RSpec::Matchers.define :have_finished_in_time do
   end
 end
 
-if RSpec::Expectations::Version::STRING >= '3.1'
-  RSpec::Matchers.define_negated_matcher :run_too_long, :have_finished_in_time
-end
+RSpec::Matchers.define_negated_matcher :run_too_long, :have_finished_in_time

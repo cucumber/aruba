@@ -30,6 +30,4 @@ RSpec::Matchers.define :output_string_eq do |expected|
   description { "output string is eq: #{description_of expected}" }
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :an_output_string_being_eq, :output_string_eq
-end
+RSpec::Matchers.alias_matcher :an_output_string_being_eq, :output_string_eq

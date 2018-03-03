@@ -42,6 +42,4 @@ RSpec::Matchers.define :have_file_size do |expected|
   end
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :a_file_of_size, :have_file_size
-end
+RSpec::Matchers.alias_matcher :a_file_of_size, :have_file_size

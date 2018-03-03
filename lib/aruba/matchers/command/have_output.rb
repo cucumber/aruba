@@ -31,6 +31,4 @@ RSpec::Matchers.define :have_output do |expected|
   description { "have output: #{description_of expected}" }
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :a_command_having_output, :have_output
-end
+RSpec::Matchers.alias_matcher :a_command_having_output, :have_output

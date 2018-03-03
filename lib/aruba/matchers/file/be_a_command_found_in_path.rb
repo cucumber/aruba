@@ -31,6 +31,4 @@ RSpec::Matchers.define :be_a_command_found_in_path do
   end
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :a_command_found_in_path, :be_a_command_found_in_path
-end
+RSpec::Matchers.alias_matcher :a_command_found_in_path, :be_a_command_found_in_path

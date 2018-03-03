@@ -30,7 +30,5 @@ RSpec::Matchers.define :include_output_string do |expected|
   description { "string includes: #{description_of expected}" }
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :an_output_string_including, :include_output_string
-  RSpec::Matchers.alias_matcher :file_content_including, :include_output_string
-end
+RSpec::Matchers.alias_matcher :an_output_string_including, :include_output_string
+RSpec::Matchers.alias_matcher :file_content_including, :include_output_string
