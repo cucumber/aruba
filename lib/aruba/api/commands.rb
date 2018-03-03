@@ -108,13 +108,13 @@ module Aruba
       # @param [Hash] opts
       #   Options
       #
-      # @option opts [Integer] exit_timeout
+      # @option opts [Numeric] exit_timeout
       #   If the timeout is reached the command will be killed
       #
-      # @option opts [Integer] io_wait_timeout
+      # @option opts [Numeric] io_wait_timeout
       #   Wait for IO to finish
       #
-      # @option opts [Integer] startup_wait_time
+      # @option opts [Numeric] startup_wait_time
       #   Wait for a command to start
       #
       # @option opts [String] stop_signal
@@ -150,10 +150,10 @@ module Aruba
       # @option options [Boolean] fail_on_error
       #   Should aruba fail on error?
       #
-      # @option options [Integer] exit_timeout
+      # @option options [Numeric] exit_timeout
       #   Timeout for execution
       #
-      # @option options [Integer] io_wait_timeout
+      # @option options [Numeric] io_wait_timeout
       #   Timeout for IO - STDERR, STDOUT
       #
       def run_command_and_stop(cmd, opts = {})
