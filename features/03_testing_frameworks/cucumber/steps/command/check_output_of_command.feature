@@ -41,6 +41,27 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
+  Scenario: Failed detection of one-line output
+    Given an executable named "bin/aruba-test-cli" with:
+    """bash
+    #!/usr/bin/env bash
+
+    echo 'hello world'
+    """
+    And a file named "features/output.feature" with:
+    """cucumber
+    Feature: Run command
+      Scenario: Run command
+        When I run `aruba-test-cli`
+        Then the output should contain "goodbye world"
+    """
+    When I run `cucumber`
+    Then the features should not all pass with:
+    """
+          -/goodbye\ world/
+          +"hello world"
+    """
+
   Scenario: Detect subset of multiline output
     Given an executable named "bin/aruba-test-cli" with:
     """bash
