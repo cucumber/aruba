@@ -1,4 +1,5 @@
 require 'aruba/matchers/base/base_matcher'
+require 'aruba/matchers/base/message_indenter'
 
 # Aruba
 module Aruba
@@ -8,6 +9,7 @@ module Aruba
     # Provides the implementation for `include_an_object`.
     # Not intended to be instantiated directly.
     class IncludeAnObject < BaseMatcher
+      include Base::MessageIndenter
       protected
 
       # @private
@@ -92,13 +94,6 @@ module Aruba
 
       def add_new_line_if_needed(message)
         message.start_with?("\n") ? message : "\n#{message}"
-      end
-
-      def indent_multiline_message(message)
-        message = message.sub(/\n+\z/, '')
-        message.lines.map do |line|
-          line =~ /\S/ ? '   ' + line : line
-        end.join
       end
     end
   end

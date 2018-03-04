@@ -137,26 +137,16 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
                all_commands
              end
 
-  expected = unescape_text(expected)
-  expected = if exactly
-               expected
-             else
-               Regexp.new(Regexp.escape(expected))
-             end
+  output_string_matcher = if exactly
+                            :an_output_string_being_eq
+                          else
+                            :an_output_string_including
+                          end
 
-  if commands.length == 1
-    command = commands.first
-    if negated
-      expect(command).not_to send(matcher, expected)
-    else
-      expect(command).to send(matcher, expected)
-    end
+  if negated
+    expect(commands).not_to include_an_object send(matcher, send(output_string_matcher, expected))
   else
-    if negated
-      expect(commands).not_to include_an_object send(matcher, expected)
-    else
-      expect(commands).to include_an_object send(matcher, expected)
-    end
+    expect(commands).to include_an_object send(matcher, send(output_string_matcher, expected))
   end
 end
 
@@ -188,19 +178,10 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
                             :an_output_string_including
                           end
 
-  if commands.length == 1
-    command = commands.first
-    if negated
-      expect(command).not_to send(matcher, send(output_string_matcher, expected))
-    else
-      expect(command).to send(matcher, send(output_string_matcher, expected))
-    end
+  if negated
+    expect(commands).not_to include_an_object send(matcher, send(output_string_matcher, expected))
   else
-    if negated
-      expect(commands).not_to include_an_object send(matcher, send(output_string_matcher, expected))
-    else
-      expect(commands).to include_an_object send(matcher, send(output_string_matcher, expected))
-    end
+    expect(commands).to include_an_object send(matcher, send(output_string_matcher, expected))
   end
 end
 

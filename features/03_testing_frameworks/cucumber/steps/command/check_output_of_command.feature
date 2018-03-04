@@ -58,8 +58,9 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should not all pass with:
     """
-          -/goodbye\ world/
-          +"hello world"
+          expected `aruba-test-cli` to have output string includes: "goodbye world"
+          but was:
+             hello world (RSpec::Expectations::ExpectationNotMetError)
     """
 
   Scenario: Detect subset of multiline output
