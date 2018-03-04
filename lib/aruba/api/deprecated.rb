@@ -294,7 +294,7 @@ module Aruba
 
       # @deprecated
       def assert_exit_status_and_partial_output(expect_to_pass, expected)
-        Aruba.platform.deprecated('The use of "assert_exit_status_and_partial_output" is deprecated. Use "#assert_access" and "#assert_partial_output" instead')
+        Aruba.platform.deprecated('The use of "assert_exit_status_and_partial_output" is deprecated. Use "#assert_success" and "#assert_partial_output" instead')
 
         assert_success(expect_to_pass)
         assert_partial_output(expected, all_output)
