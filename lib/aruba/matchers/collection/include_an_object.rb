@@ -19,7 +19,7 @@ module Aruba
 
       def initialize(matcher)
         @matcher              = matcher
-        @failed_objects       = {}
+        @failed_objects       = []
         @any_succeeded_object = false
       end
 
@@ -30,8 +30,9 @@ module Aruba
           return "#{improve_hash_formatting(super)}, but was not iterable"
         end
 
+        return failed_objects.first if failed_objects.size == 1
         all_messages = [improve_hash_formatting(super)]
-        failed_objects.each do |index, matcher_failure_message|
+        failed_objects.each_with_index do |matcher_failure_message, index|
           all_messages << failure_message_for_item(index, matcher_failure_message)
         end
         all_messages.join("\n\n")
