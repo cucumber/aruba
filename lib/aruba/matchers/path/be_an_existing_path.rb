@@ -32,6 +32,4 @@ RSpec::Matchers.define :be_an_existing_path do |_|
   end
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :an_existing_path, :be_an_existing_path
-end
+RSpec::Matchers.alias_matcher :an_existing_path, :be_an_existing_path

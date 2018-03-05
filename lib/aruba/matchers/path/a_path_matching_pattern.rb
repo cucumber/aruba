@@ -20,6 +20,4 @@ require 'rspec/expectations/version'
 #     RSpec.describe do
 #       it { expect(files).to include a_path_matching_pattern /asdf/ }
 #     end
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :a_path_matching_pattern, :match
-end
+RSpec::Matchers.alias_matcher :a_path_matching_pattern, :match

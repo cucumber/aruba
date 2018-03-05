@@ -1,4 +1,5 @@
 require 'aruba/matchers/base/base_matcher'
+require 'aruba/matchers/base/message_indenter'
 
 # Aruba
 module Aruba
@@ -8,6 +9,7 @@ module Aruba
     # Provides the implementation for `include_an_object`.
     # Not intended to be instantiated directly.
     class IncludeAnObject < BaseMatcher
+      include Base::MessageIndenter
       protected
 
       # @private
@@ -19,7 +21,7 @@ module Aruba
 
       def initialize(matcher)
         @matcher              = matcher
-        @failed_objects       = {}
+        @failed_objects       = []
         @any_succeeded_object = false
       end
 
@@ -30,8 +32,9 @@ module Aruba
           return "#{improve_hash_formatting(super)}, but was not iterable"
         end
 
+        return failed_objects.first if failed_objects.size == 1
         all_messages = [improve_hash_formatting(super)]
-        failed_objects.each do |index, matcher_failure_message|
+        failed_objects.each_with_index do |matcher_failure_message, index|
           all_messages << failure_message_for_item(index, matcher_failure_message)
         end
         all_messages.join("\n\n")
@@ -91,13 +94,6 @@ module Aruba
 
       def add_new_line_if_needed(message)
         message.start_with?("\n") ? message : "\n#{message}"
-      end
-
-      def indent_multiline_message(message)
-        message = message.sub(/\n+\z/, '')
-        message.lines.map do |line|
-          line =~ /\S/ ? '   ' + line : line
-        end.join
       end
     end
   end

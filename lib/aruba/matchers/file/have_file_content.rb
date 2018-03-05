@@ -57,6 +57,4 @@ RSpec::Matchers.define :have_file_content do |expected|
   description { "have file content: #{description_of expected}" }
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :a_file_having_content, :have_file_content
-end
+RSpec::Matchers.alias_matcher :a_file_having_content, :have_file_content

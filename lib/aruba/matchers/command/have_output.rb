@@ -1,3 +1,5 @@
+require 'aruba/matchers/base/message_indenter'
+
 # @!method have_output
 #   This matchers checks if <command> has created output
 #
@@ -29,8 +31,11 @@ RSpec::Matchers.define :have_output do |expected|
   diffable
 
   description { "have output: #{description_of expected}" }
+
+  failure_message do |actual|
+    "expected `#{@old_actual.commandline}` to have output #{description_of expected}\n" \
+      "but was:\n#{Aruba::Matchers::Base::MessageIndenter.indent_multiline_message @actual}"
+  end
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :a_command_having_output, :have_output
-end
+RSpec::Matchers.alias_matcher :a_command_having_output, :have_output

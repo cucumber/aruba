@@ -33,6 +33,4 @@ RSpec::Matchers.define :be_an_existing_file do |_|
   end
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :an_existing_file, :be_an_existing_file
-end
+RSpec::Matchers.alias_matcher :an_existing_file, :be_an_existing_file

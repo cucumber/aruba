@@ -29,6 +29,4 @@ RSpec::Matchers.define :be_successfully_executed do
   end
 end
 
-if RSpec::Expectations::Version::STRING >= '3.1'
-  RSpec::Matchers.define_negated_matcher :have_failed_running, :be_successfully_executed
-end
+RSpec::Matchers.define_negated_matcher :have_failed_running, :be_successfully_executed

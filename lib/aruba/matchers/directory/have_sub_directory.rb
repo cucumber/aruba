@@ -48,6 +48,4 @@ RSpec::Matchers.define :have_sub_directory do |expected|
   end
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :a_directory_having_sub_directory, :have_sub_directory
-end
+RSpec::Matchers.alias_matcher :a_directory_having_sub_directory, :have_sub_directory

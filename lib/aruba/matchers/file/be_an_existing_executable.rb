@@ -32,6 +32,4 @@ RSpec::Matchers.define :be_an_existing_executable do |_|
   end
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :an_existing_executable, :be_an_existing_executable
-end
+RSpec::Matchers.alias_matcher :an_existing_executable, :be_an_existing_executable

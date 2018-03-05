@@ -59,6 +59,4 @@ RSpec::Matchers.define :have_permissions do |expected|
   end
 end
 
-if RSpec::Expectations::Version::STRING >= '3.0'
-  RSpec::Matchers.alias_matcher :a_path_having_permissions, :have_permissions
-end
+RSpec::Matchers.alias_matcher :a_path_having_permissions, :have_permissions
