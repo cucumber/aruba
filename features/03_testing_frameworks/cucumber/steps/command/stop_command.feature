@@ -45,8 +45,8 @@ Feature: Stop commands
     """
     Feature: Run it
       Scenario: Run command
-        Given the default aruba exit timeout is 1 second
-        And I wait 1 second for a command to start up
+        Given the default aruba exit timeout is 0.2 seconds
+        And I wait 0.1 seconds for a command to start up
         When I run `aruba-test-cli1` in background
         And I run `aruba-test-cli2` in background
         And I terminate the command started last
@@ -97,8 +97,8 @@ Feature: Stop commands
       Background:
 
       Scenario: Run command
-        Given the default aruba exit timeout is 1 second
-        And I wait 1 second for a command to start up
+        Given the default aruba exit timeout is 0.2 seconds
+        And I wait 0.1 seconds for a command to start up
         When I run `aruba-test-cli1` in background
         And I run `aruba-test-cli2` in background
         And I stop the command started last
@@ -145,10 +145,10 @@ Feature: Stop commands
     """
     Feature: Run it
       Background:
-        Given the default aruba exit timeout is 1 second
+        Given the default aruba exit timeout is 0.2 seconds
 
       Scenario: Run command
-        Given I wait 1 second for a command to start up
+        Given I wait 0.1 seconds for a command to start up
         When I run `aruba-test-cli1` in background
         When I run `aruba-test-cli2` in background
         And I terminate the command "aruba-test-cli1"
@@ -197,10 +197,10 @@ Feature: Stop commands
     """
     Feature: Run it
       Background:
-        Given the default aruba exit timeout is 1 second
+        Given the default aruba exit timeout is 0.2 seconds
 
       Scenario: Run command
-        Given I wait 1 second for a command to start up
+        Given I wait 0.1 seconds for a command to start up
         When I run `aruba-test-cli1` in background
         And I run `aruba-test-cli2` in background
         When I stop the command "aruba-test-cli1"
@@ -239,7 +239,7 @@ Feature: Stop commands
     Feature: Run it
       Scenario: Run command
         Given the default aruba stop signal is "HUP"
-        And the default aruba exit timeout is 1 second
+        And the default aruba exit timeout is 0.2 seconds
         When I run `aruba-test-cli`
         And I terminate the command started last
         Then the exit status should be 155
@@ -267,8 +267,8 @@ Feature: Stop commands
     """
     Feature: Run it
       Scenario: Run command
-        Given the default aruba exit timeout is 1 second
-        And I wait 1 second for a command to start up
+        Given the default aruba exit timeout is 0.2 seconds
+        And I wait 0.1 seconds for a command to start up
         When I run `aruba-test-cli1` in background
         And I terminate the command started last
         Then the exit status should be 100
