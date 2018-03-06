@@ -1,5 +1,11 @@
 #  RELEASED
 
+## [v0.14.4](https://github.com/cucumber/aruba/compare/v0.14.3...v0.14.4)
+
+* Fix command spawning when run in directories with spaces (#490)
+* Ensure setup is still done when using `@no-clobber` (#529)
+* Make `#expand_path` handle absolute paths correctly (#486)
+
 ## [v0.14.3](https://github.com/cucumber/aruba/compare/v0.14.2...v0.14.3)
 
 * Fix path bug (#422)
