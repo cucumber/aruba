@@ -81,7 +81,7 @@ Before '@requires-ruby-platform-java' do |scenario|
   end
 end
 
-Before '@requires-ruby-platform-mri' do |scenario|
+Before '@unsupported-on-platform-java' do |scenario|
   # leave if not java
   next unless RUBY_PLATFORM.include? 'java'
 

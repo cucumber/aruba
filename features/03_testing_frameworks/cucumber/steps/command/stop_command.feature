@@ -279,8 +279,8 @@ Feature: Stop commands
     When I run `cucumber`
     Then the features should all pass
 
-  @requires-ruby-platform-mri
-  Scenario: STDERR/STDOUT is written normally with MRI-Ruby if output was written in "signal"-handler
+  @unsupported-on-platform-java
+  Scenario: STDERR/STDOUT is written normally if output was written in "signal"-handler
     Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
@@ -311,3 +311,4 @@ Feature: Stop commands
     """
     When I run `cucumber`
     Then the features should all pass
+
