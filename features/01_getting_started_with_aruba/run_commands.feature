@@ -160,7 +160,7 @@ Feature: Run commands with Aruba
           }
         }
         \"\"\"
-        And I successfully run `javac tmp/HelloArubaApp.java`
+        And I successfully run `javac tmp/HelloArubaApp.java` for up to 20 seconds
         And I cd to "tmp/"
         And I successfully run `java HelloArubaApp`
         Then the output should contain:
@@ -168,7 +168,7 @@ Feature: Run commands with Aruba
         Hello, Aruba!
         \"\"\"
     """
-    When I successfully run `cucumber`
+    When I successfully run `cucumber` for up to 21 seconds
     Then the features should all pass
 
   @requires-posix-standard-tools
