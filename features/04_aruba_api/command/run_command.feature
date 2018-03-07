@@ -33,7 +33,7 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba do
+    RSpec.describe 'Run command', type: :aruba do
       before(:each) { run_command('aruba-test-cli') }
       it { expect(last_command_started).to be_successfully_executed }
     end
@@ -51,7 +51,7 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba do
+    RSpec.describe 'Run command', type: :aruba do
       before(:each) { run_command('bin/aruba-test-cli') }
       it { expect(last_command_started).to be_successfully_executed }
     end
@@ -65,7 +65,7 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Find path for command', :type => :aruba do
+    RSpec.describe 'Find path for command', type: :aruba do
       it { expect { run_command('aruba-test-cli') }.to raise_error Aruba::LaunchError, /Command "aruba-test-cli" not found in PATH-variable/ }
     end
     """
@@ -84,7 +84,7 @@ Feature: Run command
     #!/usr/bin/env bash
 
     function initialize_script {
-      sleep 2
+      sleep 0.2
     }
 
     function do_some_work {
@@ -105,20 +105,25 @@ Feature: Run command
     initialize_script
     do_some_work
 
-    while [ true ]; do sleep 1; done
+    while [ true ]; do sleep 0.1; done
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1, :startup_wait_time => 2 do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { last_command_started.send_signal 'HUP' }
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.1, startup_wait_time: 0.2 do
+      before do
+        run_command('aruba-test-cli')
+        last_command_started.send_signal 'HUP'
+      end
 
-      it { expect(last_command_started).to be_successfully_executed }
-      it { expect(last_command_started).to have_output /Hello, Aruba is working/ }
-      it { expect(last_command_started).to have_output /Hello, Aruba here/ }
-
+      it 'runs the command with the expected results' do
+        aggregate_failures do
+          expect(last_command_started).to be_successfully_executed
+          expect(last_command_started).to have_output /Hello, Aruba is working/
+          expect(last_command_started).to have_output /Hello, Aruba here/
+        end
+      end
     end
     """
     When I run `rspec`
@@ -134,7 +139,7 @@ Feature: Run command
     #!/usr/bin/env bash
 
     function do_some_work {
-      sleep 2
+      sleep 0.2
       echo "Hello, Aruba here"
     }
 
@@ -144,11 +149,15 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3 do
-      before(:each) { run_command('aruba-test-cli') }
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.3 do
+      before { run_command('aruba-test-cli') }
 
-      it { expect(last_command_started).to be_successfully_executed }
-      it { expect(last_command_started).to have_output /Hello, Aruba here/ }
+      it 'runs the command with the expected results' do
+        aggregate_failures do
+          expect(last_command_started).to be_successfully_executed
+          expect(last_command_started).to have_output /Hello, Aruba here/
+        end
+      end
     end
     """
     When I run `rspec`
@@ -164,15 +173,15 @@ Feature: Run command
     #!/usr/bin/env bash
 
     function initialize_script {
-      sleep 2
+      sleep 0.2
     }
 
     function do_some_work {
-      echo "Hello, Aruba is working"
+      echo "Hello, Aruba 1 is working"
     }
 
     function recurring_work {
-      echo "Hello, Aruba here"
+      echo "Hello, Aruba 1 here"
     }
 
     function stop_script {
@@ -185,7 +194,7 @@ Feature: Run command
     initialize_script
     do_some_work
 
-    while [ true ]; do sleep 0.2; done
+    while [ true ]; do sleep 0.1; done
     """
     And an executable named "bin/aruba-test-cli2" with:
     """bash
@@ -196,11 +205,11 @@ Feature: Run command
     }
 
     function do_some_work {
-      echo "Hello, Aruba is working"
+      echo "Hello, Aruba 2 is working"
     }
 
     function recurring_work {
-      echo "Hello, Aruba here"
+      echo "Hello, Aruba 2 here"
     }
 
     function stop_script {
@@ -213,21 +222,31 @@ Feature: Run command
     initialize_script
     do_some_work
 
-    while [ true ]; do sleep 0.2; done
+    while [ true ]; do sleep 0.1; done
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1 do
-      before(:each) { run_command('aruba-test-cli1', :startup_wait_time => 2) }
-      before(:each) { run_command('aruba-test-cli2', :startup_wait_time => 1) }
-      before(:each) { last_command_started.send_signal 'HUP' }
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.1 do
+      before do
+        run_command 'aruba-test-cli1', startup_wait_time: 0.3
+        run_command 'aruba-test-cli2', startup_wait_time: 0.1
+        last_command_started.send_signal 'HUP'
+      end
 
-      it { expect(last_command_started).to be_successfully_executed }
-      it { expect(last_command_started).to have_output /Hello, Aruba is working/ }
-      it { expect(last_command_started).to have_output /Hello, Aruba here/ }
-
+      it 'runs both commands with the expected results' do
+        cli1 = find_command('aruba-test-cli1')
+        cli2 = find_command('aruba-test-cli2')
+        aggregate_failures do
+          expect(cli1).to be_successfully_executed
+          expect(cli1).to have_output /Hello, Aruba 1 is working/
+          expect(cli1).not_to have_output /Hello, Aruba 1 here/
+          expect(cli2).to be_successfully_executed
+          expect(cli2).to have_output /Hello, Aruba 2 is working/
+          expect(cli2).to have_output /Hello, Aruba 2 here/
+        end
+      end
     end
     """
     When I run `rspec`
@@ -243,8 +262,8 @@ Feature: Run command
     #!/usr/bin/env bash
 
     function do_some_work {
-      sleep 2
-      echo "Hello, Aruba here"
+      sleep 0.2
+      echo "Hello, Aruba 1 here"
     }
 
     do_some_work
@@ -254,7 +273,7 @@ Feature: Run command
     #!/usr/bin/env bash
 
     function do_some_work {
-      echo "Hello, Aruba here"
+      echo "Hello, Aruba 2 here"
     }
 
     do_some_work
@@ -263,12 +282,22 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli1', :exit_timeout => 3) }
-      before(:each) { run_command('aruba-test-cli2', :exit_timeout => 1) }
+    RSpec.describe 'Run command', type: :aruba do
+      before do
+        run_command 'aruba-test-cli1', exit_timeout: 0.3
+        run_command 'aruba-test-cli2', exit_timeout: 0.1
+      end
 
-      it { expect(last_command_started).to be_successfully_executed }
-      it { expect(last_command_started).to have_output /Hello, Aruba here/ }
+      it 'runs both commands with the expected results' do
+        cli1 = find_command('aruba-test-cli1')
+        cli2 = find_command('aruba-test-cli2')
+        aggregate_failures do
+          expect(cli1).to be_successfully_executed
+          expect(cli1).to have_output /Hello, Aruba 1 here/
+          expect(cli2).to be_successfully_executed
+          expect(cli2).to have_output /Hello, Aruba 2 here/
+        end
+      end
     end
     """
     When I run `rspec`
@@ -284,7 +313,7 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba do
+    RSpec.describe 'Run command', type: :aruba do
       before(:each) { run_command('aruba-test-cli') }
       let!(:found_command) { find_command('aruba-test-cli') }
       it { expect { found_command.start }.to raise_error Aruba::CommandAlreadyStartedError }

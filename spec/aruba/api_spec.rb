@@ -35,30 +35,6 @@ describe Aruba::Api do
     end
   end
 
-  describe '#run_command' do
-    before(:each) { @aruba.run_command 'cat' }
-    after(:each) { @aruba.all_commands.each(&:stop) }
-
-    it "respond to input" do
-      @aruba.type "Hello"
-      @aruba.type ""
-      expect(@aruba.last_command_started).to have_output "Hello"
-    end
-
-    it "respond to close_input" do
-      @aruba.type "Hello"
-      @aruba.close_input
-      expect(@aruba.last_command_started).to have_output "Hello"
-    end
-
-    it "pipes data" do
-      @aruba.write_file(@file_name, "Hello\nWorld!")
-      @aruba.pipe_in_file(@file_name)
-      @aruba.close_input
-      expect(@aruba.last_command_started).to have_output "Hello\nWorld!"
-    end
-  end
-
   describe 'fixtures' do
     let(:api) do
       klass = Class.new do

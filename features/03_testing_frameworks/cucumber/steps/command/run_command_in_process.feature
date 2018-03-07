@@ -349,7 +349,7 @@ Feature: Run commands in ruby process
     type some letters on keyboard - can only appear later, but this point is
     never reached, because ruby is blocked.
 
-    Given the default aruba exit timeout is 5 seconds
+    Given the default aruba exit timeout is 3 seconds
     And a file named "lib/cli/app/runner.rb" with:
     """
     module Cli
@@ -374,7 +374,7 @@ Feature: Run commands in ruby process
     Feature: Run a command in process
       @in-process
       Scenario: Run command
-        Given the default aruba exit timeout is 2 seconds
+        Given the default aruba exit timeout is 1 seconds
         When I run `reverse.rb do_it` interactively
         When I type "hello"
         Then the output should contain:
@@ -384,3 +384,7 @@ Feature: Run commands in ruby process
     """
     When I run `cucumber`
     Then the exit status should not be 0
+    And the output should contain:
+    """
+    Running interactively is not supported with this process launcher
+    """

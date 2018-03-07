@@ -89,13 +89,13 @@ Feature: Check exit status of commands
     Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
-    sleep 1
+    sleep 0.1
     """
     And a file named "features/exit_status.feature" with:
     """
     Feature: Failing program
       Scenario: Run command
-        Given the default aruba exit timeout is 2 seconds
+        Given the default aruba exit timeout is 0.2 seconds
         When I successfully run `aruba-test-cli`
     """
     When I run `cucumber`
@@ -105,14 +105,14 @@ Feature: Check exit status of commands
     Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
-    sleep 1
+    sleep 0.1
     """
     And a file named "features/exit_status.feature" with:
     """
     Feature: Failing program
       Scenario: Run command
         Given the default aruba exit timeout is 0 seconds
-        When I successfully run `aruba-test-cli` for up to 2 seconds
+        When I successfully run `aruba-test-cli` for up to 0.2 seconds
     """
     When I run `cucumber`
     Then the features should all pass
@@ -121,14 +121,14 @@ Feature: Check exit status of commands
     Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
-    sleep 2
+    sleep 0.1
     """
     And a file named "features/exit_status.feature" with:
     """
     Feature: Failing program
       Scenario: Run command
         Given the default aruba exit timeout is 0 seconds
-        When I successfully run `aruba-test-cli` for up to 1 seconds
+        When I successfully run `aruba-test-cli`
     """
     When I run `cucumber`
     Then the features should not all pass with:

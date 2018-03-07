@@ -65,6 +65,10 @@ module Aruba
       def terminate(*)
         stop
       end
+
+      def interactive?
+        true
+      end
     end
   end
 end

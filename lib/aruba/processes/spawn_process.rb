@@ -28,10 +28,10 @@ module Aruba
       # @param [String] cmd
       #   Command string
       #
-      # @param [Integer] exit_timeout
+      # @param [Numeric] exit_timeout
       #   The timeout until we expect the command to be finished
       #
-      # @param [Integer] io_wait_timeout
+      # @param [Numeric] io_wait_timeout
       #   The timeout until we expect the io to be finished
       #
       # @param [String] working_directory
@@ -46,7 +46,7 @@ module Aruba
       # @param [String] stop_signal
       #   Name of signal to send to stop process. E.g. 'HUP'.
       #
-      # @param [Integer] startup_wait_time
+      # @param [Numeric] startup_wait_time
       #   The amount of seconds to wait after Aruba has started a command.
       def initialize(cmd, exit_timeout, io_wait_timeout, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
         super
@@ -249,6 +249,10 @@ module Aruba
         File.read command_string.to_s
       end
 
+      def interactive?
+        true
+      end
+
       private
 
       def command_string
@@ -261,7 +265,7 @@ module Aruba
       end
 
       def wait_for_io(time_to_wait)
-        sleep time_to_wait.to_i
+        sleep time_to_wait
         yield
       end
 

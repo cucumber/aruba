@@ -453,7 +453,7 @@ Feature: All output of commands which were executed
     """bash
     #!/usr/bin/env bash
 
-    for ((c=0; c<256; c = c+1)); do 
+    for ((c=0; c<256; c = c+1)); do
       echo -n "a"
     done
     """

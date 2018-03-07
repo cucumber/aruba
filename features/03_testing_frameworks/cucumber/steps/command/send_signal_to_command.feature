@@ -9,9 +9,7 @@ Feature: Send a signal to command
 
   Background:
     Given I use a fixture named "cli-app"
-
-  Scenario: Sending signal to the command started last
-    Given an executable named "bin/aruba-test-cli" with:
+    And an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
     function hup {
@@ -20,14 +18,21 @@ Feature: Send a signal to command
     }
 
     trap hup HUP
-    while [ true ]; do sleep 1; done
+    while [ true ]; do sleep 0.1; done
     """
-    And a file named "features/run.feature" with:
+    And a file named "features/support/aruba_config.rb" with:
+    """ruby
+    Aruba.configure do |config|
+      config.startup_wait_time = 0.1
+      config.exit_timeout = 0.2
+    end
+    """
+
+  Scenario: Sending signal to the command started last
+    Given a file named "features/run.feature" with:
     """
     Feature: Run it
       Scenario: Run command
-        Given the default aruba exit timeout is 5 seconds
-        And I wait 5 seconds for a command to start up
         When I run `aruba-test-cli` in background
         And I send the signal "HUP" to the command started last
         Then the exit status should be 0
@@ -40,23 +45,10 @@ Feature: Send a signal to command
     Then the features should all pass
 
   Scenario: Sending signal to a command given by command line
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-    function hup {
-      echo "Got signal HUP."
-      exit 0
-    }
-
-    trap hup HUP
-    while [ true ]; do sleep 1; done
-    """
-    And a file named "features/run.feature" with:
+    Given a file named "features/run.feature" with:
     """
     Feature: Run it
       Scenario: Run command
-        Given the default aruba exit timeout is 5 seconds
-        And I wait 5 seconds for a command to start up
         When I run `aruba-test-cli` in background
         And I send the signal "HUP" to the command "aruba-test-cli"
         Then the exit status should be 0
@@ -76,23 +68,10 @@ Feature: Send a signal to command
     PID of the last command started. Please note, this feature is experimental.
     The name of the variable may change without further notice.
 
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-    function hup {
-      echo "Got signal HUP."
-      exit 0
-    }
-
-    trap hup HUP
-    while [ true ]; do sleep 1; done
-    """
-    And a file named "features/run.feature" with:
+    Given a file named "features/run.feature" with:
     """
     Feature: Run it
       Scenario: Run command
-        Given the default aruba exit timeout is 5 seconds
-        And I wait 5 seconds for a command to start up
         When I run `aruba-test-cli` in background
         And I run `kill -HUP <pid-last-command-started>`
         Then the output should contain:

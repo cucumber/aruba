@@ -108,13 +108,13 @@ module Aruba
       # @param [Hash] opts
       #   Options
       #
-      # @option opts [Integer] exit_timeout
+      # @option opts [Numeric] exit_timeout
       #   If the timeout is reached the command will be killed
       #
-      # @option opts [Integer] io_wait_timeout
+      # @option opts [Numeric] io_wait_timeout
       #   Wait for IO to finish
       #
-      # @option opts [Integer] startup_wait_time
+      # @option opts [Numeric] startup_wait_time
       #   Wait for a command to start
       #
       # @option opts [String] stop_signal
@@ -123,54 +123,18 @@ module Aruba
       # @yield [SpawnProcess]
       #   Run block with process
       #
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/CyclomaticComplexity
       def run_command(cmd, opts = {})
-        exit_timeout      = opts[:exit_timeout].nil? ? aruba.config.exit_timeout : opts[:exit_timeout]
-        io_wait_timeout   = opts[:io_wait_timeout].nil? ? aruba.config.io_wait_timeout : opts[:io_wait_timeout]
-        stop_signal       = opts[:stop_signal].nil? ? aruba.config.stop_signal : opts[:stop_signal]
-        startup_wait_time = opts[:startup_wait_time].nil? ? aruba.config.startup_wait_time : opts[:startup_wait_time]
+        command = prepare_command(cmd, opts)
 
-        cmd = replace_variables(cmd)
+        unless command.interactive?
+          raise NotImplementedError,
+            "Running interactively is not supported with this process launcher."
+        end
 
-        @commands ||= []
-        @commands << cmd
-
-        environment       = aruba.environment
-        working_directory = expand_path('.')
-        event_bus         = aruba.event_bus
-
-        cmd = Aruba.platform.detect_ruby(cmd)
-
-        mode = aruba.config.command_launcher
-
-        main_class = aruba.config.main_class
-
-        command = Command.new(
-          cmd,
-          mode: mode,
-          exit_timeout: exit_timeout,
-          io_wait_timeout: io_wait_timeout,
-          working_directory: working_directory,
-          environment: environment.to_hash,
-          main_class: main_class,
-          stop_signal: stop_signal,
-          startup_wait_time: startup_wait_time,
-          event_bus: event_bus
-        )
-
-        aruba.config.before(:command, self, command)
-
-        command.start
-
-        aruba.announcer.announce(:stop_signal, command.pid, stop_signal) if stop_signal
-
-        aruba.config.after(:command, self, command)
+        start_command(command)
 
         block_given? ? yield(command) : command
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
-      # rubocop:enable Metrics/MethodLength
 
       # Run a command with aruba
       #
@@ -186,10 +150,10 @@ module Aruba
       # @option options [Boolean] fail_on_error
       #   Should aruba fail on error?
       #
-      # @option options [Integer] exit_timeout
+      # @option options [Numeric] exit_timeout
       #   Timeout for execution
       #
-      # @option options [Integer] io_wait_timeout
+      # @option options [Numeric] io_wait_timeout
       #   Timeout for IO - STDERR, STDOUT
       #
       def run_command_and_stop(cmd, opts = {})
@@ -199,7 +163,8 @@ module Aruba
                           true
                         end
 
-        command = run_command(cmd, opts)
+        command = prepare_command(cmd, opts)
+        start_command(command)
         command.stop
 
         return unless fail_on_error
@@ -226,6 +191,58 @@ module Aruba
       # Close stdin
       def close_input
         last_command_started.close_io(:stdin)
+      end
+
+      private
+
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/CyclomaticComplexity
+      def prepare_command(cmd, opts)
+        exit_timeout      = opts[:exit_timeout].nil? ? aruba.config.exit_timeout : opts[:exit_timeout]
+        io_wait_timeout   = opts[:io_wait_timeout].nil? ? aruba.config.io_wait_timeout : opts[:io_wait_timeout]
+        stop_signal       = opts[:stop_signal].nil? ? aruba.config.stop_signal : opts[:stop_signal]
+        startup_wait_time = opts[:startup_wait_time].nil? ? aruba.config.startup_wait_time : opts[:startup_wait_time]
+
+        cmd = replace_variables(cmd)
+
+        @commands ||= []
+        @commands << cmd
+
+        environment       = aruba.environment
+        working_directory = expand_path('.')
+        event_bus         = aruba.event_bus
+
+        cmd = Aruba.platform.detect_ruby(cmd)
+
+        mode = aruba.config.command_launcher
+
+        main_class = aruba.config.main_class
+
+        Command.new(
+          cmd,
+          mode: mode,
+          exit_timeout: exit_timeout,
+          io_wait_timeout: io_wait_timeout,
+          working_directory: working_directory,
+          environment: environment.to_hash,
+          main_class: main_class,
+          stop_signal: stop_signal,
+          startup_wait_time: startup_wait_time,
+          event_bus: event_bus
+        )
+      end
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/MethodLength
+
+      def start_command(command)
+        aruba.config.before(:command, self, command)
+
+        command.start
+
+        stop_signal = command.stop_signal
+        aruba.announcer.announce(:stop_signal, command.pid, stop_signal) if stop_signal
+
+        aruba.config.after(:command, self, command)
       end
     end
   end

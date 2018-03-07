@@ -8,7 +8,7 @@ Feature: Return last command stopped
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba do
+    RSpec.describe 'Run command', type: :aruba do
       before(:each) { run_command('echo hello') }
       before(:each) { stop_all_commands }
 
@@ -24,7 +24,7 @@ Feature: Return last command stopped
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba do
+    RSpec.describe 'Run command', type: :aruba do
       before(:each) { run_command('echo hello') }
       before(:each) { run_command('echo world') }
 
@@ -42,7 +42,7 @@ Feature: Return last command stopped
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba do
+    RSpec.describe 'Run command', type: :aruba do
       before(:each) { run_command('echo hello') }
       before(:each) { find_command('echo hello').stop }
       before(:each) { run_command('echo world') }
@@ -60,7 +60,7 @@ Feature: Return last command stopped
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba do
+    RSpec.describe 'Run command', type: :aruba do
       it { expect{ last_command_stopped.commandline }.to raise_error Aruba::NoCommandHasBeenStoppedError }
     end
     """
@@ -71,13 +71,13 @@ Feature: Return last command stopped
     Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
-    while [ true ]; do sleep 1; done
+    while [ true ]; do sleep 0.1; done
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba do
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.2 do
       before(:each) { run_command('aruba-test-cli') }
 
       it { expect{ last_command_stopped.commandline }.to raise_error Aruba::NoCommandHasBeenStoppedError }
