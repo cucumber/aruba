@@ -18,10 +18,6 @@ module Aruba
         [cmd_path, '/c', [escaped_command, *escaped_arguments].join(' ')]
       end
 
-      def to_s
-        @command
-      end
-
       private
 
       def escaped_arguments

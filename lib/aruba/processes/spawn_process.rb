@@ -239,7 +239,7 @@ module Aruba
       # @return [Aruba::Platforms::FilesystemStatus]
       #   This returns a File::Stat-object
       def filesystem_status
-        Aruba.platform.filesystem_status.new(command_string.to_s)
+        Aruba.platform.filesystem_status.new(command_path)
       end
 
       # Content of command
@@ -248,7 +248,7 @@ module Aruba
       #   The content of the script/command. This might be binary output as
       #   string if your command is a binary executable.
       def content
-        File.read command_string.to_s
+        File.read command_path
       end
 
       def interactive?
@@ -258,12 +258,13 @@ module Aruba
       private
 
       def command_string
-        # gather fully qualified path
-        cmd = Aruba.platform.which(command, environment['PATH'])
+        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if command_path.nil?
 
-        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if cmd.nil?
+        Aruba.platform.command_string.new(command_path, *arguments)
+      end
 
-        Aruba.platform.command_string.new(cmd, *arguments)
+      def command_path
+        @command_path ||= Aruba.platform.which(command, environment['PATH'])
       end
 
       def wait_for_io(time_to_wait)
