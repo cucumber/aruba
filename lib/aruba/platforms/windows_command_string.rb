@@ -22,7 +22,7 @@ module Aruba
 
       def escaped_arguments
         @arguments.map { |arg| arg.gsub(/"/, '"""') }.
-          map { |arg| arg.match?(/ /) ? "\"#{arg}\"" : arg }
+          map { |arg| arg =~ / / ? "\"#{arg}\"" : arg }
       end
 
       def escaped_command
