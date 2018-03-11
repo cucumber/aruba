@@ -71,7 +71,7 @@ module Aruba
 
         @started = true
 
-        @process = ChildProcess.build(*command_string.to_a, *arguments)
+        @process = ChildProcess.build(*command_string.to_a)
         @stdout_file = Tempfile.new('aruba-stdout-')
         @stderr_file = Tempfile.new('aruba-stderr-')
 
@@ -263,7 +263,7 @@ module Aruba
 
         fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if cmd.nil?
 
-        Aruba.platform.command_string.new(cmd)
+        Aruba.platform.command_string.new(cmd, *arguments)
       end
 
       def wait_for_io(time_to_wait)

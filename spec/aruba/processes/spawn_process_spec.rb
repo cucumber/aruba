@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 RSpec.describe Aruba::Processes::SpawnProcess do
-  subject(:process) { described_class.new(command, exit_timeout, io_wait, working_directory) }
+  subject(:process) { described_class.new(command_line, exit_timeout, io_wait, working_directory) }
 
-  let(:command) { 'echo "yo"' }
+  let(:command_line) { 'echo "yo"' }
   let(:exit_timeout) { 1 }
   let(:io_wait) { 1 }
   let(:working_directory) { Dir.getwd }
@@ -22,7 +22,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   end
 
   describe "#stderr" do
-    let(:command) { "ruby -e 'warn \"yo\"'" }
+    let(:command_line) { "ruby -e 'warn \"yo\"'" }
 
     before(:each) { process.start }
     before(:each) { process.stop }
@@ -65,7 +65,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     end
 
     context "when process run fails" do
-      let(:command) { 'does_not_exists' }
+      let(:command_line) { 'does_not_exists' }
 
       it { expect { process.start }.to raise_error Aruba::LaunchError }
     end
@@ -73,6 +73,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     context 'when on unix' do
       let(:child) { instance_double(ChildProcess::AbstractProcess).as_null_object }
       let(:io) { instance_double(ChildProcess::AbstractIO).as_null_object }
+      let(:command_line) { 'foo' }
       let(:command) { 'foo' }
       let(:command_path) { '/bar/foo' }
 
@@ -112,11 +113,22 @@ RSpec.describe Aruba::Processes::SpawnProcess do
           expect(ChildProcess).to have_received(:build).with(command_path)
         end
       end
+
+      context 'with a command with arguments' do
+        let(:command_line) { 'foo -x "bar baz"' }
+
+        it 'passes the command and arguments as separate items to ChildProcess.build' do
+          process.start
+          expect(ChildProcess).to have_received(:build).
+            with(command_path, '-x', 'bar baz')
+        end
+      end
     end
 
     context 'when on windows' do
       let(:child) { instance_double(ChildProcess::AbstractProcess).as_null_object }
       let(:io) { instance_double(ChildProcess::AbstractIO).as_null_object }
+      let(:command_line) { 'foo' }
       let(:command) { 'foo' }
       let(:cmd_path) { 'C:\Bar\cmd.exe' }
       let(:command_path) { 'D:\Foo\foo' }
@@ -142,13 +154,29 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         end
       end
 
-      context 'with a command with a space in the path on windows' do
-        let(:cmd_path) { 'C:\Some Path\cmd.exe' }
-        let(:command_path) { 'D:\Bar Baz\foo' }
-
+      context 'with a command without a space in the path' do
         it 'passes the command and shell paths as single strings to ChildProcess.build' do
           process.start
           expect(ChildProcess).to have_received(:build).with(cmd_path, '/c', command_path)
+        end
+      end
+
+      context 'with a command with a space in the path' do
+        let(:command_path) { 'D:\Bar Baz\foo' }
+
+        it 'escapes the spaces using excessive double quotes' do
+          process.start
+          expect(ChildProcess).to have_received(:build).with(cmd_path, '/c', 'D:\Bar""" """Baz\foo')
+        end
+      end
+
+      context 'with a command with arguments' do
+        let(:command_line) { "foo -x 'bar \"baz\"'" }
+
+        it 'passes the command and arguments as one string to ChildProcess.build, with escaped quotes' do
+          process.start
+          expect(ChildProcess).to have_received(:build).
+            with(cmd_path, '/c', "#{command_path} -x \"bar \"\"\"baz\"\"\"\"")
         end
       end
     end
