@@ -19,4 +19,16 @@ RSpec.describe Aruba::Platforms::WindowsCommandString do
       it { expect(command_string.to_a).to eq [cmd_path, '/c', base_command] }
     end
   end
+
+  describe '#to_s' do
+    context 'with a command with a path' do
+      let(:base_command) { 'C:\Foo\Bar' }
+      it { expect(command_string.to_s).to eq base_command }
+    end
+
+    context 'with a command with a path containing spaces' do
+      let(:base_command) { 'C:\Foo Bar\Baz' }
+      it { expect(command_string.to_s).to eq base_command }
+    end
+  end
 end
