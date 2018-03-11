@@ -79,6 +79,4 @@ group :development, :test do
   # end
 
   gem 'minitest', '~> 5.8.0'
-
-  gem 'json', '~> 1.8'
 end
