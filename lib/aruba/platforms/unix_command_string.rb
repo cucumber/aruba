@@ -18,10 +18,6 @@ module Aruba
       def to_a
         [@command, *@arguments]
       end
-
-      def to_s
-        @command
-      end
     end
   end
 end
