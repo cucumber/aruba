@@ -5,29 +5,36 @@ gemspec
 
 # Debug aruba
 group :debug do
-  if RUBY_VERSION >= '2' && !RUBY_PLATFORM.include?('java')
-    gem 'byebug', '~> 4.0.5'
-    gem 'pry-byebug', '~> 3.1.0'
+  unless RUBY_PLATFORM.include?('java')
+    if RUBY_VERSION >= '2.2'
+      gem 'byebug', '~> 10.0'
+      gem 'pry-byebug', '~> 3.4'
+    elsif RUBY_VERSION >= '2'
+      gem 'byebug', '~> 9.0'
+      gem 'pry-byebug', '~> 3.4'
+    elsif RUBY_VERSION > '1.9'
+      gem 'debugger', '~> 1.6.8'
+      gem 'pry-debugger', '~> 0.2.3'
+    end
   end
 
-  if RUBY_VERSION < '2' && RUBY_VERSION > '1.9' && !RUBY_PLATFORM.include?('java')
-    gem 'debugger', '~> 1.6.8'
-    gem 'pry-debugger', '~> 0.2.3'
+  if RUBY_VERSION < '2'
+    gem 'pry-doc', '~> 0.8.0'
+  else
+    gem 'pry-doc', '~> 0.13.1'
   end
-
-  gem 'pry-doc', '~> 0.8.0'
 end
 
 group :development, :test do
   # we use this to demonstrate interactive debugging within our feature tests
   if RUBY_VERSION >= '2'
-    gem 'pry', '~> 0.10.1'
+    gem 'pry', '~> 0.11.2'
   else
-    gem 'pry', '~>0.9.12'
+    gem 'pry', '~> 0.9.12'
   end
 
   # Run development tasks
-  gem 'rake', '~> 10.4.2'
+  gem 'rake', '>= 10.0', '< 13.0'
 
   if RUBY_VERSION >= '2.0.0'
     # Lint travis yaml
@@ -43,7 +50,7 @@ group :development, :test do
 
   # Test api
   gem 'rspec', '~> 3.4'
-  gem 'fuubar', '~> 2.0.0'
+  gem 'fuubar', '~> 2.0'
 
   # using platform for this make bundler complain about the same gem given
   # twice
@@ -68,22 +75,12 @@ group :development, :test do
     gem 'cucumber-pro', '~> 0.0'
   end
 
-  if RUBY_VERSION >= '1.9.3'
-    # License compliance
+  # License compliance
+  if RUBY_VERSION >= '2.3'
+    gem 'license_finder', '~> 5.0.3'
+  elsif RUBY_VERSION >= '1.9.3'
     gem 'license_finder', '~> 2.0.4'
   end
 
-  # if RUBY_VERSION >= '1.9.3'
-  #   # Upload documentation
-  #   gem 'relish', '~> 0.7.1'
-  # end
-
-  gem 'minitest', '~> 5.8.0'
-
-  gem 'json', '~> 1.8'
-end
-
-platforms :rbx do
-  gem 'rubysl', '~> 2.0'
-  gem 'rubinius-developer_tools'
+  gem 'minitest', '~> 5.8'
 end
