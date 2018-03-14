@@ -19,7 +19,7 @@ RSpec.describe 'RSpec Integration', type: :aruba do
     end
 
     it 'includes configured command search paths in PATH' do
-      expect(ENV['PATH']).to include aruba.config.command_search_paths.join(':')
+      expect(ENV['PATH']).to include aruba.config.command_search_paths.join(File::PATH_SEPARATOR)
     end
   end
 end
