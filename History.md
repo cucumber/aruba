@@ -1,5 +1,9 @@
 #  RELEASED
 
+## [v0.14.5](https://github.com/cucumber/aruba/compare/v0.14.4...v0.14.5)
+
+* Loosen dependency on child_process (#551)
+
 ## [v0.14.4](https://github.com/cucumber/aruba/compare/v0.14.3...v0.14.4)
 
 * Fix command spawning when run in directories with spaces (#490)
