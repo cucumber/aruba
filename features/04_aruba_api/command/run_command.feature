@@ -23,7 +23,7 @@ Feature: Run command
   Background:
     Given I use a fixture named "cli-app"
 
-  Scenario: Existing executable
+  Scenario: Executable in the project's path 
     Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
@@ -41,19 +41,24 @@ Feature: Run command
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Relative path to executable
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/bin/bash
-    exit 0
-    """
-    And a file named "spec/run_spec.rb" with:
+  Scenario: Executable in a relative path in the Aruba working directory
+    Given a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba do
-      before(:each) { run_command('bin/aruba-test-cli') }
-      it { expect(last_command_started).to be_successfully_executed }
+      before do
+        write_file 'bin/aruba-test-cli', <<~BASH
+          #!/bin/bash
+          exit 0
+        BASH
+        chmod 0x755, 'bin/aruba-test-cli'
+      end
+
+      it "runs the command" do
+        run_command('bin/aruba-test-cli')
+        expect(last_command_started).to be_successfully_executed
+      end
     end
     """
     When I run `rspec`

@@ -261,7 +261,9 @@ module Aruba
       def start_command(command)
         aruba.config.before(:command, self, command)
 
-        command.start
+        in_current_directory do
+          command.start
+        end
 
         stop_signal = command.stop_signal
         aruba.announcer.announce(:stop_signal, command.pid, stop_signal) if stop_signal

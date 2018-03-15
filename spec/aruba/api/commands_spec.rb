@@ -43,5 +43,18 @@ RSpec.describe Aruba::Api::Commands do
         expect { @aruba.run_command 'cat' }.to raise_error NotImplementedError
       end
     end
+
+    context 'when running a relative command' do
+      it 'finds the command from the test directory' do
+        @aruba.write_file 'bin/aruba-test-cli', <<~BASH
+          #!/bin/bash
+          exit 0
+        BASH
+        chmod 0o755, 'bin/aruba-test-cli'
+
+        run_command('bin/aruba-test-cli')
+        expect(last_command_started).to be_successfully_executed
+      end
+    end
   end
 end
