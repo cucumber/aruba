@@ -105,7 +105,7 @@ RSpec.describe 'File Matchers' do
     end
   end
 
-  describe "to have_same_file_content_like" do
+  describe "to have_same_file_content_as" do
     let(:file_name) { @file_name }
     let(:file_path) { @file_path }
 
@@ -120,12 +120,12 @@ RSpec.describe 'File Matchers' do
       let(:reference_file_content) { 'foo bar baz' }
 
       context 'and this is expected' do
-        it { expect(file_name).to have_same_file_content_like reference_file }
+        it { expect(file_name).to have_same_file_content_as reference_file }
       end
 
       context 'and this is not expected' do
         it do
-          expect { expect(file_name).not_to have_same_file_content_like reference_file }
+          expect { expect(file_name).not_to have_same_file_content_as reference_file }
             .to raise_error RSpec::Expectations::ExpectationNotMetError
         end
       end
@@ -135,17 +135,42 @@ RSpec.describe 'File Matchers' do
       let(:reference_file_content) { 'bar' }
 
       context 'and this is expected' do
-        it { expect(file_name).not_to have_same_file_content_like reference_file }
+        it { expect(file_name).not_to have_same_file_content_as reference_file }
       end
 
       context 'and this is not expected' do
         it do
-          expect { expect(file_name).to have_same_file_content_like reference_file }
+          expect { expect(file_name).to have_same_file_content_as reference_file }
             .to raise_error RSpec::Expectations::ExpectationNotMetError
         end
       end
     end
   end
+
+  describe "to have_same_file_content_like" do
+    it 'calls have_same_file_content_as' do
+      expect(self).to receive(:have_same_file_content_as)
+
+      have_same_file_content_like 'a'
+    end
+  end
+
+  describe "a_file_with_same_content_like" do
+    it 'calls have_same_file_content_as' do
+      expect(self).to receive(:have_same_file_content_as)
+
+      a_file_with_same_content_like 'a'
+    end
+  end
+
+  describe "a_file_with_same_content_as" do
+    it 'calls have_same_file_content_as' do
+      expect(self).to receive(:have_same_file_content_as)
+
+      a_file_with_same_content_as 'a'
+    end
+  end
+
 
   describe 'to_have_file_size' do
     context 'when file exists' do
