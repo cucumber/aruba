@@ -45,14 +45,18 @@ end
 RSpec::Matchers.alias_matcher :a_file_with_same_content_as, :have_same_file_content_as
 
 # Deprecated matchers
-def have_same_file_content_like(expected)
-  RSpec.deprecate('`have_same_file_content_like`', replacement: '`have_same_file_content_as`')
+module DeprecatedMatchers
+  def have_same_file_content_like(expected)
+    RSpec.deprecate('`have_same_file_content_like`', replacement: '`have_same_file_content_as`')
 
-  have_same_file_content_as(expected)
+    have_same_file_content_as(expected)
+  end
+
+  def a_file_with_same_content_like(expected)
+    RSpec.deprecate('`a_file_with_same_content_like`', replacement: '`a_file_with_same_content_as`')
+
+    a_file_with_same_content_as(expected)
+  end
 end
 
-def a_file_with_same_content_like(expected)
-  RSpec.deprecate('`a_file_with_same_content_like`', replacement: '`a_file_with_same_content_as`')
-
-  a_file_with_same_content_as(expected)
-end
+RSpec::Matchers.send(:include, DeprecatedMatchers)
