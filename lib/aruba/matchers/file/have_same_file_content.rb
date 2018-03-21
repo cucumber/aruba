@@ -1,6 +1,5 @@
 require 'rspec/expectations/version'
 require 'fileutils'
-require 'rspec/core' unless defined? RSpec.configure
 
 # @!method have_same_file_content_as(file_name)
 #   This matchers checks if <file1> has the same content like <file2>
@@ -46,20 +45,14 @@ end
 RSpec::Matchers.alias_matcher :a_file_with_same_content_as, :have_same_file_content_as
 
 # Deprecated matchers
-module DeprecatedMatchers
-  def have_same_file_content_like(expected)
-    RSpec.deprecate('`have_same_file_content_like`', replacement: '`have_same_file_content_as`')
+def have_same_file_content_like(expected)
+  RSpec.deprecate('`have_same_file_content_like`', replacement: '`have_same_file_content_as`')
 
-    have_same_file_content_as(expected)
-  end
-
-  def a_file_with_same_content_like(expected)
-    RSpec.deprecate('`a_file_with_same_content_like`', replacement: '`a_file_with_same_content_as`')
-
-    a_file_with_same_content_as(expected)
-  end
+  have_same_file_content_as(expected)
 end
 
-RSpec.configure do |config|
-  config.include DeprecatedMatchers
+def a_file_with_same_content_like(expected)
+  RSpec.deprecate('`a_file_with_same_content_like`', replacement: '`a_file_with_same_content_as`')
+
+  a_file_with_same_content_as(expected)
 end
