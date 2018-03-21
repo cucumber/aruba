@@ -23,7 +23,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * Make forgetting setup_aruba a hard failure ([#510] by [mvz])
 * Improve documentation for users and developers ([#454], [#456], [#457], [#460],
   [#459], [#461], [#475], [#494] by [olleolleolle], [maxmeyer], [mvz])
-* Deprecated `have_same_file_content_like` and `a_file_with_same_content_like` matchers, in favour of `have_same_file_content_as` and `a_file_with_same_content_as`. ([#485] by XtraSimplicity)
+* Deprecated `have_same_file_content_like` and `a_file_with_same_content_like` matchers, in favour of `have_same_file_content_as` and `a_file_with_same_content_as`. ([#555](https://github.com/cucumber/aruba/pull/555) by [XtraSimplicity](https://github.com/xtrasimplicity))
 
 ### Removed
 
