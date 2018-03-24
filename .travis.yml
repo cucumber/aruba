@@ -8,19 +8,19 @@ jobs:
     - rvm: ruby-head
       stage: test
       os: linux
-      # - rvm: ruby-head
-      # - os: osx
-      # # TravisCI OSX doesn't work with Ruby 2.4.1 yet (https://github.com/travis-ci/travis-ci/issues/7848)
-    - rvm: 2.4.1
-      os: linux
-      # - rvm: 2.4.1
-      # - os: osx
-      # # TravisCI OSX doesn't work with Ruby 2.4.1 yet (https://github.com/travis-ci/travis-ci/issues/7848)
-    - rvm: 2.4.0
+    - rvm: ruby-head
       os: osx
-    - rvm: 2.3.4
+    - rvm: 2.5.0
       os: linux
-    - rvm: 2.3.4
+    - rvm: 2.5.0
+      os: osx
+    - rvm: 2.4.3
+      os: linux
+    - rvm: 2.4.3
+      os: osx
+    - rvm: 2.3.6
+      os: linux
+    - rvm: 2.3.6
       os: osx
     - rvm: 2.2
       os: linux
@@ -48,7 +48,7 @@ jobs:
       os: osx
     - stage: lint
       script: bundle exec rake lint
-      rvm: 2.4.1
+      rvm: 2.5.0
       os: linux
   allow_failures:
     - rvm: ruby-head
