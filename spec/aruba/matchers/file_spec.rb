@@ -145,8 +145,7 @@ RSpec.describe 'File Matchers' do
 
       context 'and this is not expected' do
         it do
-          expect { expect(file_name).not_to have_same_file_content_as reference_file }
-            .to raise_error RSpec::Expectations::ExpectationNotMetError
+          expect { expect(file_name).not_to have_same_file_content_as reference_file }.to raise_error RSpec::Expectations::ExpectationNotMetError
         end
       end
     end
@@ -160,8 +159,7 @@ RSpec.describe 'File Matchers' do
 
       context 'and this is not expected' do
         it do
-          expect { expect(file_name).to have_same_file_content_as reference_file }
-            .to raise_error RSpec::Expectations::ExpectationNotMetError
+          expect { expect(file_name).to have_same_file_content_as reference_file }.to raise_error RSpec::Expectations::ExpectationNotMetError
         end
       end
     end
