@@ -98,7 +98,7 @@ RSpec.describe 'Deprecated matchers' do
 
       context 'and this is not expected' do
         it do
-          expect { expect(files).not_to include a_file_with_same_content_like reference_file }
+          expect { expect(files).not_to include a_file_with_same_content_like reference_file }.to raise_error RSpec::Expectations::ExpectationNotMetError
         end
       end
       
@@ -113,7 +113,7 @@ RSpec.describe 'Deprecated matchers' do
 
       context 'and this is not expected' do
         it do
-          expect { expect(files).to include a_file_with_same_content_like reference_file }
+          expect { expect(files).to include a_file_with_same_content_like reference_file }.to raise_error RSpec::Expectations::ExpectationNotMetError
         end
       end
     end
