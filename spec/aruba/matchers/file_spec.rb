@@ -189,14 +189,6 @@ RSpec.describe 'File Matchers' do
     end
   end
 
-  describe "a_file_with_same_content_as" do
-    it 'calls have_same_file_content_as' do
-      expect(self).to receive(:have_same_file_content_as)
-
-      a_file_with_same_content_as 'a'
-    end
-  end
-
 
   describe 'to_have_file_size' do
     context 'when file exists' do
