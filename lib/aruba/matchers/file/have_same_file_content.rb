@@ -19,7 +19,7 @@ require 'fileutils'
 #
 #     RSpec.describe do
 #       it { expect(file1).to have_same_file_content_as(file2) }
-#       it { expect(files).to include a_file_with_same_content_like(file2) }
+#       it { expect(files).to include a_file_with_same_content_as(file2) }
 #     end
 RSpec::Matchers.define :have_same_file_content_as do |expected|
   match do |actual|
@@ -43,20 +43,3 @@ RSpec::Matchers.define :have_same_file_content_as do |expected|
 end
 
 RSpec::Matchers.alias_matcher :a_file_with_same_content_as, :have_same_file_content_as
-
-# Deprecated matchers
-module DeprecatedMatchers
-  def have_same_file_content_like(expected)
-    RSpec.deprecate('`have_same_file_content_like`', replacement: '`have_same_file_content_as`')
-
-    have_same_file_content_as(expected)
-  end
-
-  def a_file_with_same_content_like(expected)
-    RSpec.deprecate('`a_file_with_same_content_like`', replacement: '`a_file_with_same_content_as`')
-
-    a_file_with_same_content_as(expected)
-  end
-end
-
-RSpec::Matchers.send(:include, DeprecatedMatchers)
