@@ -1,8 +1,7 @@
 require 'rspec/expectations/version'
-
 require 'fileutils'
 
-# @!method have_same_file_content_like(file_name)
+# @!method have_same_file_content_as(file_name)
 #   This matchers checks if <file1> has the same content like <file2>
 #
 #   @param [String] file_name
@@ -19,10 +18,10 @@ require 'fileutils'
 #   @example Use matcher
 #
 #     RSpec.describe do
-#       it { expect(file1).to have_same_file_content_like(file2) }
-#       it { expect(files).to include a_file_with_same_content_like(file2) }
+#       it { expect(file1).to have_same_file_content_as(file2) }
+#       it { expect(files).to include a_file_with_same_content_as(file2) }
 #     end
-RSpec::Matchers.define :have_same_file_content_like do |expected|
+RSpec::Matchers.define :have_same_file_content_as do |expected|
   match do |actual|
     stop_all_commands
 
@@ -43,4 +42,4 @@ RSpec::Matchers.define :have_same_file_content_like do |expected|
   end
 end
 
-RSpec::Matchers.alias_matcher :a_file_with_same_content_like, :have_same_file_content_like
+RSpec::Matchers.alias_matcher :a_file_with_same_content_as, :have_same_file_content_as
