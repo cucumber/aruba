@@ -6,7 +6,7 @@ require 'aruba/extensions/string/strip'
 
 require 'aruba/platform'
 require 'aruba/api/core'
-require 'aruba/api/command'
+require 'aruba/api/commands'
 
 if Aruba::VERSION <= '1.0.0'
   require 'aruba/api/deprecated'

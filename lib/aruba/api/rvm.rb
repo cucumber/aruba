@@ -1,5 +1,5 @@
 require 'aruba/api/environment'
-require 'aruba/api/command'
+require 'aruba/api/commands'
 
 # Aruba
 module Aruba
