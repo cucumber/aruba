@@ -13,6 +13,12 @@ RSpec.describe 'Deprecated API' do
     allow(Aruba.platform).to receive(:deprecated)
   end
 
+  describe '#absolute_path' do
+    context 'when file_name is array of path names' do
+      it { expect(@aruba.absolute_path(['path', @file_name])).to eq File.expand_path(File.join(aruba.current_directory, 'path', @file_name)) }
+    end
+  end
+
   describe "#assert_not_matching_output" do
     before(:each){ @aruba.run_simple("echo foo", false) }
     after(:each) { @aruba.all_commands.each(&:stop) }
