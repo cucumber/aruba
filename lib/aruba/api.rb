@@ -15,6 +15,7 @@ end
 require 'aruba/api/environment'
 require 'aruba/api/filesystem'
 require 'aruba/api/text'
+require 'aruba/api/bundler'
 require 'aruba/api/rvm'
 
 Aruba.platform.require_matching_files('../matchers/**/*.rb', __FILE__)
@@ -27,6 +28,7 @@ module Aruba
     include Aruba::Api::Commands
     include Aruba::Api::Environment
     include Aruba::Api::Filesystem
+    include Aruba::Api::Bundler
     include Aruba::Api::Rvm
     include Aruba::Api::Deprecated
     include Aruba::Api::Text
