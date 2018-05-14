@@ -54,6 +54,8 @@ RSpec::Matchers.define :have_file_content do |expected|
     values_match?(@expected, @actual)
   end
 
+  diffable if expected.is_a? String
+
   description { "have file content: #{description_of expected}" }
 end
 
