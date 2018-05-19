@@ -138,5 +138,11 @@ Before '@unsupported-on-platform-mac' do |scenario|
 end
 
 Before('@requires-bash') do |scenario|
-  skip_this_scenario unless Aruba.platform.which('bash')
+  next if Aruba.platform.which('bash')
+
+  if Cucumber::VERSION < '2'
+    scenario.skip_invoke!
+  else
+    skip_this_scenario
+  end
 end
