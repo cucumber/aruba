@@ -26,3 +26,7 @@ Before do |scenario|
   # set environment variable so child processes will merge their coverage data with parent process's coverage data.
   ENV['RUBYOPT'] = "-r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}"
 end
+
+Before('@requires-bash') do |scenario|
+  skip_this_scenario unless Aruba.platform.which('bash')
+end
