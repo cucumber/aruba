@@ -136,3 +136,7 @@ Before '@unsupported-on-platform-mac' do |scenario|
     skip_this_scenario
   end
 end
+
+Before('@requires-bash') do |scenario|
+  skip_this_scenario unless Aruba.platform.which('bash')
+end
