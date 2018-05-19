@@ -53,6 +53,45 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
+  
+  @requires-cmd
+  Scenario: Batch Program
+    Given an executable named "bin/aruba-test-cli.bat" with:
+    """bash
+    echo "Hello, Aruba!"
+    """
+    And a file named "features/hello_aruba.feature" with:
+    """
+    Feature: Getting Started With Aruba
+      Scenario: First Run of Command
+        Given I successfully run `aruba-test-cli`
+        Then the output should contain:
+        \"\"\"
+        Hello, Aruba!
+        \"\"\"
+    """
+    When I successfully run `cucumber`
+    Then the features should all pass
+
+  @requires-cmd
+  Scenario: Batch Program run via cmd
+    Given a file named "features/hello_aruba.feature" with:
+    """
+    Feature: Getting Started With Aruba
+      Scenario: First Run of Command
+        Given a file named "cli.bat" with:
+        \"\"\"
+        echo "Hello, Aruba!"
+        \"\"\"
+        When I successfully run `cmd.exe /c cli.bat`
+        Then the output should contain:
+        \"\"\"
+        Hello, Aruba!
+        \"\"\"
+    """
+    When I successfully run `cucumber`
+    Then the features should all pass
+
   @requires-ruby @unsupported-on-platform-windows
   Scenario: Ruby Program
     Given an executable named "bin/aruba-test-cli" with:
