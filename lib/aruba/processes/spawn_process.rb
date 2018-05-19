@@ -201,7 +201,7 @@ module Aruba
         end
 
         @exit_status  = @process.exit_code
-
+  
         @stdout_cache = read_temporary_output_file @stdout_file
         @stderr_cache = read_temporary_output_file @stderr_file
 
@@ -258,6 +258,10 @@ module Aruba
       def command_string
         # gather fully qualified path
         cmd = Aruba.platform.which(command, environment['PATH'])
+
+        if cmd.nil? and Aruba.platform.internal_shell_commands.include?(command)
+          cmd = command
+        end
 
         fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if cmd.nil?
 

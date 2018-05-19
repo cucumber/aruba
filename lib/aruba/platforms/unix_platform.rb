@@ -236,6 +236,10 @@ module Aruba
       def which(program, path = ENV['PATH'])
         UnixWhich.new.call(program, path)
       end
+
+      def internal_shell_commands
+        []
+      end
     end
   end
 end

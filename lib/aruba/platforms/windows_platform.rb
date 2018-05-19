@@ -37,6 +37,10 @@ module Aruba
       def which(program, path = ENV['PATH'])
         WindowsWhich.new.call(program, path)
       end
+
+      def internal_shell_commands
+        ['echo']
+      end
     end
   end
 end
