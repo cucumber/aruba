@@ -32,13 +32,6 @@ module Aruba
           raise "I didn't understand rvm's output: #{all_stdout}"
         end
       end
-
-      # Unset variables used by bundler
-      def unset_bundler_env_vars
-        %w[RUBYOPT BUNDLE_PATH BUNDLE_BIN_PATH BUNDLE_GEMFILE].each do |key|
-          set_environment_variable(key, nil)
-        end
-      end
     end
   end
 end
