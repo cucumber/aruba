@@ -136,22 +136,20 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * If multiple commands have been started, each output has to be check
   separately
 
-  ```cucumber
-  Scenario: Detect stdout from all processes
-    When I run `printf "hello world!\n"`
-    And I run `cat` interactively
-    And I type "hola"
-    And I type ""
-    Then the stdout should contain:
-      """
-      hello world!
-      """
-    And the stdout should contain:
-      """
-      hola
-      """
-    And the stderr should not contain anything
-  ```
+        Scenario: Detect stdout from all processes
+          When I run `printf "hello world!\n"`
+          And I run `cat` interactively
+          And I type "hola"
+          And I type ""
+          Then the stdout should contain:
+            """
+            hello world!
+            """
+          And the stdout should contain:
+            """
+            hola
+            """
+          And the stderr should not contain anything
 
 ## [v0.14.1]
 
@@ -277,6 +275,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
   [#308])
 * Added new method `delete_environment_variable` to remove environment variable
 * Added work around because of method name conflict between Capybara and RSpec
+  (https://github.com/cucumber/aruba/commit/1939c4049d5195ffdd967485f50119bdd86e98a0)
 
 
 ## [v0.9.0]
@@ -397,12 +396,15 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * Fixed post install message
 
 ## [v0.7.2]
+
 * Do not trigger Announcer API deprecation warning ([#277])
 
 ## [v0.7.1]
+
 * Do not break if @interactive is used
 
 ## [v0.7.0]
+
 * Introducing root_directory ([#232])
 * Introducing fixtures directory ([#224])
 * Make sure a file/directory does not exist + Cleanup named file/directory steps ([#234])
@@ -417,26 +419,31 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * `InProcess` requires that the working directory is determined on runtime not no loadtime
 
 ## [v0.6.2]
+
 * Fixed minor [#223])
 * Added support for ruby 2.1.3 -- 2.1.5
 * Added support for comparison to a fixture file
 
 ## [v0.6.1]
+
 * Added support for ruby 2.1.2
 * Added support for ~ expansion
 * Added support for with_env
 
 ## [v0.6.0]
+
 * Dropped support for ruby 1.8
 * Added support for ruby 2.1.0 and 2.1.1
 * Added rspec 3.0.0 support
 
 ## [v0.5.4]
+
 * Added support for piping in files ([#154], [maxmeyer], dg-vrnetze)
 * Added cucumber steps for environment variables ([#156], dg-vrnetze)
 * Added support for file mode ([#157], [maxmeyer], dg-vrnetze)
 
 ## [v0.5.3]
+
 * Fix for UTF-8 support ([#151], [mattwynne], [jarl-dk])
 * Fix for open file leakage ([#150], [jonrowe])
 
@@ -446,10 +453,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * Fix memory leak when several commands are executed in a single run ([#144], [y-higuchi])
 
 ## [v0.5.1]
+
 * Individual timeout settings when running commands ([#124], [jarl-dk])
 * Varous fixes for JRuby tests, should now work on more versions of JRuby
 
 ## [v0.5.0]
+
 * Add #with_file_content to the DSL ([#110], [argent-smith])
 * Make JRuby performance tweaks optional ([#102], [taylor], [#125], [alindeman])
 * Add assert_partial_output_interactive so you can peek at the output from a running process ([#104], [taylor])
@@ -457,14 +466,17 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * Add remove_dir ([#121], [LTe])
 
 ## [v0.4.11]
+
 * Fix duplicated output ([#91], [robertwahler], [mattwynne])
 * Fix Gemspec format ([#101], [mattwynne])
 
 ## [v0.4.10]
+
 * Fix broken JRuby file following rename of hook ([tdreyno])
 * Add terminate method to API ([taylor])
 
 ## [v0.4.9]
+
 * Rename before_run hook to before_cmd ([mattwynne])
 * Fix 1.8.7 compatibility ([#95], [davetron5000])
 
@@ -536,7 +548,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 ## [v0.3.4]
 
-* Use backticks (\`) instead of quotes (") to specify command line. Quote still works, but is deprecated. ([aeden], [aslakhellesoy])
+* Use backticks (\`) instead of quotes (") to specify command line. Quote still
+  works, but is deprecated. ([aeden], [aslakhellesoy])
 
 ## [v0.3.3]
 
@@ -621,29 +634,29 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * Added aruba.gemspec. ([dchelimsky])
 * Several step definitions regarding output have changed. ([#1], [aslakhellesoy])
 
-      - /^I should see "([^\"]*)"$/
-      + /^the output should contain "([^"]*)"$/
+        - /^I should see "([^\"]*)"$/
+        + /^the output should contain "([^"]*)"$/
 
-      - /^I should not see "([^\"]*)"$/
-      + /^the output should not contain "([^"]*)"$/
+        - /^I should not see "([^\"]*)"$/
+        + /^the output should not contain "([^"]*)"$/
 
-      - /^I should see:$/
-      + /^the output should contain:$/
+        - /^I should see:$/
+        + /^the output should contain:$/
 
-      - /^I should not see:$/
-      + /^the output should not contain:$/
+        - /^I should not see:$/
+        + /^the output should not contain:$/
 
-      - /^I should see exactly "([^\"]*)"$/
-      + /^the output should contain exactly "([^"]*)"$/
+        - /^I should see exactly "([^\"]*)"$/
+        + /^the output should contain exactly "([^"]*)"$/
 
-      - /^I should see exactly:$/
-      + /^the output should contain exactly:$/
+        - /^I should see exactly:$/
+        + /^the output should contain exactly:$/
 
-      - /^I should see matching \/([^\/]*)\/$/
-      + /^the output should match \/([^\/]*)\/$/
+        - /^I should see matching \/([^\/]*)\/$/
+        + /^the output should match \/([^\/]*)\/$/
 
-      - /^I should see matching:$/
-      + /^the output should match:$/
+        - /^I should see matching:$/
+        + /^the output should match:$/
 
 ## [v0.1.9]
 
