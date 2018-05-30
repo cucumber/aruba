@@ -13,7 +13,8 @@ RSpec.configure do |config|
       setup_aruba
 
       # Modify PATH to include project/bin
-      prepend_environment_variable 'PATH', aruba.config.command_search_paths.join(':') + ':'
+      prepend_environment_variable 'PATH',
+        aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
 
       # Use configured home directory as HOME
       set_environment_variable 'HOME', aruba.config.home_directory

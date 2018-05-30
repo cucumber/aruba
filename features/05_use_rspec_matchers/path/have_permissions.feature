@@ -1,3 +1,4 @@
+@unsupported-on-platform-windows
 Feature: Check if path has permissions in filesystem
 
   If you need to check if a given path has some permissions in filesystem, you
