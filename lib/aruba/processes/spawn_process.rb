@@ -259,7 +259,7 @@ module Aruba
         # gather fully qualified path
         cmd = Aruba.platform.which(command, environment['PATH'])
 
-        if cmd.nil? and Aruba.platform.internal_shell_commands.include?(command)
+        if cmd.nil? and Aruba.platform.builtin_shell_commands.include?(command)
           cmd = command
         end
 

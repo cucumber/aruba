@@ -38,7 +38,7 @@ module Aruba
         WindowsWhich.new.call(program, path)
       end
 
-      def internal_shell_commands
+      def builtin_shell_commands
         ['echo']
       end
     end
