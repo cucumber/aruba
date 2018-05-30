@@ -266,7 +266,7 @@ module Aruba
       end
 
       def command_path
-        @command_path ||= (Aruba.platform.internal_shell_commands.include?(command) ? command : Aruba.platform.which(command, environment['PATH']))
+        @command_path ||= (Aruba.platform.builtin_shell_commands.include?(command) ? command : Aruba.platform.which(command, environment['PATH']))
       end
 
       def wait_for_io(time_to_wait)
