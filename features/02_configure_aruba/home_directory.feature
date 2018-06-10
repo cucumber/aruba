@@ -22,7 +22,7 @@ Feature: Configure the home directory to be used with aruba
     When I successfully run `cucumber`
     Then the output should match:
     """
-    The default value is "/.*/tmp/aruba"
+    The default value is ".*/tmp/aruba"
     """
 
   Scenario: Set to current working directory
@@ -60,7 +60,7 @@ Feature: Configure the home directory to be used with aruba
     Then I successfully run `cucumber`
     Then the output should match:
     """
-    The value is "/.*/tmp/aruba/home"
+    The value is ".*/tmp/aruba/home"
     """
 
   Scenario: Set to some other path (deprecated)
