@@ -1,4 +1,4 @@
-@requires-cat
+@unsupported-on-platform-mac @unsupported-on-platform-unix
 Feature: before_cmd hooks
 
   You can configure Aruba to run blocks of code before it runs
@@ -40,7 +40,7 @@ Feature: before_cmd hooks
         \"\"\"
         Hello World
         \"\"\"
-        When I successfully run `cat file.txt`
+        When I successfully run `type file.txt`
         Then the output should contain:
         \"\"\"
         Hello World
@@ -50,5 +50,5 @@ Feature: before_cmd hooks
     Then the features should all pass
     And the output should contain:
     """
-    before the run of `cat file.txt`
+    before the run of `type file.txt`
     """
