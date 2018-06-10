@@ -79,3 +79,4 @@ Feature: Supported Testing Frameworks
     """
     When I run `ruby -Ilib:test test/use_aruba_with_minitest.rb`
     Then the tests should all pass
+    
