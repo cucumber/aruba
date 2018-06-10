@@ -42,6 +42,12 @@ Before "@requires-sleep" do
   skip_this_scenario
 end
 
+Before "@requires-env" do
+  next unless Aruba.platform.which("env").nil?
+
+  skip_this_scenario
+end
+
 Before "@requires-posix-standard-tools" do
   next unless Aruba.platform.which("printf").nil?
 

@@ -1,4 +1,4 @@
-@requires-env @unsupported-on-platform-windows
+@unsupported-on-platform-unix @unsupported-on-platform-mac
 Feature: Define default process environment
   Say you want to have a default set of environment variables, then use this
   code.
@@ -28,8 +28,8 @@ Feature: Define default process environment
     end
 
     RSpec.describe 'Environment command', :type => :aruba do
-      before { run_command('env') }
-      before { stop_all_commands }
+      before(:each) { run_command('set') }
+      before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=x' }
     end
@@ -49,10 +49,10 @@ Feature: Define default process environment
     end
 
     RSpec.describe 'Environment command', :type => :aruba do
-      before { set_environment_variable 'LONG_LONG_VARIABLE', 'z' }
+      before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', 'z' }
 
-      before { run_command('env') }
-      before { stop_all_commands }
+      before(:each) { run_command('set') }
+      before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=z' }
     end
@@ -72,10 +72,10 @@ Feature: Define default process environment
     end
 
     RSpec.describe 'Environment command', :type => :aruba do
-      before { append_environment_variable 'LONG_LONG_VARIABLE', 'z' }
+      before(:each) { append_environment_variable 'LONG_LONG_VARIABLE', 'z' }
 
-      before { run_command('env') }
-      before { stop_all_commands }
+      before(:each) { run_command('set') }
+      before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=xz' }
     end
@@ -95,10 +95,10 @@ Feature: Define default process environment
     end
 
     RSpec.describe 'Environment command', :type => :aruba do
-      before { prepend_environment_variable 'LONG_LONG_VARIABLE', 'z' }
+      before(:each) { prepend_environment_variable 'LONG_LONG_VARIABLE', 'z' }
 
-      before { run_command('env') }
-      before { stop_all_commands }
+      before(:each) { run_command('set') }
+      before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=zx' }
     end
@@ -118,10 +118,10 @@ Feature: Define default process environment
     end
 
     RSpec.describe 'Environment command', :type => :aruba do
-      before { delete_environment_variable 'LONG_LONG_VARIABLE' }
+      before(:each) { delete_environment_variable 'LONG_LONG_VARIABLE' }
 
-      before { run_command('env') }
-      before { stop_all_commands }
+      before(:each) { run_command('set') }
+      before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).not_to include 'LONG_LONG_VARIABLE' }
     end
