@@ -56,6 +56,12 @@ Before '@requires-cat' do
   skip_this_scenario
 end
 
+Before '@requires-platform-windows' do
+  next if FFI::Platform.windows?
+
+  skip_this_scenario
+end
+
 Before '@requires-posix-standard-tools' do
   next unless Aruba.platform.which('printf').nil?
 
