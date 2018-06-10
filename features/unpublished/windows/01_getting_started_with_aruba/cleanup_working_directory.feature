@@ -19,13 +19,13 @@ Feature: Cleanup Aruba Working Directory
         And a directory named "dir.d" should exist
         When I cd to "dir.d"
         And I run `cd`
-        Then the output should match %r</tmp/aruba/dir.d$>
+        Then the output should match %r<\\tmp\\aruba\\dir.d$>
 
       Scenario: Check #2
         Then a file named "file.txt" should not exist
         And a directory named "dir.d" should not exist
         When I run `cd`
-        Then the output should match %r</tmp/aruba$>
+        Then the output should match %r<\\tmp\\aruba$>
     """
     When I run `cucumber`
     Then the features should all pass
@@ -51,7 +51,7 @@ Feature: Cleanup Aruba Working Directory
         Then a file named "file.txt" should exist
         And a directory named "dir.d" should exist
         When I run `cd`
-        Then the output should match %r</tmp/aruba$>
+        Then the output should match %r<\\tmp\\aruba$>
     """
     When I run `cucumber`
     Then the features should all pass
