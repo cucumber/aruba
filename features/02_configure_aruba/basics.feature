@@ -1,3 +1,4 @@
+@requires-sleep @todo-improve-cross-platform-support
 Feature: Usage of configuration
 
   You can configure `aruba` in two ways:
@@ -33,12 +34,12 @@ Feature: Usage of configuration
 
     RSpec.describe 'Run command', :type => :aruba do
       context 'when fast command' do
-        before { run_command('aruba-test-cli 0') }
+        before { run_command('ruby ./aruba-test-cli 0') }
         it { expect(last_command_started).to be_successfully_executed }
       end
 
       context 'when slow command' do
-        before { run_command('aruba-test-cli 1') }
+        before { run_command('ruby ./aruba-test-cli 1') }
         it { expect(last_command_started).not_to be_successfully_executed }
       end
     end
@@ -74,17 +75,17 @@ Feature: Usage of configuration
 
     RSpec.describe 'Run command', :type => :aruba do
       context 'when fast command' do
-        before { run_command('aruba-test-cli 0') }
+        before { run_command('ruby ./aruba-test-cli 0') }
         it { expect(last_command_started).to be_successfully_executed }
       end
 
       context 'when slow command and this is known by the developer', :slow_command => true do
-        before { run_command('aruba-test-cli 1') }
+        before { run_command('ruby ./aruba-test-cli 1') }
         it { expect(last_command_started).to be_successfully_executed }
       end
 
       context 'when slow command, but this might be a failure' do
-        before { run_command('aruba-test-cli 1') }
+        before { run_command('ruby ./aruba-test-cli 1') }
         it { expect(last_command_started).not_to be_successfully_executed }
       end
     end
@@ -103,11 +104,11 @@ Feature: Usage of configuration
     """
     Feature: Run it
       Scenario: Fast command
-        When I run `aruba-test-cli 0`
+        When I run `ruby ./aruba-test-cli 0`
         Then the exit status should be 0
 
       Scenario: Slow command
-        When I run `aruba-test-cli 1.0`
+        When I run `ruby ./aruba-test-cli 1.0`
         Then the exit status should be 128
     """
     When I run `cucumber`
@@ -135,16 +136,16 @@ Feature: Usage of configuration
     """
     Feature: Run it
       Scenario: Fast command
-        When I run `aruba-test-cli 0`
+        When I run `ruby ./aruba-test-cli 0`
         Then the exit status should be 0
 
       @slow-command
       Scenario: Slow command known by the developer
-        When I run `aruba-test-cli 0.5`
+        When I run `ruby ./aruba-test-cli 0.5`
         Then the exit status should be 0
 
       Scenario: Slow command which might be a failure
-        When I run `aruba-test-cli 0.5`
+        When I run `ruby ./aruba-test-cli 0.5`
         Then the exit status should be 128
     """
     When I run `cucumber`
