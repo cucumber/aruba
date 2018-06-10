@@ -50,6 +50,12 @@ Before '@requires-env' do
   skip_this_scenario
 end
 
+Before '@requires-cat' do
+  next unless Aruba.platform.which('cat').nil?
+
+  skip_this_scenario
+end
+
 Before '@requires-posix-standard-tools' do
   next unless Aruba.platform.which('printf').nil?
 
