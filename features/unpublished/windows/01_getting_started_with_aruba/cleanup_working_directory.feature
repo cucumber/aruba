@@ -8,7 +8,6 @@ Feature: Cleanup Aruba Working Directory
   Background:
     Given I use a fixture named "cli-app"
 
-  @unsupported-on-platform-windows
   Scenario: Clean up artifacts and pwd from a previous scenario
     Given a file named "features/cleanup.feature" with:
     """
@@ -19,19 +18,18 @@ Feature: Cleanup Aruba Working Directory
         Then a file named "file.txt" should exist
         And a directory named "dir.d" should exist
         When I cd to "dir.d"
-        And I run `pwd`
+        And I run `cd`
         Then the output should match %r</tmp/aruba/dir.d$>
 
       Scenario: Check #2
         Then a file named "file.txt" should not exist
         And a directory named "dir.d" should not exist
-        When I run `pwd`
+        When I run `cd`
         Then the output should match %r</tmp/aruba$>
     """
     When I run `cucumber`
     Then the features should all pass
 
-  @unsupported-on-platform-windows
   Scenario: Do not clobber before run
     The `@no-clobber` tag stops Aruba from clearing out its scratch directory.
     Other setup steps are still performed, such as setting the current working
@@ -52,7 +50,7 @@ Feature: Cleanup Aruba Working Directory
       Scenario: Check #2
         Then a file named "file.txt" should exist
         And a directory named "dir.d" should exist
-        When I run `pwd`
+        When I run `cd`
         Then the output should match %r</tmp/aruba$>
     """
     When I run `cucumber`
