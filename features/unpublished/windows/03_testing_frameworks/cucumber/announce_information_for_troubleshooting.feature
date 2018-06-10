@@ -1,4 +1,4 @@
-@requires-bash
+@unsupported-on-platform-unix @unsupported-on-platform-mac
 Feature: Announce output during test run
 
   In order to specify expected output
@@ -8,6 +8,7 @@ Feature: Announce output during test run
   Background:
     Given I use a fixture named "cli-app"
 
+  
   Scenario: Announce change of directory
     Given a file named "features/exit_status.feature" with:
     """cucumber
@@ -21,7 +22,7 @@ Feature: Announce output during test run
     Then the features should all pass
     And the output should contain:
     """
-    $ cd /
+    $ cd C:/
     """
     And the output should contain:
     """
@@ -29,101 +30,73 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce stdout
-    Given an executable named "bin/aruba-test-cli" with:
+    Given an executable named "bin/aruba-test-cli.bat" with:
     """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
+    @echo off
+    echo Hello World
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-stdout
       Scenario: Run command
-        When I run `aruba-test-cli`
+        When I run `aruba-test-cli.bat`
         Then the exit status should be 0
     """
     When I run `cucumber`
     Then the features should all pass
-    And the output should contain:
-    """
-    <<-STDOUT
-    Hello World
-
-    STDOUT
-    """
+    And the output should match %r<<<-STDOUT\s*Hello World\s*STDOUT>
 
   Scenario: Announce stderr
-    Given an executable named "bin/aruba-test-cli" with:
+    Given an executable named "bin/aruba-test-cli.bat" with:
     """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World' >&2
+    @echo off
+    echo Hello World >&2
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-stderr
       Scenario: Run command
-        When I run `aruba-test-cli`
+        When I run `aruba-test-cli.bat`
         Then the exit status should be 0
     """
     When I run `cucumber`
     Then the features should all pass
-    And the output should contain:
-    """
-    <<-STDERR
-    Hello World
-
-    STDERR
-    """
+    And the output should match %r<<<-STDERR\s*Hello World\s*STDERR>
 
   Scenario: Announce both stderr and stdout
-    Given an executable named "bin/aruba-test-cli" with:
+    Given an executable named "bin/aruba-test-cli.bat" with:
     """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello' >&2
-    echo 'World'
+    @echo off
+    echo Hello >&2
+    echo World
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-output
       Scenario: Run command
-        When I run `aruba-test-cli`
+        When I run `aruba-test-cli.bat`
         Then the exit status should be 0
     """
     When I run `cucumber`
     Then the features should all pass
-    And the output should contain:
-    """
-    <<-STDERR
-    Hello
-
-    STDERR
-    """
-    And the output should contain:
-    """
-    <<-STDOUT
-    World
-
-    STDOUT
-    """
+    And the output should match %r<<<-STDERR\s*Hello\s*STDERR>
+    And the output should match %r<<<-STDOUT\s*World\s*STDOUT>
 
   Scenario: Announce command
-    Given an executable named "bin/aruba-test-cli" with:
+    Given an executable named "bin/aruba-test-cli.bat" with:
     """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
+    @echo off
+    echo Hello World
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-command
       Scenario: Run command
-        When I run `aruba-test-cli`
+        When I run `aruba-test-cli.bat`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -134,11 +107,10 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce change of environment variable
-    Given an executable named "bin/aruba-test-cli" with:
+    Given an executable named "bin/aruba-test-cli.bat" with:
     """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
+    @echo off
+    echo Hello World
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
@@ -148,7 +120,7 @@ Feature: Announce output during test run
         When I set the environment variables to:
           | variable | value    |
           | MY_VAR   | my_value |
-        And I run `aruba-test-cli`
+        And I run `aruba-test-cli.bat`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -159,11 +131,10 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce change of environment variable which contains special characters
-    Given an executable named "bin/aruba-test-cli" with:
+    Given an executable named "bin/aruba-test-cli.bat" with:
     """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
+    @echo off
+    echo Hello World
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
@@ -173,7 +144,7 @@ Feature: Announce output during test run
         When I set the environment variables to:
           | variable | value      |
           | MY_VAR   | my value ! |
-        And I run `aruba-test-cli`
+        And I run `aruba-test-cli.bat`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -187,18 +158,17 @@ Feature: Announce output during test run
     This will output information like owner, group, atime, mtime, ctime, size,
     mode and if command is executable.
 
-    Given an executable named "bin/aruba-test-cli" with:
+    Given an executable named "bin/aruba-test-cli.bat" with:
     """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
+    @echo off
+    echo Hello World
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-command-filesystem-status
       Scenario: Run command
-        And I run `aruba-test-cli`
+        And I run `aruba-test-cli.bat`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -240,68 +210,19 @@ Feature: Announce output during test run
     This will output the content of the executable command. Be careful doing
     this with binary executables. This hook should be used with scripts only.
 
-    Given an executable named "bin/aruba-test-cli" with:
+    Given an executable named "bin/aruba-test-cli.bat" with:
     """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
+    @echo off
+    echo Hello World
     """
     And a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-command-content
       Scenario: Run command
-        And I run `aruba-test-cli`
+        And I run `aruba-test-cli.bat`
         Then the exit status should be 0
     """
     When I run `cucumber`
     Then the features should all pass
-    And the output should contain:
-    """
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
-    """
-
-  Scenario: Announce everything
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
-    """
-    And a file named "features/exit_status.feature" with:
-    """cucumber
-    Feature: Announce
-      @announce
-      Scenario: Run command
-        When I run `aruba-test-cli`
-        Then the exit status should be 0
-    """
-    When I run `cucumber`
-    Then the features should all pass
-    And the output should contain:
-    """
-    <<-STDOUT
-    Hello World
-
-    STDOUT
-    """
-    And the output should contain:
-    """
-    <<-STDERR
-
-    STDERR
-    """
-    And the output should contain:
-    """
-    <<-COMMAND
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
-    COMMAND
-    """
-    And the output should contain:
-    """
-    <<-COMMAND FILESYSTEM STATUS
-    """
+    And the output should match %r<@echo off\s*echo Hello World>
