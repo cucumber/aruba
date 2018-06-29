@@ -1,5 +1,11 @@
 #  RELEASED
 
+## [v0.14.6](https://github.com/cucumber/aruba/compare/v0.14.5...v0.14.6)
+
+* Document and fix `@disable-bundler` hook (#561)
+* Deprecate `have_same_file_content_like` and `a_file_with_same_content_like`
+  in favor of `have_same_file_content_as` and `a_file_with_same_content_as` (#557)
+
 ## [v0.14.5](https://github.com/cucumber/aruba/compare/v0.14.4...v0.14.5)
 
 * Loosen dependency on child_process (#551)
