@@ -23,7 +23,7 @@ module Aruba
                   end
 
         content = if File.exist? file
-                    file_ends_with_carriage_return = File.open('Gemfile', 'r').readlines.last.match(/.*\n$/)
+                    file_ends_with_carriage_return = File.open(file, 'r').readlines.last.match(/.*\n$/)
 
                     prefix = file_ends_with_carriage_return ? '' : "\n"
 
