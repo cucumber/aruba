@@ -7,6 +7,24 @@ Feature: Copy file or directory
   Background:
     Given I use a fixture named "cli-app"
 
+  Scenario: Copy file
+    Given a file named "features/copy.feature" with:
+    """
+    Feature: Copy
+      Scenario: Copy
+        Given an empty file named "file1.txt"
+        And an empty file named "file2.txt"
+        And an empty file named "file3.txt"
+        When I copy a file named "file1.txt" to "new_file1.txt"
+        When I copy a file from "file2.txt" to "new_file2.txt"
+        When I copy the file "file3.txt" to "new_file3.txt"
+        Then a file named "new_file1.txt" should exist
+        Then a file named "new_file2.txt" should exist
+        Then a file named "new_file3.txt" should exist
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
   Scenario: Copy directory
     Given a file named "features/copy.feature" with:
     """
