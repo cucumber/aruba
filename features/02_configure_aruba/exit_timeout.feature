@@ -32,7 +32,13 @@ Feature: Configure timeout for command execution
       config.exit_timeout = 2
     end
     """
-    And the default feature-test
+    And a file named "features/run.feature" with:
+    """
+    Feature: Run it
+      Scenario: Fast command
+        When I run `cli`
+        Then the exit status should be 0
+    """
     Then I successfully run `cucumber`
 
   Scenario: Fails if takes longer
@@ -47,6 +53,12 @@ Feature: Configure timeout for command execution
       config.exit_timeout = 1
     end
     """
-    And the default feature-test
+    And a file named "features/run.feature" with:
+    """
+    Feature: Run it
+      Scenario: Fast command
+        When I run `cli`
+        Then the exit status should be 0
+    """
     Then I run `cucumber`
     And the exit status should be 1

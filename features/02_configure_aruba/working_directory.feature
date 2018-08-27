@@ -27,7 +27,12 @@ Feature: Configure working directory of aruba
       config.working_directory = 'tmp/cucumber'
     end
     """
-    And the default feature-test
-    And the default executable
+    And a file named "features/run.feature" with:
+    """
+    Feature: Run it
+      Scenario: Fast command
+        When I run `echo "Hello"`
+        Then the exit status should be 0
+    """
     When I successfully run `cucumber`
     Then a directory named "tmp/cucumber" should exist
