@@ -174,9 +174,9 @@ end
 
 Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?be equal to file "([^"]*)"/) do |file, negated, reference_file|
   if negated
-    expect(file).not_to have_same_file_content_like(reference_file)
+    expect(file).not_to have_same_file_content_as(reference_file)
   else
-    expect(file).to have_same_file_content_like(reference_file)
+    expect(file).to have_same_file_content_as(reference_file)
   end
 end
 
