@@ -1,3 +1,7 @@
+# UNRELEASED
+
+* Fix Cucumber steps to use `have_same_file_content_as` matcher (#572)
+
 #  RELEASED
 
 ## [v0.14.6](https://github.com/cucumber/aruba/compare/v0.14.5...v0.14.6)
