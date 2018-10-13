@@ -57,6 +57,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * Update license_finder dependency ([#466] by [maxmeyer]
 * Remove development gems for unsupported Rubinius platform ([#464] by [maxmeyer])
 * Remove commented-out code ([#498] by [olleolleolle])
+* Fix tests on Debian. ([#575](https://github.com/cucumber/aruba/pull/575) by [Heinrich](https://github.com/Heinrich))
 
 ## [v1.0.0-alpha.2]
 
