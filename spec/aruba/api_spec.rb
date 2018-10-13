@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'aruba/api'
 require 'fileutils'
+require 'time'
 
 describe Aruba::Api do
   include_context 'uses aruba API'
