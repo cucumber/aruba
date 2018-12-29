@@ -44,7 +44,11 @@ group :development, :test do
   end
 
   # Run development and test tasks
-  gem 'rake', '~> 12.0'
+  if RUBY_VERSION >= '2.0.0'
+    gem 'rake', '~> 12.3'
+  else
+    gem 'rake', '~> 12.2.0'
+  end
 
   if RUBY_VERSION >= '2.0.0'
     # Lint travis yaml
@@ -76,6 +80,11 @@ group :development, :test do
     gem 'license_finder', '~> 2.0'
   else
     gem 'license_finder', '~> 5.0.3'
+  end
+
+  # Force compatible version of httparty for use by license_finder
+  if RUBY_VERSION <= '2.0.0'
+    gem 'httparty', '0.14.0'
   end
 
   # Upload documentation
