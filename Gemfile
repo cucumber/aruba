@@ -82,6 +82,11 @@ group :development, :test do
     gem 'license_finder', '~> 5.0.3'
   end
 
+  # Force compatible version of httparty for use by license_finder
+  if RUBY_VERSION <= '2.0.0'
+    gem 'httparty', '0.14.0'
+  end
+
   # Upload documentation
   # gem 'relish', '~> 0.7.1'
 
