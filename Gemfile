@@ -21,14 +21,14 @@ group :debug do
   if RUBY_VERSION < '2'
     gem 'pry-doc', '~> 0.8.0'
   else
-    gem 'pry-doc', '~> 0.13.1'
+    gem 'pry-doc', '~> 1.0.0'
   end
 end
 
 group :development, :test do
   # we use this to demonstrate interactive debugging within our feature tests
   if RUBY_VERSION >= '2'
-    gem 'pry', '~> 0.11.2'
+    gem 'pry', '~> 0.12.2'
   else
     gem 'pry', '~> 0.9.12'
   end
@@ -77,7 +77,7 @@ group :development, :test do
 
   # License compliance
   if RUBY_VERSION >= '2.3'
-    gem 'license_finder', '~> 5.0.3'
+    gem 'license_finder', '~> 5.0'
   elsif RUBY_VERSION >= '1.9.3'
     gem 'license_finder', '~> 2.0.4'
   end
