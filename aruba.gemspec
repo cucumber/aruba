@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'contracts', '~> 0.9'
   s.add_runtime_dependency 'thor', '~> 0.19'
 
-  s.add_development_dependency 'bundler', '~> 1.11'
+  s.add_development_dependency 'bundler', ['>= 1.7', '< 3.0']
 
   s.rubygems_version = ">= 1.6.1"
 
