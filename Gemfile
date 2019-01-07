@@ -82,7 +82,7 @@ group :development, :test do
     gem 'contracts', '~> 0.16.0'
   end
 
-  if RUBY_VERSION >= '1.9.3'
+  if RUBY_VERSION >= '2.0.0'
     # Make aruba compliant to ruby community guide
     gem 'rubocop', '~> 0.32', '< 0.41.1'
   end
