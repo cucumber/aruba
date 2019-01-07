@@ -79,7 +79,7 @@ group :development, :test do
   if RUBY_VERSION < '2.3'
     gem 'license_finder', '~> 2.0'
   else
-    gem 'license_finder', '~> 5.0.3'
+    gem 'license_finder', '~> 5.0'
   end
 
   # Force compatible version of httparty for use by license_finder
