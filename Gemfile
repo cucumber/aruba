@@ -25,6 +25,16 @@ group :debug do
   end
 end
 
+# Tools to run during development
+group :development do
+  # License compliance
+  if RUBY_VERSION >= '2.3'
+    gem 'license_finder', '~> 5.0'
+  elsif RUBY_VERSION >= '2.0.0'
+    gem 'license_finder', '~> 2.0.4'
+  end
+end
+
 group :development, :test do
   # we use this to demonstrate interactive debugging within our feature tests
   if RUBY_VERSION >= '2'
@@ -79,13 +89,6 @@ group :development, :test do
 
   if RUBY_VERSION >= '1.9.3'
     gem 'cucumber-pro', '~> 0.0'
-  end
-
-  # License compliance
-  if RUBY_VERSION >= '2.3'
-    gem 'license_finder', '~> 5.0'
-  elsif RUBY_VERSION >= '2.0.0'
-    gem 'license_finder', '~> 2.0.4'
   end
 
   gem 'minitest', '~> 5.8'
