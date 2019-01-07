@@ -33,8 +33,14 @@ group :development, :test do
     gem 'pry', '~> 0.9.12'
   end
 
-  # Run development tasks
-  gem 'rake', '>= 10.0', '< 13.0'
+  # Run development and test tasks
+  if RUBY_VERSION >= '2.0.0'
+    gem 'rake', '~> 12.3'
+  elsif RUBY_VERSION >= '1.9.3'
+    gem 'rake', '~> 12.2.0'
+  else
+    gem 'rake', '~> 10.5.0'
+  end
 
   if RUBY_VERSION >= '2.0.0'
     # Lint travis yaml
