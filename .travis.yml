@@ -1,6 +1,8 @@
 sudo: false
 language: ruby
 script: bundle exec rake test
+before_install:
+  - gem install bundler -v '< 2'
 bundler_args: --without development debug
 
 jobs:
