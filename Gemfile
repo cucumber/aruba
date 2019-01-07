@@ -24,7 +24,7 @@ group :debug do
   if RUBY_VERSION < '2'
     gem 'pry-doc', '~> 0.8.0'
   else
-    gem 'pry-doc', '~> 0.13.1'
+    gem 'pry-doc', '~> 1.0.0'
   end
 end
 
