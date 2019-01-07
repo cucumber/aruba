@@ -28,6 +28,7 @@ group :debug do
   end
 end
 
+# Tools to run during development
 group :development do
   # Needed for lint:yard:junk task
   if RUBY_VERSION >= '2.3.0'
@@ -76,15 +77,8 @@ group :development, :test do
   # gem 'cucumber-pro', '~> 0.0'
 
   # License compliance
-  if RUBY_VERSION < '2.3'
-    gem 'license_finder', '~> 2.0'
-  else
+  if RUBY_VERSION >= '2.3'
     gem 'license_finder', '~> 5.0'
-  end
-
-  # Force compatible version of httparty for use by license_finder
-  if RUBY_VERSION <= '2.0.0'
-    gem 'httparty', '0.14.0'
   end
 
   # Upload documentation

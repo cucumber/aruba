@@ -57,7 +57,11 @@ namespace :lint do
 
   desc 'Check for relevant licenses in project'
   task :licenses do
-    sh 'bundle exec license_finder'
+    if RUBY_VERSION >= '2.3'
+      sh 'bundle exec license_finder'
+    else
+      warn 'Your ruby version is not supported for license checking'
+    end
   end
 
   begin
