@@ -84,7 +84,7 @@ group :development, :test do
   # License compliance
   if RUBY_VERSION >= '2.3'
     gem 'license_finder', '~> 5.0'
-  elsif RUBY_VERSION >= '1.9.3'
+  elsif RUBY_VERSION >= '2.0.0'
     gem 'license_finder', '~> 2.0.4'
   end
 
