@@ -22,7 +22,7 @@ which 'zsh' >/dev/null 2>error.log || ( echo -e "$error_msg\n\nCould not find \`
 echo OK
 
 echo -e "$info_msg rubygem \"bundler\" "
-gem install bundler
+which bundle > /dev/null || gem install bundler --version '~> 1.17.3'
 
 echo -e "$info_msg \"bundle install\" "
 bundle install $*

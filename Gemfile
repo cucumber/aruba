@@ -21,20 +21,36 @@ group :debug do
   if RUBY_VERSION < '2'
     gem 'pry-doc', '~> 0.8.0'
   else
-    gem 'pry-doc', '~> 0.13.1'
+    gem 'pry-doc', '~> 1.0.0'
+  end
+end
+
+# Tools to run during development
+group :development do
+  # License compliance
+  if RUBY_VERSION >= '2.3'
+    gem 'license_finder', '~> 5.0'
+  elsif RUBY_VERSION >= '2.0.0'
+    gem 'license_finder', '~> 2.0.4'
   end
 end
 
 group :development, :test do
   # we use this to demonstrate interactive debugging within our feature tests
   if RUBY_VERSION >= '2'
-    gem 'pry', '~> 0.11.2'
+    gem 'pry', '~> 0.12.2'
   else
     gem 'pry', '~> 0.9.12'
   end
 
-  # Run development tasks
-  gem 'rake', '>= 10.0', '< 13.0'
+  # Run development and test tasks
+  if RUBY_VERSION >= '2.0.0'
+    gem 'rake', '~> 12.3'
+  elsif RUBY_VERSION >= '1.9.3'
+    gem 'rake', '~> 12.2.0'
+  else
+    gem 'rake', '~> 10.5.0'
+  end
 
   if RUBY_VERSION >= '2.0.0'
     # Lint travis yaml
@@ -66,20 +82,13 @@ group :development, :test do
     gem 'contracts', '~> 0.16.0'
   end
 
-  if RUBY_VERSION >= '1.9.3'
+  if RUBY_VERSION >= '2.0.0'
     # Make aruba compliant to ruby community guide
     gem 'rubocop', '~> 0.32', '< 0.41.1'
   end
 
   if RUBY_VERSION >= '1.9.3'
     gem 'cucumber-pro', '~> 0.0'
-  end
-
-  # License compliance
-  if RUBY_VERSION >= '2.3'
-    gem 'license_finder', '~> 5.0.3'
-  elsif RUBY_VERSION >= '1.9.3'
-    gem 'license_finder', '~> 2.0.4'
   end
 
   gem 'minitest', '~> 5.8'
