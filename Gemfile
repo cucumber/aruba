@@ -24,10 +24,11 @@ group :debug do
   if RUBY_VERSION < '2'
     gem 'pry-doc', '~> 0.8.0'
   else
-    gem 'pry-doc', '~> 0.13.1'
+    gem 'pry-doc', '~> 1.0.0'
   end
 end
 
+# Tools to run during development
 group :development do
   # Needed for lint:yard:junk task
   if RUBY_VERSION >= '2.3.0'
@@ -38,7 +39,7 @@ end
 group :development, :test do
   # we use this to demonstrate interactive debugging within our feature tests
   if RUBY_VERSION >= '2'
-    gem 'pry', '~> 0.11.2'
+    gem 'pry', '~> 0.12.2'
   else
     gem 'pry', '~> 0.9.12'
   end
@@ -76,15 +77,8 @@ group :development, :test do
   # gem 'cucumber-pro', '~> 0.0'
 
   # License compliance
-  if RUBY_VERSION < '2.3'
-    gem 'license_finder', '~> 2.0'
-  else
-    gem 'license_finder', '~> 5.0.3'
-  end
-
-  # Force compatible version of httparty for use by license_finder
-  if RUBY_VERSION <= '2.0.0'
-    gem 'httparty', '0.14.0'
+  if RUBY_VERSION >= '2.3'
+    gem 'license_finder', '~> 5.0'
   end
 
   # Upload documentation

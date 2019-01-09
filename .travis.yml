@@ -1,6 +1,8 @@
 sudo: false
 language: ruby
 script: bundle exec rake test
+before_install:
+  - gem install bundler -v '< 2'
 bundler_args: --without development debug
 
 jobs:
@@ -14,17 +16,17 @@ jobs:
       os: linux
     - rvm: 2.6.0
       os: osx
-    - rvm: 2.5.0
+    - rvm: 2.5.3
       os: linux
-    - rvm: 2.5.0
+    - rvm: 2.5.3
       os: osx
-    - rvm: 2.4.3
+    - rvm: 2.4.5
       os: linux
-    - rvm: 2.4.3
+    - rvm: 2.4.4
       os: osx
-    - rvm: 2.3.6
+    - rvm: 2.3.8
       os: linux
-    - rvm: 2.3.6
+    - rvm: 2.3.8
       os: osx
     - rvm: 2.2
       os: linux
@@ -46,18 +48,18 @@ jobs:
       osx_image: xcode8
     - rvm: jruby
       os: linux
-    - rvm: jruby-9.1.16.0
+    - rvm: jruby-9.2.5.0
       os: linux
-    - rvm: jruby-9.1.16.0
+    - rvm: jruby-9.2.5.0
       os: osx
     - stage: lint
       script: bundle exec rake lint
-      rvm: 2.5.0
+      rvm: 2.6.0
       os: linux
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby
-    - rvm: jruby-9.1.16.0
+    - rvm: jruby-9.2.5.0
   fast_finish: true
 
 branches:
