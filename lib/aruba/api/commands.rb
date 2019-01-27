@@ -136,7 +136,7 @@ module Aruba
       #
       # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
-      def run(*args)
+      def run_command(*args)
         fail ArgumentError, 'Please pass at least a command as first argument.' if args.size < 1
 
         cmd = args.shift
@@ -243,7 +243,7 @@ module Aruba
       #
       # rubocop:disable Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/MethodLength
-      def run_simple(*args)
+      def run_command_and_stop(*args)
         fail ArgumentError, 'Please pass at least a command as first argument.' if args.size < 1
 
         cmd = args.shift
