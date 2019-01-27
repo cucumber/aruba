@@ -101,7 +101,6 @@ RSpec.describe 'Deprecated matchers' do
           expect { expect(files).not_to include a_file_with_same_content_like reference_file }.to raise_error RSpec::Expectations::ExpectationNotMetError
         end
       end
-
     end
 
     context 'when the array of files does not include a file with the same content' do
