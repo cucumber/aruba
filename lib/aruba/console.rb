@@ -35,7 +35,6 @@ module Aruba
       IRB.conf[:SAVE_HISTORY] = 1000
       IRB.conf[:HISTORY_FILE] = Aruba.config.console_history_file
 
-      # rubocop:disable Lint/NestedMethodDefinition
       context = Class.new do
         include Aruba::Api
         include Aruba::Console::Help
@@ -48,7 +47,6 @@ module Aruba
           'nil'
         end
       end
-      # rubocop:enable Lint/NestedMethodDefinition
 
       irb = IRB::Irb.new(IRB::WorkSpace.new(context.new))
       IRB.conf[:MAIN_CONTEXT] = irb.context

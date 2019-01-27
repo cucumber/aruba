@@ -38,8 +38,6 @@ module Aruba
           Aruba.platform.command?(program)
         end
 
-        # rubocop:disable Metrics/CyclomaticComplexity
-        # rubocop:disable Metrics/MethodLength
         def call(program, path)
           # Iterate over each path glob the dir + program.
           path.split(File::PATH_SEPARATOR).each do |dir|
@@ -63,8 +61,6 @@ module Aruba
 
           nil
         end
-        # rubocop:enable Metrics/CyclomaticComplexity
-        # rubocop:enable Metrics/MethodLength
       end
 
       private

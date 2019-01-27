@@ -46,7 +46,6 @@ module Aruba
     option_accessor :command_launcher, :contract => { Aruba::Contracts::Enum[:in_process, :spawn, :debug] => Aruba::Contracts::Enum[:in_process, :spawn, :debug] }, :default => :spawn
     # rubocop:enable Metrics/LineLength
     option_accessor :main_class, :contract => { Class => Maybe[Class] }, :default => nil
-    # rubocop:disable Metrics/LineLength
 
     # rubocop:disable Metrics/LineLength
     if Aruba::VERSION >= '1.0.0'

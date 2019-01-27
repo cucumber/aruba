@@ -14,7 +14,7 @@ module Aruba
           @other_env = if RUBY_VERSION <= '1.9.3'
                          # rubocop:disable Style/EachWithObject
                          @other_env.to_hash.inject({}) { |a, (k, v)| a[k] = v.to_s; a }
-                       # rubocop:enable Style/EachWithObject
+                         # rubocop:enable Style/EachWithObject
                        else
                          @other_env.to_h.each_with_object({}) { |(k, v), a| a[k] = v.to_s }
                        end
@@ -208,9 +208,7 @@ module Aruba
 
       def prepared_environment
         if RUBY_VERSION <= '1.9.3'
-          # rubocop:disable Style/EachWithObject
           actions.inject(ENV.to_hash.merge(env)) { |a, e| e.call(a) }
-          # rubocop:enable Style/EachWithObject
         else
           actions.each_with_object(ENV.to_hash.merge(env)) { |e, a| a = e.call(a) }
         end

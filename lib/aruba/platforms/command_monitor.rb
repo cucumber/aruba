@@ -34,7 +34,6 @@ module Aruba
       end
     end
 
-    # rubocop:disable Metrics/MethodLength
     def initialize(opts = {})
       @registered_commands = []
       @announcer = opts.fetch(:announcer)
@@ -135,9 +134,7 @@ module Aruba
       registered_commands.each(&:stop)
 
       if RUBY_VERSION < '1.9.3'
-        # rubocop:disable Style/EachWithObject
         registered_commands.inject("") { |a, e| a << e.stdout; a }
-        # rubocop:enable Style/EachWithObject
       else
         registered_commands.each_with_object("") { |e, a| a << e.stdout }
       end
@@ -152,9 +149,7 @@ module Aruba
       registered_commands.each(&:stop)
 
       if RUBY_VERSION < '1.9.3'
-        # rubocop:disable Style/EachWithObject
         registered_commands.inject("") { |a, e| a << e.stderr; a }
-        # rubocop:enable Style/EachWithObject
       else
         registered_commands.each_with_object("") { |e, a| a << e.stderr }
       end
