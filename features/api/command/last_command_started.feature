@@ -9,7 +9,7 @@ Feature: Return last command started
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('echo hello') }
+      before(:each) { run_command('echo hello') }
       before(:each) { stop_all_commands }
 
       it { expect(last_command_started).to be_successfully_executed }
@@ -25,8 +25,8 @@ Feature: Return last command started
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('echo hello') }
-      before(:each) { run('echo world') }
+      before(:each) { run_command('echo hello') }
+      before(:each) { run_command('echo world') }
 
       before(:each) { stop_all_commands }
 

@@ -864,7 +864,7 @@ describe Aruba::Api do
         end
 
         it "should announce to stdout exactly once" do
-          @aruba.run_simple('echo "hello world"', false)
+          @aruba.run_command_and_stop('echo "hello world"', false)
           expect(@aruba.last_command_started.output).to include('hello world')
         end
       end
@@ -872,7 +872,7 @@ describe Aruba::Api do
       context 'disabled' do
         it "should not announce to stdout" do
           result = capture(:stdout) do
-            @aruba.run_simple('echo "hello world"', false)
+            @aruba.run_command_and_stop('echo "hello world"', false)
           end
 
           expect(result).not_to include('hello world')
@@ -882,8 +882,8 @@ describe Aruba::Api do
     end
   end
 
-  describe '#run' do
-    before(:each){ @aruba.run 'cat' }
+  describe '#run_command' do
+    before(:each){ @aruba.run_command 'cat' }
     after(:each) { @aruba.all_commands.each(&:stop) }
 
     it "respond to input" do
@@ -927,7 +927,7 @@ describe Aruba::Api do
 
     it "set environment variable" do
       @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
-      @aruba.run_simple "env"
+      @aruba.run_command_and_stop "env"
       expect(@aruba.last_command_started.output).
         to include("LONG_LONG_ENV_VARIABLE=true")
     end
@@ -935,7 +935,7 @@ describe Aruba::Api do
     it "overwrites environment variable" do
       @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'false'
-      @aruba.run_simple "env"
+      @aruba.run_command_and_stop "env"
       expect(@aruba.last_command_started.output).
         to include("LONG_LONG_ENV_VARIABLE=false")
     end

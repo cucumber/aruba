@@ -9,7 +9,7 @@ Feature: Return last command stopped
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('echo hello') }
+      before(:each) { run_command('echo hello') }
       before(:each) { stop_all_commands }
 
       it { expect(last_command_stopped).to be_successfully_executed }
@@ -25,8 +25,8 @@ Feature: Return last command stopped
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('echo hello') }
-      before(:each) { run('echo world') }
+      before(:each) { run_command('echo hello') }
+      before(:each) { run_command('echo world') }
 
       before(:each) { stop_all_commands }
 
@@ -43,9 +43,9 @@ Feature: Return last command stopped
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('echo hello') }
+      before(:each) { run_command('echo hello') }
       before(:each) { find_command('echo hello').stop }
-      before(:each) { run('echo world') }
+      before(:each) { run_command('echo world') }
 
       it { expect(last_command_stopped).to be_successfully_executed }
       it { expect(last_command_stopped.commandline).to eq 'echo hello' }
@@ -80,7 +80,7 @@ Feature: Return last command stopped
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('cli') }
+      before(:each) { run_command('cli') }
 
       it { expect{ last_command_stopped.commandline }.to raise_error Aruba::NoCommandHasBeenStoppedError }
     end

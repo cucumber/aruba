@@ -24,7 +24,7 @@ Feature: Change current working directory
         cd 'new_dir.d'
       end
 
-      before(:each) { run_simple 'pwd' }
+      before(:each) { run_command_and_stop 'pwd' }
 
       it { expect(last_command_started.output).to include 'new_dir.d' }
     end
@@ -39,7 +39,7 @@ Feature: Change current working directory
 
     RSpec.describe 'cd to directory', :type => :aruba do
       before(:each) { cd 'new_dir.d' }
-      before(:each) { run_simple 'pwd' }
+      before(:each) { run_command_and_stop 'pwd' }
 
       it { expect(last_command_started.output).to include 'new_dir.d' }
       it { expect(last_command_started).to be_executed_in_time }
