@@ -36,9 +36,10 @@ namespace :travis do
 end
 
 task :rubocop do
-  begin
-    sh 'rubocop --fail-level E'
-  rescue
+  if RUBY_VERSION >= '2'
+    sh 'bundle exec rubocop --fail-level E'
+  else
+    warn 'Your ruby version is not supported for code linting'
   end
 end
 
