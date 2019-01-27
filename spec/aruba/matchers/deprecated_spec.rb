@@ -88,7 +88,7 @@ RSpec.describe 'Deprecated matchers' do
       @aruba.write_file(reference_file, reference_file_content)
       @aruba.write_file(file_with_different_content, 'Some different content here...')
     end
-    
+
     context 'when the array of files includes a file with the same content' do
       let(:files) { [file_with_different_content, file_with_same_content] }
 
@@ -101,7 +101,7 @@ RSpec.describe 'Deprecated matchers' do
           expect { expect(files).not_to include a_file_with_same_content_like reference_file }.to raise_error RSpec::Expectations::ExpectationNotMetError
         end
       end
-      
+
     end
 
     context 'when the array of files does not include a file with the same content' do
