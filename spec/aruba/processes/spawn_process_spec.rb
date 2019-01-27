@@ -54,7 +54,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     context "when process run fails" do
       let(:command) { 'does_not_exists' }
 
-      it { expect {process.start}.to raise_error Aruba::LaunchError }
+      it { expect { process.start }.to raise_error Aruba::LaunchError }
     end
 
     context 'with a command with a space in the path on unix' do
