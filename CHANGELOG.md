@@ -71,6 +71,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 ## [v1.0.0-alpha.1]
 
+Note: These are changes w.r.t. Aruba version 0.14.1.
+
 * Use new proposed structure for gems by bundler ([#439])
 * Rename methods which run commands ([#438])
 * Fix dependency error for install ([#427])
@@ -151,6 +153,38 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
             hola
             """
           And the stderr should not contain anything
+
+## [v0.14.7](https://github.com/cucumber/aruba/compare/v0.14.6...v0.14.7)
+
+* Fix Cucumber steps to use `have_same_file_content_as` matcher ([#572])
+* Update dependencies, most notably loosening the dependency on `ffi` ([#581])
+
+## [v0.14.6](https://github.com/cucumber/aruba/compare/v0.14.5...v0.14.6)
+
+* Document and fix `@disable-bundler` hook ([#561])
+* Deprecate `have_same_file_content_like` and `a_file_with_same_content_like`
+  in favor of `have_same_file_content_as` and `a_file_with_same_content_as` ([#557])
+
+## [v0.14.5]
+
+* Loosen dependency on child_process ([#551])
+
+## [v0.14.4]
+
+* Fix command spawning when run in directories with spaces ([#490])
+* Ensure setup is still done when using `@no-clobber` ([#529])
+* Make `#expand_path` handle absolute paths correctly ([#486])
+
+## [v0.14.3]
+
+* Fix path bug ([#422])
+* Ensure non-deprecated methods do not use deprecated methods ([#489])
+* Update dependency on childprocess ([#516])
+* Fix encoding output on JRuby ([#516])
+
+## [v0.14.2]
+
+* Handle empty JRUBY_OPTS on JRuby
 
 ## [v0.14.1]
 
@@ -748,6 +782,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 <!-- issues -->
 
+[#582]: https://github.com/cucumber/aruba/pull/582
+[#572]: https://github.com/cucumber/aruba/pull/572
+[#561]: https://github.com/cucumber/aruba/pull/561
+[#557]: https://github.com/cucumber/aruba/pull/557
+[#551]: https://github.com/cucumber/aruba/pull/551
 [#548]: https://github.com/cucumber/aruba/pull/548
 [#546]: https://github.com/cucumber/aruba/pull/546
 [#544]: https://github.com/cucumber/aruba/pull/544
@@ -760,11 +799,13 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 [#535]: https://github.com/cucumber/aruba/pull/535
 [#532]: https://github.com/cucumber/aruba/pull/532
 [#530]: https://github.com/cucumber/aruba/pull/530
+[#529]: https://github.com/cucumber/aruba/pull/529
 [#528]: https://github.com/cucumber/aruba/pull/528
 [#523]: https://github.com/cucumber/aruba/pull/523
 [#522]: https://github.com/cucumber/aruba/pull/522
 [#520]: https://github.com/cucumber/aruba/pull/520
 [#517]: https://github.com/cucumber/aruba/pull/517
+[#516]: https://github.com/cucumber/aruba/pull/516
 [#515]: https://github.com/cucumber/aruba/pull/515
 [#514]: https://github.com/cucumber/aruba/pull/514
 [#512]: https://github.com/cucumber/aruba/pull/512
@@ -780,8 +821,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 [#494]: https://github.com/cucumber/aruba/pull/494
 [#493]: https://github.com/cucumber/aruba/pull/493
 [#491]: https://github.com/cucumber/aruba/pull/491
+[#490]: https://github.com/cucumber/aruba/pull/490
+[#489]: https://github.com/cucumber/aruba/pull/489
 [#488]: https://github.com/cucumber/aruba/pull/488
 [#487]: https://github.com/cucumber/aruba/pull/487
+[#486]: https://github.com/cucumber/aruba/pull/486
 [#483]: https://github.com/cucumber/aruba/pull/483
 [#482]: https://github.com/cucumber/aruba/pull/482
 [#481]: https://github.com/cucumber/aruba/pull/481
@@ -809,6 +853,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 [#436]: https://github.com/cucumber/aruba/issues/436
 [#433]: https://github.com/cucumber/aruba/issues/433
 [#427]: https://github.com/cucumber/aruba/issues/427
+[#422]: https://github.com/cucumber/aruba/issues/422
 [#398]: https://github.com/cucumber/aruba/issues/398
 [#390]: https://github.com/cucumber/aruba/issues/390
 [#389]: https://github.com/cucumber/aruba/issues/389
@@ -916,6 +961,11 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 [Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.0.alpha.2...master
 [v1.0.0-alpha.2]: https://github.com/cucumber/aruba/compare/v1.0.0.alpha.1...v1.0.0.alpha.2
 [v1.0.0-alpha.1]: https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha.1
+[v0.14.6]:        https://github.com/cucumber/aruba/compare/v0.14.5...v0.14.6
+[v0.14.5]:        https://github.com/cucumber/aruba/compare/v0.14.4...v0.14.5
+[v0.14.4]:        https://github.com/cucumber/aruba/compare/v0.14.3...v0.14.4
+[v0.14.3]:        https://github.com/cucumber/aruba/compare/v0.14.2...v0.14.3
+[v0.14.2]:        https://github.com/cucumber/aruba/compare/v0.14.1...v0.14.2
 [v0.14.1]:        https://github.com/cucumber/aruba/compare/v0.14.0...v0.14.1
 [v0.14.0]:        https://github.com/cucumber/aruba/compare/v0.13.0...v0.14.0
 [v0.13.0]:        https://github.com/cucumber/aruba/compare/v0.12.0...v0.13.0
