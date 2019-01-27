@@ -11,7 +11,7 @@ Feature: Find a started command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('echo hello') }
+      before(:each) { run_command('echo hello') }
       let(:command) { find_command('echo hello') }
 
       before(:each) { stop_all_commands }
@@ -44,8 +44,8 @@ Feature: Find a started command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('echo hello1') }
-      before(:each) { run('echo hello2') }
+      before(:each) { run_command('echo hello1') }
+      before(:each) { run_command('echo hello2') }
       let(:command) { find_command('echo hello1') }
 
       before(:each) { stop_all_commands }
@@ -67,9 +67,9 @@ Feature: Find a started command
 
     RSpec.describe 'Run command', :type => :aruba do
       before(:each) { set_environment_variable 'ENV_VAR', '1' }
-      before(:each) { run('bash -c "echo -n $ENV_VAR"') }
+      before(:each) { run_command('bash -c "echo -n $ENV_VAR"') }
       before(:each) { set_environment_variable 'ENV_VAR', '2' }
-      before(:each) { run('bash -c "echo -n $ENV_VAR"') }
+      before(:each) { run_command('bash -c "echo -n $ENV_VAR"') }
 
       let(:command) { find_command('bash -c "echo -n $ENV_VAR"') }
 

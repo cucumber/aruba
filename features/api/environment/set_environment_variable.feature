@@ -20,7 +20,7 @@ Feature: Set environment variable via API-method
     RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
 
-      before(:each) { run('env') }
+      before(:each) { run_command('env') }
       before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=1' }
@@ -38,7 +38,7 @@ Feature: Set environment variable via API-method
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '2' }
 
-      before(:each) { run('env') }
+      before(:each) { run_command('env') }
       before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=2' }
@@ -59,7 +59,7 @@ Feature: Set environment variable via API-method
     RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
 
-      before(:each) { run('env') }
+      before(:each) { run_command('env') }
       before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=2' }
@@ -78,7 +78,7 @@ Feature: Set environment variable via API-method
     RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { ENV['REALLY_LONG_LONG_VARIABLE'] = '2' }
 
-      before(:each) { run('env') }
+      before(:each) { run_command('env') }
       before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=2' }
@@ -100,7 +100,7 @@ Feature: Set environment variable via API-method
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '1' }
       before(:each) { ENV['REALLY_LONG_LONG_VARIABLE'] = '2' }
 
-      before(:each) { run('env') }
+      before(:each) { run_command('env') }
       before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
@@ -123,7 +123,7 @@ Feature: Set environment variable via API-method
     RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
 
-      before(:each) { run('env') }
+      before(:each) { run_command('env') }
       before(:each) { stop_all_commands }
 
       it do
@@ -153,7 +153,7 @@ Feature: Set environment variable via API-method
     RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
 
-      before(:each) { run('env') }
+      before(:each) { run_command('env') }
       before(:each) { stop_all_commands }
 
       it do
@@ -181,7 +181,7 @@ Feature: Set environment variable via API-method
       before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
 
       describe 'Method XX' do
-        before(:each) { run('env') }
+        before(:each) { run_command('env') }
         before(:each) { stop_all_commands }
 
         it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=1' }
@@ -190,7 +190,7 @@ Feature: Set environment variable via API-method
       describe 'Method YY' do
         before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '2' }
 
-        before(:each) { run('env') }
+        before(:each) { run_command('env') }
         before(:each) { stop_all_commands }
 
         it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=2' }
@@ -210,7 +210,7 @@ Feature: Set environment variable via API-method
     RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'REALLY_LONG_LONG_VARIABLE', '2' }
 
-      before(:each) { run('env') }
+      before(:each) { run_command('env') }
       before(:each) { stop_all_commands }
 
       it do
@@ -283,7 +283,7 @@ Feature: Set environment variable via API-method
 
         it { expect(ENV['REALLY_LONG_LONG_VARIABLE']).to eq '1' }
 
-        before(:each) { run('env') }
+        before(:each) { run_command('env') }
         before(:each) { stop_all_commands }
 
         it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
@@ -298,7 +298,7 @@ Feature: Set environment variable via API-method
 
         it { expect(ENV['LONG_LONG_VARIABLE']).to eq '2' }
 
-        before(:each) { run('env') }
+        before(:each) { run_command('env') }
         before(:each) { stop_all_commands }
 
         it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=1' }
@@ -317,7 +317,7 @@ Feature: Set environment variable via API-method
     RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'long_LONG_VARIABLE', '1' }
 
-      before(:each) { run('env') }
+      before(:each) { run_command('env') }
       before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'long_LONG_VARIABLE=1' }
@@ -336,7 +336,7 @@ Feature: Set environment variable via API-method
     RSpec.describe 'Environment command', :type => :aruba do
       before(:each) { set_environment_variable 'long_LONG_VARIABLE', '1' }
 
-      before(:each) { run('env') }
+      before(:each) { run_command('env') }
       before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=1' }
@@ -362,7 +362,7 @@ Feature: Set environment variable via API-method
         require 'my_library'
       end
 
-      before(:each) { run('env') }
+      before(:each) { run_command('env') }
       before(:each) { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=1' }

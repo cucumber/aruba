@@ -1,15 +1,15 @@
 Feature: Run command
 
-  To run a command use the `#run`-method. There are some configuration options
+  To run a command use the `#run_command`-method. There are some configuration options
   which are relevant here:
 
   - `startup_wait_time`:
 
     Given this option `aruba` waits n seconds after it started the command.
-    This is most useful when using `#run()` and not really makes sense for
-    `#run_simple()`.
+    This is most useful when using `#run_command()` and not really makes sense for
+    `#run_command_and_stop()`.
 
-    You can use `#run()` + `startup_wait_time` to start background jobs.
+    You can use `#run_command()` + `startup_wait_time` to start background jobs.
 
   - `exit_timeout`:
 
@@ -34,7 +34,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('cli') }
+      before(:each) { run_command('cli') }
       it { expect(last_command_started).to be_successfully_executed }
     end
     """
@@ -52,7 +52,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('bin/cli') }
+      before(:each) { run_command('bin/cli') }
       it { expect(last_command_started).to be_successfully_executed }
     end
     """
@@ -66,7 +66,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Find path for command', :type => :aruba do
-      it { expect { run('cli') }.to raise_error Aruba::LaunchError, /Command "cli" not found in PATH-variable/ }
+      it { expect { run_command('cli') }.to raise_error Aruba::LaunchError, /Command "cli" not found in PATH-variable/ }
     end
     """
     When I run `rspec`
@@ -112,7 +112,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1, :startup_wait_time => 2 do
-      before(:each) { run('cli') }
+      before(:each) { run_command('cli') }
       before(:each) { last_command_started.send_signal 'HUP' }
 
       it { expect(last_command_started).to be_successfully_executed }
@@ -145,7 +145,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3 do
-      before(:each) { run('cli') }
+      before(:each) { run_command('cli') }
 
       it { expect(last_command_started).to be_successfully_executed }
       it { expect(last_command_started).to have_output /Hello, Aruba here/ }
@@ -157,7 +157,7 @@ Feature: Run command
   Scenario: Mixing commands with long and short startup phase (deprecated)
 
     If you commands with a long and short startup phases, you should consider
-    using the `startup_wait_time`-option local to the `#run`-call.
+    using the `startup_wait_time`-option local to the `#run_command`-call.
 
     Given an executable named "bin/cli1" with:
     """bash
@@ -220,8 +220,8 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1 do
-      before(:each) { run('cli1', 3, 0.1, 'TERM', 2) }
-      before(:each) { run('cli2', 3, 0.1, 'TERM', 1) }
+      before(:each) { run_command('cli1', 3, 0.1, 'TERM', 2) }
+      before(:each) { run_command('cli2', 3, 0.1, 'TERM', 1) }
       before(:each) { last_command_started.send_signal 'HUP' }
 
       it { expect(last_command_started).to be_successfully_executed }
@@ -236,7 +236,7 @@ Feature: Run command
   Scenario: Mixing commands with long and short startup phase
 
     If you commands with a long and short startup phases, you should consider
-    using the `startup_wait_time`-option local to the `#run`-call.
+    using the `startup_wait_time`-option local to the `#run_command`-call.
 
     Given an executable named "bin/cli1" with:
     """bash
@@ -299,8 +299,8 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1 do
-      before(:each) { run('cli1', :startup_wait_time => 2) }
-      before(:each) { run('cli2', :startup_wait_time => 1) }
+      before(:each) { run_command('cli1', :startup_wait_time => 2) }
+      before(:each) { run_command('cli2', :startup_wait_time => 1) }
       before(:each) { last_command_started.send_signal 'HUP' }
 
       it { expect(last_command_started).to be_successfully_executed }
@@ -315,7 +315,7 @@ Feature: Run command
   Scenario: Mixing long and short running commands (deprecated)
 
     If need to mix "long running" and "short running" commands, you should consider using the
-    `exit_timeout`-option local to the `#run`-method.
+    `exit_timeout`-option local to the `#run_command`-method.
 
     Given an executable named "bin/cli1" with:
     """bash
@@ -343,8 +343,8 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('cli1', 3) }
-      before(:each) { run('cli2', 1) }
+      before(:each) { run_command('cli1', 3) }
+      before(:each) { run_command('cli2', 1) }
 
       it { expect(last_command_started).to be_successfully_executed }
       it { expect(last_command_started).to have_output /Hello, Aruba here/ }
@@ -356,7 +356,7 @@ Feature: Run command
   Scenario: Mixing long and short running commands
 
     If need to mix "long running" and "short running" commands, you should consider using the
-    `exit_timeout`-option local to the `#run`-method.
+    `exit_timeout`-option local to the `#run_command`-method.
 
     Given an executable named "bin/cli1" with:
     """bash
@@ -384,8 +384,8 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('cli1', :exit_timeout => 3) }
-      before(:each) { run('cli2', :exit_timeout => 1) }
+      before(:each) { run_command('cli1', :exit_timeout => 3) }
+      before(:each) { run_command('cli2', :exit_timeout => 1) }
 
       it { expect(last_command_started).to be_successfully_executed }
       it { expect(last_command_started).to have_output /Hello, Aruba here/ }
@@ -405,7 +405,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run('cli') }
+      before(:each) { run_command('cli') }
       let!(:found_command) { find_command('cli') }
       it { expect { found_command.start }.to raise_error Aruba::CommandAlreadyStartedError }
     end

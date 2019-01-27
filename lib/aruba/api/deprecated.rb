@@ -116,12 +116,74 @@ module Aruba
       #   The command to by run
       #
       # @see #cmd
-      # @deprectated
+      # @deprecated
       def run_interactive(cmd)
-        Aruba.platform.deprecated('The use of "#run_interactive" is deprecated. You can simply use "run" instead')
+        Aruba.platform.deprecated('The use of "#run_interactive" is deprecated. You can simply use "run_command" instead')
 
-        run(cmd)
+        run_command(cmd)
       end
+
+      # Run given command and stop it if timeout is reached
+      #
+      # @param [String] cmd
+      #   The command which should be executed
+      #
+      # @param [Hash] opts
+      #   Options
+      #
+      # @option [Integer] exit_timeout
+      #   If the timeout is reached the command will be killed
+      #
+      # @option [Integer] io_wait_timeout
+      #   Wait for IO to finish
+      #
+      # @option [Integer] startup_wait_time
+      #   Wait for a command to start
+      #
+      # @option [String] stop_signal
+      #   Use signal to stop command
+      #
+      # @yield [SpawnProcess]
+      #   Run block with process
+      #
+      # @see #run_command
+      # @deprecated
+      def run(*args)
+        Aruba.platform.deprecated(
+          'The use of "#run" is deprecated. Use "run_command" instead')
+
+        run_command(*args)
+      end
+
+      # Run a command with aruba
+      #
+      # Checks for error during command execution and checks the output to detect
+      # an timeout error.
+      #
+      # @param [String] cmd
+      #   The command to be executed
+      #
+      # @param [Hash] options
+      #   Options for aruba
+      #
+      # @option [TrueClass,FalseClass] fail_on_error
+      #   Should aruba fail on error?
+      #
+      # @option [Integer] exit_timeout
+      #   Timeout for execution
+      #
+      # @option [Integer] io_wait_timeout
+      #   Timeout for IO - STDERR, STDOUT
+      #
+      # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/MethodLength
+      def run_simple(*args)
+        Aruba.platform.deprecated(
+          'The use of "#run_simple" is deprecated. Use "run_command_and_stop" instead')
+
+        run_command_and_stop(*args)
+      end
+
 
       # @deprecated
       # Create an empty file

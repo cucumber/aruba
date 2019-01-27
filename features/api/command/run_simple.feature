@@ -1,6 +1,6 @@
 Feature: Run command
 
-  To run a command use the `#run`-method. There are some configuration options
+  To run a command use the `#run_command_and_stop`-method. There are some configuration options
   which are relevant here:
 
   - `fail_on_error`:
@@ -23,7 +23,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_simple('cli') }.to raise_error RSpec::Expectations::ExpectationNotMetError }
+      it { expect { run_command_and_stop('cli') }.to raise_error RSpec::Expectations::ExpectationNotMetError }
     end
     """
     When I run `rspec`
@@ -40,7 +40,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_simple('cli', :fail_on_error => true) }.to raise_error }
+      it { expect { run_command_and_stop('cli', :fail_on_error => true) }.to raise_error }
     end
     """
     When I run `rspec`
@@ -57,7 +57,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_simple('cli', true) }.to raise_error }
+      it { expect { run_command_and_stop('cli', true) }.to raise_error }
     end
     """
     When I run `rspec`
@@ -74,7 +74,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_simple('cli', :fail_on_error => false) }.not_to raise_error }
+      it { expect { run_command_and_stop('cli', :fail_on_error => false) }.not_to raise_error }
     end
     """
     When I run `rspec`
@@ -91,7 +91,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_simple('cli', false) }.not_to raise_error }
+      it { expect { run_command_and_stop('cli', false) }.not_to raise_error }
     end
     """
     When I run `rspec`
@@ -126,7 +126,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1, :startup_wait_time => 2 do
-      before(:each) { run_simple('cli') }
+      before(:each) { run_command_and_stop('cli') }
 
       it { expect(last_command_started).to be_successfully_executed }
       it { expect(last_command_started).to have_output /Hello, Aruba is working/ }
@@ -156,7 +156,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3 do
-      before(:each) { run_simple('cli') }
+      before(:each) { run_command_and_stop('cli') }
 
       it { expect(last_command_started).to be_successfully_executed }
       it { expect(last_command_started).to have_output /Hello, Aruba here/ }
@@ -165,10 +165,10 @@ Feature: Run command
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Sending signals to commands started with `#run_simple()`
+  Scenario: Sending signals to commands started with `#run_command_and_stop()`
 
     Sending signals to a command which is started by
-    `#run_simple()` does not make sense. The command is stopped internally when
+    `#run_command_and_stop()` does not make sense. The command is stopped internally when
     its exit status is checked.
 
     Given an executable named "bin/cli" with:
@@ -199,7 +199,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 2, :startup_wait_time => 1 do
-      before(:each) { run_simple('cli') }
+      before(:each) { run_command_and_stop('cli') }
       it { expect { last_command_started.send_signal 'HUP' }.to raise_error Aruba::CommandAlreadyStoppedError }
     end
     """
@@ -224,7 +224,7 @@ Feature: Run command
     end
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_simple('cli', :fail_on_error => true) }.to_not raise_error }
+      it { expect { run_command_and_stop('cli', :fail_on_error => true) }.to_not raise_error }
     end
     """
     When I run `rspec`

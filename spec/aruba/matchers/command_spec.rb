@@ -14,7 +14,7 @@ RSpec.describe 'Command Matchers' do
   describe '#to_have_exit_status' do
     let(:cmd) { 'true' }
 
-    before(:each) { run(cmd) }
+    before(:each) { run_command(cmd) }
 
     context 'when has exit 0' do
       it { expect(last_command_started).to have_exit_status 0 }
@@ -29,7 +29,7 @@ RSpec.describe 'Command Matchers' do
   describe '#to_be_successfully_executed_' do
     let(:cmd) { 'true' }
 
-    before(:each) { run(cmd) }
+    before(:each) { run_command(cmd) }
 
     context 'when has exit 0' do
       it { expect(last_command_started).to be_successfully_executed }
@@ -46,15 +46,15 @@ RSpec.describe 'Command Matchers' do
     let(:output) { 'hello world' }
 
     context 'when have output hello world on stdout' do
-      before(:each) { run(cmd) }
+      before(:each) { run_command(cmd) }
       it { expect(last_command_started).to have_output output }
     end
 
     context 'when multiple commands output hello world on stdout' do
       context 'and all comands must have the output' do
         before(:each) do
-          run(cmd)
-          run(cmd)
+          run_command(cmd)
+          run_command(cmd)
         end
 
         it { expect(all_commands).to all have_output output }
@@ -62,8 +62,8 @@ RSpec.describe 'Command Matchers' do
 
       context 'and any comand can have the output' do
         before(:each) do
-          run(cmd)
-          run('echo hello universe')
+          run_command(cmd)
+          run_command('echo hello universe')
         end
 
         it { expect(all_commands).to include have_output(output) }
@@ -86,13 +86,13 @@ RSpec.describe 'Command Matchers' do
 
       let(:cmd) { "cmd.sh #{output}" }
 
-      before(:each) { run(cmd) }
+      before(:each) { run_command(cmd) }
 
       it { expect(last_command_started).to have_output output }
     end
 
     context 'when not has output' do
-      before(:each) { run(cmd) }
+      before(:each) { run_command(cmd) }
 
       it { expect(last_command_started).not_to have_output 'hello universe' }
     end
@@ -103,7 +103,7 @@ RSpec.describe 'Command Matchers' do
     let(:output) { 'hello world' }
 
     context 'when have output hello world on stdout' do
-      before(:each) { run(cmd) }
+      before(:each) { run_command(cmd) }
       it { expect(last_command_started).to have_output_on_stdout output }
     end
 
@@ -123,13 +123,13 @@ RSpec.describe 'Command Matchers' do
 
       let(:cmd) { "cmd.sh #{output}" }
 
-      before(:each) { run(cmd) }
+      before(:each) { run_command(cmd) }
 
       it { expect(last_command_started).not_to have_output_on_stdout output }
     end
 
     context 'when not has output' do
-      before(:each) { run(cmd) }
+      before(:each) { run_command(cmd) }
 
       it { expect(last_command_started).not_to have_output_on_stdout 'hello universe' }
     end
@@ -140,7 +140,7 @@ RSpec.describe 'Command Matchers' do
     let(:output) { 'hello world' }
 
     context 'when have output hello world on stdout' do
-      before(:each) { run(cmd) }
+      before(:each) { run_command(cmd) }
       it { expect(last_command_started).not_to have_output_on_stderr output }
     end
 
@@ -160,13 +160,13 @@ RSpec.describe 'Command Matchers' do
 
       let(:cmd) { "cmd.sh #{output}" }
 
-      before(:each) { run(cmd) }
+      before(:each) { run_command(cmd) }
 
       it { expect(last_command_started).to have_output_on_stderr output }
     end
 
     context 'when not has output' do
-      before(:each) { run(cmd) }
+      before(:each) { run_command(cmd) }
 
       it { expect(last_command_started).not_to have_output_on_stderr 'hello universe' }
     end
