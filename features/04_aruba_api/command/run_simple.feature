@@ -1,4 +1,4 @@
-Feature: Run command
+Feature: Run command in a simpler fashion
 
   To run a command use the `#run_command_and_stop`-method. There are some configuration options
   which are relevant here:
@@ -102,7 +102,7 @@ Feature: Run command
     If you have got a command with a long startup phase or use `ruby` together
     with `bundler`, you should consider using the `startup_wait_time`-option.
     Otherwise methods like `#send_signal` don't work since they require the
-    command to be running and have setup it's signal handler.
+    command to be running and have setup its signal handler.
 
     Given an executable named "bin/aruba-test-cli" with:
     """bash
@@ -135,9 +135,9 @@ Feature: Run command
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Long running command
+  Scenario: Long-running command
 
-    If you have got a "long running" command, you should consider using the
+    If you have got a long-running command, you should consider using the
     `exit_timeout`-option.
 
     Given an executable named "bin/aruba-test-cli" with:
@@ -199,8 +199,12 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 2, :startup_wait_time => 1 do
-      before(:each) { run_command_and_stop('aruba-test-cli') }
-      it { expect { last_command_started.send_signal 'HUP' }.to raise_error Aruba::CommandAlreadyStoppedError }
+      before { run_command_and_stop('aruba-test-cli') }
+
+      it 'refuses to send a signal' do
+        expect { last_command_started.send_signal 'HUP' }.
+          to raise_error Aruba::CommandAlreadyStoppedError
+      end
     end
     """
     When I run `rspec`

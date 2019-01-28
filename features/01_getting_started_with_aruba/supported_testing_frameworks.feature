@@ -31,19 +31,11 @@ Feature: Supported Testing Frameworks
     Then the features should all pass
 
   Scenario: Use "aruba" with "RSpec"
-    Given a file named "spec/support/aruba.rb" with:
-    """
-    require 'aruba/rspec'
-    """
-    And a file named "spec/spec_helper.rb" with:
+    Given a file named "spec/spec_helper.rb" with:
     """
     $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-    if RUBY_VERSION < '1.9.3'
-      ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require File.join(File.dirname(f), File.basename(f, '.rb')) }
-    else
-      ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
-    end
+    require 'aruba/rspec'
     """
     And a file named "spec/use_aruba_with_rspec_spec.rb" with:
     """
@@ -63,19 +55,11 @@ Feature: Supported Testing Frameworks
 
 
   Scenario: Use "aruba" with "Minitest"
-    Given a file named "test/support/aruba.rb" with:
-    """
-    require 'aruba/api'
-    """
-    And a file named "test/test_helper.rb" with:
+    Given a file named "test/test_helper.rb" with:
     """
     $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-    if RUBY_VERSION < '1.9.3'
-      ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require File.join(File.dirname(f), File.basename(f, '.rb')) }
-    else
-      ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
-    end
+    require 'aruba/api'
     """
     And a file named "test/use_aruba_with_minitest.rb" with:
     """
@@ -93,7 +77,7 @@ Feature: Supported Testing Frameworks
 
       def getting_started_with_aruba
         file = 'file.txt'
-        content = 'Hello World' 
+        content = 'Hello World'
 
         write_file file, content
         read(file).must_equal [content]

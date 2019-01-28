@@ -8,7 +8,7 @@ Feature: Use root directory of aruba
     Given I use the fixture "cli-app"
 
   Scenario: Default configuration
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """
     Aruba.configure do |config|
       puts config.root_directory

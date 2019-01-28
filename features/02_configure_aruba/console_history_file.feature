@@ -8,7 +8,7 @@ Feature: Configure the aruba console history file
     Given I use the fixture "cli-app"
 
   Scenario: Default value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """
     Aruba.configure do |config|
       puts %(The default value is "#{config.console_history_file}")
@@ -21,7 +21,7 @@ Feature: Configure the aruba console history file
     """
 
   Scenario: Set some value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """
     Aruba.configure do |config|
       config.console_history_file = '~/.config/aruba/history.txt'

@@ -26,7 +26,7 @@ Feature: Access STDOUT of command
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Waiting for output to "appear" after 2 seconds
+  Scenario: Waiting for output to appear
     Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash

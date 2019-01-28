@@ -18,7 +18,7 @@ Feature: Set time to wait after spawning command
     Given I use the fixture "cli-app"
 
   Scenario: Default value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       puts %(The default value is "#{config.startup_wait_time}")
@@ -31,7 +31,7 @@ Feature: Set time to wait after spawning command
     """
 
   Scenario: Modify value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       config.startup_wait_time = 2
