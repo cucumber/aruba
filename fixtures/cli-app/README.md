@@ -31,7 +31,7 @@ cli
 
 ### Library
 
-You can use `bin/console` to load your library.
+You can use `script/console` to load your library.
 
 ### Fixture
 
