@@ -16,7 +16,7 @@ module Aruba
 
     def call
       Aruba.platform.write_file(path, "#{header}#{content}")
-      Aruba.platform.chmod(0755, path, {})
+      Aruba.platform.chmod(0o755, path, {})
     end
 
     private

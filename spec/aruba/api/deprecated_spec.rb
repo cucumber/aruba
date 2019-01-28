@@ -54,7 +54,7 @@ RSpec.describe 'Deprecated API' do
       end
 
       context 'and permissions are given as octal number' do
-        let(:permissions) { 0655 }
+        let(:permissions) { 0o655 }
         it { expect(actual_permissions).to eq('0655') }
       end
 
@@ -93,7 +93,7 @@ RSpec.describe 'Deprecated API' do
         end
 
         context 'and permissions are given as octal number' do
-          let(:permissions) { 0666 }
+          let(:permissions) { 0o666 }
 
           it { @aruba.check_filesystem_permissions(permissions, file_name, true) }
         end
@@ -107,7 +107,7 @@ RSpec.describe 'Deprecated API' do
         end
 
         context 'but fails because the permissions are different' do
-          let(:expected_permissions) { 0666 }
+          let(:expected_permissions) { 0o666 }
 
           it { expect { @aruba.check_filesystem_permissions(expected_permissions, file_name, true) }.to raise_error RSpec::Expectations::ExpectationNotMetError }
         end
@@ -115,13 +115,13 @@ RSpec.describe 'Deprecated API' do
 
       context 'and should not have permissions' do
         context 'and succeeds when the difference is expected and permissions are different' do
-          let(:different_permissions) { 0666 }
+          let(:different_permissions) { 0o666 }
 
           it { @aruba.check_filesystem_permissions(different_permissions, file_name, false) }
         end
 
         context 'and fails because the permissions are the same although they should be different' do
-          let(:different_permissions) { 0655 }
+          let(:different_permissions) { 0o655 }
 
           it { expect { @aruba.check_filesystem_permissions(different_permissions, file_name, false) }.to raise_error RSpec::Expectations::ExpectationNotMetError }
         end

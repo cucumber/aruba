@@ -778,7 +778,7 @@ describe Aruba::Api do
         end
 
         context 'and permissions are given as octal number' do
-          let(:permissions) { 0655 }
+          let(:permissions) { 0o655 }
           it { expect(actual_permissions).to eq('0655') }
         end
 

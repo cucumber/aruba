@@ -57,7 +57,6 @@ module Aruba
       # @option [Object] default
       #   The default value
       #
-      # rubocop:disable Metrics/CyclomaticComplexity
       def option_accessor(name, opts = {})
         contract = opts[:contract]
         default  = opts[:default]
@@ -75,7 +74,6 @@ module Aruba
         # Add reader
         option_reader name, :contract => { None => contract.values.first }
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
 
       private
 
