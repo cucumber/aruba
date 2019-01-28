@@ -26,7 +26,7 @@ Feature: Send running command a signal
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1, :startup_wait_time => 5 do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { last_command_started.send_signal 'HUP' }
       it { expect(last_command_started).to have_output /Exit/ }
     end
@@ -45,8 +45,8 @@ Feature: Send running command a signal
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1, :startup_wait_time => 5 do
-      before(:each) { run_command('cli') }
-      it { expect { last_command_started.send_signal 'HUP' }.to raise_error Aruba::CommandAlreadyStoppedError, /Command "cli" with PID/ }
+      before(:each) { run_command('aruba-test-cli') }
+      it { expect { last_command_started.send_signal 'HUP' }.to raise_error Aruba::CommandAlreadyStoppedError, /Command "aruba-test-cli" with PID/ }
     end
     """
     When I run `rspec`

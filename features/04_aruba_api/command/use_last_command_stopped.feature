@@ -80,7 +80,7 @@ Feature: Return last command stopped
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
 
       it { expect{ last_command_stopped.commandline }.to raise_error Aruba::NoCommandHasBeenStoppedError }
     end

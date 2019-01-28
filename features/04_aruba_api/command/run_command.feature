@@ -34,7 +34,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       it { expect(last_command_started).to be_successfully_executed }
     end
     """
@@ -66,7 +66,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Find path for command', :type => :aruba do
-      it { expect { run_command('cli') }.to raise_error Aruba::LaunchError, /Command "cli" not found in PATH-variable/ }
+      it { expect { run_command('aruba-test-cli') }.to raise_error Aruba::LaunchError, /Command "aruba-test-cli" not found in PATH-variable/ }
     end
     """
     When I run `rspec`
@@ -112,7 +112,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1, :startup_wait_time => 2 do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { last_command_started.send_signal 'HUP' }
 
       it { expect(last_command_started).to be_successfully_executed }
@@ -145,7 +145,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3 do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
 
       it { expect(last_command_started).to be_successfully_executed }
       it { expect(last_command_started).to have_output /Hello, Aruba here/ }
@@ -220,8 +220,8 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1 do
-      before(:each) { run_command('cli1', 3, 0.1, 'TERM', 2) }
-      before(:each) { run_command('cli2', 3, 0.1, 'TERM', 1) }
+      before(:each) { run_command('aruba-test-cli1', 3, 0.1, 'TERM', 2) }
+      before(:each) { run_command('aruba-test-cli2', 3, 0.1, 'TERM', 1) }
       before(:each) { last_command_started.send_signal 'HUP' }
 
       it { expect(last_command_started).to be_successfully_executed }
@@ -299,8 +299,8 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1 do
-      before(:each) { run_command('cli1', :startup_wait_time => 2) }
-      before(:each) { run_command('cli2', :startup_wait_time => 1) }
+      before(:each) { run_command('aruba-test-cli1', :startup_wait_time => 2) }
+      before(:each) { run_command('aruba-test-cli2', :startup_wait_time => 1) }
       before(:each) { last_command_started.send_signal 'HUP' }
 
       it { expect(last_command_started).to be_successfully_executed }
@@ -343,8 +343,8 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli1', 3) }
-      before(:each) { run_command('cli2', 1) }
+      before(:each) { run_command('aruba-test-cli1', 3) }
+      before(:each) { run_command('aruba-test-cli2', 1) }
 
       it { expect(last_command_started).to be_successfully_executed }
       it { expect(last_command_started).to have_output /Hello, Aruba here/ }
@@ -384,8 +384,8 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli1', :exit_timeout => 3) }
-      before(:each) { run_command('cli2', :exit_timeout => 1) }
+      before(:each) { run_command('aruba-test-cli1', :exit_timeout => 3) }
+      before(:each) { run_command('aruba-test-cli2', :exit_timeout => 1) }
 
       it { expect(last_command_started).to be_successfully_executed }
       it { expect(last_command_started).to have_output /Hello, Aruba here/ }
@@ -405,8 +405,8 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
-      let!(:found_command) { find_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
+      let!(:found_command) { find_command('aruba-test-cli') }
       it { expect { found_command.start }.to raise_error Aruba::CommandAlreadyStartedError }
     end
     """

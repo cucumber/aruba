@@ -18,7 +18,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "text\ntext" }
@@ -38,7 +38,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
@@ -58,7 +58,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "text\"text" }
@@ -78,7 +78,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
@@ -98,7 +98,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
@@ -118,7 +118,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
@@ -138,7 +138,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "Text" }
@@ -158,7 +158,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "Text" }
@@ -178,7 +178,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :remove_ansi_escape_sequences => false, :keep_ansi => true do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "\e[31mText" }
@@ -198,7 +198,7 @@ Feature: Sanitize text from output
     #   require 'spec_helper'
     #
     #   RSpec.describe 'Run command', :type => :aruba do
-    #     before(:each) { run_command('cli') }
+    #     before(:each) { run_command('aruba-test-cli') }
     #     before(:each) { stop_all_commands }
     #
     #     it { expect(sanitize_text(last_command_started.output)).to eq "Text" }
@@ -218,7 +218,7 @@ Feature: Sanitize text from output
     #   require 'spec_helper'
     #
     #   RSpec.describe 'Run command', :type => :aruba do
-    #     before(:each) { run_command('cli') }
+    #     before(:each) { run_command('aruba-test-cli') }
     #     before(:each) { stop_all_commands }
     #
     #     it { expect(sanitize_text(last_command_started.output)).to eq "Text" }

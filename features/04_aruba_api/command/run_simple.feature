@@ -23,7 +23,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_command_and_stop('cli') }.to raise_error RSpec::Expectations::ExpectationNotMetError }
+      it { expect { run_command_and_stop('aruba-test-cli') }.to raise_error RSpec::Expectations::ExpectationNotMetError }
     end
     """
     When I run `rspec`
@@ -40,7 +40,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_command_and_stop('cli', :fail_on_error => true) }.to raise_error }
+      it { expect { run_command_and_stop('aruba-test-cli', :fail_on_error => true) }.to raise_error }
     end
     """
     When I run `rspec`
@@ -57,7 +57,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_command_and_stop('cli', true) }.to raise_error }
+      it { expect { run_command_and_stop('aruba-test-cli', true) }.to raise_error }
     end
     """
     When I run `rspec`
@@ -74,7 +74,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_command_and_stop('cli', :fail_on_error => false) }.not_to raise_error }
+      it { expect { run_command_and_stop('aruba-test-cli', :fail_on_error => false) }.not_to raise_error }
     end
     """
     When I run `rspec`
@@ -91,7 +91,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_command_and_stop('cli', false) }.not_to raise_error }
+      it { expect { run_command_and_stop('aruba-test-cli', false) }.not_to raise_error }
     end
     """
     When I run `rspec`
@@ -126,7 +126,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1, :startup_wait_time => 2 do
-      before(:each) { run_command_and_stop('cli') }
+      before(:each) { run_command_and_stop('aruba-test-cli') }
 
       it { expect(last_command_started).to be_successfully_executed }
       it { expect(last_command_started).to have_output /Hello, Aruba is working/ }
@@ -156,7 +156,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3 do
-      before(:each) { run_command_and_stop('cli') }
+      before(:each) { run_command_and_stop('aruba-test-cli') }
 
       it { expect(last_command_started).to be_successfully_executed }
       it { expect(last_command_started).to have_output /Hello, Aruba here/ }
@@ -199,7 +199,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 2, :startup_wait_time => 1 do
-      before(:each) { run_command_and_stop('cli') }
+      before(:each) { run_command_and_stop('aruba-test-cli') }
       it { expect { last_command_started.send_signal 'HUP' }.to raise_error Aruba::CommandAlreadyStoppedError }
     end
     """
@@ -224,7 +224,7 @@ Feature: Run command
     end
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_command_and_stop('cli', :fail_on_error => true) }.to_not raise_error }
+      it { expect { run_command_and_stop('aruba-test-cli', :fail_on_error => true) }.to_not raise_error }
     end
     """
     When I run `rspec`

@@ -15,7 +15,7 @@ Feature: Run commands
     """
     Feature: Run it
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
     """
     When I run `cucumber`
     Then the features should all pass
@@ -31,7 +31,7 @@ Feature: Run commands
     """
     Feature: Run it
       Scenario: Run command
-        When I successfully run `cli`
+        When I successfully run `aruba-test-cli`
     """
     And I append to "features/support/env.rb" with:
     """

@@ -17,7 +17,7 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(unescape_text(last_command.output)).to eq "text\ntext" }
@@ -37,7 +37,7 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(unescape_text(last_command.output)).to eq "texttext" }
@@ -57,7 +57,7 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(unescape_text(last_command.output)).to eq "text\"text" }
@@ -77,7 +77,7 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(unescape_text(last_command.output)).to eq "texttext" }
@@ -97,7 +97,7 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(unescape_text(last_command.output)).to eq "texttext" }
@@ -117,7 +117,7 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(unescape_text(last_command.output)).to eq "texttext" }

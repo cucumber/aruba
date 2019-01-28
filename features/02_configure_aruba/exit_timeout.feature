@@ -36,7 +36,7 @@ Feature: Configure timeout for command execution
     """
     Feature: Run it
       Scenario: Fast command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     Then I successfully run `cucumber`
@@ -57,7 +57,7 @@ Feature: Configure timeout for command execution
     """
     Feature: Run it
       Scenario: Fast command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     Then I run `cucumber`
