@@ -103,22 +103,7 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-  @posix
-  Scenario: Detect exact one-line output for posix commands
-    Given a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `printf 'hello world'`
-        Then the output should contain exactly:
-        \"\"\"
-        hello world
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
-  Scenario: Detect exact one-line output for ruby commands
+  Scenario: Detect exact one-line output
     Given an executable named "bin/aruba-test-cli" with:
     """ruby
     #!/usr/bin/env ruby
