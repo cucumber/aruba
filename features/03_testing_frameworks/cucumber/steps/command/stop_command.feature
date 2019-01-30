@@ -247,7 +247,12 @@ Feature: Stop commands
     Then the features should all pass
 
   @unsupported-on-platform-java
-  Scenario: STDERR/STDOUT is written normally if output was written in "signal"-handler
+  Scenario: STDERR/STDOUT is captured from signal handlers
+
+     STDERR/STDOUT is written normally on MRI if output was written in "signal"-handler
+
+     This is currently broken on JRuby.
+
     Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash

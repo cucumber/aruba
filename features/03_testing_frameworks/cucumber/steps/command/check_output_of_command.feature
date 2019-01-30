@@ -104,17 +104,11 @@ Feature: All output of commands which were executed
     Then the features should all pass
 
   Scenario: Detect exact one-line output
-    Given an executable named "bin/aruba-test-cli" with:
-    """ruby
-    #!/usr/bin/env ruby
-
-    print "hello world"
-    """
-    And a file named "features/output.feature" with:
+    Given a file named "features/output.feature" with:
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `aruba-test-cli`
+        When I run `echo 'hello world'`
         Then the output should contain exactly:
         \"\"\"
         hello world
