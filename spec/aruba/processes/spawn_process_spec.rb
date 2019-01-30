@@ -42,13 +42,23 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     before(:each) { process.start }
 
     context 'when stopped successfully' do
-      it { process.stop }
+      it { expect { process.stop }.not_to raise_error }
+
+      it 'makes the process stopped' do
+        process.stop
+        expect(process).to be_stopped
+      end
     end
   end
 
   describe "#start" do
     context "when process run succeeds" do
       it { expect { process.start }.not_to raise_error }
+
+      it 'makes the process started' do
+        process.start
+        expect(process).to be_started
+      end
     end
 
     context "when process run fails" do
