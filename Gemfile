@@ -58,6 +58,14 @@ group :development, :test do
 
     # Reporting
     gem 'bcat', '~> 0.6.2'
+  end
+
+  # YARD documentation
+  if RUBY_VERSION >= '2.3.0'
+    gem 'yard', '~> 0.9.11'
+    gem 'kramdown', '~> 2.1'
+  elsif RUBY_VERSION >= '2.0.0'
+    gem 'yard', '~> 0.9.11'
     gem 'kramdown', '~> 1.7.0'
   end
 
