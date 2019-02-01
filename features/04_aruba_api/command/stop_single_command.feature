@@ -6,7 +6,7 @@ Feature: Stop command
   - `find_command('command').stop`
 
   But normally there's no need to stop a command manually. All matchers
-  handling commands make sure, that they stop ALL command before check actual
+  handling commands make sure, that they stop ALL commands before checking actual
   against expected.
 
   Background:
@@ -21,13 +21,13 @@ Feature: Stop command
     }
 
     trap term TERM
-    while [ true ]; do sleep 1; done
+    while [ true ]; do sleep 0.1; done
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba do
+    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 0.2 do
       before(:each) { run_command('aruba-test-cli') }
       before(:each) { last_command_started.stop }
       it { expect(last_command_started).to be_successfully_executed }
@@ -45,13 +45,14 @@ Feature: Stop command
     }
 
     trap term TERM
-    while [ true ]; do sleep 1; done
+    while [ true ]; do sleep 0.1; done
+    exit 1
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba do
+    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 0.2 do
       before(:each) { run_command('aruba-test-cli') }
       before(:each) { find_command('aruba-test-cli').stop }
       it { expect(last_command_started).to be_successfully_executed }
@@ -76,7 +77,7 @@ Feature: Stop command
 
     trap hup HUP
     trap term TERM
-    while [ true ]; do sleep 1; done
+    while [ true ]; do sleep 0.1; done
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
@@ -84,7 +85,7 @@ Feature: Stop command
 
     Aruba.configure do |config|
       config.stop_signal  = 'HUP'
-      config.exit_timeout = 1
+      config.exit_timeout = 0.2
     end
 
     RSpec.describe 'Run command', :type => :aruba do
@@ -111,7 +112,7 @@ Feature: Stop command
 
     trap hup HUP
     trap term TERM
-    while [ true ]; do sleep 1; done
+    while [ true ]; do sleep 0.1; done
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
@@ -119,7 +120,7 @@ Feature: Stop command
 
     Aruba.configure do |config|
       config.stop_signal  = 'HUP'
-      config.exit_timeout = 1
+      config.exit_timeout = 0.2
     end
 
     RSpec.describe 'Run command', :type => :aruba do

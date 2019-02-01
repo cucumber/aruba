@@ -9,13 +9,13 @@ Feature: Stop all commands
     Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
-    sleep 3
+    sleep 0.2
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 5 do
+    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 0.3 do
       before(:each) { run_command('aruba-test-cli') }
       before(:each) { run_command('aruba-test-cli') }
 
@@ -31,22 +31,26 @@ Feature: Stop all commands
     Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
-    sleep 1
+    sleep 0.1
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 2 do
+    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 0.2 do
       before(:each) { @cmd1 = run_command('aruba-test-cli') }
       before(:each) { @cmd2 = run_command('aruba-test-cli') }
       before(:each) { @cmd3 = run_command('sleep 1') }
 
       before(:each) { stop_all_commands { |c| c.commandline == 'aruba-test-cli' } }
 
-      it { expect(@cmd1).to be_stopped }
-      it { expect(@cmd2).to be_stopped }
-      it { expect(@cmd3).not_to be_stopped }
+      it 'only stops selected commands' do
+        aggregate_failures do
+          expect(@cmd1).to be_stopped
+          expect(@cmd2).to be_stopped
+          expect(@cmd3).not_to be_stopped
+        end
+      end
     end
     """
     When I run `rspec`
