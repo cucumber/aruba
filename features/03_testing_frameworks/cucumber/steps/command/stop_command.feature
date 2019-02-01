@@ -241,7 +241,6 @@ Feature: Stop commands
         Given the default aruba stop signal is "HUP"
         And the default aruba exit timeout is 0.2 seconds
         When I run `aruba-test-cli`
-        And I terminate the command started last
         Then the exit status should be 155
     """
     When I run `cucumber`
