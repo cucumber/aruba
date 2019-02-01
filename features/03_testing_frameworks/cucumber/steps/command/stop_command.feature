@@ -246,41 +246,13 @@ Feature: Stop commands
     When I run `cucumber`
     Then the features should all pass
 
-  @requires-ruby-platform-java
-  Scenario: STDERR/STDOUT is empty on JRUBY if output was written in "signal"-handler
-    Given an executable named "bin/aruba-test-cli1" with:
-    """bash
-    #!/bin/bash
-
-    function term {
-      echo 'Hello, TERM'
-      exit 100
-    }
-
-    trap term TERM
-    echo "Hello, Aruba!"
-    while [ true ]; do sleep 1; done
-    exit 1
-    """
-    And a file named "features/stop.feature" with:
-    """
-    Feature: Run it
-      Scenario: Run command
-        Given the default aruba exit timeout is 1 second
-        And I wait 2 seconds for a command to start up
-        When I run `aruba-test-cli1` in background
-        And I terminate the command started last
-        Then the exit status should be 100
-        And the output should not contain:
-        \"\"\"
-        Hello, TERM
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
   @requires-ruby-platform-mri
-  Scenario: STDERR/STDOUT is written normally with MRI-Ruby if output was written in "signal"-handler
+  Scenario: STDERR/STDOUT is captured from signal handlers
+
+     STDERR/STDOUT is written normally on MRI if output was written in "signal"-handler
+
+     This is currently broken on JRuby.
+
     Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
