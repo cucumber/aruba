@@ -2,6 +2,15 @@
 
 # RELEASED
 
+## [v0.14.8](https://github.com/cucumber/aruba/compare/v0.14.7...v0.14.8)
+
+* Deprecate `#run` and `#run_simple` in favor of `#run_command` and
+  `#run_command_and_stop` (#585)
+* Update dependencies, most notably loosening the dependency on `childprocess`
+  (#591)
+* Properly warn about deprecated use of the run methods with one positional
+  option (#588)
+
 ## [v0.14.7](https://github.com/cucumber/aruba/compare/v0.14.6...v0.14.7)
 
 * Fix Cucumber steps to use `have_same_file_content_as` matcher (#572)
