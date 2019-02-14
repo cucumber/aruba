@@ -21,9 +21,9 @@ We would love to get help from you as a **user** and a **contributor**.
 The rest of this document is a guide for those maintaining Aruba, and others
 who would like to submit patches.
 
-## Contributing to the `aruba` project
+## Contributing to the Aruba project
 
-It would be great if all people who want to contribute to the `aruba` project
+It would be great if all people who want to contribute to the Aruba project
 &mdash; contributors and maintainers &mdash; follow the guidelines in this
 section. There are also "Getting started" sections both for
 [contributors](#getting-started-as-a-contributor) and
@@ -84,10 +84,10 @@ Please...
   [Ruby Community Style Guide][] and use
   [`rubocop`][] to "enforce" it. Please see
   [.rubocop.yml][] for exceptions.
-* There should be `action` methods and `getter` methods in `aruba`. Only the
+* There should be `action` methods and `getter` methods in Aruba. Only the
   latter should return values. Please expect the first ones to return `nil`.
 * Add documentation &mdash; aka acceptance tests &mdash; for new features
-  using `aruba`'s Cucumber steps. Place them somewhere suitable in [features/].
+  using Aruba's Cucumber steps. Place them somewhere suitable in [features/].
 * Add unit tests where needed to cover edge cases which are not (directly)
   relevant for users.
 * Add [YARD] developer documentation to all relevant methods added.
@@ -106,7 +106,7 @@ Please...
 
 ### Requirements
 
-To get started with `aruba`, you only need [Bundler].
+To get started with Aruba, you only need [Bundler].
 
 Install Aruba's dependencies:
 
