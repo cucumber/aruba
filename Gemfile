@@ -60,7 +60,7 @@ group :development, :test do
   end
 
   # Code Coverage
-  gem 'simplecov', '~> 0.10'
+  gem 'single_cov'
 
   # API docs generation
   gem 'yard', '~>0.9.9'

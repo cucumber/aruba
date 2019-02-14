@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+SingleCov.covered!
+
 RSpec.describe Aruba::Processes::InProcess do
   class Runner
     def initialize(_argv, _stdin, stdout, stderr, _kernel)

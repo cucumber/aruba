@@ -18,7 +18,6 @@ tmtags
 tags
 
 ## PROJECT::GENERAL
-coverage
 rdoc
 pkg
 *.log
