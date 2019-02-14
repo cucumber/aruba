@@ -33,7 +33,13 @@ module Aruba
         end
 
         def exit(exitstatus)
-          @exitstatus = exitstatus
+          @exitstatus =
+            case exitstatus
+            when Numeric then Integer(exitstatus)
+            when TrueClass then 0
+            when FalseClass then 1
+            else raise TypeError, "no implicit conversion of #{exitstatus.class} into Integer"
+            end
         end
       end
 
