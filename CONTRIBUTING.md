@@ -54,7 +54,7 @@ Please...
 
 * Fork the project. Make a branch for your change.
 * Make your feature addition or bug fix &mdash; if you're unsure if your
-  addition will be accepted, open an Issue for discussion first
+  addition will be accepted, open a GitHub Issue for discussion first
 * Make sure your patch is well covered by tests. We don't accept changes that
   aren't tested.
 * Do not change the `Rakefile`, gem version number in `version.rb`, or
