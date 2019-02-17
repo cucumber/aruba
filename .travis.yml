@@ -11,9 +11,9 @@ jobs:
       os: linux
     - rvm: ruby-head
       os: osx
-    - rvm: 2.6.0
+    - rvm: 2.6.1
       os: linux
-    - rvm: 2.6.0
+    - rvm: 2.6.1
       os: osx
     - rvm: 2.5.3
       os: linux
@@ -53,7 +53,7 @@ jobs:
       os: osx
     - stage: lint
       script: bundle exec rake lint
-      rvm: 2.6.0
+      rvm: 2.6.1
       os: linux
   allow_failures:
     - rvm: ruby-head
