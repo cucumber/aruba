@@ -1,4 +1,3 @@
-sudo: false
 language: ruby
 script: bundle exec rake test
 before_install:
@@ -48,9 +47,9 @@ jobs:
       osx_image: xcode8
     - rvm: jruby
       os: linux
-    - rvm: jruby-9.2.5.0
+    - rvm: jruby-9.2.6.0
       os: linux
-    - rvm: jruby-9.2.5.0
+    - rvm: jruby-9.2.6.0
       os: osx
     - stage: lint
       script: bundle exec rake lint
@@ -59,7 +58,7 @@ jobs:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby
-    - rvm: jruby-9.2.5.0
+    - rvm: jruby-9.2.6.0
   fast_finish: true
 
 branches:
