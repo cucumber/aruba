@@ -2,9 +2,10 @@ require 'spec_helper'
 
 RSpec.describe Aruba::Processes::InProcess do
   class Runner
-    def initialize(_argv, _stdin, stdout, stderr, _kernel)
+    def initialize(_argv, _stdin, stdout, stderr, kernel)
       @stdout = stdout
       @stderr = stderr
+      @kernel = kernel
     end
 
     def execute!; end
@@ -101,6 +102,35 @@ RSpec.describe Aruba::Processes::InProcess do
       let(:main_class) { FailedRunner }
 
       it { expect { process.start }.to raise_error RuntimeError, 'Oops' }
+    end
+  end
+
+  describe "#exit_status" do
+    def run_process(&block)
+      process = described_class.new(
+        command, exit_timeout, io_wait, working_directory,
+        environment, Class.new(Runner) { define_method(:execute!, &block) }
+      )
+      process.start
+      process.stop
+      process
+    end
+
+    it "exits success" do
+      expect(run_process{ }.exit_status).to eq 0
+    end
+
+    it "exits with given status" do
+      expect(run_process { @kernel.exit 12 }.exit_status).to eq 12
+    end
+
+    it "exits with boolean" do
+      expect(run_process { @kernel.exit false }.exit_status).to eq 1
+    end
+
+    it "refuses to exit with anything else" do
+      expect { run_process { @kernel.exit "false" } }
+        .to raise_error(TypeError, "no implicit conversion of String into Integer")
     end
   end
 end
