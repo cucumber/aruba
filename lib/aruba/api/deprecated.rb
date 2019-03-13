@@ -13,8 +13,13 @@ module Aruba
       # @return [Array]
       #   The directory path: Each subdirectory is a member of an array
       def dirs
-        Aruba.platform.deprecated('The use of "@dirs" is deprecated. Use "Aruba.configure { |c| c.current_directory = \'path/to/dir\' }" instead to set the "current_directory') if defined? @dirs
-        Aruba.platform.deprecated('The use of "dirs" deprecated. Use "Aruba.configure { |c| c.current_directory = \'path/to/dir\' }" instead to set the "current_directory and "expand_path(".")" to get the current directory or use "#cd(\'.\') { # your code }" to run code in the current directory')
+        Aruba.platform.deprecated(
+          'The use of "dirs" is deprecated.' \
+          ' Use "Aruba.configure { |c| c.current_directory = \'path/to/dir\' }"' \
+          ' instead to set the current directory and "expand_path(".")" to get' \
+          ' the current directory or use "#cd(\'.\') { # your code }" to run' \
+          ' code in the current directory'
+        )
 
         @dirs ||= aruba.current_directory
       end
@@ -25,7 +30,11 @@ module Aruba
       # @return
       #   Current directory
       def current_directory
-        Aruba.platform.deprecated(%(The use of "current_directory" deprecated. Use "expand_path(".")" to get the current directory or "#cd" to run code in the current directory. #{caller.first}))
+        Aruba.platform.deprecated(
+          'The use of "current_directory" is deprecated.' \
+          ' Use "expand_path(".")" to get the current directory or "#cd" to run' \
+          ' code in the current directory.'
+        )
 
         aruba.current_directory.to_s
       end
@@ -33,7 +42,11 @@ module Aruba
       # @deprecated
       # Clean the current directory
       def clean_current_directory
-        Aruba.platform.deprecated('The use of "clean_current_directory" is deprecated. Either use "#setup_aruba" or `#remove(\'.\') to clean up aruba\'s working directory before your tests are run')
+        Aruba.platform.deprecated(
+          'The use of "clean_current_directory" is deprecated.' \
+          ' Either use "#setup_aruba" or "#remove(\'.\')" to clean up Aruba\'s' \
+          ' working directory before your tests are run'
+        )
 
         setup_aruba
       end
@@ -44,7 +57,11 @@ module Aruba
       # @yield
       #   The block which should be run in current directory
       def in_current_directory(&block)
-        Aruba.platform.deprecated('The use of "in_current_directory" deprecated. Use "#cd(\'.\') { # your code }" instead. But be aware, `cd` requires a previously created directory')
+        Aruba.platform.deprecated(
+          'The use of "in_current_directory" is deprecated.' \
+          ' Use "#cd(\'.\') { # your code }" instead. But be aware,' \
+          ' "cd" requires a previously created directory'
+        )
 
         create_directory '.' unless directory?('.')
         cd('.', &block)
@@ -73,21 +90,31 @@ module Aruba
 
       # @deprecated
       def absolute_path(*args)
-        Aruba.platform.deprecated('The use of "absolute_path" is deprecated. Use "expand_path" instead. But be aware that "expand_path" uses a different implementation')
+        Aruba.platform.deprecated(
+          'The use of "absolute_path" is deprecated.' \
+          ' Use "expand_path" instead.' \
+          ' But be aware that "expand_path" uses a different implementation'
+        )
 
         File.expand_path File.join(*args), aruba.current_directory
       end
 
       # @deprecated
       def _read_interactive
-        Aruba.platform.deprecated('The use of "#_read_interactive" is deprecated. Please use "last_command_started.stdout" instead')
+        Aruba.platform.deprecated(
+          'The use of "#_read_interactive" is deprecated.' \
+          ' Use "last_command_started.stdout" instead'
+        )
 
         last_command_started.stdout
       end
 
       # @deprecated
       def announce_or_puts(msg)
-        Aruba.platform.deprecated('The use of "#announce_or_puts" is deprecated. Please use "#announcer.mode = :kernel" or "#announcer.mode = :puts" instead')
+        Aruba.platform.deprecated(
+          'The use of "#announce_or_puts" is deprecated.' \
+          ' Use "#announcer.mode = :kernel" or "#announcer.mode = :puts" instead'
+        )
 
         if(@puts)
           Kernel.puts(msg)
@@ -98,14 +125,20 @@ module Aruba
 
       # @deprecated
       def _write_interactive(input)
-        Aruba.platform.deprecated('The use of "#_write_interactive" is deprecated. Please use "#last_command_started.write()" instead')
+        Aruba.platform.deprecated(
+          'The use of "#_write_interactive" is deprecated.' \
+          ' Use "#last_command_started.write()" instead'
+        )
 
         last_command_started.write(input)
       end
 
       # @deprecated
       def eot
-        Aruba.platform.deprecated(%{\e[35m    The \"#eot\"-method is deprecated. It will be deleted with the next major version. Please use \"#close_input\"-method instead.\e[0m})
+        Aruba.platform.deprecated(
+          'The use of "#eot" is deprecated.' \
+          ' Use "#close_input" instead.'
+        )
 
         close_input
       end
@@ -118,7 +151,10 @@ module Aruba
       # @see #cmd
       # @deprecated
       def run_interactive(cmd)
-        Aruba.platform.deprecated('The use of "#run_interactive" is deprecated. You can simply use "run_command" instead')
+        Aruba.platform.deprecated(
+          'The use of "#run_interactive" is deprecated.' \
+          ' Use "run_command" instead'
+        )
 
         run_command(cmd)
       end
@@ -150,7 +186,9 @@ module Aruba
       # @deprecated
       def run(*args)
         Aruba.platform.deprecated(
-          'The use of "#run" is deprecated. Use "run_command" instead')
+          'The use of "#run" is deprecated.' \
+          ' Use "run_command" instead'
+        )
 
         run_command(*args)
       end
@@ -179,11 +217,12 @@ module Aruba
       # rubocop:disable Metrics/MethodLength
       def run_simple(*args)
         Aruba.platform.deprecated(
-          'The use of "#run_simple" is deprecated. Use "run_command_and_stop" instead')
+          'The use of "#run_simple" is deprecated.' \
+          ' Use "run_command_and_stop" instead'
+        )
 
         run_command_and_stop(*args)
       end
-
 
       # @deprecated
       # Create an empty file
@@ -191,14 +230,20 @@ module Aruba
       # @param [String] file_name
       #   The name of the file
       def touch_file(*args)
-        Aruba.platform.deprecated('The use of "#touch_file" is deprecated. Use "#touch" instead')
+        Aruba.platform.deprecated(
+          'The use of "#touch_file" is deprecated.' \
+          ' Use "#touch" instead'
+        )
 
         touch(*args)
       end
 
       # @deprecated
       def mod?(file, perms, &block)
-        Aruba.platform.deprecated('The use of "#mod?" is deprecated. Use "expect().to have_permissions()" instead')
+        Aruba.platform.deprecated(
+          'The use of "#mod?" is deprecated.' \
+          ' Use "expect(file).to have_permissions(perms)" instead'
+        )
 
         expect(Array(file)).to Aruba::Matchers.all have_permissions(perms)
       end
@@ -209,14 +254,20 @@ module Aruba
       # @param [String] file_name
       #    The file which should be deleted in current directory
       def remove_file(*args)
-        Aruba.platform.deprecated('The use of "#remove_file" is deprecated. Use "#remove" instead')
+        Aruba.platform.deprecated(
+          'The use of "#remove_file" is deprecated.' \
+          ' Use "#remove" instead'
+        )
 
         remove(*args)
       end
 
       # @deprecated
       def create_dir(*args)
-        Aruba.platform.deprecated('The use of "#create_dir" is deprecated. Use "#create_directory" instead')
+        Aruba.platform.deprecated(
+          'The use of "#create_dir" is deprecated.' \
+          ' Use "#create_directory" instead'
+        )
         create_directory(*args)
       end
 
@@ -226,13 +277,19 @@ module Aruba
       # @param [String] directory_name
       #   The name of the directory which should be removed
       def remove_directory(*args)
-        Aruba.platform.deprecated('The use of "remove_directory" is deprecated. Use "remove" instead')
+        Aruba.platform.deprecated(
+          'The use of "remove_directory" is deprecated.' \
+          ' Use "remove" instead'
+        )
         remove(*args)
       end
 
       # @deprecated
       def remove_dir(*args)
-        Aruba.platform.deprecated('The use of "remove_dir" is deprecated. Use "remove" instead')
+        Aruba.platform.deprecated(
+          'The use of "remove_dir" is deprecated.' \
+          ' Use "remove" instead'
+        )
         remove(*args)
       end
 
@@ -246,7 +303,11 @@ module Aruba
       # @param [true,false] expect_presence
       #   Should the given paths be present (true) or absent (false)
       def check_file_presence(paths, expect_presence = true)
-        Aruba.platform.deprecated('The use of "check_file_presence" is deprecated. Use "expect().to be_an_existing_file" or "expect(all_paths).to all match /pattern/" instead')
+        Aruba.platform.deprecated(
+          'The use of "check_file_presence" is deprecated.' \
+          ' Use "expect(path).to be_an_existing_file" or' \
+          ' "expect(all_paths).to all match /pattern/" instead'
+        )
 
         stop_all_commands
 
@@ -282,7 +343,10 @@ module Aruba
       #   check_file_size(paths_and_sizes)
       #
       def check_file_size(paths_and_sizes)
-        Aruba.platform.deprecated('The use of "#check_file_size" is deprecated. Use "expect(file).to have_file_size(size)", "expect(all_files).to all have_file_size(1)", "expect(all_files).to include a_file_with_size(1)" instead')
+        Aruba.platform.deprecated(
+          'The use of "#check_file_size" is deprecated.' \
+          ' Use "expect(file).to have_file_size(size)" instead'
+        )
 
         stop_all_commands
 
@@ -293,7 +357,10 @@ module Aruba
 
       # @deprecated
       def check_exact_file_content(file, exact_content, expect_match = true)
-        Aruba.platform.deprecated('The use of "#check_exact_file_content" is deprecated. Use "expect(file).to have_file_content(content)" with a string')
+        Aruba.platform.deprecated(
+          'The use of "#check_exact_file_content" is deprecated.' \
+          ' Use "expect(file).to have_file_content(content)" with a string'
+        )
 
         check_file_content(file, exact_content, expect_match)
       end
@@ -310,14 +377,17 @@ module Aruba
       # @param [true, false] expect_match
       #   Must the content be in the file or not
       def check_binary_file_content(file, reference_file, expect_match = true)
-        Aruba.platform.deprecated('The use of "#check_binary_file_content" is deprecated. Use "expect(file).to have_same_file_content_like(file)"')
+        Aruba.platform.deprecated(
+          'The use of "#check_binary_file_content" is deprecated.' \
+          ' Use "expect(file).to have_same_file_content_as(file)"'
+        )
 
         stop_all_commands
 
         if expect_match
-          expect(file).to have_same_file_content_like reference_file
+          expect(file).to have_same_file_content_as reference_file
         else
-          expect(file).not_to have_same_file_content_like reference_file
+          expect(file).not_to have_same_file_content_as reference_file
         end
       end
 
@@ -330,7 +400,10 @@ module Aruba
       # @param [true, false] expect_presence
       #   Should the directory be there or should the directory not be there
       def check_directory_presence(paths, expect_presence)
-        Aruba.platform.deprecated('The use of "#check_directory_presence" is deprecated. Use "expect(directory).to be_an_existing_directory"')
+        Aruba.platform.deprecated(
+          'The use of "#check_directory_presence" is deprecated.' \
+          ' Use "expect(directory).to be_an_existing_directory"'
+        )
 
         stop_all_commands
 
@@ -347,7 +420,10 @@ module Aruba
 
       # @deprecated
       def prep_for_fs_check(&block)
-        Aruba.platform.deprecated('The use of "prep_for_fs_check" is deprecated. Use apropriate methods and the new rspec matchers instead')
+        Aruba.platform.deprecated(
+          'The use of "prep_for_fs_check" is deprecated.' \
+          ' Use apropriate methods and the new rspec matchers instead'
+        )
 
         stop_all_commands
 
@@ -356,7 +432,11 @@ module Aruba
 
       # @deprecated
       def assert_exit_status_and_partial_output(expect_to_pass, expected)
-        Aruba.platform.deprecated('The use of "assert_exit_status_and_partial_output" is deprecated. Use "#assert_success" and "#assert_partial_output" instead')
+        Aruba.platform.deprecated(
+          'The use of "assert_exit_status_and_partial_output" is deprecated.' \
+          ' Use "expect(last_command_started).to be_successfully_executed"' \
+          ' and "expect(command).to have_output /partial/" instead.'
+        )
 
         assert_success(expect_to_pass)
         assert_partial_output(expected, all_output)
@@ -389,7 +469,11 @@ module Aruba
       # @param [true, false] expect_match
       #   Must the content be in the file or not
       def check_file_content(file, content, expect_match = true)
-        Aruba.platform.deprecated('The use of "#check_file_content" is deprecated. Use "expect(file).to have_file_content(content)" instead. For eq match use string, for partial match use /regex/')
+        Aruba.platform.deprecated(
+          'The use of "#check_file_content" is deprecated.' \
+          ' Use "expect(file).to have_file_content(content)" instead.' \
+          ' For eq match use string, for partial match use /regex/'
+        )
 
         stop_all_commands
 
@@ -402,35 +486,49 @@ module Aruba
 
       # @deprecated
       def _mkdir(dir_name)
-        Aruba.platform.deprecated('The use of "#_mkdir" is deprecated')
+        Aruba.platform.deprecated(
+          'The use of "#_mkdir" is deprecated'
+        )
 
         Aruba.platform.mkdir(dir_name)
       end
 
       # @deprecated
       def _rm(dir_name)
-        Aruba.platform.deprecated('The use of "#_rm_rf" is deprecated')
+        Aruba.platform.deprecated(
+          'The use of "#_rm_rf" is deprecated'
+        )
 
         Aruba.platform.rm(dir_name)
       end
 
       # @deprecated
       def current_dir(*args, &block)
-        Aruba.platform.deprecated('The use of "#current_dir" is deprecated. Use "#current_directory" instead')
+        Aruba.platform.deprecated(
+          'The use of "#current_dir" is deprecated.' \
+          ' Use "#current_directory" instead'
+        )
 
         current_directory(*args, &block)
       end
 
       # @deprecated
       def clean_current_dir(*args, &block)
-        Aruba.platform.deprecated('The use of "clean_current_dir" is deprecated. Either use "#setup_aruba" or `#remove(\'.\') to clean up aruba\'s working directory before your tests are run')
+        Aruba.platform.deprecated(
+          'The use of "clean_current_dir" is deprecated.' \
+          ' Use "#setup_aruba" or `#remove(\'.\') to clean up Aruba\'s working' \
+          ' directory before your tests are run'
+        )
 
         setup_aruba
       end
 
       # @deprecated
       def in_current_dir(&block)
-        Aruba.platform.deprecated('The use of "in_current_dir" is deprecated. Use "#cd(\'.\') { }" instead')
+        Aruba.platform.deprecated(
+          'The use of "in_current_dir" is deprecated.' \
+          ' Use "#cd(\'.\') { }" instead'
+        )
 
         create_directory '.' unless directory?('.')
         cd('.', &block)
@@ -445,7 +543,11 @@ module Aruba
       # @yield
       #   The block of code which should be run with the changed environment variables
       def with_env(env = {}, &block)
-        Aruba.platform.deprecated('The use of "#with_env" is deprecated. Use "#with_environment {}" instead. But be careful this uses a different implementation')
+        Aruba.platform.deprecated(
+          'The use of "#with_env" is deprecated.' \
+          ' Use "#with_environment {}" instead. But be careful this uses a' \
+          ' different implementation'
+        )
 
         env.each do |k,v|
           set_env k, v
@@ -457,9 +559,12 @@ module Aruba
       # @deprecated
       # Restore original process environment
       def restore_env
-        # No output because we need to reset env on each scenario/spec run
-        # Aruba.platform.deprecated('The use of "#restore_env" is deprecated. If you use "set_environment_variable" there\'s no need to restore the environment')
-        #
+        Aruba.platform.deprecated(
+          'The use of "#restore_env" is deprecated.' \
+          ' If you use "set_environment_variable" there\'s no need to restore' \
+          ' the environment'
+        )
+
         original_env.each do |key, value|
           if value
             ENV[key] = value
@@ -480,7 +585,11 @@ module Aruba
       # @param [String] value
       #   The value of the environment variable. Needs to be a string.
       def set_env(key, value)
-        Aruba.platform.deprecated('The use of "#set_env" is deprecated. Please use "set_environment_variable" instead. But be careful, this method uses a different kind of implementation')
+        Aruba.platform.deprecated(
+          'The use of "#set_env" is deprecated.' \
+          ' Use "set_environment_variable" instead. ' \
+          ' But be careful, this method uses a different kind of implementation'
+        )
 
         aruba.announcer.announce(:environment, key, value)
         set_environment_variable key, value
@@ -491,14 +600,19 @@ module Aruba
 
       # @deprecated
       def original_env
-        # Aruba.platform.deprecated('The use of "#original_env" is deprecated')
+        Aruba.platform.deprecated(
+          'The use of "#original_env" is deprecated'
+        )
 
         @original_env ||= {}
       end
 
       # @deprecated
       def filesystem_permissions(*args)
-        Aruba.platform.deprecated('The use of "#filesystem_permissions" is deprecated. Please use "#chmod" instead')
+        Aruba.platform.deprecated(
+          'The use of "#filesystem_permissions" is deprecated.' \
+          ' Use "#chmod" instead'
+        )
 
         chmod(*args)
       end
@@ -512,7 +626,10 @@ module Aruba
       # @param [Boolean] expected_result
       #   Are the permissions expected to be mode or are they expected not to be mode?
       def check_filesystem_permissions(*args)
-        Aruba.platform.deprecated('The use of "#check_filesystem_permissions" is deprecated. Please use "expect().to have_permissions perms" instead')
+        Aruba.platform.deprecated(
+          'The use of "#check_filesystem_permissions" is deprecated.' \
+          ' Use "expect(path).to have_permissions perms" instead'
+        )
 
         args = args.flatten
 
@@ -532,7 +649,9 @@ module Aruba
 
       # @deprecated
       def _create_file(name, content, check_presence)
-        Aruba.platform.deprecated('The use of "#_create_file" is deprecated. It will be removed soon')
+        Aruba.platform.deprecated(
+          'The use of "#_create_file" is deprecated.'
+        )
 
         ArubaFileCreator.new.write(expand_path(name), content, check_presence)
 
@@ -541,7 +660,9 @@ module Aruba
 
       # @deprecated
       def _create_fixed_size_file(file_name, file_size, check_presence)
-        Aruba.platform.deprecated('The use of "#_create_fixed_size_file" is deprecated. It will be removed soon')
+        Aruba.platform.deprecated(
+          'The use of "#_create_fixed_size_file" is deprecated.'
+        )
 
         ArubaFixedSizeFileCreator.new.write(expand_path(name), size, check_presence)
 
@@ -557,7 +678,10 @@ module Aruba
       # @return
       #   The string stripped from escape sequences
       def unescape(string, keep_ansi = false)
-        Aruba.platform.deprecated('The use of "#unescape" is deprecated. Please use "#sanitize_text" intead')
+        Aruba.platform.deprecated(
+          'The use of "#unescape" is deprecated.' \
+          ' Use "#sanitize_text" intead'
+        )
 
         string = unescape_text(string)
         string = extract_text(string) if !keep_ansi || !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
@@ -568,7 +692,10 @@ module Aruba
       # @deprecated
       # The root directory of aruba
       def root_directory
-        Aruba.platform.deprecated('The use of "#root_directory" is deprecated. Use "aruba.root_directory" instead')
+        Aruba.platform.deprecated(
+          'The use of "#root_directory" is deprecated.' \
+          ' Use "aruba.root_directory" instead'
+        )
 
         aruba.root_directory
       end
@@ -579,7 +706,10 @@ module Aruba
       # @return [String]
       #   The directory to where your fixtures are stored
       def fixtures_directory
-        Aruba.platform.deprecated('The use of "#fixtures_directory" is deprecated. Use "aruba.fixtures_directory" instead')
+        Aruba.platform.deprecated(
+          'The use of "#fixtures_directory" is deprecated.' \
+          ' Use "aruba.fixtures_directory" instead'
+        )
 
         aruba.fixtures_directory
       end
@@ -587,23 +717,36 @@ module Aruba
       # @deprecated
       def check_for_deprecated_variables
         if defined? @aruba_exit_timeout
-          Aruba.platform.deprecated('The use of "@aruba_exit_timeout" is deprecated. Use "#aruba.config.exit_timeout = <numeric>" instead')
+          Aruba.platform.deprecated(
+            'The use of "@aruba_exit_timeout" is deprecated.' \
+            ' Use "#aruba.config.exit_timeout = <numeric>" instead'
+          )
           aruba.config.exit_timeout = @aruba_exit_timeout
         end
 
         if defined? @aruba_io_wait_seconds
-          Aruba.platform.deprecated('The use of "@aruba_io_wait_seconds" is deprecated. Use "#aruba.config.io_wait_timeout = <numeric>" instead')
+          Aruba.platform.deprecated(
+            'The use of "@aruba_io_wait_seconds" is deprecated.' \
+            ' Use "#aruba.config.io_wait_timeout = <numeric>" instead'
+          )
           aruba.config.io_wait_timeout = @aruba_io_wait_seconds
         end
 
         if defined? @keep_ansi
-          Aruba.platform.deprecated('The use of "@aruba_keep_ansi" is deprecated. Use "#aruba.config.remove_ansi_escape_sequences = <true|false>" instead. Be aware that it uses an inverted logic')
+          Aruba.platform.deprecated(
+            'The use of "@aruba_keep_ansi" is deprecated.' \
+            ' Use "#aruba.config.remove_ansi_escape_sequences = <true|false>" instead.' \
+            ' Be aware that it uses an inverted logic'
+          )
 
           aruba.config.remove_ansi_escape_sequences = false
         end
 
         if defined? @aruba_root_directory
-          Aruba.platform.deprecated('The use of "@aruba_root_directory" is deprecated. Use "#aruba.config.root_directory = <string>" instead')
+          Aruba.platform.deprecated(
+            'The use of "@aruba_root_directory" is deprecated.' \
+            ' Use "#aruba.config.root_directory = <string>" instead'
+          )
 
           aruba.config.root_directory = @aruba_root_directory.to_s
         end
@@ -611,7 +754,10 @@ module Aruba
 
       # Last command started
       def last_command
-        Aruba.platform.deprecated('The use of "#last_command" is deprecated. Use "#last_command_started"')
+        Aruba.platform.deprecated(
+          'The use of "#last_command" is deprecated.' \
+          ' Use "#last_command_started"'
+        )
 
         process_monitor.last_command_started
       end
@@ -623,10 +769,15 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If arg1 is exactly the same as arg2 return true, otherwise false
       def assert_exact_output(expected, actual)
-        Aruba.platform.deprecated('The use of "#assert_exact_output" is deprecated. Use "expect(command).to have_output \'exact\'" instead. There are also special matchers for "stdout" and "stderr"')
+        Aruba.platform.deprecated(
+          'The use of "#assert_exact_output" is deprecated.' \
+          ' Use "expect(command).to have_output \'exact\'" instead.' \
+          ' There are also special matchers for "stdout" and "stderr"'
+        )
 
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to eq Aruba.platform.unescape(expected, aruba.config.keep_ansi)
+        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).
+          to eq Aruba.platform.unescape(expected, aruba.config.keep_ansi)
       end
 
       # @deprecated
@@ -636,10 +787,15 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If arg2 contains arg1 return true, otherwise false
       def assert_partial_output(expected, actual)
-        Aruba.platform.deprecated('The use of "#assert_partial_output" is deprecated. Use "expect(command).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
+        Aruba.platform.deprecated(
+          'The use of "#assert_partial_output" is deprecated.' \
+          ' Use "expect(command).to have_output /partial/" instead.' \
+          ' There are also special matchers for "stdout" and "stderr"'
+        )
 
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to include(Aruba.platform.unescape(expected, aruba.config.keep_ansi))
+        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).
+          to include(Aruba.platform.unescape(expected, aruba.config.keep_ansi))
       end
 
       # @deprecated
@@ -649,10 +805,15 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If arg2 matches arg1 return true, otherwise false
       def assert_matching_output(expected, actual)
-        Aruba.platform.deprecated('The use of "#assert_matching_output" is deprecated. Use "expect(command).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
+        Aruba.platform.deprecated(
+          'The use of "#assert_matching_output" is deprecated.' \
+          ' Use "expect(command).to have_output /partial/" instead.' \
+          ' There are also special matchers for "stdout" and "stderr"'
+        )
 
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
+        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).
+          to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
       end
 
       # @deprecated
@@ -662,10 +823,15 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If arg2 does not match arg1 return true, otherwise false
       def assert_not_matching_output(expected, actual)
-        Aruba.platform.deprecated('The use of "#assert_not_matching_output" is deprecated. Use "expect(command).not_to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
+        Aruba.platform.deprecated(
+          'The use of "#assert_not_matching_output" is deprecated.' \
+          ' Use "expect(command).not_to have_output /partial/" instead.' \
+          ' There are also special matchers for "stdout" and "stderr"'
+        )
 
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
-        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
+        expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).
+          not_to match(/#{Aruba.platform.unescape(expected, aruba.config.keep_ansi)}/m)
       end
 
       # @deprecated
@@ -675,7 +841,11 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If arg2 does not match/include arg1 return true, otherwise false
       def assert_no_partial_output(unexpected, actual)
-        Aruba.platform.deprecated('The use of "#assert_no_partial_output" is deprecated. Use "expect(command).not_to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
+        Aruba.platform.deprecated(
+          'The use of "#assert_no_partial_output" is deprecated.' \
+          ' Use "expect(command).not_to have_output /partial/" instead.' \
+          ' There are also special matchers for "stdout" and "stderr"'
+        )
 
         actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
         if Regexp === unexpected
@@ -692,7 +862,11 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If output of interactive command includes arg1 return true, otherwise false
       def assert_partial_output_interactive(expected)
-        Aruba.platform.deprecated('The use of "#assert_partial_output_interactive" is deprecated. Use "expect(last_command_started).to have_output /partial/" instead. There are also special matchers for "stdout" and "stderr"')
+        Aruba.platform.deprecated(
+          'The use of "#assert_partial_output_interactive" is deprecated.' \
+          ' Use "expect(last_command_started).to have_output /partial/" instead.' \
+          ' There are also special matchers for "stdout" and "stderr"'
+        )
 
         Aruba.platform.unescape(last_command_started.stdout, aruba.config.keep_ansi).include?(Aruba.platform.unescape(expected, aruba.config.keep_ansi)) ? true : false
       end
@@ -704,7 +878,13 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If exit status is 0 and arg1 is included in output return true, otherwise false
       def assert_passing_with(expected)
-        Aruba.platform.deprecated('The use of "#assert_passing_with" is deprecated. Use "expect(all_commands).to all(be_successfully_executed).and include_an_object(have_output(/partial/))" or something similar instead. There are also special matchers for "stdout" and "stderr"')
+        Aruba.platform.deprecated(
+          'The use of "#assert_passing_with" is deprecated.' \
+          ' Use "expect(last_command_started).to be_successfully_executed"' \
+          ' and expect(last_command_started).to have_output(/partial/)"' \
+          ' or something similar instead.' \
+          ' There are also special matchers for "stdout" and "stderr"'
+        )
 
         assert_success(true)
         assert_partial_output(expected, all_output)
@@ -717,7 +897,13 @@ module Aruba
       # @return [TrueClass, FalseClass]
       #   If exit status is not equal 0 and arg1 is included in output return true, otherwise false
       def assert_failing_with(expected)
-        Aruba.platform.deprecated('The use of "#assert_passing_with" is deprecated. Use "expect(all_commands).not_to include_an_object(be_successfully_executed).and include_an_object(have_output(/partial/))" or something similar instead. There are also special matchers for "stdout" and "stderr"')
+        Aruba.platform.deprecated(
+          'The use of "#assert_passing_with" is deprecated.' \
+          ' Use "expect(last_command_started).not_to be_successfully_executed"' \
+          ' and "expect(last_command_started).to have_output(/partial/)"' \
+          ' or something similar instead.' \
+          ' There are also special matchers for "stdout" and "stderr"'
+        )
 
         assert_success(false)
         assert_partial_output(expected, all_output)
@@ -731,7 +917,12 @@ module Aruba
       #   If arg1 is true, return true if command was successful
       #   If arg1 is false, return true if command failed
       def assert_success(success)
-        Aruba.platform.deprecated('The use of "#assert_success" is deprecated. Use "expect(last_command_started).to be_successfully_executed" or with "not_to" or the negative form "have_failed_running" (requires rspec >= 3.1)')
+        Aruba.platform.deprecated(
+          'The use of "#assert_success" is deprecated.' \
+          ' Use "expect(last_command_started).to be_successfully_executed" or' \
+          ' with "not_to" or the negative form "have_failed_running"' \
+          ' (requires rspec >= 3.1)'
+        )
 
         if success
           expect(last_command_started).to be_successfully_executed
@@ -742,14 +933,20 @@ module Aruba
 
       # @deprecated
       def assert_exit_status(status)
-        Aruba.platform.deprecated('The use of "#assert_success" is deprecated. Use "expect(last_command_started).to have_exit_status(status)"')
+        Aruba.platform.deprecated(
+          'The use of "#assert_exit_status" is deprecated.' \
+          ' Use "expect(last_command_started).to have_exit_status(status)"'
+        )
 
         expect(last_command_started).to have_exit_status(status)
       end
 
       # @deprecated
       def assert_not_exit_status(status)
-        Aruba.platform.deprecated('The use of "#assert_success" is deprecated. Use "expect(last_command_started).not_to have_exit_status(status)"')
+        Aruba.platform.deprecated(
+          'The use of "#assert_not_exit_status" is deprecated.' \
+          ' Use "expect(last_command_started).not_to have_exit_status(status)"'
+        )
 
         expect(last_exit_status).not_to eq(status),
           append_output_to("Exit status was #{last_exit_status} which was not expected.")
@@ -757,21 +954,23 @@ module Aruba
 
       # @deprecated
       def append_output_to(message)
-        Aruba.platform.deprecated('The use of "#append_output_to" is deprecated')
+        Aruba.platform.deprecated(
+          'The use of "#append_output_to" is deprecated'
+        )
 
         "#{message} Output:\n\n#{all_output}\n"
       end
 
       # @deprecated
       def register_process(*args)
-        # Aruba.platform.deprecated('The use of "#register_process" is deprecated')
+        Aruba.platform.deprecated('The use of "#register_process" is deprecated')
 
         process_monitor.register_process(*args)
       end
 
       # @deprecated
       def get_process(wanted)
-        # Aruba.platform.deprecated('The use of "#get_process" is deprecated')
+        Aruba.platform.deprecated('The use of "#get_process" is deprecated')
 
         process_monitor.get_process(wanted)
       end
@@ -783,7 +982,7 @@ module Aruba
       # @param [String] cmd
       #   The command
       def output_from(cmd)
-        # Aruba.platform.deprecated('The use of "#output_from" is deprecated')
+        Aruba.platform.deprecated('The use of "#output_from" is deprecated')
 
         process_monitor.output_from(cmd)
       end
@@ -795,7 +994,7 @@ module Aruba
       # @param [String] cmd
       #   The command
       def stdout_from(cmd)
-        # Aruba.platform.deprecated('The use of "#stdout_from" is deprecated')
+        Aruba.platform.deprecated('The use of "#stdout_from" is deprecated')
 
         process_monitor.stdout_from(cmd)
       end
@@ -807,7 +1006,7 @@ module Aruba
       # @param [String] cmd
       #   The command
       def stderr_from(cmd)
-        # Aruba.platform.deprecated('The use of "#stderr_from" is deprecated')
+        Aruba.platform.deprecated('The use of "#stderr_from" is deprecated')
 
         process_monitor.stderr_from(cmd)
       end
@@ -819,7 +1018,13 @@ module Aruba
       # @return [String]
       #   The stdout of all process which have run before
       def all_stdout
-        Aruba.platform.deprecated('The use of "#all_stdout" is deprecated. Use `all_commands.map { |c| c.stdout }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output_on_stdout /output/" instead')
+        Aruba.platform.deprecated(
+          'The use of "#all_stdout" is deprecated.' \
+          ' Use `all_commands.map { |c| c.stdout }.join("\n") instead.' \
+          ' If you need to check for some output, use' \
+          ' "expect(all_commands).to included_an_object have_output_on_stdout(/output/)"' \
+          ' instead'
+        )
 
         process_monitor.all_stdout
       end
@@ -831,7 +1036,13 @@ module Aruba
       # @return [String]
       #   The stderr of all process which have run before
       def all_stderr
-        Aruba.platform.deprecated('The use of "#all_stderr" is deprecated. Use `all_commands.map { |c| c.stderr }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output_on_stderr /output/" instead')
+        Aruba.platform.deprecated(
+          'The use of "#all_stderr" is deprecated.' \
+          ' Use `all_commands.map { |c| c.stderr }.join("\n") instead.' \
+          ' If you need to check for some output use' \
+          ' "expect(all_commands).to included_an_object have_output_on_stderr /output/"' \
+          ' instead'
+        )
 
         process_monitor.all_stderr
       end
@@ -843,7 +1054,13 @@ module Aruba
       # @return [String]
       #   The stderr and stdout of all process which have run before
       def all_output
-        Aruba.platform.deprecated('The use of "#all_output" is deprecated. Use `all_commands.map { |c| c.output }.join("\n") instead. If you need to check for some output use "expect(all_commands).to have_output /output/" instead')
+        Aruba.platform.deprecated(
+          'The use of "#all_output" is deprecated.' \
+          ' Use `all_commands.map { |c| c.output }.join("\n") instead.' \
+          ' If you need to check for some output use' \
+          ' "expect(all_commands).to included_an_object have_output /output/"' \
+          ' instead'
+        )
 
         process_monitor.all_output
       end
@@ -855,7 +1072,10 @@ module Aruba
       # Overwrite this method if you want a different timeout or set
       # `@aruba_timeout_seconds`.
       def exit_timeout
-        Aruba.platform.deprecated('The use of "#exit_timeout" is deprecated. Use "aruba.config.exit_timeout" instead.')
+        Aruba.platform.deprecated(
+          'The use of "#exit_timeout" is deprecated.' \
+          ' Use "aruba.config.exit_timeout" instead.'
+        )
 
         aruba.config.exit_timeout
       end
@@ -867,7 +1087,10 @@ module Aruba
       # Overwrite this method if you want a different timeout or set
       # `@aruba_io_wait_seconds
       def io_wait
-        Aruba.platform.deprecated('The use of "#io_wait" is deprecated. Use "aruba.config.io_wait_timeout" instead')
+        Aruba.platform.deprecated(
+          'The use of "#io_wait" is deprecated.' \
+          ' Use "aruba.config.io_wait_timeout" instead'
+        )
 
         aruba.config.io_wait_timeout
       end
@@ -875,35 +1098,50 @@ module Aruba
       # @deprecated
       # Only processes
       def only_processes
-        Aruba.platform.deprecated('The use of "#only_processes" is deprecated. Use "#all_commands" instead')
+        Aruba.platform.deprecated(
+          'The use of "#only_processes" is deprecated.' \
+          ' Use "#all_commands" instead'
+        )
 
         process_monitor.only_processes
       end
 
       # @deprecated
       def last_exit_status
-        Aruba.platform.deprecated('The use of "#last_exit_status" is deprecated. Use "#last_command_(started|stopped).exit_status" instead')
+        Aruba.platform.deprecated(
+          'The use of "#last_exit_status" is deprecated.' \
+          ' Use "#last_command_(started|stopped).exit_status" instead'
+        )
 
         process_monitor.last_exit_status
       end
 
       # @deprecated
       def stop_process(process)
-        # Aruba.platform.deprecated('The use of "#stop_process" is deprecated. Use "#last_command_(started|stopped).stop" instead')
+        Aruba.platform.deprecated(
+          'The use of "#stop_process" is deprecated.' \
+          ' Use "#last_command_(started|stopped).stop" instead'
+        )
 
         @last_exit_status = process_monitor.stop_process(process)
       end
 
       # @deprecated
       def terminate_process(process)
-        # Aruba.platform.deprecated('The use of "#terminate_process" is deprecated. Use "#last_command_(started|stopped).terminate" instead')
+        Aruba.platform.deprecated(
+          'The use of "#terminate_process" is deprecated.' \
+          ' Use "#last_command_(started|stopped).terminate" instead'
+        )
 
         process_monitor.terminate_process(process)
       end
 
       # @deprecated
       def stop_processes!
-        Aruba.platform.deprecated('The use of "#stop_processes!" is deprecated. Use "#stop_all_commands" instead')
+        Aruba.platform.deprecated(
+          'The use of "#stop_processes!" is deprecated.' \
+          ' Use "#stop_all_commands" instead'
+        )
 
         stop_all_commands
       end
@@ -912,7 +1150,10 @@ module Aruba
       #
       # Terminate all running processes
       def terminate_processes!
-        Aruba.platform.deprecated('The use of "#stop_processes!" is deprecated. Use "all_commands.each(&:terminate)" instead')
+        Aruba.platform.deprecated(
+          'The use of "#stop_processes!" is deprecated.' \
+          ' Use "all_commands.each(&:terminate)" instead'
+        )
 
         all_commands.each(&:terminate)
       end
@@ -921,7 +1162,10 @@ module Aruba
       #
       # Access to announcer
       def announcer
-        Aruba.platform.deprecated('The use of "#announcer" is deprecated. Use "aruba.announcer" instead')
+        Aruba.platform.deprecated(
+          'The use of "#announcer" is deprecated.' \
+          ' Use "aruba.announcer" instead'
+        )
 
         @announcer ||= Platforms::Announcer.new(
           self,
@@ -972,7 +1216,10 @@ module Aruba
       # @private
       # @deprecated
       def processes
-        Aruba.platform.deprecated('The use of "#process_monitor" is deprecated. Please use "#all_commands" instead.')
+        Aruba.platform.deprecated(
+          'The use of "#process_monitor" is deprecated.' \
+          ' Use "#all_commands" instead.'
+        )
 
         aruba.command_monitor.send(:processes)
       end
