@@ -213,8 +213,6 @@ module Aruba
       # @option [Integer] io_wait_timeout
       #   Timeout for IO - STDERR, STDOUT
       #
-      # rubocop:disable Metrics/CyclomaticComplexity
-      # rubocop:disable Metrics/MethodLength
       def run_simple(*args)
         Aruba.platform.deprecated(
           'The use of "#run_simple" is deprecated.' \
