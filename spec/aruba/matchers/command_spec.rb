@@ -48,6 +48,7 @@ RSpec.describe 'Command Matchers' do
     context 'when have output hello world on stdout' do
       before(:each) { run_command(cmd) }
       it { expect(last_command_started).to have_output output }
+      it { expect(last_command_started).to have_output }
     end
 
     context 'when multiple commands output hello world on stdout' do
@@ -91,10 +92,17 @@ RSpec.describe 'Command Matchers' do
       it { expect(last_command_started).to have_output output }
     end
 
-    context 'when not has output' do
+    context 'when output does not match' do
       before(:each) { run_command(cmd) }
 
       it { expect(last_command_started).not_to have_output 'hello universe' }
+    end
+
+    context 'when output is empty' do
+      let(:output) { '' }
+      before(:each) { run_command(cmd) }
+
+      it { expect(last_command_started).not_to have_output }
     end
   end
 
@@ -105,6 +113,7 @@ RSpec.describe 'Command Matchers' do
     context 'when have output hello world on stdout' do
       before(:each) { run_command(cmd) }
       it { expect(last_command_started).to have_output_on_stdout output }
+      it { expect(last_command_started).to have_output_on_stdout }
     end
 
     context 'when have output hello world on stderr' do
@@ -126,6 +135,7 @@ RSpec.describe 'Command Matchers' do
       before(:each) { run_command(cmd) }
 
       it { expect(last_command_started).not_to have_output_on_stdout output }
+      it { expect(last_command_started).not_to have_output_on_stdout }
     end
 
     context 'when not has output' do
@@ -142,6 +152,7 @@ RSpec.describe 'Command Matchers' do
     context 'when have output hello world on stdout' do
       before(:each) { run_command(cmd) }
       it { expect(last_command_started).not_to have_output_on_stderr output }
+      it { expect(last_command_started).not_to have_output_on_stderr }
     end
 
     context 'when have output hello world on stderr' do
@@ -163,6 +174,7 @@ RSpec.describe 'Command Matchers' do
       before(:each) { run_command(cmd) }
 
       it { expect(last_command_started).to have_output_on_stderr output }
+      it { expect(last_command_started).to have_output_on_stderr }
     end
 
     context 'when not has output' do

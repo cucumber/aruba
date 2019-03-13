@@ -25,16 +25,26 @@ RSpec::Matchers.define :have_output do |expected|
 
     @actual = sanitize_text(actual.output)
 
-    values_match?(expected, @actual)
+    values_match?(expected || /./, @actual)
   end
 
   diffable
 
-  description { "have output: #{description_of expected}" }
+  description do
+    if expected
+      "have output: #{description_of expected}"
+    else
+      "have output"
+    end
+  end
 
-  failure_message do |actual|
-    "expected `#{@old_actual.commandline}` to have output #{description_of expected}\n" \
-      "but was:\n#{Aruba::Matchers::Base::MessageIndenter.indent_multiline_message @actual}"
+  failure_message do
+    if expected
+      "expected `#{@old_actual.commandline}` to have output #{description_of expected}\n" \
+        "but was:\n#{Aruba::Matchers::Base::MessageIndenter.indent_multiline_message @actual}"
+    else
+      "expected `#{@old_actual.commandline}` to have output"
+    end
   end
 end
 

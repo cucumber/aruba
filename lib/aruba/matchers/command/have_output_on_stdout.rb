@@ -23,10 +23,16 @@ RSpec::Matchers.define :have_output_on_stdout do |expected|
 
     @actual = sanitize_text(actual.stdout)
 
-    values_match?(expected, @actual)
+    values_match?(expected || /./, @actual)
   end
 
   diffable
 
-  description { "have output on stdout: #{description_of expected}" }
+  description do
+    if expected
+      "have output on stdout: #{description_of expected}"
+    else
+      "have output on stdout"
+    end
+  end
 end
