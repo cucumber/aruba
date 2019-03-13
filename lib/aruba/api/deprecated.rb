@@ -442,9 +442,9 @@ module Aruba
         assert_partial_output(expected, all_output)
       end
 
-      # TODO: Remove this. Call more methods elsewhere instead. Reveals more intent.
       # @deprecated
-      def assert_exit_status_and_output(expect_to_pass, expected_output, expect_exact_output)
+      def assert_exit_status_and_output(expect_to_pass, expected_output,
+                                        expect_exact_output)
         assert_success(expect_to_pass)
         if expect_exact_output
           assert_exact_output(expected_output, all_output)
@@ -684,7 +684,11 @@ module Aruba
         )
 
         string = unescape_text(string)
-        string = extract_text(string) if !keep_ansi || !aruba.config.keep_ansi || aruba.config.remove_ansi_escape_sequences
+        if !keep_ansi ||
+           !aruba.config.keep_ansi ||
+           aruba.config.remove_ansi_escape_sequences
+          string = extract_text(string)
+        end
 
         string
       end
@@ -849,9 +853,11 @@ module Aruba
 
         actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
         if Regexp === unexpected
-          expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to match unexpected
+          expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).
+            not_to match unexpected
         else
-          expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).not_to include(unexpected)
+          expect(Aruba.platform.unescape(actual, aruba.config.keep_ansi)).
+            not_to include(unexpected)
         end
       end
 
@@ -868,7 +874,8 @@ module Aruba
           ' There are also special matchers for "stdout" and "stderr"'
         )
 
-        Aruba.platform.unescape(last_command_started.stdout, aruba.config.keep_ansi).include?(Aruba.platform.unescape(expected, aruba.config.keep_ansi)) ? true : false
+        Aruba.platform.unescape(last_command_started.stdout, aruba.config.keep_ansi).
+          include?(Aruba.platform.unescape(expected, aruba.config.keep_ansi))
       end
 
       # @deprecated
@@ -895,7 +902,8 @@ module Aruba
       # Check if command failed and if arg1 is included in output
       #
       # @return [TrueClass, FalseClass]
-      #   If exit status is not equal 0 and arg1 is included in output return true, otherwise false
+      #   If exit status is not equal 0 and arg1 is included in output return
+      #   true, otherwise false
       def assert_failing_with(expected)
         Aruba.platform.deprecated(
           'The use of "#assert_passing_with" is deprecated.' \
