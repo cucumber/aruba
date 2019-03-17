@@ -113,7 +113,25 @@ describe Aruba::Api do
           expect(Dir.pwd).not_to eq full_path
         end
 
-        it 'does not touch non-directory environment the passed block' do
+        it 'sets directory environment in the passed block' do
+          @aruba.create_directory @directory_name
+          old_pwd = ENV['PWD']
+          full_path = File.expand_path(@directory_path)
+          @aruba.cd @directory_name do
+            expect(ENV['PWD']).to eq full_path
+            expect(ENV['OLDPWD']).to eq old_pwd
+          end
+        end
+
+        it 'sets aruba environment in the passed block' do
+          @aruba.create_directory @directory_name
+          @aruba.set_environment_variable('FOO', 'bar')
+          @aruba.cd @directory_name do
+            expect(ENV['FOO']).to eq 'bar'
+          end
+        end
+
+        it 'does not touch other environment variables in the passed block' do
           @aruba.create_directory @directory_name
           @aruba.cd @directory_name do
             expect(ENV['HOME']).not_to be_nil
