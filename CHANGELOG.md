@@ -6,21 +6,27 @@ This project will adhere to [Semantic Versioning][1] once version 1.0.0 is relea
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
-## [v0.14.8](https://github.com/cucumber/aruba/compare/v0.14.7...v0.14.8)
+## [v0.14.9]
+
+* Formally deprecate `#use_clean_gemset` ([#597])
+* Improve deprecation messages ([#601])
+* Do not replace entire environment inside `#cd` block ([#604])
+
+## [v0.14.8]
 
 * Deprecate `#run` and `#run_simple` in favor of `#run_command` and
-  `#run_command_and_stop` (#585)
+  `#run_command_and_stop` ([#585])
 * Update dependencies, most notably loosening the dependency on `childprocess`
-  (#591)
+  ([#591])
 * Properly warn about deprecated use of the run methods with one positional
-  option (#588)
+  option ([#588])
 
-## [v0.14.7](https://github.com/cucumber/aruba/compare/v0.14.6...v0.14.7)
+## [v0.14.7]
 
 * Fix Cucumber steps to use `have_same_file_content_as` matcher ([#572])
 * Update dependencies, most notably loosening the dependency on `ffi` ([#581])
 
-## [v0.14.6](https://github.com/cucumber/aruba/compare/v0.14.5...v0.14.6)
+## [v0.14.6]
 
 * Document and fix `@disable-bundler` hook ([#561])
 * Deprecate `have_same_file_content_like` and `a_file_with_same_content_like`
@@ -641,8 +647,14 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 [tdreyno]:       https://github.com/tdreyno
 [xtrasimplicity]: https://github.com/xtrasimplicity
 
-<!-- issues -->
+<!-- issues & pull requests -->
 
+[#604]: https://github.com/cucumber/aruba/pull/604
+[#601]: https://github.com/cucumber/aruba/pull/601
+[#597]: https://github.com/cucumber/aruba/pull/597
+[#591]: https://github.com/cucumber/aruba/pull/591
+[#588]: https://github.com/cucumber/aruba/pull/588
+[#585]: https://github.com/cucumber/aruba/pull/585
 [#582]: https://github.com/cucumber/aruba/pull/582
 [#572]: https://github.com/cucumber/aruba/pull/572
 [#561]: https://github.com/cucumber/aruba/pull/561
@@ -819,6 +831,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 <!-- Releases -->
 
+[v0.14.9]:        https://github.com/cucumber/aruba/compare/v0.14.8...v0.14.9
+[v0.14.8]:        https://github.com/cucumber/aruba/compare/v0.14.7...v0.14.8
+[v0.14.7]:        https://github.com/cucumber/aruba/compare/v0.14.6...v0.14.7
 [v0.14.6]:        https://github.com/cucumber/aruba/compare/v0.14.5...v0.14.6
 [v0.14.5]:        https://github.com/cucumber/aruba/compare/v0.14.4...v0.14.5
 [v0.14.4]:        https://github.com/cucumber/aruba/compare/v0.14.3...v0.14.4
