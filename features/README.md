@@ -1,7 +1,6 @@
 [![GitHub stars](https://img.shields.io/github/stars/cucumber/aruba.svg)](https://github.com/cucumber/aruba/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cucumber/aruba/master/LICENSE)
 [![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
-[![Dependency Status](https://gemnasium.com/cucumber/aruba.svg)](https://gemnasium.com/cucumber/aruba)
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.svg)](https://codeclimate.com/github/cucumber/aruba)
 [![Support](https://img.shields.io/badge/cucumber-support-orange.svg)](https://cucumber.io/support)
 
