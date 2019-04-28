@@ -383,7 +383,7 @@ module Aruba
       # @return [Numeric]
       #   The size of the file
       def file_size(name)
-        expect(name).to be_an_existing_file
+        raise ArgumentError, "#{name} does not exist" unless exist? name
 
         Aruba.platform.determine_file_size expand_path(name)
       end

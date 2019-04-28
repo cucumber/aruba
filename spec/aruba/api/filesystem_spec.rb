@@ -107,7 +107,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
     context 'when file does not exist' do
       let(:name) { 'non_existing_file' }
-      it { expect { size }.to raise_error RSpec::Expectations::ExpectationNotMetError }
+      it { expect { size }.to raise_error ArgumentError }
     end
   end
 
