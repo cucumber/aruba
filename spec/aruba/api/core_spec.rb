@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'aruba/api'
 require 'fileutils'
 
-describe Aruba::Api::Core do
+RSpec.describe Aruba::Api::Core do
   include_context 'uses aruba API'
 
   describe '#expand_path' do
@@ -30,53 +30,18 @@ describe Aruba::Api::Core do
       it { expect { @aruba.expand_path('') }.to raise_error ArgumentError }
     end
 
-    context 'when dir_path is given similar to File.expand_path ' do
-      it { expect(@aruba.expand_path(@file_name, 'path')).to eq File.expand_path(File.join(aruba.current_directory, 'path', @file_name)) }
+    context 'when second argument is given' do
+      it 'behaves similar to File.expand_path' do
+        expect(@aruba.expand_path(@file_name, 'path')).
+          to eq File.expand_path(File.join(aruba.current_directory, 'path', @file_name))
+      end
     end
 
     context 'when file_name contains fixtures "%" string' do
-      let(:runtime) { instance_double('Aruba::Runtime') }
-      let(:config) { double('Aruba::Config') }
-      let(:environment) { instance_double('Aruba::Environment') }
-
-      let(:klass) do
-        Class.new do
-          include Aruba::Api
-
-          attr_reader :aruba
-
-          def initialize(aruba)
-            @aruba = aruba
-          end
-        end
+      it 'finds files in the fixtures directory' do
+        expect(@aruba.expand_path('%/cli-app')).
+          to eq File.expand_path('cli-app', File.join(aruba.fixtures_directory))
       end
-
-      before :each do
-        allow(config).to receive(:fixtures_path_prefix).and_return('%')
-        allow(config).to receive(:root_directory).and_return aruba.config.root_directory
-        allow(config).to receive(:working_directory).and_return aruba.config.working_directory
-      end
-
-      before :each do
-        allow(environment).to receive(:clear)
-        allow(environment).to receive(:update).and_return(environment)
-        allow(environment).to receive(:to_h).and_return('PATH' => aruba.current_directory.to_s)
-      end
-
-      before :each do
-        allow(runtime).to receive(:config).and_return config
-        allow(runtime).to receive(:environment).and_return environment
-        allow(runtime).to receive(:current_directory).and_return aruba.current_directory
-        allow(runtime).to receive(:root_directory).and_return aruba.root_directory
-        allow(runtime).to receive(:fixtures_directory).and_return File.join(aruba.root_directory, aruba.current_directory, 'spec', 'fixtures')
-      end
-
-      before :each do
-        @aruba = klass.new(runtime)
-        @aruba.touch 'spec/fixtures/file1'
-      end
-
-      it { expect(@aruba.expand_path('%/file1')).to eq File.expand_path(File.join(aruba.current_directory, 'spec', 'fixtures', 'file1')) }
     end
   end
 
@@ -115,9 +80,11 @@ describe Aruba::Api::Core do
       end
 
       it 'does not touch other environment variables in the passed block' do
+        keys = ENV.keys - ['PWD', 'OLDPWD']
+        old_env = ENV.slice(*keys)
         @aruba.create_directory @directory_name
         @aruba.cd @directory_name do
-          expect(ENV['HOME']).not_to be_nil
+          expect(ENV.slice(*keys)).to eq old_env
         end
       end
     end
