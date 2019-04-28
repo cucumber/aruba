@@ -44,9 +44,12 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     context 'when stopped successfully' do
       it { expect { process.stop }.not_to raise_error }
 
-      it 'makes the process stopped' do
+      it "leaves the process in the 'stopped' state" do
         process.stop
-        expect(process).to be_stopped
+        aggregate_failures do
+          expect(process).to be_stopped
+          expect(process).not_to be_started
+        end
       end
     end
   end
@@ -55,9 +58,12 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     context "when process run succeeds" do
       it { expect { process.start }.not_to raise_error }
 
-      it 'makes the process started' do
+      it "leaves the process in the 'started' state" do
         process.start
-        expect(process).to be_started
+        aggregate_failures do
+          expect(process).to be_started
+          expect(process).not_to be_stopped
+        end
       end
     end
 
