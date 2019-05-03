@@ -352,7 +352,7 @@ RSpec.describe 'Deprecated API' do
         ENV.delete 'LONG_LONG_ENV_VARIABLE'
       end
 
-      context 'when set single' do
+      context 'when set once' do
         before :each do
           @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
           @aruba.restore_env
@@ -378,7 +378,7 @@ RSpec.describe 'Deprecated API' do
         ENV['LONG_LONG_ENV_VARIABLE'] = '0'
       end
 
-      context 'when set single time' do
+      context 'when set once' do
         before :each do
           @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
           @aruba.restore_env
