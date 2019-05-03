@@ -2,54 +2,75 @@ require 'spec_helper'
 require 'aruba/api'
 
 describe "Aruba JRuby Startup Helper" do
-  before(:all) do
-    @fake_env = ENV.clone
-  end
+  include Aruba::Api
+  include_context 'uses aruba API'
 
-  before :each do
+  let(:rb_config) { double('RbConfig::CONFIG') }
+
+  before do
     Aruba.config.reset
 
-    # Define before_cmd-hook
+    # Define before :command hook
     load 'aruba/config/jruby.rb'
   end
 
-  before(:each) do
-    @fake_env['JRUBY_OPTS'] = "--1.9"
-    @fake_env['JAVA_OPTS'] = "-Xdebug"
-
-    stub_const('ENV', @fake_env)
+  around do |example|
+    with_environment('JRUBY_OPTS' => '--1.9', 'JAVA_OPTS' => '-Xdebug') do
+      example.run
+    end
   end
 
-  context 'when some mri ruby' do
-    before :each do
+  context 'when running under some MRI Ruby' do
+    before do
       stub_const('RUBY_PLATFORM', 'x86_64-chocolate')
     end
 
-    before :each do
+    it 'keeps the existing JRuby and Java option values' do
+      # Run defined before :command hook
       Aruba.config.before :command, self
-    end
 
-    it { expect(ENV['JRUBY_OPTS']).to eq '--1.9' }
-    it { expect(ENV['JAVA_OPTS']).to eq '-Xdebug' }
+      with_environment do
+        expect(ENV['JRUBY_OPTS']).to eq '--1.9'
+        expect(ENV['JAVA_OPTS']).to eq '-Xdebug'
+      end
+    end
   end
 
-  context 'when jruby ruby' do
-    before :each do
-      stub_const('RUBY_PLATFORM', 'java')
-    end
-
-    before :each do
-      rb_config = double('rb_config')
-      allow(rb_config).to receive(:[]).and_return('solaris')
-
+  context 'when running under JRuby but not on Solaris' do
+    before do
+      stub_const 'RUBY_PLATFORM', 'java'
       stub_const 'RbConfig::CONFIG', rb_config
+
+      allow(rb_config).to receive(:[]).with('host_os').and_return('foo-os')
     end
 
-    before :each do
+    it 'updates the existing JRuby but not Java option values' do
+      # Run defined before :command hook
       Aruba.config.before :command, self
+
+      with_environment do
+        expect(ENV['JRUBY_OPTS']).to eq '--dev -X-C --1.9'
+        expect(ENV['JAVA_OPTS']).to eq '-Xdebug'
+      end
+    end
+  end
+
+  context 'when running under JRuby on Solaris' do
+    before :each do
+      stub_const 'RUBY_PLATFORM', 'java'
+      stub_const 'RbConfig::CONFIG', rb_config
+
+      allow(rb_config).to receive(:[]).with('host_os').and_return('solaris')
     end
 
-    it { expect(ENV['JRUBY_OPTS']).to eq '--dev -X-C --1.9' }
-    it { expect(ENV['JAVA_OPTS']).to eq '-d32 -Xdebug' }
+    it 'keeps the existing JRuby and Java option values' do
+      # Run defined before :command hook
+      Aruba.config.before :command, self
+
+      with_environment do
+        expect(ENV['JRUBY_OPTS']).to eq '--dev -X-C --1.9'
+        expect(ENV['JAVA_OPTS']).to eq '-d32 -Xdebug'
+      end
+    end
   end
 end
