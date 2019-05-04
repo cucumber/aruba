@@ -10,25 +10,20 @@ rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.8
-  - 2.2.4
-  - 2.3.8
-  - 2.4.5
-  - 2.5.3
-  - 2.6.0
-  - jruby-1.7.26
-  - jruby-20mode
-  - jruby-21mode
-  - rbx
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+  - jruby-1.7
+  - jruby-9.2
+  - rbx-3
 matrix:
   include:
-    - rvm: jruby-9.0.1.0
-    - rvm: jruby-9.0.1.0-20mode
-    - rvm: jruby-9.0.1.0-21mode
+    - rvm: jruby-1.7
+      env: JRUBY_OPTS='--dev --1.8'
   allow_failures:
-  - rvm: rbx
-  - rvm: jruby-9.0.1.0
-  - rvm: jruby-9.0.1.0-20mode
-  - rvm: jruby-9.0.1.0-21mode
+  - rvm: rbx-3
 branches:
   only:
     - master
