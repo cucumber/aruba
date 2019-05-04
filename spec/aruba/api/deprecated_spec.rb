@@ -13,6 +13,12 @@ RSpec.describe 'Deprecated API' do
     allow(Aruba.platform).to receive(:deprecated)
   end
 
+  describe '#absolute_path' do
+    context 'when file_name is array of path names' do
+      it { expect(@aruba.absolute_path(['path', @file_name])).to eq File.expand_path(File.join(aruba.current_directory, 'path', @file_name)) }
+    end
+  end
+
   describe "#assert_not_matching_output" do
     before(:each){ @aruba.run_simple("echo foo", false) }
     after(:each) { @aruba.all_commands.each(&:stop) }
@@ -303,6 +309,113 @@ RSpec.describe 'Deprecated API' do
 
     it "raises a descriptive exception" do
       expect { @aruba.get_process("false") }.to raise_error Aruba::CommandNotFoundError, "No command named 'false' has been started"
+    end
+  end
+
+  describe '#set_env' do
+    context 'when non-existing variable' do
+      before :each do
+        ENV.delete('LONG_LONG_ENV_VARIABLE')
+      end
+
+      context 'when string' do
+        before :each do
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+        end
+
+        it { expect(ENV['LONG_LONG_ENV_VARIABLE']).to eq '1' }
+      end
+    end
+
+    context 'when existing variable set by aruba' do
+      before :each do
+        @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+        @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '2'
+      end
+
+      it { expect(ENV['LONG_LONG_ENV_VARIABLE']).to eq '2' }
+    end
+
+    context 'when existing variable by outer context' do
+      before :each do
+        ENV['LONG_LONG_ENV_VARIABLE'] = '1'
+        @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '2'
+      end
+
+      it { expect(ENV['LONG_LONG_ENV_VARIABLE']).to eq '2' }
+    end
+  end
+
+  describe '#restore_env' do
+    context 'when non-existing variable' do
+      before :each do
+        ENV.delete 'LONG_LONG_ENV_VARIABLE'
+      end
+
+      context 'when set once' do
+        before :each do
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+          @aruba.restore_env
+        end
+
+        it { expect(ENV).not_to have_key 'LONG_LONG_ENV_VARIABLE' }
+      end
+
+      context 'when set multiple times' do
+        before :each do
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '2'
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '3'
+          @aruba.restore_env
+        end
+
+        it { expect(ENV).not_to have_key 'LONG_LONG_ENV_VARIABLE' }
+      end
+    end
+
+    context 'when existing variable from outer context' do
+      before :each do
+        ENV['LONG_LONG_ENV_VARIABLE'] = '0'
+      end
+
+      context 'when set once' do
+        before :each do
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+          @aruba.restore_env
+        end
+
+        it { expect(ENV['LONG_LONG_ENV_VARIABLE']).to eq '0' }
+      end
+
+      context 'when set multiple times' do
+        before :each do
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '1'
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '2'
+          @aruba.set_env 'LONG_LONG_ENV_VARIABLE', '3'
+          @aruba.restore_env
+        end
+
+        it { expect(ENV['LONG_LONG_ENV_VARIABLE']).to eq '0' }
+      end
+    end
+  end
+
+  describe "#restore_env" do
+    after(:each) { @aruba.all_commands.each(&:stop) }
+
+    it "restores environment variable" do
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
+      @aruba.restore_env
+      @aruba.run "env"
+      expect(@aruba.all_output).not_to include("LONG_LONG_ENV_VARIABLE")
+    end
+
+    it "restores environment variable that has been set multiple times" do
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'true'
+      @aruba.set_env 'LONG_LONG_ENV_VARIABLE', 'false'
+      @aruba.restore_env
+      @aruba.run "env"
+      expect(@aruba.all_output).not_to include("LONG_LONG_ENV_VARIABLE")
     end
   end
 end

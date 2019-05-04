@@ -42,19 +42,35 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     before(:each) { process.start }
 
     context 'when stopped successfully' do
-      it { process.stop }
+      it { expect { process.stop }.not_to raise_error }
+
+      it "leaves the process in the 'stopped' state" do
+        process.stop
+        aggregate_failures do
+          expect(process).to be_stopped
+          expect(process).not_to be_started
+        end
+      end
     end
   end
 
   describe "#start" do
     context "when process run succeeds" do
       it { expect { process.start }.not_to raise_error }
+
+      it "leaves the process in the 'started' state" do
+        process.start
+        aggregate_failures do
+          expect(process).to be_started
+          expect(process).not_to be_stopped
+        end
+      end
     end
 
     context "when process run fails" do
       let(:command) { 'does_not_exists' }
 
-      it { expect {process.start}.to raise_error Aruba::LaunchError }
+      it { expect { process.start }.to raise_error Aruba::LaunchError }
     end
 
     context 'with a command with a space in the path on unix' do
