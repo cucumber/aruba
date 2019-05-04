@@ -10,16 +10,6 @@ Before '@requires-python' do |scenario|
   end
 end
 
-Before '@requires-zsh' do |scenario|
-  next unless Aruba.platform.which('zsh').nil?
-
-  if Cucumber::VERSION < '2'
-    scenario.skip_invoke!
-  else
-    skip_this_scenario
-  end
-end
-
 Before '@requires-java' do |scenario|
   next unless Aruba.platform.which('javac').nil?
 
