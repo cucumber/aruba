@@ -1,7 +1,9 @@
 AllCops:
   Exclude:
     - tmp/**/*
+    - vendor/bundle/**/*
   DisplayCopNames: true
+
 # Cop supports --auto-correct.
 # Configuration parameters: SupportedStyles.
 Style/HashSyntax:
