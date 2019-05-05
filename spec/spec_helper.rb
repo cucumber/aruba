@@ -1,8 +1,10 @@
 $LOAD_PATH << ::File.expand_path('../../lib', __FILE__)
 
-require 'simplecov'
-SimpleCov.command_name 'rspec'
-SimpleCov.start
+unless RUBY_PLATFORM.include?('java')
+  require 'simplecov'
+  SimpleCov.command_name 'rspec'
+  SimpleCov.start
+end
 
 # Pull in all of the gems including those in the `test` group
 require 'bundler'
