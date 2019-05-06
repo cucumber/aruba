@@ -13,22 +13,22 @@ Bundler/DuplicatedGem:
   Exclude:
     - 'Gemfile'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: TreatCommentsAsGroupSeparators, Include.
-# Include: **/*.gemfile, **/Gemfile, **/gems.rb
-Bundler/OrderedGems:
-  Exclude:
-    - 'Gemfile'
-    - 'fixtures/getting-started-app/Gemfile'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: TreatCommentsAsGroupSeparators, Include.
-# Include: **/*.gemspec
-Gemspec/OrderedDependencies:
-  Exclude:
-    - 'aruba.gemspec'
+## Offense count: 2
+## Cop supports --auto-correct.
+## Configuration parameters: TreatCommentsAsGroupSeparators, Include.
+## Include: **/*.gemfile, **/Gemfile, **/gems.rb
+#Bundler/OrderedGems:
+#  Exclude:
+#    - 'Gemfile'
+#    - 'fixtures/getting-started-app/Gemfile'
+#
+## Offense count: 2
+## Cop supports --auto-correct.
+## Configuration parameters: TreatCommentsAsGroupSeparators, Include.
+## Include: **/*.gemspec
+#Gemspec/OrderedDependencies:
+#  Exclude:
+#    - 'aruba.gemspec'
 
 # Offense count: 2
 # Cop supports --auto-correct.

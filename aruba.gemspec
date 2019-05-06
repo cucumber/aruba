@@ -14,11 +14,11 @@ Gem::Specification.new do |spec|
   spec.email       = 'cukes@googlegroups.com'
   spec.homepage    = 'http://github.com/cucumber/aruba'
 
-  spec.add_runtime_dependency 'cucumber', '~> 2.4', '>= 2.4.0'
   spec.add_runtime_dependency 'childprocess', ['>= 0.6.3', '< 0.10.0']
+  spec.add_runtime_dependency 'contracts', '~> 0.13'
+  spec.add_runtime_dependency 'cucumber', '~> 2.4', '>= 2.4.0'
   spec.add_runtime_dependency 'ffi', '~> 1.9', '>= 1.9.10'
   spec.add_runtime_dependency 'rspec-expectations', '~> 3.4', '>= 3.4.0'
-  spec.add_runtime_dependency 'contracts', '~> 0.13'
   spec.add_runtime_dependency 'thor', '~> 0.19'
 
   spec.add_development_dependency 'bundler', ['>= 1.7.0', '< 3.0']
