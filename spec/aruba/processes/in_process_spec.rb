@@ -117,7 +117,7 @@ RSpec.describe Aruba::Processes::InProcess do
     end
 
     it "exits success" do
-      expect(run_process{ }.exit_status).to eq 0
+      expect(run_process{}.exit_status).to eq 0
     end
 
     it "exits with given status" do

@@ -185,6 +185,7 @@ module Aruba
       #   The input for the command
       def type(input)
         return close_input if input == ""
+
         last_command_started.write(input << "\n")
       end
 

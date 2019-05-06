@@ -189,7 +189,6 @@ RSpec.describe 'File Matchers' do
     end
   end
 
-
   describe 'to_have_file_size' do
     context 'when file exists' do
       before :each do

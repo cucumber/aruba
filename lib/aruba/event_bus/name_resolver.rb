@@ -41,6 +41,7 @@ module Aruba
               constant = constant.ancestors.inject do |const, ancestor|
                 break const    if ancestor == Object
                 break ancestor if ancestor.const_defined?(name, false)
+
                 const
               end
               # rubocop:enable Style/EachWithObject

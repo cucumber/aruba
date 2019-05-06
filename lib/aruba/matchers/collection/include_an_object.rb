@@ -10,6 +10,7 @@ module Aruba
     # Not intended to be instantiated directly.
     class IncludeAnObject < BaseMatcher
       include Base::MessageIndenter
+
       protected
 
       # @private
@@ -33,6 +34,7 @@ module Aruba
         end
 
         return failed_objects.first if failed_objects.size == 1
+
         all_messages = [improve_hash_formatting(super)]
         failed_objects.each_with_index do |matcher_failure_message, index|
           all_messages << failure_message_for_item(index, matcher_failure_message)

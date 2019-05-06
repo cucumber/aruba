@@ -65,6 +65,7 @@ module Aruba
       def start
         # rubocop:disable Metrics/LineLength
         fail CommandAlreadyStartedError, %(Command "#{commandline}" has already been started. Please `#stop` the command first and `#start` it again. Alternatively use `#restart`.\n#{caller.join("\n")}) if started?
+
         # rubocop:enable Metrics/LineLength
 
         @started = true

@@ -9,6 +9,7 @@ RSpec.shared_context 'uses aruba API' do
   def create_test_files(files, data = 'a')
     Array(files).each do |s|
       next if s.to_s[0] == '%'
+
       local_path = @aruba.expand_path(s)
 
       FileUtils.mkdir_p File.dirname(local_path)

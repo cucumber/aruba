@@ -28,6 +28,7 @@ module Aruba
           found = Dir[program].first
 
           return File.expand_path(found) if found && Aruba.platform.executable?(found)
+
           nil
         end
       end
