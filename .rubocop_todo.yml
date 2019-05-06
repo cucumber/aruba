@@ -167,31 +167,31 @@ Lint/MissingCopEnableDirective:
     - 'lib/aruba/configuration.rb'
     - 'lib/aruba/processes/spawn_process.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-Lint/UnneededCopDisableDirective:
-  Exclude:
-    - 'lib/aruba/api/commands.rb'
-    - 'lib/aruba/event_bus/name_resolver.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Lint/UnneededRequireStatement:
-  Exclude:
-    - 'lib/aruba/platform.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'lib/aruba/matchers/command/have_output.rb'
-
-# Offense count: 2
-Lint/UselessAssignment:
-  Exclude:
-    - 'lib/aruba/cucumber/command.rb'
-    - 'lib/aruba/platforms/unix_environment_variables.rb'
+## Offense count: 2
+## Cop supports --auto-correct.
+#Lint/UnneededCopDisableDirective:
+#  Exclude:
+#    - 'lib/aruba/api/commands.rb'
+#    - 'lib/aruba/event_bus/name_resolver.rb'
+#
+## Offense count: 1
+## Cop supports --auto-correct.
+#Lint/UnneededRequireStatement:
+#  Exclude:
+#    - 'lib/aruba/platform.rb'
+#
+## Offense count: 1
+## Cop supports --auto-correct.
+## Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
+#Lint/UnusedBlockArgument:
+#  Exclude:
+#    - 'lib/aruba/matchers/command/have_output.rb'
+#
+## Offense count: 2
+#Lint/UselessAssignment:
+#  Exclude:
+#    - 'lib/aruba/cucumber/command.rb'
+#    - 'lib/aruba/platforms/unix_environment_variables.rb'
 
 # Offense count: 2
 # Configuration parameters: CheckForMethodsWithNoSideEffects.
