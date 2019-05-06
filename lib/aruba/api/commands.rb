@@ -231,7 +231,7 @@ module Aruba
           event_bus: event_bus
         )
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
+
       # rubocop:enable Metrics/MethodLength
 
       def start_command(command)

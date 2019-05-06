@@ -43,7 +43,6 @@ module Aruba
 
                 const
               end
-              # rubocop:enable Style/EachWithObject
 
               # owner is in Object, so raise
               constant.const_get(name, false)

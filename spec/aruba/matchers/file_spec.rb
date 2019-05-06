@@ -146,7 +146,7 @@ RSpec.describe 'File Matchers' do
       end
     end
   end
-  
+
   describe 'include a_file_with_same_content_as' do
     let(:reference_file) { 'fixture' }
     let(:reference_file_content) { 'foo bar baz' }
@@ -158,7 +158,7 @@ RSpec.describe 'File Matchers' do
       @aruba.write_file(reference_file, reference_file_content)
       @aruba.write_file(file_with_different_content, 'Some different content here...')
     end
-    
+
     context 'when the array of files includes a file with the same content' do
       let(:files) { [file_with_different_content, file_with_same_content] }
 
@@ -171,7 +171,6 @@ RSpec.describe 'File Matchers' do
           expect { expect(files).not_to include a_file_with_same_content_as reference_file }
         end
       end
-      
     end
 
     context 'when the array of files does not include a file with the same content' do
