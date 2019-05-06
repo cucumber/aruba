@@ -10,19 +10,19 @@ RSpec.describe Aruba::Api::Commands do
       before(:each) { @aruba.run_command 'cat' }
       after(:each) { @aruba.all_commands.each(&:stop) }
 
-      it "respond to input" do
-        @aruba.type "Hello"
-        @aruba.type ""
-        expect(@aruba.last_command_started).to have_output "Hello"
+      it 'respond to input' do
+        @aruba.type 'Hello'
+        @aruba.type "\u0004"
+        expect(@aruba.last_command_started).to have_output 'Hello'
       end
 
-      it "respond to close_input" do
-        @aruba.type "Hello"
+      it 'respond to close_input' do
+        @aruba.type 'Hello'
         @aruba.close_input
-        expect(@aruba.last_command_started).to have_output "Hello"
+        expect(@aruba.last_command_started).to have_output 'Hello'
       end
 
-      it "pipes data" do
+      it 'pipes data' do
         @aruba.write_file(@file_name, "Hello\nWorld!")
         @aruba.pipe_in_file(@file_name)
         @aruba.close_input

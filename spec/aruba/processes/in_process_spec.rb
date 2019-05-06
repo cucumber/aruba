@@ -41,7 +41,7 @@ RSpec.describe Aruba::Processes::InProcess do
   let(:environment) { ENV.to_hash.dup }
   let(:main_class) { Runner }
 
-  describe "#stdout" do
+  describe '#stdout' do
     let(:main_class) { StdoutRunner }
 
     before do
@@ -58,7 +58,7 @@ RSpec.describe Aruba::Processes::InProcess do
     end
   end
 
-  describe "#stderr" do
+  describe '#stderr' do
     let(:main_class) { StderrRunner }
 
     before do
@@ -75,7 +75,7 @@ RSpec.describe Aruba::Processes::InProcess do
     end
   end
 
-  describe "#stop" do
+  describe '#stop' do
     before { process.start }
 
     context 'when stopped successfully' do
@@ -88,8 +88,8 @@ RSpec.describe Aruba::Processes::InProcess do
     end
   end
 
-  describe "#start" do
-    context "when process run succeeds" do
+  describe '#start' do
+    context 'when process run succeeds' do
       it { expect { process.start }.not_to raise_error }
 
       it 'makes the process started' do
@@ -98,14 +98,14 @@ RSpec.describe Aruba::Processes::InProcess do
       end
     end
 
-    context "when process run fails" do
+    context 'when process run fails' do
       let(:main_class) { FailedRunner }
 
       it { expect { process.start }.to raise_error RuntimeError, 'Oops' }
     end
   end
 
-  describe "#exit_status" do
+  describe '#exit_status' do
     def run_process(&block)
       process = described_class.new(
         command, exit_timeout, io_wait, working_directory,
@@ -116,21 +116,21 @@ RSpec.describe Aruba::Processes::InProcess do
       process
     end
 
-    it "exits success" do
+    it 'exits success' do
       expect(run_process{}.exit_status).to eq 0
     end
 
-    it "exits with given status" do
+    it 'exits with given status' do
       expect(run_process { @kernel.exit 12 }.exit_status).to eq 12
     end
 
-    it "exits with boolean" do
+    it 'exits with boolean' do
       expect(run_process { @kernel.exit false }.exit_status).to eq 1
     end
 
-    it "refuses to exit with anything else" do
-      expect { run_process { @kernel.exit "false" } }
-        .to raise_error(TypeError, "no implicit conversion of String into Integer")
+    it 'refuses to exit with anything else' do
+      expect { run_process { @kernel.exit 'false' } }
+        .to raise_error(TypeError, 'no implicit conversion of String into Integer')
     end
   end
 end

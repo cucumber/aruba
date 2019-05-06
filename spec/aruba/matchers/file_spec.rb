@@ -66,17 +66,17 @@ RSpec.describe 'File Matchers' do
       it { expect(@file_name).not_to have_file_content('a') }
     end
 
-    describe "description" do
-      context "when string" do
-        it { expect(have_file_content("a").description).to eq('have file content: "a"') }
+    describe 'description' do
+      context 'when string' do
+        it { expect(have_file_content('a').description).to eq('have file content: "a"') }
       end
 
-      context "when regexp" do
+      context 'when regexp' do
         it { expect(have_file_content(/a/).description).to eq('have file content: /a/') }
       end
 
-      context "when matcher" do
-        it { expect(have_file_content(a_string_starting_with("a")).description).to eq('have file content: a string starting with "a"') }
+      context 'when matcher' do
+        it { expect(have_file_content(a_string_starting_with('a')).description).to eq('have file content: a string starting with "a"') }
       end
     end
 
@@ -87,7 +87,7 @@ RSpec.describe 'File Matchers' do
 
       example 'for a string' do
         expect do
-          expect(@file_name).to have_file_content("z")
+          expect(@file_name).to have_file_content('z')
         end.to fail_with('expected "test.txt" to have file content: "z"')
       end
 
@@ -99,20 +99,20 @@ RSpec.describe 'File Matchers' do
 
       example 'for a matcher' do
         expect do
-          expect(@file_name).to have_file_content(a_string_starting_with("z"))
+          expect(@file_name).to have_file_content(a_string_starting_with('z'))
         end.to fail_with('expected "test.txt" to have file content: a string starting with "z"')
       end
     end
   end
 
-  describe "to have_same_file_content_as" do
+  describe 'to have_same_file_content_as' do
     let(:file_name) { @file_name }
     let(:file_path) { @file_path }
 
     let(:reference_file) { 'fixture' }
 
     before :each do
-      @aruba.write_file(@file_name, "foo bar baz")
+      @aruba.write_file(@file_name, 'foo bar baz')
       @aruba.write_file(reference_file, reference_file_content)
     end
 
@@ -147,7 +147,7 @@ RSpec.describe 'File Matchers' do
     end
   end
   
-  describe "include a_file_with_same_content_as" do
+  describe 'include a_file_with_same_content_as' do
     let(:reference_file) { 'fixture' }
     let(:reference_file_content) { 'foo bar baz' }
     let(:file_with_same_content) { 'file_a.txt' }

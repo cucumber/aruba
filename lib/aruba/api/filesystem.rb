@@ -182,7 +182,7 @@ module Aruba
         end
 
         raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported" if destination.start_with? aruba.config.fixtures_path_prefix
-        raise ArgumentError, "Multiples sources can only be copied to a directory" if source.count > 1 && exist?(destination) && !directory?(destination)
+        raise ArgumentError, 'Multiples sources can only be copied to a directory' if source.count > 1 && exist?(destination) && !directory?(destination)
 
         source_paths     = source.map { |f| expand_path(f) }
         destination_path = expand_path(destination)
@@ -228,7 +228,7 @@ module Aruba
           raise ArgumentError, %(The following source "#{s}" does not exist.) unless exist? s
         end
 
-        raise ArgumentError, "Multiple sources can only be copied to a directory" if source.count > 1 && exist?(destination) && !directory?(destination)
+        raise ArgumentError, 'Multiple sources can only be copied to a directory' if source.count > 1 && exist?(destination) && !directory?(destination)
 
         source_paths     = source.map { |f| expand_path(f) }
         destination_path = expand_path(destination)

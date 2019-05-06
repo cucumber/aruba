@@ -22,18 +22,18 @@ RSpec.shared_context 'uses aruba API' do
       include Aruba::Api
 
       def set_tag(tag_name, value)
-        self.instance_variable_set "@#{tag_name}", value
+        instance_variable_set "@#{tag_name}", value
       end
     end
 
     @aruba = klass.new
 
-    @file_name = "test.txt"
+    @file_name = 'test.txt'
     @file_size = 256
     @file_path = @aruba.expand_path(@file_name)
     @aruba.setup_aruba
 
-    raise "We must work with relative paths, everything else is dangerous" if @aruba.aruba.current_directory[0] == ?/
+    raise 'We must work with relative paths, everything else is dangerous' if @aruba.aruba.current_directory[0] == ?/
   end
 end
 

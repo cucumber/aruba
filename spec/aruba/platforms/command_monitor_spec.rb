@@ -14,8 +14,8 @@ RSpec.describe Aruba::CommandMonitor do
     subject.register_command(process)
   end
 
-  describe "#find" do
-    it "works" do
+  describe '#find' do
+    it 'works' do
       expect(subject.find('foobar')).to eq(process)
     end
   end

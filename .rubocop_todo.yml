@@ -436,20 +436,20 @@ Style/PercentLiteralDelimiters:
     - 'Rakefile'
     - 'lib/aruba/api/bundler.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AllowMultipleReturnValues.
-Style/RedundantReturn:
-  Exclude:
-    - 'spec/support/helpers/reporting.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/RedundantSelf:
-  Exclude:
-    - 'lib/aruba/basic_configuration.rb'
-    - 'lib/aruba/processes/basic_process.rb'
-    - 'spec/support/shared_contexts/aruba.rb'
+## Offense count: 1
+## Cop supports --auto-correct.
+## Configuration parameters: AllowMultipleReturnValues.
+#Style/RedundantReturn:
+#  Exclude:
+#    - 'spec/support/helpers/reporting.rb'
+#
+## Offense count: 3
+## Cop supports --auto-correct.
+#Style/RedundantSelf:
+#  Exclude:
+#    - 'lib/aruba/basic_configuration.rb'
+#    - 'lib/aruba/processes/basic_process.rb'
+#    - 'spec/support/shared_contexts/aruba.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -492,12 +492,12 @@ Style/StderrPuts:
     - 'Rakefile'
     - 'lib/aruba/initializer.rb'
 
-# Offense count: 139
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
-  Enabled: false
+## Offense count: 139
+## Cop supports --auto-correct.
+## Configuration parameters: EnforcedStyle, ConsistentQuotesInMultiline.
+## SupportedStyles: single_quotes, double_quotes
+#Style/StringLiterals:
+#  Enabled: false
 
 # Offense count: 7
 # Cop supports --auto-correct.

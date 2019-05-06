@@ -7,7 +7,7 @@ require 'aruba/version'
 Gem::Specification.new do |spec|
   spec.name        = 'aruba'
   spec.version     = Aruba::VERSION
-  spec.author      = "Aslak Hellesøy, Matt Wynne and other Aruba Contributors"
+  spec.author      = 'Aslak Hellesøy, Matt Wynne and other Aruba Contributors'
   spec.description = 'Extension for popular TDD and BDD frameworks like "Cucumber", "RSpec" and "Minitest" to make testing commandline applications meaningful, easy and fun.'
   spec.summary     = "aruba-#{spec.version}"
   spec.license     = 'MIT'
@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'thor', '~> 0.19'
 
   spec.add_development_dependency 'bundler', ['>= 1.7.0', '< 3.0']
-  spec.rubygems_version = ">= 1.6.1"
+  spec.rubygems_version = '>= 1.6.1'
   spec.required_ruby_version = '>= 2.2'
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   end
 
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.rdoc_options  = ["--charset=UTF-8"]
-  spec.bindir        = "exe"
-  spec.require_paths = ["lib"]
+  spec.rdoc_options  = ['--charset=UTF-8']
+  spec.bindir        = 'exe'
+  spec.require_paths = ['lib']
 end

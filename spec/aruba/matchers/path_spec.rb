@@ -67,7 +67,7 @@ RSpec.describe 'Path Matchers' do
     end
 
     before(:each) do
-      File.open(file_path, 'w') { |f| f << "" }
+      File.open(file_path, 'w') { |f| f << '' }
     end
 
     before(:each) do

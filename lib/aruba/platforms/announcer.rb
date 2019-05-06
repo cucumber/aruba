@@ -1,7 +1,7 @@
 require 'shellwords'
 require 'aruba/colorizer'
 
-Aruba::AnsiColor.coloring = false if !STDOUT.tty? && !ENV.key?("AUTOTEST")
+Aruba::AnsiColor.coloring = false if !STDOUT.tty? && !ENV.key?('AUTOTEST')
 
 # Aruba
 module Aruba

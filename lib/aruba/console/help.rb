@@ -18,7 +18,7 @@ module Aruba
 
       # List available methods in aruba
       def aruba_methods
-        ms = (Aruba::Api.instance_methods - Module.instance_methods).each_with_object([]) { |e, a| a << format("* %s", e) }.sort
+        ms = (Aruba::Api.instance_methods - Module.instance_methods).each_with_object([]) { |e, a| a << format('* %s', e) }.sort
 
         puts "Available Methods:\n" + ms.join("\n")
 

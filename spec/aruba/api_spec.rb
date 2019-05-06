@@ -17,14 +17,14 @@ describe Aruba::Api do
           allow(@aruba.aruba.announcer).to receive(:announce)
         end
 
-        it "should announce to stdout exactly once" do
+        it 'should announce to stdout exactly once' do
           @aruba.run_command_and_stop('echo "hello world"', fail_on_error: false)
           expect(@aruba.last_command_started.output).to include('hello world')
         end
       end
 
       context 'disabled' do
-        it "should not announce to stdout" do
+        it 'should not announce to stdout' do
           result = capture(:stdout) do
             @aruba.run_command_and_stop('echo "hello world"', fail_on_error: false)
           end
@@ -50,24 +50,24 @@ describe Aruba::Api do
     end
   end
 
-  describe "#set_environment_variable" do
+  describe '#set_environment_variable' do
     after(:each) do
       @aruba.all_commands.each(&:stop)
     end
 
-    it "set environment variable" do
+    it 'set environment variable' do
       @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
-      @aruba.run_command_and_stop "env"
+      @aruba.run_command_and_stop 'env'
       expect(@aruba.last_command_started.output)
-        .to include("LONG_LONG_ENV_VARIABLE=true")
+        .to include('LONG_LONG_ENV_VARIABLE=true')
     end
 
-    it "overwrites environment variable" do
+    it 'overwrites environment variable' do
       @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'true'
       @aruba.set_environment_variable 'LONG_LONG_ENV_VARIABLE', 'false'
-      @aruba.run_command_and_stop "env"
+      @aruba.run_command_and_stop 'env'
       expect(@aruba.last_command_started.output)
-        .to include("LONG_LONG_ENV_VARIABLE=false")
+        .to include('LONG_LONG_ENV_VARIABLE=false')
     end
   end
 end # Aruba::Api

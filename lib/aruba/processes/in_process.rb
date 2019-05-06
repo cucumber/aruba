@@ -59,7 +59,7 @@ module Aruba
 
       # Start command
       def start
-        fail "You need to call aruba.config.main_class = YourMainClass" unless main_class
+        fail 'You need to call aruba.config.main_class = YourMainClass' unless main_class
 
         @started = true
 

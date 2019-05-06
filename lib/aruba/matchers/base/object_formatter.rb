@@ -57,7 +57,7 @@ module Aruba
         end
       end
 
-      TIME_FORMAT = "%Y-%m-%d %H:%M:%S".freeze
+      TIME_FORMAT = '%Y-%m-%d %H:%M:%S'.freeze
 
       if Time.method_defined?(:nsec)
         # @private
@@ -66,7 +66,7 @@ module Aruba
         end
       end
 
-      DATE_TIME_FORMAT = "%a, %d %b %Y %H:%M:%S.%N %z".freeze
+      DATE_TIME_FORMAT = '%a, %d %b %Y %H:%M:%S.%N %z'.freeze
 
       # ActiveSupport sometimes overrides inspect. If `ActiveSupport` is
       # defined use a custom format string that includes more time precision.
