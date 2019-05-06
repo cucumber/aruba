@@ -23,10 +23,16 @@ RSpec::Matchers.define :have_output_on_stderr do |expected|
 
     @actual = sanitize_text(actual.stderr)
 
-    values_match?(expected, @actual)
+    values_match?(expected || /./, @actual)
   end
 
   diffable
 
-  description { "have output on stderr: #{description_of expected}" }
+  description do
+    if expected
+      "have output on stderr: #{description_of expected}"
+    else
+      "have output on stderr"
+    end
+  end
 end
