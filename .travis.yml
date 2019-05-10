@@ -31,20 +31,6 @@ jobs:
       os: linux
     - rvm: 2.2
       os: osx
-    - rvm: 2.1
-      os: linux
-    - rvm: 2.1
-      os: osx
-    - rvm: 2.0.0
-      os: linux
-    - rvm: 2.0.0
-      os: osx
-      osx_image: xcode8
-    - rvm: 1.9.3
-      os: linux
-    - rvm: 1.9.3
-      os: osx
-      osx_image: xcode8
     - rvm: jruby
       os: linux
     - rvm: jruby-9.2.7.0
