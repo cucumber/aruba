@@ -3,9 +3,12 @@ require 'aruba/api'
 
 describe "Aruba JRuby Startup Helper" do
   include Aruba::Api
-  include_context 'uses aruba API'
 
   let(:rb_config) { double('RbConfig::CONFIG') }
+  let(:command) do
+    instance_double(Aruba::Processes::BasicProcess, :environment => command_environment)
+  end
+  let(:command_environment) { { 'JRUBY_OPTS' => '--1.9', 'JAVA_OPTS' => '-Xdebug' } }
 
   before do
     Aruba.config.reset
@@ -14,24 +17,18 @@ describe "Aruba JRuby Startup Helper" do
     load 'aruba/config/jruby.rb'
   end
 
-  around do |example|
-    with_environment('JRUBY_OPTS' => '--1.9', 'JAVA_OPTS' => '-Xdebug') do
-      example.run
-    end
-  end
-
   context 'when running under some MRI Ruby' do
     before do
       stub_const('RUBY_PLATFORM', 'x86_64-chocolate')
     end
 
-    it 'keeps the existing JRuby and Java option values' do
+    it 'keeps the existing JRUBY_OPTS and JAVA_OPTS environment values' do
       # Run defined before :command hook
-      Aruba.config.before :command, self
+      Aruba.config.before :command, self, command
 
-      with_environment do
-        expect(ENV['JRUBY_OPTS']).to eq '--1.9'
-        expect(ENV['JAVA_OPTS']).to eq '-Xdebug'
+      aggregate_failures do
+        expect(command_environment['JRUBY_OPTS']).to eq '--1.9'
+        expect(command_environment['JAVA_OPTS']).to eq '-Xdebug'
       end
     end
   end
@@ -46,11 +43,11 @@ describe "Aruba JRuby Startup Helper" do
 
     it 'updates the existing JRuby but not Java option values' do
       # Run defined before :command hook
-      Aruba.config.before :command, self
+      Aruba.config.before :command, self, command
 
-      with_environment do
-        expect(ENV['JRUBY_OPTS']).to eq '--dev -X-C --1.9'
-        expect(ENV['JAVA_OPTS']).to eq '-Xdebug'
+      aggregate_failures do
+        expect(command_environment['JRUBY_OPTS']).to eq '--dev -X-C --1.9'
+        expect(command_environment['JAVA_OPTS']).to eq '-Xdebug'
       end
     end
   end
@@ -65,11 +62,11 @@ describe "Aruba JRuby Startup Helper" do
 
     it 'keeps the existing JRuby and Java option values' do
       # Run defined before :command hook
-      Aruba.config.before :command, self
+      Aruba.config.before :command, self, command
 
-      with_environment do
-        expect(ENV['JRUBY_OPTS']).to eq '--dev -X-C --1.9'
-        expect(ENV['JAVA_OPTS']).to eq '-d32 -Xdebug'
+      aggregate_failures do
+        expect(command_environment['JRUBY_OPTS']).to eq '--dev -X-C --1.9'
+        expect(command_environment['JAVA_OPTS']).to eq '-d32 -Xdebug'
       end
     end
   end
