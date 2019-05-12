@@ -32,7 +32,7 @@ RSpec::Matchers.define :have_output do |expected|
 
   description { "have output: #{description_of expected}" }
 
-  failure_message do |actual|
+  failure_message do |_actual|
     "expected `#{@old_actual.commandline}` to have output #{description_of expected}\n" \
       "but was:\n#{Aruba::Matchers::Base::MessageIndenter.indent_multiline_message @actual}"
   end

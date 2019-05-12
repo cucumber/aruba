@@ -1,4 +1,3 @@
-require 'thread'
 require 'aruba/platforms/unix_platform'
 require 'aruba/platforms/windows_platform'
 

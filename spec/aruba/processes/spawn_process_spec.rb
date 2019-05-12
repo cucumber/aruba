@@ -10,7 +10,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   let(:environment) { ENV.to_hash.dup }
   let(:main_class) { nil }
 
-  describe "#stdout" do
+  describe '#stdout' do
     before(:each) { process.start }
     before(:each) { process.stop }
 
@@ -23,7 +23,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     end
   end
 
-  describe "#stderr" do
+  describe '#stderr' do
     let(:command) { 'fixtures/spawn_process/stderr.sh yo' }
 
     before(:each) { process.start }
@@ -38,7 +38,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     end
   end
 
-  describe "#stop" do
+  describe '#stop' do
     before(:each) { process.start }
 
     context 'when stopped successfully' do
@@ -51,8 +51,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     end
   end
 
-  describe "#start" do
-    context "when process run succeeds" do
+  describe '#start' do
+    context 'when process run succeeds' do
       it { expect { process.start }.not_to raise_error }
 
       it 'makes the process started' do
@@ -61,13 +61,13 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       end
     end
 
-    context "when process run fails" do
+    context 'when process run fails' do
       let(:command) { 'does_not_exists' }
 
       it { expect { process.start }.to raise_error Aruba::LaunchError }
     end
 
-    context "with a childprocess launch error" do
+    context 'with a childprocess launch error' do
       let(:child) { instance_double(ChildProcess::AbstractProcess) }
       let(:command) { 'foo' }
 
@@ -75,10 +75,10 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         allow(ChildProcess).to receive(:build).and_return(child)
 
         # STEP 1: Simlulate the program exists (but will fail to run, e.g. EACCESS?)
-        allow(Aruba.platform).to receive(:which).with(command, anything).and_return("/foo")
+        allow(Aruba.platform).to receive(:which).with(command, anything).and_return('/foo')
 
         # STEP 2: Simulate the failure on Windows
-        allow(child).to receive(:start).and_raise(ChildProcess::LaunchError, "Foobar!")
+        allow(child).to receive(:start).and_raise(ChildProcess::LaunchError, 'Foobar!')
 
         # TODO: wrap the result of ChildProcess.build with a special Aruba
         # class , so the remaining mocks below won't be needed
@@ -97,7 +97,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       end
 
       it "reraises LaunchError as Aruba's LaunchError" do
-        expect { process.start }.to raise_error(Aruba::LaunchError, "It tried to start foo. Foobar!")
+        expect { process.start }.to raise_error(Aruba::LaunchError, 'It tried to start foo. Foobar!')
       end
     end
 

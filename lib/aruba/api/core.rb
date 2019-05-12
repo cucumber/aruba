@@ -134,6 +134,7 @@ module Aruba
 
         # rubocop:disable Metrics/LineLength
         fail %(Aruba's working directory does not exist. Maybe you forgot to run `setup_aruba` before using its API.) unless Aruba.platform.directory? File.join(aruba.config.root_directory, aruba.config.working_directory)
+
         # rubocop:enable Metrics/LineLength
 
         prefix = file_name[0]
@@ -144,6 +145,7 @@ module Aruba
 
           # rubocop:disable Metrics/LineLength
           fail ArgumentError, %(Fixture "#{rest}" does not exist in fixtures directory "#{aruba.fixtures_directory}". This was the one we found first on your system from all possible candidates: #{aruba.config.fixtures_directories.map { |p| format('"%s"', p) }.join(', ')}.) unless Aruba.platform.exist? path
+
           # rubocop:enable Metrics/LineLength
 
           path

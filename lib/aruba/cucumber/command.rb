@@ -304,16 +304,16 @@ end
 
 Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) do |channel, negated, table|
   table.raw.flatten.each do |expected|
-    matcher = case channel.to_sym
-              when :output
-                :have_output
-              when :stderr
-                :have_output_on_stderr
-              when :stdout
-                :have_output_on_stdout
-              else
-                fail ArgumentError, %(Invalid channel "#{channel}" chosen. Only "output", "stdout" and "stderr" are supported.)
-              end
+    case channel.to_sym
+    when :output
+      :have_output
+    when :stderr
+      :have_output_on_stderr
+    when :stdout
+      :have_output_on_stdout
+    else
+      fail ArgumentError, %(Invalid channel "#{channel}" chosen. Only "output", "stdout" and "stderr" are supported.)
+    end
 
     if negated
       expect(all_commands).not_to include_an_object have_output an_output_string_including(expected)

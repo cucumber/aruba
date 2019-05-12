@@ -397,7 +397,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
             before(:each) { create_test_files(destination) }
 
-            it { expect { @aruba.copy source, destination }.to raise_error ArgumentError, "Multiples sources can only be copied to a directory" }
+            it { expect { @aruba.copy source, destination }.to raise_error ArgumentError, 'Multiples sources can only be copied to a directory' }
           end
 
           context 'when a source is the same like destination' do
@@ -435,13 +435,13 @@ RSpec.describe Aruba::Api::Filesystem do
   end
 
   context '#write_fixed_size_file' do
-    it "should write a fixed sized file" do
+    it 'should write a fixed sized file' do
       @aruba.write_fixed_size_file(@file_name, @file_size)
       expect(File.exist?(@file_path)).to eq true
       expect(File.size(@file_path)).to eq @file_size
     end
 
-    it "works with ~ in path name" do
+    it 'works with ~ in path name' do
       file_path = File.join('~', random_string)
 
       @aruba.with_environment 'HOME' => File.expand_path(aruba.current_directory) do
@@ -455,7 +455,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
   describe '#chmod' do
     def actual_permissions
-      format("%o", File::Stat.new(file_path).mode)[-4, 4]
+      format('%o', File::Stat.new(file_path).mode)[-4, 4]
     end
 
     let(:file_name) { @file_name }
@@ -467,7 +467,7 @@ RSpec.describe Aruba::Api::Filesystem do
     end
 
     before(:each) do
-      File.open(file_path, 'w') { |f| f << "" }
+      File.open(file_path, 'w') { |f| f << '' }
     end
 
     before(:each) do
@@ -494,31 +494,31 @@ RSpec.describe Aruba::Api::Filesystem do
     end
   end
 
-  context "#with_file_content" do
+  context '#with_file_content' do
     before :each do
-      @aruba.write_file(@file_name, "foo bar baz")
+      @aruba.write_file(@file_name, 'foo bar baz')
     end
 
     it "checks the given file's full content against the expectations in the passed block" do
       @aruba.with_file_content @file_name do |full_content|
-        expect(full_content).to eq "foo bar baz"
+        expect(full_content).to eq 'foo bar baz'
       end
     end
 
-    it "works with ~ in path name" do
+    it 'works with ~ in path name' do
       file_path = File.join('~', random_string)
 
       @aruba.with_environment 'HOME' => File.expand_path(aruba.current_directory) do
-        @aruba.write_file(file_path, "foo bar baz")
+        @aruba.write_file(file_path, 'foo bar baz')
 
         @aruba.with_file_content file_path do |full_content|
-          expect(full_content).to eq "foo bar baz"
+          expect(full_content).to eq 'foo bar baz'
         end
       end
     end
 
     context "checking the file's content against the expectations in the block" do
-      it "is successful when the inner expectations match" do
+      it 'is successful when the inner expectations match' do
         expect do
           @aruba.with_file_content @file_name do |full_content|
             expect(full_content).to     match(/foo/)
@@ -676,7 +676,7 @@ RSpec.describe Aruba::Api::Filesystem do
     context 'when given a file' do
       context 'when it exists' do
         before do
-          Array(path).each { |it| File.open(File.expand_path(it), 'w') { |f| f << "" } }
+          Array(path).each { |it| File.open(File.expand_path(it), 'w') { |f| f << '' } }
 
           @aruba.remove(name, options)
         end

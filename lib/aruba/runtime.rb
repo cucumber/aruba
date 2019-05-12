@@ -82,6 +82,7 @@ module Aruba
         directory = candidates.find { |d| Aruba.platform.directory? d }
 
         fail "No existing fixtures directory found in #{candidates.map { |d| format('"%s"', d) }.join(', ')}." unless directory
+
         directory
       end
 

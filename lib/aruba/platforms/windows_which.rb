@@ -28,6 +28,7 @@ module Aruba
           found = Dir[program].first
 
           return File.expand_path(found) if found && Aruba.platform.executable?(found)
+
           nil
         end
       end
@@ -48,7 +49,7 @@ module Aruba
             file = File.join(dir, program)
             # Dir[] doesn't handle backslashes properly, so convert them. Also, if
             # the program name doesn't have an extension, try them all.
-            file = file.tr("\\", "/")
+            file = file.tr('\\', '/')
 
             found = Dir[file].first
 

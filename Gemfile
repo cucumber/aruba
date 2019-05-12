@@ -66,8 +66,8 @@ group :development, :test do
   gem 'yard', '~>0.9.9'
 
   # Test api
-  gem 'rspec', '~> 3.4'
   gem 'fuubar', '~> 2.2'
+  gem 'rspec', '~> 3.4'
 
   if RUBY_VERSION >= '2.0.0'
     # Make aruba compliant to ruby community guide

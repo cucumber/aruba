@@ -22,6 +22,7 @@ RSpec.configure do |config|
     example.run
 
     next unless self.class.include? Aruba::Api
+
     stop_all_commands
   end
 

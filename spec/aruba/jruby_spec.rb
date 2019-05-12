@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'aruba/api'
 
-describe "Aruba JRuby Startup Helper" do
+describe 'Aruba JRuby Startup Helper' do
   before(:all) do
     @fake_env = ENV.clone
   end
@@ -14,8 +14,8 @@ describe "Aruba JRuby Startup Helper" do
   end
 
   before(:each) do
-    @fake_env['JRUBY_OPTS'] = "--1.9"
-    @fake_env['JAVA_OPTS'] = "-Xdebug"
+    @fake_env['JRUBY_OPTS'] = '--1.9'
+    @fake_env['JAVA_OPTS'] = '-Xdebug'
 
     stub_const('ENV', @fake_env)
   end

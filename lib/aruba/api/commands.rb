@@ -128,7 +128,7 @@ module Aruba
 
         unless command.interactive?
           raise NotImplementedError,
-            "Running interactively is not supported with this process launcher."
+            'Running interactively is not supported with this process launcher.'
         end
 
         start_command(command)
@@ -184,7 +184,8 @@ module Aruba
       # @param [String] input
       #   The input for the command
       def type(input)
-        return close_input if input == ""
+        return close_input if input == "\u0004"
+
         last_command_started.write(input << "\n")
       end
 
@@ -196,7 +197,6 @@ module Aruba
       private
 
       # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/CyclomaticComplexity
       def prepare_command(cmd, opts)
         exit_timeout      = opts[:exit_timeout].nil? ? aruba.config.exit_timeout : opts[:exit_timeout]
         io_wait_timeout   = opts[:io_wait_timeout].nil? ? aruba.config.io_wait_timeout : opts[:io_wait_timeout]
@@ -231,7 +231,7 @@ module Aruba
           event_bus: event_bus
         )
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
+
       # rubocop:enable Metrics/MethodLength
 
       def start_command(command)

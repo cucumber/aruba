@@ -34,11 +34,11 @@ RSpec::Matchers.define :have_same_file_content_as do |expected|
   end
 
   failure_message do |actual|
-    format("expected that file \"%s\" is the same as file \"%s\".", actual, expected)
+    format('expected that file "%s" is the same as file "%s".', actual, expected)
   end
 
   failure_message_when_negated do |actual|
-    format("expected that file \"%s\" differs from file \"%s\".", actual, expected)
+    format('expected that file "%s" differs from file "%s".', actual, expected)
   end
 end
 

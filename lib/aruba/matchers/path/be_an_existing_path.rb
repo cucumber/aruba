@@ -24,11 +24,11 @@ RSpec::Matchers.define :be_an_existing_path do |_|
   end
 
   failure_message do |actual|
-    format("expected that path \"%s\" exists", actual)
+    format('expected that path "%s" exists', actual)
   end
 
   failure_message_when_negated do |actual|
-    format("expected that path \"%s\" does not exist", actual)
+    format('expected that path "%s" does not exist', actual)
   end
 end
 

@@ -72,6 +72,7 @@ module Aruba
       #   ENV['PATH']
       def call(program, path = ENV['PATH'])
         raise ArgumentError, "ENV['PATH'] cannot be empty" if path.nil? || path.empty?
+
         program = program.to_s
 
         whiches.find { |w| w.match? program }.new.call(program, path)

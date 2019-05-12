@@ -115,7 +115,7 @@ module Aruba
         # rubocop:enable Style/UnneededInterpolation
 
         fmt = '#<%s:%s commandline="%s": stdout=%s stderr=%s>'
-        format fmt, self.class, self.object_id, commandline, out, err
+        format fmt, self.class, object_id, commandline, out, err
       end
 
       alias to_s inspect
@@ -134,6 +134,7 @@ module Aruba
 
       def truncate(string, max_length)
         return string if string.length <= max_length
+
         string[0, max_length - 1] + ' ...'
       end
     end

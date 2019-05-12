@@ -40,7 +40,6 @@ module Aruba
 
       @last_command_stopped = DefaultLastCommandStopped.new
       @last_command_started = DefaultLastCommandStarted.new
-
     rescue KeyError => e
       raise ArgumentError, e.message
     end

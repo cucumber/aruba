@@ -114,7 +114,7 @@ module Aruba
 
     # Make deep dup copy of configuration
     def make_copy
-      obj = self.dup
+      obj = dup
       obj.local_options = Marshal.load(Marshal.dump(local_options))
       obj.hooks         = @hooks
 

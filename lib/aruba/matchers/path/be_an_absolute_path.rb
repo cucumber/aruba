@@ -27,7 +27,7 @@ RSpec::Matchers.define :be_an_absolute_path do |_|
   end
 
   failure_message_when_negated do |actual|
-    format("expected that path \"%s\" is not absolute, but it is", actual)
+    format('expected that path "%s" is not absolute, but it is', actual)
   end
 end
 

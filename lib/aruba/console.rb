@@ -51,7 +51,7 @@ module Aruba
       irb = IRB::Irb.new(IRB::WorkSpace.new(context.new))
       IRB.conf[:MAIN_CONTEXT] = irb.context
 
-      trap("SIGINT") do
+      trap('SIGINT') do
         irb.signal_handle
       end
 

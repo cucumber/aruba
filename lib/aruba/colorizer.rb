@@ -62,7 +62,7 @@ module Aruba
         elsif respond_to?(:to_str)
           result << to_str
         else
-          return result #only switch on
+          return result # only switch on
         end
         result << "\e[0m" if Aruba::AnsiColor.coloring?
         result
