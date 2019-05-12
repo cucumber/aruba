@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.email       = 'cukes@googlegroups.com'
   spec.homepage    = 'http://github.com/cucumber/aruba'
 
-  spec.add_runtime_dependency 'childprocess', ['>= 0.6.3', '< 0.10.0']
+  spec.add_runtime_dependency 'childprocess', '~> 1.0'
   spec.add_runtime_dependency 'contracts', '~> 0.13'
   spec.add_runtime_dependency 'cucumber', '~> 2.4'
   spec.add_runtime_dependency 'ffi', '~> 1.9'
