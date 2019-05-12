@@ -39,9 +39,6 @@ group :development, :test do
   # Lint travis yaml
   gem 'travis-yaml'
 
-  # Reporting
-  gem 'kramdown', '~> 1.14'
-
   # Code Coverage
   gem 'simplecov', '~> 0.10'
 
