@@ -232,10 +232,10 @@ module Aruba
         end
       end
 
-      def write(input)
+      def write(*input)
         return if stopped?
 
-        @process.stdin.write(input)
+        @process.stdin.write(*input)
         @process.stdin.flush
 
         self
