@@ -48,20 +48,12 @@ namespace :lint do
 
   desc 'Lint our code with "rubocop"'
   task :coding_guidelines do
-    if RUBY_VERSION >= '2'
-      sh 'bundle exec rubocop --fail-level E'
-    else
-      warn 'Your ruby version is not supported for code linting'
-    end
+    sh 'bundle exec rubocop --fail-level E'
   end
 
   desc 'Check for relevant licenses in project'
   task :licenses do
-    if RUBY_VERSION >= '2.3'
-      sh 'bundle exec license_finder'
-    else
-      warn 'Your ruby version is not supported for license checking'
-    end
+    sh 'bundle exec license_finder'
   end
 
   begin

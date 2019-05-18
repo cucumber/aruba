@@ -9,12 +9,7 @@ load File.expand_path('../Gemfile.local', __FILE__) if File.file? File.expand_pa
 # Debug aruba
 group :debug do
   unless RUBY_PLATFORM.include?('java')
-    if RUBY_VERSION >= '2.3.0'
-      gem 'byebug', '~> 11.0'
-    else
-      gem 'byebug', '~> 10.0'
-    end
-
+    gem 'byebug', '~> 11.0'
     gem 'pry-byebug', '~> 3.4'
   end
 
@@ -24,9 +19,7 @@ end
 # Tools to run during development
 group :development do
   # Needed for lint:yard:junk task
-  if RUBY_VERSION >= '2.3.0'
-    gem 'yard-junk', '~> 0'
-  end
+  gem 'yard-junk', '~> 0'
 end
 
 group :development, :test do
@@ -54,9 +47,7 @@ group :development, :test do
   gem 'rubocop-performance', '~> 1.1'
 
   # License compliance
-  if RUBY_VERSION >= '2.3'
-    gem 'license_finder', '~> 5.0'
-  end
+  gem 'license_finder', '~> 5.0'
 
   gem 'minitest', '~> 5.8'
 
