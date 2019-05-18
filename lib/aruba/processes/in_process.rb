@@ -99,12 +99,11 @@ module Aruba
         @stderr.string
       end
 
-      # Write strint to stdin
+      # Write strings to stdin
       #
-      # @param [String] input
-      #   Write string to stdin in
-      def write(input)
-        @stdin.write input
+      # @param *input [Array of String]
+      def write(*input)
+        @stdin.write *input
       end
 
       # Close io
