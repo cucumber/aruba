@@ -3,7 +3,7 @@ AllCops:
     - tmp/**/*
     - vendor/**/*
   DisplayCopNames: true
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
 
 # Use older RuboCop default
 Style/PercentLiteralDelimiters:

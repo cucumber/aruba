@@ -27,10 +27,6 @@ jobs:
       os: linux
     - rvm: 2.3.8
       os: osx
-    - rvm: 2.2
-      os: linux
-    - rvm: 2.2
-      os: osx
     - rvm: jruby
       os: linux
     - rvm: jruby-9.2.7.0
