@@ -50,7 +50,8 @@ group :development, :test do
   gem 'rspec', '~> 3.4'
 
   # Make aruba compliant to ruby community guide
-  gem 'rubocop', '~> 0.64.0'
+  gem 'rubocop', '~> 0.69.0'
+  gem 'rubocop-performance', '~> 1.1'
 
   # License compliance
   if RUBY_VERSION >= '2.3'

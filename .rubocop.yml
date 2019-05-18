@@ -1,3 +1,6 @@
+require:
+  - rubocop-performance
+
 AllCops:
   Exclude:
     - tmp/**/*
