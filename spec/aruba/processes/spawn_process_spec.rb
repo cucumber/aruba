@@ -92,8 +92,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         end
 
         it "reraises LaunchError as Aruba's LaunchError" do
-          expect { process.start }.
-            to raise_error(Aruba::LaunchError, "It tried to start #{command}. Foobar!")
+          expect { process.start }
+            .to raise_error(Aruba::LaunchError, "It tried to start #{command}. Foobar!")
         end
       end
 
@@ -119,8 +119,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
 
         it 'passes the command and arguments as separate items to ChildProcess.build' do
           process.start
-          expect(ChildProcess).to have_received(:build).
-            with(command_path, '-x', 'bar baz')
+          expect(ChildProcess).to have_received(:build)
+            .with(command_path, '-x', 'bar baz')
         end
       end
     end
@@ -149,8 +149,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         end
 
         it "reraises LaunchError as Aruba's LaunchError" do
-          expect { process.start }.
-            to raise_error(Aruba::LaunchError, "It tried to start #{command}. Foobar!")
+          expect { process.start }
+            .to raise_error(Aruba::LaunchError, "It tried to start #{command}. Foobar!")
         end
       end
 
@@ -175,8 +175,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
 
         it 'passes the command and arguments as one string to ChildProcess.build, with escaped quotes' do
           process.start
-          expect(ChildProcess).to have_received(:build).
-            with(cmd_path, '/c', "#{command_path} -x \"bar \"\"\"baz\"\"\"\"")
+          expect(ChildProcess).to have_received(:build)
+            .with(cmd_path, '/c', "#{command_path} -x \"bar \"\"\"baz\"\"\"\"")
         end
       end
     end
