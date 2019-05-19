@@ -81,7 +81,7 @@ RSpec.describe 'Path Matchers' do
         end
 
         context 'and permissions are given as octal number' do
-          let(:permissions) { 0o666 }
+          let(:permissions) { 0o644 }
 
           it { expect(file_name).to have_permissions permissions }
         end

@@ -20,12 +20,13 @@ install:
   - cinst ansicon
 
 test_script:
-  - bundle exec rake test --trace
+  - bundle exec rake test:rspec --trace
 
 environment:
   matrix:
-    - ruby_version: '19'
-    - ruby_version: '20'
-    - ruby_version: '21'
     - ruby_version: '22'
+    - ruby_version: '23'
+    - ruby_version: '24'
+    - ruby_version: '25'
+    - ruby_version: '26'
 
