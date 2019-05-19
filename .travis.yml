@@ -1,54 +1,34 @@
 sudo: false
 language: ruby
 script: script/test
-install: script/bootstrap --without development debug
+bundler_args: --without development debug
+cache: bundler
+
 rvm:
   - 1.8.7
   - 1.9.2
   - 1.9.3
   - 2.0.0
   - 2.1.8
-  - 2.2.4
-  - 2.3.8
-  - 2.4.5
-  - 2.5.3
-  - 2.6.0
-  - jruby-1.7.26
-  - jruby-20mode
-  - jruby-21mode
-  - rbx
+  - 2.2
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+  - jruby-1.7
+  - jruby-9.0
+  - jruby-9.1
+  - jruby-9.2.6.0
+  - rbx-3
 matrix:
   include:
-    - rvm: jruby-9.0.1.0
-      env: JRUBY_OPTS='--dev'
-    - rvm: jruby-9.0.1.0-20mode
-      env: JRUBY_OPTS='--dev'
-    - rvm: jruby-9.0.1.0-21mode
-      env: JRUBY_OPTS='--dev'
+    - rvm: jruby-1.7
+      env: JRUBY_OPTS='--dev --1.8'
   allow_failures:
-  - rvm: rbx
-  - rvm: jruby-9.0.1.0
-    env: JRUBY_OPTS='--dev'
-  - rvm: jruby-9.0.1.0-20mode
-    env: JRUBY_OPTS='--dev'
-  - rvm: jruby-9.0.1.0-21mode
-    env: JRUBY_OPTS='--dev'
+  - rvm: rbx-3
 branches:
   only:
     - master
     - still
-notifications:
-  email:
-    - cukes-devs@googlegroups.com
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/d4d9080e2a8c4910f609
 env:
-  global:
-   - secure: l8uznA5K4K9mZ1krmP3lTMD8WcJ32qGxFOR3jubKHcOBSLB4xSzU2aIqjyJdO+rLzebkwamhJc8pGSIWOUDQYvFiX7splK+uEkbBJ5huAhXtLF4Qgl86bCWbEXYzN7rvn0DQfpJAovyFMNRMnfo70XhwqWzFsaYa7Z0YbqYsJE4=
-   - JRUBY_OPTS='--dev'
-cache: apt
-addons:
-  apt:
-    packages:
-    - zsh
+  - JRUBY_OPTS='--dev'

@@ -70,7 +70,7 @@ group :development, :test do
   end
 
   # Code Coverage
-  gem 'simplecov', '~> 0.10'
+  gem 'simplecov', '~> 0.10' unless RUBY_PLATFORM.include?('java')
 
   # Test api
   gem 'rspec', '~> 3.4'
@@ -82,6 +82,12 @@ group :development, :test do
     gem 'cucumber', '~> 1.3.20'
   else
     gem 'cucumber', '~> 2.0'
+  end
+
+  if RUBY_VERSION < '1.9.2'
+    gem 'childprocess', '~> 0.6.3'
+  else
+    gem 'childprocess', '~> 1.0.1'
   end
 
   if RUBY_VERSION < '1.9.2'
@@ -97,6 +103,10 @@ group :development, :test do
 
   if RUBY_VERSION >= '1.9.3'
     gem 'cucumber-pro', '~> 0.0'
+  end
+
+  if RUBY_VERSION < '2.0.0'
+    gem 'ffi', '< 1.11.0'
   end
 
   gem 'minitest', '~> 5.8'
