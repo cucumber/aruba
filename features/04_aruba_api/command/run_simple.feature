@@ -13,7 +13,7 @@ Feature: Run command
     Given I use a fixture named "cli-app"
 
   Scenario: Require executable to succeed (by default value)
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 1
@@ -23,14 +23,14 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_command_and_stop('cli') }.to raise_error RSpec::Expectations::ExpectationNotMetError }
+      it { expect { run_command_and_stop('aruba-test-cli') }.to raise_error RSpec::Expectations::ExpectationNotMetError }
     end
     """
     When I run `rspec`
     Then the specs should all pass
 
   Scenario: Require executable to succeed (set by option)
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 1
@@ -40,14 +40,14 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_command_and_stop('cli', :fail_on_error => true) }.to raise_error }
+      it { expect { run_command_and_stop('aruba-test-cli', :fail_on_error => true) }.to raise_error }
     end
     """
     When I run `rspec`
     Then the specs should all pass
 
   Scenario: Require executable to succeed (set by option, deprecated)
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 1
@@ -57,14 +57,14 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_command_and_stop('cli', true) }.to raise_error }
+      it { expect { run_command_and_stop('aruba-test-cli', true) }.to raise_error }
     end
     """
     When I run `rspec`
     Then the specs should all pass
 
   Scenario: Ignore failure of executable (set by option)
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 1
@@ -74,14 +74,14 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_command_and_stop('cli', :fail_on_error => false) }.not_to raise_error }
+      it { expect { run_command_and_stop('aruba-test-cli', :fail_on_error => false) }.not_to raise_error }
     end
     """
     When I run `rspec`
     Then the specs should all pass
 
   Scenario: Ignore failure of executable (set by option, deprecated)
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     exit 1
@@ -91,7 +91,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_command_and_stop('cli', false) }.not_to raise_error }
+      it { expect { run_command_and_stop('aruba-test-cli', false) }.not_to raise_error }
     end
     """
     When I run `rspec`
@@ -104,7 +104,7 @@ Feature: Run command
     Otherwise methods like `#send_signal` don't work since they require the
     command to be running and have setup it's signal handler.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -126,7 +126,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1, :startup_wait_time => 2 do
-      before(:each) { run_command_and_stop('cli') }
+      before(:each) { run_command_and_stop('aruba-test-cli') }
 
       it { expect(last_command_started).to be_successfully_executed }
       it { expect(last_command_started).to have_output /Hello, Aruba is working/ }
@@ -140,7 +140,7 @@ Feature: Run command
     If you have got a "long running" command, you should consider using the
     `exit_timeout`-option.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -156,7 +156,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3 do
-      before(:each) { run_command_and_stop('cli') }
+      before(:each) { run_command_and_stop('aruba-test-cli') }
 
       it { expect(last_command_started).to be_successfully_executed }
       it { expect(last_command_started).to have_output /Hello, Aruba here/ }
@@ -171,7 +171,7 @@ Feature: Run command
     `#run_command_and_stop()` does not make sense. The command is stopped internally when
     its exit status is checked.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -199,7 +199,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 2, :startup_wait_time => 1 do
-      before(:each) { run_command_and_stop('cli') }
+      before(:each) { run_command_and_stop('aruba-test-cli') }
       it { expect { last_command_started.send_signal 'HUP' }.to raise_error Aruba::CommandAlreadyStoppedError }
     end
     """
@@ -208,7 +208,7 @@ Feature: Run command
 
   Scenario: Activate announcer channels on failure
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     echo "Hello, I'm STDOUT"
@@ -224,7 +224,7 @@ Feature: Run command
     end
 
     RSpec.describe 'Run command', :type => :aruba do
-      it { expect { run_command_and_stop('cli', :fail_on_error => true) }.to_not raise_error }
+      it { expect { run_command_and_stop('aruba-test-cli', :fail_on_error => true) }.to_not raise_error }
     end
     """
     When I run `rspec`

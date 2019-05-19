@@ -13,7 +13,7 @@ Feature: Stop command
     Given I use a fixture named "cli-app"
 
   Scenario: Stop command started last
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     function term {
@@ -28,7 +28,7 @@ Feature: Stop command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { last_command_started.stop }
       it { expect(last_command_started).to be_successfully_executed }
     end
@@ -37,7 +37,7 @@ Feature: Stop command
     Then the specs should all pass
 
   Scenario: Find and stop command
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     function term {
@@ -52,8 +52,8 @@ Feature: Stop command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
-      before(:each) { find_command('cli').stop }
+      before(:each) { run_command('aruba-test-cli') }
+      before(:each) { find_command('aruba-test-cli').stop }
       it { expect(last_command_started).to be_successfully_executed }
     end
     """
@@ -61,7 +61,7 @@ Feature: Stop command
     Then the specs should all pass
 
   Scenario: Stop successful command with configured signal
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     function hup {
@@ -88,7 +88,7 @@ Feature: Stop command
     end
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       it { expect(last_command_started).to be_successfully_executed }
     end
     """
@@ -96,7 +96,7 @@ Feature: Stop command
     Then the specs should all pass
 
   Scenario: Stop unsuccessful command with configured signal
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     function hup {
@@ -123,7 +123,7 @@ Feature: Stop command
     end
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       it { expect(last_command_started).to have_exit_status 2 }
     end
     """

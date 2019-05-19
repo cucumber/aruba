@@ -6,7 +6,7 @@ Feature: Check if a timeout occured during command execution
     Given I use a fixture named "cli-app"
 
   Scenario: Check if command runs to long
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     sleep 1
@@ -18,7 +18,7 @@ Feature: Check if a timeout occured during command execution
     RSpec.describe 'Long running command', :type => :aruba do
       before(:each) { aruba.config.exit_timeout = 0 }
 
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
 
       it { expect(last_command_started).to run_too_long }
     end
@@ -27,7 +27,7 @@ Feature: Check if a timeout occured during command execution
     Then the specs should all pass
 
   Scenario: Check if command finishes in time
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     exit 0
@@ -39,7 +39,7 @@ Feature: Check if a timeout occured during command execution
     RSpec.describe 'Short running command', :type => :aruba do
       before(:each) { aruba.config.exit_timeout = 5 }
 
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
 
       it { expect(last_command_started).to have_finished_in_time }
     end

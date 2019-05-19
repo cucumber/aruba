@@ -7,7 +7,7 @@ Feature: Unescape special characters in text
     Given I use a fixture named "cli-app"
 
   Scenario: Output contains \n
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\ntext'
@@ -17,7 +17,7 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(unescape_text(last_command.output)).to eq "text\ntext" }
@@ -27,7 +27,7 @@ Feature: Unescape special characters in text
     Then the specs should all pass
 
   Scenario: Output contains \e
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\etext'
@@ -37,7 +37,7 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(unescape_text(last_command.output)).to eq "texttext" }
@@ -47,7 +47,7 @@ Feature: Unescape special characters in text
     Then the specs should all pass
 
   Scenario: Output contains \"
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\"text'
@@ -57,7 +57,7 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(unescape_text(last_command.output)).to eq "text\"text" }
@@ -67,7 +67,7 @@ Feature: Unescape special characters in text
     Then the specs should all pass
 
   Scenario: Output contains \033
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\033text'
@@ -77,7 +77,7 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(unescape_text(last_command.output)).to eq "texttext" }
@@ -87,7 +87,7 @@ Feature: Unescape special characters in text
     Then the specs should all pass
 
   Scenario: Output contains \017
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\017text'
@@ -97,7 +97,7 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(unescape_text(last_command.output)).to eq "texttext" }
@@ -107,7 +107,7 @@ Feature: Unescape special characters in text
     Then the specs should all pass
 
   Scenario: Output contains \016
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\016text'
@@ -117,7 +117,7 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(unescape_text(last_command.output)).to eq "texttext" }

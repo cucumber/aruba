@@ -8,7 +8,7 @@ Feature: Prepend environment variable via "cucumber"-step
 
   Background:
     Given I use the fixture "cli-app"
-    And an executable named "bin/cli" with:
+    And an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
 
@@ -27,7 +27,7 @@ Feature: Prepend environment variable via "cucumber"-step
         Given I prepend the values to the environment variables:
           | variable           | value      |
           | LONG_LONG_VARIABLE | long_value |
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain:
         \"\"\"
         long_value1
@@ -42,7 +42,7 @@ Feature: Prepend environment variable via "cucumber"-step
     Feature: Environment Variable
       Scenario: Run command
         Given I prepend "long_value" to the environment variable "LONG_LONG_VARIABLE"
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain:
         \"\"\"
         long_value1

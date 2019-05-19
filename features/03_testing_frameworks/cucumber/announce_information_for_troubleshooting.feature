@@ -48,7 +48,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce stdout
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -59,7 +59,7 @@ Feature: Announce output during test run
     Feature: Announce
       @announce-stdout
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -73,7 +73,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce stderr
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -84,7 +84,7 @@ Feature: Announce output during test run
     Feature: Announce
       @announce-stderr
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -98,7 +98,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce both stderr and stdout
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -110,7 +110,7 @@ Feature: Announce output during test run
     Feature: Announce
       @announce-output
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -131,7 +131,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce command
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -142,18 +142,18 @@ Feature: Announce output during test run
     Feature: Announce
       @announce-cmd
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
     Then the features should all pass
     And the output should contain:
     """
-    $ cli
+    $ aruba-test-cli
     """
 
   Scenario: Announce change of environment variable
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -167,7 +167,7 @@ Feature: Announce output during test run
         When I set the environment variables to:
           | variable | value    |
           | MY_VAR   | my_value |
-        And I run `cli`
+        And I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -178,7 +178,7 @@ Feature: Announce output during test run
     """
 
   Scenario: Announce change of environment variable which contains special characters
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -192,7 +192,7 @@ Feature: Announce output during test run
         When I set the environment variables to:
           | variable | value      |
           | MY_VAR   | my value ! |
-        And I run `cli`
+        And I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -206,7 +206,7 @@ Feature: Announce output during test run
     This will output information like owner, group, atime, mtime, ctime, size,
     mode and if command is executable.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -217,7 +217,7 @@ Feature: Announce output during test run
     Feature: Announce
       @announce-command-filesystem-status
       Scenario: Run command
-        And I run `cli`
+        And I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -259,7 +259,7 @@ Feature: Announce output during test run
     This will output the content of the executable command. Be careful doing
     this with binary executables. This hook should be used with scripts only.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -270,7 +270,7 @@ Feature: Announce output during test run
     Feature: Announce
       @announce-command-content
       Scenario: Run command
-        And I run `cli`
+        And I run `aruba-test-cli`
         Then the exit status should be 0
     """
     When I run `cucumber`

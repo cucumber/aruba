@@ -15,7 +15,7 @@ Feature: Stop commands
 
     Terminating a command will send `SIGTERM` to the command.
 
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
 
@@ -28,7 +28,7 @@ Feature: Stop commands
     while [ true ]; do sleep 1; done
     exit 1
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/bin/bash
 
@@ -47,8 +47,8 @@ Feature: Stop commands
       Scenario: Run command
         Given the default aruba exit timeout is 1 second
         And I wait 2 seconds for a command to start up
-        When I run `cli1` in background
-        And I run `cli2` in background
+        When I run `aruba-test-cli1` in background
+        And I run `aruba-test-cli2` in background
         And I terminate the command started last
         Then the exit status should be 155
         And the output should contain:
@@ -65,7 +65,7 @@ Feature: Stop commands
     send `SIGTERM` to the command. Normally "n" is defined by the default exit
     timeout of aruba.
 
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
 
@@ -78,7 +78,7 @@ Feature: Stop commands
     while [ true ]; do sleep 1; done
     exit 1
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/bin/bash
 
@@ -99,8 +99,8 @@ Feature: Stop commands
       Scenario: Run command
         Given the default aruba exit timeout is 5 seconds
         And I wait 2 seconds for a command to start up
-        When I run `cli1` in background
-        And I run `cli2` in background
+        When I run `aruba-test-cli1` in background
+        And I run `aruba-test-cli2` in background
         And I stop the command started last
         Then the exit status should be 155
         And the output should contain:
@@ -116,7 +116,7 @@ Feature: Stop commands
     Pass the commandline to the step to find the command, which should be
     stopped.
 
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
 
@@ -128,7 +128,7 @@ Feature: Stop commands
     echo "Hello, Aruba!"
     while [ true ]; do sleep 1; done
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/bin/bash
 
@@ -149,9 +149,9 @@ Feature: Stop commands
 
       Scenario: Run command
         Given I wait 2 seconds for a command to start up
-        When I run `cli1` in background
-        When I run `cli2` in background
-        And I terminate the command "cli1"
+        When I run `aruba-test-cli1` in background
+        When I run `aruba-test-cli2` in background
+        And I terminate the command "aruba-test-cli1"
         Then the exit status should be 100
         And the output should contain:
         \"\"\"
@@ -167,7 +167,7 @@ Feature: Stop commands
     send `SIGTERM` to the command. Normally "n" is defined by the default exit
     timeout of aruba.
 
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
 
@@ -180,7 +180,7 @@ Feature: Stop commands
     while [ true ]; do sleep 1; done
     exit 1
     """
-    And an executable named "bin/cli2" with:
+    And an executable named "bin/aruba-test-cli2" with:
     """bash
     #!/bin/bash
 
@@ -201,9 +201,9 @@ Feature: Stop commands
 
       Scenario: Run command
         Given I wait 2 seconds for a command to start up
-        When I run `cli1` in background
-        And I run `cli2` in background
-        When I stop the command "cli1"
+        When I run `aruba-test-cli1` in background
+        And I run `aruba-test-cli2` in background
+        When I stop the command "aruba-test-cli1"
         Then the exit status should be 155
         And the output should contain:
         \"\"\"
@@ -217,7 +217,7 @@ Feature: Stop commands
 
     You can define a default signal which is used to stop all commands.
 
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     function hup {
@@ -240,7 +240,7 @@ Feature: Stop commands
       Scenario: Run command
         Given the default aruba stop signal is "HUP"
         And the default aruba exit timeout is 5 seconds
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the exit status should be 155
     """
     When I run `cucumber`
@@ -248,7 +248,7 @@ Feature: Stop commands
 
   @requires-ruby-platform-java
   Scenario: STDERR/STDOUT is empty on JRUBY if output was written in "signal"-handler
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
 
@@ -268,7 +268,7 @@ Feature: Stop commands
       Scenario: Run command
         Given the default aruba exit timeout is 1 second
         And I wait 2 seconds for a command to start up
-        When I run `cli1` in background
+        When I run `aruba-test-cli1` in background
         And I terminate the command started last
         Then the exit status should be 100
         And the output should not contain:
@@ -281,7 +281,7 @@ Feature: Stop commands
 
   @requires-ruby-platform-mri
   Scenario: STDERR/STDOUT is written normally with MRI-Ruby if output was written in "signal"-handler
-    Given an executable named "bin/cli1" with:
+    Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash
 
@@ -301,7 +301,7 @@ Feature: Stop commands
       Scenario: Run command
         Given the default aruba exit timeout is 1 second
         And I wait 2 seconds for a command to start up
-        When I run `cli1` in background
+        When I run `aruba-test-cli1` in background
         And I terminate the command started last
         Then the exit status should be 100
         And the output should contain:

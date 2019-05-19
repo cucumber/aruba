@@ -8,7 +8,7 @@ Feature: Access STDERR of command
     And the default aruba io wait timeout is 1 seconds
 
   Scenario: Existing executable
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     echo 'Hello, Aruba!' >&2
@@ -18,7 +18,7 @@ Feature: Access STDERR of command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
       it { expect(last_command_started.stderr).to start_with  'Hello' }
     end
@@ -27,7 +27,7 @@ Feature: Access STDERR of command
     Then the specs should all pass
 
   Scenario: Waiting for output to "appear" after 2 seconds
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     sleep 1
@@ -38,7 +38,7 @@ Feature: Access STDERR of command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :io_wait_timeout => 2 do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       it { expect(last_command_started.stderr).to start_with 'Hello' }
     end
     """

@@ -8,7 +8,7 @@ Feature: Sanitize text from output
     Given I use a fixture named "cli-app"
 
   Scenario: Output contains \n
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\ntext'
@@ -18,7 +18,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "text\ntext" }
@@ -28,7 +28,7 @@ Feature: Sanitize text from output
     Then the specs should all pass
 
   Scenario: Output contains \e
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\etext'
@@ -38,7 +38,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
@@ -48,7 +48,7 @@ Feature: Sanitize text from output
     Then the specs should all pass
 
   Scenario: Output contains \"
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\"text'
@@ -58,7 +58,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "text\"text" }
@@ -68,7 +68,7 @@ Feature: Sanitize text from output
     Then the specs should all pass
 
   Scenario: Output contains \033
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\033text'
@@ -78,7 +78,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
@@ -88,7 +88,7 @@ Feature: Sanitize text from output
     Then the specs should all pass
 
   Scenario: Output contains \017
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\017text'
@@ -98,7 +98,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
@@ -108,7 +108,7 @@ Feature: Sanitize text from output
     Then the specs should all pass
 
   Scenario: Output contains \016
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n 'text\016text'
@@ -118,7 +118,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
@@ -128,7 +128,7 @@ Feature: Sanitize text from output
     Then the specs should all pass
 
   Scenario: Output contains ansi escape codes prefixed by \e
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n "\e[31mText"
@@ -138,7 +138,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "Text" }
@@ -148,7 +148,7 @@ Feature: Sanitize text from output
     Then the specs should all pass
 
   Scenario: Output contains ansi escape codes prefixed by \033
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n "\033[31mText"
@@ -158,7 +158,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "Text" }
@@ -168,7 +168,7 @@ Feature: Sanitize text from output
     Then the specs should all pass
 
   Scenario: Output contains ansi escape codes prefixed by \e, but removable is disabled by configuration
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo -n "\e[31mText"
@@ -178,7 +178,7 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :remove_ansi_escape_sequences => false, :keep_ansi => true do
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
       before(:each) { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "\e[31mText" }
@@ -188,7 +188,7 @@ Feature: Sanitize text from output
     Then the specs should all pass
 
     # Scenario: Output contains ansi escape code \016
-    #   Given an executable named "bin/cli" with:
+    #   Given an executable named "bin/aruba-test-cli" with:
     #   """
     #   #!/bin/bash
     #   echo -n "\016Text"
@@ -198,7 +198,7 @@ Feature: Sanitize text from output
     #   require 'spec_helper'
     #
     #   RSpec.describe 'Run command', :type => :aruba do
-    #     before(:each) { run_command('cli') }
+    #     before(:each) { run_command('aruba-test-cli') }
     #     before(:each) { stop_all_commands }
     #
     #     it { expect(sanitize_text(last_command_started.output)).to eq "Text" }
@@ -208,7 +208,7 @@ Feature: Sanitize text from output
     #   Then the specs should all pass
 
     # Scenario: Output contains ansi escape code \017
-    #   Given an executable named "bin/cli" with:
+    #   Given an executable named "bin/aruba-test-cli" with:
     #   """
     #   #!/bin/bash
     #   echo -n "\017Text"
@@ -218,7 +218,7 @@ Feature: Sanitize text from output
     #   require 'spec_helper'
     #
     #   RSpec.describe 'Run command', :type => :aruba do
-    #     before(:each) { run_command('cli') }
+    #     before(:each) { run_command('aruba-test-cli') }
     #     before(:each) { stop_all_commands }
     #
     #     it { expect(sanitize_text(last_command_started.output)).to eq "Text" }

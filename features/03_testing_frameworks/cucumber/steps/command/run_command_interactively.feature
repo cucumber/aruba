@@ -9,7 +9,7 @@ Feature: Running an interactive command
 
   @wip-jruby-java-1.6
   Scenario: Running ruby interactively
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env ruby
 
@@ -22,7 +22,7 @@ Feature: Running an interactive command
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli` interactively
+        When I run `aruba-test-cli` interactively
         And I type "hello, world"
         And I type "quit"
         Then it should pass with "dlrow ,olleh"

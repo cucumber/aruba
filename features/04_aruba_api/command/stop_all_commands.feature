@@ -6,7 +6,7 @@ Feature: Stop all commands
     Given I use a fixture named "cli-app"
 
   Scenario: Multiple commands are running
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     sleep 3
@@ -16,8 +16,8 @@ Feature: Stop all commands
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 5 do
-      before(:each) { run_command('cli') }
-      before(:each) { run_command('cli') }
+      before(:each) { run_command('aruba-test-cli') }
+      before(:each) { run_command('aruba-test-cli') }
 
       before(:each) { stop_all_commands }
 
@@ -28,7 +28,7 @@ Feature: Stop all commands
     Then the specs should all pass
 
   Scenario: Stop all commands for which the block returns true
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
     sleep 1
@@ -38,11 +38,11 @@ Feature: Stop all commands
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 2 do
-      before(:each) { @cmd1 = run_command('cli') }
-      before(:each) { @cmd2 = run_command('cli') }
+      before(:each) { @cmd1 = run_command('aruba-test-cli') }
+      before(:each) { @cmd2 = run_command('aruba-test-cli') }
       before(:each) { @cmd3 = run_command('sleep 1') }
 
-      before(:each) { stop_all_commands { |c| c.commandline == 'cli' } }
+      before(:each) { stop_all_commands { |c| c.commandline == 'aruba-test-cli' } }
 
       it { expect(@cmd1).to be_stopped }
       it { expect(@cmd2).to be_stopped }

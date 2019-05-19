@@ -8,7 +8,7 @@ Feature: STDOUT of commands which were executed
     Given I use a fixture named "cli-app"
 
   Scenario: Match output in stdout
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -18,7 +18,7 @@ Feature: STDOUT of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the stdout should contain "hello"
         Then the stderr should not contain "hello"
     """
@@ -26,7 +26,7 @@ Feature: STDOUT of commands which were executed
     Then the features should all pass
 
   Scenario: Match stdout on several lines
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -36,7 +36,7 @@ Feature: STDOUT of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the stdout should contain:
         \"\"\"
         GET /
@@ -46,7 +46,7 @@ Feature: STDOUT of commands which were executed
     Then the features should all pass
 
   Scenario: Match output on several lines where stdout contains quotes
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
 
@@ -56,7 +56,7 @@ Feature: STDOUT of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the stdout should contain:
         \"\"\"
         GET "/"

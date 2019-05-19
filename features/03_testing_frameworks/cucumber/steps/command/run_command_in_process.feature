@@ -103,7 +103,7 @@ Feature: Run commands in ruby process
     Then the features should all pass
 
   Scenario: Mixing custom code and normal cli
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo $*
@@ -140,7 +140,7 @@ Feature: Run commands in ruby process
         \"\"\"
 
       Scenario: Run command
-        When I run `cli Hello World`
+        When I run `aruba-test-cli Hello World`
         Then the output should contain:
         \"\"\"
         Hello World

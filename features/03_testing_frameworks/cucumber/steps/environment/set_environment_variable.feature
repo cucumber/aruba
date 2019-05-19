@@ -9,7 +9,7 @@ Feature: Set environment variable via "cucumber"-step
 
   Background:
     Given I use the fixture "cli-app"
-    And an executable named "bin/cli" with:
+    And an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
 
@@ -24,7 +24,7 @@ Feature: Set environment variable via "cucumber"-step
         Given I set the environment variables to:
           | variable           | value      |
           | LONG_LONG_VARIABLE | long_value |
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain:
         \"\"\"
         long_value
@@ -39,7 +39,7 @@ Feature: Set environment variable via "cucumber"-step
     Feature: Environment Variable
       Scenario: Run command
         Given I set the environment variable "LONG_LONG_VARIABLE" to "long_value"
-        When I run `cli`
+        When I run `aruba-test-cli`
         Then the output should contain:
         \"\"\"
         long_value

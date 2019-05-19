@@ -6,7 +6,7 @@ Feature: Run commands
     Given I use a fixture named "cli-app"
 
   Scenario: Run command found in path
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     exit 0
@@ -15,13 +15,13 @@ Feature: Run commands
     """
     Feature: Run it
       Scenario: Run command
-        When I run `cli`
+        When I run `aruba-test-cli`
     """
     When I run `cucumber`
     Then the features should all pass
 
   Scenario: Activate desired announcers when running command fails
-    Given an executable named "bin/cli" with:
+    Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
     echo "Hello, I'm STDOUT"
@@ -31,7 +31,7 @@ Feature: Run commands
     """
     Feature: Run it
       Scenario: Run command
-        When I successfully run `cli`
+        When I successfully run `aruba-test-cli`
     """
     And I append to "features/support/env.rb" with:
     """
