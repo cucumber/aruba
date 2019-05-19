@@ -33,11 +33,11 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         expect(process.arguments).to eq ['-e', 'warn "yo"']
       end
 
-      it { expect(process.stderr.chomp).to eq 'yo'}
+      it { expect(process.stderr.chomp).to eq 'yo' }
     end
 
     context 'when invoked twice' do
-      it { 2.times { expect(process.stderr.chomp).to eq 'yo'} }
+      it { 2.times { expect(process.stderr.chomp).to eq 'yo' } }
     end
   end
 
