@@ -13,4 +13,9 @@ Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%w': ()
 
+# Code is currently broken with frozen string literal comments applied.
+# TODO: Enable and fix build
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 inherit_from: .rubocop_todo.yml
