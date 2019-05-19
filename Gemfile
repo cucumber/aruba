@@ -105,5 +105,9 @@ group :development, :test do
     gem 'cucumber-pro', '~> 0.0'
   end
 
+  if RUBY_VERSION < '2.0.0'
+    gem 'ffi', '< 1.11.0'
+  end
+
   gem 'minitest', '~> 5.8'
 end
