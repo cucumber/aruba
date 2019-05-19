@@ -16,6 +16,8 @@ rvm:
   - 2.5
   - 2.6
   - jruby-1.7
+  - jruby-9.0
+  - jruby-9.1
   - jruby-9.2.6.0
   - rbx-3
 matrix:
