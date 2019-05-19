@@ -145,7 +145,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
 
       context 'with a childprocess launch error' do
         before do
-          allow(child).to receive(:start).and_raise(ChildProcess::LaunchError, "Foobar!")
+          allow(child).to receive(:start).and_raise(ChildProcess::LaunchError, 'Foobar!')
         end
 
         it "reraises LaunchError as Aruba's LaunchError" do
