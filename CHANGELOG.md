@@ -71,6 +71,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * Update development dependencies ([#580] by [mvz])
 * Start work on unifying still and master branches ([#583], [#584] by [mvz])
 * Update CONTRIBUTING.md and drop bin/bootstrap ([#593] by [olleolleolle])
+* Point to https version of GitHub repo URL ([#623] by [amatsuda])
 
 ## [1.0.0-alpha.2]
 
@@ -778,6 +779,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [aeden]:          https://github.com/aeden
 [aknuds1]:        https://github.com/aknuds1
 [alindeman]:      https://github.com/alindeman
+[amatsuda]:       https://github.com/amatsuda
 [argent-smith]:   https://github.com/argent-smith
 [aslakhellesoy]:  https://github.com/aslakhellesoy
 [cllns]:          https://github.com/cllns
@@ -820,6 +822,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- issues & pull requests -->
 
+[#623]: https://github.com/cucumber/aruba/pull/623
 [#618]: https://github.com/cucumber/aruba/pull/618
 [#615]: https://github.com/cucumber/aruba/pull/615
 [#613]: https://github.com/cucumber/aruba/pull/613
