@@ -6,7 +6,7 @@ This project will adhere to [Semantic Versioning][1] once version 1.0.0 is relea
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
-## [1.0.0-alpha.3]
+## [1.0.0.pre.alpha.3]
 
 ### Added
 
@@ -73,7 +73,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * Update CONTRIBUTING.md and drop bin/bootstrap ([#593] by [olleolleolle])
 * Point to https version of GitHub repo URL ([#623] by [amatsuda])
 
-## [1.0.0-alpha.2]
+## [1.0.0.pre.alpha.2]
 
 * Update examples for usage in README
 * Fix environment manipulation ([#442])
@@ -83,7 +83,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * Fix wording in README ([#445])
 * Restructure README and upload feature files to cucumber.pro ([#444])
 
-## [1.0.0-alpha.1]
+## [1.0.0.pre.alpha.1]
 
 Note: These are changes w.r.t. Aruba version 0.14.1.
 
@@ -1025,10 +1025,10 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.0.alpha.3...master
-[1.0.0-alpha.3]: https://github.com/cucumber/aruba/compare/v1.0.0.alpha.2...v1.0.0.alpha.3
-[1.0.0-alpha.2]: https://github.com/cucumber/aruba/compare/v1.0.0.alpha.1...v1.0.0.alpha.2
-[1.0.0-alpha.1]: https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha.1
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.3...master
+[1.0.0.pre.alpha.3]: https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.2...v1.0.0.pre.alpha.3
+[1.0.0.pre.alpha.2]: https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.1...v1.0.0.pre.alpha.2
+[1.0.0.pre.alpha.1]: https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.pre.alpha.1
 [0.14.9]:        https://github.com/cucumber/aruba/compare/v0.14.8...v0.14.9
 [0.14.8]:        https://github.com/cucumber/aruba/compare/v0.14.7...v0.14.8
 [0.14.7]:        https://github.com/cucumber/aruba/compare/v0.14.6...v0.14.7
