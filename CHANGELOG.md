@@ -1106,5 +1106,5 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 <!-- Other links -->
 
 [1]:  http://semver.org
-[2]:  http://keepachangelog.com)
+[2]:  http://keepachangelog.com
 [3]:  https://github.com/cucumber/aruba/blob/master/CONTRIBUTING.md
