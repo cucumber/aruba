@@ -80,7 +80,7 @@ When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$
         sleep 0.1
       end
     end
-  rescue ChildProcess::TimeoutError, TimeoutError
+  rescue ChildProcess::TimeoutError, Timeout::Error
     last_command_started.terminate
   end
 end
