@@ -31,7 +31,7 @@ section. There are also "Getting started" sections both for
 
 ### Issues
 
-About to create a new Github Issue? We appreciate that. But before you do,
+About to create a new GitHub Issue? We appreciate that. But before you do,
 please learn our basic rules:
 
 * This is not a support forum. If you have a question, please go to
