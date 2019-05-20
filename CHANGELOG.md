@@ -167,12 +167,27 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
             """
           And the stderr should not contain anything
 
-## [v0.14.7](https://github.com/cucumber/aruba/compare/v0.14.6...v0.14.7)
+## [v0.14.9]
+
+* Formally deprecate `#use_clean_gemset` ([#597])
+* Improve deprecation messages ([#601])
+* Do not replace entire environment inside `#cd` block ([#604])
+
+## [v0.14.8]
+
+* Deprecate `#run` and `#run_simple` in favor of `#run_command` and
+  `#run_command_and_stop` ([#585])
+* Update dependencies, most notably loosening the dependency on `childprocess`
+  ([#591])
+* Properly warn about deprecated use of the run methods with one positional
+  option ([#588])
+
+## [v0.14.7]
 
 * Fix Cucumber steps to use `have_same_file_content_as` matcher ([#572])
 * Update dependencies, most notably loosening the dependency on `ffi` ([#581])
 
-## [v0.14.6](https://github.com/cucumber/aruba/compare/v0.14.5...v0.14.6)
+## [v0.14.6]
 
 * Document and fix `@disable-bundler` hook ([#561])
 * Deprecate `have_same_file_content_like` and `a_file_with_same_content_like`
@@ -804,12 +819,19 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [#613]: https://github.com/cucumber/aruba/pull/613
 [#607]: https://github.com/cucumber/aruba/pull/607
 [#606]: https://github.com/cucumber/aruba/pull/606
+[#604]: https://github.com/cucumber/aruba/pull/604
+[#601]: https://github.com/cucumber/aruba/pull/601
+[#597]: https://github.com/cucumber/aruba/pull/597
 [#596]: https://github.com/cucumber/aruba/pull/596
 [#594]: https://github.com/cucumber/aruba/pull/594
 [#593]: https://github.com/cucumber/aruba/pull/593
+[#591]: https://github.com/cucumber/aruba/pull/591
+[#588]: https://github.com/cucumber/aruba/pull/588
 [#587]: https://github.com/cucumber/aruba/pull/587
+[#585]: https://github.com/cucumber/aruba/pull/585
 [#584]: https://github.com/cucumber/aruba/pull/584
 [#583]: https://github.com/cucumber/aruba/pull/583
+[#582]: https://github.com/cucumber/aruba/pull/582
 [#581]: https://github.com/cucumber/aruba/pull/581
 [#578]: https://github.com/cucumber/aruba/pull/578
 [#575]: https://github.com/cucumber/aruba/pull/575
@@ -996,6 +1018,9 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.0.alpha.2...master
 [v1.0.0-alpha.2]: https://github.com/cucumber/aruba/compare/v1.0.0.alpha.1...v1.0.0.alpha.2
 [v1.0.0-alpha.1]: https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha.1
+[v0.14.9]:        https://github.com/cucumber/aruba/compare/v0.14.8...v0.14.9
+[v0.14.8]:        https://github.com/cucumber/aruba/compare/v0.14.7...v0.14.8
+[v0.14.7]:        https://github.com/cucumber/aruba/compare/v0.14.6...v0.14.7
 [v0.14.6]:        https://github.com/cucumber/aruba/compare/v0.14.5...v0.14.6
 [v0.14.5]:        https://github.com/cucumber/aruba/compare/v0.14.4...v0.14.5
 [v0.14.4]:        https://github.com/cucumber/aruba/compare/v0.14.3...v0.14.4
