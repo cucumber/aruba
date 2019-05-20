@@ -52,11 +52,11 @@ module Aruba
     self.coloring = true
 
     ATTRIBUTES.each do |c, v|
-      define_method(c) do |string|
+      define_method(c) do |string, &block|
         result = ''
         result << "\e[#{v}m" if Aruba::AnsiColor.coloring?
-        if block_given?
-          result << yield
+        if block
+          result << block.call
         elsif string
           result << string
         elsif respond_to?(:to_str)
