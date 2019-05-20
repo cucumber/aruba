@@ -51,7 +51,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 * Fix test suite failures ([#452], [#497] by [maxmeyer] and [mvz]; [#487], [#509] by [mvz])
 * Remove development gems for unsupported Rubinius platform ([#464] by [maxmeyer])
-* Update `license_finder` dependency ([#466] by [maxmeyer]
+* Update `license_finder` dependency ([#466] by [maxmeyer])
 * Restrict branches to run Travis ([#471] by [junaruga])
 * Maintain Travis builds ([#476] by [maxmeyer]; [#493] [#532], [#536] by [mvz]; [#542], [#596], [#607] by [olleolleolle])
 * Rename History.md to CHANGELOG.md and fix links and formatting, etc. to bring
@@ -508,7 +508,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 ## [v0.5.3]
 
 * Fix for UTF-8 support ([#151], [mattwynne], [jarl-dk])
-* Fix for open file leakage ([#150], [jonrowe])
+* Fix for open file leakage ([#150], [JonRowe])
 
 ## [v0.5.2]
 
@@ -773,44 +773,49 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Contributors -->
 
-[AdrieanKhisbe]: https://github.com/AdrieanKhisbe
-[LTe]:           https://github.com/LTe
-[aeden]:         https://github.com/aeden
-[aknuds1]:       https://github.com/aknuds1
-[alindeman]:     https://github.com/alindeman
-[aslakhellesoy]: https://github.com/aslakhellesoy
-[cllns]:         https://github.com/cllns
-[davetron5000]:  https://github.com/davetron5000
-[dchelimsky]:    https://github.com/dchelimsky
-[doudou]:        https://github.com/doudou
-[e2]:            https://github.com/e2
-[greyblake]:     https://github.com/greyblake
-[grosser]:       https://github.com/grosser
-[hectcastro]:    https://github.com/hectcastro
-[Heinrich]:      https://github.com/Heinrich
-[jarib]:         https://github.com/jarib
-[jaysonesmith]:  https://github.com/jaysonesmith
-[jonrowe]:       https://github.com/JonRowe
-[lithium3141]:   https://github.com/lithium3141
-[luke-hill]:     https://github.com/luke-hill
-[mattwynne]:     https://github.com/mattwynne
-[maxmeyer]:      https://github.com/maxmeyer
-[msassak]:       https://github.com/msassak
-[mvz]:           https://github.com/mvz
-[myronmarston]:  https://github.com/myronmarston
-[njam]:          https://github.com/njam
-[nruth]:         https://github.com/nruth
-[olleolleolle]:  https://github.com/olleolleolle
-[richardxia]:    https://github.com/richardxia
-[robertwahler]:  https://github.com/robertwahler
-[roschaefer]:    https://github.com/roschaefer
-[rspeicher]:     https://github.com/rspeicher
-[rubbish]:       https://github.com/rubbish
-[scottj97]:      https://github.com/scottj97
-[stamhankar999]: https://github.com/stamhankar999
-[taylor]:        https://github.com/taylor
-[tdreyno]:       https://github.com/tdreyno
+[AdrieanKhisbe]:  https://github.com/AdrieanKhisbe
+[aeden]:          https://github.com/aeden
+[aknuds1]:        https://github.com/aknuds1
+[alindeman]:      https://github.com/alindeman
+[argent-smith]:   https://github.com/argent-smith
+[aslakhellesoy]:  https://github.com/aslakhellesoy
+[cllns]:          https://github.com/cllns
+[davetron5000]:   https://github.com/davetron5000
+[dchelimsky]:     https://github.com/dchelimsky
+[doudou]:         https://github.com/doudou
+[e2]:             https://github.com/e2
+[greyblake]:      https://github.com/greyblake
+[grosser]:        https://github.com/grosser
+[hectcastro]:     https://github.com/hectcastro
+[Heinrich]:       https://github.com/Heinrich
+[jarib]:          https://github.com/jarib
+[jarl-dk]:        https://github.com/jarl-dk
+[jaysonesmith]:   https://github.com/jaysonesmith
+[JonRowe]:        https://github.com/JonRowe
+[junaruga]:       https://github.com/junaruga
+[lithium3141]:    https://github.com/lithium3141
+[LTe]:            https://github.com/LTe
+[luke-hill]:      https://github.com/luke-hill
+[mattwynne]:      https://github.com/mattwynne
+[maxmeyer]:       https://github.com/maxmeyer
+[msassak]:        https://github.com/msassak
+[mvz]:            https://github.com/mvz
+[myronmarston]:   https://github.com/myronmarston
+[nicolasleger]:   https://github.com/nicolasleger
+[njam]:           https://github.com/njam
+[nruth]:          https://github.com/nruth
+[olleolleolle]:   https://github.com/olleolleolle
+[richardxia]:     https://github.com/richardxia
+[robertwahler]:   https://github.com/robertwahler
+[roschaefer]:     https://github.com/roschaefer
+[rspeicher]:      https://github.com/rspeicher
+[rubbish]:        https://github.com/rubbish
+[scottj97]:       https://github.com/scottj97
+[stamhankar999]:  https://github.com/stamhankar999
+[taylor]:         https://github.com/taylor
+[tdreyno]:        https://github.com/tdreyno
 [xtrasimplicity]: https://github.com/xtrasimplicity
+[y-higuchi]:      https://github.com/y-higuchi
 
 <!-- issues & pull requests -->
 
@@ -833,6 +838,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [#583]: https://github.com/cucumber/aruba/pull/583
 [#582]: https://github.com/cucumber/aruba/pull/582
 [#581]: https://github.com/cucumber/aruba/pull/581
+[#580]: https://github.com/cucumber/aruba/pull/580
 [#578]: https://github.com/cucumber/aruba/pull/578
 [#575]: https://github.com/cucumber/aruba/pull/575
 [#572]: https://github.com/cucumber/aruba/pull/572
