@@ -10,61 +10,74 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 ### Added
 
-* Allow decimal seconds in Cucumber steps that set Aruba timeout values ([#544]
-  by [mvz])
 * Allow `#expand_path` to be used with absolute paths. This will emit a warning,
   which can be silenced with a configuration option ([#540] by [mvz])
+* Allow decimal seconds in Cucumber steps that set Aruba timeout values
+  ([#544] by [mvz])
+* Make `have_file_content` diffable ([#562] by [cllns])
+* Restore `@disable-bundler` hook ([#560] by [mvz])
 
 ### Changed
 
-* Improve output of `#have_output` matcher ([#546] by [mvz])
-* Update dependencies ([#511], [#541] by [mvz])
-* Relax dependency on contract ([#528] by [maxmeyer])
-* Make forgetting setup_aruba a hard failure ([#510] by [mvz])
 * Improve documentation for users and developers ([#454], [#456], [#457], [#460],
   [#459], [#461], [#475], [#494] by [olleolleolle], [maxmeyer], [mvz])
-* Removed `have_same_file_content_like` and `a_file_with_same_content_like` matchers, in favour of `have_same_file_content_as` and `a_file_with_same_content_as`. ([#555](https://github.com/cucumber/aruba/pull/555) by [XtraSimplicity](https://github.com/xtrasimplicity))
+* Make forgetting `setup_aruba` a hard failure ([#510] by [mvz])
+* Update dependencies ([#511], [#541], [#553] by [mvz], [#528] by [maxmeyer], [#615] by [luke-hill] and [mvz])
+* Improve output of `#have_output` matcher ([#546] by [mvz])
+* Removed `have_same_file_content_like` and `a_file_with_same_content_like`
+  matchers, in favour of `have_same_file_content_as` and
+  `a_file_with_same_content_as` ([#555] by [xtrasimplicity])
 
 ### Removed
 
 * Remove deprecated functionality ([#483], [#488], [#508] by [mvz])
+* Remove broken RVM-related step definition ([#587] by [mvz])
+* Drop support for Rubies below 2.2 ([#613] by [luke-hill])
 
 ### Bug fixes
 
+* Fix UTF-8 issues with jRuby ([#462] by [stamhankar999])
 * Allow slashes in file matching regex ([#512] by [scottj97] with [richardxia])
+* Avoid duplicate output appearing in certain cases ([#517] by [maxmeyer] and [mvz])
 * Fix `@no-clobber` breaking process management ([#535] by [doudou])
 * Fix command spawning when spaces occur in the path ([#520] by [mvz])
-* Avoid duplicate output appearing in certain cases ([#517] by [maxmeyer] and [mvz])
-* Fix UTF-8 issues with jRuby ([#462] [stamhankar999])
+* Make exit in in-process runner behave like real Kernel#exit ([#594] by [grosser])
+* Improve compatibility with Windows ([#618] by [mvz])
+  - Upcase ENV keys on Windows
+  - Properly escape command and arguments on Windows
+  - Use correct path separator on Windows
 
 ### Developer experience and internal changes
 
-* Clean up internally used cuke tags and their implementation ([#548] by [mvz])
-* Avoid long waits in feature suite ([#544] [mvz])
-* Remove cucumber features related to Aruba development ([#522], [#543], [#544] [mvz])
-* Mark scenarios requiring external commands ([#515] [mvz])
-* Update RuboCop and fix some offenses ([#514], [#537] by [mvz])
-* Add 'stale' bot ([#507] by [maxmeyer]
-* Documentation fixups ([#504], [#530] by [roschaefer] and [xtrasimplicity])
-* Fix YARD documentation issues ([#491] [olleolleolle])
-* Maintain Travis builds ([#476], [#493], [#532] [#536], [#542] by
-  [maxmeyer], [mvz] and [#542])
-* Fix test suite failures ([#452], [#487], [#497], [#509] by [maxmeyer] and [mvz])
-* Change maintainership ([#495], [#523] by [maxmeyer])
+* Fix test suite failures ([#452], [#497] by [maxmeyer] and [mvz]; [#487], [#509] by [mvz])
+* Remove development gems for unsupported Rubinius platform ([#464] by [maxmeyer])
+* Update `license_finder` dependency ([#466] by [maxmeyer]
+* Restrict branches to run Travis ([#471] by [junaruga])
+* Maintain Travis builds ([#476] by [maxmeyer]; [#493] [#532], [#536] by [mvz]; [#542], [#596], [#607] by [olleolleolle])
 * Rename History.md to CHANGELOG.md and fix links and formatting, etc. to bring
   it in line with [cucumber/cucumber#521] ([#481], [#482] by [jaysonesmith])
-* Restrict branches to run Travis ([#471] by [junaruga])
-* Update license_finder dependency ([#466] by [maxmeyer]
-* Remove development gems for unsupported Rubinius platform ([#464] by [maxmeyer])
+* Fix YARD documentation issues ([#491] [olleolleolle])
+* Change maintainership ([#495], [#523] by [maxmeyer])
 * Remove commented-out code ([#498] by [olleolleolle])
-* Fix tests on Debian. ([#575](https://github.com/cucumber/aruba/pull/575) by [Heinrich](https://github.com/Heinrich))
+* Documentation fixups ([#504] by [roschaefer]; [#530] by [xtrasimplicity]; [#606] by [olleolleolle])
+* Add 'stale' bot ([#507] by [maxmeyer]
+* Update RuboCop and fix some offenses ([#514], [#537] by [mvz])
+* Mark scenarios requiring external commands ([#515] [mvz])
+* Remove cucumber features related to Aruba development ([#522], [#543], [#544] [mvz])
+* Avoid long waits in feature suite ([#544] [mvz])
+* Clean up internally used cuke tags and their implementation ([#548] by [mvz])
+* Test with Ruby 2.5 and 2.6 ([#554] by [nicolasleger], [#578] by [mvz])
+* Fix tests on Debian. ([#575] by [Heinrich])
+* Update development dependencies ([#580] by [mvz])
+* Start work on unifying still and master branches ([#583], [#584] by [mvz])
+* Update CONTRIBUTING.md and drop bin/bootstrap ([#593] by [olleolleolle])
 
 ## [v1.0.0-alpha.2]
 
 * Update examples for usage in README
 * Fix environment manipulation ([#442])
 * Update supported ruby versions in .travis.yml ([#449])
-* Use license_finder version which is usable for rubies `< 2.3` ([#451])
+* Use `license_finder` version which is usable for rubies `< 2.3` ([#451])
 * Wrap test runners in `bundle exec` ([#447])
 * Fix wording in README ([#445])
 * Restructure README and upload feature files to cucumber.pro ([#444])
@@ -751,16 +764,20 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [aknuds1]:       https://github.com/aknuds1
 [alindeman]:     https://github.com/alindeman
 [aslakhellesoy]: https://github.com/aslakhellesoy
+[cllns]:         https://github.com/cllns
 [davetron5000]:  https://github.com/davetron5000
 [dchelimsky]:    https://github.com/dchelimsky
 [doudou]:        https://github.com/doudou
 [e2]:            https://github.com/e2
 [greyblake]:     https://github.com/greyblake
+[grosser]:       https://github.com/grosser
 [hectcastro]:    https://github.com/hectcastro
+[Heinrich]:      https://github.com/Heinrich
 [jarib]:         https://github.com/jarib
 [jaysonesmith]:  https://github.com/jaysonesmith
 [jonrowe]:       https://github.com/JonRowe
 [lithium3141]:   https://github.com/lithium3141
+[luke-hill]:     https://github.com/luke-hill
 [mattwynne]:     https://github.com/mattwynne
 [maxmeyer]:      https://github.com/maxmeyer
 [msassak]:       https://github.com/msassak
@@ -780,12 +797,30 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [tdreyno]:       https://github.com/tdreyno
 [xtrasimplicity]: https://github.com/xtrasimplicity
 
-<!-- issues -->
+<!-- issues & pull requests -->
 
-[#582]: https://github.com/cucumber/aruba/pull/582
+[#618]: https://github.com/cucumber/aruba/pull/618
+[#615]: https://github.com/cucumber/aruba/pull/615
+[#613]: https://github.com/cucumber/aruba/pull/613
+[#607]: https://github.com/cucumber/aruba/pull/607
+[#606]: https://github.com/cucumber/aruba/pull/606
+[#596]: https://github.com/cucumber/aruba/pull/596
+[#594]: https://github.com/cucumber/aruba/pull/594
+[#593]: https://github.com/cucumber/aruba/pull/593
+[#587]: https://github.com/cucumber/aruba/pull/587
+[#584]: https://github.com/cucumber/aruba/pull/584
+[#583]: https://github.com/cucumber/aruba/pull/583
+[#581]: https://github.com/cucumber/aruba/pull/581
+[#578]: https://github.com/cucumber/aruba/pull/578
+[#575]: https://github.com/cucumber/aruba/pull/575
 [#572]: https://github.com/cucumber/aruba/pull/572
+[#562]: https://github.com/cucumber/aruba/pull/562
 [#561]: https://github.com/cucumber/aruba/pull/561
+[#560]: https://github.com/cucumber/aruba/pull/560
 [#557]: https://github.com/cucumber/aruba/pull/557
+[#555]: https://github.com/cucumber/aruba/pull/555
+[#554]: https://github.com/cucumber/aruba/pull/554
+[#553]: https://github.com/cucumber/aruba/pull/553
 [#551]: https://github.com/cucumber/aruba/pull/551
 [#548]: https://github.com/cucumber/aruba/pull/548
 [#546]: https://github.com/cucumber/aruba/pull/546
