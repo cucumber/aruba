@@ -26,18 +26,18 @@ Feature: Access STDOUT of command
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Waiting for output to "appear" after 2 seconds
+  Scenario: Waiting for output to appear
     Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
-    sleep 1
+    sleep 0.1
     echo 'Hello, Aruba'
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba, :io_wait_timeout => 2 do
+    RSpec.describe 'Run command', :type => :aruba, :io_wait_timeout => 0.2 do
       before(:each) { run_command('aruba-test-cli') }
       it { expect(last_command_started.stdout).to start_with 'Hello' }
     end

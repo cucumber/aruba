@@ -8,7 +8,7 @@ Feature: Configure directory where to look for fixtures
     Given I use the fixture "cli-app"
 
   Scenario: Default value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       puts %(The default value is "%w(#{config.fixtures_directories.join(" ")})")
@@ -21,7 +21,7 @@ Feature: Configure directory where to look for fixtures
     """
 
   Scenario: Modify value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       config.fixtures_directories = %w(spec/fixtures)

@@ -19,10 +19,8 @@ Feature: before_cmd hooks
     Given I use a fixture named "cli-app"
 
   Scenario: Run a simple command with a "before(:command)"-hook
-    Given a file named "spec/support/hooks.rb" with:
+    Given a file named "spec/support/aruba_config.rb" with:
     """
-    require 'aruba'
-
     Aruba.configure do |config|
       config.before :command do |cmd|
         puts "before the run of `#{cmd.commandline}`"
@@ -49,8 +47,6 @@ Feature: before_cmd hooks
   Scenario: Run a simple command with a "before(:cmd)"-hook (deprecated)
     Given a file named "spec/support/hooks.rb" with:
     """
-    require 'aruba'
-
     Aruba.configure do |config|
       config.before :cmd do |cmd|
         puts "before the run of `#{cmd}`"

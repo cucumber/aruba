@@ -25,17 +25,29 @@ module Aruba
 
       # Create process
       #
-      # @params [String] cmd
+      # @param [String] cmd
       #   Command string
       #
-      # @params [Integer] exit_timeout
+      # @param [Numeric] exit_timeout
       #   The timeout until we expect the command to be finished
       #
-      # @params [Integer] io_wait_timeout
+      # @param [Numeric] io_wait_timeout
       #   The timeout until we expect the io to be finished
       #
-      # @params [String] working_directory
+      # @param [String] working_directory
       #   The directory where the command will be executed
+      #
+      # @param [Hash] environment
+      #   Environment variables
+      #
+      # @param [Class] main_class
+      #   E.g. Cli::App::Runner
+      #
+      # @param [String] stop_signal
+      #   Name of signal to send to stop process. E.g. 'HUP'.
+      #
+      # @param [Numeric] startup_wait_time
+      #   The amount of seconds to wait after Aruba has started a command.
       def initialize(cmd, exit_timeout, io_wait_timeout, working_directory, environment = ENV.to_hash.dup, main_class = nil, stop_signal = nil, startup_wait_time = 0)
         super
 
@@ -262,7 +274,7 @@ module Aruba
       end
 
       def wait_for_io(time_to_wait, &block)
-        sleep time_to_wait.to_i
+        sleep time_to_wait
         yield
       end
 

@@ -31,7 +31,7 @@ Feature: Check if path has permissions in filesystem
 
     RSpec.describe 'Check if path has permissions', :type => :aruba do
       let(:file) { 'file.txt' }
-      let(:permissions) { 0700 }
+      let(:permissions) { 0600 }
 
       before(:each) { touch(file) }
       before(:each) { chmod(permissions, file) }
@@ -67,7 +67,7 @@ Feature: Check if path has permissions in filesystem
 
     RSpec.describe 'Check if path has permissions', :type => :aruba do
       let(:files) { %w(file1.txt file2.txt) }
-      let(:permissions) { 0700 }
+      let(:permissions) { 0600 }
 
       before :each do
         files.each do |f|
@@ -89,7 +89,7 @@ Feature: Check if path has permissions in filesystem
 
     RSpec.describe 'Check if path has permissions', :type => :aruba do
       let(:files) { %w(file1.txt file2.txt) }
-      let(:permissions) { 0700 }
+      let(:permissions) { 0600 }
 
       before :each do
         touch(files.first)
@@ -109,7 +109,7 @@ Feature: Check if path has permissions in filesystem
 
     RSpec.describe 'Check if path has permissions', :type => :aruba do
       let(:path) { 'file.txt' }
-      let(:permissions) { 0777 }
+      let(:permissions) { 0700 }
 
       it { expect(path).to have_permissions permissions }
     end

@@ -24,9 +24,9 @@ end
 
 ## I successfully run `echo -n "Hello"`
 ## I successfully run `sleep 29` for up to 30 seconds
-When(/^I successfully run `(.*?)`(?: for up to (\d+) seconds)?$/)do |cmd, secs|
+When(/^I successfully run `(.*?)`(?: for up to ([\d.]+) seconds)?$/) do |cmd, secs|
   cmd = sanitize_text(cmd)
-  run_command_and_stop(cmd, :fail_on_error => true, :exit_timeout => secs && secs.to_i)
+  run_command_and_stop(cmd, :fail_on_error => true, :exit_timeout => secs && secs.to_f)
 end
 
 When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do |shell, commands|
@@ -390,20 +390,20 @@ Given(/The default aruba timeout is (\d+) seconds/) do |seconds|
   aruba.config.exit_timeout = seconds.to_i
 end
 
-Given(/^the (?:default )?aruba io wait timeout is (\d+) seconds?$/) do |seconds|
-  aruba.config.io_wait_timeout = seconds.to_i
+Given(/^the (?:default )?aruba io wait timeout is ([\d.]+) seconds?$/) do |seconds|
+  aruba.config.io_wait_timeout = seconds.to_f
 end
 
-Given(/^the (?:default )?aruba exit timeout is (\d+) seconds?$/) do |seconds|
-  aruba.config.exit_timeout = seconds.to_i
+Given(/^the (?:default )?aruba exit timeout is ([\d.]+) seconds?$/) do |seconds|
+  aruba.config.exit_timeout = seconds.to_f
 end
 
 Given(/^the (?:default )?aruba stop signal is "([^"]*)"$/) do |signal|
   aruba.config.stop_signal = signal
 end
 
-Given(/^I wait (\d+) seconds? for (?:a|the) command to start up$/) do |seconds|
-  aruba.config.startup_wait_time = seconds.to_i
+Given(/^I wait ([\d.]+) seconds? for (?:a|the) command to start up$/) do |seconds|
+  aruba.config.startup_wait_time = seconds.to_f
 end
 
 When(/^I send the signal "([^"]*)" to the command (?:"([^"]*)"|(?:started last))$/) do |signal, command|

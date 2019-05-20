@@ -8,7 +8,7 @@ Feature: Configure if ansi color codes should be stripped off from command outpu
     Given I use the fixture "cli-app"
 
   Scenario: Default value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """
     Aruba.configure do |config|
       puts %(The default value is "#{config.remove_ansi_escape_sequences}")
@@ -21,7 +21,7 @@ Feature: Configure if ansi color codes should be stripped off from command outpu
     """
 
   Scenario: Modify value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """
     Aruba.configure do |config|
       config.remove_ansi_escape_sequences = false

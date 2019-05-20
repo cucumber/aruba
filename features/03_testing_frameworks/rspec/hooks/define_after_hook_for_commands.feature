@@ -17,10 +17,8 @@ Feature: After command hooks
     Given I use a fixture named "cli-app"
 
   Scenario: Run a simple command with an "after(:command)"-hook
-    Given a file named "spec/support/hooks.rb" with:
+    Given a file named "spec/support/aruba_config.rb" with:
     """
-    require 'aruba'
-
     Aruba.configure do |config|
       config.after :command do |cmd|
         puts "after the run of `#{cmd.commandline}`"
@@ -43,4 +41,3 @@ Feature: After command hooks
     """
     after the run of `echo running`
     """
-

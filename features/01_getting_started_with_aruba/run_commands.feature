@@ -12,6 +12,15 @@ Feature: Run commands with Aruba
 
   Background:
     Given I use a fixture named "getting-started-app"
+
+  @requires-bash
+  Scenario: Bash Program
+    Given an executable named "bin/aruba-test-cli" with:
+    """bash
+    #!/usr/bin/env bash
+
+    echo "Hello, Aruba!"
+    """
     And a file named "features/hello_aruba.feature" with:
     """
     Feature: Getting Started With Aruba
@@ -21,15 +30,6 @@ Feature: Run commands with Aruba
         \"\"\"
         Hello, Aruba!
         \"\"\"
-    """
-
-  @requires-bash
-  Scenario: Bash Program
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo "Hello, Aruba!"
     """
     When I successfully run `cucumber`
     Then the features should all pass
@@ -61,6 +61,16 @@ Feature: Run commands with Aruba
 
     puts "Hello, Aruba!"
     """
+    And a file named "features/hello_aruba.feature" with:
+    """
+    Feature: Getting Started With Aruba
+      Scenario: First Run of Command
+        Given I successfully run `aruba-test-cli`
+        Then the output should contain:
+        \"\"\"
+        Hello, Aruba!
+        \"\"\"
+    """
     When I successfully run `cucumber`
     Then the features should all pass
 
@@ -91,6 +101,16 @@ Feature: Run commands with Aruba
 
     print("Hello, Aruba!")
     """
+    And a file named "features/hello_aruba.feature" with:
+    """
+    Feature: Getting Started With Aruba
+      Scenario: First Run of Command
+        Given I successfully run `aruba-test-cli`
+        Then the output should contain:
+        \"\"\"
+        Hello, Aruba!
+        \"\"\"
+    """
     When I successfully run `cucumber`
     Then the features should all pass
 
@@ -120,6 +140,16 @@ Feature: Run commands with Aruba
     #!/usr/bin/env perl
 
     print "Hello, Aruba!\n";
+    """
+    And a file named "features/hello_aruba.feature" with:
+    """
+    Feature: Getting Started With Aruba
+      Scenario: First Run of Command
+        Given I successfully run `aruba-test-cli`
+        Then the output should contain:
+        \"\"\"
+        Hello, Aruba!
+        \"\"\"
     """
     When I successfully run `cucumber`
     Then the features should all pass
@@ -160,7 +190,7 @@ Feature: Run commands with Aruba
           }
         }
         \"\"\"
-        And I successfully run `javac tmp/HelloArubaApp.java`
+        And I successfully run `javac tmp/HelloArubaApp.java` for up to 20 seconds
         And I cd to "tmp/"
         And I successfully run `java HelloArubaApp`
         Then the output should contain:
@@ -168,7 +198,7 @@ Feature: Run commands with Aruba
         Hello, Aruba!
         \"\"\"
     """
-    When I successfully run `cucumber`
+    When I successfully run `cucumber` for up to 21 seconds
     Then the features should all pass
 
   @requires-posix-standard-tools

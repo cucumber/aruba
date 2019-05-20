@@ -8,7 +8,7 @@ Feature: Use fixtures path prefix of aruba
     Given I use the fixture "cli-app"
 
   Scenario: Default value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       puts "The prefix is \"#{config.fixtures_path_prefix}\"."

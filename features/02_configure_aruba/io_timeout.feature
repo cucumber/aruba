@@ -8,7 +8,7 @@ Feature: Configure timeout for io of commands
     Given I use the fixture "cli-app"
 
   Scenario: Default value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       puts %(The default value is "#{config.io_wait_timeout}")
@@ -21,7 +21,7 @@ Feature: Configure timeout for io of commands
     """
 
   Scenario: Modify value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       config.io_wait_timeout = 2

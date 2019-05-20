@@ -1,6 +1,6 @@
 Feature: Run command
 
-  To run a command use the `#run_command`-method. There are some configuration options
+  To run a command use the `#run_command` method. There are some configuration options
   which are relevant here:
 
   - `startup_wait_time`:
@@ -82,9 +82,9 @@ Feature: Run command
     Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
- 
+
     function initialize_script {
-      sleep 2
+      sleep 0.2
     }
 
     function do_some_work {
@@ -105,20 +105,25 @@ Feature: Run command
     initialize_script
     do_some_work
 
-    while [ true ]; do sleep 1; done
+    while [ true ]; do sleep 0.1; done
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 1, :startup_wait_time => 2 do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { last_command_started.send_signal 'HUP' }
+    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 0.1, :startup_wait_time => 0.2 do
+      before do
+        run_command('aruba-test-cli')
+        last_command_started.send_signal 'HUP'
+      end
 
-      it { expect(last_command_started).to be_successfully_executed }
-      it { expect(last_command_started).to have_output /Hello, Aruba is working/ }
-      it { expect(last_command_started).to have_output /Hello, Aruba here/ }
-
+      it 'runs the command with the expected results' do
+        aggregate_failures do
+          expect(last_command_started).to be_successfully_executed
+          expect(last_command_started).to have_output /Hello, Aruba is working/
+          expect(last_command_started).to have_output /Hello, Aruba here/
+        end
+      end
     end
     """
     When I run `rspec`
@@ -134,7 +139,7 @@ Feature: Run command
     #!/usr/bin/env bash
 
     function do_some_work {
-      sleep 2
+      sleep 0.2
       echo "Hello, Aruba here"
     }
 
@@ -144,11 +149,15 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 3 do
-      before(:each) { run_command('aruba-test-cli') }
+    RSpec.describe 'Run command', :type => :aruba, :exit_timeout => 0.3 do
+      before { run_command('aruba-test-cli') }
 
-      it { expect(last_command_started).to be_successfully_executed }
-      it { expect(last_command_started).to have_output /Hello, Aruba here/ }
+      it 'runs the command with the expected results' do
+        aggregate_failures do
+          expect(last_command_started).to be_successfully_executed
+          expect(last_command_started).to have_output /Hello, Aruba here/
+        end
+      end
     end
     """
     When I run `rspec`

@@ -9,17 +9,17 @@ Feature: Getting started with RSpec and aruba
     `spec_helper.rb`. After that you only need to flag your tests with `type:
     :aruba` and some things are set up for.
 
-    The simple integration adds some `before(:each)`-hooks for you:
+    The simple integration adds some `before(:each)` hooks for you:
 
       \* Setup Aruba Test directory
       \* Clear environment (ENV)
-      \* Make HOME-variable configarable via `arub.config.home_directory`
-      \* Configure `aruba` via `RSpec`-metadata
-      \* Activate announcers based on `RSpec`-metadata
+      \* Make HOME variable configurable via `arub.config.home_directory`
+      \* Configure `aruba` via `RSpec` metadata
+      \* Activate announcers based on `RSpec` metadata
 
-    Be careful, if you are going to use a `before(:all)`-hook to set up
-    files/directories. Those will be deleted by the `setup_aruba`-call within
-    the `before(:each)`-hook. Look for some custom integration further down the
+    Be careful, if you are going to use a `before(:all)` hook to set up
+    files/directories. Those will be deleted by the `setup_aruba` call within
+    the `before(:each)` hook. Look for some custom integration further down the
     documentation for a solution.
 
     Given a file named "spec/spec_helper.rb" with:
@@ -82,18 +82,18 @@ Feature: Getting started with RSpec and aruba
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Custom Integration using before(:all)-hook
+  Scenario: Custom Integration using before(:all) hook
 
-    You can even use `aruba` within a `before(:all)`-hook. But again, make sure
+    You can even use `aruba` within a `before(:all)` hook. But again, make sure
     that `setup_aruba` is run before you use any method of `aruba`. Using
-    `setup_aruba` both in `before(:all)`- and `before(:each)`-hook is not
-    possible and therefor not supported:
+    `setup_aruba` both in a `before(:all)` and a `before(:each)` hook is not
+    possible and therefore not supported:
 
-    Running `setup_aruba` removes `tmp/aruba`, creates a new one `tmp/aruba`
-    and make it the working directory. Running it within a `before(:all)`-hook,
-    run some `aruba`-method and then run `setup_arub` again within a
-    `before(:each)`-hook, will remove the files/directories created within the
-    `before(:all)`-hook.
+    Running `setup_aruba` removes `tmp/aruba`, creates a new `tmp/aruba`, and
+    makes that the working directory. Running it within a `before(:all)` hook,
+    running some `aruba` method and, then running `setup_aruba` again within a
+    `before(:each)` hook, will remove the files and directories created within
+    the `before(:all)` hook.
 
     Given a file named "spec/spec_helper.rb" with:
     """

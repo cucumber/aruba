@@ -13,7 +13,7 @@ Feature: Configure the home directory to be used with aruba
     Given I use the fixture "cli-app"
 
   Scenario: Default value
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       puts %(The default value is "#{config.home_directory}")
@@ -26,7 +26,7 @@ Feature: Configure the home directory to be used with aruba
     """
 
   Scenario: Set to current working directory
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       # use current working directory
@@ -44,7 +44,7 @@ Feature: Configure the home directory to be used with aruba
     """
 
   Scenario: Set to aruba's working directory
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       # Use aruba working directory
@@ -56,13 +56,13 @@ Feature: Configure the home directory to be used with aruba
     end
     """
     Then I successfully run `cucumber`
-    Then the output should contain:
+    Then the output should match:
     """
-    The default value is "/home/
+    The default value is "/.*/tmp/aruba"
     """
 
   Scenario: Set to some other path (deprecated)
-    Given a file named "features/support/aruba.rb" with:
+    Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
       # use current working directory
