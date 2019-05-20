@@ -331,14 +331,15 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 * Add some new steps to make writing documentation easier using "cucumber",
   "rspec", "minitest" together with "aruba" - see [Feature](features/getting_started/supported_testing_frameworks.feature)
   for some examples
-* Write output of commands directly to disk if SpawnProcess is used (see https://github.com/cucumber/aruba/commit/85d74fcca4fff4e753776925d8b003cddaa8041d)
+* Write output of commands directly to disk if SpawnProcess is used
+  (see [85d74fcc](https://github.com/cucumber/aruba/commit/85d74fcca4fff4e753776925d8b003cddaa8041d))
 * Refactored API of cucumber steps to reduce the need for more methods and make
   it easier for users to write their own steps ([#306])
 * Added `aruba init` to the cli command to setup environment for aruba (issue
   [#308])
 * Added new method `delete_environment_variable` to remove environment variable
 * Added work around because of method name conflict between Capybara and RSpec
-  (https://github.com/cucumber/aruba/commit/1939c4049d5195ffdd967485f50119bdd86e98a0)
+  ([1939c404](https://github.com/cucumber/aruba/commit/1939c4049d5195ffdd967485f50119bdd86e98a0))
 
 
 ## [0.9.0]
