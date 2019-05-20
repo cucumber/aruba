@@ -6,7 +6,7 @@ This project will adhere to [Semantic Versioning][1] once version 1.0.0 is relea
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
-## [Unreleased]
+## [v1.0.0-alpha.3]
 
 ### Added
 
@@ -1021,7 +1021,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.0.alpha.2...master
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.0.alpha.3...master
+[v1.0.0-alpha.3]: https://github.com/cucumber/aruba/compare/v1.0.0.alpha.2...v1.0.0.alpha.3
 [v1.0.0-alpha.2]: https://github.com/cucumber/aruba/compare/v1.0.0.alpha.1...v1.0.0.alpha.2
 [v1.0.0-alpha.1]: https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.alpha.1
 [v0.14.9]:        https://github.com/cucumber/aruba/compare/v0.14.8...v0.14.9
