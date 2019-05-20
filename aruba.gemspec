@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary     = "aruba-#{spec.version}"
   spec.license     = 'MIT'
   spec.email       = 'cukes@googlegroups.com'
-  spec.homepage    = 'http://github.com/cucumber/aruba'
+  spec.homepage    = 'https://github.com/cucumber/aruba'
 
   spec.add_runtime_dependency 'childprocess', '~> 1.0'
   spec.add_runtime_dependency 'contracts', '~> 0.13'
