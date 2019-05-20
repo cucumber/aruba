@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'childprocess', '~> 1.0'
   spec.add_runtime_dependency 'contracts', '~> 0.13'
-  spec.add_runtime_dependency 'cucumber', '~> 2.4'
+  spec.add_runtime_dependency 'cucumber', ['>= 2.4', '< 4.0']
   spec.add_runtime_dependency 'ffi', '~> 1.9'
   spec.add_runtime_dependency 'rspec-expectations', '~> 3.4'
   spec.add_runtime_dependency 'thor', '~> 0.19'
