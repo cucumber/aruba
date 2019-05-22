@@ -6,6 +6,12 @@ This project will adhere to [Semantic Versioning][1] once version 1.0.0 is relea
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [1.0.0.pre.alpha.4]
+
+* Improve documentation: GitHub is not Github ([#629] by [amatsuda])
+* TimeoutError is deprecated in favor of Timeout::Error ([#628] by [amatsuda])
+* Allow use with Cucumber 3.x ([#626] by [mvz])
+
 ## [1.0.0.pre.alpha.3]
 
 ### Added
@@ -822,6 +828,9 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- issues & pull requests -->
 
+[#629]: https://github.com/cucumber/aruba/pull/629
+[#628]: https://github.com/cucumber/aruba/pull/628
+[#626]: https://github.com/cucumber/aruba/pull/626
 [#623]: https://github.com/cucumber/aruba/pull/623
 [#618]: https://github.com/cucumber/aruba/pull/618
 [#615]: https://github.com/cucumber/aruba/pull/615
@@ -1025,7 +1034,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.3...master
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.4...master
+[1.0.0.pre.alpha.4]: https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.3...v1.0.0.pre.alpha.4
 [1.0.0.pre.alpha.3]: https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.2...v1.0.0.pre.alpha.3
 [1.0.0.pre.alpha.2]: https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.1...v1.0.0.pre.alpha.2
 [1.0.0.pre.alpha.1]: https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.pre.alpha.1
