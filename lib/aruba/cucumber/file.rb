@@ -180,18 +180,6 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?be equal to file "([^"]
   end
 end
 
-Then(/^the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)"$/) do |file, negated, permissions|
-  # rubocop:disable Metrics/LineLength
-  Aruba.platform.deprecated('The use of step "the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)" is deprecated. Use "^the (?:file|directory)(?: named)? "([^"]*)" should have permissions "([^"]*)"$" instead')
-  # rubocop:enable Metrics/LineLength
-
-  if negated
-    expect(file).not_to have_permissions(permissions)
-  else
-    expect(file).to have_permissions(permissions)
-  end
-end
-
 Then(/^the (?:file|directory)(?: named)? "([^"]*)" should( not)? have permissions "([^"]*)"$/) do |path, negated, permissions|
   if negated
     expect(path).not_to have_permissions(permissions)
