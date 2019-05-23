@@ -9,11 +9,7 @@ module Aruba
         attr_reader :other_env, :block
 
         def initialize(other_env, &block)
-          @other_env = other_env
-
-          to_hash = RUBY_VERSION >= '2' ? :to_h : :to_hash
-
-          @other_env = @other_env.public_send(to_hash).each_with_object({}) { |(k, v), a| a[k] = v.to_s }
+          @other_env = other_env.to_h.each_with_object({}) { |(k, v), a| a[k] = v.to_s }
 
           @block = if block_given?
                      block
@@ -56,11 +52,7 @@ module Aruba
       def initialize(env = ENV)
         @actions = []
 
-        @env = if RUBY_VERSION < '2.0'
-                 env.to_hash
-               else
-                 env.to_h
-               end
+        @env = env.to_h
       end
 
       # Update environment with other en

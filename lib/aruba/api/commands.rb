@@ -128,7 +128,7 @@ module Aruba
 
         unless command.interactive?
           raise NotImplementedError,
-            'Running interactively is not supported with this process launcher.'
+                'Running interactively is not supported with this process launcher.'
         end
 
         start_command(command)

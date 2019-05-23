@@ -60,16 +60,6 @@ Before '@requires-posix-standard-tools' do |scenario|
   end
 end
 
-Before '@requires-ruby-version-2' do |scenario|
-  next if RUBY_VERSION >= '2'
-
-  if Cucumber::VERSION < '2'
-    scenario.skip_invoke!
-  else
-    skip_this_scenario
-  end
-end
-
 Before '@requires-ruby-platform-java' do |scenario|
   # leave if java
   next if RUBY_PLATFORM.include? 'java'

@@ -12,7 +12,7 @@ module Aruba
     # @private
     class BasicProcess
       attr_reader :exit_status, :environment, :working_directory, :main_class,
-        :io_wait_timeout, :exit_timeout, :startup_wait_time, :stop_signal
+                  :io_wait_timeout, :exit_timeout, :startup_wait_time, :stop_signal
 
       def initialize(cmd, exit_timeout, io_wait_timeout, working_directory,
                      environment = Aruba.platform.environment_variables.hash_from_env,
