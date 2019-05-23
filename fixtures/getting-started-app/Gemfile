@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-gem 'aruba', path: File.expand_path('../../../../', __FILE__)
+gem 'aruba', path: File.expand_path('../../..', __dir__)
 gem 'cucumber'

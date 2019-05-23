@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 # Load local Gemfile
-load File.expand_path('../Gemfile.local', __FILE__) if File.file? File.expand_path('../Gemfile.local', __FILE__)
+load File.expand_path('Gemfile.local', __dir__) if File.file? File.expand_path('Gemfile.local', __dir__)
 
 # Debug aruba
 group :debug do
