@@ -19,7 +19,7 @@ end
 # Tools to run during development
 group :development do
   # Needed for lint:yard:junk task
-  gem 'yard-junk', '~> 0'
+  gem 'yard-junk', '~> 0.0.7'
 end
 
 group :development, :test do
