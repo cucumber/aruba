@@ -26,6 +26,8 @@ module Aruba
       # @return [String]
       #   The table
       def to_s
+        return '' unless hash.respond_to?(:keys)
+
         longest_key = hash.keys.map(&:to_s).max_by(&:length)
         return '' if longest_key.nil?
 

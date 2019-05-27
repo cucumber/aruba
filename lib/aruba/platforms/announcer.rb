@@ -79,6 +79,8 @@ module Aruba
       private
 
       def after_init
+        require 'aruba/contracts/hashable'
+
         output_format :changed_configuration, proc { |n, v| format('# %s = %s', n, v) }
         output_format :changed_environment, proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
         output_format :command, '$ %s'
@@ -93,7 +95,7 @@ module Aruba
         output_format :timeout, '# %s-timeout: %s seconds'
         output_format :wait_time, '# %s: %s seconds'
         # rubocop:disable Metrics/LineLength
-        output_format :command_filesystem_status, proc { |status| format("<<-COMMAND FILESYSTEM STATUS\n%s\nCOMMAND FILESYSTEM STATUS", Aruba.platform.simple_table(status.to_h, sort: false)) }
+        output_format :command_filesystem_status, proc { |status| format("<<-COMMAND FILESYSTEM STATUS\n%s\nCOMMAND FILESYSTEM STATUS", Aruba.platform.simple_table(Aruba::Contracts::Hashable.to_h(status), sort: false)) }
         # rubocop:enable Metrics/LineLength
       end
 
