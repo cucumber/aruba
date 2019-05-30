@@ -1019,60 +1019,6 @@ module Aruba
 
       # @deprecated
       #
-      # Get stdout of all processes
-      #
-      # @return [String]
-      #   The stdout of all process which have run before
-      def all_stdout
-        Aruba.platform.deprecated(
-          'The use of "#all_stdout" is deprecated.' \
-          ' Use `all_commands.map { |c| c.stdout }.join("\n") instead.' \
-          ' If you need to check for some output, use' \
-          ' "expect(all_commands).to included_an_object have_output_on_stdout(/output/)"' \
-          ' instead'
-        )
-
-        process_monitor.all_stdout
-      end
-
-      # @deprecated
-      #
-      # Get stderr of all processes
-      #
-      # @return [String]
-      #   The stderr of all process which have run before
-      def all_stderr
-        Aruba.platform.deprecated(
-          'The use of "#all_stderr" is deprecated.' \
-          ' Use `all_commands.map { |c| c.stderr }.join("\n") instead.' \
-          ' If you need to check for some output use' \
-          ' "expect(all_commands).to included_an_object have_output_on_stderr /output/"' \
-          ' instead'
-        )
-
-        process_monitor.all_stderr
-      end
-
-      # @deprecated
-      #
-      # Get stderr and stdout of all processes
-      #
-      # @return [String]
-      #   The stderr and stdout of all process which have run before
-      def all_output
-        Aruba.platform.deprecated(
-          'The use of "#all_output" is deprecated.' \
-          ' Use `all_commands.map { |c| c.output }.join("\n") instead.' \
-          ' If you need to check for some output use' \
-          ' "expect(all_commands).to included_an_object have_output /output/"' \
-          ' instead'
-        )
-
-        process_monitor.all_output
-      end
-
-      # @deprecated
-      #
       # Default exit timeout for running commands with aruba
       #
       # Overwrite this method if you want a different timeout or set
