@@ -58,7 +58,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
 
     it 'writes multiple strings to the process' do
       process.start
-      process.write "hel", "lo\n"
+      process.write 'hel', "lo\n"
       process.stop
 
       expect(process.stdout).to eq "hello\n"

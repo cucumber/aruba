@@ -103,7 +103,7 @@ module Aruba
       #
       # @param *input [Array of String]
       def write(*input)
-        @stdin.write *input
+        @stdin.write(*input)
       end
 
       # Close io
