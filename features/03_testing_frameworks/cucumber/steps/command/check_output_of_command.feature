@@ -347,7 +347,6 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-  @requires-aruba-version-1
   Scenario: Detect output from all processes
     Given an executable named "bin/aruba-test-cli1" with:
     """bash
@@ -370,34 +369,35 @@ Feature: All output of commands which were executed
         Then the stdout should contain exactly:
         \"\"\"
         This is cli1
-        \"\"\"
-        And the stdout should contain exactly:
-        \"\"\"
         This is cli2
         \"\"\"
     """
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Detect output from all processes (deprecated)
+  Scenario: Detect output from all processes normal and interactive ones
     Given an executable named "bin/aruba-test-cli1" with:
-    """bash
+    """
     #!/usr/bin/env bash
-
     echo 'This is cli1'
     """
     And an executable named "bin/aruba-test-cli2" with:
-    """bash
-    #!/usr/bin/env bash
+    """
+    #!/usr/bin/env ruby
 
-    echo 'This is cli2'
+    while input = gets do
+      break if "" == input
+      puts input
+    end
     """
     And a file named "features/output.feature" with:
-    """cucumber
+    """
     Feature: Run command
       Scenario: Run command
         When I run `aruba-test-cli1`
-        When I run `aruba-test-cli2`
+        When I run `aruba-test-cli2` interactively
+        And I type "This is cli2"
+        And I type ""
         Then the stdout should contain exactly:
         \"\"\"
         This is cli1
@@ -474,42 +474,6 @@ Feature: All output of commands which were executed
         Then the output should contain "a"
         And the output should be 65536 bytes long
         And the exit status should be 0
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
-  @requires-aruba-version-1
-  Scenario: Detect output from all processes normal and interactive ones
-    Given an executable named "bin/aruba-test-cli1" with:
-    """
-    #!/usr/bin/env bash
-    echo 'This is cli1'
-    """
-    And an executable named "bin/aruba-test-cli2" with:
-    """
-    #!/usr/bin/env ruby
-
-    while input = gets do
-      break if "" == input
-      puts input
-    end
-    """
-    And a file named "features/output.feature" with:
-    """
-    Feature: Run command
-      Scenario: Run command
-        When I run `aruba-test-cli1`
-        When I run `aruba-test-cli2` interactively
-        And I type "This is cli2"
-        And I type ""
-        Then the stdout should contain exactly:
-        \"\"\"
-        This is cli1
-        \"\"\"
-        And the stdout should contain exactly:
-        \"\"\"
-        This is cli2
-        \"\"\"
     """
     When I run `cucumber`
     Then the features should all pass

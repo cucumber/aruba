@@ -29,7 +29,7 @@ Feature: STDERR of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Detect stderr from all processes (deprecated)
+  Scenario: Detect stderr from all processes
     Given a file named "features/output.feature" with:
     """
     Feature: Run command
