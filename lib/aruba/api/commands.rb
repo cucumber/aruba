@@ -106,7 +106,7 @@ module Aruba
       # Get stdout of all processes
       #
       # @return [String]
-      #   The stdout of all process which have run before
+      #   The stdout of all processes which have run before
       def all_stdout
         aruba.command_monitor.all_stdout
       end
@@ -114,7 +114,7 @@ module Aruba
       # Get stderr of all processes
       #
       # @return [String]
-      #   The stderr of all process which have run before
+      #   The stderr of all processes which have run before
       def all_stderr
         aruba.command_monitor.all_stderr
       end
@@ -122,7 +122,7 @@ module Aruba
       # Get stderr and stdout of all processes
       #
       # @return [String]
-      #   The stderr and stdout of all process which have run before
+      #   The stderr and stdout of all processes which have run before
       def all_output
         aruba.command_monitor.all_output
       end
