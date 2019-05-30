@@ -20,7 +20,7 @@ Feature: Use root directory of aruba
     tmp/aruba
     """
 
-  Scenario: Modify value
+  Scenario: Modify value (deprecated)
     Given a file named "features/support/aruba.rb" with:
     """
     Aruba.configure do |config|
