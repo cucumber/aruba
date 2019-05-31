@@ -1,4 +1,4 @@
-$LOAD_PATH << File.expand_path('../', __FILE__)
+$LOAD_PATH << File.expand_path(__dir__)
 
 require 'aruba/tasks/docker_helpers'
 require 'aruba/platform'
@@ -74,7 +74,7 @@ namespace :docker do
     args.with_defaults(version: 'latest')
     args.with_defaults(cache: true)
 
-    docker_compose_file = Aruba::DockerComposeFile.new(File.expand_path('../docker-compose.yml', __FILE__))
+    docker_compose_file = Aruba::DockerComposeFile.new(File.expand_path('docker-compose.yml', __dir__))
     docker_run_instance = Aruba::DockerRunInstance.new(docker_compose_file, :base)
 
     builder = Aruba::DockerBuildCommandLineBuilder.new(
@@ -88,7 +88,7 @@ namespace :docker do
 
   desc 'Run docker container'
   task :run, :command do |_, args|
-    docker_compose_file = Aruba::DockerComposeFile.new(File.expand_path('../docker-compose.yml', __FILE__))
+    docker_compose_file = Aruba::DockerComposeFile.new(File.expand_path('docker-compose.yml', __dir__))
     docker_run_instance = Aruba::DockerRunInstance.new(docker_compose_file, :base)
 
     builder = Aruba::DockerRunCommandLineBuilder.new(

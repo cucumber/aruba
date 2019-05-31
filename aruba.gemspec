@@ -1,5 +1,3 @@
-# -*- encoding: utf-8 -*-
-
 lib = ::File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'aruba/version'
@@ -21,7 +19,19 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'rspec-expectations', '~> 3.4'
   spec.add_runtime_dependency 'thor', '~> 0.19'
 
-  spec.add_development_dependency 'bundler', ['>= 1.7.0', '< 3.0']
+  spec.add_development_dependency 'fuubar', '~> 2.3'
+  spec.add_development_dependency 'json', '~> 2.1'
+  spec.add_development_dependency 'license_finder', '~> 5.3'
+  spec.add_development_dependency 'minitest', '~> 5.10'
+  spec.add_development_dependency 'pry-doc', '~> 1.0.0'
+  spec.add_development_dependency 'rake', '~> 12.3'
+  spec.add_development_dependency 'rspec', '~> 3.6'
+  spec.add_development_dependency 'rubocop', '~> 0.69'
+  spec.add_development_dependency 'rubocop-performance', '~> 1.1'
+  spec.add_development_dependency 'simplecov', '~> 0.15'
+  spec.add_development_dependency 'travis-yaml', '~> 0.2'
+  spec.add_development_dependency 'yard-junk', '~> 0.0.7'
+
   spec.rubygems_version = '>= 1.6.1'
   spec.required_ruby_version = '>= 2.3'
 

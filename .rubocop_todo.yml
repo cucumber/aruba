@@ -176,15 +176,6 @@ Style/Documentation:
     - 'lib/aruba/setup.rb'
     - 'lib/aruba/tasks/docker_helpers.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-Style/Encoding:
-  Exclude:
-    - 'aruba.gemspec'
-    - 'fixtures/cli-app/cli-app.gemspec'
-    - 'fixtures/empty-app/cli-app.gemspec'
-    - 'spec/spec_helper.rb'
-
 # Offense count: 1
 Style/EvalWithLocation:
   Exclude:
@@ -194,8 +185,6 @@ Style/EvalWithLocation:
 # Cop supports --auto-correct.
 Style/ExpandPathArguments:
   Exclude:
-    - 'Gemfile'
-    - 'Rakefile'
     - 'bin/console'
     - 'exe/aruba'
     - 'features/support/env.rb'
@@ -206,7 +195,6 @@ Style/ExpandPathArguments:
     - 'fixtures/cli-app/spec/spec_helper.rb'
     - 'fixtures/empty-app/cli-app.gemspec'
     - 'fixtures/empty-app/lib/cli/app.rb'
-    - 'fixtures/getting-started-app/Gemfile'
 
 # Offense count: 84
 # Configuration parameters: EnforcedStyle.
