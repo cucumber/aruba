@@ -41,8 +41,6 @@ jobs:
       os: linux
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby
-    - rvm: jruby-9.2.7.0
   fast_finish: true
 
 branches:
