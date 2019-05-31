@@ -52,22 +52,6 @@ module Aruba
       end
 
       # @deprecated
-      # Execute block in current directory
-      #
-      # @yield
-      #   The block which should be run in current directory
-      def in_current_directory(&block)
-        Aruba.platform.deprecated(
-          'The use of "in_current_directory" is deprecated.' \
-          ' Use "#cd(\'.\') { # your code }" instead. But be aware,' \
-          ' "cd" requires a previously created directory'
-        )
-
-        create_directory '.' unless directory?('.')
-        cd('.', &block)
-      end
-
-      # @deprecated
       def detect_ruby(cmd)
         Aruba.platform.deprecated('The use of "#detect_ruby" is deprecated')
 
@@ -525,11 +509,10 @@ module Aruba
       def in_current_dir(&block)
         Aruba.platform.deprecated(
           'The use of "in_current_dir" is deprecated.' \
-          ' Use "#cd(\'.\') { }" instead'
+          ' Use "#in_current_directory { }" instead'
         )
 
-        create_directory '.' unless directory?('.')
-        cd('.', &block)
+        in_current_directory(&block)
       end
 
       # @deprecated
