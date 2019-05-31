@@ -375,7 +375,7 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Detect output from all processes normal and interactive ones
+  Scenario: Detect combined output from normal and interactive processes
     Given an executable named "bin/aruba-test-cli1" with:
     """
     #!/usr/bin/env bash
