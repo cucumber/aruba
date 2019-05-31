@@ -103,6 +103,30 @@ module Aruba
         self
       end
 
+      # Get stdout of all processes
+      #
+      # @return [String]
+      #   The stdout of all processes which have run before
+      def all_stdout
+        aruba.command_monitor.all_stdout
+      end
+
+      # Get stderr of all processes
+      #
+      # @return [String]
+      #   The stderr of all processes which have run before
+      def all_stderr
+        aruba.command_monitor.all_stderr
+      end
+
+      # Get stderr and stdout of all processes
+      #
+      # @return [String]
+      #   The stderr and stdout of all processes which have run before
+      def all_output
+        aruba.command_monitor.all_output
+      end
+
       # Find a started command
       #
       # @param [String, Command] commandline

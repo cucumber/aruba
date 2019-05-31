@@ -52,22 +52,6 @@ module Aruba
       end
 
       # @deprecated
-      # Execute block in current directory
-      #
-      # @yield
-      #   The block which should be run in current directory
-      def in_current_directory(&block)
-        Aruba.platform.deprecated(
-          'The use of "in_current_directory" is deprecated.' \
-          ' Use "#cd(\'.\') { # your code }" instead. But be aware,' \
-          ' "cd" requires a previously created directory'
-        )
-
-        create_directory '.' unless directory?('.')
-        cd('.', &block)
-      end
-
-      # @deprecated
       def detect_ruby(cmd)
         Aruba.platform.deprecated('The use of "#detect_ruby" is deprecated')
 
@@ -525,11 +509,10 @@ module Aruba
       def in_current_dir(&block)
         Aruba.platform.deprecated(
           'The use of "in_current_dir" is deprecated.' \
-          ' Use "#cd(\'.\') { }" instead'
+          ' Use "#in_current_directory { }" instead'
         )
 
-        create_directory '.' unless directory?('.')
-        cd('.', &block)
+        in_current_directory(&block)
       end
 
       # @deprecated
@@ -1015,60 +998,6 @@ module Aruba
         Aruba.platform.deprecated('The use of "#stderr_from" is deprecated')
 
         process_monitor.stderr_from(cmd)
-      end
-
-      # @deprecated
-      #
-      # Get stdout of all processes
-      #
-      # @return [String]
-      #   The stdout of all process which have run before
-      def all_stdout
-        Aruba.platform.deprecated(
-          'The use of "#all_stdout" is deprecated.' \
-          ' Use `all_commands.map { |c| c.stdout }.join("\n") instead.' \
-          ' If you need to check for some output, use' \
-          ' "expect(all_commands).to included_an_object have_output_on_stdout(/output/)"' \
-          ' instead'
-        )
-
-        process_monitor.all_stdout
-      end
-
-      # @deprecated
-      #
-      # Get stderr of all processes
-      #
-      # @return [String]
-      #   The stderr of all process which have run before
-      def all_stderr
-        Aruba.platform.deprecated(
-          'The use of "#all_stderr" is deprecated.' \
-          ' Use `all_commands.map { |c| c.stderr }.join("\n") instead.' \
-          ' If you need to check for some output use' \
-          ' "expect(all_commands).to included_an_object have_output_on_stderr /output/"' \
-          ' instead'
-        )
-
-        process_monitor.all_stderr
-      end
-
-      # @deprecated
-      #
-      # Get stderr and stdout of all processes
-      #
-      # @return [String]
-      #   The stderr and stdout of all process which have run before
-      def all_output
-        Aruba.platform.deprecated(
-          'The use of "#all_output" is deprecated.' \
-          ' Use `all_commands.map { |c| c.output }.join("\n") instead.' \
-          ' If you need to check for some output use' \
-          ' "expect(all_commands).to included_an_object have_output /output/"' \
-          ' instead'
-        )
-
-        process_monitor.all_output
       end
 
       # @deprecated

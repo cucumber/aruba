@@ -136,21 +136,15 @@ Then(/^the output should be (\d+) bytes long$/) do |size|
   expect(last_command_started.output).to have_output_size size.to_i
 end
 
-Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain( exactly)? "([^"]*)"$/) do |channel, cmd, negated, exactly, expected|
-  matcher = case channel.to_sym
-            when :output
-              :have_output
-            when :stderr
-              :have_output_on_stderr
-            when :stdout
-              :have_output_on_stdout
-            end
-
-  commands = if cmd
-               [aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))]
-             else
-               all_commands
-             end
+Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)? "([^"]*)"$/) do |channel, negated, exactly, expected|
+  combined_output = case channel.to_sym
+                    when :output
+                      all_output
+                    when :stderr
+                      all_stderr
+                    when :stdout
+                      all_stdout
+                    end
 
   output_string_matcher = if exactly
                             :an_output_string_being_eq
@@ -158,31 +152,14 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
                             :an_output_string_including
                           end
 
-  if Aruba::VERSION < '1.0'
-    combined_output = commands.map do |c|
-      c.stop
-      c.send(channel.to_sym).chomp
-    end.join("\n")
-
-    if negated
-      expect(combined_output).not_to send(output_string_matcher, expected)
-    else
-      expect(combined_output).to send(output_string_matcher, expected)
-    end
+  if negated
+    expect(combined_output).not_to send(output_string_matcher, expected)
   else
-    if negated
-      expect(commands).not_to include_an_object send(matcher, send(output_string_matcher, expected))
-    else
-      expect(commands).to include_an_object send(matcher, send(output_string_matcher, expected))
-    end
+    expect(combined_output).to send(output_string_matcher, expected)
   end
 end
 
-## the stderr should contain "hello"
-## the stderr from "echo -n 'Hello'" should contain "hello"
-## the stderr should contain exactly:
-## the stderr from "echo -n 'Hello'" should contain exactly:
-Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain( exactly)?:$/) do |channel, cmd, negated, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should( not)? contain( exactly)? "([^"]*)"$/) do |channel, cmd, negated, exactly, expected|
   matcher = case channel.to_sym
             when :output
               :have_output
@@ -190,15 +167,9 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
               :have_output_on_stderr
             when :stdout
               :have_output_on_stdout
-            else
-              fail ArgumentError, %(Invalid channel "#{channel}" chosen. Only "output", "stderr" or "stdout" are allowed.)
             end
 
-  commands = if cmd
-               [aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))]
-             else
-               all_commands
-             end
+  command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
 
   output_string_matcher = if exactly
                             :an_output_string_being_eq
@@ -206,23 +177,58 @@ Then(/^(?:the )?(output|stderr|stdout)(?: from "([^"]*)")? should( not)? contain
                             :an_output_string_including
                           end
 
-  if Aruba::VERSION < '1.0'
-    combined_output = commands.map do |c|
-      c.stop
-      c.send(channel.to_sym).chomp
-    end.join("\n")
-
-    if negated
-      expect(combined_output).not_to send(output_string_matcher, expected)
-    else
-      expect(combined_output).to send(output_string_matcher, expected)
-    end
+  if negated
+    expect(command).not_to send(matcher, send(output_string_matcher, expected))
   else
-    if negated
-      expect(commands).not_to include_an_object send(matcher, send(output_string_matcher, expected))
-    else
-      expect(commands).to include_an_object send(matcher, send(output_string_matcher, expected))
-    end
+    expect(command).to send(matcher, send(output_string_matcher, expected))
+  end
+end
+
+Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)?:$/) do |channel, negated, exactly, expected|
+  combined_output = case channel.to_sym
+                    when :output
+                      all_output
+                    when :stderr
+                      all_stderr
+                    when :stdout
+                      all_stdout
+                    end
+
+  output_string_matcher = if exactly
+                            :an_output_string_being_eq
+                          else
+                            :an_output_string_including
+                          end
+
+  if negated
+    expect(combined_output).not_to send(output_string_matcher, expected)
+  else
+    expect(combined_output).to send(output_string_matcher, expected)
+  end
+end
+
+Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should( not)? contain( exactly)?:$/) do |channel, cmd, negated, exactly, expected|
+  matcher = case channel.to_sym
+            when :output
+              :have_output
+            when :stderr
+              :have_output_on_stderr
+            when :stdout
+              :have_output_on_stdout
+            end
+
+  command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
+
+  output_string_matcher = if exactly
+                            :an_output_string_being_eq
+                          else
+                            :an_output_string_including
+                          end
+
+  if negated
+    expect(command).not_to send(matcher, send(output_string_matcher, expected))
+  else
+    expect(command).to send(matcher, send(output_string_matcher, expected))
   end
 end
 

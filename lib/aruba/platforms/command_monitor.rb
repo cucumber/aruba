@@ -125,7 +125,6 @@ module Aruba
       find(cmd).stderr
     end
 
-    # @deprecated
     # Get stdout of all commands
     #
     # @return [String]
@@ -140,7 +139,6 @@ module Aruba
       end
     end
 
-    # @deprecated
     # Get stderr of all commands
     #
     # @return [String]
@@ -155,7 +153,6 @@ module Aruba
       end
     end
 
-    # @deprecated
     # Get stderr and stdout of all commands
     #
     # @return [String]

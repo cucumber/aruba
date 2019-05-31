@@ -15,7 +15,7 @@
 #
 #     RSpec.describe do
 #       it { expect(last_command_started).to have_output output_string_eq string) }
-#       it { expect(last_command_started).to have_output an_output_string_begin_eq string) }
+#       it { expect(last_command_started).to have_output an_output_string_being_eq string) }
 #     end
 RSpec::Matchers.define :output_string_eq do |expected|
   match do |actual|
