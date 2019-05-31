@@ -4,7 +4,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   subject(:process) { described_class.new(command_line, exit_timeout, io_wait, working_directory) }
 
   let(:command_line) { 'echo "yo"' }
-  let(:exit_timeout) { 3 }
+  let(:exit_timeout) { 5 }
   let(:io_wait) { 1 }
   let(:working_directory) { Dir.getwd }
 
@@ -24,20 +24,18 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   describe '#stderr' do
     let(:command_line) { "ruby -e 'warn \"yo\"'" }
 
-    before(:each) { process.start }
-    before(:each) { process.stop }
-
-    context 'when invoked once' do
-      it 'has the right args' do
-        expect(process.command).to eq 'ruby'
-        expect(process.arguments).to eq ['-e', 'warn "yo"']
-      end
-
-      it { expect(process.stderr.chomp).to eq 'yo' }
+    before do
+      process.start
+      process.stop
     end
 
-    context 'when invoked twice' do
-      it { 2.times { expect(process.stderr.chomp).to eq 'yo' } }
+    it 'returns the output of the process on stderr' do
+      expect(process).not_to be_timed_out
+      expect(process.stderr.chomp).to eq 'yo'
+    end
+
+    it 'returns the same result when invoked a second time' do
+      2.times { expect(process.stderr.chomp).to eq 'yo' }
     end
   end
 
@@ -179,6 +177,22 @@ RSpec.describe Aruba::Processes::SpawnProcess do
             .with(cmd_path, '/c', "#{command_path} -x \"bar \"\"\"baz\"\"\"\"")
         end
       end
+    end
+  end
+
+  describe '#command' do
+    let(:command_line) { "ruby -e 'warn \"yo\"'" }
+
+    it 'returns the first item of the command line' do
+      expect(process.command).to eq 'ruby'
+    end
+  end
+
+  describe '#arguments' do
+    let(:command_line) { "ruby -e 'warn \"yo\"'" }
+
+    it 'handles arguments delimited with quotes' do
+      expect(process.arguments).to eq ['-e', 'warn "yo"']
     end
   end
 end
