@@ -4,7 +4,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   subject(:process) { described_class.new(command_line, exit_timeout, io_wait, working_directory) }
 
   let(:command_line) { 'echo "yo"' }
-  let(:exit_timeout) { 1 }
+  let(:exit_timeout) { 3 }
   let(:io_wait) { 1 }
   let(:working_directory) { Dir.getwd }
 
