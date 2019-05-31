@@ -1,6 +1,8 @@
 require 'aruba/processes/in_process'
 require 'aruba/platform'
 
+Aruba.platform.deprecated('The use of "Aruba::InProcess" is deprecated. Use "Aruba::Processes::InProcess" instead.')
+
 # Aruba
 module Aruba
   # @deprecated
