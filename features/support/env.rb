@@ -9,6 +9,7 @@ require 'pathname'
 
 # Gems
 require 'aruba/cucumber'
+require 'aruba/config/jruby'
 require 'rspec/expectations'
 
 Before do |scenario|
