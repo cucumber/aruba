@@ -101,7 +101,7 @@ module Aruba
 
       # Write strings to stdin
       #
-      # @param *input [Array of String]
+      # @param *input [Array<String>]
       def write(*input)
         @stdin.write(*input)
       end
