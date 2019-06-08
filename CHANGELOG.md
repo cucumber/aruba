@@ -6,6 +6,24 @@ This project will adhere to [Semantic Versioning][1] once version 1.0.0 is relea
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [v0.14.10]
+
+* Backport replacement of problematic AnsiColor module with simple
+  implementation ([#642])
+* Undo preprecation of `#all_output`, `#all_stdout`, `#all_stderr` and
+  `#in_current_directory` API methods, as well as of checking the combined
+  output from all commands in cucumber steps ([#638])
+* Warn when deprecated files `aruba/in_process` and `aruba/spawn_process` are
+  required ([#639])
+* Backport allowing decimal timeout values ([#621])
+* Move deprecated cucumber steps into a separate file ([#622])
+* Backport renaming of bin/cli in features ([#620])
+* Improve build set for CI ([#611])
+* Make JRuby before :command helper hook work on the environment the command
+  will actually be run in ([#610], [#612])
+* Reorganize spec files to match master branch ([#603])
+* Reorganize feature files to match master branch ([#602])
+
 ## [v0.14.9]
 
 * Formally deprecate `#use_clean_gemset` ([#597])
@@ -649,7 +667,18 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 <!-- issues & pull requests -->
 
+[#642]: https://github.com/cucumber/aruba/pull/642
+[#639]: https://github.com/cucumber/aruba/pull/639
+[#638]: https://github.com/cucumber/aruba/pull/638
+[#622]: https://github.com/cucumber/aruba/pull/622
+[#621]: https://github.com/cucumber/aruba/pull/621
+[#620]: https://github.com/cucumber/aruba/pull/620
+[#612]: https://github.com/cucumber/aruba/pull/612
+[#611]: https://github.com/cucumber/aruba/pull/611
+[#610]: https://github.com/cucumber/aruba/pull/610
 [#604]: https://github.com/cucumber/aruba/pull/604
+[#603]: https://github.com/cucumber/aruba/pull/603
+[#602]: https://github.com/cucumber/aruba/pull/602
 [#601]: https://github.com/cucumber/aruba/pull/601
 [#597]: https://github.com/cucumber/aruba/pull/597
 [#591]: https://github.com/cucumber/aruba/pull/591
@@ -831,6 +860,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 <!-- Releases -->
 
+[v0.14.10]:       https://github.com/cucumber/aruba/compare/v0.14.9...v0.14.10
 [v0.14.9]:        https://github.com/cucumber/aruba/compare/v0.14.8...v0.14.9
 [v0.14.8]:        https://github.com/cucumber/aruba/compare/v0.14.7...v0.14.8
 [v0.14.7]:        https://github.com/cucumber/aruba/compare/v0.14.6...v0.14.7
