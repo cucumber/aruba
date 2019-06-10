@@ -241,14 +241,18 @@ Feature: Stop commands
         Given the default aruba stop signal is "HUP"
         And the default aruba exit timeout is 0.2 seconds
         When I run `aruba-test-cli`
-        And I terminate the command started last
         Then the exit status should be 155
     """
     When I run `cucumber`
     Then the features should all pass
 
   @unsupported-on-platform-java
-  Scenario: STDERR/STDOUT is written normally if output was written in "signal"-handler
+  Scenario: STDERR/STDOUT is captured from signal handlers
+
+     STDERR/STDOUT is written normally on MRI if output was written in "signal"-handler
+
+     This is currently broken on JRuby.
+
     Given an executable named "bin/aruba-test-cli1" with:
     """bash
     #!/bin/bash

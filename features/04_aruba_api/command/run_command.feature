@@ -1,6 +1,6 @@
 Feature: Run command
 
-  To run a command use the `#run`-method. There are some configuration options
+  To run a command use the `#run_command` method. There are some configuration options
   which are relevant here:
 
   - `startup_wait_time`:
@@ -166,7 +166,7 @@ Feature: Run command
   Scenario: Mixing commands with long and short startup phase
 
     If you commands with a long and short startup phases, you should consider
-    using the `startup_wait_time`-option local to the `#run`-call.
+    using the `startup_wait_time`-option local to the `#run_command`-call.
 
     Given an executable named "bin/aruba-test-cli1" with:
     """bash
@@ -255,7 +255,7 @@ Feature: Run command
   Scenario: Mixing long and short running commands
 
     If need to mix "long running" and "short running" commands, you should consider using the
-    `exit_timeout`-option local to the `#run`-method.
+    `exit_timeout`-option local to the `#run_command`-method.
 
     Given an executable named "bin/aruba-test-cli1" with:
     """bash

@@ -8,7 +8,7 @@ Feature: Prepend environment variable
 
   Each variable name and each value is converted to a string. Otherwise `ruby`
   would complain about an invalid argument. To make use of a variable you can
-  either use `#run` and the like or `#with_environment`.
+  either use `#run_command` and the like or `#with_environment`.
 
   Background:
     Given I use the fixture "cli-app"
