@@ -66,7 +66,7 @@ module Aruba
       @last_command_started = find(cmd)
     end
 
-    # Set last command started
+    # Set last command stopped
     #
     # @param [String] cmd
     #   The commandline of the command

@@ -3,7 +3,7 @@ if Aruba::VERSION < '1.0.0'
 end
 require 'aruba/generators/script_file'
 
-When(/^I run `([^`]*)`$/)do |cmd|
+When(/^I run `([^`]*)`$/) do |cmd|
   cmd = sanitize_text(cmd)
   run_command_and_stop(cmd, :fail_on_error => false)
 end
@@ -26,13 +26,13 @@ When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do
   step 'I run `myscript`'
 end
 
-When(/^I run `([^`]*)` interactively$/)do |cmd|
+When(/^I run `([^`]*)` interactively$/) do |cmd|
   cmd = sanitize_text(cmd)
   @interactive = run_command(cmd)
 end
 
 # Merge interactive and background after refactoring with event queue
-When(/^I run `([^`]*)` in background$/)do |cmd|
+When(/^I run `([^`]*)` in background$/) do |cmd|
   run_command(sanitize_text(cmd))
 end
 
