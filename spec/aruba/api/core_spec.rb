@@ -107,6 +107,43 @@ RSpec.describe Aruba::Api::Core do
     end
   end
 
+  describe '#in_current_directory' do
+    let(:directory_path) { @aruba.aruba.current_directory }
+    let!(:full_path) { File.expand_path(directory_path) }
+
+    context 'with a block given' do
+      it 'runs the passed block in the given directory' do
+        @aruba.in_current_directory do
+          expect(Dir.pwd).to eq full_path
+        end
+        expect(Dir.pwd).not_to eq full_path
+      end
+
+      it 'sets directory environment in the passed block' do
+        old_pwd = ENV['PWD']
+        @aruba.in_current_directory do
+          expect(ENV['PWD']).to eq full_path
+          expect(ENV['OLDPWD']).to eq old_pwd
+        end
+      end
+
+      it 'sets aruba environment in the passed block' do
+        @aruba.set_environment_variable('FOO', 'bar')
+        @aruba.in_current_directory do
+          expect(ENV['FOO']).to eq 'bar'
+        end
+      end
+
+      it 'does not touch other environment variables in the passed block' do
+        keys = ENV.keys - %w(PWD OLDPWD)
+        old_values = ENV.values_at(*keys)
+        @aruba.in_current_directory do
+          expect(ENV.values_at(*keys)).to eq old_values
+        end
+      end
+    end
+  end
+
   describe '#with_environment' do
     it 'modifies env for block' do
       variable = 'THIS_IS_A_ENV_VAR'
