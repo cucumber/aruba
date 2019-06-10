@@ -18,7 +18,7 @@
 #     end
 RSpec::Matchers.define :have_output_size do |expected|
   match do |actual|
-    next false unless actual.respond_to? :size
+    raise "Expected #{actual} to respond to #size" unless actual.respond_to? :size
 
     @actual = actual.size
     values_match? expected, @actual
