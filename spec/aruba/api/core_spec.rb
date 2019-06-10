@@ -23,7 +23,7 @@ RSpec.describe Aruba::Api::Core do
 
       it 'sets directory environment in the passed block' do
         @aruba.create_directory @directory_name
-        old_pwd = ENV['PWD']
+        old_pwd = Dir.pwd
         full_path = File.expand_path(@directory_path)
         @aruba.cd @directory_name do
           expect(ENV['PWD']).to eq full_path
@@ -120,7 +120,7 @@ RSpec.describe Aruba::Api::Core do
       end
 
       it 'sets directory environment in the passed block' do
-        old_pwd = ENV['PWD']
+        old_pwd = Dir.pwd
         @aruba.in_current_directory do
           expect(ENV['PWD']).to eq full_path
           expect(ENV['OLDPWD']).to eq old_pwd
