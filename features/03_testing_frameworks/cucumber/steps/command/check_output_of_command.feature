@@ -58,9 +58,7 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should not all pass with:
     """
-          expected `aruba-test-cli` to have output string includes: "goodbye world"
-          but was:
-             hello world (RSpec::Expectations::ExpectationNotMetError)
+    expected "hello world" to string includes: "goodbye world"
     """
 
   Scenario: Detect subset of multiline output
@@ -201,10 +199,13 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should not all pass with:
     """
-          expected `aruba-test-cli` to have output output string is eq: "hello\nworld"
-          but was:
-             goodbye
-             world (RSpec::Expectations::ExpectationNotMetError)
+          expected "goodbye\nworld" to output string is eq: "hello\nworld"
+          Diff:
+          @@ -1,3 +1,3 @@
+          -hello
+          +goodbye
+           world
+           (RSpec::Expectations::ExpectationNotMetError)
     """
 
   Scenario: Detect subset of one-line output with regex
@@ -418,9 +419,6 @@ Feature: All output of commands which were executed
         Then the stdout should contain exactly:
         \"\"\"
         This is cli1
-        \"\"\"
-        And the stdout should contain exactly:
-        \"\"\"
         This is cli2
         \"\"\"
     """
@@ -524,9 +522,6 @@ Feature: All output of commands which were executed
         Then the stdout should contain exactly:
         \"\"\"
         This is cli1
-        \"\"\"
-        And the stdout should contain exactly:
-        \"\"\"
         This is cli2
         \"\"\"
     """

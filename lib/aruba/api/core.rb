@@ -29,6 +29,15 @@ module Aruba
         self
       end
 
+      # Execute block in Aruba's current directory
+      #
+      # @yield
+      #   The block which should be run in current directory
+      def in_current_directory(&block)
+        create_directory '.' unless directory?('.')
+        cd('.', &block)
+      end
+
       # Switch to directory
       #
       # @param [String] dir

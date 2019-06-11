@@ -19,7 +19,7 @@ RSpec::Matchers.define :be_an_existing_directory do |_|
   match do |actual|
     stop_all_commands
 
-    next false unless actual.is_a? String
+    raise 'String expected' unless actual.is_a? String
 
     directory?(actual)
   end

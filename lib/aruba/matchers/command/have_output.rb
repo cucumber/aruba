@@ -19,7 +19,7 @@ RSpec::Matchers.define :have_output do |expected|
   match do |actual|
     @old_actual = actual
 
-    next false unless @old_actual.respond_to? :output
+    raise "Expected #{@old_actual} to respond to #output" unless @old_actual.respond_to? :output
 
     @old_actual.stop
 

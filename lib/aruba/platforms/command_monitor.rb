@@ -83,6 +83,34 @@ module Aruba
       self
     end
 
+    # Get stdout of all commands
+    #
+    # @return [String]
+    #   The stdout of all command which have run before
+    def all_stdout
+      registered_commands.each(&:stop)
+
+      registered_commands.each_with_object('') { |e, a| a << e.stdout }
+    end
+
+    # Get stderr of all commands
+    #
+    # @return [String]
+    #   The stderr of all command which have run before
+    def all_stderr
+      registered_commands.each(&:stop)
+
+      registered_commands.each_with_object('') { |e, a| a << e.stderr }
+    end
+
+    # Get stderr and stdout of all commands
+    #
+    # @return [String]
+    #   The stderr and stdout of all command which have run before
+    def all_output
+      all_stdout << all_stderr
+    end
+
     # Register command to monitor
     def register_command(cmd)
       registered_commands << cmd
