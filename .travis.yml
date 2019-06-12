@@ -31,9 +31,9 @@ jobs:
       os: linux
     - rvm: jruby
       os: linux
-    - rvm: jruby-9.2.7.0
+    - rvm: jruby-9.2.6.0
       os: linux
-    - rvm: jruby-9.2.7.0
+    - rvm: jruby-9.2.6.0
       os: osx
     - stage: lint
       script: bundle exec rake lint
