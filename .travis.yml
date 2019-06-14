@@ -55,13 +55,16 @@ env:
    - secure: l8uznA5K4K9mZ1krmP3lTMD8WcJ32qGxFOR3jubKHcOBSLB4xSzU2aIqjyJdO+rLzebkwamhJc8pGSIWOUDQYvFiX7splK+uEkbBJ5huAhXtLF4Qgl86bCWbEXYzN7rvn0DQfpJAovyFMNRMnfo70XhwqWzFsaYa7Z0YbqYsJE4=
    # Travis by default also have "-Dcext.enabled=false" set in
    # JRUBY_OPTS, but JRuby 9 does not support C extensions at all
-   # so it issues warning that will mess up the sterr checks.
+   # so it issues warning that will mess up the stderr checks.
    - JRUBY_OPTS="--dev --debug"
    # Somehow a "ASCII-8BIT to UTF-8 conversion error" appears for
    # JRuby 9
    - LC_ALL=en_US.UTF-8
    - LANG=en_US.UTF-8
    - LANGUAGE=en_US.UTF-8
+   # Silence illegal reflective access warnings that would otherwise mess up
+   # tests that check stderr.
+   - JAVA_OPTS="--add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/javax.crypto=ALL-UNNAMED --add-opens java.base/java.security.cert=ALL-UNNAMED --add-opens java.base/java.security=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --illegal-access=warn"
 
 cache: apt
 
