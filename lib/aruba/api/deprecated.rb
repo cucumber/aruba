@@ -774,8 +774,7 @@ module Aruba
       def assert_partial_output(expected, actual)
         Aruba.platform.deprecated(
           'The use of "#assert_partial_output" is deprecated.' \
-          ' Use "expect(command).to have_output /partial/" instead.' \
-          ' There are also special matchers for "stdout" and "stderr"'
+          ' Use "expect(actual).to include_output_string partial" instead.'
         )
 
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
@@ -792,8 +791,7 @@ module Aruba
       def assert_matching_output(expected, actual)
         Aruba.platform.deprecated(
           'The use of "#assert_matching_output" is deprecated.' \
-          ' Use "expect(command).to have_output /partial/" instead.' \
-          ' There are also special matchers for "stdout" and "stderr"'
+          ' Use "expect(actual).to match_output partial" instead.'
         )
 
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
@@ -810,8 +808,7 @@ module Aruba
       def assert_not_matching_output(expected, actual)
         Aruba.platform.deprecated(
           'The use of "#assert_not_matching_output" is deprecated.' \
-          ' Use "expect(command).not_to have_output /partial/" instead.' \
-          ' There are also special matchers for "stdout" and "stderr"'
+          ' Use "expect(actual).not_to match_output partial" instead.'
         )
 
         actual.force_encoding(expected.encoding) if RUBY_VERSION >= "1.9"
@@ -828,8 +825,7 @@ module Aruba
       def assert_no_partial_output(unexpected, actual)
         Aruba.platform.deprecated(
           'The use of "#assert_no_partial_output" is deprecated.' \
-          ' Use "expect(command).not_to have_output /partial/" instead.' \
-          ' There are also special matchers for "stdout" and "stderr"'
+          ' Use "expect(actual).not_to include_output_string partial" instead.'
         )
 
         actual.force_encoding(unexpected.encoding) if RUBY_VERSION >= "1.9"
@@ -851,8 +847,7 @@ module Aruba
       def assert_partial_output_interactive(expected)
         Aruba.platform.deprecated(
           'The use of "#assert_partial_output_interactive" is deprecated.' \
-          ' Use "expect(last_command_started).to have_output /partial/" instead.' \
-          ' There are also special matchers for "stdout" and "stderr"'
+          ' Use "expect(last_command_started).to have_output an_output_string_including partial" instead.'
         )
 
         Aruba.platform.unescape(last_command_started.stdout, aruba.config.keep_ansi).
