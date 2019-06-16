@@ -1003,9 +1003,6 @@ module Aruba
       # @deprecated
       #
       # Default exit timeout for running commands with aruba
-      #
-      # Overwrite this method if you want a different timeout or set
-      # `@aruba_timeout_seconds`.
       def exit_timeout
         Aruba.platform.deprecated(
           'The use of "#exit_timeout" is deprecated.' \
