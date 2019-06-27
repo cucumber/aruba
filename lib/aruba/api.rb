@@ -3,6 +3,7 @@ require 'shellwords'
 
 require 'aruba/version'
 require 'aruba/extensions/string/strip'
+require 'aruba/extensions/object/to_h'
 
 require 'aruba/platform'
 require 'aruba/api/core'
