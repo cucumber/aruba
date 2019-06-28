@@ -19,7 +19,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'rspec-expectations', '~> 3.4'
   spec.add_runtime_dependency 'thor', '~> 0.19'
 
-  spec.add_development_dependency 'fuubar', '~> 2.3'
   spec.add_development_dependency 'json', '~> 2.1'
   spec.add_development_dependency 'license_finder', '~> 5.3'
   spec.add_development_dependency 'minitest', '~> 5.10'

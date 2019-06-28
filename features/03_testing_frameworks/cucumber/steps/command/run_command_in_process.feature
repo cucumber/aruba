@@ -349,8 +349,7 @@ Feature: Run commands in ruby process
     type some letters on keyboard - can only appear later, but this point is
     never reached, because ruby is blocked.
 
-    Given the default aruba exit timeout is 3 seconds
-    And a file named "lib/cli/app/runner.rb" with:
+    Given a file named "lib/cli/app/runner.rb" with:
     """
     module Cli
       module App
