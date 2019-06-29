@@ -6,6 +6,7 @@ version: "{build}"
 branches:
   only:
     - master
+    - still
 
 # Disable normal Windows builds in favor of our test script.
 build: off
