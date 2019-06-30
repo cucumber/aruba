@@ -24,12 +24,7 @@ Feature: Run command
     Given I use a fixture named "cli-app"
 
   Scenario: Executable in the project's path 
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/bin/bash
-    exit 0
-    """
-    And a file named "spec/run_spec.rb" with:
+    Given a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
