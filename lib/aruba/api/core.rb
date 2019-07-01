@@ -15,7 +15,7 @@ module Aruba
 
       # Aruba Runtime
       def aruba
-        @_aruba_runtime ||= Runtime.new
+        @aruba ||= Runtime.new
       end
 
       # Clean the working directory of aruba
