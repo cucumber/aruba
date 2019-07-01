@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry-doc', '~> 1.0.0'
   spec.add_development_dependency 'rake', '~> 12.3'
   spec.add_development_dependency 'rspec', '~> 3.6'
-  spec.add_development_dependency 'rubocop', '~> 0.69'
+  spec.add_development_dependency 'rubocop', '~> 0.69.0'
   spec.add_development_dependency 'rubocop-performance', '~> 1.1'
   spec.add_development_dependency 'simplecov', '~> 0.15'
   spec.add_development_dependency 'travis-yaml', '~> 0.2'
