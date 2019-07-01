@@ -22,13 +22,23 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'bcat', '~> 0.6.2'
   s.add_development_dependency 'bundler', ['>= 1.7', '< 3.0']
+  s.add_development_dependency 'byebug', ['>= 9.0', '< 11.0']
+  s.add_development_dependency 'childprocess', '~> 1.0.1'
+  s.add_development_dependency 'contracts', '~> 0.16.0'
   s.add_development_dependency 'cucumber-pro', '~> 0.0.12'
   s.add_development_dependency 'fuubar', '~> 2.0'
   s.add_development_dependency 'kramdown', ['>= 1.7', '< 3.0']
+  s.add_development_dependency 'license_finder', ['>= 2.0', '< 6.0']
   s.add_development_dependency 'minitest', '~> 5.8'
+  s.add_development_dependency 'pry', '~> 0.12.2'
+  s.add_development_dependency 'pry-byebug', '~> 3.4'
+  s.add_development_dependency 'pry-doc', '~> 1.0.0'
   s.add_development_dependency 'rake', '~> 12.3'
+  s.add_development_dependency 'rspec', '~> 3.4'
   s.add_development_dependency 'rubocop', ['~> 0.32', '< 0.41.1']
+  s.add_development_dependency 'simplecov', '~> 0.10'
   s.add_development_dependency 'travis-yaml', '~> 0.2'
+  s.add_development_dependency 'yard', '~> 0.9.11'
 
   s.rubygems_version = '>= 1.6.1'
   s.required_ruby_version = '>= 2.0.0'
