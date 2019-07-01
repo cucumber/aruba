@@ -19,11 +19,11 @@ Aruba.platform.require_matching_files('../matchers/**/*.rb', __FILE__)
 module Aruba
   # Api
   module Api
-    include Aruba::Api::Core
-    include Aruba::Api::Commands
-    include Aruba::Api::Environment
-    include Aruba::Api::Filesystem
-    include Aruba::Api::Text
-    include Aruba::Api::Bundler
+    include Core
+    include Commands
+    include Environment
+    include Filesystem
+    include Text
+    include Bundler
   end
 end
