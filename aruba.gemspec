@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'bcat', '~> 0.6.2'
   s.add_development_dependency 'bundler', ['>= 1.7', '< 3.0']
-  s.add_development_dependency 'byebug', ['>= 9.0', '< 11.0']
   s.add_development_dependency 'childprocess', '~> 1.0.1'
   s.add_development_dependency 'contracts', '~> 0.16.0'
   s.add_development_dependency 'cucumber-pro', '~> 0.0.12'
@@ -31,7 +30,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'license_finder', ['>= 2.0', '< 6.0']
   s.add_development_dependency 'minitest', '~> 5.8'
   s.add_development_dependency 'pry', '~> 0.12.2'
-  s.add_development_dependency 'pry-byebug', '~> 3.4'
   s.add_development_dependency 'pry-doc', '~> 1.0.0'
   s.add_development_dependency 'rake', '~> 12.3'
   s.add_development_dependency 'rspec', '~> 3.4'
