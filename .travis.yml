@@ -1,13 +1,10 @@
 sudo: false
 language: ruby
 script: script/test
-bundler_args: --without development debug
+bundler_args: --without debug
 cache: bundler
 
 rvm:
-  - 1.8.7
-  - 1.9.2
-  - 1.9.3
   - 2.0.0
   - 2.1.8
   - 2.2
