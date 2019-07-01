@@ -80,18 +80,18 @@ module Aruba
                     :create_file
                   end
 
-        send creator, file, <<-EOS
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+        send creator, file, <<~EOS
+          $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-::Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
-::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
-EOS
+          ::Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
+          ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
+        EOS
       end
 
       def create_support_file
-        create_file 'spec/support/aruba.rb', <<-EOS
-require 'aruba/rspec'
-EOS
+        create_file 'spec/support/aruba.rb', <<~EOS
+          require 'aruba/rspec'
+        EOS
       end
     end
   end
@@ -114,9 +114,9 @@ module Aruba
       end
 
       def create_support_file
-        create_file 'features/support/aruba.rb', <<-EOS
-require 'aruba/cucumber'
-EOS
+        create_file 'features/support/aruba.rb', <<~EOS
+          require 'aruba/cucumber'
+        EOS
       end
     end
   end
@@ -146,30 +146,30 @@ module Aruba
                     :create_file
                   end
 
-        send creator, file, <<-EOS
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+        send creator, file, <<~EOS
+          $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-::Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
-::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
-EOS
+          ::Dir.glob(::File.expand_path('../support/*.rb', __FILE__)).each { |f| require_relative f }
+          ::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__)).each { |f| require_relative f }
+        EOS
       end
 
       def create_example
-        create_file 'test/use_aruba_with_minitest.rb', <<-EOS
-$LOAD_PATH.unshift File.expand_path('../test', __FILE__)
+        create_file 'test/use_aruba_with_minitest.rb', <<~EOS
+          $LOAD_PATH.unshift File.expand_path('../test', __FILE__)
 
-require 'test_helper'
-require 'minitest/autorun'
-require 'aruba/api'
+          require 'test_helper'
+          require 'minitest/autorun'
+          require 'aruba/api'
 
-class FirstRun < Minitest::Test
-  include Aruba::Api
+          class FirstRun < Minitest::Test
+            include Aruba::Api
 
-  def setup
-    aruba_setup
-  end
-end
-EOS
+            def setup
+              aruba_setup
+            end
+          end
+        EOS
       end
     end
   end
