@@ -13,14 +13,22 @@ Gem::Specification.new do |s|
   s.email       = 'cukes@googlegroups.com'
   s.homepage    = 'http://github.com/cucumber/aruba'
 
-  s.add_runtime_dependency 'cucumber', '~> 2.0'
+  s.add_runtime_dependency 'cucumber', '>= 2.0'
   s.add_runtime_dependency 'childprocess', ['>= 0.6.3', '< 1.1.0']
   s.add_runtime_dependency 'ffi', '~> 1.9'
   s.add_runtime_dependency 'rspec-expectations', '>= 2.99'
   s.add_runtime_dependency 'contracts', '~> 0.9'
   s.add_runtime_dependency 'thor', '~> 0.19'
 
+  s.add_development_dependency 'bcat', '~> 0.6.2'
   s.add_development_dependency 'bundler', ['>= 1.7', '< 3.0']
+  s.add_development_dependency 'cucumber-pro', '~> 0.0.12'
+  s.add_development_dependency 'fuubar', '~> 2.0'
+  s.add_development_dependency 'kramdown', ['>= 1.7', '< 3.0']
+  s.add_development_dependency 'minitest', '~> 5.8'
+  s.add_development_dependency 'rake', '~> 12.3'
+  s.add_development_dependency 'rubocop', ['~> 0.32', '< 0.41.1']
+  s.add_development_dependency 'travis-yaml', '~> 0.2'
 
   s.rubygems_version = '>= 1.6.1'
   s.required_ruby_version = '>= 2.0.0'
