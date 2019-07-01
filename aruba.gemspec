@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.email       = 'cukes@googlegroups.com'
   s.homepage    = 'http://github.com/cucumber/aruba'
 
-  s.add_runtime_dependency 'cucumber', '>= 1.3.19'
+  s.add_runtime_dependency 'cucumber', '~> 2.0'
   s.add_runtime_dependency 'childprocess', ['>= 0.6.3', '< 1.1.0']
   s.add_runtime_dependency 'ffi', '~> 1.9'
   s.add_runtime_dependency 'rspec-expectations', '>= 2.99'

@@ -45,7 +45,6 @@ group :development, :test do
   # Reporting
   gem 'bcat', '~> 0.6.2'
 
-
   # YARD documentation
   if RUBY_VERSION >= '2.3.0'
     gem 'yard', '~> 0.9.11'
@@ -61,10 +60,6 @@ group :development, :test do
   # Test api
   gem 'rspec', '~> 3.4'
   gem 'fuubar', '~> 2.0'
-
-  # using platform for this make bundler complain about the same gem given
-  # twice
-  gem 'cucumber', '~> 2.0'
 
   gem 'childprocess', '~> 1.0.1'
   gem 'contracts', '~> 0.16.0'
