@@ -249,4 +249,90 @@ RSpec.describe "File Matchers" do
       end
     end
   end
+
+  describe "#be_a_command_found_in_path" do
+    context "when file exists in path and is executable" do
+      let(:file) { Gem.win_platform? ? "foo.bat" : "foo" }
+
+      before do
+        prepend_environment_variable("PATH", expand_path(".") + File::PATH_SEPARATOR)
+        @aruba.write_file(file, "")
+        @aruba.chmod(0x755, file) unless Gem.win_platform?
+      end
+
+      it "matches" do
+        expect(file).to be_a_command_found_in_path
+      end
+    end
+
+    context "when file exists and is executable but is not in path" do
+      let(:file) { Gem.win_platform? ? "foo.bat" : "foo" }
+
+      before do
+        @aruba.write_file(file, "")
+        @aruba.chmod(0x755, file) unless Gem.win_platform?
+      end
+
+      it "does not match" do
+        expect(file).not_to be_a_command_found_in_path
+      end
+    end
+
+    context "when file exists in path and is not executable" do
+      let(:file) { Gem.win_platform? ? "foo.txt" : "foo" }
+
+      before do
+        prepend_environment_variable("PATH", expand_path(".") + File::PATH_SEPARATOR)
+        @aruba.write_file(file, "")
+      end
+
+      it "does not match" do
+        expect(file).not_to be_a_command_found_in_path
+      end
+    end
+
+    context "when file does not exist" do
+      let(:file) { Gem.win_platform? ? "foo.bat" : "foo" }
+
+      before do
+        prepend_environment_variable("PATH", expand_path(".") + File::PATH_SEPARATOR)
+      end
+
+      it "does not match" do
+        expect(file).not_to be_a_command_found_in_path
+      end
+    end
+
+    context "when the positive matcher fails" do
+      let(:file) { Gem.win_platform? ? "foo.bat" : "foo" }
+
+      before do
+        set_environment_variable "PATH", expand_path(".")
+      end
+
+      it "provides the correct path value in the message" do
+        expect { expect(file).to be_a_command_found_in_path }
+          .to raise_error RSpec::Expectations::ExpectationNotMetError,
+                          "expected that command \"#{file}\" can be found" \
+                          " in PATH \"#{expand_path('.')}\"."
+      end
+    end
+
+    context "when the negative matcher fails" do
+      let(:file) { Gem.win_platform? ? "foo.bat" : "foo" }
+
+      before do
+        set_environment_variable("PATH", expand_path("."))
+        @aruba.write_file(file, "")
+        @aruba.chmod(0x755, file) unless Gem.win_platform?
+      end
+
+      it "provides the correct path value in the message" do
+        expect { expect(file).not_to be_a_command_found_in_path }
+          .to raise_error RSpec::Expectations::ExpectationNotMetError,
+                          "expected that command \"#{file}\" cannot be found" \
+                          " in PATH \"#{expand_path('.')}\"."
+      end
+    end
+  end
 end
