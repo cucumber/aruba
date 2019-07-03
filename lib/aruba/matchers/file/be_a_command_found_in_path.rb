@@ -15,9 +15,7 @@
 #     end
 RSpec::Matchers.define :be_a_command_found_in_path do
   match do |actual|
-    @actual = Shellwords.split(actual.commandline).first if actual.respond_to? :commandline
-
-    !which(@actual).nil?
+    !which(actual).nil?
   end
 
   failure_message do |actual|
