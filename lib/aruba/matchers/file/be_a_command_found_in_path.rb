@@ -21,11 +21,11 @@ RSpec::Matchers.define :be_a_command_found_in_path do
   end
 
   failure_message do |actual|
-    format(%(expected that command "%s" can be found in PATH "#{ENV['PATH']}".), actual)
+    format(%(expected that command "%s" can be found in PATH "#{aruba.environment['PATH']}".), actual)
   end
 
   failure_message_when_negated do |actual|
-    format(%(expected that command "%s" cannot be found in PATH "#{ENV['PATH']}".), actual)
+    format(%(expected that command "%s" cannot be found in PATH "#{aruba.environment['PATH']}".), actual)
   end
 end
 
