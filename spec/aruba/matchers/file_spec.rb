@@ -217,11 +217,11 @@ RSpec.describe "File Matchers" do
 
   describe "#be_an_existing_executable" do
     context "when file exists and is executable" do
-      let(:file) { FFI::Platform.windows? ? "foo.bat" : "foo" }
+      let(:file) { Gem.win_platform? ? "foo.bat" : "foo" }
 
       before do
         @aruba.write_file(file, "")
-        @aruba.chmod(0x755, file) unless FFI::Platform.windows?
+        @aruba.chmod(0x755, file) unless Gem.win_platform?
       end
 
       it "matches" do
@@ -230,7 +230,7 @@ RSpec.describe "File Matchers" do
     end
 
     context "when file exists and is not executable" do
-      let(:file) { FFI::Platform.windows? ? "foo.txt" : "foo" }
+      let(:file) { Gem.win_platform? ? "foo.txt" : "foo" }
 
       before do
         @aruba.write_file(file, "")
@@ -242,10 +242,64 @@ RSpec.describe "File Matchers" do
     end
 
     context "when file does not exist" do
-      let(:file) { FFI::Platform.windows? ? "foo.bat" : "foo" }
+      let(:file) { Gem.win_platform? ? "foo.bat" : "foo" }
 
       it "does not match" do
         expect(file).not_to be_an_existing_executable
+      end
+    end
+  end
+
+  describe "#be_a_command_found_in_path" do
+    context "when file exists in path and is executable" do
+      let(:file) { Gem.win_platform? ? "foo.bat" : "foo" }
+
+      before do
+        prepend_environment_variable("PATH", expand_path(".") + File::PATH_SEPARATOR)
+        @aruba.write_file(file, "")
+        @aruba.chmod(0x755, file) unless Gem.win_platform?
+      end
+
+      it "matches" do
+        expect(file).to be_a_command_found_in_path
+      end
+    end
+
+    context "when file exists and is executable but is not in path" do
+      let(:file) { Gem.win_platform? ? "foo.bat" : "foo" }
+
+      before do
+        @aruba.write_file(file, "")
+        @aruba.chmod(0x755, file) unless Gem.win_platform?
+      end
+
+      it "does not match" do
+        expect(file).not_to be_a_command_found_in_path
+      end
+    end
+
+    context "when file exists in path and is not executable" do
+      let(:file) { Gem.win_platform? ? "foo.txt" : "foo" }
+
+      before do
+        prepend_environment_variable("PATH", expand_path(".") + File::PATH_SEPARATOR)
+        @aruba.write_file(file, "")
+      end
+
+      it "does not match" do
+        expect(file).not_to be_a_command_found_in_path
+      end
+    end
+
+    context "when file does not exist" do
+      let(:file) { Gem.win_platform? ? "foo.bat" : "foo" }
+
+      before do
+        prepend_environment_variable("PATH", expand_path(".") + File::PATH_SEPARATOR)
+      end
+
+      it "does not match" do
+        expect(file).not_to be_a_command_found_in_path
       end
     end
   end
