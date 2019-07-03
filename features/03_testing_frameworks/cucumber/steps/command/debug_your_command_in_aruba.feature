@@ -10,7 +10,7 @@ Feature: Debug your command in cucumber-test-run
   @requires-readline
   Scenario: You can use a debug repl in your cli program
 
-    If you want to debug an error, which only occures in one of your
+    If you want to debug an error, which only occurs in one of your
     `cucumber`-tests, the `@debug`-tag becomes handy. This will use the
     DebugProcess runner, making your program use the default stdin, stdout and
     stderr streams so you can interact with it directly.
