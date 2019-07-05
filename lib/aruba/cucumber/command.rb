@@ -23,8 +23,7 @@ When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do
 end
 
 When(/^I run `([^`]*)` interactively$/) do |cmd|
-  cmd = sanitize_text(cmd)
-  @interactive = run_command(cmd)
+  run_command(sanitize_text(cmd))
 end
 
 # Merge interactive and background after refactoring with event queue
