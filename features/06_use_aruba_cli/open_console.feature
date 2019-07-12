@@ -11,7 +11,6 @@ Feature: Aruba Console
     aruba:001:0>
     """
 
-  @unsupported-on-platform-java
   Scenario: Show help
     Given I run `aruba console` interactively
     And I type "aruba_help"
@@ -29,7 +28,6 @@ Feature: Aruba Console
     Documentation:
     """
 
-  @unsupported-on-platform-java
   Scenario: Show methods
     Given I run `aruba console` interactively
     And I type "aruba_methods"
@@ -43,7 +41,6 @@ Feature: Aruba Console
     * setup_aruba
     """
 
-  @unsupported-on-platform-java
   Scenario: Has history
     Given I run `aruba console` interactively
     And I type "aruba_methods"

@@ -1,58 +1,23 @@
 Feature: Debug your command in cucumber-test-run
-
   As a developer
-  I want to use some debugger in my code and therefor need system() to execute my program
   In order to find a bug
+  I want to use some debugger in my code
 
   Background:
     Given I use a fixture named "cli-app"
     And the default aruba exit timeout is 60 seconds
 
-  Scenario: Can handle exit status 0
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    exit 0
-    """
-    And a file named "features/debug.feature" with:
-    """cucumber
-    Feature: Exit status in debug environment
-
-      @debug
-      Scenario: Run program with debug code
-        When I run `aruba-test-cli`
-        Then the exit status should be 0
-    """
-    When I successfully run `cucumber`
-    Then the features should all pass
-
-  Scenario: Can handle exit status 1
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    exit 1
-    """
-    And a file named "features/debug.feature" with:
-    """cucumber
-    Feature: Exit status in debug environment
-
-      @debug
-      Scenario: Run program with debug code
-        When I run `aruba-test-cli`
-        Then the exit status should be 1
-    """
-    When I successfully run `cucumber`
-    Then the features should all pass
-
-  @requires-readline
+  @unsupported-on-platform-java
   Scenario: You can use a debug repl in your cli program
 
-    If you want to debug a strange error, which only occures in one of your
-    `cucumber`-tests, the `@debug`-tag becomes handy. You can add `@debug` in
-    front of your feature/scenario to make `binding.pry` or `byebug` work in
-    your program.
+    If you want to debug an error, which only occurs in one of your
+    `cucumber`-tests, the `@debug`-tag becomes handy. This will use the
+    DebugProcess runner, making your program use the default stdin, stdout and
+    stderr streams so you can interact with it directly.
+
+    This will, for example, make `binding.pry` and `byebug` work in your
+    program. However, Aruba steps that access the input and output of your
+    program will not work.
 
     Please make sure, that there's a statement after the `binding.pry`-call.
     Otherwise you might not get an interactive shell, because your program will
@@ -67,6 +32,8 @@ Feature: Debug your command in cucumber-test-run
 
     $stderr.sync = true
     $stdout.sync = true
+
+    foo = 'hello'
 
     require 'pry'
     binding.pry
@@ -83,11 +50,11 @@ Feature: Debug your command in cucumber-test-run
         Then the exit status should be 0
     """
     When I run `cucumber` interactively
-    And I stop the command started last if output contains:
+    And I type "foo"
+    And I type "exit"
+    Then the output should contain:
     """
-    pry(main)>
-    """
-    Then the output should match:
-    """
-    7:\s+binding.pry
+    [1] pry(main)> foo
+    => "hello"
+    [2] pry(main)> exit
     """

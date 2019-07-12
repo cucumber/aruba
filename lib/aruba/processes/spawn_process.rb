@@ -79,8 +79,10 @@ module Aruba
         @stdout_file.sync = true
         @stderr_file.sync = true
 
-        @stdout_file.binmode
-        @stderr_file.binmode
+        if RUBY_VERSION >= '1.9'
+          @stdout_file.set_encoding('ASCII-8BIT')
+          @stderr_file.set_encoding('ASCII-8BIT')
+        end
 
         @exit_status = nil
         @duplex      = true
@@ -204,7 +206,7 @@ module Aruba
         end
 
         @exit_status  = @process.exit_code
-
+  
         @stdout_cache = read_temporary_output_file @stdout_file
         @stderr_cache = read_temporary_output_file @stderr_file
 
@@ -260,12 +262,11 @@ module Aruba
 
       def command_string
         fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if command_path.nil?
-
         Aruba.platform.command_string.new(command_path, *arguments)
       end
 
       def command_path
-        @command_path ||= Aruba.platform.which(command, environment['PATH'])
+        @command_path ||= (Aruba.platform.builtin_shell_commands.include?(command) ? command : Aruba.platform.which(command, environment['PATH']))
       end
 
       def wait_for_io(time_to_wait)

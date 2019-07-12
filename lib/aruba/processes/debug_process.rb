@@ -4,10 +4,14 @@ require 'aruba/processes/spawn_process'
 module Aruba
   # Processes
   module Processes
-    # Run your command in `systemd()` to make debugging it easier
+    # Run your command in `system()` to make debugging it easier. This will
+    # make the process use the default input and output streams so the
+    # developer can interact with it directly. This means that part of Aruba's
+    # functionality is disabled. I.e., checks for output, and passing input
+    # programmatically will not work.
     #
-    # `DebugProcess` is not meant for direct use - `InProcess.new` - by
-    # users. Only it's public methods are part of the public API of aruba, e.g.
+    # `DebugProcess` is not meant for direct use - `DebugProcess.new` - by
+    # users. Only its public methods are part of the public API of aruba, e.g.
     # `#stdin`, `#stdout`.
     #
     # @private

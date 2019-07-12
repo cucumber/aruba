@@ -1,17 +1,6 @@
 <%
-$LOAD_PATH << ::File.expand_path('../lib', __FILE__)
-require 'aruba/version'
-require 'ffi'
-
-java_version = (RUBY_DESCRIPTION.match(/.*?on.*?(1\.[\d]\..*? )/))[1] if defined?(JRUBY_VERSION)
-
-std_opts          = "--format pretty --color --exclude features/fixtures --require features --tags ~@unsupported-on"
-java_default_opts = "--tags ~@wip-jruby-java-1.6" if defined?(JRUBY_VERSION) && (java_version < '1.7.0')
-java_wip_opts     = "--tags @wip-jruby-java-1.6:3" if defined?(JRUBY_VERSION) && (java_version < '1.7.0')
-
-ignore_opts = []
-ignore_opts <<  '--tags ~@ignore'
-ignore_opts = ignore_opts.join(' ')
+std_opts = "--format pretty --color --exclude features/fixtures --require features --tags ~@unsupported-on"
+ignore_opts = '--tags ~@ignore'
 %>
-default: <%= std_opts %> --tags ~@wip <%= java_default_opts %> <%= ignore_opts %>
-wip: <%= std_opts %> --wip --tags @wip:3 <%= java_wip_opts %> <%= ignore_opts %>
+default: <%= std_opts %> --tags ~@wip <%= ignore_opts %>
+wip: <%= std_opts %> --wip --tags @wip:3 <%= ignore_opts %>

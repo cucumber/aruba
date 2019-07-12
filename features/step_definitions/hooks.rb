@@ -1,60 +1,56 @@
 require 'cucumber/platform'
 
-Before '@requires-python' do |_scenario|
+Before '@requires-python' do
   next unless Aruba.platform.which('python').nil?
 
   skip_this_scenario
 end
 
-Before '@requires-zsh' do |scenario|
+Before '@requires-zsh' do
   next unless Aruba.platform.which('zsh').nil?
 
-  if Cucumber::VERSION < '2'
-    scenario.skip_invoke!
-  else
-    skip_this_scenario
-  end
+  skip_this_scenario
 end
 
-Before '@requires-java' do |_scenario|
+Before '@requires-java' do
   next unless Aruba.platform.which('javac').nil?
 
   skip_this_scenario
 end
 
-Before '@requires-perl' do |_scenario|
+Before '@requires-perl' do
   next unless Aruba.platform.which('perl').nil?
 
   skip_this_scenario
 end
 
-Before '@requires-ruby' do |_scenario|
+Before '@requires-ruby' do
   next unless Aruba.platform.which('ruby').nil?
 
   skip_this_scenario
 end
 
-Before '@requires-posix-standard-tools' do |_scenario|
+Before '@requires-posix-standard-tools' do
   next unless Aruba.platform.which('printf').nil?
 
   skip_this_scenario
 end
 
-Before '@requires-ruby-platform-java' do |_scenario|
+Before '@requires-ruby-platform-java' do
   # leave if java
   next if RUBY_PLATFORM.include? 'java'
 
   skip_this_scenario
 end
 
-Before '@unsupported-on-platform-java' do |_scenario|
+Before '@unsupported-on-platform-java' do
   # leave if not java
   next unless RUBY_PLATFORM.include? 'java'
 
   skip_this_scenario
 end
 
-Before '@unsupported-on-platform-windows' do |_scenario|
+Before '@unsupported-on-platform-windows' do
   # leave if not windows
   next unless FFI::Platform.windows?
 
@@ -69,14 +65,14 @@ Before '@requires-readline' do
   end
 end
 
-Before '@unsupported-on-platform-unix' do |_scenario|
+Before '@unsupported-on-platform-unix' do
   # leave if not windows
   next unless FFI::Platform.unix?
 
   skip_this_scenario
 end
 
-Before '@unsupported-on-platform-mac' do |_scenario|
+Before '@unsupported-on-platform-mac' do
   # leave if not windows
   next unless FFI::Platform.mac?
 

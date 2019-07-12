@@ -7,7 +7,6 @@ Feature: Running an interactive command
   Background:
     Given I use a fixture named "cli-app"
 
-  @wip-jruby-java-1.6
   Scenario: Running ruby interactively
     Given an executable named "bin/aruba-test-cli" with:
     """bash
