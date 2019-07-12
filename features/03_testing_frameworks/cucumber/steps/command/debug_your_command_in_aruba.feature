@@ -7,7 +7,7 @@ Feature: Debug your command in cucumber-test-run
     Given I use a fixture named "cli-app"
     And the default aruba exit timeout is 60 seconds
 
-  @requires-readline
+  @unsupported-on-platform-java
   Scenario: You can use a debug repl in your cli program
 
     If you want to debug an error, which only occurs in one of your
