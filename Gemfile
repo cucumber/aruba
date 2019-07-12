@@ -86,8 +86,10 @@ group :development, :test do
 
   if RUBY_VERSION < '1.9.2'
     gem 'childprocess', '~> 0.6.3'
-  else
+  elsif RUBY_VERSION < '2.3.0'
     gem 'childprocess', '~> 1.0.1'
+  else
+    gem 'childprocess', '~> 2.0'
   end
 
   if RUBY_VERSION < '1.9.2'
