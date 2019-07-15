@@ -394,10 +394,11 @@ RSpec.describe Aruba::Api::Filesystem do
           context 'when destination is not a directory' do
             let(:source) { %w(file1.txt file2.txt file3.txt) }
             let(:destination) { 'file.txt' }
+            let(:error_message) { 'Multiples sources can only be copied to a directory' }
 
             before(:each) { create_test_files(destination) }
 
-            it { expect { @aruba.copy source, destination }.to raise_error ArgumentError, 'Multiples sources can only be copied to a directory' }
+            it { expect { @aruba.copy source, destination }.to raise_error ArgumentError, error_message }
           end
 
           context 'when a source is the same like destination' do
@@ -414,8 +415,9 @@ RSpec.describe Aruba::Api::Filesystem do
           context 'when a fixture is destination' do
             let(:source) { '%/copy/file.txt' }
             let(:destination) { '%/copy/file.txt' }
+            let(:error_message) { "Using a fixture as destination (#{destination}) is not supported" }
 
-            it { expect { @aruba.copy source, destination }.to raise_error ArgumentError, "Using a fixture as destination (#{destination}) is not supported" }
+            it { expect { @aruba.copy source, destination }.to raise_error ArgumentError, error_message }
           end
         end
       end

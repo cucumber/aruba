@@ -6,7 +6,8 @@ Gem::Specification.new do |spec|
   spec.name        = 'aruba'
   spec.version     = Aruba::VERSION
   spec.author      = 'Aslak Hellesøy, Matt Wynne and other Aruba Contributors'
-  spec.description = 'Extension for popular TDD and BDD frameworks like "Cucumber", "RSpec" and "Minitest" to make testing commandline applications meaningful, easy and fun.'
+  spec.description = 'Extension for popular TDD and BDD frameworks like "Cucumber", "RSpec" and "Minitest",
+to make testing commandline applications meaningful, easy and fun.'
   spec.summary     = "aruba-#{spec.version}"
   spec.license     = 'MIT'
   spec.email       = 'cukes@googlegroups.com'

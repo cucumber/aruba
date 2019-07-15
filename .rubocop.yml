@@ -18,4 +18,14 @@ Style/PercentLiteralDelimiters:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+# TODO: This is placed in here so the auto-gen-config doesn't destroy these.
+# Most of these need to be manually tackled, the LineLength value currently is good enough to stop most of
+# these leaking through into the codebase
+# Offense count: 375+
+# Cop supports --auto-correct.
+# Configuration parameters: AutoCorrect, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
+# URISchemes: http, https
+Metrics/LineLength:
+  Max: 150
+
 inherit_from: .rubocop_todo.yml

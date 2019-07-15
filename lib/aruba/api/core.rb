@@ -58,7 +58,9 @@ module Aruba
       def cd(dir, &block)
         if block_given?
           begin
-            fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba.platform.directory? expand_path(dir)
+            unless Aruba.platform.directory? expand_path(dir)
+              fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist."
+            end
 
             old_directory = expand_path('.')
             aruba.current_directory << dir
@@ -83,7 +85,9 @@ module Aruba
           return result
         end
 
-        fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba.platform.directory? expand_path(dir)
+        unless Aruba.platform.directory? expand_path(dir)
+          fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist."
+        end
 
         old_directory = expand_path('.')
         aruba.current_directory << dir
