@@ -6,6 +6,13 @@ This project will adhere to [Semantic Versioning][1] once version 1.0.0 is relea
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [v0.14.11]
+
+* Loosen childprocess dependency ([#658])
+* Do not set binmode on output temp files, so automatic line ending conversion works ([#650])
+* Improve deprecation suggestions ([#647])
+* Backport fixes to code organization, layout and spelling ([#645])
+
 ## [v0.14.10]
 
 * Backport replacement of problematic AnsiColor module with simple
@@ -667,6 +674,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 <!-- issues & pull requests -->
 
+[#658]: https://github.com/cucumber/aruba/pull/658
+[#650]: https://github.com/cucumber/aruba/pull/650
+[#647]: https://github.com/cucumber/aruba/pull/647
+[#645]: https://github.com/cucumber/aruba/pull/645
 [#642]: https://github.com/cucumber/aruba/pull/642
 [#639]: https://github.com/cucumber/aruba/pull/639
 [#638]: https://github.com/cucumber/aruba/pull/638
@@ -860,6 +871,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 <!-- Releases -->
 
+[v0.14.11]:       https://github.com/cucumber/aruba/compare/v0.14.10...v0.14.11
 [v0.14.10]:       https://github.com/cucumber/aruba/compare/v0.14.9...v0.14.10
 [v0.14.9]:        https://github.com/cucumber/aruba/compare/v0.14.8...v0.14.9
 [v0.14.8]:        https://github.com/cucumber/aruba/compare/v0.14.7...v0.14.8
