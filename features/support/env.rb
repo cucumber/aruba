@@ -1,4 +1,4 @@
-$LOAD_PATH.unshift File.expand_path('../../../lib', __FILE__)
+$LOAD_PATH.unshift File.expand_path('../../lib', __dir__)
 
 # Has to be the first file required so that all other files show coverage information
 require 'simplecov' unless RUBY_PLATFORM.include?('java')

@@ -15,6 +15,8 @@ module Aruba
 
       # Aruba Runtime
       def aruba
+        # TODO: Check this variable being accessed inconsistently. Should only be using the memo!
+        # Renaming this to `aruba` causes 100's of rspec failures. Needs a deeper dive, approach with caution!
         @_aruba_runtime ||= Runtime.new
       end
 

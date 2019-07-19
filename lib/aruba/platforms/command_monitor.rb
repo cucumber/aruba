@@ -22,6 +22,10 @@ module Aruba
       def method_missing(*)
         fail NoCommandHasBeenStoppedError, 'No last command stopped available'
       end
+
+      def respond_to_missing?(*)
+        true
+      end
     end
 
     class DefaultLastCommandStarted
@@ -31,6 +35,10 @@ module Aruba
 
       def method_missing(*)
         fail NoCommandHasBeenStartedError, 'No last command started available'
+      end
+
+      def respond_to_missing?(*)
+        true
       end
     end
 
