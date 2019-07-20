@@ -29,10 +29,20 @@ RSpec::Matchers.define :have_exit_status do |expected|
   end
 
   failure_message do |actual|
-    format(%(expected that command "%s" has exit status of "%s", but has "%s".), @old_actual.commandline, expected.to_s, actual.to_s)
+    format(
+      %(expected that command "%s" has exit status of "%s", but has "%s".),
+      @old_actual.commandline,
+      expected.to_s,
+      actual.to_s
+    )
   end
 
   failure_message_when_negated do |actual|
-    format(%(expected that command "%s" does not have exit status of "%s", but has "%s".), @old_actual.commandline, expected.to_s, actual.to_s)
+    format(
+      %(expected that command "%s" does not have exit status of "%s", but has "%s".),
+      @old_actual.commandline,
+      expected.to_s,
+      actual.to_s
+    )
   end
 end

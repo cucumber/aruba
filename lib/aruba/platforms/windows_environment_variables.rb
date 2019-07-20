@@ -22,7 +22,13 @@ module Aruba
     #
     # @example But if you copy the ENV to a hash, Ruby treats the keys as case sensitive:
     #   env_copy = ENV.to_hash
-    #   # => {"ALLUSERSPROFILE"=>"C:\\ProgramData", "ANSICON"=>"119x1000 (119x58)", "ANSICON_DEF"=>"7",  APPDATA"=>"C:\\Users\\blorf\\AppData\\Roaming", ....}
+    #   # => {
+    #   "ALLUSERSPROFILE"=>
+    #     "C:\\ProgramData",
+    #     "ANSICON"=>"119x1000 (119x58)",
+    #     "ANSICON_DEF"=>"7",
+    #     APPDATA" => "C:\\Users\\blorf\\AppData\\Roaming", ....
+    #   }
     #   env["Path"]
     #   # => ".;.\bin;c:\rubys\ruby-2.1.6-p336\bin;"
     #   env["PATH"]

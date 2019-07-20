@@ -104,7 +104,9 @@ module Aruba
       #   The content of directory
       def list(name)
         fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
-        fail ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.) unless directory? name
+        unless directory? name
+          fail ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.)
+        end
 
         existing_files            = Dir.glob(expand_path(File.join(name, '**', '*')))
         current_working_directory = ArubaPath.new(expand_path('.'))
@@ -181,8 +183,13 @@ module Aruba
           raise ArgumentError, %(The following source "#{s}" does not exist.) unless exist? s
         end
 
-        raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported" if destination.start_with? aruba.config.fixtures_path_prefix
-        raise ArgumentError, 'Multiples sources can only be copied to a directory' if source.count > 1 && exist?(destination) && !directory?(destination)
+        if destination.start_with? aruba.config.fixtures_path_prefix
+          raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported"
+        end
+
+        if source.count > 1 && exist?(destination) && !directory?(destination)
+          raise ArgumentError, 'Multiples sources can only be copied to a directory'
+        end
 
         source_paths     = source.map { |f| expand_path(f) }
         destination_path = expand_path(destination)
@@ -219,16 +226,22 @@ module Aruba
         source = args
 
         source.each do |s|
-          raise ArgumentError, "Using a fixture as source (#{source}) is not supported" if s.start_with? aruba.config.fixtures_path_prefix
+          if s.start_with? aruba.config.fixtures_path_prefix
+            raise ArgumentError, "Using a fixture as source (#{source}) is not supported"
+          end
         end
 
-        raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported" if destination.start_with? aruba.config.fixtures_path_prefix
+        if destination.start_with? aruba.config.fixtures_path_prefix
+          raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported"
+        end
 
         source.each do |s|
           raise ArgumentError, %(The following source "#{s}" does not exist.) unless exist? s
         end
 
-        raise ArgumentError, 'Multiple sources can only be copied to a directory' if source.count > 1 && exist?(destination) && !directory?(destination)
+        if source.count > 1 && exist?(destination) && !directory?(destination)
+          raise ArgumentError, 'Multiple sources can only be copied to a directory'
+        end
 
         source_paths     = source.map { |f| expand_path(f) }
         destination_path = expand_path(destination)

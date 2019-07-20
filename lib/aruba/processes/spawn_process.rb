@@ -66,7 +66,10 @@ module Aruba
       # rubocop:disable Metrics/MethodLength
       def start
         # rubocop:disable Metrics/LineLength
-        fail CommandAlreadyStartedError, %(Command "#{commandline}" has already been started. Please `#stop` the command first and `#start` it again. Alternatively use `#restart`.\n#{caller.join("\n")}) if started?
+        if started?
+          error_message = %(Command "#{commandline}" has already been started. Please `#stop` the command first and `#start` it again. Alternatively use `#restart`.\n#{caller.join("\n")})
+          fail CommandAlreadyStartedError, error_message
+        end
 
         # rubocop:enable Metrics/LineLength
 
@@ -230,11 +233,12 @@ module Aruba
       # @param [String] signal
       #   The signal, i.e. 'TERM'
       def send_signal(signal)
-        fail CommandAlreadyStoppedError, %(Command "#{commandline}" with PID "#{pid}" has already stopped.) if @process.exited?
+        error_message = %(Command "#{commandline}" with PID "#{pid}" has already stopped.)
+        fail CommandAlreadyStoppedError, error_message if @process.exited?
 
         Process.kill signal, pid
       rescue Errno::ESRCH
-        raise CommandAlreadyStoppedError, %(Command "#{commandline}" with PID "#{pid}" has already stopped.)
+        raise CommandAlreadyStoppedError, error_message
       end
 
       # Return file system stats for the given command
