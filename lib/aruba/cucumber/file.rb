@@ -180,7 +180,7 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?be equal to file "([^"]
   end
 end
 
-Then(/^the (?:file|directory)(?: named)? "([^"]*)" should( not)? have permissions "([^"]*)"$/) do |path, negated, permissions|
+Then(/^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" should( not)? have permissions "([^"]*)"$/) do |path, negated, permissions|
   if negated
     expect(path).not_to have_permissions(permissions)
   else
