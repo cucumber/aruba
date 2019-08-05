@@ -120,14 +120,7 @@ end
 
 ## the stderr should contain "hello"
 Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)? "([^"]*)"$/) do |channel, negated, exactly, expected|
-  combined_output = case channel.to_sym
-                    when :output
-                      all_output
-                    when :stderr
-                      all_stderr
-                    when :stdout
-                      all_stdout
-                    end
+  combined_output = send("all_#{channel}")
 
   output_string_matcher = if exactly
                             :an_output_string_being_eq
@@ -170,14 +163,7 @@ end
 
 ## the stderr should contain exactly:
 Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)?:$/) do |channel, negated, exactly, expected|
-  combined_output = case channel.to_sym
-                    when :output
-                      all_output
-                    when :stderr
-                      all_stderr
-                    when :stdout
-                      all_stdout
-                    end
+  combined_output = send("all_#{channel}")
 
   output_string_matcher = if exactly
                             :an_output_string_being_eq
@@ -330,8 +316,6 @@ Then(/^(?:the )?(output|stderr|stdout) should not contain anything$/) do |channe
               :have_output_on_stderr
             when :stdout
               :have_output_on_stdout
-            else
-              fail ArgumentError, %(Invalid channel "#{channel}" chosen. Only "output", "stdout" and "stderr" are supported.)
             end
 
   expect(all_commands).to include_an_object send(matcher, be_nil.or(be_empty))
@@ -346,9 +330,9 @@ Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:
       :have_output_on_stderr
     when :stdout
       :have_output_on_stdout
-    else
-      fail ArgumentError, %(Invalid channel "#{channel}" chosen. Only "output", "stdout" and "stderr" are supported.)
     end
+
+    # TODO: This isn't actually using the above. It's hardcoded to use have_output only
 
     if negated
       expect(all_commands).not_to include_an_object have_output an_output_string_including(expected)
