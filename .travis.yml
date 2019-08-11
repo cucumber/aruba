@@ -59,8 +59,3 @@ env:
     # JRUBY_OPTS, but JRuby 9 does not support C extensions at all
     # so it issues warning that will mess up the stderr checks.
     - JRUBY_OPTS="--dev --debug"
-    # Somehow a "ASCII-8BIT to UTF-8 conversion error" appears for
-    # JRuby 9
-    - LC_ALL=en_US.UTF-8
-    - LANG=en_US.UTF-8
-    - LANGUAGE=en_US.UTF-8
