@@ -53,12 +53,8 @@ namespace :lint do
     sh 'bundle exec license_finder'
   end
 
-  begin
-    require 'yard-junk/rake'
-    YardJunk::Rake.define_task
-  rescue LoadError
-    warn 'yard-junk requires Ruby 2.3.0. Rake task lint:yard:junk not loaded.'
-  end
+  require 'yard-junk/rake'
+  YardJunk::Rake.define_task
 end
 
 Bundler::GemHelper.install_tasks
