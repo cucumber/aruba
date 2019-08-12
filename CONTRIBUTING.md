@@ -225,7 +225,7 @@ bin/test
 
 # Release gem
 git commit -m "Version bump"
-bin/release
+bundle exec rake release
 
 # If it's a major relase:
 # Merge changes back to have correct documentation
