@@ -184,13 +184,18 @@ module Aruba
 
         return unless activated?(channel)
 
-        message = if block_given?
-                    the_output_format.call(yield)
-                  else
-                    the_output_format.call(*args)
-                  end
-        message += "\n"
-        message = colorizer.cyan(message)
+        begin
+          if block_given?
+            value = yield
+            args << value
+          end
+
+          message = the_output_format.call(*args)
+          message += "\n"
+          message = colorizer.cyan(message)
+        rescue NotImplementedError => e
+          message = "Error fetching announced value for #{channel}: #{e.message}"
+        end
 
         announcer.announce(message)
 
