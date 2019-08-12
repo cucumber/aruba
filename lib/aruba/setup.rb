@@ -36,11 +36,11 @@ module Aruba
       runtime.event_bus.register(
         :command_started,
         proc do |event|
-          runtime.announcer.announce :command, event.entity.commandline
-          runtime.announcer.announce :timeout, 'exit', event.entity.exit_timeout
-          runtime.announcer.announce :timeout, 'io wait', event.entity.io_wait_timeout
-          runtime.announcer.announce :wait_time, 'startup wait time', event.entity.startup_wait_time
-          runtime.announcer.announce :full_environment, event.entity.environment
+          runtime.announcer.announce(:command) { event.entity.commandline }
+          runtime.announcer.announce(:timeout, 'exit') { event.entity.exit_timeout }
+          runtime.announcer.announce(:timeout, 'io wait') { event.entity.io_wait_timeout }
+          runtime.announcer.announce(:wait_time, 'startup wait time') { event.entity.startup_wait_time }
+          runtime.announcer.announce(:full_environment) { event.entity.environment }
         end
       )
 
