@@ -261,3 +261,46 @@ Feature: Announce output during test run
 
     echo 'Hello World'
     """
+
+  Scenario: Announce everything
+    Given an executable named "bin/aruba-test-cli" with:
+    """bash
+    #!/usr/bin/env bash
+
+    echo 'Hello World'
+    """
+    And a file named "features/exit_status.feature" with:
+    """cucumber
+    Feature: Announce
+      @announce
+      Scenario: Run command
+        When I run `aruba-test-cli`
+        Then the exit status should be 0
+    """
+    When I run `cucumber`
+    Then the features should all pass
+    And the output should contain:
+    """
+    <<-STDOUT
+    Hello World
+
+    STDOUT
+    """
+    And the output should contain:
+    """
+    <<-STDERR
+
+    STDERR
+    """
+    And the output should contain:
+    """
+    <<-COMMAND
+    #!/usr/bin/env bash
+
+    echo 'Hello World'
+    COMMAND
+    """
+    And the output should contain:
+    """
+    <<-COMMAND FILESYSTEM STATUS
+    """
