@@ -58,3 +58,29 @@ Feature: Debug your command in cucumber-test-run
     => "hello"
     [2] pry(main)> exit
     """
+
+  Scenario: Can handle announcers
+    Given an executable named "bin/aruba-test-cli" with:
+    """bash
+    #!/usr/bin/env bash
+
+    exit 0
+    """
+    And a file named "features/debug.feature" with:
+    """cucumber
+    Feature: Exit status in debug environment
+
+      @debug
+      @announce
+      Scenario: Run program with debug code
+        When I run `aruba-test-cli`
+        Then the exit status should be 0
+    """
+    When I successfully run `cucumber`
+    Then the features should all pass
+    And the output should contain:
+    """
+    <<-STDOUT
+    This is the debug launcher on STDOUT. If this output is unexpected, please check your setup.
+    STDOUT
+    """

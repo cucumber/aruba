@@ -92,9 +92,9 @@ module Aruba
         output_format :stop_signal, proc { |p, s| format('Command will be stopped with `kill -%s %s`', s, p) }
         output_format :timeout, '# %s-timeout: %s seconds'
         output_format :wait_time, '# %s: %s seconds'
-        # rubocop:disable Metrics/LineLength
-        output_format :command_filesystem_status, proc { |status| format("<<-COMMAND FILESYSTEM STATUS\n%s\nCOMMAND FILESYSTEM STATUS", Aruba.platform.simple_table(status.to_h, sort: false)) }
-        # rubocop:enable Metrics/LineLength
+        output_format :command_filesystem_status, proc { |status|
+          format("<<-COMMAND FILESYSTEM STATUS\n%s\nCOMMAND FILESYSTEM STATUS",
+                 Aruba.platform.simple_table(status.to_h, sort: false)) }
       end
 
       def output_format(channel, string = '%s', &block)
@@ -171,13 +171,18 @@ module Aruba
 
         return unless activated?(channel)
 
-        message = if block_given?
-                    the_output_format.call(yield)
-                  else
-                    the_output_format.call(*args)
-                  end
-        message += "\n"
-        message = colorizer.cyan(message)
+        begin
+          if block_given?
+            value = yield
+            args << value
+          end
+
+          message = the_output_format.call(*args)
+          message += "\n"
+          message = colorizer.cyan(message)
+        rescue NotImplementedError => e
+          message = "Error fetching announced value for #{channel}: #{e.message}"
+        end
 
         announcer.announce(message)
 

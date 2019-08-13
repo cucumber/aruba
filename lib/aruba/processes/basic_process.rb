@@ -39,7 +39,7 @@ module Aruba
 
       # Output pid of process
       def pid
-        'No implemented'
+        raise NotImplementedError
       end
 
       # Output stderr and stdout
@@ -48,39 +48,39 @@ module Aruba
       end
 
       def write(*)
-        NotImplementedError
+        raise NotImplementedError
       end
 
       def stdin(*)
-        NotImplementedError
+        raise NotImplementedError
       end
 
       def stdout(*)
-        NotImplementedError
+        raise NotImplementedError
       end
 
       def stderr(*)
-        NotImplementedError
+        raise NotImplementedError
       end
 
       def close_io(*)
-        NotImplementedError
+        raise NotImplementedError
       end
 
       def send_signal(*)
-        NotImplementedError
+        raise NotImplementedError
       end
 
       def filesystem_status
-        NotImplementedError
+        raise NotImplementedError
       end
 
       def content
-        NotImplementedError
+        raise NotImplementedError
       end
 
       def wait
-        NotImplementedError
+        raise NotImplementedError
       end
 
       # Restart a command
