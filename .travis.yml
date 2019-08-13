@@ -1,3 +1,5 @@
+# Use old Ubuntu distribution to avoid JRuby issues
+dist: trusty
 language: ruby
 script: bundle exec rake test
 before_install:
