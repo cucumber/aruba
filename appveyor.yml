@@ -20,7 +20,7 @@ install:
   - cinst ansicon
 
 test_script:
-  - bundle exec rake test:rspec --trace
+  - bundle exec rake spec --trace
 
 environment:
   matrix:

@@ -6,32 +6,29 @@ require 'aruba/platform'
 require 'bundler'
 Bundler.setup
 
-task default: [:lint, :test]
+task default: %w(spec cucumber cucumber:wip lint)
 
 desc 'Run all linters.'
 task lint: %w(lint:travis lint:coding_guidelines lint:licenses)
 
 desc 'Run the whole test suite.'
-task test: %w(test:rspec test:cucumber test:cucumber_wip)
+task test: %w(spec cucumber cucumber:wip)
 
 require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
 
-namespace :test do
-  Cucumber::Rake::Task.new do |t|
-    t.cucumber_opts = %w{--format progress}
-  end
-
-  Cucumber::Rake::Task.new(:cucumber_wip, 'Run Cucumber features '\
-                           'which are "WORK IN PROGRESS" and '\
-                           'are allowed to fail') do |t|
-    t.cucumber_opts = %w{--format progress}
-    t.profile = 'wip'
-  end
-
-  desc 'Run RSpec tests'
-  RSpec::Core::RakeTask.new(:rspec)
+Cucumber::Rake::Task.new do |t|
+  t.cucumber_opts = %w{--format progress}
 end
+
+Cucumber::Rake::Task.new('cucumber:wip', 'Run Cucumber features '\
+                         'which are "WORK IN PROGRESS" and '\
+                         'are allowed to fail') do |t|
+  t.cucumber_opts = %w{--format progress}
+  t.profile = 'wip'
+end
+
+RSpec::Core::RakeTask.new
 
 namespace :lint do
   desc 'Lint our .travis.yml'
@@ -56,17 +53,11 @@ namespace :lint do
     sh 'bundle exec license_finder'
   end
 
-  begin
-    require 'yard-junk/rake'
-    YardJunk::Rake.define_task
-  rescue LoadError
-    warn 'yard-junk requires Ruby 2.3.0. Rake task lint:yard:junk not loaded.'
-  end
+  require 'yard-junk/rake'
+  YardJunk::Rake.define_task
 end
 
-namespace :rubygem do
-  Bundler::GemHelper.install_tasks
-end
+Bundler::GemHelper.install_tasks
 
 namespace :docker do
   desc 'Build docker image'

@@ -129,11 +129,11 @@ Or use these Rake tasks:
 # Run the whole test suite
 rake test
 # Run RSpec tests
-rake test:rspec
+rake spec
 # Run Cucumber features
-rake test:cucumber
+rake cucumber
 # Run Cucumber features which are "WORK IN PROGRESS" and are allowed to fail
-rake test:cucumber_wip
+rake cucumber:wip
 ```
 
 If you have problems because our assumptions about your local setup are wrong,
@@ -195,11 +195,11 @@ You can use the following Rake tasks to build and install your work-in-progress 
 
 ```bash
 # Build your copy
-bundle exec rake rubygem:build
+bundle exec rake build
 # Build and install your copy
-bundle exec rake rubygem:install
+bundle exec rake install
 # Build and install your copy without network access
-bundle exec rake rubygem:install:local
+bundle exec rake install:local
 ```
 
 ## Getting started as a "Maintainer"
@@ -225,7 +225,7 @@ bin/test
 
 # Release gem
 git commit -m "Version bump"
-bin/release
+bundle exec rake release
 
 # If it's a major relase:
 # Merge changes back to have correct documentation
