@@ -48,7 +48,7 @@ Then /^the spec(?:s)? should not(?: all)? pass(?: with (\d+) failures?)?$/ do |c
 end
 
 # RSpec
-Then /^the spec(?:s)? should(?: all)? pass(?: with (\d+) failures?)?$/ do |_count_failures|
+Then /^the spec(?:s)? should all pass$/ do
   step 'the output should contain "0 failures"'
   step 'the exit status should be 0'
 end
@@ -89,7 +89,7 @@ Then /^the tests(?:s)? should not(?: all)? pass(?: with (\d+) failures?)?$/ do |
 end
 
 # Minitest
-Then /^the tests(?:s)? should(?: all)? pass(?: with (\d+) failures?)?$/ do |_count_failures|
+Then /^the tests(?:s)? should all pass$/ do
   step 'the output should contain "0 errors"'
   step 'the exit status should be 0'
 end
