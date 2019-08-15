@@ -1,3 +1,5 @@
+# In order to install old Rubies, we need to use old Ubuntu distribution.
+dist: trusty
 sudo: false
 language: ruby
 script: script/test
