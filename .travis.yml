@@ -1,5 +1,3 @@
-# Use old Ubuntu distribution to avoid JRuby issues
-dist: trusty
 language: ruby
 script: bundle exec rake test
 before_install:
@@ -37,7 +35,6 @@ jobs:
       os: linux
     - rvm: jruby-9.2.6.0
       os: osx
-      env: JAVA_OPTS="--add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/javax.crypto=ALL-UNNAMED --add-opens java.base/java.security.cert=ALL-UNNAMED --add-opens java.base/java.security=ALL-UNNAMED --add-opens java.base/sun.nio.ch=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED --illegal-access=warn"
       script: bundle exec rake spec
     - stage: lint
       script: bundle exec rake lint
@@ -61,3 +58,14 @@ env:
     # JRUBY_OPTS, but JRuby 9 does not support C extensions at all
     # so it issues warning that will mess up the stderr checks.
     - JRUBY_OPTS="--dev --debug"
+    - JAVA_OPTS="
+        --add-opens java.base/java.io=ALL-UNNAMED
+        --add-opens java.base/java.lang=ALL-UNNAMED
+        --add-opens java.base/java.util=ALL-UNNAMED
+        --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+        --add-opens java.base/java.security.cert=ALL-UNNAMED
+        --add-opens java.base/java.security=ALL-UNNAMED
+        --add-opens java.base/javax.crypto=ALL-UNNAMED
+        --add-opens java.base/sun.nio.ch=ALL-UNNAMED
+        --add-opens java.base/java.nio.channels.spi=ALL-UNNAMED
+        --illegal-access=warn"
