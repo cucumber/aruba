@@ -120,14 +120,7 @@ end
 
 ## the stderr should contain "hello"
 Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)? "([^"]*)"$/) do |channel, negated, exactly, expected|
-  combined_output = case channel.to_sym
-                    when :output
-                      all_output
-                    when :stderr
-                      all_stderr
-                    when :stdout
-                      all_stdout
-                    end
+  combined_output = send("all_#{channel}")
 
   output_string_matcher = if exactly
                             :an_output_string_being_eq
@@ -168,16 +161,9 @@ Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should( not)? contain( exa
   end
 end
 
-## the stderr should contain exactly:
-Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)?:$/) do |channel, negated, exactly, expected|
-  combined_output = case channel.to_sym
-                    when :output
-                      all_output
-                    when :stderr
-                      all_stderr
-                    when :stdout
-                      all_stdout
-                    end
+## the stderr should not contain exactly:
+Then(/^(?:the )?(output|stderr|stdout) should not contain( exactly)?:$/) do |channel, exactly, expected|
+  combined_output = send("all_#{channel}")
 
   output_string_matcher = if exactly
                             :an_output_string_being_eq
@@ -185,15 +171,24 @@ Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)?:$/) do |
                             :an_output_string_including
                           end
 
-  if negated
-    expect(combined_output).not_to send(output_string_matcher, expected)
-  else
-    expect(combined_output).to send(output_string_matcher, expected)
-  end
+  expect(combined_output).not_to send(output_string_matcher, expected)
 end
 
-## the stderr from "echo -n 'Hello'" should contain exactly:
-Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should( not)? contain( exactly)?:$/) do |channel, cmd, negated, exactly, expected|
+## the stderr should contain exactly:
+Then(/^(?:the )?(output|stderr|stdout) should contain( exactly)?:$/) do |channel, exactly, expected|
+  combined_output = send("all_#{channel}")
+
+  output_string_matcher = if exactly
+                            :an_output_string_being_eq
+                          else
+                            :an_output_string_including
+                          end
+
+  expect(combined_output).to send(output_string_matcher, expected)
+end
+
+## the stderr from "echo -n 'Hello'" should not contain exactly:
+Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)?:$/) do |channel, cmd, exactly, expected|
   matcher = case channel.to_sym
             when :output
               :have_output
@@ -211,11 +206,29 @@ Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should( not)? contain( exa
                             :an_output_string_including
                           end
 
-  if negated
-    expect(command).not_to send(matcher, send(output_string_matcher, expected))
-  else
-    expect(command).to send(matcher, send(output_string_matcher, expected))
-  end
+  expect(command).not_to send(matcher, send(output_string_matcher, expected))
+end
+
+## the stderr from "echo -n 'Hello'" should contain exactly:
+Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)?:$/) do |channel, cmd, exactly, expected|
+  matcher = case channel.to_sym
+            when :output
+              :have_output
+            when :stderr
+              :have_output_on_stderr
+            when :stdout
+              :have_output_on_stdout
+            end
+
+  command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
+
+  output_string_matcher = if exactly
+                            :an_output_string_being_eq
+                          else
+                            :an_output_string_including
+                          end
+
+  expect(command).to send(matcher, send(output_string_matcher, expected))
 end
 
 # "the output should match" allows regex in the partial_output, if
@@ -258,7 +271,7 @@ Then(/^the exit status should( not)? be (\d+)$/) do |negated, exit_status|
   end
 end
 
-Then(/^it should( not)? (pass|fail) with "(.*?)"$/) do |negated, pass_fail, expected|
+Then(/^it should not (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
   last_command_started.stop
 
   if pass_fail == 'pass'
@@ -267,14 +280,10 @@ Then(/^it should( not)? (pass|fail) with "(.*?)"$/) do |negated, pass_fail, expe
     expect(last_command_stopped).not_to be_successfully_executed
   end
 
-  if negated
-    expect(last_command_stopped).not_to have_output an_output_string_including(expected)
-  else
-    expect(last_command_stopped).to have_output an_output_string_including(expected)
-  end
+  expect(last_command_stopped).not_to have_output an_output_string_including(expected)
 end
 
-Then(/^it should( not)? (pass|fail) with:$/) do |negated, pass_fail, expected|
+Then(/^it should (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
   last_command_started.stop
 
   if pass_fail == 'pass'
@@ -283,14 +292,10 @@ Then(/^it should( not)? (pass|fail) with:$/) do |negated, pass_fail, expected|
     expect(last_command_stopped).not_to be_successfully_executed
   end
 
-  if negated
-    expect(last_command_stopped).not_to have_output an_output_string_including(expected)
-  else
-    expect(last_command_stopped).to have_output an_output_string_including(expected)
-  end
+  expect(last_command_stopped).to have_output an_output_string_including(expected)
 end
 
-Then(/^it should( not)? (pass|fail) with exactly:$/) do |negated, pass_fail, expected|
+Then(/^it should not (pass|fail) with:$/) do |pass_fail, expected|
   last_command_started.stop
 
   if pass_fail == 'pass'
@@ -299,14 +304,10 @@ Then(/^it should( not)? (pass|fail) with exactly:$/) do |negated, pass_fail, exp
     expect(last_command_stopped).not_to be_successfully_executed
   end
 
-  if negated
-    expect(last_command_stopped).not_to have_output an_output_string_eq(expected)
-  else
-    expect(last_command_stopped).to have_output an_output_string_being_eq(expected)
-  end
+  expect(last_command_stopped).not_to have_output an_output_string_including(expected)
 end
 
-Then(/^it should( not)? (pass|fail) (?:with regexp?|matching):$/) do |negated, pass_fail, expected|
+Then(/^it should (pass|fail) with:$/) do |pass_fail, expected|
   last_command_started.stop
 
   if pass_fail == 'pass'
@@ -315,11 +316,55 @@ Then(/^it should( not)? (pass|fail) (?:with regexp?|matching):$/) do |negated, p
     expect(last_command_stopped).not_to be_successfully_executed
   end
 
-  if negated
-    expect(last_command_stopped).not_to have_output an_output_string_matching(expected)
+  expect(last_command_stopped).to have_output an_output_string_including(expected)
+end
+
+Then(/^it should not (pass|fail) with exactly:$/) do |pass_fail, expected|
+  last_command_started.stop
+
+  if pass_fail == 'pass'
+    expect(last_command_stopped).to be_successfully_executed
   else
-    expect(last_command_stopped).to have_output an_output_string_matching(expected)
+    expect(last_command_stopped).not_to be_successfully_executed
   end
+
+  expect(last_command_stopped).not_to have_output an_output_string_eq(expected)
+end
+
+Then(/^it should (pass|fail) with exactly:$/) do |pass_fail, expected|
+  last_command_started.stop
+
+  if pass_fail == 'pass'
+    expect(last_command_stopped).to be_successfully_executed
+  else
+    expect(last_command_stopped).not_to be_successfully_executed
+  end
+
+  expect(last_command_stopped).to have_output an_output_string_being_eq(expected)
+end
+
+Then(/^it should not (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
+  last_command_started.stop
+
+  if pass_fail == 'pass'
+    expect(last_command_stopped).to be_successfully_executed
+  else
+    expect(last_command_stopped).not_to be_successfully_executed
+  end
+
+  expect(last_command_stopped).not_to have_output an_output_string_matching(expected)
+end
+
+Then(/^it should (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
+  last_command_started.stop
+
+  if pass_fail == 'pass'
+    expect(last_command_stopped).to be_successfully_executed
+  else
+    expect(last_command_stopped).not_to be_successfully_executed
+  end
+
+  expect(last_command_stopped).to have_output an_output_string_matching(expected)
 end
 
 Then(/^(?:the )?(output|stderr|stdout) should not contain anything$/) do |channel|
@@ -330,8 +375,6 @@ Then(/^(?:the )?(output|stderr|stdout) should not contain anything$/) do |channe
               :have_output_on_stderr
             when :stdout
               :have_output_on_stdout
-            else
-              fail ArgumentError, %(Invalid channel "#{channel}" chosen. Only "output", "stdout" and "stderr" are supported.)
             end
 
   expect(all_commands).to include_an_object send(matcher, be_nil.or(be_empty))
@@ -346,9 +389,9 @@ Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:
       :have_output_on_stderr
     when :stdout
       :have_output_on_stdout
-    else
-      fail ArgumentError, %(Invalid channel "#{channel}" chosen. Only "output", "stdout" and "stderr" are supported.)
     end
+
+    # TODO: This isn't actually using the above. It's hardcoded to use have_output only
 
     if negated
       expect(all_commands).not_to include_an_object have_output an_output_string_including(expected)

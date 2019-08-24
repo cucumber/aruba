@@ -88,21 +88,19 @@ Then(/^the following files should (not )?exist:$/) do |negated, files|
   end
 end
 
-Then(/^(?:a|the) (file|directory)(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) do |directory_or_file, path, expect_match|
-  if directory_or_file == 'file'
-    if expect_match
-      expect(path).not_to be_an_existing_file
-    else
-      expect(path).to be_an_existing_file
-    end
-  elsif directory_or_file == 'directory'
-    if expect_match
-      expect(path).not_to be_an_existing_directory
-    else
-      expect(path).to be_an_existing_directory
-    end
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) do |path, expect_match|
+  if expect_match
+    expect(path).not_to be_an_existing_file
   else
-    fail ArgumentError, %("#{directory_or_file}" can only be "directory" or "file".)
+    expect(path).to be_an_existing_file
+  end
+end
+
+Then(/^(?:a|the) directory(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) do |path, expect_match|
+  if expect_match
+    expect(path).not_to be_an_existing_directory
+  else
+    expect(path).to be_an_existing_directory
   end
 end
 
