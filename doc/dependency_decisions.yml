@@ -14,3 +14,21 @@
   - :who: 
     :why: 
     :when: 2015-04-28 13:39:40.984464786 Z
+- - :whitelist
+  - Simplified BSD
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2019-09-25 17:32:18.724363167 Z
+- - :whitelist
+  - New BSD
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2019-09-25 17:33:18.991343731 Z
+- - :whitelist
+  - ruby
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2019-09-25 17:35:47.177302643 Z
