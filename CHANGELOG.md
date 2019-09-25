@@ -6,6 +6,12 @@ This project will adhere to [Semantic Versioning][1] once version 1.0.0 is relea
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [v0.14.12]
+
+* Loosen dependency on childprocess ([#673])
+* Fix Travis build ([#668])
+* Handle announcing with DebugProcess ([#664])
+
 ## [v0.14.11]
 
 * Loosen childprocess dependency ([#658])
@@ -674,6 +680,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 <!-- issues & pull requests -->
 
+[#673]: https://github.com/cucumber/aruba/pull/673
+[#668]: https://github.com/cucumber/aruba/pull/668
+[#664]: https://github.com/cucumber/aruba/pull/664
 [#658]: https://github.com/cucumber/aruba/pull/658
 [#650]: https://github.com/cucumber/aruba/pull/650
 [#647]: https://github.com/cucumber/aruba/pull/647
@@ -871,6 +880,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 <!-- Releases -->
 
+[v0.14.12]:       https://github.com/cucumber/aruba/compare/v0.14.11...v0.14.12
 [v0.14.11]:       https://github.com/cucumber/aruba/compare/v0.14.10...v0.14.11
 [v0.14.10]:       https://github.com/cucumber/aruba/compare/v0.14.9...v0.14.10
 [v0.14.9]:        https://github.com/cucumber/aruba/compare/v0.14.8...v0.14.9
