@@ -13,7 +13,7 @@ to make testing commandline applications meaningful, easy and fun.'
   spec.email       = 'cukes@googlegroups.com'
   spec.homepage    = 'https://github.com/cucumber/aruba'
 
-  spec.add_runtime_dependency 'childprocess', '~> 1.0'
+  spec.add_runtime_dependency 'childprocess', '~> 3.0'
   spec.add_runtime_dependency 'contracts', '~> 0.13'
   spec.add_runtime_dependency 'cucumber', ['>= 2.4', '< 4.0']
   spec.add_runtime_dependency 'ffi', '~> 1.9'
