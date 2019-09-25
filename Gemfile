@@ -89,7 +89,7 @@ group :development, :test do
   elsif RUBY_VERSION < '2.3.0'
     gem 'childprocess', '~> 1.0.1'
   else
-    gem 'childprocess', '~> 2.0'
+    gem 'childprocess', ['>= 2.0', '< 4.0']
   end
 
   if RUBY_VERSION < '1.9.2'
@@ -103,13 +103,13 @@ group :development, :test do
     gem 'rubocop', '~> 0.32', '< 0.41.1'
   end
 
-  if RUBY_VERSION >= '1.9.3'
-    gem 'cucumber-pro', '~> 0.0'
-  end
-
   if RUBY_VERSION < '2.0.0'
     gem 'ffi', '< 1.11.0'
   end
 
-  gem 'minitest', '~> 5.8'
+  if RUBY_VERSION < '1.9.3'
+    gem 'minitest', '~> 5.8.0'
+  else
+    gem 'minitest', '~> 5.8'
+  end
 end
