@@ -111,5 +111,9 @@ group :development, :test do
     gem 'ffi', '< 1.11.0'
   end
 
-  gem 'minitest', '~> 5.8'
+  if RUBY_VERSION < '1.9.3'
+    gem 'minitest', '~> 5.8.0'
+  else
+    gem 'minitest', '~> 5.8'
+  end
 end
