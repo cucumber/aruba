@@ -27,6 +27,10 @@ RSpec::Matchers.define :be_successfully_executed do
 
     expect(@old_actual).to have_exit_status(0)
   end
+
+  failure_message do |_actual|
+    "Expected `#{@actual}` to succeed but got non-zero exit status and the following output:\n\n#{@old_actual.output}\n"
+  end
 end
 
 RSpec::Matchers.define_negated_matcher :have_failed_running, :be_successfully_executed
