@@ -105,6 +105,7 @@ group :development, :test do
 
   if RUBY_VERSION < '2.0.0'
     gem 'ffi', '< 1.11.0'
+    gem 'json', '< 2.3.0'
   end
 
   if RUBY_VERSION < '1.9.3'
