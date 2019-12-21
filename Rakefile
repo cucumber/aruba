@@ -30,7 +30,7 @@ namespace :travis do
       puts 'Linting .travis.yml ... No output is good!'
       Travis::Yaml.parse! File.read('.travis.yml')
     rescue LoadError
-      $stderr.puts 'You ruby is not supported for linting the .travis.yml'
+      $stderr.puts 'Your ruby is not supported for linting the .travis.yml file'
     end
   end
 end
