@@ -70,7 +70,13 @@ group :development, :test do
   end
 
   # Code Coverage
-  gem 'simplecov', '~> 0.10' unless RUBY_PLATFORM.include?('java')
+  unless RUBY_PLATFORM.include?('java')
+    gem 'simplecov', '~> 0.10' 
+    if RUBY_VERSION < '2.0.0'
+      gem 'json', '< 2.3.0'
+    end
+  end
+
 
   # Test api
   gem 'rspec', '~> 3.4'
