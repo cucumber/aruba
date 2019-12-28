@@ -44,9 +44,12 @@ Feature: Aruba Console
     """
 
   @unsupported-on-platform-java
-  Scenario: Has history
+  Scenario: Has its own history file
     Given I run `aruba console` interactively
-    And I type "aruba_methods"
+    And I type "IRB.conf[:HISTORY_FILE]"
     And I type "exit"
     When I close the stdin stream
-    Then the file "~/.aruba_history" should exist
+    Then the output should contain:
+    """
+    ~/.aruba_history
+    """
