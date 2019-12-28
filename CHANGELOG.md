@@ -6,6 +6,10 @@ This project will adhere to [Semantic Versioning][1] once version 1.0.0 is relea
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [0.14.14]
+
+* Support Ruby 2.7 ([#677])
+
 ## [0.14.13]
 
 * Loosen dependency on thor ([#676])
@@ -103,8 +107,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 * Add two new hooks for rspec and cucumber to make troubleshooting feature
   files easier ([#338]):
-  * command_content: Outputs command content - helpful for scripts
-  * command_filesystem_status: Outputs information like group, owner, mode,
+  * `command_content`: Outputs command content - helpful for scripts
+  * `command_filesystem_status`: Outputs information like group, owner, mode,
     atime, mtime
 * Add generator to create ad hoc script file ([#323], [AdrieanKhisbe])
 * Colored announcer output similar to the color of `cucumber` tags: cyan
@@ -194,7 +198,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 ## [0.10.0]
 
-* Fix '"#exit_timeout" is deprecated' error ([#314])
+* Fix `"#exit_timeout" is deprecated` error ([#314])
 
 ## [0.10.0.pre2]
 
@@ -249,32 +253,32 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 * Improve documentation for filesystem api and move it to feature tests
 * Add logger to aruba. Its output can be captured by rspec.
-* Fix incorrect deprecation message for check_file_presence ([#292])
+* Fix incorrect deprecation message for `check_file_presence` ([#292])
 * Fix for Gemfile excludes windows for many gems ([#282])
 * Make feature tests compatible with ruby 1.9.2
 * Gather disk usage for file(s) ([#294])
-* Replace keep_ansi-config option by remove_ansi_escape_sequences-option
+* Replace `keep_ansi` config option by `remove_ansi_escape_sequences` option
 * Split up `#unescape` into `#extract_text` and `#unescape_text`
 * Use `UnixPlatform` and `WindowsPlatform` to make code for different platforms
   maintainable
-* Work around `ENV`-bug in `Jruby` buy using `#dup` on `ENV.to_h` ([jruby/jruby#316])
-* Speed up test on `JRuby` by using `--dev`-flag
+* Work around `ENV`-bug in JRuby by using `#dup` on `ENV.to_h` ([jruby/jruby#316])
+* Speed up test on JRuby by using `--dev`-flag
 * Work around problems when copying files with `cp` on MRI-ruby 1.9.2
-* Add cmd.exe /c for SpawnProcess on Windows ([#302])
+* Add `cmd.exe /c` for SpawnProcess on Windows ([#302])
 * Split up `#which` for Windows and Unix/Linux ([#304])
-* Add `aruba console`-command to play around with aruba ([#305])
+* Add `aruba console` command to play around with aruba ([#305])
 
 
 ## [0.8.1]
 
 * Fix problem if working directory of aruba does not exist ([#286])
-* Re-Add removed method only_processes
+* Re-add removed method `only_processes`
 * Fixed problem with last exit status
 * Added appveyor to run tests of aruba on Windows ([#287])
 * Make the home directory configurable and use Around/around-hook to apply it
 * Add announcer to output the full environment before a command is run
-* Use prepend_environment_variable to modify PATH for rspec integration
-* Add VERSION-constant to aruba and use it for code which should be activated on >= 1.0.0
+* Use `prepend_environment_variable` to modify PATH for rspec integration
+* Add `VERSION` constant to aruba and use it for code which should be activated on >= 1.0.0
 
 ## [0.8.0]
 
@@ -325,9 +329,9 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * Better isolation for environment variable manipulation - really helpful from 1.0.0 on
 * Move configuration files like `jruby.rb` to `aruba/config/`-directory
 * Change default exit timeout to 15 seconds to work around long running processes on travis
-* Use of instance variables like @aruba_timeout_seconds or
-  @aruba_io_wait_seconds are deprecated. Use `Aruba.configure do |config|
-  config.exit_timeout = 10` etc. for this.
+* Use of instance variables like `@aruba_timeout_seconds` or
+  `@aruba_io_wait_seconds` are deprecated.
+  Use `Aruba.configure do |config| config.exit_timeout = 10` etc. for this.
 
 ## [0.7.4]
 * Really Fixed post install message
@@ -341,7 +345,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 ## [0.7.1]
 
-* Do not break if @interactive is used
+* Do not break if `@interactive` is used
 
 ## [0.7.0]
 
@@ -417,12 +421,12 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 ## [0.4.9]
 
-* Rename before_run hook to before_cmd ([mattwynne])
+* Rename `before_run` hook to `before_cmd` ([mattwynne])
 * Fix 1.8.7 compatibility ([#95], [davetron5000])
 
 ## [0.4.8]
 
-* Add before_run hook ([mattwynne])
+* Add `before_run` hook ([mattwynne])
 * Add JRuby performance tweaks ([#93], [myronmarston], [mattwynne])
 * Invalid/Corrupt spec file for 0.4.7 - undefined method call for nil:Nilclass ([#47], [aslakhellesoy])
 
@@ -687,6 +691,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 <!-- issues & pull requests -->
 
+[#677]: https://github.com/cucumber/aruba/pull/677
 [#676]: https://github.com/cucumber/aruba/pull/676
 [#673]: https://github.com/cucumber/aruba/pull/673
 [#668]: https://github.com/cucumber/aruba/pull/668
@@ -889,6 +894,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 <!-- Releases -->
 
+[0.14.14]:       https://github.com/cucumber/aruba/compare/v0.14.13...v0.14.14
 [0.14.13]:       https://github.com/cucumber/aruba/compare/v0.14.12...v0.14.13
 [0.14.12]:       https://github.com/cucumber/aruba/compare/v0.14.11...v0.14.12
 [0.14.11]:       https://github.com/cucumber/aruba/compare/v0.14.10...v0.14.11
