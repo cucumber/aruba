@@ -150,13 +150,13 @@ module Aruba
       end
 
       # Copy file/directory
-      def cp(args, options)
-        FileUtils.cp_r(args, options)
+      def cp(src, dest)
+        FileUtils.cp_r(src, dest)
       end
 
       # Move file/directory
-      def mv(args, options)
-        FileUtils.mv(args, options)
+      def mv(src, dest)
+        FileUtils.mv(src, dest)
       end
 
       # Change mode of file/directory
