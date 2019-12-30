@@ -6,6 +6,14 @@ This project will adhere to [Semantic Versioning][1] once version 1.0.0 is relea
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## 1.0.0 (Unreleased)
+
+### Breaking changes compared to Aruba 0.14.x
+
+* Support for Ruby 2.3 and lower has been dropped
+* Deprecated functionality has been removed
+* The home directory is set to aruba's working directory by default
+
 ## [1.0.0.pre.alpha.5]
 
 * Refactor: Uncouple some of aruba's step definition code ([#666] by [luke-hill])
