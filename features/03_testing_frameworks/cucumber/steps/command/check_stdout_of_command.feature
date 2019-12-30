@@ -65,7 +65,7 @@ Feature: STDOUT of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Detect stdout from all processes including interactive ones
+  Scenario: Detect stdout from each process including interactive ones
     Given a file named "features/output.feature" with:
     """
     Feature: Run command
@@ -80,6 +80,25 @@ Feature: STDOUT of commands which were executed
         \"\"\"
         And the stdout should contain:
         \"\"\"
+        hola
+        \"\"\"
+        And the stderr should not contain anything
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Detect stdout from all processes
+    Given a file named "features/output.feature" with:
+    """
+    Feature: Run command
+      Scenario: Run command
+        When I run `printf "hello world!\n"`
+        And I run `cat` interactively
+        And I type "hola"
+        And I type ""
+        Then the stdout should contain:
+        \"\"\"
+        hello world!
         hola
         \"\"\"
         And the stderr should not contain anything
