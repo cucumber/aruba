@@ -7,7 +7,7 @@ Feature: STDERR of commands which were executed
   Background:
     Given I use a fixture named "cli-app"
 
-  Scenario: Detect stderr from all processes
+  Scenario: Detect stderr from each process
     Given a file named "features/output.feature" with:
     """
     Feature: Run command
@@ -22,6 +22,25 @@ Feature: STDERR of commands which were executed
         \"\"\"
         And the stderr should contain:
         \"\"\"
+        hola
+        \"\"\"
+        And the stdout should not contain anything
+    """
+    When I run `cucumber`
+    Then the features should all pass
+
+  Scenario: Detect stderr from all processes
+    Given a file named "features/output.feature" with:
+    """
+    Feature: Run command
+      Scenario: Run command
+        When I run `bash -c 'printf "hello world!\n" >&2'`
+        And I run `bash -c 'cat >&2 '` interactively
+        And I type "hola"
+        And I type ""
+        Then the stderr should contain:
+        \"\"\"
+        hello world!
         hola
         \"\"\"
         And the stdout should not contain anything
