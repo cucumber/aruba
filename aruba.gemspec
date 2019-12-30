@@ -33,7 +33,7 @@ to make testing commandline applications meaningful, easy and fun.'
   spec.add_development_dependency 'yard-junk', '~> 0.0.7'
 
   spec.rubygems_version = '>= 1.6.1'
-  spec.required_ruby_version = '>= 2.3'
+  spec.required_ruby_version = '>= 2.4'
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
