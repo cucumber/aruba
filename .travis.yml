@@ -11,17 +11,17 @@ jobs:
       os: linux
     - rvm: ruby-head
       os: osx
-    - rvm: 2.6.3
+    - rvm: 2.6.5
       os: linux
-    - rvm: 2.6.3
+    - rvm: 2.6.5
       os: osx
-    - rvm: 2.5.5
+    - rvm: 2.5.7
       os: linux
-    - rvm: 2.5.5
+    - rvm: 2.5.7
       os: osx
-    - rvm: 2.4.6
+    - rvm: 2.4.9
       os: linux
-    - rvm: 2.4.6
+    - rvm: 2.4.9
       os: osx
     - rvm: 2.4.0
       os: linux
