@@ -92,12 +92,11 @@ Please see the [CONTRIBUTING](CONTRIBUTING.md) file.
 
 ## Code branches
 
-Development for the upcoming 1.0.0 release takes place in the `master` branch.
-Maintenance of the current 0.14.x releases takes place in the `0-14-stable`
-branch. After the 1.0.0 release, development will take place in the `master`
-branch as much as possible. Stable branches will not be created until
-absolutely necessary.
+Development takes place in the `master` branch and currently targets the 1.x
+releases. If necessary, maintenance of the old 0.14.x releases takes place in
+the `0-14-stable` branch. Stable branches will not be created until absolutely
+necessary.
 
 ## License
 
-See the file LICENSE.
+See the file [LICENSE](LICENSE).

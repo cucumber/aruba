@@ -2,12 +2,41 @@
 
 All notable changes to this project will be documented in this file.
 
-This project will adhere to [Semantic Versioning][1] once version 1.0.0 is released.
+This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [1.0.0]
+
+### Breaking changes compared to Aruba 0.14.x
+
+* Support for Ruby 2.3 and lower has been dropped
+* Deprecated functionality has been removed
+* The home directory is set to aruba's working directory by default
+
+### Detailed changes compared to 1.0.0.pre.alpha.5
+
+* Update simplecov ([#704] by [mvz])
+* Several cuke improvements ([#703] by [mvz])
+* Find relative commands from the current Aruba directory ([#702] by [mvz])
+* Update development dependencies ([#701] by [mvz])
+* Clean up linting and fix environment nesting ([#698] by [mvz])
+* Update build configuration ([#696] by [mvz])
+* Fix cd behavior with absolute paths and home directory ([#692] by [mvz])
+* Improve `expand_path` warnings ([#687] by [deivid-rodriguez])
+* Remove unneeded appveyor step ([#690] by [deivid-rodriguez])
+* Fix travis.yml lint task ([#689] by [deivid-rodriguez])
+* Fix cucumber deprecations ([#688] by [deivid-rodriguez])
+* Update gemspec: Metadata and RDoc options ([#686] by [mvz])
+* Update dependencies and fix RuboCop offenses ([#683] by [mvz])
+* Init: Conditionally prefix the `gem aruba` line with a carriage return ([#570] by [xtrasimplicity])
+* Update supported set of rubies([#679] by [mvz])
+
 ## [1.0.0.pre.alpha.5]
 
+* Improve command failure message ([#675] by [deivid-rodriguez])
+* Bump childprocess dependency ([#674] by [mvz])
+* Suppress keyword argument warnings in Ruby 2.7 ([#672] by [koic])
 * Refactor: Uncouple some of aruba's step definition code ([#666] by [luke-hill])
 * Fix several JRuby build issues
   ([bb770e2e](https://github.com/cucumber/aruba/commit/bb770e2e82ec09807b07eed1f4a124612eeee3f4),
@@ -196,6 +225,15 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
             """
           And the stderr should not contain anything
 
+## [0.14.14]
+
+* Support Ruby 2.7 ([#677])
+
+## [0.14.13]
+
+* Loosen dependency on thor ([#676])
+* Mark setting of `root_directory` as deprecated in documentation ([#571])
+
 ## [0.14.12]
 
 * Loosen dependency on childprocess ([#673])
@@ -379,7 +417,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 ## [0.10.0]
 
-* Fix '"#exit_timeout" is deprecated' error ([#314])
+* Fix `"#exit_timeout" is deprecated` error ([#314])
 
 ## [0.10.0.pre2]
 
@@ -434,32 +472,32 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 * Improve documentation for filesystem api and move it to feature tests
 * Add logger to aruba. Its output can be captured by rspec.
-* Fix incorrect deprecation message for check_file_presence ([#292])
+* Fix incorrect deprecation message for `check_file_presence` ([#292])
 * Fix for Gemfile excludes windows for many gems ([#282])
 * Make feature tests compatible with ruby 1.9.2
 * Gather disk usage for file(s) ([#294])
-* Replace keep_ansi-config option by remove_ansi_escape_sequences-option
+* Replace `keep_ansi` config option by `remove_ansi_escape_sequences` option
 * Split up `#unescape` into `#extract_text` and `#unescape_text`
 * Use `UnixPlatform` and `WindowsPlatform` to make code for different platforms
   maintainable
-* Work around `ENV`-bug in `Jruby` buy using `#dup` on `ENV.to_h` ([jruby/jruby#316])
-* Speed up test on `JRuby` by using `--dev`-flag
+* Work around `ENV`-bug in JRuby by using `#dup` on `ENV.to_h` ([jruby/jruby#316])
+* Speed up test on JRuby by using `--dev`-flag
 * Work around problems when copying files with `cp` on MRI-ruby 1.9.2
-* Add cmd.exe /c for SpawnProcess on Windows ([#302])
+* Add `cmd.exe /c` for SpawnProcess on Windows ([#302])
 * Split up `#which` for Windows and Unix/Linux ([#304])
-* Add `aruba console`-command to play around with aruba ([#305])
+* Add `aruba console` command to play around with aruba ([#305])
 
 
 ## [0.8.1]
 
 * Fix problem if working directory of aruba does not exist ([#286])
-* Re-Add removed method only_processes
+* Re-add removed method `only_processes`
 * Fixed problem with last exit status
 * Added appveyor to run tests of aruba on Windows ([#287])
 * Make the home directory configurable and use Around/around-hook to apply it
 * Add announcer to output the full environment before a command is run
-* Use prepend_environment_variable to modify PATH for rspec integration
-* Add VERSION-constant to aruba and use it for code which should be activated on >= 1.0.0
+* Use `prepend_environment_variable` to modify PATH for rspec integration
+* Add `VERSION` constant to aruba and use it for code which should be activated on >= 1.0.0
 
 ## [0.8.0]
 
@@ -510,9 +548,9 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 * Better isolation for environment variable manipulation - really helpful from 1.0.0 on
 * Move configuration files like `jruby.rb` to `aruba/config/`-directory
 * Change default exit timeout to 15 seconds to work around long running processes on travis
-* Use of instance variables like @aruba_timeout_seconds or
-  @aruba_io_wait_seconds are deprecated. Use `Aruba.configure do |config|
-  config.exit_timeout = 10` etc. for this.
+* Use of instance variables like `@aruba_timeout_seconds` or
+  `@aruba_io_wait_seconds` are deprecated.
+  Use `Aruba.configure do |config| config.exit_timeout = 10` etc. for this.
 
 ## [0.7.4]
 * Really Fixed post install message
@@ -526,7 +564,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 ## [0.7.1]
 
-* Do not break if @interactive is used
+* Do not break if `@interactive` is used
 
 ## [0.7.0]
 
@@ -602,12 +640,12 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 ## [0.4.9]
 
-* Rename before_run hook to before_cmd ([mattwynne])
+* Rename `before_run` hook to `before_cmd` ([mattwynne])
 * Fix 1.8.7 compatibility ([#95], [davetron5000])
 
 ## [0.4.8]
 
-* Add before_run hook ([mattwynne])
+* Add `before_run` hook ([mattwynne])
 * Add JRuby performance tweaks ([#93], [myronmarston], [mattwynne])
 * Invalid/Corrupt spec file for 0.4.7 - undefined method call for nil:Nilclass ([#47], [aslakhellesoy])
 
@@ -620,7 +658,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 ## [0.4.6]
 
 * Upgraded deps to latest gems. ([aslakhellesoy])
-* Added Regexp support to Aruba::Api#assert_no_partial_output  ([aslakhellesoy])
+* Added Regexp support to `Aruba::Api#assert_no_partial_output`. ([aslakhellesoy])
 
 ## [0.4.5]
 
@@ -654,17 +692,17 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 ## [0.3.7]
 
-* Make Aruba::Api#get_process return the last executed process with passed cmd
+* Make `Aruba::Api#get_process` return the last executed process with passed cmd
   ([greyblake])
 * Replace announce with puts to comply with cucumber 0.10.6 ([aslakhellesoy])
 * Fix childprocess STDIN to be synchronous ([#40], [#71], [lithium3141])
 
 ## [0.3.6]
 
-* Changed default value of @aruba_timeout_seconds from 1 to 3. ([aslakhellesoy])
+* Changed default value of `@aruba_timeout_seconds` from 1 to 3. ([aslakhellesoy])
 * Separate hooks and steps to make it easier to build your own steps on top of
   Aruba's API ([msassak])
-* @no-clobber to prevent cleanup before each scenario ([msassak])
+* `@no-clobber` to prevent cleanup before each scenario ([msassak])
 
 ## [0.3.5]
 
@@ -694,19 +732,19 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 ## [0.3.0]
 
 * Remove latency introduced in the 0.2.8 release ([#42], [msassak])
-* New stepdef Then /^the stdout should contain:$/ do |partial_output| ([aslakhellesoy])
+* New stepdef `Then /^the stdout should contain:$/ do |partial_output|` ([aslakhellesoy])
 * Quotes (") and newline (\n) in step arguments no longer need to be backslash-escaped. ([aslakhellesoy])
 
 ## [0.2.8]
 
-* Replaced background_process with childprocess, a cross-platform process control
+* Replaced `background_process` with `childprocess`, a cross-platform process control
   library. This will allow Aruba to run on Windows and JRuby in addition to \*nix
   MRI. ([#16], [#27], [#31], [msassak], [jarib], [mattwynne], [aknuds1])
 
 ## [0.2.7]
 
 * Upgrade to Cucumber 0.10.0. ([aslakhellesoy])
-* require 'aruba' does nothing - you have to require 'aruba/cucumber' now. This
+* `require 'aruba'` does nothing - you have to `require 'aruba/cucumber'` now. This
   is to prevent bundler from loading it when we don't want to. ([aslakhellesoy])
 * Outputting a lot of data causes process to time out ([#30], [msassak])
 
@@ -836,6 +874,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 <!-- Contributors -->
 
 [AdrieanKhisbe]:  https://github.com/AdrieanKhisbe
+[Heinrich]:       https://github.com/Heinrich
+[JonRowe]:        https://github.com/JonRowe
 [LTe]:            https://github.com/LTe
 [aeden]:          https://github.com/aeden
 [aknuds1]:        https://github.com/aknuds1
@@ -846,19 +886,18 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [cllns]:          https://github.com/cllns
 [davetron5000]:   https://github.com/davetron5000
 [dchelimsky]:     https://github.com/dchelimsky
+[deivid-rodriguez]: https://github.com/deivid-rodriguez
 [doudou]:         https://github.com/doudou
 [e2]:             https://github.com/e2
 [greyblake]:      https://github.com/greyblake
 [grosser]:        https://github.com/grosser
 [hectcastro]:     https://github.com/hectcastro
-[Heinrich]:       https://github.com/Heinrich
 [jarib]:          https://github.com/jarib
 [jarl-dk]:        https://github.com/jarl-dk
 [jaysonesmith]:   https://github.com/jaysonesmith
-[JonRowe]:        https://github.com/JonRowe
 [junaruga]:       https://github.com/junaruga
+[koic]:           https://github.com/koic
 [lithium3141]:    https://github.com/lithium3141
-[LTe]:            https://github.com/LTe
 [luke-hill]:      https://github.com/luke-hill
 [mattwynne]:      https://github.com/mattwynne
 [maxmeyer]:       https://github.com/maxmeyer
@@ -883,7 +922,26 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- issues & pull requests -->
 
+[#704]: https://github.com/cucumber/aruba/pull/704
+[#703]: https://github.com/cucumber/aruba/pull/703
+[#702]: https://github.com/cucumber/aruba/pull/702
+[#701]: https://github.com/cucumber/aruba/pull/701
+[#698]: https://github.com/cucumber/aruba/pull/698
+[#696]: https://github.com/cucumber/aruba/pull/696
+[#692]: https://github.com/cucumber/aruba/pull/692
+[#690]: https://github.com/cucumber/aruba/pull/690
+[#689]: https://github.com/cucumber/aruba/pull/689
+[#688]: https://github.com/cucumber/aruba/pull/688
+[#687]: https://github.com/cucumber/aruba/pull/687
+[#686]: https://github.com/cucumber/aruba/pull/686
+[#683]: https://github.com/cucumber/aruba/pull/683
+[#679]: https://github.com/cucumber/aruba/pull/679
+[#677]: https://github.com/cucumber/aruba/pull/677
+[#676]: https://github.com/cucumber/aruba/pull/676
+[#675]: https://github.com/cucumber/aruba/pull/675
+[#674]: https://github.com/cucumber/aruba/pull/674
 [#673]: https://github.com/cucumber/aruba/pull/673
+[#672]: https://github.com/cucumber/aruba/pull/672
 [#671]: https://github.com/cucumber/aruba/pull/671
 [#669]: https://github.com/cucumber/aruba/pull/669
 [#668]: https://github.com/cucumber/aruba/pull/668
@@ -947,6 +1005,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [#578]: https://github.com/cucumber/aruba/pull/578
 [#575]: https://github.com/cucumber/aruba/pull/575
 [#572]: https://github.com/cucumber/aruba/pull/572
+[#571]: https://github.com/cucumber/aruba/pull/571
+[#570]: https://github.com/cucumber/aruba/pull/570
 [#562]: https://github.com/cucumber/aruba/pull/562
 [#561]: https://github.com/cucumber/aruba/pull/561
 [#560]: https://github.com/cucumber/aruba/pull/560
@@ -1126,12 +1186,18 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.5...master
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.0...master
+[1.0.0]:          https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.5...v1.0.0
 [1.0.0.pre.alpha.5]: https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.4...v1.0.0.pre.alpha.5
 [1.0.0.pre.alpha.4]: https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.3...v1.0.0.pre.alpha.4
 [1.0.0.pre.alpha.3]: https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.2...v1.0.0.pre.alpha.3
 [1.0.0.pre.alpha.2]: https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.1...v1.0.0.pre.alpha.2
 [1.0.0.pre.alpha.1]: https://github.com/cucumber/aruba/compare/v0.14.1...v1.0.0.pre.alpha.1
+[0.14.14]:       https://github.com/cucumber/aruba/compare/v0.14.13...v0.14.14
+[0.14.13]:       https://github.com/cucumber/aruba/compare/v0.14.12...v0.14.13
+[0.14.12]:       https://github.com/cucumber/aruba/compare/v0.14.11...v0.14.12
+[0.14.11]:       https://github.com/cucumber/aruba/compare/v0.14.10...v0.14.11
+[0.14.10]:       https://github.com/cucumber/aruba/compare/v0.14.9...v0.14.10
 [0.14.9]:        https://github.com/cucumber/aruba/compare/v0.14.8...v0.14.9
 [0.14.8]:        https://github.com/cucumber/aruba/compare/v0.14.7...v0.14.8
 [0.14.7]:        https://github.com/cucumber/aruba/compare/v0.14.6...v0.14.7
