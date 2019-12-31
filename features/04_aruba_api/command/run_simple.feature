@@ -115,7 +115,7 @@ Feature: Run command in a simpler fashion
     #!/usr/bin/env bash
 
     function do_some_work {
-      sleep 0.2
+      sleep 0.1
       echo "Hello, Aruba here"
     }
 
