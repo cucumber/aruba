@@ -113,6 +113,7 @@ module Aruba
 
         yield self if block_given?
       end
+      # rubocop:enable Metrics/MethodLength
 
       # Access to stdin of process
       def stdin
