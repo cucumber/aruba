@@ -172,7 +172,7 @@ Feature: Run command in a simpler fashion
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.2, startup_wait_time: 0.2 do
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.3, startup_wait_time: 0.3 do
       before { run_command_and_stop('aruba-test-cli') }
 
       it 'refuses to send a signal' do
