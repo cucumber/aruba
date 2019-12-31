@@ -6,41 +6,9 @@ bundler_args: --without debug
 
 jobs:
   include:
-    - rvm: ruby-head
+    - rvm: 2.7
       stage: test
-      os: linux
-    - rvm: ruby-head
       os: osx
-    - rvm: 2.7
-      os: linux
-    - rvm: 2.7
-      os: osx
-    - rvm: 2.6
-      os: linux
-    - rvm: 2.6
-      os: osx
-    - rvm: 2.5
-      os: linux
-    - rvm: 2.5
-      os: osx
-    - rvm: 2.4
-      os: linux
-    - rvm: 2.4
-      os: osx
-    - rvm: 2.4.0
-      os: linux
-    - rvm: jruby-9.2.8.0
-      os: linux
-    - rvm: jruby-9.2.8.0
-      os: osx
-      script: bundle exec rake spec
-    - stage: lint
-      script: bundle exec rake lint
-      rvm: 2.6.3
-      os: linux
-  allow_failures:
-    - rvm: ruby-head
-  fast_finish: true
 
 branches:
   only:
