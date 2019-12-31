@@ -37,7 +37,7 @@ Feature: Access STDERR of command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, io_wait_timeout: 0.2 do
+    RSpec.describe 'Run command', type: :aruba, io_wait_timeout: 0.3 do
       before(:each) { run_command('aruba-test-cli') }
       it { expect(last_command_started.stderr).to start_with 'Hello' }
     end
