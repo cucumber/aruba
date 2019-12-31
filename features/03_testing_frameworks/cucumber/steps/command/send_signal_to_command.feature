@@ -23,7 +23,7 @@ Feature: Send a signal to command
     And a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.startup_wait_time = 0.1
+      config.startup_wait_time = 0.2
       config.exit_timeout = 0.2
     end
     """
