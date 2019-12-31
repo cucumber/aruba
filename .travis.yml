@@ -1,12 +1,16 @@
 language: ruby
 script: bundle exec rake test
-before_install:
-  - gem install bundler -v '< 2'
 bundler_args: --without debug
 
 jobs:
   include:
     - rvm: 2.7
+      stage: test
+      os: osx
+    - rvm: 2.6
+      stage: test
+      os: osx
+    - rvm: 2.5
       stage: test
       os: osx
 
