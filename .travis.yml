@@ -1,9 +1,5 @@
-# Use old Ubuntu distribution to avoid JRuby issues
-dist: trusty
 language: ruby
 script: bundle exec rake test
-before_install:
-  - gem install bundler -v '< 2'
 bundler_args: --without debug
 
 jobs:
@@ -13,41 +9,28 @@ jobs:
       os: linux
     - rvm: ruby-head
       os: osx
-    - rvm: 2.6.3
+    - rvm: 2.7
       os: linux
-    - rvm: 2.6.3
+    - rvm: 2.7
       os: osx
-    - rvm: 2.5.5
+    - rvm: 2.6
       os: linux
-    - rvm: 2.5.5
+    - rvm: 2.6
       os: osx
-    - rvm: 2.4.6
+    - rvm: 2.5
       os: linux
-    - rvm: 2.4.6
+    - rvm: 2.5
       os: osx
-    - rvm: 2.3.8
+    - rvm: 2.4
       os: linux
-    - rvm: 2.3.8
+    - rvm: 2.4
       os: osx
-    - rvm: 2.3.0
-      os: linux
-    - rvm: jruby-9.1
+    - rvm: 2.4.0
       os: linux
     - rvm: jruby-9.2.8.0
       os: linux
     - rvm: jruby-9.2.8.0
       os: osx
-      env: JAVA_OPTS="
-        --add-opens java.base/java.io=ALL-UNNAMED
-        --add-opens java.base/java.lang=ALL-UNNAMED
-        --add-opens java.base/java.util=ALL-UNNAMED
-        --add-opens java.base/java.lang.reflect=ALL-UNNAMED
-        --add-opens java.base/java.security.cert=ALL-UNNAMED
-        --add-opens java.base/java.security=ALL-UNNAMED
-        --add-opens java.base/javax.crypto=ALL-UNNAMED
-        --add-opens java.base/sun.nio.ch=ALL-UNNAMED
-        --add-opens java.base/java.nio.channels.spi=ALL-UNNAMED
-        --illegal-access=warn"
       script: bundle exec rake spec
     - stage: lint
       script: bundle exec rake lint
@@ -67,7 +50,14 @@ branches:
 env:
   global:
     - secure: l8uznA5K4K9mZ1krmP3lTMD8WcJ32qGxFOR3jubKHcOBSLB4xSzU2aIqjyJdO+rLzebkwamhJc8pGSIWOUDQYvFiX7splK+uEkbBJ5huAhXtLF4Qgl86bCWbEXYzN7rvn0DQfpJAovyFMNRMnfo70XhwqWzFsaYa7Z0YbqYsJE4=
-    # Travis by default also have "-Dcext.enabled=false" set in
-    # JRUBY_OPTS, but JRuby 9 does not support C extensions at all
-    # so it issues warning that will mess up the stderr checks.
-    - JRUBY_OPTS="--dev --debug"
+    - JAVA_OPTS="
+        --add-opens java.base/java.io=ALL-UNNAMED
+        --add-opens java.base/java.lang=ALL-UNNAMED
+        --add-opens java.base/java.util=ALL-UNNAMED
+        --add-opens java.base/java.lang.reflect=ALL-UNNAMED
+        --add-opens java.base/java.security.cert=ALL-UNNAMED
+        --add-opens java.base/java.security=ALL-UNNAMED
+        --add-opens java.base/javax.crypto=ALL-UNNAMED
+        --add-opens java.base/sun.nio.ch=ALL-UNNAMED
+        --add-opens java.base/java.nio.channels.spi=ALL-UNNAMED
+        --illegal-access=warn"
