@@ -148,9 +148,9 @@ module Aruba
       def transform(event_id)
         resolvers.find { |r| r.match? event_id }.new.transform(default_namespace, event_id)
       rescue => e
-        # rubocop:disable Metrics/LineLength
+        # rubocop:disable Layout/LineLength
         raise EventNameResolveError, %(Transforming "#{event_id}" into an event class failed. Supported types are: #{@resolvers.map(&:supports).flatten.join(', ')}. #{e.message}.\n\n#{e.backtrace.join("\n")})
-        # rubocop:enable Metrics/LineLength
+        # rubocop:enable Layout/LineLength
       end
     end
   end
