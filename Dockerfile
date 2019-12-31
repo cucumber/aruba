@@ -17,7 +17,7 @@ RUN useradd -m -s /bin/bash guest
 RUN apt-get update -qq
 RUN apt-get -y install zsh --no-install-recommends
 RUN apt-get -y install python --no-install-recommends
-RUN apt-get -y install openjdk-7-jdk --no-install-recommends
+#RUN apt-get -y install openjdk-7-jdk --no-install-recommends
 
 # Cache needed gems - for faster test reruns
 ADD Gemfile Gemfile.lock aruba.gemspec /home/guest/cache/aruba/
