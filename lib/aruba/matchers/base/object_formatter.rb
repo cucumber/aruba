@@ -12,7 +12,7 @@ module Aruba
         prepare_for_inspection(object).inspect
       end
 
-      # rubocop:disable MethodLength
+      # rubocop:disable Metrics/MethodLength
       # rubocop:disable Metrics/CyclomaticComplexity
 
       # @private
@@ -48,7 +48,7 @@ module Aruba
         InspectableItem.new(inspection)
       end
       # rubocop:enable Metrics/CyclomaticComplexity
-      # rubocop:enable MethodLength
+      # rubocop:enable Metrics/MethodLength
 
       # @private
       def self.prepare_hash(input)

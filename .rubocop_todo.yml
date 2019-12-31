@@ -74,7 +74,7 @@ Naming/HeredocDelimiterNaming:
 # Offense count: 16
 # Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
 # AllowedNames: io, id, to, by, on, in, at, ip, db
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Exclude:
     - 'lib/aruba/aruba_path.rb'
     - 'lib/aruba/config_wrapper.rb'
