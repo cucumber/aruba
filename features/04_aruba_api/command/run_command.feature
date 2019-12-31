@@ -111,7 +111,7 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.1, startup_wait_time: 0.2 do
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.1, startup_wait_time: 0.3 do
       before do
         run_command('aruba-test-cli')
         last_command_started.send_signal 'HUP'
@@ -139,7 +139,7 @@ Feature: Run command
     #!/usr/bin/env bash
 
     function do_some_work {
-      sleep 0.2
+      sleep 0.1
       echo "Hello, Aruba here"
     }
 
@@ -284,7 +284,7 @@ Feature: Run command
 
     RSpec.describe 'Run command', type: :aruba do
       before do
-        run_command 'aruba-test-cli1', exit_timeout: 0.3
+        run_command 'aruba-test-cli1', exit_timeout: 0.4
         run_command 'aruba-test-cli2', exit_timeout: 0.1
       end
 
