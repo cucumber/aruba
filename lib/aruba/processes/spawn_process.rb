@@ -204,7 +204,11 @@ module Aruba
             # ... and set the exit status
             wait
           else
-            @process.stop
+            begin
+              @process.stop
+            rescue Errno::EPERM # This can occur on MacOS
+              nil
+            end
           end
         end
 
@@ -212,9 +216,6 @@ module Aruba
   
         @stdout_cache = read_temporary_output_file @stdout_file
         @stderr_cache = read_temporary_output_file @stderr_file
-
-        # @stdout_file = nil
-        # @stderr_file = nil
 
         @started = false
 
