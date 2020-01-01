@@ -15,7 +15,7 @@ to make testing commandline applications meaningful, easy and fun.'
 
   spec.metadata    = {
     'bug_tracker_uri' => 'https://github.com/cucumber/aruba/issues',
-    'changelog_uri' => 'https://github.com/cucumber/aruba/blob/master/CHANGELOG.md',
+    'changelog_uri' => 'https://www.rubydoc.info/gems/aruba/file/CHANGELOG.md',
     'documentation_uri' => 'https://www.rubydoc.info/gems/aruba',
     'homepage_uri' => spec.homepage,
     'source_code_uri' => 'https://github.com/cucumber/aruba'
