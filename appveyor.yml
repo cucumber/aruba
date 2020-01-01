@@ -17,7 +17,6 @@ install:
   - gem --version
   - bundler --version
   - bundle install
-  - cinst ansicon
 
 test_script:
   - bundle exec rake spec --trace
