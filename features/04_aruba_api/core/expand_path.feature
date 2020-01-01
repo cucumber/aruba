@@ -56,7 +56,7 @@ Feature: Expand paths with aruba
     Then the specs should all pass
     And the output should contain:
     """
-    Using absolute paths in Aruba is not recommended
+    Aruba's `expand_path` method was called with an absolute path, which is not recommended
     """
 
   Scenario: Silence warning about using absolute path
@@ -78,7 +78,7 @@ Feature: Expand paths with aruba
     Then the specs should all pass
     And the output should not contain:
     """
-    Using absolute paths in Aruba is not recommended
+    Aruba's `expand_path` method was called with an absolute path, which is not recommended
     """
 
   Scenario: Raise an error if aruba's working directory does not exist
