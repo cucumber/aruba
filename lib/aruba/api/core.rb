@@ -58,9 +58,7 @@ module Aruba
       def cd(dir, &block)
         if block_given?
           begin
-            unless Aruba.platform.directory? expand_path(dir)
-              fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist."
-            end
+            fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba.platform.directory? expand_path(dir)
 
             old_directory = expand_path('.')
             aruba.current_directory << dir
@@ -85,9 +83,7 @@ module Aruba
           return result
         end
 
-        unless Aruba.platform.directory? expand_path(dir)
-          fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist."
-        end
+        fail ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba.platform.directory? expand_path(dir)
 
         old_directory = expand_path('.')
         aruba.current_directory << dir
@@ -139,16 +135,16 @@ module Aruba
       # rubocop:disable Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/PerceivedComplexity
       def expand_path(file_name, dir_string = nil)
-        # rubocop:disable Metrics/LineLength
+        # rubocop:disable Layout/LineLength
         message = %(Filename "#{file_name}" needs to be a string. It cannot be nil or empty either.  Please use `expand_path('.')` if you want the current directory to be expanded.)
-        # rubocop:enable Metrics/LineLength
+        # rubocop:enable Layout/LineLength
 
         fail ArgumentError, message unless file_name.is_a?(String) && !file_name.empty?
 
-        # rubocop:disable Metrics/LineLength
+        # rubocop:disable Layout/LineLength
         fail %(Aruba's working directory does not exist. Maybe you forgot to run `setup_aruba` before using its API.) unless Aruba.platform.directory? File.join(aruba.config.root_directory, aruba.config.working_directory)
 
-        # rubocop:enable Metrics/LineLength
+        # rubocop:enable Layout/LineLength
 
         prefix = file_name[0]
         rest = file_name[2..-1]
@@ -156,10 +152,10 @@ module Aruba
         if aruba.config.fixtures_path_prefix == prefix
           path = File.join(*[aruba.fixtures_directory, rest].compact)
 
-          # rubocop:disable Metrics/LineLength
+          # rubocop:disable Layout/LineLength
           fail ArgumentError, %(Fixture "#{rest}" does not exist in fixtures directory "#{aruba.fixtures_directory}". This was the one we found first on your system from all possible candidates: #{aruba.config.fixtures_directories.map { |p| format('"%s"', p) }.join(', ')}.) unless Aruba.platform.exist? path
 
-          # rubocop:enable Metrics/LineLength
+          # rubocop:enable Layout/LineLength
 
           path
         elsif prefix == '~'

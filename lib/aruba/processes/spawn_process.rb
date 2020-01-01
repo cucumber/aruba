@@ -65,13 +65,13 @@ module Aruba
       #
       # rubocop:disable Metrics/MethodLength
       def start
-        # rubocop:disable Metrics/LineLength
+        # rubocop:disable Layout/LineLength
         if started?
           error_message = %(Command "#{commandline}" has already been started. Please `#stop` the command first and `#start` it again. Alternatively use `#restart`.\n#{caller.join("\n")})
           fail CommandAlreadyStartedError, error_message
         end
 
-        # rubocop:enable Metrics/LineLength
+        # rubocop:enable Layout/LineLength
 
         @started = true
 
@@ -113,6 +113,7 @@ module Aruba
 
         yield self if block_given?
       end
+      # rubocop:enable Metrics/MethodLength
 
       # Access to stdin of process
       def stdin
@@ -212,8 +213,8 @@ module Aruba
           end
         end
 
-        @exit_status  = @process.exit_code
-  
+        @exit_status = @process.exit_code
+
         @stdout_cache = read_temporary_output_file @stdout_file
         @stderr_cache = read_temporary_output_file @stderr_file
 
@@ -267,6 +268,7 @@ module Aruba
 
       def command_string
         fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if command_path.nil?
+
         Aruba.platform.command_string.new(command_path, *arguments)
       end
 

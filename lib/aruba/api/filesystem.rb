@@ -104,9 +104,7 @@ module Aruba
       #   The content of directory
       def list(name)
         fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
-        unless directory? name
-          fail ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.)
-        end
+        fail ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.) unless directory? name
 
         existing_files            = Dir.glob(expand_path(File.join(name, '**', '*')))
         current_working_directory = ArubaPath.new(expand_path('.'))
@@ -226,9 +224,7 @@ module Aruba
         source = args
 
         source.each do |s|
-          if s.start_with? aruba.config.fixtures_path_prefix
-            raise ArgumentError, "Using a fixture as source (#{source}) is not supported"
-          end
+          raise ArgumentError, "Using a fixture as source (#{source}) is not supported" if s.start_with? aruba.config.fixtures_path_prefix
         end
 
         if destination.start_with? aruba.config.fixtures_path_prefix

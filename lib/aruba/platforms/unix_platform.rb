@@ -83,7 +83,7 @@ module Aruba
       end
 
       def detect_ruby(cmd)
-        if cmd =~ /^ruby\s/
+        if /^ruby\s/.match?(cmd)
           cmd.gsub(/^ruby\s/, "#{current_ruby} ")
         else
           cmd

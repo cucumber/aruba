@@ -39,7 +39,7 @@ module Aruba
       end
 
       def builtin_shell_commands
-        ['cd', 'dir', 'echo', 'exit', 'set', 'type']
+        %w(cd dir echo exit set type)
       end
     end
   end
