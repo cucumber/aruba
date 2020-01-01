@@ -52,15 +52,4 @@ RSpec.describe Aruba::ArubaPath do
       it { expect(path[0..1]).to eq 'pa' }
     end
   end
-
-  describe '#depth' do
-    context 'when relative path' do
-      it { expect(path.depth).to eq 3 }
-    end
-
-    context 'when absolute path' do
-      let(:new_path) { '/path/to/dir' }
-      it { expect(path.depth).to eq 3 }
-    end
-  end
 end
