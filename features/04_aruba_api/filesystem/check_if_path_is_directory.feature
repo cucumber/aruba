@@ -37,6 +37,27 @@ Feature: Check existence of directories
     When I run `rspec`
     Then the specs should all pass
 
+  Scenario: Does not warn when passed an absolute path
+    Given a file named "spec/create_directory_spec.rb" with:
+    """ruby
+    require 'spec_helper'
+
+    RSpec.describe 'Check that no warnings are printed when passed an absolute path', :type => :aruba do
+      let(:directory) { 'dir.d' }
+      let(:expanded_directory) { File.expand_path(directory) }
+
+      before(:each) { create_directory(expanded_directory) }
+
+      it { expect(directory?(expanded_directory)).to be true }
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+    And the output should not contain:
+    """
+    Aruba's `expand_path` method was called with an absolute path
+    """
+
   Scenario: Is file, but should be directory and exist
     Given a file named "spec/create_directory_spec.rb" with:
     """ruby

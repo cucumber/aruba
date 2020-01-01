@@ -27,7 +27,7 @@ module Aruba
       # @param [String] file
       #   The file/directory which should exist
       def file?(file)
-        Aruba.platform.file? expand_path(file)
+        Aruba.platform.file? expand_path_if_relative(file)
       end
 
       # Check if directory exist and is directory
@@ -35,7 +35,7 @@ module Aruba
       # @param [String] file
       #   The file/directory which should exist
       def directory?(file)
-        Aruba.platform.directory? expand_path(file)
+        Aruba.platform.directory? expand_path_if_relative(file)
       end
 
       # Check if file exist and is executable
@@ -154,7 +154,7 @@ module Aruba
 
         args.each { |p| create_directory(File.dirname(p)) }
 
-        Aruba.platform.touch(args.map { |p| expand_path(p) }, options)
+        Aruba.platform.touch(args.map { |p| expand_path_if_relative(p) }, options)
 
         self
       end
@@ -333,7 +333,7 @@ module Aruba
       # @param [String] directory_name
       #   The name of the directory which should be created
       def create_directory(directory_name)
-        Aruba.platform.mkdir expand_path(directory_name)
+        Aruba.platform.mkdir expand_path_if_relative(directory_name)
 
         self
       end
@@ -412,6 +412,14 @@ module Aruba
         expect(name).to be_an_existing_file
 
         Aruba.platform.determine_file_size expand_path(name)
+      end
+
+      private
+
+      def expand_path_if_relative(path)
+        return path unless relative?(path)
+
+        expand_path(path)
       end
     end
   end
