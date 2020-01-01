@@ -13,6 +13,14 @@ to make testing commandline applications meaningful, easy and fun.'
   spec.email       = 'cukes@googlegroups.com'
   spec.homepage    = 'https://github.com/cucumber/aruba'
 
+  spec.metadata    = {
+    'bug_tracker_uri' => 'https://github.com/cucumber/aruba/issues',
+    'changelog_uri' => 'https://www.rubydoc.info/gems/aruba/file/CHANGELOG.md',
+    'documentation_uri' => 'https://www.rubydoc.info/gems/aruba',
+    'homepage_uri' => spec.homepage,
+    'source_code_uri' => 'https://github.com/cucumber/aruba'
+  }
+
   spec.add_runtime_dependency 'childprocess', '~> 3.0'
   spec.add_runtime_dependency 'contracts', '~> 0.16.0'
   spec.add_runtime_dependency 'cucumber', ['>= 2.4', '< 4.0']
@@ -39,8 +47,9 @@ to make testing commandline applications meaningful, easy and fun.'
     f.match(%r{^(test|spec|features)/})
   end
 
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.rdoc_options  = ['--charset=UTF-8']
-  spec.bindir        = 'exe'
-  spec.require_paths = ['lib']
+  spec.executables      = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.rdoc_options     = ['--charset', 'UTF-8', '--main', 'README.md']
+  spec.extra_rdoc_files = ['CHANGELOG.md', 'CONTRIBUTING.md', 'README.md', 'LICENSE']
+  spec.bindir           = 'exe'
+  spec.require_paths    = ['lib']
 end
