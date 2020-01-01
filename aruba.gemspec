@@ -13,6 +13,14 @@ to make testing commandline applications meaningful, easy and fun.'
   spec.email       = 'cukes@googlegroups.com'
   spec.homepage    = 'https://github.com/cucumber/aruba'
 
+  spec.metadata    = {
+    'bug_tracker_uri' => 'https://github.com/cucumber/aruba/issues',
+    'changelog_uri' => 'https://github.com/cucumber/aruba/blob/master/CHANGELOG.md',
+    'documentation_uri' => 'https://www.rubydoc.info/gems/aruba',
+    'homepage_uri' => spec.homepage,
+    'source_code_uri' => 'https://github.com/cucumber/aruba'
+  }
+
   spec.add_runtime_dependency 'childprocess', '~> 3.0'
   spec.add_runtime_dependency 'contracts', '~> 0.16.0'
   spec.add_runtime_dependency 'cucumber', ['>= 2.4', '< 4.0']
