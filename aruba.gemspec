@@ -47,8 +47,9 @@ to make testing commandline applications meaningful, easy and fun.'
     f.match(%r{^(test|spec|features)/})
   end
 
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.rdoc_options  = ['--charset=UTF-8']
-  spec.bindir        = 'exe'
-  spec.require_paths = ['lib']
+  spec.executables      = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.rdoc_options     = ['--charset', 'UTF-8', '--main', 'README.md']
+  spec.extra_rdoc_files = ['CHANGELOG.md', 'CONTRIBUTING.md', 'README.md', 'LICENSE']
+  spec.bindir           = 'exe'
+  spec.require_paths    = ['lib']
 end
