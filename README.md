@@ -54,7 +54,7 @@ information about how to write feature files in Gherkin.
 ### As a developer getting started with Aruba
 
 A full documentation of the API for developers can be found on
-[RubyDoc](http://www.rubydoc.info/github/cucumber/aruba/master/frames).
+[RubyDoc](http://www.rubydoc.info/gems/aruba).
 
 ## Support
 
