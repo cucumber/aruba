@@ -169,8 +169,10 @@ module Aruba
           path.to_s
         elsif absolute? file_name
           unless aruba.config.allow_absolute_paths
-            aruba.logger.warn 'Using absolute paths in Aruba is not recommended.' \
-              ' Set config.allow_absolute_paths = true to silence this warning'
+            caller_location = caller_locations(1, 1).first
+            caller_file_line = "#{caller_location.path}:#{caller_location.lineno}"
+            aruba.logger.warn "Aruba's `expand_path` method was called with an absolute path at #{caller_file_line}, which is not recommended." \
+              ' Change the call to pass a relative path or set config.allow_absolute_paths = true to silence this warning'
           end
           file_name
         else
