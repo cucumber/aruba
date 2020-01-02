@@ -33,14 +33,8 @@ RSpec::Core::RakeTask.new
 namespace :lint do
   desc 'Lint our .travis.yml'
   task :travis do
-    begin
-      require 'travis/yaml'
-
-      puts 'Linting .travis.yml ... No output is good!'
-      Travis::Yaml.parse! File.read('.travis.yml')
-    rescue LoadError => e
-      $stderr.puts "You ruby is not supported for linting the .travis.yml: #{e.message}"
-    end
+    puts 'Linting .travis.yml ...'
+    sh 'travis lint'
   end
 
   desc 'Lint our code with "rubocop"'
