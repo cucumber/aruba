@@ -1,8 +1,7 @@
+require 'pathname'
+
 require 'aruba/platform'
-
 require 'aruba/extensions/string/strip'
-
-require 'aruba/aruba_path'
 
 Aruba.platform.require_matching_files('../matchers/file/*.rb', __FILE__)
 Aruba.platform.require_matching_files('../matchers/directory/*.rb', __FILE__)
@@ -107,9 +106,9 @@ module Aruba
         fail ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.) unless directory? name
 
         existing_files            = Dir.glob(expand_path(File.join(name, '**', '*')))
-        current_working_directory = ArubaPath.new(expand_path('.'))
+        current_working_directory = Pathname.new(expand_path('.'))
 
-        existing_files.map { |d| ArubaPath.new(d).relative_path_from(current_working_directory).to_s }
+        existing_files.map { |d| Pathname.new(d).relative_path_from(current_working_directory).to_s }
       end
 
       # Return content of file
