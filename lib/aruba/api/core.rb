@@ -59,7 +59,7 @@ module Aruba
         if block_given?
           begin
             unless Aruba.platform.directory?(expand_path(dir))
-              raise(ArgumentError, "#{expand_path(dir)} is not a directory or does not exist.")
+              raise ArgumentError, "#{expand_path(dir)} is not a directory or does not exist."
             end
 
             old_directory = expand_path('.')
@@ -86,7 +86,7 @@ module Aruba
           return result
         end
 
-        raise(ArgumentError, "#{expand_path(dir)} is not a directory or does not exist.") unless Aruba.platform.directory?(expand_path(dir))
+        raise ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba.platform.directory?(expand_path(dir))
 
         old_directory = expand_path('.')
         aruba.current_directory << dir
@@ -138,9 +138,8 @@ module Aruba
       # rubocop:disable Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/PerceivedComplexity
       def expand_path(file_name, dir_string = nil)
-        # rubocop:disable Layout/LineLength
-        message = %(Filename "#{file_name}" needs to be a string. It cannot be nil or empty either. Please use `expand_path('.')` if you want the current directory to be expanded.)
-        # rubocop:enable Layout/LineLength
+        message = "Filename #{file_name} needs to be a string. It cannot be nil or empty either. "\
+          "Please use `expand_path('.')` if you want the current directory to be expanded."
 
         fail ArgumentError, message unless file_name.is_a?(String) && !file_name.empty?
 
@@ -154,13 +153,10 @@ module Aruba
 
         if aruba.config.fixtures_path_prefix == prefix
           path = File.join(*[aruba.fixtures_directory, rest].compact)
-
-          # rubocop:disable Layout/LineLength
           unless Aruba.platform.exist? path
-            raise(ArgumentError, %(Fixture "#{rest}" does not exist in fixtures directory "#{aruba.fixtures_directory}". This was the one we found first on your system from all possible candidates: #{aruba_fixture_candidates}.))
+            raise ArgumentError, "Fixture #{rest} does not exist in fixtures directory #{aruba.fixtures_directory}. "\
+              "This was the one we found first on your system from all possible candidates: #{aruba_fixture_candidates}."
           end
-
-          # rubocop:enable Layout/LineLength
 
           path
         elsif prefix == '~'
@@ -168,8 +164,8 @@ module Aruba
             File.expand_path(file_name)
           end
 
-          raise(ArgumentError, 'Expanding "~/" to "/" is not allowed') if path == '/'
-          raise(ArgumentError, %(Expanding "~/" to a relative path "#{path}" is not allowed)) unless Aruba.platform.absolute_path? path
+          raise ArgumentError, 'Expanding "~/" to "/" is not allowed' if path == '/'
+          raise ArgumentError, "Expanding '~/' to a relative path #{path} is not allowed" unless Aruba.platform.absolute_path? path
 
           path.to_s
         elsif absolute?(file_name)
