@@ -26,6 +26,6 @@ Style/FrozenStringLiteralComment:
 # Configuration parameters: AutoCorrect, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Layout/LineLength:
-  Max: 150
+  Max: 140
 
 inherit_from: .rubocop_todo.yml
