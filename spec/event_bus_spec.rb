@@ -27,10 +27,11 @@ describe Aruba::EventBus do
 
   describe '#notify' do
     before(:each) do
-      allow(name_resolver).to receive(:transform).with(event_name).and_return(event_klass)
+      allow(name_resolver)
+        .to receive(:transform).with(event_name).and_return(event_klass)
     end
 
-    context 'when subscriber to event, the block is called and get\'s an instance of the event passed as payload' do
+    context 'when subscriber to event, the block is called and gets an instance of the event passed as payload' do
       before :each do
         bus.register(event_klass) do |event|
           @received_payload = event
@@ -66,7 +67,8 @@ describe Aruba::EventBus do
 
   describe '#register' do
     before(:each) do
-      allow(name_resolver).to receive(:transform).with(event_name).and_return(event_klass)
+      allow(name_resolver)
+        .to receive(:transform).with(event_name).and_return(event_klass)
     end
 
     context 'when valid subscriber' do
@@ -122,7 +124,8 @@ describe Aruba::EventBus do
     context 'when valid custom handler' do
       context 'when single event class' do
         before(:each) do
-          allow(name_resolver).to receive(:transform).with(event_name).and_return(event_klass)
+          allow(name_resolver)
+            .to receive(:transform).with(event_name).and_return(event_klass)
         end
 
         before :each do
@@ -134,8 +137,10 @@ describe Aruba::EventBus do
 
       context 'when list of event classes' do
         before(:each) do
-          allow(name_resolver).to receive(:transform).with(event_name).and_return(event_klass)
-          allow(name_resolver).to receive(:transform).with(another_event_name).and_return(another_event_klass)
+          allow(name_resolver)
+            .to receive(:transform).with(event_name).and_return(event_klass)
+          allow(name_resolver)
+            .to receive(:transform).with(another_event_name).and_return(another_event_klass)
         end
 
         before :each do
@@ -148,11 +153,16 @@ describe Aruba::EventBus do
     end
 
     context 'when malformed custom handler' do
-      it { expect { bus.register(event_klass, MyMalformedHandler.new) }.to raise_error ArgumentError }
+      it 'raises an ArgumentError' do
+        expect { bus.register(event_klass, MyMalformedHandler.new) }
+          .to raise_error ArgumentError
+      end
     end
 
     context 'when no handler is given' do
-      it { expect { bus.register(event_klass) }.to raise_error ArgumentError }
+      it 'raises an ArgumentError' do
+        expect { bus.register(event_klass) }.to raise_error ArgumentError
+      end
     end
   end
 end
