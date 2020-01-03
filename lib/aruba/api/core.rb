@@ -177,9 +177,11 @@ module Aruba
           end
           file_name
         else
-          directory = File.join(aruba.root_directory, aruba.current_directory)
-          directory = File.expand_path(dir_string, directory) if dir_string
-          File.expand_path(file_name, directory)
+          with_environment do
+            directory = File.expand_path(aruba.current_directory, aruba.root_directory)
+            directory = File.expand_path(dir_string, directory) if dir_string
+            File.expand_path(file_name, directory)
+          end
         end
       end
       # rubocop:enable Metrics/MethodLength
