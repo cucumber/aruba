@@ -407,9 +407,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
             before(:each) { create_test_files(source) }
 
-            # rubocop:disable Layout/LineLength
             it { expect { @aruba.copy source, destination }.to raise_error ArgumentError, %(same file: #{File.expand_path(File.join(@aruba.aruba.current_directory, source))} and #{File.expand_path(File.join(@aruba.aruba.current_directory, destination))}) }
-            # rubocop:enable Layout/LineLength
           end
 
           context 'when a fixture is destination' do

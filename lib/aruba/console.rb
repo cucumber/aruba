@@ -9,7 +9,6 @@ module Aruba
   class Console
     # Start the aruba console
     #
-    # rubocop:disable Metrics/MethodLength
     def start
       # Start IRB with current context:
       # http://stackoverflow.com/questions/4189818/how-to-run-irb-start-in-context-of-current-class
@@ -63,6 +62,5 @@ module Aruba
         IRB.irb_at_exit
       end
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end
