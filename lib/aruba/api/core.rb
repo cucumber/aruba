@@ -160,11 +160,11 @@ module Aruba
           path
         elsif prefix == '~'
           path = with_environment do
-            ArubaPath.new(File.expand_path(file_name))
+            File.expand_path(file_name)
           end
 
-          fail ArgumentError, 'Expanding "~/" to "/" is not allowed' if path.to_s == '/'
-          fail ArgumentError, %(Expanding "~/" to a relative path "#{path}" is not allowed) unless path.absolute?
+          fail ArgumentError, 'Expanding "~/" to "/" is not allowed' if path == '/'
+          fail ArgumentError, %(Expanding "~/" to a relative path "#{path}" is not allowed) unless Aruba.platform.absolute_path? path
 
           path.to_s
         elsif absolute? file_name
