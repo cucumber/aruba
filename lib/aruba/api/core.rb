@@ -68,11 +68,12 @@ module Aruba
 
             old_dir = Aruba.platform.getwd
 
-            Aruba.platform.chdir File.join(aruba.root_directory, aruba.current_directory)
+            real_new_directory = File.expand_path(aruba.current_directory, aruba.root_directory)
+            Aruba.platform.chdir real_new_directory
 
             result = with_environment(
               'OLDPWD' => old_dir,
-              'PWD' => File.expand_path(File.join(aruba.root_directory, aruba.current_directory)),
+              'PWD' => real_new_directory,
               &block
             )
           ensure

@@ -47,6 +47,29 @@ RSpec.describe Aruba::Api::Core do
           expect(ENV.values_at(*keys)).to eq old_values
         end
       end
+
+      it 'expands "~" to the aruba home directory' do
+        full_path = aruba.config.home_directory
+        @aruba.cd '~' do
+          expect(Dir.pwd).to eq full_path
+        end
+        expect(Dir.pwd).not_to eq full_path
+      end
+    end
+
+    context 'with no block given' do
+      it "sets aruba's current directory to the given directory" do
+        @aruba.create_directory @directory_name
+        full_path = File.expand_path(@directory_path)
+        @aruba.cd @directory_name
+        expect(File.expand_path(@aruba.aruba.current_directory)).to eq full_path
+      end
+
+      it 'expands "~" to the aruba home directory' do
+        full_path = aruba.config.home_directory
+        @aruba.cd '~'
+        expect(File.expand_path(@aruba.aruba.current_directory)).to eq full_path
+      end
     end
   end
 
