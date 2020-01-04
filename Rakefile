@@ -9,7 +9,7 @@ Bundler.setup
 task default: %w(spec cucumber cucumber:wip lint)
 
 desc 'Run all linters.'
-task lint: %w(lint:travis lint:coding_guidelines lint:licenses)
+task lint: %w(lint:coding_guidelines lint:licenses)
 
 desc 'Run the whole test suite.'
 task test: %w(spec cucumber cucumber:wip)
@@ -31,15 +31,9 @@ end
 RSpec::Core::RakeTask.new
 
 namespace :lint do
-  desc 'Lint our .travis.yml'
-  task :travis do
-    puts 'Linting .travis.yml ...'
-    sh 'travis lint'
-  end
-
   desc 'Lint our code with "rubocop"'
   task :coding_guidelines do
-    sh 'bundle exec rubocop --fail-level E'
+    sh 'bundle exec rubocop'
   end
 
   desc 'Check for relevant licenses in project'

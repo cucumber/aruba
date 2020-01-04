@@ -186,7 +186,6 @@ Aruba's Rakefile provides the following linting tasks
 bundle exec rake lint                         # Run all linters
 bundle exec rake lint:coding_guidelines       # Lint our code with "rubocop"
 bundle exec rake lint:licenses                # Check for relevant licenses in project
-bundle exec rake lint:travis                  # Lint our .travis.yml
 ```
 
 ### Building and installing your local Aruba version

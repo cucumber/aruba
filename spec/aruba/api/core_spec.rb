@@ -262,6 +262,17 @@ RSpec.describe Aruba::Api::Core do
       expect(ENV[variable]).to eq '2'
     end
 
+    it 'forgets passed argument when called again' do
+      variable = 'THIS_IS_A_ENV_VAR'
+
+      @aruba.with_environment variable => 2 do
+      end
+
+      @aruba.with_environment do
+        expect(ENV[variable]).to be_nil
+      end
+    end
+
     it 'keeps values not set in argument' do
       variable = 'THIS_IS_A_ENV_VAR'
       ENV[variable] = '2'
