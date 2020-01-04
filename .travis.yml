@@ -1,6 +1,6 @@
 language: ruby
 script: bundle exec rake test
-bundler_args: --without debug
+cache: bundler
 
 jobs:
   include:
@@ -27,9 +27,9 @@ jobs:
       os: osx
     - rvm: 2.4.0
       os: linux
-    - rvm: jruby-9.2.8.0
+    - rvm: jruby-9.2
       os: linux
-    - rvm: jruby-9.2.8.0
+    - rvm: jruby-9.2
       os: osx
       script: bundle exec rake spec
     - stage: lint
@@ -43,7 +43,6 @@ jobs:
 branches:
   only:
     - master
-    - still
 
 # notifications:
 #   slack: cucumberbdd:oQFVhzsx4R94KWmjlejAJYnM
