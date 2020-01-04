@@ -62,8 +62,8 @@ module Aruba
         DetermineFileSize.new.call(*args)
       end
 
-      def determine_disk_usage(*args)
-        DetermineDiskUsage.new.call(*args)
+      def determine_disk_usage(paths)
+        DetermineDiskUsage.new.call(paths)
       end
 
       def create_file(*args)
@@ -195,8 +195,8 @@ module Aruba
       #     * /bin/command.sh
       #     * command.sh
       def relative_command?(path)
-        p = ArubaPath.new(path)
-        p.relative? && p.depth > 1
+        p = Pathname.new(path)
+        p.relative? && p.basename != p
       end
 
       # Check if command is relative

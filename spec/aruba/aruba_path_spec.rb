@@ -2,59 +2,47 @@ require 'spec_helper'
 require 'aruba/aruba_path'
 
 RSpec.describe Aruba::ArubaPath do
-  subject(:path) { described_class.new(new_path) }
-
-  let(:new_path) { 'path/to/dir' }
-
-  it { expect(path).to be }
-
-  describe '#to_s' do
-  end
-
-  describe '#to_s' do
-    context 'when string is used' do
-      it { expect(path.to_s).to eq new_path }
-    end
-
-    # make it compatible with the old API
-    context 'when array is used' do
-      let(:net_path) { %w(path to dir) }
-
-      it { expect(path.to_s).to eq File.join(*new_path) }
-    end
-  end
-
-  describe '#push' do
-    before(:each) { path.push 'subdir' }
-
-    it { expect(path.to_s).to eq 'path/to/dir/subdir' }
-  end
-
-  describe '#<<' do
-    before(:each) { path << 'subdir' }
-
-    it { expect(path.to_s).to eq 'path/to/dir/subdir' }
-  end
-
   describe '#pop' do
-    before(:each) { path << 'subdir' }
-    before(:each) { path.pop }
+    it 'pops a previously pushed path element' do
+      path = described_class.new('path/to/dir')
+      path.push 'subdir'
+      popped = path.pop
 
-    it { expect(path.to_s).to eq 'path/to/dir' }
+      aggregate_failures do
+        expect(popped).to eq 'subdir'
+        expect(path.to_s).to eq 'path/to/dir'
+      end
+    end
   end
 
-  describe '#relative?' do
-    context 'when is relative' do
-      it { expect(path).to be_relative }
+  describe '#to_s' do
+    it 'returns the path given in the initializer' do
+      path = described_class.new('path/to/dir')
+      expect(path.to_s).to eq 'path/to/dir'
     end
 
-    context 'when is absolute' do
-      let(:new_path) { '/absolute/path' }
-      it { expect(path).not_to be_relative }
+    it 'combines pushed relative path elements' do
+      path = described_class.new('path/to')
+      path << 'dir'
+      expect(path.to_s).to eq 'path/to/dir'
+    end
+
+    it 'replaces earlier elements when an absolute path was pushed' do
+      path = described_class.new('path/to')
+      path << '/foo'
+      expect(path.to_s).to eq '/foo'
+    end
+
+    it 'replaces earlier elements when a home directory-relative path was pushed' do
+      path = described_class.new('path/to')
+      path << '~/foo'
+      expect(path.to_s).to eq '~/foo'
     end
   end
 
   describe '#[]' do
+    let(:path) { described_class.new('path/to/dir') }
+
     context 'when single index' do
       it { expect(path[0]).to eq 'p' }
     end
@@ -62,33 +50,5 @@ RSpec.describe Aruba::ArubaPath do
     context 'when range' do
       it { expect(path[0..1]).to eq 'pa' }
     end
-  end
-
-  describe '#depth' do
-    context 'when relative path' do
-      it { expect(path.depth).to eq 3 }
-    end
-
-    context 'when absolute path' do
-      let(:new_path) { '/path/to/dir' }
-      it { expect(path.depth).to eq 3 }
-    end
-  end
-
-  describe '#end_with?' do
-    it { expect(path).to be_end_with 'dir' }
-  end
-
-  describe '#start_with?' do
-    it { expect(path).to be_start_with 'path/to' }
-  end
-
-  describe '#relative?' do
-    it { expect(path).to be_relative }
-  end
-
-  describe '#absolute?' do
-    let(:new_path) { '/path/to/dir' }
-    it { expect(path).to be_absolute }
   end
 end

@@ -68,11 +68,12 @@ module Aruba
 
             old_dir = Aruba.platform.getwd
 
-            Aruba.platform.chdir File.join(aruba.root_directory, aruba.current_directory)
+            real_new_directory = File.expand_path(aruba.current_directory, aruba.root_directory)
+            Aruba.platform.chdir real_new_directory
 
             result = with_environment(
               'OLDPWD' => old_dir,
-              'PWD' => File.expand_path(File.join(aruba.root_directory, aruba.current_directory)),
+              'PWD' => real_new_directory,
               &block
             )
           ensure
@@ -160,11 +161,11 @@ module Aruba
           path
         elsif prefix == '~'
           path = with_environment do
-            ArubaPath.new(File.expand_path(file_name))
+            File.expand_path(file_name)
           end
 
-          fail ArgumentError, 'Expanding "~/" to "/" is not allowed' if path.to_s == '/'
-          fail ArgumentError, %(Expanding "~/" to a relative path "#{path}" is not allowed) unless path.absolute?
+          fail ArgumentError, 'Expanding "~/" to "/" is not allowed' if path == '/'
+          fail ArgumentError, %(Expanding "~/" to a relative path "#{path}" is not allowed) unless Aruba.platform.absolute_path? path
 
           path.to_s
         elsif absolute? file_name
@@ -176,9 +177,11 @@ module Aruba
           end
           file_name
         else
-          directory = File.join(aruba.root_directory, aruba.current_directory)
-          directory = File.expand_path(dir_string, directory) if dir_string
-          File.expand_path(file_name, directory)
+          with_environment do
+            directory = File.expand_path(aruba.current_directory, aruba.root_directory)
+            directory = File.expand_path(dir_string, directory) if dir_string
+            File.expand_path(file_name, directory)
+          end
         end
       end
       # rubocop:enable Metrics/MethodLength
@@ -193,14 +196,10 @@ module Aruba
       # @yield
       #   The block of code which should be run with the changed environment variables
       def with_environment(env = {}, &block)
-        old_aruba_env = aruba.environment.to_h
-
-        # make sure the old environment is really restored in "ENV"
-        Aruba.platform.with_environment aruba.environment.update(env).to_h, &block
-      ensure
-        # make sure the old environment is really restored in "aruba.environment"
-        aruba.environment.clear
-        aruba.environment.update old_aruba_env
+        aruba.environment.nest do |nested_env|
+          nested_env.update(env)
+          Aruba.platform.with_environment nested_env.to_h, &block
+        end
       end
     end
   end

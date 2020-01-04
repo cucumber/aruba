@@ -1,8 +1,7 @@
+require 'pathname'
+
 require 'aruba/platform'
-
 require 'aruba/extensions/string/strip'
-
-require 'aruba/aruba_path'
 
 Aruba.platform.require_matching_files('../matchers/file/*.rb', __FILE__)
 Aruba.platform.require_matching_files('../matchers/directory/*.rb', __FILE__)
@@ -54,14 +53,14 @@ module Aruba
       #
       # @return [Boolean]
       def absolute?(path)
-        ArubaPath.new(path).absolute?
+        Aruba.platform.absolute_path?(path)
       end
 
       # Check if path is relative
       #
       # @return [Boolean]
       def relative?(path)
-        ArubaPath.new(path).relative?
+        Aruba.platform.relative_path?(path)
       end
 
       # Return all existing paths (directories, files) in current dir
@@ -107,9 +106,9 @@ module Aruba
         fail ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.) unless directory? name
 
         existing_files            = Dir.glob(expand_path(File.join(name, '**', '*')))
-        current_working_directory = ArubaPath.new(expand_path('.'))
+        current_working_directory = Pathname.new(expand_path('.'))
 
-        existing_files.map { |d| ArubaPath.new(d).relative_path_from(current_working_directory).to_s }
+        existing_files.map { |d| Pathname.new(d).relative_path_from(current_working_directory).to_s }
       end
 
       # Return content of file
@@ -382,23 +381,11 @@ module Aruba
       # @return [FileSize]
       #   Bytes on disk
       def disk_usage(*paths)
-        expect(paths.flatten).to Aruba::Matchers.all be_an_existing_path
-        expanded = paths.flatten.map { |path| ArubaPath.new(expand_path(path)) }
+        paths = paths.flatten
+        expect(paths).to Aruba::Matchers.all be_an_existing_path
+        expanded = paths.map { |path| expand_path(path) }
 
-        # TODO: change the API so that you could set something like
-        # aruba.config.fs_allocation_unit_size directly
-
-        typical_fs_unit = 4096 # very typical, except for giant or embedded filesystems
-        typical_dev_bsize = 512 # google dev_bsize for more info
-
-        block_multiplier = typical_fs_unit / typical_dev_bsize
-        fs_unit_size = aruba.config.physical_block_size * block_multiplier
-
-        # TODO: the size argument here is unnecessary - ArubaPath should decide
-        # what the disk usage of a file is (even if Aruba.config needs to be
-        # read)
-        deprecated_block_count = fs_unit_size / block_multiplier
-        Aruba.platform.determine_disk_usage(expanded, deprecated_block_count)
+        Aruba.platform.determine_disk_usage(expanded)
       end
 
       # Get size of file

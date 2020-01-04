@@ -188,6 +188,13 @@ module Aruba
         value
       end
 
+      def nest(&block)
+        old_actions = actions
+        block.call(self)
+      ensure
+        actions = old_actions
+      end
+
       def self.hash_from_env
         ENV.to_hash
       end

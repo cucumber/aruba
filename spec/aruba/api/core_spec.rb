@@ -47,6 +47,29 @@ RSpec.describe Aruba::Api::Core do
           expect(ENV.values_at(*keys)).to eq old_values
         end
       end
+
+      it 'expands "~" to the aruba home directory' do
+        full_path = aruba.config.home_directory
+        @aruba.cd '~' do
+          expect(Dir.pwd).to eq full_path
+        end
+        expect(Dir.pwd).not_to eq full_path
+      end
+    end
+
+    context 'with no block given' do
+      it "sets aruba's current directory to the given directory" do
+        @aruba.create_directory @directory_name
+        full_path = File.expand_path(@directory_path)
+        @aruba.cd @directory_name
+        expect(File.expand_path(@aruba.aruba.current_directory)).to eq full_path
+      end
+
+      it 'expands "~" to the aruba home directory' do
+        full_path = aruba.config.home_directory
+        @aruba.cd '~'
+        expect(File.expand_path(@aruba.aruba.current_directory)).to eq full_path
+      end
     end
   end
 
@@ -158,6 +181,19 @@ RSpec.describe Aruba::Api::Core do
       expect(ENV[variable]).to eq '1'
     end
 
+    it 'modifies env for recursive calls block' do
+      variable = 'THIS_IS_A_ENV_VAR'
+      ENV[variable] = '1'
+
+      @aruba.with_environment variable => '0' do
+        @aruba.with_environment do
+          expect(ENV[variable]).to eq '0'
+        end
+      end
+
+      expect(ENV[variable]).to eq '1'
+    end
+
     it 'works together with #set_environment_variable' do
       variable = 'THIS_IS_A_ENV_VAR'
       @aruba.set_environment_variable variable, '1'
@@ -185,6 +221,43 @@ RSpec.describe Aruba::Api::Core do
           expect(ENV[variable]).to eq '0'
         end
         expect(ENV[variable]).to eq '1'
+      end
+      expect(ENV[variable]).to eq '2'
+    end
+
+    it 'works with a mix of argument and #set_environment_variable' do
+      variable = 'THIS_IS_A_ENV_VAR'
+
+      @aruba.set_environment_variable variable, '1'
+      @aruba.with_environment variable => '2' do
+        expect(ENV[variable]).to eq '2'
+        @aruba.with_environment do
+          expect(ENV[variable]).to eq '2'
+        end
+      end
+    end
+
+    it 'works together with #delete_environment_variable' do
+      variable = 'THIS_IS_A_ENV_VAR'
+      ENV[variable] = '2'
+      @aruba.delete_environment_variable variable
+
+      @aruba.with_environment do
+        expect(ENV[variable]).to be_nil
+      end
+      expect(ENV[variable]).to eq '2'
+    end
+
+    it 'works with #delete_environment_variable when called several times' do
+      variable = 'THIS_IS_A_ENV_VAR'
+      ENV[variable] = '2'
+      @aruba.delete_environment_variable variable
+
+      @aruba.with_environment do
+      end
+
+      @aruba.with_environment do
+        expect(ENV[variable]).to be_nil
       end
       expect(ENV[variable]).to eq '2'
     end

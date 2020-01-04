@@ -1,4 +1,4 @@
-Feature: Configure the phsical block size of disk
+Feature: Configure the physical block size of disk
 
   As a developer
   I want to configure the physical block size
@@ -50,4 +50,3 @@ Feature: Configure the phsical block size of disk
     """
     Contract violation for argument
     """
-    
