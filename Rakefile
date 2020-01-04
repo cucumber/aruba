@@ -33,7 +33,7 @@ RSpec::Core::RakeTask.new
 namespace :lint do
   desc 'Lint our code with "rubocop"'
   task :coding_guidelines do
-    sh 'bundle exec rubocop --fail-level E'
+    sh 'bundle exec rubocop'
   end
 
   desc 'Check for relevant licenses in project'
