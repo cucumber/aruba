@@ -1,0 +1,4 @@
+source 'https://rubygems.org'
+
+# Use dependencies from gemspec
+gemspec
