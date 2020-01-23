@@ -4,7 +4,7 @@
   - :who: 
     :why: 
     :when: 2016-05-09 14:57:58.000000000 Z
-- - :whitelist
+- - :permit
   - MIT
   - :who: 
     :why: 
@@ -14,7 +14,7 @@
   - :who: 
     :why: 
     :when: 2015-04-28 13:39:28.340867782 Z
-- - :whitelist
+- - :permit
   - BSD
   - :who: 
     :why: 
@@ -34,17 +34,17 @@
   - :who: 
     :why: 
     :when: 2016-04-19 21:38:58.571635580 Z
-- - :whitelist
+- - :permit
   - ruby
   - :who: 
     :why: 
     :when: 2016-04-19 21:40:01.747535503 Z
-- - :whitelist
+- - :permit
   - New BSD
   - :who: 
     :why: 
     :when: 2016-12-07 14:54:49.587491547 Z
-- - :whitelist
+- - :permit
   - Simplified BSD
   - :who: 
     :why: 

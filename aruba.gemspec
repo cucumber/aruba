@@ -29,7 +29,7 @@ to make testing commandline applications meaningful, easy and fun.'
   spec.add_runtime_dependency 'thor', '~> 1.0'
 
   spec.add_development_dependency 'json', '~> 2.1'
-  spec.add_development_dependency 'license_finder', '~> 5.3'
+  spec.add_development_dependency 'license_finder', '~> 6.0'
   spec.add_development_dependency 'minitest', '~> 5.10'
   spec.add_development_dependency 'pry-doc', '~> 1.0'
   spec.add_development_dependency 'rake', '~> 13.0'
