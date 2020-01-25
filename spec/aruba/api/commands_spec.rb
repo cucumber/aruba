@@ -45,14 +45,24 @@ RSpec.describe Aruba::Api::Commands do
     end
 
     context 'when running a relative command' do
-      it 'finds the command from the test directory' do
-        @aruba.write_file 'bin/aruba-test-cli', <<~BASH
-          #!/bin/bash
-          exit 0
-        BASH
-        chmod 0o755, 'bin/aruba-test-cli'
+      let(:cmd) { FFI::Platform.windows? ? 'bin/testcmd.bat' : 'bin/testcmd' }
 
-        run_command('bin/aruba-test-cli')
+      before do
+        if FFI::Platform.windows?
+          @aruba.write_file cmd, <<~BAT
+            exit 0
+          BAT
+        else
+          @aruba.write_file cmd, <<~BASH
+            #!/bin/bash
+            exit 0
+          BASH
+          chmod 0o755, cmd
+        end
+      end
+
+      it 'finds the command from the test directory' do
+        run_command(cmd)
         expect(last_command_started).to be_successfully_executed
       end
     end
