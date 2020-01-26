@@ -9,7 +9,7 @@ Feature: Check if command can be found in PATH
   RSpec.describe 'Check if command can be found in PATH', :type => :aruba do
     let(:file) { 'file.sh' }
     before(:each) { touch(file) }
-    before(:each) { chmod(0755, file) }
+    before(:each) { chmod(0o755, file) }
     before(:each) { prepend_environment_variable('PATH', format('%s:', expand_path('.')) }
 
     it { expect(file).to be_an_existing_executable }
@@ -28,7 +28,7 @@ Feature: Check if command can be found in PATH
       let(:file) { 'file.sh' }
 
       before(:each) { touch(file) }
-      before(:each) { chmod(0755, file) }
+      before(:each) { chmod(0o755, file) }
       before(:each) { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
 
       it { expect(file).to be_a_command_found_in_path }
@@ -81,7 +81,7 @@ Feature: Check if command can be found in PATH
       before :each do
         files.each do |f|
           touch(f)
-          chmod(0755, f)
+          chmod(0o755, f)
         end
       end
 
@@ -103,7 +103,7 @@ Feature: Check if command can be found in PATH
 
       before :each do
         touch(files.first)
-        chmod(0755, files.first)
+        chmod(0o755, files.first)
       end
 
       before(:each) { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
