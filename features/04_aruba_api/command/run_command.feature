@@ -52,7 +52,7 @@ Feature: Run command
           #!/bin/bash
           exit 0
         BASH
-        chmod 0x755, 'bin/aruba-test-cli'
+        chmod 0o755, 'bin/aruba-test-cli'
       end
 
       it "runs the command" do
