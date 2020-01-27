@@ -121,7 +121,7 @@ Feature: Check exit status of commands
     Given an executable named "bin/aruba-test-cli" with:
     """
     #!/bin/bash
-    sleep 0.1
+    sleep 1
     """
     And a file named "features/exit_status.feature" with:
     """
