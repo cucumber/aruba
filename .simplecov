@@ -4,7 +4,6 @@ SimpleCov.configure do
 
   # ignore this file
   add_filter '.simplecov'
-  add_filter 'spec'
   add_filter 'features'
 
   # Rake tasks aren't tested with rspec
@@ -30,7 +29,7 @@ SimpleCov.configure do
 
   # Specs are reported on to ensure that all examples are being run and all
   # lets, befores, afters, etc are being used.
-  add_group 'Specs', 'spec'
+  add_group 'Specs', 'spec/'
 end
 
 # Run simplecov by default
