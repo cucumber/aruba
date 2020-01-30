@@ -1,7 +1,7 @@
-# Run simplecov by default
-SimpleCov.start unless ENV.key? 'ARUBA_NO_COVERAGE'
-
 SimpleCov.configure do
+  # Activate branch coverage
+  enable_coverage :branch
+
   # ignore this file
   add_filter '.simplecov'
   add_filter 'spec'
@@ -32,3 +32,6 @@ SimpleCov.configure do
   # lets, befores, afters, etc are being used.
   add_group 'Specs', 'spec'
 end
+
+# Run simplecov by default
+SimpleCov.start unless ENV.key? 'ARUBA_NO_COVERAGE'
