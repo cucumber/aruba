@@ -168,10 +168,7 @@ module Aruba
       # @param [String] destination
       #   A file or directory name. If multiple sources are given the destination
       #   needs to be a directory
-      #
-      # rubocop:disable Metrics/CyclomaticComplexity
-      # def copy(*source, destination)
-      def copy(*args)
+      def copy(*args) # rubocop:disable Metrics/CyclomaticComplexity
         args = args.flatten
         destination = args.pop
         source = args
@@ -202,7 +199,6 @@ module Aruba
 
         self
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
 
       # Move a file and/or directory
       #
@@ -214,10 +210,7 @@ module Aruba
       # @param [String] destination
       #   A file or directory name. If multiple sources are given the destination
       #   needs to be a directory
-      #
-      # rubocop:disable Metrics/CyclomaticComplexity
-      # rubocop:disable Metrics/MethodLength
-      def move(*args)
+      def move(*args) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
         args = args.flatten
         destination = args.pop
         source = args
@@ -252,8 +245,6 @@ module Aruba
 
         self
       end
-      # rubocop:enable Metrics/MethodLength
-      # rubocop:enable Metrics/CyclomaticComplexity
 
       # Create a file with the given size
       #
