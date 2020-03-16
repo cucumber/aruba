@@ -168,16 +168,16 @@ module Aruba
       # @param [String] cmd
       #   The command to be executed
       #
-      # @param [Hash] options
+      # @param [Hash] opts
       #   Options for aruba
       #
-      # @option options [Boolean] fail_on_error
+      # @option opts [Boolean] :fail_on_error
       #   Should aruba fail on error?
       #
-      # @option options [Numeric] exit_timeout
+      # @option opts [Numeric] :exit_timeout
       #   Timeout for execution
       #
-      # @option options [Numeric] io_wait_timeout
+      # @option opts [Numeric] :io_wait_timeout
       #   Timeout for IO - STDERR, STDOUT
       #
       def run_command_and_stop(cmd, opts = {})
