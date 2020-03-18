@@ -154,6 +154,8 @@ module Aruba
         if aruba.config.fixtures_path_prefix == prefix
           path = File.join(*[aruba.fixtures_directory, rest].compact)
           unless Aruba.platform.exist? path
+            aruba_fixture_candidates = aruba.config.fixtures_directories.map { |p| format('"%s"', p) }.join(', ')
+
             raise ArgumentError, "Fixture #{rest} does not exist in fixtures directory #{aruba.fixtures_directory}. "\
               "This was the one we found first on your system from all possible candidates: #{aruba_fixture_candidates}."
           end
@@ -201,12 +203,6 @@ module Aruba
           nested_env.update(env)
           Aruba.platform.with_environment nested_env.to_h, &block
         end
-      end
-
-      private
-
-      def aruba_fixture_candidates
-        aruba.config.fixtures_directories.map { |p| format('"%s"', p) }.join(', ')
       end
     end
   end
