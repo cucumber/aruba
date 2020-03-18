@@ -167,7 +167,7 @@ module Aruba
           end
 
           raise ArgumentError, 'Expanding "~/" to "/" is not allowed' if path == '/'
-          raise ArgumentError, "Expanding '~/' to a relative path #{path} is not allowed" unless Aruba.platform.absolute_path? path
+          raise ArgumentError, "Expanding \"~\" to a relative path \"#{path}\" is not allowed" unless Aruba.platform.absolute_path? path
 
           path.to_s
         elsif absolute?(file_name)
