@@ -28,7 +28,8 @@ RSpec.describe Aruba::Processes::BasicProcess do
 
   describe '#inspect' do
     it 'it shows useful info' do
-      expected = /#<#<Class:0x[0-9A-Fa-f]+>:\d+ commandline="foobar": stdout="foo output" stderr="foo error output"/
+      expected =
+        /#<#<Class:0x[0-9A-Fa-f]+>:\d+ commandline="foobar": stdout="foo output" stderr="foo error output"/
       expect(subject.inspect).to match(expected)
     end
 

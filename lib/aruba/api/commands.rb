@@ -221,10 +221,10 @@ module Aruba
       private
 
       def prepare_command(cmd, opts)
-        exit_timeout      = opts[:exit_timeout].nil? ? aruba.config.exit_timeout : opts[:exit_timeout]
-        io_wait_timeout   = opts[:io_wait_timeout].nil? ? aruba.config.io_wait_timeout : opts[:io_wait_timeout]
-        stop_signal       = opts[:stop_signal].nil? ? aruba.config.stop_signal : opts[:stop_signal]
-        startup_wait_time = opts[:startup_wait_time].nil? ? aruba.config.startup_wait_time : opts[:startup_wait_time]
+        exit_timeout      = opts[:exit_timeout] || aruba.config.exit_timeout
+        io_wait_timeout   = opts[:io_wait_timeout] || aruba.config.io_wait_timeout
+        stop_signal       = opts[:stop_signal] || aruba.config.stop_signal
+        startup_wait_time = opts[:startup_wait_time] || aruba.config.startup_wait_time
 
         cmd = replace_variables(cmd)
 

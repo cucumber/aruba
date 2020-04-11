@@ -13,8 +13,10 @@ RSpec.configure do |config|
       setup_aruba
 
       # Modify PATH to include project/bin
-      prepend_environment_variable 'PATH',
-                                   aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
+      prepend_environment_variable(
+        'PATH',
+        aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
+      )
 
       # Use configured home directory as HOME
       set_environment_variable 'HOME', aruba.config.home_directory
@@ -59,7 +61,9 @@ RSpec.configure do |config|
     aruba.announcer.activate(:timeout)                   if example.metadata[:announce_timeout]
     aruba.announcer.activate(:wait_time)                 if example.metadata[:announce_wait_time]
     aruba.announcer.activate(:command_content)           if example.metadata[:announce_command_content]
-    aruba.announcer.activate(:command_filesystem_status) if example.metadata[:announce_command_filesystem_status]
+    if example.metadata[:announce_command_filesystem_status]
+      aruba.announcer.activate(:command_filesystem_status)
+    end
 
     if example.metadata[:announce_output]
       aruba.announcer.activate(:stderr)

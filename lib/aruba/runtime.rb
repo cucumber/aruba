@@ -49,7 +49,8 @@ module Aruba
 
       @environment.update(@config.command_runtime_environment)
 
-      @command_monitor = opts.fetch(:command_monitor, Aruba.platform.command_monitor.new(announcer: @announcer))
+      @command_monitor = opts.fetch(:command_monitor,
+                                    Aruba.platform.command_monitor.new(announcer: @announcer))
 
       @logger = opts.fetch(:logger, Aruba.platform.logger.new)
       @logger.mode = @config.log_level
@@ -82,7 +83,8 @@ module Aruba
         directory = candidates.find { |d| Aruba.platform.directory? d }
 
         unless directory
-          raise "No existing fixtures directory found in #{candidates.map { |d| format('"%s"', d) }.join(', ')}."
+          canditates_display = candidates.map { |d| format('"%s"', d) }.join(', ')
+          raise "No existing fixtures directory found in #{canditates_display}."
         end
 
         directory

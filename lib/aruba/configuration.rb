@@ -36,7 +36,8 @@ module Aruba
     option_accessor :command_runtime_environment, contract: { Hash => Hash }, default: {}
     option_accessor :command_search_paths,
                     contract: { ArrayOf[String] => ArrayOf[String] } do |config|
-                      [File.join(config.root_directory.value, 'bin'), File.join(config.root_directory.value, 'exe')]
+                      [File.join(config.root_directory.value, 'bin'),
+                       File.join(config.root_directory.value, 'exe')]
                     end
     option_accessor :remove_ansi_escape_sequences, contract: { Bool => Bool }, default: true
     option_accessor :command_launcher,

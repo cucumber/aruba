@@ -19,12 +19,14 @@ Before do |scenario|
 
   command_name = "#{scenario.feature.name} #{scenario.name}"
 
-  # Used in simplecov_setup so that each scenario has a different name and their coverage results are merged instead
-  # of overwriting each other as 'Cucumber Features'
+  # Used in simplecov_setup so that each scenario has a different name and
+  # their coverage results are merged instead of overwriting each other as
+  # 'Cucumber Features'
   ENV['SIMPLECOV_COMMAND_NAME'] = command_name.to_s
 
   simplecov_setup_pathname = Pathname.new(__FILE__).expand_path.parent.join('simplecov_setup')
 
-  # set environment variable so child processes will merge their coverage data with parent process's coverage data.
+  # set environment variable so child processes will merge their coverage data
+  # with parent process's coverage data.
   ENV['RUBYOPT'] = "-r#{simplecov_setup_pathname} #{ENV['RUBYOPT']}"
 end

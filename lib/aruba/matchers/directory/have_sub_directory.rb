@@ -40,11 +40,15 @@ RSpec::Matchers.define :have_sub_directory do |expected|
   diffable
 
   failure_message do |actual|
-    format('expected that directory "%s" has the following sub-directories: %s.', actual.join(', '), expected)
+    format('expected that directory "%s" has the following sub-directories: %s.',
+           actual.join(', '),
+           expected)
   end
 
   failure_message_when_negated do |actual|
-    format('expected that directory "%s" does not have the following sub-directories: %s.', actual.join(', '), expected)
+    format('expected that directory "%s" does not have the following sub-directories: %s.',
+           actual.join(', '),
+           expected)
   end
 end
 

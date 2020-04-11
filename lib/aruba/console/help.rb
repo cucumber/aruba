@@ -10,7 +10,8 @@ module Aruba
       def aruba_help
         puts 'Aruba Version: ' + Aruba::VERSION
         puts 'Issue Tracker: ' + 'https://github.com/cucumber/aruba/issues'
-        puts "Documentation:\n" + %w(http://www.rubydoc.info/gems/aruba).map { |d| format('* %s', d) }.join("\n")
+        puts 'Documentation:'
+        puts '* http://www.rubydoc.info/gems/aruba'
         puts
 
         nil

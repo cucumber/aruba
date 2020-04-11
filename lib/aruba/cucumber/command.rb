@@ -223,7 +223,8 @@ Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactl
 end
 
 ## the stderr from "echo -n 'Hello'" should contain exactly:
-Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)?:$/) do |channel, cmd, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)?:$/) \
+  do |channel, cmd, exactly, expected|
   matcher = case channel
             when 'output'; then :have_output
             when 'stderr'; then :have_output_on_stderr
@@ -387,7 +388,8 @@ Then(/^(?:the )?(output|stderr|stdout) should not contain anything$/) do |channe
   expect(all_commands).to include_an_object send(matcher, be_nil.or(be_empty))
 end
 
-Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) do |channel, negated, table|
+Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) \
+  do |channel, negated, table|
   table.raw.flatten.each do |expected|
     _matcher = case channel
                when 'output'; then :have_output

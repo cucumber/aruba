@@ -31,15 +31,17 @@ RSpec.shared_examples 'a basic configuration' do
         end
       end
 
-      it { expect(config.new_opt2).to eq 2 }
+      it 'uses the block to set the value' do
+        expect(config.new_opt2).to eq 2
+      end
     end
 
     context 'when block and default value is defined' do
-      it do
+      it 'complains that only one or the other can be specified' do
         expect do
-          config_klass.option_accessor :new_opt2, contract: { Contracts::Num => Contracts::Num }, default: 2 do |c|
-            c.new_opt.value + 1
-          end
+          config_klass
+            .option_accessor(:new_opt2, contract: { Contracts::Num => Contracts::Num },
+                                        default: 2) { |c| c.new_opt.value + 1 }
         end.to raise_error ArgumentError, 'Either use block or default value'
       end
     end
@@ -71,15 +73,16 @@ RSpec.shared_examples 'a basic configuration' do
         end
       end
 
-      it { expect(config.new_opt2).to eq 2 }
+      it 'uses the block to set the default value' do
+        expect(config.new_opt2).to eq 2
+      end
     end
 
     context 'when block and default value is defined' do
-      it do
+      it 'complains that only one or the other can be specified' do
         expect do
-          config_klass.option_accessor :new_opt2, contract: { Contracts::Num => Contracts::Num }, default: 2 do |c|
-            c.new_opt1 + 1
-          end
+          config_klass.option_accessor(:new_opt2, contract: { Contracts::Num => Contracts::Num },
+                                                  default: 2) { |c| c.new_opt1 + 1 }
         end.to raise_error ArgumentError, 'Either use block or default value'
       end
     end

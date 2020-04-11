@@ -140,8 +140,10 @@ module Aruba
 
         raise ArgumentError, message unless file_name.is_a?(String) && !file_name.empty?
 
-        unless Aruba.platform.directory? File.join(aruba.config.root_directory, aruba.config.working_directory)
-          raise %(Aruba's working directory does not exist. Maybe you forgot to run `setup_aruba` before using its API.)
+        unless Aruba.platform.directory? File.join(aruba.config.root_directory,
+                                                   aruba.config.working_directory)
+          raise "Aruba's working directory does not exist." \
+            ' Maybe you forgot to run `setup_aruba` before using its API.'
         end
 
         prefix = file_name[0]
@@ -150,11 +152,13 @@ module Aruba
         if aruba.config.fixtures_path_prefix == prefix
           path = File.join(*[aruba.fixtures_directory, rest].compact)
           unless Aruba.platform.exist? path
-            aruba_fixture_candidates = aruba.config.fixtures_directories.map { |p| format('"%s"', p) }.join(', ')
+            aruba_fixture_candidates = aruba.config.fixtures_directories
+                                            .map { |p| format('"%s"', p) }.join(', ')
 
             raise ArgumentError,
-                  "Fixture \"#{rest}\" does not exist in fixtures directory \"#{aruba.fixtures_directory}\". " \
-                  'This was the one we found first on your system from all possible candidates:' \
+                  "Fixture \"#{rest}\" does not exist" \
+                  " in fixtures directory \"#{aruba.fixtures_directory}\"." \
+                  ' This was the one we found first on your system from all possible candidates:' \
                   " #{aruba_fixture_candidates}."
           end
 
@@ -174,7 +178,8 @@ module Aruba
           unless aruba.config.allow_absolute_paths
             caller_location = caller_locations(1, 1).first
             caller_file_line = "#{caller_location.path}:#{caller_location.lineno}"
-            aruba.logger.warn "Aruba's `expand_path` method was called with an absolute path at #{caller_file_line}"\
+            aruba.logger.warn \
+              "Aruba's `expand_path` method was called with an absolute path at #{caller_file_line}" \
               ', which is not recommended. Change the call to pass a relative path or set '\
               '`config.allow_absolute_paths = true` to silence this warning'
           end

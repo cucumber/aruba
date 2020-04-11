@@ -25,7 +25,8 @@ module Aruba
 
     def working_directory(clobber = true)
       if clobber
-        Aruba.platform.rm File.join(runtime.config.root_directory, runtime.config.working_directory), force: true
+        Aruba.platform.rm File.join(runtime.config.root_directory, runtime.config.working_directory),
+                          force: true
       end
       Aruba.platform.mkdir File.join(runtime.config.root_directory, runtime.config.working_directory)
       Aruba.platform.chdir runtime.config.root_directory
@@ -71,8 +72,12 @@ module Aruba
       runtime.event_bus.register(
         [:changed_environment_variable, :added_environment_variable, :deleted_environment_variable],
         proc do |event|
-          runtime.announcer.announce :changed_environment, event.entity[:changed][:name], event.entity[:changed][:value]
-          runtime.announcer.announce :environment, event.entity[:changed][:name], event.entity[:changed][:value]
+          runtime.announcer.announce :changed_environment,
+                                     event.entity[:changed][:name],
+                                     event.entity[:changed][:value]
+          runtime.announcer.announce :environment,
+                                     event.entity[:changed][:name],
+                                     event.entity[:changed][:value]
         end
       )
 

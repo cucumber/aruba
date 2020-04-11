@@ -16,7 +16,8 @@ module Aruba
     #   C:>set PATH
     #   C:>Path=.;.\bin;c:\rubys\ruby-2.1.6-p336\bin;
     #
-    # @example If you access environment variables through ENV, you can access values no matter the case of the key:
+    # @example If you access environment variables through ENV, you can access
+    # values no matter the case of the key:
     #     ENV["Path"] # => ".;.\bin;c:\rubys\ruby-2.1.6-p336\bin;"
     #     ENV["PATH"] # => ".;.\bin;c:\rubys\ruby-2.1.6-p336\bin;"
     #
