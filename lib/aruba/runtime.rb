@@ -86,7 +86,9 @@ module Aruba
         directory
       end
 
-      raise %(Fixtures directory "#{@fixtures_directory}" is not a directory) unless Aruba.platform.directory?(@fixtures_directory)
+      unless Aruba.platform.directory?(@fixtures_directory)
+        raise %(Fixtures directory "#{@fixtures_directory}" is not a directory)
+      end
 
       ArubaPath.new(@fixtures_directory)
     end

@@ -155,7 +155,8 @@ Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)? 
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain "hello"
-Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)? "([^"]*)"$/) do |channel, cmd, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)? "([^"]*)"$/) \
+  do |channel, cmd, exactly, expected|
   matcher = case channel
             when 'output'; then :have_output
             when 'stderr'; then :have_output_on_stderr

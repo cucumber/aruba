@@ -85,7 +85,9 @@ module Aruba
           return result
         end
 
-        raise ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba.platform.directory?(expand_path(dir))
+        unless Aruba.platform.directory?(expand_path(dir))
+          raise ArgumentError, "#{expand_path(dir)} is not a directory or does not exist."
+        end
 
         old_directory = expand_path('.')
         aruba.current_directory << dir
@@ -161,7 +163,9 @@ module Aruba
           end
 
           raise ArgumentError, 'Expanding "~/" to "/" is not allowed' if path == '/'
-          raise ArgumentError, "Expanding \"~\" to a relative path \"#{path}\" is not allowed" unless Aruba.platform.absolute_path? path
+          unless Aruba.platform.absolute_path? path
+            raise ArgumentError, "Expanding \"~\" to a relative path \"#{path}\" is not allowed"
+          end
 
           path.to_s
         elsif absolute?(file_name)

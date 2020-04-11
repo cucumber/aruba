@@ -216,7 +216,9 @@ module Aruba
         source = args
 
         source.each do |s|
-          raise ArgumentError, "Using a fixture as source (#{source}) is not supported" if s.start_with? aruba.config.fixtures_path_prefix
+          if s.start_with? aruba.config.fixtures_path_prefix
+            raise ArgumentError, "Using a fixture as source (#{source}) is not supported"
+          end
         end
 
         if destination.start_with? aruba.config.fixtures_path_prefix
