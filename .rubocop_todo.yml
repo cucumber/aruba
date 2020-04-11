@@ -173,14 +173,6 @@ Style/IfUnlessModifier:
     - 'lib/aruba/setup.rb'
     - 'spec/aruba/platform/windows_environment_variables_spec.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: line_count_dependent, lambda, literal
-Style/Lambda:
-  Exclude:
-    - 'spec/aruba/hooks_spec.rb'
-
 # Offense count: 5
 Style/MethodMissingSuper:
   Exclude:
