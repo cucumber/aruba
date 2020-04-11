@@ -163,15 +163,6 @@ Style/IdenticalConditionalBranches:
   Exclude:
     - 'lib/aruba/hooks.rb'
 
-# Offense count: 6
-# Cop supports --auto-correct.
-Style/IfUnlessModifier:
-  Exclude:
-    - 'lib/aruba/cucumber/command.rb'
-    - 'lib/aruba/matchers/collection/include_an_object.rb'
-    - 'lib/aruba/platforms/unix_environment_variables.rb'
-    - 'spec/aruba/platform/windows_environment_variables_spec.rb'
-
 # Offense count: 5
 Style/MethodMissingSuper:
   Exclude:

@@ -29,9 +29,7 @@ module Aruba
       # @api private
       # @return [String]
       def failure_message
-        unless iterable?
-          return "#{improve_hash_formatting(super)}, but was not iterable"
-        end
+        return "#{improve_hash_formatting(super)}, but was not iterable" unless iterable?
 
         return failed_objects.first if failed_objects.size == 1
 

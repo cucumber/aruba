@@ -116,9 +116,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
         let(:variable) { 'unknown' }
 
         context 'and no default is given' do
-          unless defined? KeyError
-            class KeyError < StandardError; end
-          end
+          class KeyError < StandardError; end unless defined? KeyError
 
           it { expect { environment.fetch(variable) }.to raise_error KeyError }
         end
@@ -156,9 +154,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
         let(:variable) { 'unknown' }
 
         context 'and no default is given' do
-          unless defined? KeyError
-            class KeyError < StandardError; end
-          end
+          class KeyError < StandardError; end unless defined? KeyError
 
           it { expect { environment.fetch(variable) }.to raise_error KeyError }
         end
@@ -196,9 +192,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
         let(:variable) { 'unknown' }
 
         context 'and no default is given' do
-          unless defined? KeyError
-            class KeyError < StandardError; end
-          end
+          class KeyError < StandardError; end unless defined? KeyError
 
           it { expect { environment.fetch(variable) }.to raise_error KeyError }
         end
