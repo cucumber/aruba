@@ -210,8 +210,6 @@ bundle exec rake install:local
   entries for all fixes.
 * No need to add a [`CHANGELOG.md`] header at this point - this should be done
   later, when a new change is made.
-* If a major version is released, update the `still` branch, which points to
-  the "old" major version.
 
 Now release it:
 
@@ -225,12 +223,6 @@ bin/test
 # Release gem
 git commit -m "Version bump"
 bundle exec rake release
-
-# If it's a major relase:
-# Merge changes back to have correct documentation
-git checkout still
-git merge master
-git push
 ```
 
 Now send a PR to [cucumber/website] adding an article
