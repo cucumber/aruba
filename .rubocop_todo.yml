@@ -190,14 +190,6 @@ Style/NumericPredicate:
     - 'spec/**/*'
     - 'lib/aruba/contracts/is_power_of_two.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: PreferredDelimiters.
-Style/PercentLiteralDelimiters:
-  Exclude:
-    - 'Rakefile'
-    - 'lib/aruba/api/bundler.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, AllowInnerSlashes.
