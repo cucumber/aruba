@@ -188,10 +188,3 @@ Style/RegexpLiteral:
   Exclude:
     - 'lib/aruba/cucumber/command.rb'
     - 'lib/aruba/cucumber/file.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AllowAsExpressionSeparator.
-Style/Semicolon:
-  Exclude:
-    - 'lib/aruba/platforms/aruba_fixed_size_file_creator.rb'
