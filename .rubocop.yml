@@ -13,6 +13,10 @@ Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%w': ()
 
+# SupportedStyles: percent, brackets
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
 # Code is currently broken with frozen string literal comments applied.
 # TODO: Enable and fix build
 Style/FrozenStringLiteralComment:
