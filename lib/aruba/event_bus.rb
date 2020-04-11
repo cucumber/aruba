@@ -33,7 +33,7 @@ module Aruba
     def register(event_ids, handler_object = nil, &handler_proc)
       handler = handler_proc || handler_object
 
-      fail ArgumentError, 'Please pass either an object#call or a handler block' if handler.nil? || !handler.respond_to?(:call)
+      raise ArgumentError, 'Please pass either an object#call or a handler block' if handler.nil? || !handler.respond_to?(:call)
 
       Array(event_ids).flatten.each do |id|
         @handlers[
@@ -51,7 +51,7 @@ module Aruba
     #   handler.
     #
     def notify(event)
-      fail NoEventError, 'Please pass an event object, not a class' if event.is_a?(Class)
+      raise NoEventError, 'Please pass an event object, not a class' if event.is_a?(Class)
 
       @handlers[event.class.to_s].each { |handler| handler.call(event) }
     end

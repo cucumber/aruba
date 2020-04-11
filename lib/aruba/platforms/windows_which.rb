@@ -13,7 +13,7 @@ module Aruba
         end
 
         def call(program, path)
-          fail %(Invalid input program "#{program}" and/or path "#{path}".)
+          raise %(Invalid input program "#{program}" and/or path "#{path}".)
         end
       end
 

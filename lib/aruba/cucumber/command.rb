@@ -420,7 +420,7 @@ end
 When(/^I send the signal "([^"]*)" to the command (?:"([^"]*)"|(?:started last))$/) do |signal, command|
   if command
     cmd = all_commands.find { |c| c.commandline == command }
-    fail ArgumentError, %(No command "#{command}" found) if cmd.nil?
+    raise ArgumentError, %(No command "#{command}" found) if cmd.nil?
 
     cmd.send_signal signal
   else

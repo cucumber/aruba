@@ -15,8 +15,8 @@ module Aruba
     end
 
     def method_missing(name, *args)
-      fail ArgumentError, 'Options take no argument' if args.any?
-      fail UnknownOptionError, %(Option "#{name}" is unknown. Please use only earlier defined options) unless config.key? name
+      raise ArgumentError, 'Options take no argument' if args.any?
+      raise UnknownOptionError, %(Option "#{name}" is unknown. Please use only earlier defined options) unless config.key? name
 
       config[name]
     end

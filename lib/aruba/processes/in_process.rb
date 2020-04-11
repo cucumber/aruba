@@ -61,7 +61,7 @@ module Aruba
 
       # Start command
       def start
-        fail 'You need to call aruba.config.main_class = YourMainClass' unless main_class
+        raise 'You need to call aruba.config.main_class = YourMainClass' unless main_class
 
         @started = true
 
@@ -109,7 +109,7 @@ module Aruba
 
       # Close io
       def close_io(name)
-        fail ArgumentError, 'Only stdin stdout and stderr are allowed to close' unless [:stdin, :stdout, :stderr].include? name
+        raise ArgumentError, 'Only stdin stdout and stderr are allowed to close' unless [:stdin, :stdout, :stderr].include? name
 
         get_instance_variable(name.to_sym).close
       end

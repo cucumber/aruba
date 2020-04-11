@@ -81,12 +81,12 @@ module Aruba
         candidates = config.fixtures_directories.map { |dir| File.join(root_directory, dir) }
         directory = candidates.find { |d| Aruba.platform.directory? d }
 
-        fail "No existing fixtures directory found in #{candidates.map { |d| format('"%s"', d) }.join(', ')}." unless directory
+        raise "No existing fixtures directory found in #{candidates.map { |d| format('"%s"', d) }.join(', ')}." unless directory
 
         directory
       end
 
-      fail %(Fixtures directory "#{@fixtures_directory}" is not a directory) unless Aruba.platform.directory?(@fixtures_directory)
+      raise %(Fixtures directory "#{@fixtures_directory}" is not a directory) unless Aruba.platform.directory?(@fixtures_directory)
 
       ArubaPath.new(@fixtures_directory)
     end

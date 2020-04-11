@@ -20,7 +20,7 @@ module Aruba
       end
 
       def method_missing(*)
-        fail NoCommandHasBeenStoppedError, 'No last command stopped available'
+        raise NoCommandHasBeenStoppedError, 'No last command stopped available'
       end
 
       def respond_to_missing?(*)
@@ -34,7 +34,7 @@ module Aruba
       end
 
       def method_missing(*)
-        fail NoCommandHasBeenStartedError, 'No last command started available'
+        raise NoCommandHasBeenStartedError, 'No last command started available'
       end
 
       def respond_to_missing?(*)
@@ -78,7 +78,7 @@ module Aruba
       cmd = cmd.commandline if cmd.respond_to? :commandline
       command = registered_commands.reverse.find { |c| c.commandline == cmd }
 
-      fail CommandNotFoundError, "No command named '#{cmd}' has been started" if command.nil?
+      raise CommandNotFoundError, "No command named '#{cmd}' has been started" if command.nil?
 
       command
     end

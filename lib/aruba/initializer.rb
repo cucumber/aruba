@@ -53,7 +53,7 @@ module Aruba
         end
 
         def start(*)
-          fail ArgumentError, %(Unknown test framework. Please use one of :rspec, :cucumber or :minitest)
+          raise ArgumentError, %(Unknown test framework. Please use one of :rspec, :cucumber or :minitest)
         end
       end
     end

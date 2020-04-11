@@ -92,7 +92,7 @@ module Aruba
       # @return [Dir]
       #   The directory object
       def directory(path)
-        fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
+        raise ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
 
         Dir.new(expand_path(path))
       end
@@ -102,8 +102,8 @@ module Aruba
       # @return [Array]
       #   The content of directory
       def list(name)
-        fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
-        fail ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.) unless directory? name
+        raise ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
+        raise ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.) unless directory? name
 
         existing_files            = Dir.glob(expand_path(File.join(name, '**', '*')))
         current_working_directory = Pathname.new(expand_path('.'))
@@ -116,8 +116,8 @@ module Aruba
       # @return [Array]
       #   The content of file, without "\n" or "\r\n" at the end. To rebuild the file use `content.join("\n")`
       def read(name)
-        fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
-        fail ArgumentError, %(Only files are supported. Path "#{name}" is not a file.) unless file? name
+        raise ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
+        raise ArgumentError, %(Only files are supported. Path "#{name}" is not a file.) unless file? name
 
         File.readlines(expand_path(name)).map(&:chomp)
       end
