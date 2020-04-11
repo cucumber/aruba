@@ -206,7 +206,7 @@ module Aruba
       begin
         initializers.find { |i| i.match? test_framework }.start [], {}
       rescue ArgumentError => e
-        $stderr.puts e.message
+        warn e.message
         exit 0
       end
 

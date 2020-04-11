@@ -206,12 +206,6 @@ Style/Semicolon:
   Exclude:
     - 'lib/aruba/platforms/aruba_fixed_size_file_creator.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/StderrPuts:
-  Exclude:
-    - 'lib/aruba/initializer.rb'
-
 # Offense count: 6
 # Cop supports --auto-correct.
 # Configuration parameters: MinSize.
