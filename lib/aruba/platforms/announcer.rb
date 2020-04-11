@@ -21,7 +21,9 @@ module Aruba
     #
     #   before do
     #     current_example = context.example
-    #     aruba.announcer.activate :my_channel if current_example.metadata[:announce_my_channel]
+    #     if current_example.metadata[:announce_my_channel]
+    #       aruba.announcer.activate :my_channel
+    #     end
     #   end
     #
     #   Aruba.announcer.announce(:my_channel, 'my message')
@@ -97,7 +99,9 @@ module Aruba
         output_format :stdout, "<<-STDOUT\n%s\nSTDOUT"
         output_format :command_content, "<<-COMMAND\n%s\nCOMMAND"
         output_format :stop_signal,
-                      proc { |p, s| format('Command will be stopped with `kill -%s %s`', s, p) }
+                      proc { |p, s|
+                        format('Command will be stopped with `kill -%s %s`', s, p)
+                      }
         output_format :timeout, '# %s-timeout: %s seconds'
         output_format :wait_time, '# %s: %s seconds'
         output_format :command_filesystem_status,

@@ -20,7 +20,8 @@ module Aruba
     option_reader :root_directory, contract: { None => String }, default: Dir.getwd
 
     option_accessor :working_directory,
-                    contract: { Aruba::Contracts::RelativePath => Aruba::Contracts::RelativePath },
+                    contract: { Aruba::Contracts::RelativePath =>
+                                Aruba::Contracts::RelativePath },
                     default: 'tmp/aruba'
 
     option_reader :fixtures_path_prefix, contract: { None => String }, default: '%'
@@ -69,7 +70,8 @@ module Aruba
     # equal to 4096 by default. "filesystem allocation unit" would represent
     # the actual MINIMUM space taken in bytes by a 1-byte file
     option_accessor :physical_block_size,
-                    contract: { Aruba::Contracts::IsPowerOfTwo => Aruba::Contracts::IsPowerOfTwo },
+                    contract: { Aruba::Contracts::IsPowerOfTwo =>
+                                Aruba::Contracts::IsPowerOfTwo },
                     default: 512
     option_accessor :console_history_file, contract: { String => String },
                                            default: '~/.aruba_history'

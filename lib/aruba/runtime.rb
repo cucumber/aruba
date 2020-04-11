@@ -42,7 +42,8 @@ module Aruba
     def initialize(opts = {})
       @event_bus       = EventBus.new(EventBus::NameResolver.new(Aruba::Events))
       @announcer       = opts.fetch(:announcer, Aruba.platform.announcer.new)
-      @config          = opts.fetch(:config, ConfigWrapper.new(Aruba.config.make_copy, @event_bus))
+      @config          = opts.fetch(:config,
+                                    ConfigWrapper.new(Aruba.config.make_copy, @event_bus))
       @environment     = opts.fetch(:environment, Aruba.platform.environment_variables.new)
       @current_directory = ArubaPath.new(@config.working_directory)
       @root_directory    = ArubaPath.new(@config.root_directory)

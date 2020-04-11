@@ -17,7 +17,8 @@ Given(/^(?:a|the|(?:an empty)) directory(?: named)? "([^"]*)"$/) do |dir_name|
   create_directory(dir_name)
 end
 
-Given(/^(?:a|the) directory(?: named)? "([^"]*)" with mode "([^"]*)"$/) do |dir_name, dir_mode|
+Given(/^(?:a|the) directory(?: named)? "([^"]*)" with mode "([^"]*)"$/) \
+  do |dir_name, dir_mode|
   create_directory(dir_name)
   chmod(dir_mode, dir_name)
 end
@@ -48,7 +49,8 @@ Given(/^(?:an|the) empty file(?: named)? "([^"]*)"$/) do |file_name|
   write_file(file_name, '')
 end
 
-Given(/^(?:an|the) empty file(?: named)? "([^"]*)" with mode "([^"]*)"$/) do |file_name, file_mode|
+Given(/^(?:an|the) empty file(?: named)? "([^"]*)" with mode "([^"]*)"$/) \
+  do |file_name, file_mode|
   write_file(file_name, '')
   chmod(file_mode, file_name)
 end
@@ -57,7 +59,8 @@ When(/^I write to "([^"]*)" with:$/) do |file_name, file_content|
   write_file(file_name, file_content)
 end
 
-When(/^I overwrite(?: (?:a|the) file(?: named)?)? "([^"]*)" with:$/) do |file_name, file_content|
+When(/^I overwrite(?: (?:a|the) file(?: named)?)? "([^"]*)" with:$/) \
+  do |file_name, file_content|
   overwrite_file(file_name, file_content)
 end
 
@@ -146,7 +149,8 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain "([^"]*)"$/) \
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain:$/) do |file, negated, content|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain:$/) \
+  do |file, negated, content|
   if negated
     expect(file).not_to have_file_content file_content_including(content.chomp)
   else
@@ -190,8 +194,9 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?be equal to file "([^"]
   end
 end
 
-Then(/^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" should have permissions "([^"]*)"$/) \
-  do |path, permissions|
+Then(
+  /^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" should have permissions "([^"]*)"$/
+) do |path, permissions|
   expect(path).to have_permissions(permissions)
 end
 

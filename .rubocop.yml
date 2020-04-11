@@ -22,15 +22,9 @@ Style/SymbolArray:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-# TODO: This is placed in here so the auto-gen-config doesn't destroy these.
-# Most of these need to be manually tackled, the LineLength value currently is good enough to stop most of
-# these leaking through into the codebase
-# Offense count: 375+
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
-# URISchemes: http, https
+# Be relatively lenient with line length
 Layout/LineLength:
-  Max: 100
+  Max: 94
 
 # We only permit it in this one area which is internal code testing. Never exposed to users
 Security/Eval:

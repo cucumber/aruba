@@ -24,7 +24,8 @@ Before do |scenario|
   # 'Cucumber Features'
   ENV['SIMPLECOV_COMMAND_NAME'] = command_name.to_s
 
-  simplecov_setup_pathname = Pathname.new(__FILE__).expand_path.parent.join('simplecov_setup')
+  simplecov_setup_pathname =
+    Pathname.new(__FILE__).expand_path.parent.join('simplecov_setup')
 
   # set environment variable so child processes will merge their coverage data
   # with parent process's coverage data.

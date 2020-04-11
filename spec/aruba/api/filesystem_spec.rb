@@ -414,7 +414,8 @@ RSpec.describe Aruba::Api::Filesystem do
 
             it 'raises an appropriate error' do
               src_path = File.expand_path(File.join(@aruba.aruba.current_directory, source))
-              dest_path = File.expand_path(File.join(@aruba.aruba.current_directory, destination))
+              dest_path = File.expand_path(File.join(@aruba.aruba.current_directory,
+                                                     destination))
               expected_message = %(same file: #{src_path} and #{dest_path})
               expect { @aruba.copy source, destination }
                 .to raise_error ArgumentError, expected_message

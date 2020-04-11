@@ -18,7 +18,8 @@ module Aruba
         def constantize(camel_cased_word)
           names = camel_cased_word.split('::')
 
-          # Trigger a built-in NameError exception including the ill-formed constant in the message.
+          # Trigger a built-in NameError exception including the ill-formed
+          # constant in the message.
           Object.const_get(camel_cased_word) if names.empty?
 
           # Remove the first blank element in case of '::ClassName' notation.

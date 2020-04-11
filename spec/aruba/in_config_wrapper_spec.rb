@@ -15,7 +15,10 @@ RSpec.describe Aruba::InConfigWrapper do
     end
 
     context 'when one tries to pass arguments to option' do
-      it { expect { wrapper.opt('arg') }.to raise_error ArgumentError, 'Options take no argument' }
+      it {
+        expect { wrapper.opt('arg') }
+          .to raise_error ArgumentError, 'Options take no argument'
+      }
     end
   end
 

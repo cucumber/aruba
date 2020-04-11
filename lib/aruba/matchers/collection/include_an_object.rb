@@ -91,7 +91,9 @@ module Aruba
 
       def failure_message_for_item(index, failure_message)
         failure_message = indent_multiline_message(add_new_line_if_needed(failure_message))
-        indent_multiline_message("object at index #{index} failed to match:#{failure_message}")
+        indent_multiline_message(
+          "object at index #{index} failed to match:#{failure_message}"
+        )
       end
 
       def add_new_line_if_needed(message)

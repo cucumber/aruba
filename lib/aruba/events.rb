@@ -4,7 +4,8 @@ module Aruba
   module Events
     # Basic event
     #
-    # This is not meant for direct use - BasicEvent.new - by users. It is inherited by normal events
+    # This is not meant for direct use - BasicEvent.new - by users. It is
+    # inherited by normal events
     #
     # @private
     class BasicEvent

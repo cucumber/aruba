@@ -78,7 +78,8 @@ Then /^the spec(?:s)? should(?: all)? pass with( regex)?:$/ do |regex, string|
 end
 
 # Minitest
-Then /^the tests(?:s)? should not(?: all)? pass(?: with (\d+) failures?)?$/ do |count_failures|
+Then /^the tests(?:s)? should not(?: all)? pass(?: with (\d+) failures?)?$/ \
+do |count_failures|
   if count_failures.nil?
     step 'the output should not contain "0 errors"'
   else

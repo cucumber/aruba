@@ -61,7 +61,8 @@ module Aruba
           runtime.announcer.announce(:stdout) { event.entity.stdout }
           runtime.announcer.announce(:stderr) { event.entity.stderr }
           runtime.announcer.announce(:command_content) { event.entity.content }
-          runtime.announcer.announce(:command_filesystem_status) { event.entity.filesystem_status }
+          runtime.announcer
+            .announce(:command_filesystem_status) { event.entity.filesystem_status }
         end
       )
 
@@ -73,7 +74,9 @@ module Aruba
       )
 
       runtime.event_bus.register(
-        [:changed_environment_variable, :added_environment_variable, :deleted_environment_variable],
+        [:changed_environment_variable,
+         :added_environment_variable,
+         :deleted_environment_variable],
         proc do |event|
           runtime.announcer.announce :changed_environment,
                                      event.entity[:changed][:name],

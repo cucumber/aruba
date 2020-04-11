@@ -60,7 +60,8 @@ module Aruba
         if block_given?
           begin
             unless Aruba.platform.directory?(expand_path(dir))
-              raise ArgumentError, "#{expand_path(dir)} is not a directory or does not exist."
+              raise ArgumentError,
+                    "#{expand_path(dir)} is not a directory or does not exist."
             end
 
             old_directory = expand_path('.')
@@ -72,7 +73,8 @@ module Aruba
 
             old_dir = Aruba.platform.getwd
 
-            real_new_directory = File.expand_path(aruba.current_directory, aruba.root_directory)
+            real_new_directory = File.expand_path(aruba.current_directory,
+                                                  aruba.root_directory)
             Aruba.platform.chdir real_new_directory
 
             result = with_environment(
@@ -139,7 +141,8 @@ module Aruba
       #   expand_path('/foo/bar')
       #
       def expand_path(file_name, dir_string = nil)
-        message = "Filename #{file_name} needs to be a string. It cannot be nil or empty either. "\
+        message = "Filename #{file_name} needs to be a string." \
+          ' It cannot be nil or empty either. '\
           "Please use `expand_path('.')` if you want the current directory to be expanded."
 
         raise ArgumentError, message unless file_name.is_a?(String) && !file_name.empty?
@@ -162,8 +165,8 @@ module Aruba
             raise ArgumentError,
                   "Fixture \"#{rest}\" does not exist" \
                   " in fixtures directory \"#{aruba.fixtures_directory}\"." \
-                  ' This was the one we found first on your system from all possible candidates:' \
-                  " #{aruba_fixture_candidates}."
+                  ' This was the one we found first on your system from all possible' \
+                  " candidates: #{aruba_fixture_candidates}."
           end
 
           path
@@ -173,8 +176,10 @@ module Aruba
           end
 
           raise ArgumentError, 'Expanding "~/" to "/" is not allowed' if path == '/'
+
           unless Aruba.platform.absolute_path? path
-            raise ArgumentError, "Expanding \"~\" to a relative path \"#{path}\" is not allowed"
+            raise ArgumentError,
+                  "Expanding \"~\" to a relative path \"#{path}\" is not allowed"
           end
 
           path.to_s

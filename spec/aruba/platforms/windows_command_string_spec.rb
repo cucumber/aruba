@@ -23,7 +23,10 @@ RSpec.describe Aruba::Platforms::WindowsCommandString do
     context 'with a command and arguments' do
       let(:base_command) { 'C:\Foo\Bar' }
       let(:arguments) { ['-w', 'baz quux'] }
-      it { expect(command_string.to_a).to eq [cmd_path, '/c', "#{base_command} -w \"baz quux\""] }
+      it {
+        expect(command_string.to_a)
+          .to eq [cmd_path, '/c', "#{base_command} -w \"baz quux\""]
+      }
     end
   end
 end

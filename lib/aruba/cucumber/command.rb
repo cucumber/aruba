@@ -12,7 +12,8 @@ When(/^I successfully run `(.*?)`(?: for up to ([\d.]+) seconds)?$/) do |cmd, se
   run_command_and_stop(cmd, fail_on_error: true, exit_timeout: secs && secs.to_f)
 end
 
-When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do |shell, commands|
+When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) \
+  do |shell, commands|
   full_path = expand_path('bin/myscript')
 
   Aruba.platform.mkdir(expand_path('bin'))
@@ -138,8 +139,9 @@ Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)? "([^"]*)
 end
 
 ## the stderr from "echo -n 'Hello'" should contain "hello"
-Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)? "([^"]*)"$/) \
-  do |channel, cmd, exactly, expected|
+Then(
+  /^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)? "([^"]*)"$/
+) do |channel, cmd, exactly, expected|
   matcher = case channel
             when 'output'; then :have_output
             when 'stderr'; then :have_output_on_stderr
@@ -158,8 +160,9 @@ Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)? 
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain "hello"
-Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)? "([^"]*)"$/) \
-  do |channel, cmd, exactly, expected|
+Then(
+  /^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)? "([^"]*)"$/
+) do |channel, cmd, exactly, expected|
   matcher = case channel
             when 'output'; then :have_output
             when 'stderr'; then :have_output_on_stderr
@@ -251,25 +254,31 @@ end
 # appear naturally in the output
 Then(/^the output should( not)? match \/([^\/]*)\/$/) do |negated, expected|
   if negated
-    expect(all_commands).not_to include_an_object have_output an_output_string_matching(expected)
+    expect(all_commands)
+      .not_to include_an_object have_output an_output_string_matching(expected)
   else
-    expect(all_commands).to include_an_object have_output an_output_string_matching(expected)
+    expect(all_commands)
+      .to include_an_object have_output an_output_string_matching(expected)
   end
 end
 
 Then(/^the output should( not)? match %r<([^>]*)>$/) do |negated, expected|
   if negated
-    expect(all_commands).not_to include_an_object have_output an_output_string_matching(expected)
+    expect(all_commands)
+      .not_to include_an_object have_output an_output_string_matching(expected)
   else
-    expect(all_commands).to include_an_object have_output an_output_string_matching(expected)
+    expect(all_commands)
+      .to include_an_object have_output an_output_string_matching(expected)
   end
 end
 
 Then(/^the output should( not)? match:$/) do |negated, expected|
   if negated
-    expect(all_commands).not_to include_an_object have_output an_output_string_matching(expected)
+    expect(all_commands)
+      .not_to include_an_object have_output an_output_string_matching(expected)
   else
-    expect(all_commands).to include_an_object have_output an_output_string_matching(expected)
+    expect(all_commands)
+      .to include_an_object have_output an_output_string_matching(expected)
   end
 end
 
@@ -403,9 +412,11 @@ Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:
     # TODO: This isn't actually using the above. It's hardcoded to use have_output only
 
     if negated
-      expect(all_commands).not_to include_an_object have_output an_output_string_including(expected)
+      expect(all_commands)
+        .not_to include_an_object have_output an_output_string_including(expected)
     else
-      expect(all_commands).to include_an_object have_output an_output_string_including(expected)
+      expect(all_commands)
+        .to include_an_object have_output an_output_string_including(expected)
     end
   end
 end
