@@ -94,17 +94,6 @@ Naming/MethodParameterName:
     - 'lib/aruba/tasks/docker_helpers.rb'
 
 # Offense count: 1
-# Configuration parameters: NamePrefix, ForbiddenPrefixes, AllowedMethods, MethodDefinitionMacros.
-# NamePrefix: is_, has_, have_
-# ForbiddenPrefixes: is_, has_, have_
-# AllowedMethods: is_a?
-# MethodDefinitionMacros: define_method, define_singleton_method
-Naming/PredicateName:
-  Exclude:
-    - 'spec/**/*'
-    - 'lib/aruba/matchers/base/base_matcher.rb'
-
-# Offense count: 1
 Performance/Caller:
   Exclude:
     - 'lib/aruba/platforms/unix_platform.rb'

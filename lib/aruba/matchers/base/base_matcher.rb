@@ -70,14 +70,6 @@ module Aruba
         def failure_message_when_negated
           "expected #{description_of @actual} not to #{description}"
         end
-
-        # @private
-        def self.has_default_failure_messages?(matcher)
-          matcher.method(:failure_message).owner == self &&
-            matcher.method(:failure_message_when_negated).owner == self
-        rescue NameError
-          false
-        end
       end
 
       include DefaultFailureMessages
