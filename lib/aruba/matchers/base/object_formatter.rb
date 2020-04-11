@@ -12,8 +12,6 @@ module Aruba
         prepare_for_inspection(object).inspect
       end
 
-      # rubocop:disable Metrics/CyclomaticComplexity
-
       # @private
       # Prepares the provided object to be formatted by wrapping it as needed
       # in something that, when `inspect` is called on it, will produce the
@@ -46,7 +44,6 @@ module Aruba
 
         InspectableItem.new(inspection)
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
 
       # @private
       def self.prepare_hash(input)

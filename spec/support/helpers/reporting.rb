@@ -19,9 +19,7 @@ module SpecHelpers
       stream = stream.to_s
       captured_stream = Tempfile.new(stream)
 
-      # rubocop:disable Security/Eval
       stream_io = eval("$#{stream}")
-      # rubocop:enable Security/Eval
 
       origin_stream = stream_io.dup
       stream_io.reopen(captured_stream)

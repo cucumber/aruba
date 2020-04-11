@@ -168,7 +168,7 @@ module Aruba
       # @param [String] destination
       #   A file or directory name. If multiple sources are given the destination
       #   needs to be a directory
-      def copy(*args) # rubocop:disable Metrics/CyclomaticComplexity
+      def copy(*args)
         args = args.flatten
         destination = args.pop
         source = args
@@ -210,7 +210,7 @@ module Aruba
       # @param [String] destination
       #   A file or directory name. If multiple sources are given the destination
       #   needs to be a directory
-      def move(*args) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
+      def move(*args)
         args = args.flatten
         destination = args.pop
         source = args

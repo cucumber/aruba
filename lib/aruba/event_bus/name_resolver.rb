@@ -15,7 +15,6 @@ module Aruba
 
         # Thanks ActiveSupport
         # (Only needed to support Ruby 1.9.3 and JRuby)
-        # rubocop:disable Metrics/CyclomaticComplexity
         def constantize(camel_cased_word)
           names = camel_cased_word.split('::')
 
@@ -49,7 +48,6 @@ module Aruba
             end
           end
         end
-        # rubocop:enable Metrics/CyclomaticComplexity
       end
 
       # @private
@@ -148,9 +146,9 @@ module Aruba
       def transform(event_id)
         resolvers.find { |r| r.match? event_id }.new.transform(default_namespace, event_id)
       rescue => e
-        # rubocop:disable Layout/LineLength
-        raise EventNameResolveError, %(Transforming "#{event_id}" into an event class failed. Supported types are: #{@resolvers.map(&:supports).flatten.join(', ')}. #{e.message}.\n\n#{e.backtrace.join("\n")})
-        # rubocop:enable Layout/LineLength
+        types = @resolvers.map(&:supports).flatten.join(', ')
+        message = %(Transforming "#{event_id}" into an event class failed. Supported types are: #{types}. #{e.message}.)
+        raise EventNameResolveError, message, cause: e
       end
     end
   end

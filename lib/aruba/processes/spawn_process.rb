@@ -63,15 +63,12 @@ module Aruba
       # @yield [SpawnProcess]
       #   Run code for process which was started
       #
-      # rubocop:disable Metrics/MethodLength
       def start
-        # rubocop:disable Layout/LineLength
         if started?
-          error_message = %(Command "#{commandline}" has already been started. Please `#stop` the command first and `#start` it again. Alternatively use `#restart`.\n#{caller.join("\n")})
+          error_message = "Command \"#{commandline}\" has already been started." \
+            ' Please `#stop` the command first and `#start` it again. Alternatively use `#restart`.'
           fail CommandAlreadyStartedError, error_message
         end
-
-        # rubocop:enable Layout/LineLength
 
         @started = true
 
@@ -113,7 +110,6 @@ module Aruba
 
         yield self if block_given?
       end
-      # rubocop:enable Metrics/MethodLength
 
       # Access to stdin of process
       def stdin

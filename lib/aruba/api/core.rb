@@ -54,7 +54,6 @@ module Aruba
       # @example Run code in directory
       #   result = cd('some-dir') { Dir.getwd }
       #
-      # rubocop:disable Metrics/MethodLength
       def cd(dir, &block)
         if block_given?
           begin
@@ -96,8 +95,6 @@ module Aruba
 
         self
       end
-      # rubocop:enable Metrics/MethodLength
-
       # Expand file name
       #
       # @param [String] file_name
@@ -134,19 +131,16 @@ module Aruba
       #   # => /foo/bar
       #   expand_path('/foo/bar')
       #
-      # rubocop:disable Metrics/MethodLength
-      # rubocop:disable Metrics/CyclomaticComplexity
-      # rubocop:disable Metrics/PerceivedComplexity
       def expand_path(file_name, dir_string = nil)
         message = "Filename #{file_name} needs to be a string. It cannot be nil or empty either. "\
           "Please use `expand_path('.')` if you want the current directory to be expanded."
 
         fail ArgumentError, message unless file_name.is_a?(String) && !file_name.empty?
 
-        # rubocop:disable Layout/LineLength
-        fail %(Aruba's working directory does not exist. Maybe you forgot to run `setup_aruba` before using its API.) unless Aruba.platform.directory? File.join(aruba.config.root_directory, aruba.config.working_directory)
+        unless Aruba.platform.directory? File.join(aruba.config.root_directory, aruba.config.working_directory)
+          fail %(Aruba's working directory does not exist. Maybe you forgot to run `setup_aruba` before using its API.)
+        end
 
-        # rubocop:enable Layout/LineLength
 
         prefix = file_name[0]
         rest = file_name[2..-1]
@@ -187,9 +181,7 @@ module Aruba
           end
         end
       end
-      # rubocop:enable Metrics/MethodLength
-      # rubocop:enable Metrics/CyclomaticComplexity
-      # rubocop:enable Metrics/PerceivedComplexity
+
 
       # Run block with environment
       #

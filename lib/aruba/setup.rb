@@ -31,7 +31,6 @@ module Aruba
       Aruba.platform.chdir runtime.config.root_directory
     end
 
-    # rubocop:disable Metrics/MethodLength
     def events
       runtime.event_bus.register(
         :command_started,
@@ -87,6 +86,5 @@ module Aruba
         proc { |event| runtime.announcer.announce :configuration, event.entity[:changed][:name], event.entity[:changed][:value] }
       )
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end
