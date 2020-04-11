@@ -136,14 +136,11 @@ Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)? "([^"]*)
 end
 
 ## the stderr from "echo -n 'Hello'" should contain "hello"
-Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should( not)? contain( exactly)? "([^"]*)"$/) do |channel, cmd, negated, exactly, expected|
-  matcher = case channel.to_sym
-            when :output
-              :have_output
-            when :stderr
-              :have_output_on_stderr
-            when :stdout
-              :have_output_on_stdout
+Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)? "([^"]*)"$/) do |channel, cmd, exactly, expected|
+  matcher = case channel
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -154,11 +151,26 @@ Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should( not)? contain( exa
                             :an_output_string_including
                           end
 
-  if negated
-    expect(command).not_to send(matcher, send(output_string_matcher, expected))
-  else
-    expect(command).to send(matcher, send(output_string_matcher, expected))
-  end
+  expect(command).to send(matcher, send(output_string_matcher, expected))
+end
+
+## the stderr from "echo -n 'Hello'" should not contain "hello"
+Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)? "([^"]*)"$/) do |channel, cmd, exactly, expected|
+  matcher = case channel
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
+            end
+
+  command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
+
+  output_string_matcher = if exactly
+                            :an_output_string_being_eq
+                          else
+                            :an_output_string_including
+                          end
+
+  expect(command).not_to send(matcher, send(output_string_matcher, expected))
 end
 
 ## the stderr should not contain exactly:
@@ -189,13 +201,10 @@ end
 
 ## the stderr from "echo -n 'Hello'" should not contain exactly:
 Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)?:$/) do |channel, cmd, exactly, expected|
-  matcher = case channel.to_sym
-            when :output
-              :have_output
-            when :stderr
-              :have_output_on_stderr
-            when :stdout
-              :have_output_on_stdout
+  matcher = case channel
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -211,13 +220,10 @@ end
 
 ## the stderr from "echo -n 'Hello'" should contain exactly:
 Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)?:$/) do |channel, cmd, exactly, expected|
-  matcher = case channel.to_sym
-            when :output
-              :have_output
-            when :stderr
-              :have_output_on_stderr
-            when :stdout
-              :have_output_on_stdout
+  matcher = case channel
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -368,13 +374,10 @@ Then(/^it should (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expect
 end
 
 Then(/^(?:the )?(output|stderr|stdout) should not contain anything$/) do |channel|
-  matcher = case channel.to_sym
-            when :output
-              :have_output
-            when :stderr
-              :have_output_on_stderr
-            when :stdout
-              :have_output_on_stdout
+  matcher = case channel
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
             end
 
   expect(all_commands).to include_an_object send(matcher, be_nil.or(be_empty))
@@ -382,14 +385,11 @@ end
 
 Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) do |channel, negated, table|
   table.raw.flatten.each do |expected|
-    case channel.to_sym
-    when :output
-      :have_output
-    when :stderr
-      :have_output_on_stderr
-    when :stdout
-      :have_output_on_stdout
-    end
+    _matcher = case channel
+               when 'output'; then :have_output
+               when 'stderr'; then :have_output_on_stderr
+               when 'stdout'; then :have_output_on_stdout
+               end
 
     # TODO: This isn't actually using the above. It's hardcoded to use have_output only
 

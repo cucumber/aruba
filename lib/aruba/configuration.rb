@@ -40,19 +40,26 @@ module Aruba
                     end
     option_accessor :remove_ansi_escape_sequences, contract: { Bool => Bool }, default: true
     option_accessor :command_launcher,
-                    contract: { Aruba::Contracts::Enum[:in_process, :spawn, :debug] => Aruba::Contracts::Enum[:in_process, :spawn, :debug] },
+                    contract: {
+                      Aruba::Contracts::Enum[:in_process, :spawn, :debug] =>
+                        Aruba::Contracts::Enum[:in_process, :spawn, :debug]
+                    },
                     default: :spawn
     option_accessor :main_class, contract: { Class => Maybe[Class] }, default: nil
 
     option_accessor :home_directory,
-                    contract: { Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath] =>
-                                Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath] } do |config|
-      File.join(config.root_directory.value, config.working_directory.value)
-    end
+                    contract: {
+                      Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath] =>
+                        Or[Aruba::Contracts::AbsolutePath, Aruba::Contracts::RelativePath]
+                    } do |config|
+                      File.join(config.root_directory.value, config.working_directory.value)
+                    end
 
     option_accessor :log_level,
-                    contract: { Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent] =>
-                                Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent] },
+                    contract: {
+                      Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent] =>
+                        Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent]
+                    },
                     default: :info
 
     # TODO: deprecate this value and replace with "filesystem allocation unit"
