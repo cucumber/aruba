@@ -95,6 +95,7 @@ module Aruba
 
         self
       end
+
       # Expand file name
       #
       # @param [String] file_name
@@ -181,7 +182,6 @@ module Aruba
           end
         end
       end
-
 
       # Run block with environment
       #
