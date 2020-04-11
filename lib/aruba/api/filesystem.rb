@@ -110,16 +110,21 @@ module Aruba
         existing_files            = Dir.glob(expand_path(File.join(name, '**', '*')))
         current_working_directory = Pathname.new(expand_path('.'))
 
-        existing_files.map { |d| Pathname.new(d).relative_path_from(current_working_directory).to_s }
+        existing_files.map do |d|
+          Pathname.new(d).relative_path_from(current_working_directory).to_s
+        end
       end
 
       # Return content of file
       #
       # @return [Array]
-      #   The content of file, without "\n" or "\r\n" at the end. To rebuild the file use `content.join("\n")`
+      #   The content of file, without "\n" or "\r\n" at the end.
+      #   To rebuild the file use `content.join("\n")`
       def read(name)
         raise ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
-        raise ArgumentError, %(Only files are supported. Path "#{name}" is not a file.) unless file? name
+        unless file? name
+          raise ArgumentError, %(Only files are supported. Path "#{name}" is not a file.)
+        end
 
         File.readlines(expand_path(name)).map(&:chomp)
       end

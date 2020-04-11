@@ -23,7 +23,9 @@ RSpec::Matchers.define :have_exit_status do |expected|
     @old_actual.stop
     @actual = actual.exit_status
 
-    raise "Expected #{@old_actual} to respond to #exit_status" unless @old_actual.respond_to? :exit_status
+    unless @old_actual.respond_to? :exit_status
+      raise "Expected #{@old_actual} to respond to #exit_status"
+    end
 
     values_match? expected, @actual
   end

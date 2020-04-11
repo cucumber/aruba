@@ -107,7 +107,7 @@ describe Aruba::EventBus do
         it { expect(received_payload).to include event_instance }
       end
 
-      context 'when is symbol and event is defined in the default namespace given to NameResolver.new' do
+      context 'when is symbol and event is defined in the default namespace' do
         let!(:event_name) { :test_event }
         let(:received_payload) { [] }
 

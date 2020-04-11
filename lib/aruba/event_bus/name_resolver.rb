@@ -118,7 +118,8 @@ module Aruba
       class FailingResolver
         class << self
           def match?(event_id)
-            raise ArgumentError, %(Input type "#{event_id.class}" of event_id "#{event_id}" is invalid)
+            raise ArgumentError,
+                  %(Input type "#{event_id.class}" of event_id "#{event_id}" is invalid)
           end
 
           def supports

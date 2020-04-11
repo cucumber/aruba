@@ -23,7 +23,8 @@ require 'rspec/expectations/version'
 #
 #     RSpec.describe do
 #       it { expect('dir1.d').to have_sub_directory(['subdir.1.d', 'subdir.2.d']) }
-#       it { expect(directories).to include a_directory_with_sub_directory(['subdir.1.d', 'subdir.2.d']) }
+#       it { expect(directories)
+#       .  to include a_directory_with_sub_directory(['subdir.1.d', 'subdir.2.d']) }
 #     end
 RSpec::Matchers.define :have_sub_directory do |expected|
   match do |actual|

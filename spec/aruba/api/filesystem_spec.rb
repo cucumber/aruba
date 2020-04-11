@@ -151,7 +151,9 @@ RSpec.describe Aruba::Api::Filesystem do
 
       context 'and multiple file names are given' do
         let(:name) { %w(file1 file2 file3) }
-        let(:path) { %w(file1 file2 file3).map { |p| File.join(@aruba.aruba.current_directory, p) } }
+        let(:path) do
+          %w(file1 file2 file3).map { |p| File.join(@aruba.aruba.current_directory, p) }
+        end
         it_behaves_like 'an existing file'
       end
     end
@@ -398,7 +400,10 @@ RSpec.describe Aruba::Api::Filesystem do
 
             before(:each) { create_test_files(destination) }
 
-            it { expect { @aruba.copy source, destination }.to raise_error ArgumentError, error_message }
+            it 'raises an appropriate error' do
+              expect { @aruba.copy source, destination }
+                .to raise_error ArgumentError, error_message
+            end
           end
 
           context 'when a source is the same like destination' do
@@ -419,9 +424,14 @@ RSpec.describe Aruba::Api::Filesystem do
           context 'when a fixture is destination' do
             let(:source) { '%/copy/file.txt' }
             let(:destination) { '%/copy/file.txt' }
-            let(:error_message) { "Using a fixture as destination (#{destination}) is not supported" }
+            let(:error_message) do
+              "Using a fixture as destination (#{destination}) is not supported"
+            end
 
-            it { expect { @aruba.copy source, destination }.to raise_error ArgumentError, error_message }
+            it 'raises an appropriate error' do
+              expect { @aruba.copy source, destination }
+                .to raise_error ArgumentError, error_message
+            end
           end
         end
       end
@@ -533,7 +543,7 @@ RSpec.describe Aruba::Api::Filesystem do
         end . not_to raise_error
       end
 
-      it "raises RSpec::Expectations::ExpectationNotMetError when the inner expectations don't match" do
+      it "raises ExpectationNotMetError when the inner expectations don't match" do
         expect do
           @aruba.with_file_content @file_name do |full_content|
             expect(full_content).to     match(/zoo/)

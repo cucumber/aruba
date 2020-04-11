@@ -13,7 +13,8 @@ RSpec.shared_examples 'a basic configuration' do
     subject(:config) { config_klass.new }
 
     before :each do
-      config_klass.option_reader :new_opt, contract: { Contracts::Num => Contracts::Num }, default: 1
+      config_klass.option_reader :new_opt, contract: { Contracts::Num => Contracts::Num },
+                                           default: 1
     end
 
     context 'when value is read' do
@@ -53,7 +54,8 @@ RSpec.shared_examples 'a basic configuration' do
     subject(:config) { config_klass.new }
 
     before :each do
-      config_klass.option_accessor :new_opt, contract: { Contracts::Num => Contracts::Num }, default: 1
+      config_klass.option_accessor :new_opt, contract: { Contracts::Num => Contracts::Num },
+                                             default: 1
     end
 
     context 'when default is used' do
@@ -68,7 +70,9 @@ RSpec.shared_examples 'a basic configuration' do
 
     context 'when block is defined' do
       before :each do
-        config_klass.option_accessor :new_opt2, contract: { Contracts::Num => Contracts::Num } do |c|
+        config_klass.option_accessor(
+          :new_opt2, contract: { Contracts::Num => Contracts::Num }
+        ) do |c|
           c.new_opt.value + 1
         end
       end

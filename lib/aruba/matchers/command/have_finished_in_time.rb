@@ -24,7 +24,9 @@ RSpec::Matchers.define :have_finished_in_time do
     @old_actual = actual
     @actual     = @old_actual.commandline
 
-    raise "Expected #{@old_actual} to respond to #timed_out?" unless @old_actual.respond_to? :timed_out?
+    unless @old_actual.respond_to? :timed_out?
+      raise "Expected #{@old_actual} to respond to #timed_out?"
+    end
 
     @old_actual.stop
 

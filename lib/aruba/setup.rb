@@ -25,10 +25,12 @@ module Aruba
 
     def working_directory(clobber = true)
       if clobber
-        Aruba.platform.rm File.join(runtime.config.root_directory, runtime.config.working_directory),
+        Aruba.platform.rm File.join(runtime.config.root_directory,
+                                    runtime.config.working_directory),
                           force: true
       end
-      Aruba.platform.mkdir File.join(runtime.config.root_directory, runtime.config.working_directory)
+      Aruba.platform.mkdir File.join(runtime.config.root_directory,
+                                     runtime.config.working_directory)
       Aruba.platform.chdir runtime.config.root_directory
     end
 
@@ -39,7 +41,8 @@ module Aruba
           runtime.announcer.announce(:command) { event.entity.commandline }
           runtime.announcer.announce(:timeout, 'exit') { event.entity.exit_timeout }
           runtime.announcer.announce(:timeout, 'io wait') { event.entity.io_wait_timeout }
-          runtime.announcer.announce(:wait_time, 'startup wait time') { event.entity.startup_wait_time }
+          runtime.announcer
+            .announce(:wait_time, 'startup wait time') { event.entity.startup_wait_time }
           runtime.announcer.announce(:full_environment) { event.entity.environment }
         end
       )

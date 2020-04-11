@@ -61,7 +61,8 @@ When(/^I (terminate|stop) the command (?:"([^"]*)"|(?:started last))$/) do |sign
   end
 end
 
-When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$/) do |channel, expected|
+When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$/) \
+  do |channel, expected|
   begin
     Timeout.timeout(aruba.config.exit_timeout) do
       loop do
@@ -177,7 +178,8 @@ Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactl
 end
 
 ## the stderr should not contain exactly:
-Then(/^(?:the )?(output|stderr|stdout) should not contain( exactly)?:$/) do |channel, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) should not contain( exactly)?:$/) \
+  do |channel, exactly, expected|
   combined_output = send("all_#{channel}")
 
   output_string_matcher = if exactly
@@ -190,7 +192,8 @@ Then(/^(?:the )?(output|stderr|stdout) should not contain( exactly)?:$/) do |cha
 end
 
 ## the stderr should contain exactly:
-Then(/^(?:the )?(output|stderr|stdout) should contain( exactly)?:$/) do |channel, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) should contain( exactly)?:$/) \
+  do |channel, exactly, expected|
   combined_output = send("all_#{channel}")
 
   output_string_matcher = if exactly
@@ -423,7 +426,8 @@ Given(/^I wait ([\d.]+) seconds? for (?:a|the) command to start up$/) do |second
   aruba.config.startup_wait_time = seconds.to_f
 end
 
-When(/^I send the signal "([^"]*)" to the command (?:"([^"]*)"|(?:started last))$/) do |signal, command|
+When(/^I send the signal "([^"]*)" to the command (?:"([^"]*)"|(?:started last))$/) \
+ do |signal, command|
   if command
     cmd = all_commands.find { |c| c.commandline == command }
     raise ArgumentError, %(No command "#{command}" found) if cmd.nil?

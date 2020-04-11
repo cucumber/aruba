@@ -92,7 +92,8 @@ Then(/^the following files should (not )?exist:$/) do |negated, files|
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) do |path, expect_match|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) \
+  do |path, expect_match|
   if expect_match
     expect(path).not_to be_an_existing_file
   else
@@ -100,7 +101,8 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) d
   end
 end
 
-Then(/^(?:a|the) directory(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) do |path, expect_match|
+Then(/^(?:a|the) directory(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) \
+  do |path, expect_match|
   if expect_match
     expect(path).not_to be_an_existing_directory
   else
@@ -116,7 +118,8 @@ Then(/^(?:a|the) file matching %r<(.*?)> should (not )?exist$/) do |pattern, exp
   end
 end
 
-Then(/^(?:a|the) (\d+) byte file(?: named)? "([^"]*)" should (not )?exist$/) do |size, file, negated|
+Then(/^(?:a|the) (\d+) byte file(?: named)? "([^"]*)" should (not )?exist$/) \
+  do |size, file, negated|
   if negated
     expect(file).not_to have_file_size(size)
   else
@@ -134,7 +137,8 @@ Then(/^the following directories should (not )?exist:$/) do |negated, directorie
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain "([^"]*)"$/) do |file, negated, content|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain "([^"]*)"$/) \
+  do |file, negated, content|
   if negated
     expect(file).not_to have_file_content file_content_including(content.chomp)
   else
@@ -150,7 +154,8 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain:$/) do |file, n
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain exactly:$/) do |file, negated, content|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain exactly:$/) \
+  do |file, negated, content|
   if negated
     expect(file).not_to have_file_content content
   else
@@ -185,11 +190,13 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?be equal to file "([^"]
   end
 end
 
-Then(/^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" should( not)? have permissions "([^"]*)"$/) \
-  do |path, negated, permissions|
-  if negated
-    expect(path).not_to have_permissions(permissions)
-  else
-    expect(path).to have_permissions(permissions)
-  end
+Then(/^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" should have permissions "([^"]*)"$/) \
+  do |path, permissions|
+  expect(path).to have_permissions(permissions)
+end
+
+Then(
+  /^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" should not have permissions "([^"]*)"$/
+) do |path, permissions|
+  expect(path).not_to have_permissions(permissions)
 end

@@ -15,8 +15,10 @@ module Aruba
 
       # Aruba Runtime
       def aruba
-        # TODO: Check this variable being accessed inconsistently. Should only be using the memo!
-        # Renaming this to `aruba` causes 100's of rspec failures. Needs a deeper dive, approach with caution!
+        # TODO: Check this variable being accessed inconsistently. Should only
+        # be using the memo!
+        # Renaming this to `aruba` causes 100's of rspec failures. Needs a
+        # deeper dive, approach with caution!
         @_aruba_runtime ||= Runtime.new
       end
 
@@ -65,7 +67,8 @@ module Aruba
             aruba.current_directory << dir
             new_directory = expand_path('.')
 
-            aruba.event_bus.notify Events::ChangedWorkingDirectory.new(old: old_directory, new: new_directory)
+            aruba.event_bus.notify Events::ChangedWorkingDirectory.new(old: old_directory,
+                                                                       new: new_directory)
 
             old_dir = Aruba.platform.getwd
 
@@ -93,7 +96,8 @@ module Aruba
         aruba.current_directory << dir
         new_directory = expand_path('.')
 
-        aruba.event_bus.notify Events::ChangedWorkingDirectory.new(old: old_directory, new: new_directory)
+        aruba.event_bus.notify Events::ChangedWorkingDirectory.new(old: old_directory,
+                                                                   new: new_directory)
 
         self
       end
@@ -179,8 +183,9 @@ module Aruba
             caller_location = caller_locations(1, 1).first
             caller_file_line = "#{caller_location.path}:#{caller_location.lineno}"
             aruba.logger.warn \
-              "Aruba's `expand_path` method was called with an absolute path at #{caller_file_line}" \
-              ', which is not recommended. Change the call to pass a relative path or set '\
+              "Aruba's `expand_path` method was called with an absolute path" \
+              " at #{caller_file_line}, which is not recommended." \
+              ' Change the call to pass a relative path or set '\
               '`config.allow_absolute_paths = true` to silence this warning'
           end
           file_name
