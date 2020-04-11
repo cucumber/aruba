@@ -142,7 +142,6 @@ module Aruba
           fail %(Aruba's working directory does not exist. Maybe you forgot to run `setup_aruba` before using its API.)
         end
 
-
         prefix = file_name[0]
         rest = file_name[2..-1]
 
