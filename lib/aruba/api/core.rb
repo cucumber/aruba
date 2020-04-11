@@ -152,8 +152,10 @@ module Aruba
           unless Aruba.platform.exist? path
             aruba_fixture_candidates = aruba.config.fixtures_directories.map { |p| format('"%s"', p) }.join(', ')
 
-            raise ArgumentError, "Fixture \"#{rest}\" does not exist in fixtures directory \"#{aruba.fixtures_directory}\". "\
-              "This was the one we found first on your system from all possible candidates: #{aruba_fixture_candidates}."
+            raise ArgumentError,
+                  "Fixture \"#{rest}\" does not exist in fixtures directory \"#{aruba.fixtures_directory}\". " \
+                  'This was the one we found first on your system from all possible candidates:' \
+                  " #{aruba_fixture_candidates}."
           end
 
           path

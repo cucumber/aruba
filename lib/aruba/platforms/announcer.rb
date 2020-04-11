@@ -84,7 +84,8 @@ module Aruba
         output_format :command, '$ %s'
         output_format :directory, '$ cd %s'
         output_format :environment, proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
-        output_format :full_environment, proc { |h| format("<<-ENVIRONMENT\n%s\nENVIRONMENT", Aruba.platform.simple_table(h)) }
+        output_format :full_environment,
+                      proc { |h| format("<<-ENVIRONMENT\n%s\nENVIRONMENT", Aruba.platform.simple_table(h)) }
         output_format :modified_environment, proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
         output_format :stderr, "<<-STDERR\n%s\nSTDERR"
         output_format :stdout, "<<-STDOUT\n%s\nSTDOUT"

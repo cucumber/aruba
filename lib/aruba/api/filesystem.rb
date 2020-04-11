@@ -103,7 +103,9 @@ module Aruba
       #   The content of directory
       def list(name)
         raise ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
-        raise ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.) unless directory? name
+        unless directory? name
+          raise ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.)
+        end
 
         existing_files            = Dir.glob(expand_path(File.join(name, '**', '*')))
         current_working_directory = Pathname.new(expand_path('.'))

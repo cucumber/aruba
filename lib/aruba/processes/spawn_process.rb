@@ -263,7 +263,9 @@ module Aruba
       private
 
       def command_string
-        raise LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if command_path.nil?
+        if command_path.nil?
+          raise LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".)
+        end
 
         Aruba.platform.command_string.new(command_path, *arguments)
       end

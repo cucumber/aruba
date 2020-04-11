@@ -119,7 +119,8 @@ Then(/^the output should be (\d+) bytes long$/) do |size|
 end
 
 ## the stderr should contain "hello"
-Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)? "([^"]*)"$/) do |channel, negated, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)? "([^"]*)"$/) \
+  do |channel, negated, exactly, expected|
   combined_output = send("all_#{channel}")
 
   output_string_matcher = if exactly
@@ -136,7 +137,8 @@ Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)? "([^"]*)
 end
 
 ## the stderr from "echo -n 'Hello'" should contain "hello"
-Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)? "([^"]*)"$/) do |channel, cmd, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)? "([^"]*)"$/) \
+  do |channel, cmd, exactly, expected|
   matcher = case channel
             when 'output'; then :have_output
             when 'stderr'; then :have_output_on_stderr
@@ -201,7 +203,8 @@ Then(/^(?:the )?(output|stderr|stdout) should contain( exactly)?:$/) do |channel
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain exactly:
-Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)?:$/) do |channel, cmd, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)?:$/) \
+  do |channel, cmd, exactly, expected|
   matcher = case channel
             when 'output'; then :have_output
             when 'stderr'; then :have_output_on_stderr

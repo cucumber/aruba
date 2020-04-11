@@ -83,7 +83,11 @@ module Aruba
 
       runtime.event_bus.register(
         :changed_configuration,
-        proc { |event| runtime.announcer.announce :configuration, event.entity[:changed][:name], event.entity[:changed][:value] }
+        proc { |event|
+          runtime.announcer.announce :configuration,
+                                     event.entity[:changed][:name],
+                                     event.entity[:changed][:value]
+        }
       )
     end
   end

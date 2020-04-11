@@ -30,7 +30,7 @@ Style/FrozenStringLiteralComment:
 # Configuration parameters: AutoCorrect, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Layout/LineLength:
-  Max: 130
+  Max: 120
 
 # We only permit it in this one area which is internal code testing. Never exposed to users
 Security/Eval:
