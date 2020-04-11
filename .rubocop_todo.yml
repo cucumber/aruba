@@ -128,14 +128,6 @@ Style/CaseEquality:
   Exclude:
     - 'lib/aruba/matchers/base/object_formatter.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: is_a?, kind_of?
-Style/ClassCheck:
-  Exclude:
-    - 'lib/aruba/api/filesystem.rb'
-
 # Offense count: 1
 Style/CommentedKeyword:
   Exclude:

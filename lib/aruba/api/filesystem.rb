@@ -145,7 +145,7 @@ module Aruba
       def touch(*args)
         args = args.flatten
 
-        options = if args.last.kind_of? Hash
+        options = if args.last.is_a? Hash
                     args.pop
                   else
                     {}
@@ -283,14 +283,14 @@ module Aruba
       def chmod(*args)
         args = args.flatten
 
-        options = if args.last.kind_of? Hash
+        options = if args.last.is_a? Hash
                     args.pop
                   else
                     {}
                   end
 
         mode = args.shift
-        mode = if mode.kind_of? String
+        mode = if mode.is_a? String
                  mode.to_i(8)
                else
                  mode
@@ -335,7 +335,7 @@ module Aruba
       def remove(*args)
         args = args.flatten
 
-        options = if args.last.kind_of? Hash
+        options = if args.last.is_a? Hash
                     args.pop
                   else
                     {}
