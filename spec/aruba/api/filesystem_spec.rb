@@ -407,7 +407,13 @@ RSpec.describe Aruba::Api::Filesystem do
 
             before(:each) { create_test_files(source) }
 
-            it { expect { @aruba.copy source, destination }.to raise_error ArgumentError, %(same file: #{File.expand_path(File.join(@aruba.aruba.current_directory, source))} and #{File.expand_path(File.join(@aruba.aruba.current_directory, destination))}) }
+            it 'raises an appropriate error' do
+              src_path = File.expand_path(File.join(@aruba.aruba.current_directory, source))
+              dest_path = File.expand_path(File.join(@aruba.aruba.current_directory, destination))
+              expected_message = %(same file: #{src_path} and #{dest_path})
+              expect { @aruba.copy source, destination }
+                .to raise_error ArgumentError, expected_message
+            end
           end
 
           context 'when a fixture is destination' do

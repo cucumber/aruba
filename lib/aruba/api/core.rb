@@ -137,7 +137,9 @@ module Aruba
 
         fail ArgumentError, message unless file_name.is_a?(String) && !file_name.empty?
 
-        fail %(Aruba's working directory does not exist. Maybe you forgot to run `setup_aruba` before using its API.) unless Aruba.platform.directory? File.join(aruba.config.root_directory, aruba.config.working_directory)
+        unless Aruba.platform.directory? File.join(aruba.config.root_directory, aruba.config.working_directory)
+          fail %(Aruba's working directory does not exist. Maybe you forgot to run `setup_aruba` before using its API.)
+        end
 
 
         prefix = file_name[0]

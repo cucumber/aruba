@@ -146,7 +146,9 @@ module Aruba
       def transform(event_id)
         resolvers.find { |r| r.match? event_id }.new.transform(default_namespace, event_id)
       rescue => e
-        raise EventNameResolveError, %(Transforming "#{event_id}" into an event class failed. Supported types are: #{@resolvers.map(&:supports).flatten.join(', ')}. #{e.message}.\n\n#{e.backtrace.join("\n")})
+        types = @resolvers.map(&:supports).flatten.join(', ')
+        message = %(Transforming "#{event_id}" into an event class failed. Supported types are: #{types}. #{e.message}.)
+        raise EventNameResolveError, message, cause: e
       end
     end
   end
