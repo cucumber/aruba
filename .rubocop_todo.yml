@@ -128,12 +128,6 @@ Style/CaseEquality:
   Exclude:
     - 'lib/aruba/matchers/base/object_formatter.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/CharacterLiteral:
-  Exclude:
-    - 'spec/support/shared_contexts/aruba.rb'
-
 # Offense count: 4
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.
