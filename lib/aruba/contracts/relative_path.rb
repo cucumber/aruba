@@ -12,7 +12,7 @@ module Aruba
       #   The path to be checked
       def self.valid?(value)
         Aruba.platform.relative_path? value
-      rescue
+      rescue StandardError
         false
       end
     end

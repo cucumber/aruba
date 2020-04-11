@@ -14,7 +14,7 @@ module Aruba
         # explanation for algorithm can be found here:
         # http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/
         value != 0 && (value & (value - 1)) == 0 ? true : false
-      rescue
+      rescue StandardError
         false
       end
     end

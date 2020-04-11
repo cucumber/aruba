@@ -199,17 +199,6 @@ Style/RegexpLiteral:
     - 'lib/aruba/cucumber/command.rb'
     - 'lib/aruba/cucumber/file.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: implicit, explicit
-Style/RescueStandardError:
-  Exclude:
-    - 'lib/aruba/contracts/absolute_path.rb'
-    - 'lib/aruba/contracts/is_power_of_two.rb'
-    - 'lib/aruba/contracts/relative_path.rb'
-    - 'lib/aruba/event_bus/name_resolver.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: AllowAsExpressionSeparator.
