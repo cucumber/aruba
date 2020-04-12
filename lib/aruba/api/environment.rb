@@ -23,7 +23,9 @@ module Aruba
         aruba.environment[name] = value
         new_environment = aruba.environment.to_h
 
-        environment_change = { old: old_environment, new: new_environment, changed: { name: name, value: value } }
+        environment_change = { old: old_environment,
+                               new: new_environment,
+                               changed: { name: name, value: value } }
         aruba.event_bus.notify Events::AddedEnvironmentVariable.new(environment_change)
 
         self
@@ -46,7 +48,9 @@ module Aruba
         aruba.environment.append name, value
         new_environment = aruba.environment.to_h
 
-        environment_change = { old: old_environment, new: new_environment, changed: { name: name, value: value } }
+        environment_change = { old: old_environment,
+                               new: new_environment,
+                               changed: { name: name, value: value } }
         aruba.event_bus.notify Events::ChangedEnvironmentVariable.new(environment_change)
 
         self
@@ -69,7 +73,9 @@ module Aruba
         aruba.environment.prepend name, value
         new_environment = aruba.environment.to_h
 
-        environment_change = { old: old_environment, new: new_environment, changed: { name: name, value: value } }
+        environment_change = { old: old_environment,
+                               new: new_environment,
+                               changed: { name: name, value: value } }
         aruba.event_bus.notify Events::ChangedEnvironmentVariable.new(environment_change)
 
         self
@@ -88,7 +94,9 @@ module Aruba
         aruba.environment.delete name
         new_environment = aruba.environment.to_h
 
-        environment_change = { old: old_environment, new: new_environment, changed: { name: name, value: '' } }
+        environment_change = { old: old_environment,
+                               new: new_environment,
+                               changed: { name: name, value: '' } }
         aruba.event_bus.notify Events::ChangedEnvironmentVariable.new(environment_change)
 
         self

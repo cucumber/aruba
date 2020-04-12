@@ -18,7 +18,8 @@ module Aruba
         def constantize(camel_cased_word)
           names = camel_cased_word.split('::')
 
-          # Trigger a built-in NameError exception including the ill-formed constant in the message.
+          # Trigger a built-in NameError exception including the ill-formed
+          # constant in the message.
           Object.const_get(camel_cased_word) if names.empty?
 
           # Remove the first blank element in case of '::ClassName' notation.
@@ -118,7 +119,8 @@ module Aruba
       class FailingResolver
         class << self
           def match?(event_id)
-            fail ArgumentError, %(Input type "#{event_id.class}" of event_id "#{event_id}" is invalid)
+            raise ArgumentError,
+                  %(Input type "#{event_id.class}" of event_id "#{event_id}" is invalid)
           end
 
           def supports
@@ -145,9 +147,10 @@ module Aruba
 
       def transform(event_id)
         resolvers.find { |r| r.match? event_id }.new.transform(default_namespace, event_id)
-      rescue => e
+      rescue StandardError => e
         types = @resolvers.map(&:supports).flatten.join(', ')
-        message = %(Transforming "#{event_id}" into an event class failed. Supported types are: #{types}. #{e.message}.)
+        message = "Transforming \"#{event_id}\" into an event class failed." \
+          " Supported types are: #{types}. #{e.message}."
         raise EventNameResolveError, message, cause: e
       end
     end

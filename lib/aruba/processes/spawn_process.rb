@@ -65,9 +65,11 @@ module Aruba
       #
       def start
         if started?
-          error_message = "Command \"#{commandline}\" has already been started." \
-            ' Please `#stop` the command first and `#start` it again. Alternatively use `#restart`.'
-          fail CommandAlreadyStartedError, error_message
+          error_message =
+            "Command \"#{commandline}\" has already been started." \
+            ' Please `#stop` the command first and `#start` it again.' \
+            ' Alternatively use `#restart`.'
+          raise CommandAlreadyStartedError, error_message
         end
 
         @started = true
@@ -232,7 +234,7 @@ module Aruba
       #   The signal, i.e. 'TERM'
       def send_signal(signal)
         error_message = %(Command "#{commandline}" with PID "#{pid}" has already stopped.)
-        fail CommandAlreadyStoppedError, error_message if @process.exited?
+        raise CommandAlreadyStoppedError, error_message if @process.exited?
 
         Process.kill signal, pid
       rescue Errno::ESRCH
@@ -263,7 +265,10 @@ module Aruba
       private
 
       def command_string
-        fail LaunchError, %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".) if command_path.nil?
+        if command_path.nil?
+          raise LaunchError,
+                %(Command "#{command}" not found in PATH-variable "#{environment['PATH']}".)
+        end
 
         Aruba.platform.command_string.new(command_path, *arguments)
       end

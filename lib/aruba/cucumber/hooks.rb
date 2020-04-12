@@ -9,7 +9,10 @@ end
 
 Before do
   # ... so every change needs to be done later
-  prepend_environment_variable 'PATH', aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
+  prepend_environment_variable(
+    'PATH',
+    aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
+  )
   set_environment_variable 'HOME', aruba.config.home_directory
 end
 

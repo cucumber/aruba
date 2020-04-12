@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 RSpec.describe Aruba::Processes::SpawnProcess do
-  subject(:process) { described_class.new(command_line, exit_timeout, io_wait, working_directory) }
+  subject(:process) do
+    described_class.new(command_line, exit_timeout, io_wait, working_directory)
+  end
 
   let(:command_line) { 'echo "yo"' }
   let(:exit_timeout) { 30 }
@@ -76,8 +78,10 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       let(:command_path) { '/bar/foo' }
 
       before do
-        allow(Aruba.platform).to receive(:command_string).and_return Aruba::Platforms::UnixCommandString
-        allow(Aruba.platform).to receive(:which).with(command, anything).and_return(command_path)
+        allow(Aruba.platform).to receive(:command_string)
+          .and_return Aruba::Platforms::UnixCommandString
+        allow(Aruba.platform)
+          .to receive(:which).with(command, anything).and_return(command_path)
         allow(ChildProcess).to receive(:build).and_return(child)
 
         allow(child).to receive(:io).and_return(io)
@@ -99,8 +103,10 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         let(:command_path) { '/path with space/foo' }
 
         before do
-          allow(Aruba.platform).to receive(:command_string).and_return Aruba::Platforms::UnixCommandString
-          allow(Aruba.platform).to receive(:which).with(command, anything).and_return(command_path)
+          allow(Aruba.platform).to receive(:command_string)
+            .and_return Aruba::Platforms::UnixCommandString
+          allow(Aruba.platform)
+            .to receive(:which).with(command, anything).and_return(command_path)
           allow(ChildProcess).to receive(:build).with(command_path).and_return(child)
           allow(child).to receive(:io).and_return io
           allow(child).to receive(:environment).and_return({})
@@ -132,9 +138,11 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       let(:command_path) { 'D:\Foo\foo' }
 
       before do
-        allow(Aruba.platform).to receive(:command_string).and_return Aruba::Platforms::WindowsCommandString
+        allow(Aruba.platform).to receive(:command_string)
+          .and_return Aruba::Platforms::WindowsCommandString
         allow(Aruba.platform).to receive(:which).with('cmd.exe').and_return(cmd_path)
-        allow(Aruba.platform).to receive(:which).with(command, anything).and_return(command_path)
+        allow(Aruba.platform)
+          .to receive(:which).with(command, anything).and_return(command_path)
         allow(ChildProcess).to receive(:build).and_return(child)
 
         allow(child).to receive(:io).and_return(io)
@@ -164,14 +172,15 @@ RSpec.describe Aruba::Processes::SpawnProcess do
 
         it 'escapes the spaces using excessive double quotes' do
           process.start
-          expect(ChildProcess).to have_received(:build).with(cmd_path, '/c', 'D:\Bar""" """Baz\foo')
+          expect(ChildProcess)
+            .to have_received(:build).with(cmd_path, '/c', 'D:\Bar""" """Baz\foo')
         end
       end
 
       context 'with a command with arguments' do
         let(:command_line) { "foo -x 'bar \"baz\"'" }
 
-        it 'passes the command and arguments as one string to ChildProcess.build, with escaped quotes' do
+        it 'passes the command and arguments as one string with escaped quotes' do
           process.start
           expect(ChildProcess).to have_received(:build)
             .with(cmd_path, '/c', "#{command_path} -x \"bar \"\"\"baz\"\"\"\"")

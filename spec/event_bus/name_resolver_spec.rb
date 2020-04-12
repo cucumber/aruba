@@ -62,7 +62,10 @@ describe Aruba::EventBus::NameResolver do
 
     context 'when invalid' do
       let(:original_name) { 1 }
-      it { expect { resolved_name }.to raise_error Aruba::EventNameResolveError, /Transforming "1"/ }
+      it {
+        expect { resolved_name }
+          .to raise_error Aruba::EventNameResolveError, /Transforming "1"/
+      }
     end
   end
 end

@@ -25,9 +25,12 @@ module Aruba
 
     def working_directory(clobber = true)
       if clobber
-        Aruba.platform.rm File.join(runtime.config.root_directory, runtime.config.working_directory), force: true
+        Aruba.platform.rm File.join(runtime.config.root_directory,
+                                    runtime.config.working_directory),
+                          force: true
       end
-      Aruba.platform.mkdir File.join(runtime.config.root_directory, runtime.config.working_directory)
+      Aruba.platform.mkdir File.join(runtime.config.root_directory,
+                                     runtime.config.working_directory)
       Aruba.platform.chdir runtime.config.root_directory
     end
 
@@ -38,7 +41,8 @@ module Aruba
           runtime.announcer.announce(:command) { event.entity.commandline }
           runtime.announcer.announce(:timeout, 'exit') { event.entity.exit_timeout }
           runtime.announcer.announce(:timeout, 'io wait') { event.entity.io_wait_timeout }
-          runtime.announcer.announce(:wait_time, 'startup wait time') { event.entity.startup_wait_time }
+          runtime.announcer
+            .announce(:wait_time, 'startup wait time') { event.entity.startup_wait_time }
           runtime.announcer.announce(:full_environment) { event.entity.environment }
         end
       )
@@ -57,7 +61,8 @@ module Aruba
           runtime.announcer.announce(:stdout) { event.entity.stdout }
           runtime.announcer.announce(:stderr) { event.entity.stderr }
           runtime.announcer.announce(:command_content) { event.entity.content }
-          runtime.announcer.announce(:command_filesystem_status) { event.entity.filesystem_status }
+          runtime.announcer
+            .announce(:command_filesystem_status) { event.entity.filesystem_status }
         end
       )
 
@@ -69,10 +74,16 @@ module Aruba
       )
 
       runtime.event_bus.register(
-        [:changed_environment_variable, :added_environment_variable, :deleted_environment_variable],
+        [:changed_environment_variable,
+         :added_environment_variable,
+         :deleted_environment_variable],
         proc do |event|
-          runtime.announcer.announce :changed_environment, event.entity[:changed][:name], event.entity[:changed][:value]
-          runtime.announcer.announce :environment, event.entity[:changed][:name], event.entity[:changed][:value]
+          runtime.announcer.announce :changed_environment,
+                                     event.entity[:changed][:name],
+                                     event.entity[:changed][:value]
+          runtime.announcer.announce :environment,
+                                     event.entity[:changed][:name],
+                                     event.entity[:changed][:value]
         end
       )
 
@@ -83,7 +94,11 @@ module Aruba
 
       runtime.event_bus.register(
         :changed_configuration,
-        proc { |event| runtime.announcer.announce :configuration, event.entity[:changed][:name], event.entity[:changed][:value] }
+        proc { |event|
+          runtime.announcer.announce :configuration,
+                                     event.entity[:changed][:name],
+                                     event.entity[:changed][:value]
+        }
       )
     end
   end

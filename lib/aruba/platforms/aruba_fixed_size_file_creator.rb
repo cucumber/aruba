@@ -22,11 +22,16 @@ module Aruba
       # @param [Boolean] check_presence (false)
       #   Check if file exist
       def call(path, size, check_presence)
-        fail "Expected #{path} to be present" if check_presence && !Aruba.platform.file?(path)
+        if check_presence && !Aruba.platform.file?(path)
+          raise "Expected #{path} to be present"
+        end
 
         Aruba.platform.mkdir(File.dirname(path))
 
-        File.open(path, 'wb') { |f| f.seek(size - 1); f.write("\0") }
+        File.open(path, 'wb') do |f|
+          f.seek(size - 1)
+          f.write("\0")
+        end
 
         self
       end

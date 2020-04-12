@@ -92,7 +92,7 @@ module Aruba
       # @return [Dir]
       #   The directory object
       def directory(path)
-        fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
+        raise ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
 
         Dir.new(expand_path(path))
       end
@@ -102,22 +102,31 @@ module Aruba
       # @return [Array]
       #   The content of directory
       def list(name)
-        fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
-        fail ArgumentError, %(Only directories are supported. Path "#{name}" is not a directory.) unless directory? name
+        raise ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
+
+        unless directory? name
+          raise ArgumentError,
+                %(Only directories are supported. Path "#{name}" is not a directory.)
+        end
 
         existing_files            = Dir.glob(expand_path(File.join(name, '**', '*')))
         current_working_directory = Pathname.new(expand_path('.'))
 
-        existing_files.map { |d| Pathname.new(d).relative_path_from(current_working_directory).to_s }
+        existing_files.map do |d|
+          Pathname.new(d).relative_path_from(current_working_directory).to_s
+        end
       end
 
       # Return content of file
       #
       # @return [Array]
-      #   The content of file, without "\n" or "\r\n" at the end. To rebuild the file use `content.join("\n")`
+      #   The content of file, without "\n" or "\r\n" at the end.
+      #   To rebuild the file use `content.join("\n")`
       def read(name)
-        fail ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
-        fail ArgumentError, %(Only files are supported. Path "#{name}" is not a file.) unless file? name
+        raise ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
+        unless file? name
+          raise ArgumentError, %(Only files are supported. Path "#{name}" is not a file.)
+        end
 
         File.readlines(expand_path(name)).map(&:chomp)
       end
@@ -145,7 +154,7 @@ module Aruba
       def touch(*args)
         args = args.flatten
 
-        options = if args.last.kind_of? Hash
+        options = if args.last.is_a? Hash
                     args.pop
                   else
                     {}
@@ -178,7 +187,8 @@ module Aruba
         end
 
         if destination.start_with? aruba.config.fixtures_path_prefix
-          raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported"
+          raise ArgumentError,
+                "Using a fixture as destination (#{destination}) is not supported"
         end
 
         if source.count > 1 && exist?(destination) && !directory?(destination)
@@ -216,11 +226,14 @@ module Aruba
         source = args
 
         source.each do |s|
-          raise ArgumentError, "Using a fixture as source (#{source}) is not supported" if s.start_with? aruba.config.fixtures_path_prefix
+          if s.start_with? aruba.config.fixtures_path_prefix
+            raise ArgumentError, "Using a fixture as source (#{source}) is not supported"
+          end
         end
 
         if destination.start_with? aruba.config.fixtures_path_prefix
-          raise ArgumentError, "Using a fixture as destination (#{destination}) is not supported"
+          raise ArgumentError,
+                "Using a fixture as destination (#{destination}) is not supported"
         end
 
         source.each do |s|
@@ -283,14 +296,14 @@ module Aruba
       def chmod(*args)
         args = args.flatten
 
-        options = if args.last.kind_of? Hash
+        options = if args.last.is_a? Hash
                     args.pop
                   else
                     {}
                   end
 
         mode = args.shift
-        mode = if mode.kind_of? String
+        mode = if mode.is_a? String
                  mode.to_i(8)
                else
                  mode
@@ -335,7 +348,7 @@ module Aruba
       def remove(*args)
         args = args.flatten
 
-        options = if args.last.kind_of? Hash
+        options = if args.last.is_a? Hash
                     args.pop
                   else
                     {}

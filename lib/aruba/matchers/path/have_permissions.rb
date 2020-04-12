@@ -51,11 +51,13 @@ RSpec::Matchers.define :have_permissions do |expected|
   end
 
   failure_message do |_actual|
-    format('expected that path "%s" has permissions "%s", but has "%s".', @old_actual, @expected, @actual)
+    format('expected that path "%s" has permissions "%s", but has "%s".',
+           @old_actual, @expected, @actual)
   end
 
   failure_message_when_negated do |_actual|
-    format('expected that path "%s" does not have permissions "%s", but has "%s".', @old_actual, @expected, @actual)
+    format('expected that path "%s" does not have permissions "%s", but has "%s".',
+           @old_actual, @expected, @actual)
   end
 end
 

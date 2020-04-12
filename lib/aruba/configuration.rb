@@ -20,7 +20,8 @@ module Aruba
     option_reader :root_directory, contract: { None => String }, default: Dir.getwd
 
     option_accessor :working_directory,
-                    contract: { Aruba::Contracts::RelativePath => Aruba::Contracts::RelativePath },
+                    contract: { Aruba::Contracts::RelativePath =>
+                                Aruba::Contracts::RelativePath },
                     default: 'tmp/aruba'
 
     option_reader :fixtures_path_prefix, contract: { None => String }, default: '%'
@@ -36,7 +37,8 @@ module Aruba
     option_accessor :command_runtime_environment, contract: { Hash => Hash }, default: {}
     option_accessor :command_search_paths,
                     contract: { ArrayOf[String] => ArrayOf[String] } do |config|
-                      [File.join(config.root_directory.value, 'bin'), File.join(config.root_directory.value, 'exe')]
+                      [File.join(config.root_directory.value, 'bin'),
+                       File.join(config.root_directory.value, 'exe')]
                     end
     option_accessor :remove_ansi_escape_sequences, contract: { Bool => Bool }, default: true
     option_accessor :command_launcher,
@@ -57,8 +59,10 @@ module Aruba
 
     option_accessor :log_level,
                     contract: {
-                      Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent] =>
-                        Aruba::Contracts::Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent]
+                      Aruba::Contracts::Enum[:fatal, :warn, :debug, :info,
+                                             :error, :unknown, :silent] =>
+                        Aruba::Contracts::Enum[:fatal, :warn, :debug, :info,
+                                               :error, :unknown, :silent]
                     },
                     default: :info
 
@@ -66,11 +70,15 @@ module Aruba
     # equal to 4096 by default. "filesystem allocation unit" would represent
     # the actual MINIMUM space taken in bytes by a 1-byte file
     option_accessor :physical_block_size,
-                    contract: { Aruba::Contracts::IsPowerOfTwo => Aruba::Contracts::IsPowerOfTwo },
+                    contract: { Aruba::Contracts::IsPowerOfTwo =>
+                                Aruba::Contracts::IsPowerOfTwo },
                     default: 512
-    option_accessor :console_history_file, contract: { String => String }, default: '~/.aruba_history'
+    option_accessor :console_history_file, contract: { String => String },
+                                           default: '~/.aruba_history'
 
-    option_accessor :activate_announcer_on_command_failure, contract: { ArrayOf[Symbol] => ArrayOf[Symbol] }, default: []
+    option_accessor :activate_announcer_on_command_failure,
+                    contract: { ArrayOf[Symbol] => ArrayOf[Symbol] },
+                    default: []
     option_accessor :allow_absolute_paths, contract: { Bool => Bool }, default: false
   end
 end

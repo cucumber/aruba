@@ -11,9 +11,7 @@ module Aruba
         def initialize(other_env, &block)
           @other_env = other_env.to_h.each_with_object({}) { |(k, v), a| a[k] = v.to_s }
 
-          @block = if block_given?
-                     block
-                   end
+          @block = (block if block_given?)
         end
 
         def call(env)

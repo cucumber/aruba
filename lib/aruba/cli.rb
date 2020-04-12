@@ -18,7 +18,10 @@ module Aruba
     end
 
     desc 'init', 'Initialize aruba'
-    option :test_framework, default: 'cucumber', enum: %w(cucumber rspec minitest), desc: 'Choose which test framework to use'
+    option :test_framework,
+           default: 'cucumber',
+           enum: %w(cucumber rspec minitest),
+           desc: 'Choose which test framework to use'
     def init
       Aruba::Initializer.new.call(options[:test_framework])
     end

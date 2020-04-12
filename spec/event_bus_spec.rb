@@ -31,7 +31,7 @@ describe Aruba::EventBus do
         .to receive(:transform).with(event_name).and_return(event_klass)
     end
 
-    context 'when subscriber to event, the block is called and gets an instance of the event passed as payload' do
+    context 'when subscribed to the event' do
       before :each do
         bus.register(event_klass) do |event|
           @received_payload = event
@@ -40,7 +40,9 @@ describe Aruba::EventBus do
         bus.notify event_instance
       end
 
-      it { expect(@received_payload).to eq(event_instance) }
+      it 'calls the block with an instance of the event passed as payload' do
+        expect(@received_payload).to eq(event_instance)
+      end
     end
 
     context 'when not subscriber to event' do
@@ -105,7 +107,7 @@ describe Aruba::EventBus do
         it { expect(received_payload).to include event_instance }
       end
 
-      context 'when is symbol and event is defined in the default namespace given to NameResolver.new' do
+      context 'when is symbol and event is defined in the default namespace' do
         let!(:event_name) { :test_event }
         let(:received_payload) { [] }
 

@@ -10,7 +10,8 @@ module Aruba
       def aruba_help
         puts 'Aruba Version: ' + Aruba::VERSION
         puts 'Issue Tracker: ' + 'https://github.com/cucumber/aruba/issues'
-        puts "Documentation:\n" + %w(http://www.rubydoc.info/gems/aruba).map { |d| format('* %s', d) }.join("\n")
+        puts 'Documentation:'
+        puts '* http://www.rubydoc.info/gems/aruba'
         puts
 
         nil
@@ -18,7 +19,9 @@ module Aruba
 
       # List available methods in aruba
       def aruba_methods
-        ms = (Aruba::Api.instance_methods - Module.instance_methods).each_with_object([]) { |e, a| a << format('* %s', e) }.sort
+        ms = (Aruba::Api.instance_methods - Module.instance_methods)
+             .each_with_object([]) { |e, a| a << format('* %s', e) }
+             .sort
 
         puts "Available Methods:\n" + ms.join("\n")
 

@@ -3,11 +3,13 @@ Given(/^I use (?:a|the) fixture(?: named)? "([^"]*)"$/) do |name|
   cd name
 end
 
-Given(/^I copy (?:a|the) (?:file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) do |source, destination|
+Given(/^I copy (?:a|the) (?:file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) \
+  do |source, destination|
   copy source, destination
 end
 
-Given(/^I move (?:a|the) (?:file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) do |source, destination|
+Given(/^I move (?:a|the) (?:file|directory)(?: (?:named|from))? "([^"]*)" to "([^"]*)"$/) \
+  do |source, destination|
   move source, destination
 end
 
@@ -15,7 +17,8 @@ Given(/^(?:a|the|(?:an empty)) directory(?: named)? "([^"]*)"$/) do |dir_name|
   create_directory(dir_name)
 end
 
-Given(/^(?:a|the) directory(?: named)? "([^"]*)" with mode "([^"]*)"$/) do |dir_name, dir_mode|
+Given(/^(?:a|the) directory(?: named)? "([^"]*)" with mode "([^"]*)"$/) \
+  do |dir_name, dir_mode|
   create_directory(dir_name)
   chmod(dir_mode, dir_name)
 end
@@ -32,7 +35,8 @@ Given(/^(?:a|the) file(?: named)? "([^"]*)" with "([^"]*)"$/) do |file_name, fil
   write_file(file_name, unescape_text(file_content))
 end
 
-Given(/^(?:a|the) file(?: named)? "([^"]*)" with mode "([^"]*)" and with:$/) do |file_name, file_mode, file_content|
+Given(/^(?:a|the) file(?: named)? "([^"]*)" with mode "([^"]*)" and with:$/) \
+  do |file_name, file_mode, file_content|
   write_file(file_name, unescape_text(file_content))
   chmod(file_mode, file_name)
 end
@@ -45,7 +49,8 @@ Given(/^(?:an|the) empty file(?: named)? "([^"]*)"$/) do |file_name|
   write_file(file_name, '')
 end
 
-Given(/^(?:an|the) empty file(?: named)? "([^"]*)" with mode "([^"]*)"$/) do |file_name, file_mode|
+Given(/^(?:an|the) empty file(?: named)? "([^"]*)" with mode "([^"]*)"$/) \
+  do |file_name, file_mode|
   write_file(file_name, '')
   chmod(file_mode, file_name)
 end
@@ -54,7 +59,8 @@ When(/^I write to "([^"]*)" with:$/) do |file_name, file_content|
   write_file(file_name, file_content)
 end
 
-When(/^I overwrite(?: (?:a|the) file(?: named)?)? "([^"]*)" with:$/) do |file_name, file_content|
+When(/^I overwrite(?: (?:a|the) file(?: named)?)? "([^"]*)" with:$/) \
+  do |file_name, file_content|
   overwrite_file(file_name, file_content)
 end
 
@@ -66,7 +72,8 @@ When(/^I append to "([^"]*)" with "([^"]*)"$/) do |file_name, file_content|
   append_to_file(file_name, file_content)
 end
 
-When(/^I remove (?:a|the) (?:file|directory)(?: named)? "([^"]*)"( with full force)?$/) do |name, force_remove|
+When(/^I remove (?:a|the) (?:file|directory)(?: named)? "([^"]*)"( with full force)?$/) \
+  do |name, force_remove|
   remove(name, force: force_remove.nil? ? false : true)
 end
 
@@ -88,7 +95,8 @@ Then(/^the following files should (not )?exist:$/) do |negated, files|
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) do |path, expect_match|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) \
+  do |path, expect_match|
   if expect_match
     expect(path).not_to be_an_existing_file
   else
@@ -96,7 +104,8 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) d
   end
 end
 
-Then(/^(?:a|the) directory(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) do |path, expect_match|
+Then(/^(?:a|the) directory(?: named)? "([^"]*)" should (not )?exist(?: anymore)?$/) \
+  do |path, expect_match|
   if expect_match
     expect(path).not_to be_an_existing_directory
   else
@@ -112,7 +121,8 @@ Then(/^(?:a|the) file matching %r<(.*?)> should (not )?exist$/) do |pattern, exp
   end
 end
 
-Then(/^(?:a|the) (\d+) byte file(?: named)? "([^"]*)" should (not )?exist$/) do |size, file, negated|
+Then(/^(?:a|the) (\d+) byte file(?: named)? "([^"]*)" should (not )?exist$/) \
+  do |size, file, negated|
   if negated
     expect(file).not_to have_file_size(size)
   else
@@ -130,7 +140,8 @@ Then(/^the following directories should (not )?exist:$/) do |negated, directorie
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain "([^"]*)"$/) do |file, negated, content|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain "([^"]*)"$/) \
+  do |file, negated, content|
   if negated
     expect(file).not_to have_file_content file_content_including(content.chomp)
   else
@@ -138,7 +149,8 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain "([^"]*)"$/) do
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain:$/) do |file, negated, content|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain:$/) \
+  do |file, negated, content|
   if negated
     expect(file).not_to have_file_content file_content_including(content.chomp)
   else
@@ -146,7 +158,8 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain:$/) do |file, n
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain exactly:$/) do |file, negated, content|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain exactly:$/) \
+  do |file, negated, content|
   if negated
     expect(file).not_to have_file_content content
   else
@@ -154,7 +167,8 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain exactly:$/) do 
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?match %r<([^>]*)>$/) do |file, negated, content|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?match %r<([^>]*)>$/) \
+  do |file, negated, content|
   if negated
     expect(file).not_to have_file_content file_content_matching(content)
   else
@@ -162,7 +176,8 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?match %r<([^>]*)>$/) do
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?match \/([^\/]*)\/$/) do |file, negated, content|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?match \/([^\/]*)\/$/) \
+  do |file, negated, content|
   if negated
     expect(file).not_to have_file_content file_content_matching(content)
   else
@@ -170,7 +185,8 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?match \/([^\/]*)\/$/) d
   end
 end
 
-Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?be equal to file "([^"]*)"/) do |file, negated, reference_file|
+Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?be equal to file "([^"]*)"/) \
+  do |file, negated, reference_file|
   if negated
     expect(file).not_to have_same_file_content_as(reference_file)
   else
@@ -178,10 +194,14 @@ Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?be equal to file "([^"]
   end
 end
 
-Then(/^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" should( not)? have permissions "([^"]*)"$/) do |path, negated, permissions|
-  if negated
-    expect(path).not_to have_permissions(permissions)
-  else
-    expect(path).to have_permissions(permissions)
-  end
+Then(
+  /^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" should have permissions "([^"]*)"$/
+) do |path, permissions|
+  expect(path).to have_permissions(permissions)
+end
+
+Then(
+  /^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" should not have permissions "([^"]*)"$/
+) do |path, permissions|
+  expect(path).not_to have_permissions(permissions)
 end

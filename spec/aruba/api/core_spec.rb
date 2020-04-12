@@ -89,9 +89,8 @@ RSpec.describe Aruba::Api::Core do
 
       it 'warns about it' do
         @aruba.expand_path(@file_path)
-        expect(logger).to have_received(:warn).with(
-          /Aruba's `expand_path` method was called with an absolute path at .*:\d+, which is not recommended/
-        )
+        expect(logger).to have_received(:warn)
+          .with(/Aruba's `expand_path` method was called with an absolute path/)
       end
 
       it 'does not warn about it if told not to' do
@@ -106,7 +105,10 @@ RSpec.describe Aruba::Api::Core do
     end
 
     context 'when path contains ".."' do
-      it { expect(@aruba.expand_path('path/..')).to eq File.expand_path(File.join(aruba.current_directory)) }
+      it {
+        expect(@aruba.expand_path('path/..'))
+          .to eq File.expand_path(File.join(aruba.current_directory))
+      }
     end
 
     context 'when path is nil' do

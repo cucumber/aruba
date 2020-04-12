@@ -32,8 +32,8 @@ module Aruba
         contract = opts[:contract]
         default  = opts[:default]
 
-        fail ArgumentError, 'Either use block or default value' if block_given? && default
-        fail ArgumentError, 'contract-options is required' if contract.nil?
+        raise ArgumentError, 'Either use block or default value' if block_given? && default
+        raise ArgumentError, 'contract-options is required' if contract.nil?
 
         Contract contract
         add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
@@ -61,9 +61,8 @@ module Aruba
         contract = opts[:contract]
         default  = opts[:default]
 
-        fail ArgumentError, 'Either use block or default value' if block_given? && default
-        # fail ArgumentError, 'Either use block or default value' if !block_given? && default.nil? && default.to_s.empty?
-        fail ArgumentError, 'contract-options is required' if contract.nil?
+        raise ArgumentError, 'Either use block or default value' if block_given? && default
+        raise ArgumentError, 'contract-options is required' if contract.nil?
 
         # Add writer
         add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
@@ -210,7 +209,7 @@ module Aruba
     end
 
     def find_option(name)
-      fail NotImplementedError, %(Unknown option "#{name}") unless option? name
+      raise NotImplementedError, %(Unknown option "#{name}") unless option? name
 
       local_options[name]
     end

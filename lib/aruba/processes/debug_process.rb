@@ -41,7 +41,8 @@ module Aruba
       # @return [String]
       #   A predefined string to make users aware they are using the DebugProcess
       def stdout(*)
-        'This is the debug launcher on STDOUT. If this output is unexpected, please check your setup.'
+        'This is the debug launcher on STDOUT.' \
+          ' If this output is unexpected, please check your setup.'
       end
 
       # Return stderr
@@ -49,7 +50,8 @@ module Aruba
       # @return [String]
       #   A predefined string to make users aware they are using the DebugProcess
       def stderr(*)
-        'This is the debug launcher on STDERR. If this output is unexpected, please check your setup.'
+        'This is the debug launcher on STDERR.' \
+          ' If this output is unexpected, please check your setup.'
       end
 
       # Write to nothing

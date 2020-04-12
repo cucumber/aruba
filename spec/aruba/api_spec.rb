@@ -13,7 +13,8 @@ describe Aruba::Api do
       context 'enabled' do
         before :each do
           @aruba.aruba.announcer = instance_double 'Aruba::Platforms::Announcer'
-          expect(@aruba.aruba.announcer).to receive(:announce).with(:stdout) { "hello world\n" }
+          expect(@aruba.aruba.announcer)
+            .to receive(:announce).with(:stdout) { "hello world\n" }
           allow(@aruba.aruba.announcer).to receive(:announce)
         end
 

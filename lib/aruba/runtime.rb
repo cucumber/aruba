@@ -42,14 +42,16 @@ module Aruba
     def initialize(opts = {})
       @event_bus       = EventBus.new(EventBus::NameResolver.new(Aruba::Events))
       @announcer       = opts.fetch(:announcer, Aruba.platform.announcer.new)
-      @config          = opts.fetch(:config, ConfigWrapper.new(Aruba.config.make_copy, @event_bus))
+      @config          = opts.fetch(:config,
+                                    ConfigWrapper.new(Aruba.config.make_copy, @event_bus))
       @environment     = opts.fetch(:environment, Aruba.platform.environment_variables.new)
       @current_directory = ArubaPath.new(@config.working_directory)
       @root_directory    = ArubaPath.new(@config.root_directory)
 
       @environment.update(@config.command_runtime_environment)
 
-      @command_monitor = opts.fetch(:command_monitor, Aruba.platform.command_monitor.new(announcer: @announcer))
+      @command_monitor = opts.fetch(:command_monitor,
+                                    Aruba.platform.command_monitor.new(announcer: @announcer))
 
       @logger = opts.fetch(:logger, Aruba.platform.logger.new)
       @logger.mode = @config.log_level
@@ -81,12 +83,17 @@ module Aruba
         candidates = config.fixtures_directories.map { |dir| File.join(root_directory, dir) }
         directory = candidates.find { |d| Aruba.platform.directory? d }
 
-        fail "No existing fixtures directory found in #{candidates.map { |d| format('"%s"', d) }.join(', ')}." unless directory
+        unless directory
+          canditates_display = candidates.map { |d| format('"%s"', d) }.join(', ')
+          raise "No existing fixtures directory found in #{canditates_display}."
+        end
 
         directory
       end
 
-      fail %(Fixtures directory "#{@fixtures_directory}" is not a directory) unless Aruba.platform.directory?(@fixtures_directory)
+      unless Aruba.platform.directory?(@fixtures_directory)
+        raise %(Fixtures directory "#{@fixtures_directory}" is not a directory)
+      end
 
       ArubaPath.new(@fixtures_directory)
     end

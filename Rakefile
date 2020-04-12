@@ -18,13 +18,13 @@ require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
 
 Cucumber::Rake::Task.new do |t|
-  t.cucumber_opts = %w{--format progress}
+  t.cucumber_opts = %w(--format progress)
 end
 
 Cucumber::Rake::Task.new('cucumber:wip', 'Run Cucumber features '\
                          'which are "WORK IN PROGRESS" and '\
                          'are allowed to fail') do |t|
-  t.cucumber_opts = %w{--format progress}
+  t.cucumber_opts = %w(--format progress)
   t.profile = 'wip'
 end
 
@@ -53,7 +53,8 @@ namespace :docker do
     args.with_defaults(version: 'latest')
     args.with_defaults(cache: true)
 
-    docker_compose_file = Aruba::DockerComposeFile.new(File.expand_path('docker-compose.yml', __dir__))
+    docker_compose_file =
+      Aruba::DockerComposeFile.new(File.expand_path('docker-compose.yml', __dir__))
     docker_run_instance = Aruba::DockerRunInstance.new(docker_compose_file, :base)
 
     builder = Aruba::DockerBuildCommandLineBuilder.new(
@@ -67,7 +68,8 @@ namespace :docker do
 
   desc 'Run docker container'
   task :run, :command do |_, args|
-    docker_compose_file = Aruba::DockerComposeFile.new(File.expand_path('docker-compose.yml', __dir__))
+    docker_compose_file =
+      Aruba::DockerComposeFile.new(File.expand_path('docker-compose.yml', __dir__))
     docker_run_instance = Aruba::DockerRunInstance.new(docker_compose_file, :base)
 
     builder = Aruba::DockerRunCommandLineBuilder.new(

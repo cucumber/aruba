@@ -41,10 +41,10 @@ RSpec.describe 'Collection Matchers' do
 
     context 'when succeeding with compound matchers' do
       describe [1, 'anything', 'something'] do
-        it { is_expected.to include_an_object(be_a(String).and include('thing')) }
-        it { is_expected.to include_an_object(be_a(String).and end_with('g')) }
-        it { is_expected.to include_an_object(start_with('q').or include('y')) }
-        it { is_expected.not_to include_an_object(start_with('b').or include('b')) }
+        it { is_expected.to include_an_object(be_a(String).and(include('thing'))) }
+        it { is_expected.to include_an_object(be_a(String).and(end_with('g'))) }
+        it { is_expected.to include_an_object(start_with('q').or(include('y'))) }
+        it { is_expected.not_to include_an_object(start_with('b').or(include('b'))) }
       end
     end
   end

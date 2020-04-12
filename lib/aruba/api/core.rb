@@ -15,8 +15,10 @@ module Aruba
 
       # Aruba Runtime
       def aruba
-        # TODO: Check this variable being accessed inconsistently. Should only be using the memo!
-        # Renaming this to `aruba` causes 100's of rspec failures. Needs a deeper dive, approach with caution!
+        # TODO: Check this variable being accessed inconsistently. Should only
+        # be using the memo!
+        # Renaming this to `aruba` causes 100's of rspec failures. Needs a
+        # deeper dive, approach with caution!
         @_aruba_runtime ||= Runtime.new
       end
 
@@ -58,18 +60,21 @@ module Aruba
         if block_given?
           begin
             unless Aruba.platform.directory?(expand_path(dir))
-              raise ArgumentError, "#{expand_path(dir)} is not a directory or does not exist."
+              raise ArgumentError,
+                    "#{expand_path(dir)} is not a directory or does not exist."
             end
 
             old_directory = expand_path('.')
             aruba.current_directory << dir
             new_directory = expand_path('.')
 
-            aruba.event_bus.notify Events::ChangedWorkingDirectory.new(old: old_directory, new: new_directory)
+            aruba.event_bus.notify Events::ChangedWorkingDirectory.new(old: old_directory,
+                                                                       new: new_directory)
 
             old_dir = Aruba.platform.getwd
 
-            real_new_directory = File.expand_path(aruba.current_directory, aruba.root_directory)
+            real_new_directory = File.expand_path(aruba.current_directory,
+                                                  aruba.root_directory)
             Aruba.platform.chdir real_new_directory
 
             result = with_environment(
@@ -85,16 +90,20 @@ module Aruba
           return result
         end
 
-        raise ArgumentError, "#{expand_path(dir)} is not a directory or does not exist." unless Aruba.platform.directory?(expand_path(dir))
+        unless Aruba.platform.directory?(expand_path(dir))
+          raise ArgumentError, "#{expand_path(dir)} is not a directory or does not exist."
+        end
 
         old_directory = expand_path('.')
         aruba.current_directory << dir
         new_directory = expand_path('.')
 
-        aruba.event_bus.notify Events::ChangedWorkingDirectory.new(old: old_directory, new: new_directory)
+        aruba.event_bus.notify Events::ChangedWorkingDirectory.new(old: old_directory,
+                                                                   new: new_directory)
 
         self
       end
+
       # Expand file name
       #
       # @param [String] file_name
@@ -132,15 +141,17 @@ module Aruba
       #   expand_path('/foo/bar')
       #
       def expand_path(file_name, dir_string = nil)
-        message = "Filename #{file_name} needs to be a string. It cannot be nil or empty either. "\
+        message = "Filename #{file_name} needs to be a string." \
+          ' It cannot be nil or empty either. '\
           "Please use `expand_path('.')` if you want the current directory to be expanded."
 
-        fail ArgumentError, message unless file_name.is_a?(String) && !file_name.empty?
+        raise ArgumentError, message unless file_name.is_a?(String) && !file_name.empty?
 
-        unless Aruba.platform.directory? File.join(aruba.config.root_directory, aruba.config.working_directory)
-          fail %(Aruba's working directory does not exist. Maybe you forgot to run `setup_aruba` before using its API.)
+        unless Aruba.platform.directory? File.join(aruba.config.root_directory,
+                                                   aruba.config.working_directory)
+          raise "Aruba's working directory does not exist." \
+            ' Maybe you forgot to run `setup_aruba` before using its API.'
         end
-
 
         prefix = file_name[0]
         rest = file_name[2..-1]
@@ -148,10 +159,14 @@ module Aruba
         if aruba.config.fixtures_path_prefix == prefix
           path = File.join(*[aruba.fixtures_directory, rest].compact)
           unless Aruba.platform.exist? path
-            aruba_fixture_candidates = aruba.config.fixtures_directories.map { |p| format('"%s"', p) }.join(', ')
+            aruba_fixture_candidates = aruba.config.fixtures_directories
+                                            .map { |p| format('"%s"', p) }.join(', ')
 
-            raise ArgumentError, "Fixture \"#{rest}\" does not exist in fixtures directory \"#{aruba.fixtures_directory}\". "\
-              "This was the one we found first on your system from all possible candidates: #{aruba_fixture_candidates}."
+            raise ArgumentError,
+                  "Fixture \"#{rest}\" does not exist" \
+                  " in fixtures directory \"#{aruba.fixtures_directory}\"." \
+                  ' This was the one we found first on your system from all possible' \
+                  " candidates: #{aruba_fixture_candidates}."
           end
 
           path
@@ -161,15 +176,21 @@ module Aruba
           end
 
           raise ArgumentError, 'Expanding "~/" to "/" is not allowed' if path == '/'
-          raise ArgumentError, "Expanding \"~\" to a relative path \"#{path}\" is not allowed" unless Aruba.platform.absolute_path? path
+
+          unless Aruba.platform.absolute_path? path
+            raise ArgumentError,
+                  "Expanding \"~\" to a relative path \"#{path}\" is not allowed"
+          end
 
           path.to_s
         elsif absolute?(file_name)
           unless aruba.config.allow_absolute_paths
             caller_location = caller_locations(1, 1).first
             caller_file_line = "#{caller_location.path}:#{caller_location.lineno}"
-            aruba.logger.warn "Aruba's `expand_path` method was called with an absolute path at #{caller_file_line}"\
-              ', which is not recommended. Change the call to pass a relative path or set '\
+            aruba.logger.warn \
+              "Aruba's `expand_path` method was called with an absolute path" \
+              " at #{caller_file_line}, which is not recommended." \
+              ' Change the call to pass a relative path or set '\
               '`config.allow_absolute_paths = true` to silence this warning'
           end
           file_name
@@ -181,7 +202,6 @@ module Aruba
           end
         end
       end
-
 
       # Run block with environment
       #

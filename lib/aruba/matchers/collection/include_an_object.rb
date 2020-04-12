@@ -29,9 +29,7 @@ module Aruba
       # @api private
       # @return [String]
       def failure_message
-        unless iterable?
-          return "#{improve_hash_formatting(super)}, but was not iterable"
-        end
+        return "#{improve_hash_formatting(super)}, but was not iterable" unless iterable?
 
         return failed_objects.first if failed_objects.size == 1
 
@@ -91,7 +89,9 @@ module Aruba
 
       def failure_message_for_item(index, failure_message)
         failure_message = indent_multiline_message(add_new_line_if_needed(failure_message))
-        indent_multiline_message("object at index #{index} failed to match:#{failure_message}")
+        indent_multiline_message(
+          "object at index #{index} failed to match:#{failure_message}"
+        )
       end
 
       def add_new_line_if_needed(message)

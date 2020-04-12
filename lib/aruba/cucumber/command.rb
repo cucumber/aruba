@@ -12,7 +12,8 @@ When(/^I successfully run `(.*?)`(?: for up to ([\d.]+) seconds)?$/) do |cmd, se
   run_command_and_stop(cmd, fail_on_error: true, exit_timeout: secs && secs.to_f)
 end
 
-When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) do |shell, commands|
+When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) \
+  do |shell, commands|
   full_path = expand_path('bin/myscript')
 
   Aruba.platform.mkdir(expand_path('bin'))
@@ -61,7 +62,8 @@ When(/^I (terminate|stop) the command (?:"([^"]*)"|(?:started last))$/) do |sign
   end
 end
 
-When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$/) do |channel, expected|
+When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$/) \
+  do |channel, expected|
   begin
     Timeout.timeout(aruba.config.exit_timeout) do
       loop do
@@ -119,7 +121,8 @@ Then(/^the output should be (\d+) bytes long$/) do |size|
 end
 
 ## the stderr should contain "hello"
-Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)? "([^"]*)"$/) do |channel, negated, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)? "([^"]*)"$/) \
+  do |channel, negated, exactly, expected|
   combined_output = send("all_#{channel}")
 
   output_string_matcher = if exactly
@@ -136,7 +139,9 @@ Then(/^(?:the )?(output|stderr|stdout) should( not)? contain( exactly)? "([^"]*)
 end
 
 ## the stderr from "echo -n 'Hello'" should contain "hello"
-Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)? "([^"]*)"$/) do |channel, cmd, exactly, expected|
+Then(
+  /^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)? "([^"]*)"$/
+) do |channel, cmd, exactly, expected|
   matcher = case channel
             when 'output'; then :have_output
             when 'stderr'; then :have_output_on_stderr
@@ -155,7 +160,9 @@ Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)? 
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain "hello"
-Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)? "([^"]*)"$/) do |channel, cmd, exactly, expected|
+Then(
+  /^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)? "([^"]*)"$/
+) do |channel, cmd, exactly, expected|
   matcher = case channel
             when 'output'; then :have_output
             when 'stderr'; then :have_output_on_stderr
@@ -174,7 +181,8 @@ Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactl
 end
 
 ## the stderr should not contain exactly:
-Then(/^(?:the )?(output|stderr|stdout) should not contain( exactly)?:$/) do |channel, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) should not contain( exactly)?:$/) \
+  do |channel, exactly, expected|
   combined_output = send("all_#{channel}")
 
   output_string_matcher = if exactly
@@ -187,7 +195,8 @@ Then(/^(?:the )?(output|stderr|stdout) should not contain( exactly)?:$/) do |cha
 end
 
 ## the stderr should contain exactly:
-Then(/^(?:the )?(output|stderr|stdout) should contain( exactly)?:$/) do |channel, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) should contain( exactly)?:$/) \
+  do |channel, exactly, expected|
   combined_output = send("all_#{channel}")
 
   output_string_matcher = if exactly
@@ -200,7 +209,8 @@ Then(/^(?:the )?(output|stderr|stdout) should contain( exactly)?:$/) do |channel
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain exactly:
-Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)?:$/) do |channel, cmd, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)?:$/) \
+  do |channel, cmd, exactly, expected|
   matcher = case channel
             when 'output'; then :have_output
             when 'stderr'; then :have_output_on_stderr
@@ -219,7 +229,8 @@ Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactl
 end
 
 ## the stderr from "echo -n 'Hello'" should contain exactly:
-Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)?:$/) do |channel, cmd, exactly, expected|
+Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)?:$/) \
+  do |channel, cmd, exactly, expected|
   matcher = case channel
             when 'output'; then :have_output
             when 'stderr'; then :have_output_on_stderr
@@ -243,32 +254,36 @@ end
 # appear naturally in the output
 Then(/^the output should( not)? match \/([^\/]*)\/$/) do |negated, expected|
   if negated
-    expect(all_commands).not_to include_an_object have_output an_output_string_matching(expected)
+    expect(all_commands)
+      .not_to include_an_object have_output an_output_string_matching(expected)
   else
-    expect(all_commands).to include_an_object have_output an_output_string_matching(expected)
+    expect(all_commands)
+      .to include_an_object have_output an_output_string_matching(expected)
   end
 end
 
 Then(/^the output should( not)? match %r<([^>]*)>$/) do |negated, expected|
   if negated
-    expect(all_commands).not_to include_an_object have_output an_output_string_matching(expected)
+    expect(all_commands)
+      .not_to include_an_object have_output an_output_string_matching(expected)
   else
-    expect(all_commands).to include_an_object have_output an_output_string_matching(expected)
+    expect(all_commands)
+      .to include_an_object have_output an_output_string_matching(expected)
   end
 end
 
 Then(/^the output should( not)? match:$/) do |negated, expected|
   if negated
-    expect(all_commands).not_to include_an_object have_output an_output_string_matching(expected)
+    expect(all_commands)
+      .not_to include_an_object have_output an_output_string_matching(expected)
   else
-    expect(all_commands).to include_an_object have_output an_output_string_matching(expected)
+    expect(all_commands)
+      .to include_an_object have_output an_output_string_matching(expected)
   end
 end
 
 Then(/^the exit status should( not)? be (\d+)$/) do |negated, exit_status|
-  if last_command_stopped.nil?
-    last_command_started.stop
-  end
+  last_command_started.stop if last_command_stopped.nil?
 
   if negated
     expect(last_command_stopped).not_to have_exit_status exit_status.to_i
@@ -383,7 +398,8 @@ Then(/^(?:the )?(output|stderr|stdout) should not contain anything$/) do |channe
   expect(all_commands).to include_an_object send(matcher, be_nil.or(be_empty))
 end
 
-Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) do |channel, negated, table|
+Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) \
+  do |channel, negated, table|
   table.raw.flatten.each do |expected|
     _matcher = case channel
                when 'output'; then :have_output
@@ -394,9 +410,11 @@ Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:
     # TODO: This isn't actually using the above. It's hardcoded to use have_output only
 
     if negated
-      expect(all_commands).not_to include_an_object have_output an_output_string_including(expected)
+      expect(all_commands)
+        .not_to include_an_object have_output an_output_string_including(expected)
     else
-      expect(all_commands).to include_an_object have_output an_output_string_including(expected)
+      expect(all_commands)
+        .to include_an_object have_output an_output_string_including(expected)
     end
   end
 end
@@ -417,10 +435,11 @@ Given(/^I wait ([\d.]+) seconds? for (?:a|the) command to start up$/) do |second
   aruba.config.startup_wait_time = seconds.to_f
 end
 
-When(/^I send the signal "([^"]*)" to the command (?:"([^"]*)"|(?:started last))$/) do |signal, command|
+When(/^I send the signal "([^"]*)" to the command (?:"([^"]*)"|(?:started last))$/) \
+ do |signal, command|
   if command
     cmd = all_commands.find { |c| c.commandline == command }
-    fail ArgumentError, %(No command "#{command}" found) if cmd.nil?
+    raise ArgumentError, %(No command "#{command}" found) if cmd.nil?
 
     cmd.send_signal signal
   else

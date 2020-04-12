@@ -28,7 +28,7 @@ RSpec.describe Aruba::Processes::BasicProcess do
 
   describe '#inspect' do
     it 'it shows useful info' do
-      expected = /#<#<Class:0x[0-9A-Fa-f]+>:\d+ commandline="foobar": stdout="foo output" stderr="foo error output"/
+      expected = /commandline="foobar": stdout="foo output" stderr="foo error output"/
       expect(subject.inspect).to match(expected)
     end
 
@@ -36,7 +36,7 @@ RSpec.describe Aruba::Processes::BasicProcess do
       let(:stdout) { nil }
 
       it 'it shows useful info' do
-        expected = /#<#<Class:0x[0-9A-Fa-f]+>:\d+ commandline="foobar": stdout=nil stderr="foo error output"/
+        expected = /commandline="foobar": stdout=nil stderr="foo error output"/
         expect(subject.inspect).to match(expected)
       end
     end
@@ -45,7 +45,7 @@ RSpec.describe Aruba::Processes::BasicProcess do
       let(:stderr) { nil }
 
       it 'it shows useful info' do
-        expected = /#<#<Class:0x[0-9A-Fa-f]+>:\d+ commandline="foobar": stdout="foo output" stderr=nil/
+        expected = /commandline="foobar": stdout="foo output" stderr=nil/
         expect(subject.inspect).to match(expected)
       end
     end
@@ -55,7 +55,7 @@ RSpec.describe Aruba::Processes::BasicProcess do
       let(:stdout) { nil }
 
       it 'it shows useful info' do
-        expected = /#<#<Class:0x[0-9A-Fa-f]+>:\d+ commandline="foobar": stdout=nil stderr=nil/
+        expected = /commandline="foobar": stdout=nil stderr=nil/
         expect(subject.inspect).to match(expected)
       end
     end
