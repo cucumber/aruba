@@ -541,7 +541,7 @@ RSpec.describe Aruba::Api::Filesystem do
             expect(full_content).to     match(/foo/)
             expect(full_content).not_to match(/zoo/)
           end
-        end . not_to raise_error
+        end.not_to raise_error
       end
 
       it "raises ExpectationNotMetError when the inner expectations don't match" do
@@ -550,7 +550,7 @@ RSpec.describe Aruba::Api::Filesystem do
             expect(full_content).to     match(/zoo/)
             expect(full_content).not_to match(/foo/)
           end
-        end . to raise_error RSpec::Expectations::ExpectationNotMetError
+        end.to raise_error RSpec::Expectations::ExpectationNotMetError
       end
     end
   end
