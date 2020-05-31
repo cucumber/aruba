@@ -250,7 +250,6 @@ Security/Open:
 # SupportedStyles: inline, group
 Style/AccessModifierDeclarations:
   Exclude:
-    - 'lib/aruba/matchers/base/base_matcher.rb'
     - 'lib/aruba/matchers/collection/all.rb'
 
 # Offense count: 3

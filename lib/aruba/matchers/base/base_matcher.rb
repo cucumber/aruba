@@ -33,6 +33,8 @@ module Aruba
 
       # @private
       module HashFormatting
+        module_function
+
         # `{ :a => 5, :b => 2 }.inspect` produces:
         #
         #     {:a=>5, :b=>2}
@@ -45,7 +47,6 @@ module Aruba
         def improve_hash_formatting(inspect_string)
           inspect_string.gsub(/(\S)=>(\S)/, '\1 => \2')
         end
-        module_function :improve_hash_formatting
       end
 
       include HashFormatting
