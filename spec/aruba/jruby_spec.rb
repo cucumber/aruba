@@ -4,7 +4,7 @@ require 'aruba/api'
 describe 'Aruba JRuby Startup Helper' do
   include Aruba::Api
 
-  let(:rb_config) { double('RbConfig::CONFIG') }
+  let(:rb_config) { instance_double(Hash) }
   let(:command) do
     instance_double(Aruba::Processes::BasicProcess, environment: command_environment)
   end

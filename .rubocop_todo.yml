@@ -210,12 +210,6 @@ RSpec/UnspecifiedException:
   Exclude:
     - 'spec/aruba/runtime_spec.rb'
 
-# Offense count: 1
-# Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
-RSpec/VerifiedDoubles:
-  Exclude:
-    - 'spec/aruba/jruby_spec.rb'
-
 # Offense count: 2
 Security/Open:
   Exclude:
