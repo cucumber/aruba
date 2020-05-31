@@ -37,7 +37,8 @@ Then(/^the feature(?:s)? should(?: all)? pass with( regex)?:$/) do |regex, strin
 end
 
 # RSpec
-Then(/^the spec(?:s)? should not(?: all)? pass(?: with (\d+) failures?)?$/) do |count_failures|
+Then(/^the spec(?:s)? should not(?: all)? pass(?: with (\d+) failures?)?$/) \
+  do |count_failures|
   if count_failures.nil?
     step 'the output should not contain "0 failures"'
   else
@@ -79,7 +80,7 @@ end
 
 # Minitest
 Then(/^the tests(?:s)? should not(?: all)? pass(?: with (\d+) failures?)?$/) \
-do |count_failures|
+  do |count_failures|
   if count_failures.nil?
     step 'the output should not contain "0 errors"'
   else
