@@ -138,13 +138,6 @@ RSpec/ExampleLength:
     - 'spec/aruba/aruba_path_spec.rb'
     - 'spec/aruba/matchers/collection_spec.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-RSpec/ExpectActual:
-  Exclude:
-    - 'spec/routing/**/*'
-    - 'spec/aruba/matchers/collection_spec.rb'
-
 # Offense count: 1
 RSpec/ExpectInHook:
   Exclude:
