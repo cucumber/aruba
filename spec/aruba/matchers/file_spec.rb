@@ -92,7 +92,7 @@ RSpec.describe 'File Matchers' do
         end.to fail_with('expected "test.txt" to have file content: "z"')
       end
 
-      example 'for a string' do
+      example 'for a regular expression' do
         expect do
           expect(@file_name).to have_file_content(/z/)
         end.to fail_with('expected "test.txt" to have file content: /z/')

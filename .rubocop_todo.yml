@@ -205,11 +205,6 @@ RSpec/NamedSubject:
 RSpec/NestedGroups:
   Max: 6
 
-# Offense count: 2
-RSpec/RepeatedDescription:
-  Exclude:
-    - 'spec/aruba/matchers/file_spec.rb'
-
 # Offense count: 1
 RSpec/UnspecifiedException:
   Exclude:
