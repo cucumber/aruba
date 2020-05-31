@@ -171,6 +171,7 @@ RSpec.describe 'File Matchers' do
       context 'and this is not expected' do
         it do
           expect { expect(files).not_to include a_file_with_same_content_as reference_file }
+            .to raise_error RSpec::Expectations::ExpectationNotMetError
         end
       end
     end
@@ -185,6 +186,7 @@ RSpec.describe 'File Matchers' do
       context 'and this is not expected' do
         it do
           expect { expect(files).to include a_file_with_same_content_as reference_file }
+            .to raise_error RSpec::Expectations::ExpectationNotMetError
         end
       end
     end

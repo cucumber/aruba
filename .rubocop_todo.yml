@@ -236,11 +236,6 @@ RSpec/VerifiedDoubles:
     - 'spec/aruba/jruby_spec.rb'
 
 # Offense count: 2
-RSpec/VoidExpect:
-  Exclude:
-    - 'spec/aruba/matchers/file_spec.rb'
-
-# Offense count: 2
 Security/Open:
   Exclude:
     - 'lib/aruba/processes/spawn_process.rb'
