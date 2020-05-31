@@ -11,12 +11,6 @@ Lint/AmbiguousBlockAssociation:
   Exclude:
     - 'lib/aruba/platforms/announcer.rb'
 
-# Offense count: 12
-# Cop supports --auto-correct.
-Lint/AmbiguousRegexpLiteral:
-  Exclude:
-    - 'lib/aruba/cucumber/testing_frameworks.rb'
-
 # Offense count: 2
 # Configuration parameters: CheckForMethodsWithNoSideEffects.
 Lint/Void:
