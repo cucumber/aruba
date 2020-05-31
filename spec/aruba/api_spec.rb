@@ -39,20 +39,6 @@ describe Aruba::Api do
     end
   end
 
-  describe 'fixtures' do
-    let(:api) do
-      klass = Class.new do
-        include Aruba::Api
-
-        def root_directory
-          expand_path('.')
-        end
-      end
-
-      klass.new
-    end
-  end
-
   describe '#set_environment_variable' do
     after do
       @aruba.all_commands.each(&:stop)

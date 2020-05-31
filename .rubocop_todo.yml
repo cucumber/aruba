@@ -123,12 +123,6 @@ RSpec/DescribeClass:
     - 'spec/aruba/platform/simple_table_spec.rb'
     - 'spec/aruba/rspec_spec.rb'
 
-# Offense count: 1
-# Configuration parameters: CustomIncludeMethods.
-RSpec/EmptyExampleGroup:
-  Exclude:
-    - 'spec/aruba/api_spec.rb'
-
 # Offense count: 19
 # Configuration parameters: Max.
 RSpec/ExampleLength:
