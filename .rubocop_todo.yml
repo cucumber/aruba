@@ -310,12 +310,3 @@ Style/NumericPredicate:
   Exclude:
     - 'spec/**/*'
     - 'lib/aruba/contracts/is_power_of_two.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, AllowInnerSlashes.
-# SupportedStyles: slashes, percent_r, mixed
-Style/RegexpLiteral:
-  Exclude:
-    - 'lib/aruba/cucumber/command.rb'
-    - 'lib/aruba/cucumber/file.rb'
