@@ -52,15 +52,15 @@ describe Aruba::EventBus::NameResolver do
       end
 
       context 'when is string' do
-        let!(:default_name_space) { 'MyLib::Events' }
-        let!(:original_name) { :my_event }
+        let(:default_name_space) { 'MyLib::Events' }
+        let(:original_name) { :my_event }
 
         it { expect(resolved_name).to eq MyLib::Events::MyEvent }
       end
 
       context 'when is module' do
-        let!(:default_name_space) { MyLib::Events }
-        let!(:original_name) { :my_event }
+        let(:default_name_space) { MyLib::Events }
+        let(:original_name) { :my_event }
 
         it { expect(resolved_name).to eq MyLib::Events::MyEvent }
       end

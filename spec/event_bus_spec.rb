@@ -17,13 +17,13 @@ describe Aruba::EventBus do
 
   let(:name_resolver) { instance_double('Events::NameResolver') }
 
-  let!(:event_klass) { Events::TestEvent }
-  let!(:event_name) { event_klass }
-  let!(:event_instance) { Events::TestEvent.new }
+  let(:event_klass) { Events::TestEvent }
+  let(:event_name) { event_klass }
+  let(:event_instance) { Events::TestEvent.new }
 
-  let!(:another_event_klass) { Events::AnotherTestEvent }
-  let!(:another_event_name) { another_event_klass }
-  let!(:another_event_instance) { Events::AnotherTestEvent.new }
+  let(:another_event_klass) { Events::AnotherTestEvent }
+  let(:another_event_name) { another_event_klass }
+  let(:another_event_instance) { Events::AnotherTestEvent.new }
 
   describe '#notify' do
     before do
@@ -56,7 +56,7 @@ describe Aruba::EventBus do
     end
 
     context 'when event is not an instance of event class' do
-      let!(:event_name) { :test_event }
+      let(:event_name) { :test_event }
       let(:received_payload) { [] }
 
       before do
@@ -93,7 +93,7 @@ describe Aruba::EventBus do
       end
 
       context 'when is string' do
-        let!(:event_name) { event_klass.to_s }
+        let(:event_name) { event_klass.to_s }
         let(:received_payload) { [] }
 
         before do
@@ -108,7 +108,7 @@ describe Aruba::EventBus do
       end
 
       context 'when is symbol and event is defined in the default namespace' do
-        let!(:event_name) { :test_event }
+        let(:event_name) { :test_event }
         let(:received_payload) { [] }
 
         before do

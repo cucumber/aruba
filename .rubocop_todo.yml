@@ -176,12 +176,6 @@ RSpec/LeakyConstantDeclaration:
     - 'spec/aruba/platform/windows_environment_variables_spec.rb'
     - 'spec/aruba/processes/in_process_spec.rb'
 
-# Offense count: 5
-RSpec/LetSetup:
-  Exclude:
-    - 'spec/event_bus/name_resolver_spec.rb'
-    - 'spec/event_bus_spec.rb'
-
 # Offense count: 32
 RSpec/MultipleExpectations:
   Max: 5
