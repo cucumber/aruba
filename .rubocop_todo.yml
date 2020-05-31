@@ -193,14 +193,6 @@ RSpec/MessageSpies:
 RSpec/MultipleExpectations:
   Max: 5
 
-# Offense count: 10
-# Configuration parameters: IgnoreSharedExamples.
-RSpec/NamedSubject:
-  Exclude:
-    - 'spec/aruba/hooks_spec.rb'
-    - 'spec/aruba/platforms/command_monitor_spec.rb'
-    - 'spec/aruba/processes/basic_process_spec.rb'
-
 # Offense count: 187
 RSpec/NestedGroups:
   Max: 6
