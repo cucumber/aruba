@@ -1,35 +1,43 @@
 require 'spec_helper'
 
 RSpec.describe Aruba::Processes::InProcess do
-  class Runner
-    def initialize(_argv, _stdin, stdout, stderr, kernel)
-      @stdout = stdout
-      @stderr = stderr
-      @kernel = kernel
-    end
+  let(:base_runner) do
+    Class.new do
+      def initialize(_argv, _stdin, stdout, stderr, kernel)
+        @stdout = stdout
+        @stderr = stderr
+        @kernel = kernel
+      end
 
-    def execute!; end
-  end
-
-  class StdoutRunner < Runner
-    def execute!
-      @stdout.puts 'yo'
+      def execute!; end
     end
   end
 
-  class StderrRunner < Runner
-    def execute!
-      @stderr.puts 'yo'
+  let(:stdout_runner) do
+    Class.new(base_runner) do
+      def execute!
+        @stdout.puts 'yo'
+      end
     end
   end
 
-  class FailedRunner < Runner
-    def execute!
-      raise 'Oops'
+  let(:stderr_runner) do
+    Class.new(base_runner) do
+      def execute!
+        @stderr.puts 'yo'
+      end
     end
   end
 
-  subject(:process) do
+  let(:failed_runner) do
+    Class.new(base_runner) do
+      def execute!
+        raise 'Oops'
+      end
+    end
+  end
+
+  let(:process) do
     described_class.new(command, exit_timeout, io_wait, working_directory,
                         environment, main_class)
   end
@@ -39,10 +47,10 @@ RSpec.describe Aruba::Processes::InProcess do
   let(:io_wait) { 1 }
   let(:working_directory) { Dir.getwd }
   let(:environment) { ENV.to_hash.dup }
-  let(:main_class) { Runner }
+  let(:main_class) { base_runner }
 
   describe '#stdout' do
-    let(:main_class) { StdoutRunner }
+    let(:main_class) { stdout_runner }
 
     before do
       process.start
@@ -59,7 +67,7 @@ RSpec.describe Aruba::Processes::InProcess do
   end
 
   describe '#stderr' do
-    let(:main_class) { StderrRunner }
+    let(:main_class) { stderr_runner }
 
     before do
       process.start
@@ -99,7 +107,7 @@ RSpec.describe Aruba::Processes::InProcess do
     end
 
     context 'when process run fails' do
-      let(:main_class) { FailedRunner }
+      let(:main_class) { failed_runner }
 
       it { expect { process.start }.to raise_error RuntimeError, 'Oops' }
     end
@@ -109,7 +117,7 @@ RSpec.describe Aruba::Processes::InProcess do
     def run_process(&block)
       process = described_class.new(
         command, exit_timeout, io_wait, working_directory,
-        environment, Class.new(Runner) { define_method(:execute!, &block) }
+        environment, Class.new(base_runner) { define_method(:execute!, &block) }
       )
       process.start
       process.stop
