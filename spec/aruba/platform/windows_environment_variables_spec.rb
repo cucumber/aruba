@@ -298,7 +298,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
     context 'when environment contains uppercase variable' do
       let(:old_environment) { { 'MY_VARIABLE' => '1' } }
 
-      before(:each) { environment.append(variable, value) }
+      before { environment.append(variable, value) }
 
       context 'when uppercase key is given' do
         let(:variable) { 'MY_VARIABLE' }
@@ -328,7 +328,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
     context 'when environment contains lowercase variable' do
       let(:old_environment) { { 'my_variable' => '1' } }
 
-      before(:each) { environment.append(variable, value) }
+      before { environment.append(variable, value) }
 
       context 'when uppercase key is given' do
         let(:variable) { 'MY_VARIABLE' }
@@ -358,7 +358,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
     context 'when environment contains mixed case variable' do
       let(:old_environment) { { 'MY_variable' => '1' } }
 
-      before(:each) { environment.append(variable, value) }
+      before { environment.append(variable, value) }
 
       context 'when uppercase key is given' do
         let(:variable) { 'MY_VARIABLE' }
@@ -392,7 +392,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
     context 'when environment contains uppercase variable' do
       let(:old_environment) { { 'MY_VARIABLE' => '1' } }
 
-      before(:each) { environment.prepend(variable, value) }
+      before { environment.prepend(variable, value) }
 
       context 'when uppercase key is given' do
         let(:variable) { 'MY_VARIABLE' }
@@ -422,7 +422,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
     context 'when environment contains lowercase variable' do
       let(:old_environment) { { 'my_variable' => '1' } }
 
-      before(:each) { environment.prepend(variable, value) }
+      before { environment.prepend(variable, value) }
 
       context 'when uppercase key is given' do
         let(:variable) { 'MY_VARIABLE' }
@@ -452,7 +452,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
     context 'when environment contains mixed case variable' do
       let(:old_environment) { { 'MY_variable' => '1' } }
 
-      before(:each) { environment.prepend(variable, value) }
+      before { environment.prepend(variable, value) }
 
       context 'when uppercase key is given' do
         let(:variable) { 'MY_VARIABLE' }

@@ -6,7 +6,7 @@ RSpec.describe Aruba::InConfigWrapper do
   let(:config) { {} }
 
   context 'when option is defined' do
-    before :each do
+    before do
       config[:opt] = true
     end
 

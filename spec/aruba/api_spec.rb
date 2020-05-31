@@ -8,24 +8,24 @@ describe Aruba::Api do
 
   describe 'tags' do
     describe '@announce_stdout' do
-      after(:each) { @aruba.all_commands.each(&:stop) }
+      after { @aruba.all_commands.each(&:stop) }
 
       context 'enabled' do
-        before :each do
+        before do
           @aruba.aruba.announcer = instance_double 'Aruba::Platforms::Announcer'
           expect(@aruba.aruba.announcer)
-            .to receive(:announce).with(:stdout) { "hello world\n" }
+            .to receive(:announce).with(:stdout).and_return("hello world\n")
           allow(@aruba.aruba.announcer).to receive(:announce)
         end
 
-        it 'should announce to stdout exactly once' do
+        it 'announces to stdout exactly once' do
           @aruba.run_command_and_stop('echo "hello world"', fail_on_error: false)
           expect(@aruba.last_command_started.output).to include('hello world')
         end
       end
 
       context 'disabled' do
-        it 'should not announce to stdout' do
+        it 'does not announce to stdout' do
           result = capture(:stdout) do
             @aruba.run_command_and_stop('echo "hello world"', fail_on_error: false)
           end
@@ -52,7 +52,7 @@ describe Aruba::Api do
   end
 
   describe '#set_environment_variable' do
-    after(:each) do
+    after do
       @aruba.all_commands.each(&:stop)
     end
 

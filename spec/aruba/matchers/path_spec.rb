@@ -26,7 +26,7 @@ RSpec.describe 'Path Matchers' do
   describe 'to_be_an_existing_path' do
     context 'when file' do
       context 'exists' do
-        before :each do
+        before do
           Aruba.platform.write_file(@file_path, '')
         end
 
@@ -43,7 +43,7 @@ RSpec.describe 'Path Matchers' do
       let(:path) { @aruba.expand_path(name) }
 
       context 'exists' do
-        before :each do
+        before do
           FileUtils.mkdir_p path
         end
 
@@ -62,15 +62,15 @@ RSpec.describe 'Path Matchers' do
 
     let(:permissions) { '0644' }
 
-    before :each do
+    before do
       @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
     end
 
-    before(:each) do
+    before do
       File.open(file_path, 'w') { |f| f << '' }
     end
 
-    before(:each) do
+    before do
       @aruba.chmod(permissions, file_name)
     end
 

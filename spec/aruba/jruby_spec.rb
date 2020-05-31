@@ -53,7 +53,7 @@ describe 'Aruba JRuby Startup Helper' do
   end
 
   context 'when running under JRuby on Solaris' do
-    before :each do
+    before do
       stub_const 'RUBY_PLATFORM', 'java'
       stub_const 'RbConfig::CONFIG', rb_config
 

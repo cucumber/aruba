@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Aruba::Runtime do
   describe '#fixtures_directory' do
     context 'when no fixtures directories exist' do
-      it 'should raise exception' do
+      it 'raises exception' do
         expect { api.fixtures_directory }.to raise_error
       end
     end

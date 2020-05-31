@@ -11,8 +11,9 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   let(:working_directory) { Dir.getwd }
 
   describe '#stdout' do
-    before(:each) { process.start }
-    before(:each) { process.stop }
+    before { process.start }
+
+    before { process.stop }
 
     context 'when invoked once' do
       it { expect(process.stdout.chomp).to eq 'yo' }
@@ -42,7 +43,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   end
 
   describe '#stop' do
-    before(:each) { process.start }
+    before { process.start }
 
     context 'when stopped successfully' do
       it { expect { process.stop }.not_to raise_error }

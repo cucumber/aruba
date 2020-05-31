@@ -9,7 +9,7 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:path) { @file_path }
 
     context 'when file exists' do
-      before :each do
+      before do
         Aruba.platform.write_file(path, '')
       end
 
@@ -20,7 +20,7 @@ RSpec.describe Aruba::Api::Filesystem do
       let(:name) { 'test_dir' }
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
-      before :each do
+      before do
         Aruba.platform.mkdir(path)
       end
 
@@ -37,7 +37,7 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:path) { @file_path }
 
     context 'when file exists' do
-      before :each do
+      before do
         Aruba.platform.write_file(path, '')
       end
 
@@ -48,7 +48,7 @@ RSpec.describe Aruba::Api::Filesystem do
       let(:name) { 'test_dir' }
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
-      before :each do
+      before do
         Aruba.platform.mkdir(path)
       end
 
@@ -65,7 +65,7 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:path) { @file_path }
 
     context 'when file exists' do
-      before :each do
+      before do
         Aruba.platform.write_file(path, '')
       end
 
@@ -76,7 +76,7 @@ RSpec.describe Aruba::Api::Filesystem do
       let(:name) { 'test_dir' }
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
-      before :each do
+      before do
         Aruba.platform.mkdir(path)
       end
 
@@ -94,7 +94,7 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:size) { file_size(name) }
 
     context 'when file exists' do
-      before :each do
+      before do
         File.open(path, 'w') { |f| f.print 'a' }
       end
 
@@ -103,6 +103,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
     context 'when file does not exist' do
       let(:name) { 'non_existing_file' }
+
       it { expect { size }.to raise_error RSpec::Expectations::ExpectationNotMetError }
     end
   end
@@ -112,17 +113,18 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:path) { @file_path }
     let(:options) { {} }
 
-    before :each do
+    before do
       @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
     end
 
     context 'when touching a file that does not exist' do
-      before :each do
+      before do
         @aruba.touch(name, options)
       end
 
       context 'and should be created in an existing directory' do
         it { expect(File.size(path)).to eq 0 }
+
         it_behaves_like 'an existing file'
       end
 
@@ -154,6 +156,7 @@ RSpec.describe Aruba::Api::Filesystem do
         let(:path) do
           %w(file1 file2 file3).map { |p| File.join(@aruba.aruba.current_directory, p) }
         end
+
         it_behaves_like 'an existing file'
       end
     end
@@ -209,7 +212,7 @@ RSpec.describe Aruba::Api::Filesystem do
       let(:path) { @file_path }
 
       context 'when it exists' do
-        before :each do
+        before do
           Aruba.platform.write_file(path, '')
         end
 
@@ -226,7 +229,7 @@ RSpec.describe Aruba::Api::Filesystem do
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
       context 'when it exists' do
-        before :each do
+        before do
           Aruba.platform.mkdir(path)
         end
 
@@ -245,7 +248,7 @@ RSpec.describe Aruba::Api::Filesystem do
       let(:path) { @file_path }
 
       context 'when it exists' do
-        before :each do
+        before do
           Aruba.platform.write_file(path, '')
         end
 
@@ -262,7 +265,7 @@ RSpec.describe Aruba::Api::Filesystem do
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
       context 'when it exists' do
-        before :each do
+        before do
           Aruba.platform.mkdir(path)
         end
 
@@ -281,7 +284,7 @@ RSpec.describe Aruba::Api::Filesystem do
       let(:path) { @file_path }
 
       context 'when it exists' do
-        before :each do
+        before do
           Aruba.platform.write_file(path, '')
         end
 
@@ -298,7 +301,7 @@ RSpec.describe Aruba::Api::Filesystem do
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
       context 'when it exists' do
-        before :each do
+        before do
           Aruba.platform.mkdir(path)
         end
 
@@ -318,9 +321,9 @@ RSpec.describe Aruba::Api::Filesystem do
     context 'when source is existing' do
       context 'when destination is non-existing' do
         context 'when source is file' do
-          before(:each) { create_test_files(source) }
+          before { create_test_files(source) }
 
-          before :each do
+          before do
             @aruba.copy source, destination
           end
 
@@ -330,12 +333,14 @@ RSpec.describe Aruba::Api::Filesystem do
 
           context 'when source is contains "~" in path' do
             let(:source) { '~/file.txt' }
+
             it { expect(destination).to be_an_existing_file }
           end
 
           context 'when source is fixture' do
             let(:source) { '%/copy/file.txt' }
             let(:destination) { 'file.txt' }
+
             it { expect(destination).to be_an_existing_file }
           end
 
@@ -352,11 +357,11 @@ RSpec.describe Aruba::Api::Filesystem do
           let(:source) { 'src.d' }
           let(:destination) { 'dst.d' }
 
-          before :each do
+          before do
             Aruba.platform.mkdir(File.join(@aruba.aruba.current_directory, source))
           end
 
-          before :each do
+          before do
             @aruba.copy source, destination
           end
 
@@ -375,18 +380,18 @@ RSpec.describe Aruba::Api::Filesystem do
 
       context 'when destination is existing' do
         context 'when source is list of files' do
-          before(:each) { create_test_files(source) }
+          before { create_test_files(source) }
 
           context 'when destination is directory' do
             let(:source) { %w(file1.txt file2.txt file3.txt) }
             let(:destination) { 'file.d' }
             let(:destination_files) { source.map { |s| File.join(destination, s) } }
 
-            before :each do
+            before do
               Aruba.platform.mkdir(File.join(@aruba.aruba.current_directory, destination))
             end
 
-            before :each do
+            before do
               @aruba.copy source, destination
             end
 
@@ -398,7 +403,7 @@ RSpec.describe Aruba::Api::Filesystem do
             let(:destination) { 'file.txt' }
             let(:error_message) { 'Multiples sources can only be copied to a directory' }
 
-            before(:each) { create_test_files(destination) }
+            before { create_test_files(destination) }
 
             it 'raises an appropriate error' do
               expect { @aruba.copy source, destination }
@@ -410,7 +415,7 @@ RSpec.describe Aruba::Api::Filesystem do
             let(:source) { 'file1.txt' }
             let(:destination) { 'file1.txt' }
 
-            before(:each) { create_test_files(source) }
+            before { create_test_files(source) }
 
             it 'raises an appropriate error' do
               src_path = File.expand_path(File.join(@aruba.aruba.current_directory, source))
@@ -443,7 +448,7 @@ RSpec.describe Aruba::Api::Filesystem do
     end
   end
 
-  context '#write_file' do
+  describe '#write_file' do
     it 'writes file' do
       @aruba.write_file(@file_name, '')
 
@@ -451,8 +456,8 @@ RSpec.describe Aruba::Api::Filesystem do
     end
   end
 
-  context '#write_fixed_size_file' do
-    it 'should write a fixed sized file' do
+  describe '#write_fixed_size_file' do
+    it 'writes a fixed sized file' do
       @aruba.write_fixed_size_file(@file_name, @file_size)
       expect(File.exist?(@file_path)).to eq true
       expect(File.size(@file_path)).to eq @file_size
@@ -479,15 +484,15 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:file_path) { @file_path }
     let(:permissions) { '0644' }
 
-    before :each do
+    before do
       @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
     end
 
-    before(:each) do
+    before do
       File.open(file_path, 'w') { |f| f << '' }
     end
 
-    before(:each) do
+    before do
       @aruba.chmod(permissions, file_name)
     end
 
@@ -498,6 +503,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
       context 'and permissions are given as octal number' do
         let(:permissions) { 0o644 }
+
         it { expect(actual_permissions).to eq('0644') }
       end
 
@@ -511,8 +517,8 @@ RSpec.describe Aruba::Api::Filesystem do
     end
   end
 
-  context '#with_file_content' do
-    before :each do
+  describe '#with_file_content' do
+    before do
       @aruba.write_file(@file_name, 'foo bar baz')
     end
 
@@ -556,14 +562,14 @@ RSpec.describe Aruba::Api::Filesystem do
   end
 
   describe '#create_directory' do
-    before(:each) do
+    before do
       @directory_name = 'test_dir'
       @directory_path = File.join(@aruba.aruba.current_directory, @directory_name)
     end
 
     it 'creates a directory' do
       @aruba.create_directory @directory_name
-      expect(File.exist?(File.expand_path(@directory_path))).to be_truthy
+      expect(File).to exist(File.expand_path(@directory_path))
     end
   end
 
@@ -572,7 +578,7 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:path) { File.join(@aruba.aruba.current_directory, name) }
     let(:content) { 'asdf' }
 
-    before :each do
+    before do
       @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
     end
 
@@ -582,7 +588,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
     context 'when it exists' do
       context 'when file' do
-        before :each do
+        before do
           File.open(File.expand_path(path), 'w') { |f| f << content }
         end
 
@@ -592,11 +598,13 @@ RSpec.describe Aruba::Api::Filesystem do
 
         context 'when binary file' do
           let(:content) { "\u0000" }
+
           it { expect(@aruba.read(name)).to eq [content] }
         end
 
         context 'when is empty file' do
           let(:content) { '' }
+
           it { expect(@aruba.read(name)).to eq [] }
         end
 
@@ -626,7 +634,7 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:content) { %w(subdir.1.d subdir.2.d) }
     let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
-    before :each do
+    before do
       @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
     end
 
@@ -638,7 +646,7 @@ RSpec.describe Aruba::Api::Filesystem do
       context 'when file' do
         let(:name) { 'test.txt' }
 
-        before :each do
+        before do
           File.open(File.expand_path(path), 'w') { |f| f << content }
         end
 
@@ -675,6 +683,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
         context 'when has no subdirectories' do
           let(:content) { [] }
+
           it { expect(@aruba.list(name)).to eq [] }
         end
       end
@@ -686,7 +695,7 @@ RSpec.describe Aruba::Api::Filesystem do
     let(:path) { File.join(@aruba.aruba.current_directory, name) }
     let(:options) { {} }
 
-    before :each do
+    before do
       @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
     end
 
@@ -739,7 +748,7 @@ RSpec.describe Aruba::Api::Filesystem do
           Array(path).each { |it| Aruba.platform.mkdir it }
         end
 
-        before :each do
+        before do
           @aruba.remove(name, options)
         end
 
@@ -764,7 +773,7 @@ RSpec.describe Aruba::Api::Filesystem do
       end
 
       context 'when it does not exist' do
-        before :each do
+        before do
           @aruba.remove(name, options)
         end
 

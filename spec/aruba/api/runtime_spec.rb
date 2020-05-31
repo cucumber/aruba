@@ -11,7 +11,8 @@ RSpec.describe 'aruba' do
     context 'when changed earlier' do
       context 'values when init' do
         let(:value) { 20 }
-        before(:each) { aruba.config.io_wait_timeout = value }
+
+        before { aruba.config.io_wait_timeout = value }
 
         it { expect(config.io_wait_timeout).to eq value }
       end
