@@ -182,13 +182,6 @@ RSpec/LetSetup:
     - 'spec/event_bus/name_resolver_spec.rb'
     - 'spec/event_bus_spec.rb'
 
-# Offense count: 1
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: have_received, receive
-RSpec/MessageSpies:
-  Exclude:
-    - 'spec/aruba/api_spec.rb'
-
 # Offense count: 32
 RSpec/MultipleExpectations:
   Max: 5

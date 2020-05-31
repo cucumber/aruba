@@ -13,14 +13,16 @@ describe Aruba::Api do
       context 'enabled' do
         before do
           @aruba.aruba.announcer = instance_double 'Aruba::Platforms::Announcer'
-          expect(@aruba.aruba.announcer)
-            .to receive(:announce).with(:stdout).and_return("hello world\n")
           allow(@aruba.aruba.announcer).to receive(:announce)
         end
 
         it 'announces to stdout exactly once' do
           @aruba.run_command_and_stop('echo "hello world"', fail_on_error: false)
-          expect(@aruba.last_command_started.output).to include('hello world')
+
+          aggregate_failures do
+            expect(@aruba.last_command_started.output).to include('hello world')
+            expect(@aruba.aruba.announcer).to have_received(:announce).with(:stdout).once
+          end
         end
       end
 
