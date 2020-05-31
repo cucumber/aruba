@@ -321,9 +321,8 @@ RSpec.describe Aruba::Api::Filesystem do
     context 'when source is existing' do
       context 'when destination is non-existing' do
         context 'when source is file' do
-          before { create_test_files(source) }
-
           before do
+            create_test_files(source)
             @aruba.copy source, destination
           end
 
@@ -359,9 +358,6 @@ RSpec.describe Aruba::Api::Filesystem do
 
           before do
             Aruba.platform.mkdir(File.join(@aruba.aruba.current_directory, source))
-          end
-
-          before do
             @aruba.copy source, destination
           end
 
@@ -389,9 +385,6 @@ RSpec.describe Aruba::Api::Filesystem do
 
             before do
               Aruba.platform.mkdir(File.join(@aruba.aruba.current_directory, destination))
-            end
-
-            before do
               @aruba.copy source, destination
             end
 
@@ -486,13 +479,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
     before do
       @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
-    end
-
-    before do
       File.open(file_path, 'w') { |f| f << '' }
-    end
-
-    before do
       @aruba.chmod(permissions, file_name)
     end
 
@@ -746,9 +733,6 @@ RSpec.describe Aruba::Api::Filesystem do
       context 'when it exists' do
         before do
           Array(path).each { |it| Aruba.platform.mkdir it }
-        end
-
-        before do
           @aruba.remove(name, options)
         end
 

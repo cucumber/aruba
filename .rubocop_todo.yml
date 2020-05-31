@@ -215,15 +215,6 @@ RSpec/RepeatedExampleGroupDescription:
   Exclude:
     - 'spec/aruba/matchers/command_spec.rb'
 
-# Offense count: 22
-RSpec/ScatteredSetup:
-  Exclude:
-    - 'spec/aruba/api/filesystem_spec.rb'
-    - 'spec/aruba/matchers/directory_spec.rb'
-    - 'spec/aruba/matchers/path_spec.rb'
-    - 'spec/aruba/processes/spawn_process_spec.rb'
-    - 'spec/event_bus_spec.rb'
-
 # Offense count: 1
 RSpec/UnspecifiedException:
   Exclude:

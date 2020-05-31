@@ -11,9 +11,10 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   let(:working_directory) { Dir.getwd }
 
   describe '#stdout' do
-    before { process.start }
-
-    before { process.stop }
+    before do
+      process.start
+      process.stop
+    end
 
     context 'when invoked once' do
       it { expect(process.stdout.chomp).to eq 'yo' }

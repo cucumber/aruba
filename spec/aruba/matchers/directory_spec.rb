@@ -31,9 +31,6 @@ RSpec.describe 'Directory Matchers' do
     context 'when directory exists' do
       before do
         FileUtils.mkdir_p path
-      end
-
-      before do
         Array(content).each { |p| Dir.mkdir File.join(path, p) }
       end
 

@@ -64,13 +64,7 @@ RSpec.describe 'Path Matchers' do
 
     before do
       @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
-    end
-
-    before do
       File.open(file_path, 'w') { |f| f << '' }
-    end
-
-    before do
       @aruba.chmod(permissions, file_name)
     end
 

@@ -128,9 +128,6 @@ describe Aruba::EventBus do
         before do
           allow(name_resolver)
             .to receive(:transform).with(event_name).and_return(event_klass)
-        end
-
-        before do
           bus.register(event_klass, MyHandler.new)
         end
 
@@ -143,9 +140,6 @@ describe Aruba::EventBus do
             .to receive(:transform).with(event_name).and_return(event_klass)
           allow(name_resolver)
             .to receive(:transform).with(another_event_name).and_return(another_event_klass)
-        end
-
-        before do
           bus.register([event_klass, another_event_klass], MyHandler.new)
         end
 
