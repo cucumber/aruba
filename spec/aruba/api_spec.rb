@@ -71,4 +71,4 @@ describe Aruba::Api do
         .to include('LONG_LONG_ENV_VARIABLE=false')
     end
   end
-end # Aruba::Api
+end

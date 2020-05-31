@@ -259,11 +259,6 @@ Style/CaseEquality:
   Exclude:
     - 'lib/aruba/matchers/base/object_formatter.rb'
 
-# Offense count: 1
-Style/CommentedKeyword:
-  Exclude:
-    - 'spec/aruba/api_spec.rb'
-
 # Offense count: 12
 Style/Documentation:
   Exclude:
