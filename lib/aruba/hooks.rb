@@ -21,12 +21,10 @@ module Aruba
     # @param [Proc] block
     #   The block which should be run for the hook
     def append(label, block)
-      if store.key?(label.to_sym) && store[label.to_sym].respond_to?(:<<)
-        store[label.to_sym] << block
-      else
+      unless store.key?(label.to_sym) && store[label.to_sym].respond_to?(:<<)
         store[label.to_sym] = []
-        store[label.to_sym] << block
       end
+      store[label.to_sym] << block
     end
 
     # Run hook

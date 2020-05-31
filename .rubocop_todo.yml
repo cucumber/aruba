@@ -289,11 +289,6 @@ Style/EvalWithLocation:
 Style/FormatStringToken:
   Enabled: false
 
-# Offense count: 2
-Style/IdenticalConditionalBranches:
-  Exclude:
-    - 'lib/aruba/hooks.rb'
-
 # Offense count: 5
 Style/MethodMissingSuper:
   Exclude:
