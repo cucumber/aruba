@@ -278,11 +278,6 @@ Style/Documentation:
     - 'lib/aruba/setup.rb'
     - 'lib/aruba/tasks/docker_helpers.rb'
 
-# Offense count: 1
-Style/EvalWithLocation:
-  Exclude:
-    - 'spec/support/helpers/reporting.rb'
-
 # Offense count: 83
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: annotated, template, unannotated

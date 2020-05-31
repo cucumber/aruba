@@ -16,10 +16,17 @@ module SpecHelpers
     #   stream = capture(:stderr) { system('echo error 1>&2') }
     #   stream # => "error\n"
     def capture(stream)
-      stream = stream.to_s
-      captured_stream = Tempfile.new(stream)
+      captured_stream = Tempfile.new(stream.to_s)
 
-      stream_io = eval("$#{stream}")
+      stream_io = case stream
+                  when :stdout
+                    $stdout
+                  when :stderr
+                    $stderr
+                  else
+                    raise ArgumentError,
+                          "Expected stream to be :stdout or :stderr, got #{stream.inspect}"
+                  end
 
       origin_stream = stream_io.dup
       stream_io.reopen(captured_stream)

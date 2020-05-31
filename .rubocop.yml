@@ -49,9 +49,4 @@ Style/HashTransformValues:
 Style/SlicingWithRange:
   Enabled: true
 
-# We only permit it in this one area which is internal code testing. Never exposed to users
-Security/Eval:
-  Exclude:
-    - spec/support/helpers/reporting.rb
-
 inherit_from: .rubocop_todo.yml
