@@ -210,11 +210,6 @@ RSpec/RepeatedDescription:
   Exclude:
     - 'spec/aruba/matchers/file_spec.rb'
 
-# Offense count: 4
-RSpec/RepeatedExampleGroupDescription:
-  Exclude:
-    - 'spec/aruba/matchers/command_spec.rb'
-
 # Offense count: 1
 RSpec/UnspecifiedException:
   Exclude:
