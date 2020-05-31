@@ -297,7 +297,4 @@ Style/IdenticalConditionalBranches:
 # Offense count: 5
 Style/MethodMissingSuper:
   Exclude:
-    - 'lib/aruba/config_wrapper.rb'
-    - 'lib/aruba/in_config_wrapper.rb'
     - 'lib/aruba/platforms/command_monitor.rb'
-    - 'lib/aruba/tasks/docker_helpers.rb'

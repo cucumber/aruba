@@ -24,9 +24,7 @@ RSpec.describe Aruba::InConfigWrapper do
 
   context 'when option is not defined' do
     it 'raises an error' do
-      expect { wrapper.opt }
-        .to raise_error ArgumentError,
-                        'Option "opt" is unknown. Please use only earlier defined options'
+      expect { wrapper.opt }.to raise_error NoMethodError
     end
   end
 end
