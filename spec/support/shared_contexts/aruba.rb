@@ -17,7 +17,7 @@ RSpec.shared_context 'uses aruba API' do
     end
   end
 
-  before(:each) do
+  before do
     klass = Class.new do
       include Aruba::Api
 

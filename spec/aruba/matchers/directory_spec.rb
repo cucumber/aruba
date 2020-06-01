@@ -11,7 +11,7 @@ RSpec.describe 'Directory Matchers' do
     let(:path) { @aruba.expand_path(name) }
 
     context 'when directory exists' do
-      before :each do
+      before do
         FileUtils.mkdir_p path
       end
 
@@ -29,11 +29,8 @@ RSpec.describe 'Directory Matchers' do
     let(:content) { %w(subdir.1.d subdir.2.d) }
 
     context 'when directory exists' do
-      before :each do
+      before do
         FileUtils.mkdir_p path
-      end
-
-      before :each do
         Array(content).each { |p| Dir.mkdir File.join(path, p) }
       end
 

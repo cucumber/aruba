@@ -1,5 +1,6 @@
 require:
   - rubocop-performance
+  - rubocop-rspec
 
 AllCops:
   Exclude:
@@ -26,8 +27,12 @@ Style/FrozenStringLiteralComment:
 Layout/LineLength:
   Max: 94
 
-# Enable new cops from RuboCop 0.80, 0.81 and 0.82
+# Enable new cops from RuboCop 0.80, 0.81 and 0.84
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
 Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+Lint/DeprecatedOpenSSLConstant:
   Enabled: true
 Lint/RaiseException:
   Enabled: true
@@ -41,10 +46,7 @@ Style/HashTransformKeys:
   Enabled: true
 Style/HashTransformValues:
   Enabled: true
-
-# We only permit it in this one area which is internal code testing. Never exposed to users
-Security/Eval:
-  Exclude:
-    - spec/support/helpers/reporting.rb
+Style/SlicingWithRange:
+  Enabled: true
 
 inherit_from: .rubocop_todo.yml

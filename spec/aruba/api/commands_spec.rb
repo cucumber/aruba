@@ -7,8 +7,9 @@ RSpec.describe Aruba::Api::Commands do
 
   describe '#run_command' do
     context 'when succesfully running a command' do
-      before(:each) { @aruba.run_command 'cat' }
-      after(:each) { @aruba.all_commands.each(&:stop) }
+      before { @aruba.run_command 'cat' }
+
+      after { @aruba.all_commands.each(&:stop) }
 
       it 'respond to input' do
         @aruba.type 'Hello'

@@ -9,7 +9,7 @@ RSpec.describe 'File Matchers' do
     let(:name) { @file_name }
 
     context 'when file exists' do
-      before(:each) { create_test_files(name) }
+      before { create_test_files(name) }
 
       it { expect(name).to be_an_existing_file }
     end
@@ -21,7 +21,7 @@ RSpec.describe 'File Matchers' do
     context 'when contains ~' do
       let(:name) { File.join('~', random_string) }
 
-      before(:each) do
+      before do
         @aruba.with_environment 'HOME' => expand_path('.') do
           create_test_files(name)
         end
@@ -37,7 +37,7 @@ RSpec.describe 'File Matchers' do
 
   describe 'to_have_file_content' do
     context 'when file exists' do
-      before :each do
+      before do
         Aruba.platform.write_file(@file_path, 'aba')
       end
 
@@ -92,7 +92,7 @@ RSpec.describe 'File Matchers' do
         end.to fail_with('expected "test.txt" to have file content: "z"')
       end
 
-      example 'for a string' do
+      example 'for a regular expression' do
         expect do
           expect(@file_name).to have_file_content(/z/)
         end.to fail_with('expected "test.txt" to have file content: /z/')
@@ -113,7 +113,7 @@ RSpec.describe 'File Matchers' do
 
     let(:reference_file) { 'fixture' }
 
-    before :each do
+    before do
       @aruba.write_file(@file_name, 'foo bar baz')
       @aruba.write_file(reference_file, reference_file_content)
     end
@@ -155,7 +155,7 @@ RSpec.describe 'File Matchers' do
     let(:file_with_same_content) { 'file_a.txt' }
     let(:file_with_different_content) { 'file_b.txt' }
 
-    before :each do
+    before do
       @aruba.write_file(file_with_same_content, reference_file_content)
       @aruba.write_file(reference_file, reference_file_content)
       @aruba.write_file(file_with_different_content, 'Some different content here...')
@@ -171,6 +171,7 @@ RSpec.describe 'File Matchers' do
       context 'and this is not expected' do
         it do
           expect { expect(files).not_to include a_file_with_same_content_as reference_file }
+            .to raise_error RSpec::Expectations::ExpectationNotMetError
         end
       end
     end
@@ -185,6 +186,7 @@ RSpec.describe 'File Matchers' do
       context 'and this is not expected' do
         it do
           expect { expect(files).to include a_file_with_same_content_as reference_file }
+            .to raise_error RSpec::Expectations::ExpectationNotMetError
         end
       end
     end
@@ -192,7 +194,7 @@ RSpec.describe 'File Matchers' do
 
   describe 'to_have_file_size' do
     context 'when file exists' do
-      before :each do
+      before do
         Aruba.platform.write_file(@file_path, '')
       end
 

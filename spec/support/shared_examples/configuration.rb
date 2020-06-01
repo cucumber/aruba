@@ -9,11 +9,11 @@ RSpec.shared_examples 'a basic configuration' do
   it { expect(config).not_to be_nil }
 
   describe '.option_reader' do
-    let(:config_klass) { Class.new(described_class) }
-
     subject(:config) { config_klass.new }
 
-    before :each do
+    let(:config_klass) { Class.new(described_class) }
+
+    before do
       config_klass.option_reader :new_opt, contract: { Contracts::Num => Contracts::Num },
                                            default: 1
     end
@@ -27,7 +27,7 @@ RSpec.shared_examples 'a basic configuration' do
     end
 
     context 'when block is defined' do
-      before :each do
+      before do
         config_klass.option_reader(
           :new_opt2,
           contract: { Contracts::Num => Contracts::Num }
@@ -51,11 +51,11 @@ RSpec.shared_examples 'a basic configuration' do
   end
 
   describe '.option_accessor' do
-    let(:config_klass) { Class.new(described_class) }
-
     subject(:config) { config_klass.new }
 
-    before :each do
+    let(:config_klass) { Class.new(described_class) }
+
+    before do
       config_klass.option_accessor :new_opt, contract: { Contracts::Num => Contracts::Num },
                                              default: 1
     end
@@ -65,13 +65,13 @@ RSpec.shared_examples 'a basic configuration' do
     end
 
     context 'when is modified' do
-      before(:each) { config.new_opt = 2 }
+      before { config.new_opt = 2 }
 
       it { expect(config.new_opt).to eq 2 }
     end
 
     context 'when block is defined' do
-      before :each do
+      before do
         config_klass.option_accessor(
           :new_opt2, contract: { Contracts::Num => Contracts::Num }
         ) do |c|
@@ -104,6 +104,7 @@ RSpec.shared_examples 'a basic configuration' do
 
     context 'when invalid_option' do
       let(:name) { :blub }
+
       it { expect(name).not_to be_valid_option }
     end
   end
@@ -113,7 +114,8 @@ RSpec.shared_examples 'a basic configuration' do
     let(:value) { true }
 
     context 'when valid option' do
-      before(:each) { config.set_if_option(name, value) }
+      before { config.set_if_option(name, value) }
+
       it { expect(name).to have_option_value true }
     end
 

@@ -8,24 +8,26 @@ describe Aruba::Api do
 
   describe 'tags' do
     describe '@announce_stdout' do
-      after(:each) { @aruba.all_commands.each(&:stop) }
+      after { @aruba.all_commands.each(&:stop) }
 
       context 'enabled' do
-        before :each do
+        before do
           @aruba.aruba.announcer = instance_double 'Aruba::Platforms::Announcer'
-          expect(@aruba.aruba.announcer)
-            .to receive(:announce).with(:stdout) { "hello world\n" }
           allow(@aruba.aruba.announcer).to receive(:announce)
         end
 
-        it 'should announce to stdout exactly once' do
+        it 'announces to stdout exactly once' do
           @aruba.run_command_and_stop('echo "hello world"', fail_on_error: false)
-          expect(@aruba.last_command_started.output).to include('hello world')
+
+          aggregate_failures do
+            expect(@aruba.last_command_started.output).to include('hello world')
+            expect(@aruba.aruba.announcer).to have_received(:announce).with(:stdout).once
+          end
         end
       end
 
       context 'disabled' do
-        it 'should not announce to stdout' do
+        it 'does not announce to stdout' do
           result = capture(:stdout) do
             @aruba.run_command_and_stop('echo "hello world"', fail_on_error: false)
           end
@@ -37,22 +39,8 @@ describe Aruba::Api do
     end
   end
 
-  describe 'fixtures' do
-    let(:api) do
-      klass = Class.new do
-        include Aruba::Api
-
-        def root_directory
-          expand_path('.')
-        end
-      end
-
-      klass.new
-    end
-  end
-
   describe '#set_environment_variable' do
-    after(:each) do
+    after do
       @aruba.all_commands.each(&:stop)
     end
 
@@ -71,4 +59,4 @@ describe Aruba::Api do
         .to include('LONG_LONG_ENV_VARIABLE=false')
     end
   end
-end # Aruba::Api
+end

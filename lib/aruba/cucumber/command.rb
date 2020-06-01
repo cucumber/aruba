@@ -252,7 +252,7 @@ end
 # you don't need regex, use "the output should contain" instead since
 # that way, you don't have to escape regex characters that
 # appear naturally in the output
-Then(/^the output should( not)? match \/([^\/]*)\/$/) do |negated, expected|
+Then(%r{^the output should( not)? match /([^/]*)/$}) do |negated, expected|
   if negated
     expect(all_commands)
       .not_to include_an_object have_output an_output_string_matching(expected)

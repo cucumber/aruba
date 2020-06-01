@@ -17,22 +17,22 @@ describe Aruba::EventBus do
 
   let(:name_resolver) { instance_double('Events::NameResolver') }
 
-  let!(:event_klass) { Events::TestEvent }
-  let!(:event_name) { event_klass }
-  let!(:event_instance) { Events::TestEvent.new }
+  let(:event_klass) { Events::TestEvent }
+  let(:event_name) { event_klass }
+  let(:event_instance) { Events::TestEvent.new }
 
-  let!(:another_event_klass) { Events::AnotherTestEvent }
-  let!(:another_event_name) { another_event_klass }
-  let!(:another_event_instance) { Events::AnotherTestEvent.new }
+  let(:another_event_klass) { Events::AnotherTestEvent }
+  let(:another_event_name) { another_event_klass }
+  let(:another_event_instance) { Events::AnotherTestEvent.new }
 
   describe '#notify' do
-    before(:each) do
+    before do
       allow(name_resolver)
         .to receive(:transform).with(event_name).and_return(event_klass)
     end
 
     context 'when subscribed to the event' do
-      before :each do
+      before do
         bus.register(event_klass) do |event|
           @received_payload = event
         end
@@ -46,7 +46,7 @@ describe Aruba::EventBus do
     end
 
     context 'when not subscriber to event' do
-      before :each do
+      before do
         @received_payload = false
         bus.register(event_klass) { @received_payload = true }
         bus.notify another_event_instance
@@ -56,10 +56,10 @@ describe Aruba::EventBus do
     end
 
     context 'when event is not an instance of event class' do
-      let!(:event_name) { :test_event }
+      let(:event_name) { :test_event }
       let(:received_payload) { [] }
 
-      before :each do
+      before do
         bus.register(event_name, proc {})
       end
 
@@ -68,7 +68,7 @@ describe Aruba::EventBus do
   end
 
   describe '#register' do
-    before(:each) do
+    before do
       allow(name_resolver)
         .to receive(:transform).with(event_name).and_return(event_klass)
     end
@@ -77,7 +77,7 @@ describe Aruba::EventBus do
       context 'when multiple instances are given' do
         let(:received_events) { [] }
 
-        before :each do
+        before do
           bus.register(Events::TestEvent) do |event|
             received_events << event
           end
@@ -93,10 +93,10 @@ describe Aruba::EventBus do
       end
 
       context 'when is string' do
-        let!(:event_name) { event_klass.to_s }
+        let(:event_name) { event_klass.to_s }
         let(:received_payload) { [] }
 
-        before :each do
+        before do
           bus.register(event_klass.to_s) do |event|
             received_payload << event
           end
@@ -108,10 +108,10 @@ describe Aruba::EventBus do
       end
 
       context 'when is symbol and event is defined in the default namespace' do
-        let!(:event_name) { :test_event }
+        let(:event_name) { :test_event }
         let(:received_payload) { [] }
 
-        before :each do
+        before do
           bus.register(event_name) do |event|
             received_payload << event
           end
@@ -125,12 +125,9 @@ describe Aruba::EventBus do
 
     context 'when valid custom handler' do
       context 'when single event class' do
-        before(:each) do
+        before do
           allow(name_resolver)
             .to receive(:transform).with(event_name).and_return(event_klass)
-        end
-
-        before :each do
           bus.register(event_klass, MyHandler.new)
         end
 
@@ -138,14 +135,11 @@ describe Aruba::EventBus do
       end
 
       context 'when list of event classes' do
-        before(:each) do
+        before do
           allow(name_resolver)
             .to receive(:transform).with(event_name).and_return(event_klass)
           allow(name_resolver)
             .to receive(:transform).with(another_event_name).and_return(another_event_klass)
-        end
-
-        before :each do
           bus.register([event_klass, another_event_klass], MyHandler.new)
         end
 

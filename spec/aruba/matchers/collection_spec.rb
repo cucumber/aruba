@@ -16,7 +16,8 @@ RSpec.describe 'Collection Matchers' do
 
     context 'when failing' do
       it 'emits failure messages for all candidate objects' do
-        expect { expect([14, 'a']).to include_an_object(be_odd) }
+        no_oddity = [14, 'a']
+        expect { expect(no_oddity).to include_an_object(be_odd) }
           .to fail_with <<-MESSAGE.strip_heredoc.strip
             expected [14, "a"] to include an object be odd
 
@@ -29,12 +30,14 @@ RSpec.describe 'Collection Matchers' do
       end
 
       it 'emits plain failure message when negated' do
-        expect { expect([14, 'a']).not_to include_an_object(be_even) }
+        contains_evens = [14, 'a']
+        expect { expect(contains_evens).not_to include_an_object(be_even) }
           .to fail_with 'expected [14, "a"] not to include an object be even'
       end
 
       it 'skips boiler plate if only one candidate object is given' do
-        expect { expect([14]).to include_an_object(be_odd) }
+        only_one = [14]
+        expect { expect(only_one).to include_an_object(be_odd) }
           .to fail_with 'expected `14.odd?` to return true, got false'
       end
     end

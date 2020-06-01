@@ -14,7 +14,9 @@ module Aruba
     end
 
     def method_missing(m, *_args)
-      @file.public_send m, instance
+      return @file.public_send m, instance if @file.respond_to?(m)
+
+      super
     end
 
     def respond_to_missing?(m)

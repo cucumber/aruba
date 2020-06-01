@@ -2,8 +2,20 @@ require 'spec_helper'
 
 RSpec.describe Aruba::Runtime do
   describe '#fixtures_directory' do
+    let(:api) do
+      klass = Class.new do
+        include Aruba::Api
+
+        def root_directory
+          expand_path('.')
+        end
+      end
+
+      klass.new
+    end
+
     context 'when no fixtures directories exist' do
-      it 'should raise exception' do
+      it 'raises exception' do
         expect { api.fixtures_directory }.to raise_error
       end
     end

@@ -32,7 +32,9 @@ module Aruba
     def method_missing(name, *args, &block)
       notify(name, args) if name.to_s.end_with?('=')
 
-      config.send(name, *args, &block)
+      return config.send(name, *args, &block) if config.respond_to? name
+
+      super
     end
 
     # Pass on respond_to?-calls

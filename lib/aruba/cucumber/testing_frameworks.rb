@@ -1,18 +1,18 @@
 # Cucumber
-Then /^the feature(?:s)? should not(?: all)? pass$/ do
+Then(/^the feature(?:s)? should not(?: all)? pass$/) do
   step 'the output should contain " failed)"'
   step 'the exit status should be 1'
 end
 
 # Cucumber
-Then /^the feature(?:s)? should(?: all)? pass$/ do
+Then(/^the feature(?:s)? should(?: all)? pass$/) do
   step 'the output should not contain " failed)"'
   step 'the output should not contain " undefined)"'
   step 'the exit status should be 0'
 end
 
 # Cucumber
-Then /^the feature(?:s)? should not(?: all)? pass with( regex)?:$/ do |regex, string|
+Then(/^the feature(?:s)? should not(?: all)? pass with( regex)?:$/) do |regex, string|
   step 'the output should contain " failed)"'
   step 'the exit status should be 1'
 
@@ -24,7 +24,7 @@ Then /^the feature(?:s)? should not(?: all)? pass with( regex)?:$/ do |regex, st
 end
 
 # Cucumber
-Then /^the feature(?:s)? should(?: all)? pass with( regex)?:$/ do |regex, string|
+Then(/^the feature(?:s)? should(?: all)? pass with( regex)?:$/) do |regex, string|
   step 'the output should not contain " failed)"'
   step 'the output should not contain " undefined)"'
   step 'the exit status should be 0'
@@ -37,7 +37,8 @@ Then /^the feature(?:s)? should(?: all)? pass with( regex)?:$/ do |regex, string
 end
 
 # RSpec
-Then /^the spec(?:s)? should not(?: all)? pass(?: with (\d+) failures?)?$/ do |count_failures|
+Then(/^the spec(?:s)? should not(?: all)? pass(?: with (\d+) failures?)?$/) \
+  do |count_failures|
   if count_failures.nil?
     step 'the output should not contain "0 failures"'
   else
@@ -48,13 +49,13 @@ Then /^the spec(?:s)? should not(?: all)? pass(?: with (\d+) failures?)?$/ do |c
 end
 
 # RSpec
-Then /^the spec(?:s)? should all pass$/ do
+Then(/^the spec(?:s)? should all pass$/) do
   step 'the output should contain "0 failures"'
   step 'the exit status should be 0'
 end
 
 # RSpec
-Then /^the spec(?:s)? should not(?: all)? pass with( regex)?:$/ do |regex, string|
+Then(/^the spec(?:s)? should not(?: all)? pass with( regex)?:$/) do |regex, string|
   step 'the output should not contain "0 failures"'
   step 'the exit status should be 1'
 
@@ -66,7 +67,7 @@ Then /^the spec(?:s)? should not(?: all)? pass with( regex)?:$/ do |regex, strin
 end
 
 # RSpec
-Then /^the spec(?:s)? should(?: all)? pass with( regex)?:$/ do |regex, string|
+Then(/^the spec(?:s)? should(?: all)? pass with( regex)?:$/) do |regex, string|
   step 'the output should contain "0 failures"'
   step 'the exit status should be 0'
 
@@ -78,8 +79,8 @@ Then /^the spec(?:s)? should(?: all)? pass with( regex)?:$/ do |regex, string|
 end
 
 # Minitest
-Then /^the tests(?:s)? should not(?: all)? pass(?: with (\d+) failures?)?$/ \
-do |count_failures|
+Then(/^the tests(?:s)? should not(?: all)? pass(?: with (\d+) failures?)?$/) \
+  do |count_failures|
   if count_failures.nil?
     step 'the output should not contain "0 errors"'
   else
@@ -90,13 +91,13 @@ do |count_failures|
 end
 
 # Minitest
-Then /^the tests(?:s)? should all pass$/ do
+Then(/^the tests(?:s)? should all pass$/) do
   step 'the output should contain "0 errors"'
   step 'the exit status should be 0'
 end
 
 # Minitest
-Then /^the test(?:s)? should not(?: all)? pass with( regex)?:$/ do |regex, string|
+Then(/^the test(?:s)? should not(?: all)? pass with( regex)?:$/) do |regex, string|
   step 'the output should contain "0 errors"'
   step 'the exit status should be 1'
 
@@ -108,7 +109,7 @@ Then /^the test(?:s)? should not(?: all)? pass with( regex)?:$/ do |regex, strin
 end
 
 # Minitest
-Then /^the test(?:s)? should(?: all)? pass with( regex)?:$/ do |regex, string|
+Then(/^the test(?:s)? should(?: all)? pass with( regex)?:$/) do |regex, string|
   step 'the output should not contain "0 errors"'
   step 'the exit status should be 0'
 
