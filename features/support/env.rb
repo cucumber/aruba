@@ -13,11 +13,11 @@ require 'aruba/config/jruby'
 require 'rspec/expectations'
 
 Before do |scenario|
-  unless scenario.respond_to?(:feature) && scenario.respond_to?(:name)
-    raise TypeError, "Don't know how to extract command name from #{scenario.class}"
+  if scenario.respond_to?(:feature) # Cucumber < 4
+    command_name = "#{scenario.feature.file} #{scenario.name}"
+  else
+    command_name = "#{scenario.location.file} #{scenario.name}"
   end
-
-  command_name = "#{scenario.feature.name} #{scenario.name}"
 
   # Used in simplecov_setup so that each scenario has a different name and
   # their coverage results are merged instead of overwriting each other as
