@@ -31,8 +31,8 @@ module Aruba
 
         name_size = longest_key.length
 
-        rows = hash.each_with_object([]) do |(k, v), a|
-          a << format("# %-#{name_size}s => %s", k, v)
+        rows = hash.map do |k, v|
+          format("# %-#{name_size}s => %s", k, v)
         end
 
         if opts[:sort] == true

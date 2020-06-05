@@ -289,7 +289,7 @@ module Aruba
       # Change file system  permissions of file
       #
       # @param [Octal] mode
-      #   File system mode, eg. 0755
+      #   File system mode, eg. 0o755
       #
       # @param [String] file_name
       #   Name of file to be modified. This file needs to be present to succeed

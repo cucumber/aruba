@@ -3,7 +3,6 @@ require 'aruba/matchers/file'
 
 RSpec.describe 'File Matchers' do
   include_context 'uses aruba API'
-  include_context 'needs to expand paths'
 
   describe 'to_be_an_existing_file' do
     let(:name) { @file_name }

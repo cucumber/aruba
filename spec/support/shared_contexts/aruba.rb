@@ -38,15 +38,3 @@ RSpec.shared_context 'uses aruba API' do
     end
   end
 end
-
-RSpec.shared_context 'needs to expand paths' do
-  def expand_path(*args)
-    @aruba.expand_path(*args)
-  end
-end
-
-RSpec.shared_context 'needs to run with environment' do
-  def with_environment(*args, &block)
-    @aruba.with_environment(*args, &block)
-  end
-end
