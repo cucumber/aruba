@@ -6,6 +6,19 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [1.0.1]
+
+### Bug fixes
+
+* Allow use of Aruba with Cucumber 4 ([#715] by [mvz])
+
+### Code quality and documentation improvements
+
+* Fix RuboCop offenses ([#693] and [#708] by [luke-hill], [#710], [#711] and
+  [#712] by [mvz])
+* Use recent Rake version in fixtures ([#709] by [mvz])
+* Repair YARD annotations ([#707] by [olleolleolle])
+
 ## [1.0.0]
 
 ### Breaking changes compared to Aruba 0.14.x
@@ -922,12 +935,20 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- issues & pull requests -->
 
+[#715]: https://github.com/cucumber/aruba/pull/715
+[#712]: https://github.com/cucumber/aruba/pull/712
+[#711]: https://github.com/cucumber/aruba/pull/711
+[#710]: https://github.com/cucumber/aruba/pull/710
+[#709]: https://github.com/cucumber/aruba/pull/709
+[#708]: https://github.com/cucumber/aruba/pull/708
+[#707]: https://github.com/cucumber/aruba/pull/707
 [#704]: https://github.com/cucumber/aruba/pull/704
 [#703]: https://github.com/cucumber/aruba/pull/703
 [#702]: https://github.com/cucumber/aruba/pull/702
 [#701]: https://github.com/cucumber/aruba/pull/701
 [#698]: https://github.com/cucumber/aruba/pull/698
 [#696]: https://github.com/cucumber/aruba/pull/696
+[#693]: https://github.com/cucumber/aruba/pull/693
 [#692]: https://github.com/cucumber/aruba/pull/692
 [#690]: https://github.com/cucumber/aruba/pull/690
 [#689]: https://github.com/cucumber/aruba/pull/689
@@ -1186,7 +1207,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.0...master
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.1...master
+[1.0.1]:          https://github.com/cucumber/aruba/compare/v1.0.0...v1.0.1
 [1.0.0]:          https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.5...v1.0.0
 [1.0.0.pre.alpha.5]: https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.4...v1.0.0.pre.alpha.5
 [1.0.0.pre.alpha.4]: https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.3...v1.0.0.pre.alpha.4
