@@ -3,7 +3,12 @@
 scenario_times = {}
 
 Around do |scenario, block|
-  name = "#{scenario.feature.file}::#{scenario.name}"
+  name = if scenario.respond_to?(:feature) # Cucumber < 4
+           "#{scenario.feature.file}::#{scenario.name}"
+         else
+           "#{scenario.location.file}::#{scenario.name}"
+         end
+
   start = Time.now
   block.call
   end_time = Time.now
