@@ -6,6 +6,13 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [1.0.2]
+
+* Loosen childprocess dependency
+  ([00cb0789](https://github.com/cucumber/aruba/commit/00cb07897c9f99e59bea630ae164cf5aa78fa76c)
+  by [mvz]).
+* Various small code cleanups ([#717] by [mvz])
+
 ## [1.0.1]
 
 ### Bug fixes
@@ -935,6 +942,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- issues & pull requests -->
 
+[#717]: https://github.com/cucumber/aruba/pull/717
 [#715]: https://github.com/cucumber/aruba/pull/715
 [#712]: https://github.com/cucumber/aruba/pull/712
 [#711]: https://github.com/cucumber/aruba/pull/711
@@ -1207,7 +1215,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.1...master
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.2...master
+[1.0.2]:          https://github.com/cucumber/aruba/compare/v1.0.1...v1.0.2
 [1.0.1]:          https://github.com/cucumber/aruba/compare/v1.0.0...v1.0.1
 [1.0.0]:          https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.5...v1.0.0
 [1.0.0.pre.alpha.5]: https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.4...v1.0.0.pre.alpha.5
