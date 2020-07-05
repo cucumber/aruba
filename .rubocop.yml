@@ -27,12 +27,14 @@ Style/FrozenStringLiteralComment:
 Layout/LineLength:
   Max: 94
 
-# Enable new cops from RuboCop 0.80, 0.81 and 0.84
+# Enable new cops from RuboCop 0.80 - 0.86
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: true
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
 Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+Lint/MixedRegexpCaptureTypes:
   Enabled: true
 Lint/RaiseException:
   Enabled: true
@@ -45,6 +47,12 @@ Style/HashEachMethods:
 Style/HashTransformKeys:
   Enabled: true
 Style/HashTransformValues:
+  Enabled: true
+Style/RedundantFetchBlock:
+  Enabled: true
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+Style/RedundantRegexpEscape:
   Enabled: true
 Style/SlicingWithRange:
   Enabled: true
