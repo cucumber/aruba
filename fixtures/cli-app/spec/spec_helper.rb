@@ -4,5 +4,5 @@ require 'cli/app'
 
 require_relative 'support/aruba'
 
-::Dir.glob(::File.expand_path('../support/**/*.rb', __FILE__))
+::Dir.glob(::File.expand_path('support/**/*.rb', __dir__))
      .each { |f| require_relative f }
