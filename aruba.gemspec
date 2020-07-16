@@ -1,6 +1,7 @@
 lib = ::File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'aruba/version'
+require 'rake/file_list'
 
 Gem::Specification.new do |spec|
   spec.name        = 'aruba'
@@ -46,7 +47,8 @@ Gem::Specification.new do |spec|
   spec.rubygems_version = '>= 1.6.1'
   spec.required_ruby_version = '>= 2.4'
 
-  spec.files = Dir['{docs,fixtures,lib}/**/*', 'CHANGELOG.md', 'LICENSE', 'README.md']
+  spec.files = Rake::FileList['{docs,fixtures,lib}/**/*', 'CHANGELOG.md', \
+                              'LICENSE', 'README.md'].exclude(*File.read('.gitignore').split)
 
   spec.executables      = ['exe/aruba']
   spec.rdoc_options     = ['--charset', 'UTF-8', '--main', 'README.md']
