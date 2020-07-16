@@ -37,6 +37,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rspec', '~> 3.6'
   spec.add_development_dependency 'rubocop', '~> 0.85'
+  spec.add_development_dependency 'rubocop-packaging', '~> 0.1.1'
   spec.add_development_dependency 'rubocop-performance', '~> 1.5'
   spec.add_development_dependency 'rubocop-rspec', '~> 1.39'
   spec.add_development_dependency 'simplecov', '~> 0.18.0'
@@ -45,11 +46,9 @@ Gem::Specification.new do |spec|
   spec.rubygems_version = '>= 1.6.1'
   spec.required_ruby_version = '>= 2.4'
 
-  spec.files = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/})
-  end
+  spec.files = Dir['{docs,fixtures,lib}/**/*', 'CHANGELOG.md', 'LICENSE', 'README.md']
 
-  spec.executables      = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.executables      = ['exe/aruba']
   spec.rdoc_options     = ['--charset', 'UTF-8', '--main', 'README.md']
   spec.extra_rdoc_files = ['CHANGELOG.md', 'CONTRIBUTING.md', 'README.md', 'LICENSE']
   spec.bindir           = 'exe'
