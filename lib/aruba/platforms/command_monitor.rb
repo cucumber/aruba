@@ -12,7 +12,7 @@ module Aruba
 
     public
 
-    attr_reader :registered_commands, :last_command_started
+    attr_reader :registered_commands, :last_command_started, :last_command_stopped
 
     class DefaultLastCommandStopped
       def nil?
@@ -51,8 +51,6 @@ module Aruba
     rescue KeyError => e
       raise ArgumentError, e.message
     end
-
-    attr_reader :last_command_stopped
 
     # Set last command started
     #
