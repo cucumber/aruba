@@ -17,6 +17,20 @@ Lint/AmbiguousBlockAssociation:
   Exclude:
     - 'lib/aruba/platforms/announcer.rb'
 
+Lint/MissingSuper:
+  Exclude:
+    - 'lib/aruba/config_wrapper.rb'
+    - 'lib/aruba/contracts/enum.rb'
+    - 'lib/aruba/in_config_wrapper.rb'
+    - 'lib/aruba/matchers/collection/include_an_object.rb'
+    - 'lib/aruba/platforms/command_monitor.rb'
+    - 'lib/aruba/platforms/unix_environment_variables.rb'
+    - 'lib/aruba/tasks/docker_helpers.rb'
+
+Lint/UnreachableLoop:
+  Exclude:
+    - 'lib/aruba/cucumber/command.rb'
+
 # Configuration parameters: CheckForMethodsWithNoSideEffects.
 Lint/Void:
   Exclude:
@@ -193,3 +207,14 @@ Style/Documentation:
 # SupportedStyles: annotated, template, unannotated
 Style/FormatStringToken:
   Enabled: false
+
+# Configuration parameters: MinBranchesCount.
+Style/HashLikeCase:
+  Exclude:
+    - 'lib/aruba/cucumber/command.rb'
+
+Style/OptionalBooleanParameter:
+  Exclude:
+    - 'lib/aruba/api/core.rb'
+    - 'lib/aruba/platforms/aruba_file_creator.rb'
+    - 'lib/aruba/setup.rb'
