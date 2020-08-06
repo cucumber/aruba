@@ -27,10 +27,6 @@ Lint/MissingSuper:
     - 'lib/aruba/platforms/unix_environment_variables.rb'
     - 'lib/aruba/tasks/docker_helpers.rb'
 
-Lint/UnreachableLoop:
-  Exclude:
-    - 'lib/aruba/cucumber/command.rb'
-
 # Configuration parameters: CheckForMethodsWithNoSideEffects.
 Lint/Void:
   Exclude:

@@ -88,30 +88,22 @@ end
 
 When(/^I wait for (?:output|stdout) to contain:$/) do |expected|
   Timeout.timeout(aruba.config.exit_timeout) do
-    loop do
-      begin
-        expect(last_command_started).to have_output an_output_string_including(expected)
-      rescue ExpectationError
-        sleep 0.1
-        retry
-      end
-
-      break
+    begin
+      expect(last_command_started).to have_output an_output_string_including(expected)
+    rescue ExpectationError
+      sleep 0.1
+      retry
     end
   end
 end
 
 When(/^I wait for (?:output|stdout) to contain "([^"]*)"$/) do |expected|
   Timeout.timeout(aruba.config.exit_timeout) do
-    loop do
-      begin
-        expect(last_command_started).to have_output an_output_string_including(expected)
-      rescue ExpectationError
-        sleep 0.1
-        retry
-      end
-
-      break
+    begin
+      expect(last_command_started).to have_output an_output_string_including(expected)
+    rescue ExpectationError
+      sleep 0.1
+      retry
     end
   end
 end
