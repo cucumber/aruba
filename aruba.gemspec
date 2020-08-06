@@ -50,7 +50,7 @@ Gem::Specification.new do |spec|
   spec.files = Rake::FileList['{docs,fixtures,lib}/**/*', 'CHANGELOG.md', \
                               'LICENSE', 'README.md'].exclude(*File.read('.gitignore').split)
 
-  spec.executables      = ['exe/aruba']
+  spec.executables      = ['aruba']
   spec.rdoc_options     = ['--charset', 'UTF-8', '--main', 'README.md']
   spec.extra_rdoc_files = ['CHANGELOG.md', 'CONTRIBUTING.md', 'README.md', 'LICENSE']
   spec.bindir           = 'exe'
