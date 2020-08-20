@@ -45,7 +45,7 @@ Gem::Specification.new do |spec|
   spec.rubygems_version = '>= 1.6.1'
   spec.required_ruby_version = '>= 2.4'
 
-  spec.files = File.read('Manifest.txt').split
+  spec.files = File.readlines('Manifest.txt', chomp: true)
 
   spec.executables      = ['aruba']
   spec.rdoc_options     = ['--charset', 'UTF-8', '--main', 'README.md']
