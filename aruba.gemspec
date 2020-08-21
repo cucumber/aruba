@@ -1,7 +1,4 @@
-lib = ::File.expand_path('lib', __dir__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'aruba/version'
-require 'rake/file_list'
+require_relative 'lib/aruba/version'
 
 Gem::Specification.new do |spec|
   spec.name        = 'aruba'
@@ -36,19 +33,19 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'minitest', '~> 5.10'
   spec.add_development_dependency 'pry-doc', '~> 1.0'
   spec.add_development_dependency 'rake', '~> 13.0'
+  spec.add_development_dependency 'rake-manifest', '~> 0.1.0'
   spec.add_development_dependency 'rspec', '~> 3.6'
-  spec.add_development_dependency 'rubocop', '~> 0.85'
+  spec.add_development_dependency 'rubocop', '~> 0.88.0'
   spec.add_development_dependency 'rubocop-packaging', '~> 0.1.1'
-  spec.add_development_dependency 'rubocop-performance', '~> 1.5'
-  spec.add_development_dependency 'rubocop-rspec', '~> 1.39'
+  spec.add_development_dependency 'rubocop-performance', '~> 1.7.1'
+  spec.add_development_dependency 'rubocop-rspec', '~> 1.42.0'
   spec.add_development_dependency 'simplecov', '~> 0.18.0'
   spec.add_development_dependency 'yard-junk', '~> 0.0.7'
 
   spec.rubygems_version = '>= 1.6.1'
   spec.required_ruby_version = '>= 2.4'
 
-  spec.files = Rake::FileList['{docs,fixtures,lib}/**/*', 'CHANGELOG.md', \
-                              'LICENSE', 'README.md'].exclude(*File.read('.gitignore').split)
+  spec.files = File.readlines('Manifest.txt', chomp: true)
 
   spec.executables      = ['aruba']
   spec.rdoc_options     = ['--charset', 'UTF-8', '--main', 'README.md']

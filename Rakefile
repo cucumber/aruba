@@ -47,6 +47,15 @@ end
 
 Bundler::GemHelper.install_tasks
 
+require 'rake/manifest/task'
+
+Rake::Manifest::Task.new do |t|
+  t.patterns = ['lib/**/*', 'exe/*', 'CHANGELOG.md', 'CONTRIBUTING.md',
+                'LICENSE', 'README.md']
+end
+
+task build: 'manifest:check'
+
 namespace :docker do
   desc 'Build docker image'
   task :build, :cache, :version do |_, args|
