@@ -39,9 +39,10 @@ RSpec::Matchers.define :have_permissions do |expected|
     @old_actual = actual
     @actual = permissions(expand_path(@old_actual))
 
-    @expected = if expected.is_a? Integer
+    @expected = case expected
+                when Integer
                   expected.to_s(8)
-                elsif expected.is_a? String
+                when String
                   expected.gsub(/^0*/, '')
                 else
                   expected

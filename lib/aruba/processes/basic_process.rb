@@ -135,7 +135,7 @@ module Aruba
       def truncate(string, max_length)
         return string if string.length <= max_length
 
-        string[0, max_length - 1] + ' ...'
+        "#{string[0, max_length - 1]} ..."
       end
     end
   end

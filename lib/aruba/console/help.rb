@@ -8,8 +8,8 @@ module Aruba
     module Help
       # Output help information
       def aruba_help
-        puts 'Aruba Version: ' + Aruba::VERSION
-        puts 'Issue Tracker: ' + 'https://github.com/cucumber/aruba/issues'
+        puts "Aruba Version: #{Aruba::VERSION}"
+        puts 'Issue Tracker: https://github.com/cucumber/aruba/issues'
         puts 'Documentation:'
         puts '* http://www.rubydoc.info/gems/aruba'
         puts
@@ -23,7 +23,7 @@ module Aruba
              .each_with_object([]) { |e, a| a << format('* %s', e) }
              .sort
 
-        puts "Available Methods:\n" + ms.join("\n")
+        puts "Available Methods:\n#{ms.join("\n")}"
 
         nil
       end
