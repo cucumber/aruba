@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'childprocess', ['>= 2.0', '< 5.0']
   spec.add_runtime_dependency 'contracts', '~> 0.16.0'
-  spec.add_runtime_dependency 'cucumber', ['>= 2.4', '< 5.0']
+  spec.add_runtime_dependency 'cucumber', ['>= 2.4', '< 6.0']
   spec.add_runtime_dependency 'ffi', '~> 1.9'
   spec.add_runtime_dependency 'rspec-expectations', '~> 3.4'
   spec.add_runtime_dependency 'thor', '~> 1.0'
@@ -39,7 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop-packaging', '~> 0.3.0'
   spec.add_development_dependency 'rubocop-performance', '~> 1.7.1'
   spec.add_development_dependency 'rubocop-rspec', '~> 1.43.1'
-  spec.add_development_dependency 'simplecov', '~> 0.18.0'
+  spec.add_development_dependency 'simplecov', ['>= 0.18.0', '< 0.20.0']
   spec.add_development_dependency 'yard-junk', '~> 0.0.7'
 
   spec.rubygems_version = '>= 1.6.1'

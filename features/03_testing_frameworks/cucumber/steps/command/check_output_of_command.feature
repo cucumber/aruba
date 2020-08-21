@@ -201,11 +201,6 @@ Feature: All output of commands which were executed
     """
           expected "goodbye\nworld" to output string is eq: "hello\nworld"
           Diff:
-          @@ -1,3 +1,3 @@
-          -hello
-          +goodbye
-           world
-           (RSpec::Expectations::ExpectationNotMetError)
     """
 
   Scenario: Detect subset of one-line output with regex
