@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [1.0.3]
+
+* Loosen Cucumber dependency to allow Cucumber 5.0 ([#727] by [mvz])
+* Update rubocop and fix new offenses ([#719] and [#724] by [mvz])
+* Rework gemspec to avoid dependency on git ([#721] by [utkarsh2102], [#725] by [mvz])
+
 ## [1.0.2]
 
 * Loosen childprocess dependency
@@ -936,12 +942,18 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [scottj97]:       https://github.com/scottj97
 [stamhankar999]:  https://github.com/stamhankar999
 [taylor]:         https://github.com/taylor
+[utkarsh2102]:    https://github.com/utkarsh2102
 [tdreyno]:        https://github.com/tdreyno
 [xtrasimplicity]: https://github.com/xtrasimplicity
 [y-higuchi]:      https://github.com/y-higuchi
 
 <!-- issues & pull requests -->
 
+[#727]: https://github.com/cucumber/aruba/pull/727
+[#725]: https://github.com/cucumber/aruba/pull/725
+[#724]: https://github.com/cucumber/aruba/pull/724
+[#721]: https://github.com/cucumber/aruba/pull/721
+[#719]: https://github.com/cucumber/aruba/pull/719
 [#717]: https://github.com/cucumber/aruba/pull/717
 [#715]: https://github.com/cucumber/aruba/pull/715
 [#712]: https://github.com/cucumber/aruba/pull/712
@@ -1215,7 +1227,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.2...master
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.3...master
+[1.0.3]:          https://github.com/cucumber/aruba/compare/v1.0.2...v1.0.3
 [1.0.2]:          https://github.com/cucumber/aruba/compare/v1.0.1...v1.0.2
 [1.0.1]:          https://github.com/cucumber/aruba/compare/v1.0.0...v1.0.1
 [1.0.0]:          https://github.com/cucumber/aruba/compare/v1.0.0.pre.alpha.5...v1.0.0
