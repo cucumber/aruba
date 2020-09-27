@@ -5,7 +5,6 @@ cache: bundler
 jobs:
   include:
     - rvm: ruby-head
-      stage: test
       os: linux
     - rvm: ruby-head
       os: osx
@@ -29,12 +28,19 @@ jobs:
       os: linux
     - rvm: jruby-9.2
       os: linux
+      name: "Specs on JRuby 9.2 on Linux"
+      script: bundle exec rake spec
+    - rvm: jruby-9.2
+      os: linux
+      name: "Cucumber scenarios on JRuby 9.2 on Linux"
+      script: bundle exec rake cucumber
     - rvm: jruby-9.2
       os: osx
+      name: "Specs on JRuby 9.2 on OS X"
       script: bundle exec rake spec
-    - stage: lint
+    - rvm: 2.7.1
       script: bundle exec rake lint
-      rvm: 2.6.3
+      name: "Run linters"
       os: linux
   allow_failures:
     - rvm: ruby-head
