@@ -22,7 +22,7 @@ RSpec.describe 'Collection Matchers' do
             expected [14, "a"] to include an object be odd
 
                object at index 0 failed to match:
-                  expected `14.odd?` to return true, got false
+                  expected `14.odd?` to be truthy, got false
 
                object at index 1 failed to match:
                   expected "a" to respond to `odd?`
@@ -38,7 +38,7 @@ RSpec.describe 'Collection Matchers' do
       it 'skips boiler plate if only one candidate object is given' do
         only_one = [14]
         expect { expect(only_one).to include_an_object(be_odd) }
-          .to fail_with 'expected `14.odd?` to return true, got false'
+          .to fail_with 'expected `14.odd?` to be truthy, got false'
       end
     end
 
