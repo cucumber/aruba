@@ -1,3 +1,6 @@
+# This Travis configuration only builds on old Rubies that are not supported in
+# the github action setup.
+#
 # In order to install old Rubies, we need to use old Ubuntu distribution.
 dist: trusty
 sudo: false
@@ -12,23 +15,12 @@ rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.8
-  - 2.2
-  - 2.3
-  - 2.4
-  - 2.5
-  - 2.6
-  - 2.7
   - jruby-1.7
   - jruby-9.0
-  - jruby-9.1
-  - jruby-9.2.6.0
-  - rbx-3
 matrix:
   include:
     - rvm: jruby-1.7
       env: JRUBY_OPTS='--dev --1.8'
-  allow_failures:
-  - rvm: rbx-3
 branches:
   only:
     - master
