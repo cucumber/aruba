@@ -256,6 +256,7 @@ RSpec.describe Aruba::Api::Core do
       @aruba.delete_environment_variable variable
 
       @aruba.with_environment do
+        expect(ENV[variable]).to be_nil
       end
 
       @aruba.with_environment do
@@ -268,6 +269,7 @@ RSpec.describe Aruba::Api::Core do
       variable = 'THIS_IS_A_ENV_VAR'
 
       @aruba.with_environment variable => 2 do
+        expect(ENV[variable]).to eq '2'
       end
 
       @aruba.with_environment do

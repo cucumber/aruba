@@ -133,7 +133,7 @@ module Aruba
     #
     # @yield
     #   The code block which should be run. This is a configure time only option
-    def before(name, context = proc {}, *args, &block)
+    def before(name, context = proc { nil }, *args, &block)
       name = format('%s_%s', 'before_', name.to_s).to_sym
 
       if block_given?
@@ -158,7 +158,7 @@ module Aruba
     #
     # @yield
     #   The code block which should be run. This is a configure time only option
-    def after(name, context = proc {}, *args, &block)
+    def after(name, context = proc { nil }, *args, &block)
       name = format('%s_%s', 'after_', name.to_s).to_sym
 
       if block_given?

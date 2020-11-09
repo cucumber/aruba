@@ -60,7 +60,7 @@ describe Aruba::EventBus do
       let(:received_payload) { [] }
 
       before do
-        bus.register(event_name, proc {})
+        bus.register(event_name, proc { nil })
       end
 
       it { expect { bus.notify event_klass }.to raise_error Aruba::NoEventError }
