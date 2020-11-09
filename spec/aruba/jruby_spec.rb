@@ -24,7 +24,7 @@ describe 'Aruba JRuby Startup Helper' do
 
     it 'keeps the existing JRUBY_OPTS and JAVA_OPTS environment values' do
       # Run defined before :command hook
-      Aruba.config.before :command, self, command
+      Aruba.config.run_before_hook :command, self, command
 
       aggregate_failures do
         expect(command_environment['JRUBY_OPTS']).to eq '--1.9'
@@ -46,7 +46,7 @@ describe 'Aruba JRuby Startup Helper' do
 
     it 'updates the existing JRuby but not Java option values' do
       # Run defined before :command hook
-      Aruba.config.before :command, self, command
+      Aruba.config.run_before_hook :command, self, command
 
       aggregate_failures do
         expect(command_environment['JRUBY_OPTS']).to eq '--dev -X-C --1.9'
@@ -68,7 +68,7 @@ describe 'Aruba JRuby Startup Helper' do
 
     it 'keeps the existing JRuby and Java option values' do
       # Run defined before :command hook
-      Aruba.config.before :command, self, command
+      Aruba.config.run_before_hook :command, self, command
 
       aggregate_failures do
         expect(command_environment['JRUBY_OPTS']).to eq '--dev -X-C --1.9'

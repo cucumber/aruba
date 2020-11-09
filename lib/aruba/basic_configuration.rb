@@ -90,8 +90,6 @@ module Aruba
     attr_accessor :local_options
     attr_writer :hooks
 
-    # attr_reader :hooks
-
     public
 
     # Create configuration
@@ -120,68 +118,68 @@ module Aruba
       obj
     end
 
-    # Define or run before-hook
+    # Define before-hook
+    #
+    # @param [Symbol, String] name
+    #   The name of the hook
+    #
+    # @yield
+    #   The code block which should be run. This is a configure time only option
+    def before(name, &block)
+      name = format('%s_%s', 'before_', name.to_s).to_sym
+      raise ArgumentError, 'A block is required' unless block
+
+      @hooks.append(name, block)
+
+      self
+    end
+
+    # Run before-hook
     #
     # @param [Symbol, String] name
     #   The name of the hook
     #
     # @param [Proc] context
-    #   The context a hook should run in. This is a runtime only option.
+    #   The context a hook should run in
     #
     # @param [Array] args
-    #   Arguments for the run of hook. This is a runtime only option.
+    #   Arguments for the run of hook
+    def run_before_hook(name, context, *args)
+      name = format('%s_%s', 'before_', name.to_s).to_sym
+
+      @hooks.execute(name, context, *args)
+    end
+
+    # Define after-hook
+    #
+    # @param [Symbol, String] name
+    #   The name of the hook
     #
     # @yield
     #   The code block which should be run. This is a configure time only option
-    def before(name, context = proc { nil }, *args, &block)
-      name = format('%s_%s', 'before_', name.to_s).to_sym
+    def after(name, &block)
+      name = format('%s_%s', 'after_', name.to_s).to_sym
+      raise ArgumentError, 'A block is required' unless block
 
-      if block
-        @hooks.append(name, block)
+      @hooks.append(name, block)
 
-        self
-      else
-        @hooks.execute(name, context, *args)
-      end
+      self
     end
 
-    # Define or run after-hook
+    # Run after-hook
     #
     # @param [Symbol, String] name
     #   The name of the hook
     #
     # @param [Proc] context
-    #   The context a hook should run in. This is a runtime only option.
+    #   The context a hook should run in
     #
     # @param [Array] args
-    #   Arguments for the run of hook. This is a runtime only option.
-    #
-    # @yield
-    #   The code block which should be run. This is a configure time only option
-    def after(name, context = proc { nil }, *args, &block)
+    #   Arguments for the run of hook
+    def run_after_hook(name, context, *args)
       name = format('%s_%s', 'after_', name.to_s).to_sym
 
-      if block
-        @hooks.append(name, block)
-
-        self
-      else
-        @hooks.execute(name, context, *args)
-      end
-    end
-
-    # Check if before-hook <name> is defined
-    def before?(name)
-      name = format('%s_%s', 'before_', name.to_s).to_sym
-
-      @hooks.exist? name
-    end
-
-    # Check if after-hook <name> is defined
-    def after?(name)
-      name = format('%s_%s', 'after_', name.to_s).to_sym
-
-      @hooks.exist? name
+      @hooks.execute(name, context, *args)
     end
 
     # Check if <name> is option
