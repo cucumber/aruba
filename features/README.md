@@ -125,8 +125,8 @@ for the most up to date documentation.
      let(:file) { 'file.txt' }
      let(:content) { 'Hello, Aruba!' }
 
-     before(:each) { write_file file, content }
-     before(:each) { run_command('aruba-test-cli file.txt') }
+     before { write_file file, content }
+     before { run_command('aruba-test-cli file.txt') }
 
      # Full string
      it { expect(last_command_started).to have_output content }

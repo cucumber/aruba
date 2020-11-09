@@ -19,10 +19,10 @@ Feature: Prepend environment variable
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
-      before(:each) { prepend_environment_variable 'LONG_LONG_VARIABLE', 'a' }
+      before { prepend_environment_variable 'LONG_LONG_VARIABLE', 'a' }
 
-      before(:each) { run_command('env') }
-      before(:each) { stop_all_commands }
+      before { run_command('env') }
+      before { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=a' }
     end
@@ -36,11 +36,11 @@ Feature: Prepend environment variable
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
-      before(:each) { prepend_environment_variable 'LONG_LONG_VARIABLE', 'a' }
-      before(:each) { prepend_environment_variable 'LONG_LONG_VARIABLE', 'b' }
+      before { prepend_environment_variable 'LONG_LONG_VARIABLE', 'a' }
+      before { prepend_environment_variable 'LONG_LONG_VARIABLE', 'b' }
 
-      before(:each) { run_command('env') }
-      before(:each) { stop_all_commands }
+      before { run_command('env') }
+      before { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'LONG_LONG_VARIABLE=ba' }
     end
@@ -57,10 +57,10 @@ Feature: Prepend environment variable
     ENV['REALLY_LONG_LONG_VARIABLE'] = 'a'
 
     RSpec.describe 'Long running command', :type => :aruba do
-      before(:each) { prepend_environment_variable 'REALLY_LONG_LONG_VARIABLE', 'b' }
+      before { prepend_environment_variable 'REALLY_LONG_LONG_VARIABLE', 'b' }
 
-      before(:each) { run_command('env') }
-      before(:each) { stop_all_commands }
+      before { run_command('env') }
+      before { stop_all_commands }
 
       it { expect(last_command_started.output).to include 'REALLY_LONG_LONG_VARIABLE=ba' }
 
@@ -79,10 +79,10 @@ Feature: Prepend environment variable
     ENV['REALLY_LONG_LONG_VARIABLE'] = 'a'
 
     RSpec.describe 'Long running command', :type => :aruba do
-      before(:each) { prepend_environment_variable 'REALLY_LONG_LONG_VARIABLE', 'b' }
+      before { prepend_environment_variable 'REALLY_LONG_LONG_VARIABLE', 'b' }
 
-      before(:each) { run_command('env') }
-      before(:each) { stop_all_commands }
+      before { run_command('env') }
+      before { stop_all_commands }
 
       it do
         with_environment do
@@ -109,10 +109,10 @@ Feature: Prepend environment variable
     ENV['REALLY_LONG_LONG_VARIABLE'] = 'a'
 
     RSpec.describe 'Long running command', :type => :aruba do
-      before(:each) { prepend_environment_variable 'REALLY_LONG_LONG_VARIABLE', 'b' }
+      before { prepend_environment_variable 'REALLY_LONG_LONG_VARIABLE', 'b' }
 
-      before(:each) { run_command('env') }
-      before(:each) { stop_all_commands }
+      before { run_command('env') }
+      before { stop_all_commands }
 
       it do
         with_environment 'REALLY_LONG_LONG_VARIABLE' => 'a' do

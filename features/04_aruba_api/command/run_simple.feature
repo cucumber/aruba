@@ -92,7 +92,7 @@ Feature: Run command in a simpler fashion
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.1, startup_wait_time: 0.3 do
-      before(:each) { run_command_and_stop('aruba-test-cli') }
+      before { run_command_and_stop('aruba-test-cli') }
 
       it 'runs the command with the expected results' do
         aggregate_failures do
@@ -126,7 +126,7 @@ Feature: Run command in a simpler fashion
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.3 do
-      before(:each) { run_command_and_stop('aruba-test-cli') }
+      before { run_command_and_stop('aruba-test-cli') }
 
       it 'runs the command with the expected results' do
         aggregate_failures do

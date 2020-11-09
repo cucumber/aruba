@@ -9,7 +9,7 @@ Feature: Check if path is absolute
 
   RSpec.describe 'Check if path is absolute', :type => :aruba do
     let(:path) { 'file.txt' }
-    before(:each) { touch(path) }
+    before { touch(path) }
 
     it { expect(path).to be_an_absolute_path }
   end

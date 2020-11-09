@@ -8,8 +8,8 @@ Feature: Check if path exists and is an executable file
 
   RSpec.describe 'Check if file exists and is an executable file', :type => :aruba do
     let(:file) { 'file.txt' }
-    before(:each) { touch(file) }
-    before(:each) { chmod(0o755, file) }
+    before { touch(file) }
+    before { chmod(0o755, file) }
 
     it { expect(file).to be_an_existing_executable }
   end
@@ -25,8 +25,8 @@ Feature: Check if path exists and is an executable file
 
     RSpec.describe 'Check if file exists and is an executable file', :type => :aruba do
       let(:file) { 'file.txt' }
-      before(:each) { touch(file) }
-      before(:each) { chmod(0o755, file) }
+      before { touch(file) }
+      before { chmod(0o755, file) }
 
       it { expect(file).to be_an_existing_executable }
     end

@@ -42,7 +42,7 @@ Feature: Report disk usage
     RSpec.describe 'disk usage', :type => :aruba do
       let(:file) { 'file.txt' }
 
-      before(:each) do 
+      before do 
         write_file file, 'a'
       end
 
@@ -66,7 +66,7 @@ Feature: Report disk usage
       let(:file1) { 'file1.txt' }
       let(:file2) { 'file2.txt' }
 
-      before(:each) do 
+      before do 
         write_file file1, 'a'
         write_file file2, 'a'
       end
@@ -88,7 +88,7 @@ Feature: Report disk usage
     RSpec.describe 'disk usage', :type => :aruba do
       let(:file) { 'file.txt' }
 
-      before(:each) do 
+      before do 
         write_file file, 'a'
       end
 
@@ -108,7 +108,7 @@ Feature: Report disk usage
     RSpec.describe 'disk usage', :type => :aruba do
       let(:file) { 'file.txt' }
 
-      before(:each) do 
+      before do 
         write_file file, 'a'
       end
 
@@ -128,7 +128,7 @@ Feature: Report disk usage
     RSpec.describe 'disk usage', :type => :aruba do
       let(:file) { 'file.txt' }
 
-      before(:each) do 
+      before do 
         write_file file, 'a'
       end
 
@@ -149,7 +149,7 @@ Feature: Report disk usage
       let(:file1) { 'file1.txt' }
       let(:file2) { 'file2.txt' }
 
-      before(:each) do 
+      before do 
         write_file file1, 'a' * 10_000
         write_file file2, 'a'
       end

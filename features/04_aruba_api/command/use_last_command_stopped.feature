@@ -9,8 +9,8 @@ Feature: Return last command stopped
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba do
-      before(:each) { run_command('echo hello') }
-      before(:each) { stop_all_commands }
+      before { run_command('echo hello') }
+      before { stop_all_commands }
 
       it { expect(last_command_stopped).to be_successfully_executed }
       it { expect(last_command_stopped.commandline).to eq 'echo hello' }
@@ -25,10 +25,10 @@ Feature: Return last command stopped
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba do
-      before(:each) { run_command('echo hello') }
-      before(:each) { run_command('echo world') }
+      before { run_command('echo hello') }
+      before { run_command('echo world') }
 
-      before(:each) { stop_all_commands }
+      before { stop_all_commands }
 
       it { expect(last_command_stopped).to be_successfully_executed }
       it { expect(last_command_stopped.commandline).to eq 'echo world' }
@@ -43,9 +43,9 @@ Feature: Return last command stopped
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba do
-      before(:each) { run_command('echo hello') }
-      before(:each) { find_command('echo hello').stop }
-      before(:each) { run_command('echo world') }
+      before { run_command('echo hello') }
+      before { find_command('echo hello').stop }
+      before { run_command('echo world') }
 
       it { expect(last_command_stopped).to be_successfully_executed }
       it { expect(last_command_stopped.commandline).to eq 'echo hello' }
@@ -78,7 +78,7 @@ Feature: Return last command stopped
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.2 do
-      before(:each) { run_command('aruba-test-cli') }
+      before { run_command('aruba-test-cli') }
 
       it { expect{ last_command_stopped.commandline }.to raise_error Aruba::NoCommandHasBeenStoppedError }
     end

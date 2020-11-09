@@ -9,7 +9,7 @@ Feature: Check if path exists
 
   RSpec.describe 'Check if path exists', :type => :aruba do
     let(:path) { 'file.txt' }
-    before(:each) { touch(path) }
+    before { touch(path) }
 
     it { expect(path).to be_an_existing_path }
   end
@@ -25,7 +25,7 @@ Feature: Check if path exists
 
     RSpec.describe 'Check if path exists', :type => :aruba do
       let(:path) { 'file.txt' }
-      before(:each) { touch(path) }
+      before { touch(path) }
       it { expect(path).to be_an_existing_path }
     end
     """
@@ -39,7 +39,7 @@ Feature: Check if path exists
 
     RSpec.describe 'Check if path exists', :type => :aruba do
       let(:path) { 'dir.d' }
-      before(:each) { create_directory(path) }
+      before { create_directory(path) }
       it { expect(path).to be_an_existing_path }
     end
     """

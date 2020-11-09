@@ -11,7 +11,7 @@ Feature: Check if file has content
     let(:file) { 'file.txt' }
     let(:content) { 'Hello World' }
 
-    before(:each) { write_file(file, content) }
+    before { write_file(file, content) }
 
     it { expect(file).to have_file_content content }
   end
@@ -29,7 +29,7 @@ Feature: Check if file has content
       let(:file) { 'file.txt' }
       let(:content) { 'Hello World' }
 
-      before(:each) { write_file(file, content) }
+      before { write_file(file, content) }
 
       it { expect(file).to have_file_content content }
     end
@@ -46,7 +46,7 @@ Feature: Check if file has content
       let(:file) { 'file.txt' }
       let(:content) { 'Hello World' }
 
-      before(:each) { write_file(file, content) }
+      before { write_file(file, content) }
 
       it { expect(file).to have_file_content /Hello/ }
     end
@@ -63,7 +63,7 @@ Feature: Check if file has content
       let(:file) { 'file.txt' }
       let(:content) { 'Hello World' }
 
-      before(:each) { write_file(file, content) }
+      before { write_file(file, content) }
 
       it { expect(file).to have_file_content a_string_starting_with('Hello') }
     end
@@ -99,7 +99,7 @@ Feature: Check if file has content
       let(:files) { %w(file1.txt file2.txt) }
       let(:content) { 'Hello World' }
 
-      before(:each) { write_file(files.first, content) }
+      before { write_file(files.first, content) }
 
       it { expect(files).to include a_file_having_content content }
     end

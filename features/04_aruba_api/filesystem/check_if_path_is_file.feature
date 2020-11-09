@@ -13,7 +13,7 @@ Feature: Check existence of files
   RSpec.describe 'Check if directory and file exist' do
     let(:file) { 'file.txt' }
 
-    before(:each) { touch(file) }
+    before { touch(file) }
 
     it { expect(file?(file)).to be true }
   end
@@ -30,7 +30,7 @@ Feature: Check existence of files
     RSpec.describe 'Check if directory and file exist', :type => :aruba do
       let(:file) { 'file.txt' }
 
-      before(:each) { touch(file) }
+      before { touch(file) }
 
       it { expect(file?(file)).to be true }
     end
@@ -45,7 +45,7 @@ Feature: Check existence of files
 
     RSpec.describe 'Check if directory and file exist', :type => :aruba do
       let(:directory) { 'dir.d' }
-      before(:each) { create_directory(directory) }
+      before { create_directory(directory) }
 
       it { expect(file?(directory)).to be false }
     end

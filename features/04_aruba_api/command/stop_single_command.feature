@@ -28,8 +28,8 @@ Feature: Stop command
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.2 do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { last_command_started.stop }
+      before { run_command('aruba-test-cli') }
+      before { last_command_started.stop }
       it { expect(last_command_started).to be_successfully_executed }
     end
     """
@@ -53,8 +53,8 @@ Feature: Stop command
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.2 do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { find_command('aruba-test-cli').stop }
+      before { run_command('aruba-test-cli') }
+      before { find_command('aruba-test-cli').stop }
       it { expect(last_command_started).to be_successfully_executed }
     end
     """
@@ -89,7 +89,7 @@ Feature: Stop command
     end
 
     RSpec.describe 'Run command', type: :aruba do
-      before(:each) { run_command('aruba-test-cli') }
+      before { run_command('aruba-test-cli') }
       it { expect(last_command_started).to be_successfully_executed }
     end
     """
@@ -124,7 +124,7 @@ Feature: Stop command
     end
 
     RSpec.describe 'Run command', type: :aruba do
-      before(:each) { run_command('aruba-test-cli') }
+      before { run_command('aruba-test-cli') }
       it { expect(last_command_started).to have_exit_status 2 }
     end
     """

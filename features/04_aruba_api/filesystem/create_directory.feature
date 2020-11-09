@@ -12,7 +12,7 @@ Feature: Create Directory
 
   RSpec.describe 'Create directory' do
     let(:directory) { 'dir.d' }
-    before(:each) { create_directory(directory) }
+    before { create_directory(directory) }
 
     it { expect(directory).to be_an_existing_directory }
   end
@@ -28,7 +28,7 @@ Feature: Create Directory
 
     RSpec.describe 'Create directory', :type => :aruba do
       let(:directory) { 'dir.d' }
-      before(:each) { create_directory(directory) }
+      before { create_directory(directory) }
 
       it { expect(directory).to be_an_existing_directory }
     end
@@ -47,8 +47,8 @@ Feature: Create Directory
     RSpec.describe 'Create directory', :type => :aruba do
       let(:directory) { 'dir.d' }
 
-      before(:each) { create_directory(directory) }
-      before(:each) { create_directory(directory) }
+      before { create_directory(directory) }
+      before { create_directory(directory) }
 
       it { expect(directory).to be_an_existing_directory }
     end

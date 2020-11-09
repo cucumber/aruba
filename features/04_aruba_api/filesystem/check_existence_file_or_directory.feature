@@ -15,8 +15,8 @@ Feature: Check existence of files and directories
     let(:directory) { 'dir.d' }
     let(:file) { 'file.txt' }
 
-    before(:each) { create_directory(directory) }
-    before(:each) { touch(file) }
+    before { create_directory(directory) }
+    before { touch(file) }
 
     it { expect(exist?(directory)).to be true }
     it { expect(exist?(file)).to be true }
@@ -35,8 +35,8 @@ Feature: Check existence of files and directories
       let(:directory) { 'dir.d' }
       let(:file) { 'file.txt' }
 
-      before(:each) { create_directory(directory) }
-      before(:each) { touch(file) }
+      before { create_directory(directory) }
+      before { touch(file) }
 
       it { expect(exist?(directory)).to be true }
       it { expect(exist?(file)).to be true }

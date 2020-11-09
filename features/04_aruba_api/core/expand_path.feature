@@ -87,7 +87,7 @@ Feature: Expand paths with aruba
     require 'spec_helper'
 
     RSpec.describe 'Expand path', :type => :aruba do
-      before(:each) { remove('.') }
+      before { remove('.') }
 
       let(:path) { 'path/to/dir' }
 

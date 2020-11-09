@@ -14,8 +14,8 @@ Feature: Check if path has permissions in filesystem
       let(:file) { 'file.txt' }
       let(:permissions) { 0700 }
 
-      before(:each) { touch(file) }
-      before(:each) { chmod(permissions, file }
+      before { touch(file) }
+      before { chmod(permissions, file }
 
       it { expect(file).to have_permissions permissions }
     end
@@ -34,8 +34,8 @@ Feature: Check if path has permissions in filesystem
       let(:file) { 'file.txt' }
       let(:permissions) { 0600 }
 
-      before(:each) { touch(file) }
-      before(:each) { chmod(permissions, file) }
+      before { touch(file) }
+      before { chmod(permissions, file) }
 
       it { expect(file).to have_permissions permissions }
     end
@@ -52,8 +52,8 @@ Feature: Check if path has permissions in filesystem
       let(:directory) { 'directory.d' }
       let(:permissions) { 0700 }
 
-      before(:each) { create_directory(directory) }
-      before(:each) { chmod(permissions, directory) }
+      before { create_directory(directory) }
+      before { chmod(permissions, directory) }
 
       it { expect(directory).to have_permissions permissions }
     end

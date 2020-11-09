@@ -15,7 +15,7 @@ Feature: Move file/directory
       let(:old_location) { 'old_dir.d' }
       let(:new_location) { 'new_dir.d' }
 
-      before(:each) do 
+      before do 
         create_directory old_location
         move old_location, new_location
       end
@@ -35,7 +35,7 @@ Feature: Move file/directory
       let(:old_location) { 'old_dir.d' }
       let(:new_location) { 'new_dir.d' }
 
-      before(:each) do 
+      before do 
         create_directory old_location
         create_directory new_location
 

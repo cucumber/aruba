@@ -17,8 +17,8 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(unescape_text(last_command_started.output)).to eq "text\ntext" }
     end
@@ -37,8 +37,8 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(unescape_text(last_command_started.output)).to eq "texttext" }
     end
@@ -57,8 +57,8 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(unescape_text(last_command_started.output)).to eq "text\"text" }
     end
@@ -77,8 +77,8 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(unescape_text(last_command_started.output)).to eq "texttext" }
     end
@@ -97,8 +97,8 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(unescape_text(last_command_started.output)).to eq "texttext" }
     end
@@ -117,8 +117,8 @@ Feature: Unescape special characters in text
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(unescape_text(last_command_started.output)).to eq "texttext" }
     end

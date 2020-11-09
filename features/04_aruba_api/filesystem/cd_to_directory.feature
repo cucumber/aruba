@@ -19,12 +19,12 @@ Feature: Change current working directory
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
-      before(:each) do 
+      before do 
         create_directory 'new_dir.d'
         cd 'new_dir.d'
       end
 
-      before(:each) { run_command_and_stop 'pwd' }
+      before { run_command_and_stop 'pwd' }
 
       it { expect(last_command_started.output).to include 'new_dir.d' }
     end
@@ -38,8 +38,8 @@ Feature: Change current working directory
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
-      before(:each) { cd 'new_dir.d' }
-      before(:each) { run_command_and_stop 'pwd' }
+      before { cd 'new_dir.d' }
+      before { run_command_and_stop 'pwd' }
 
       it { expect(last_command_started.output).to include 'new_dir.d' }
       it { expect(last_command_started).to be_executed_in_time }
@@ -54,7 +54,7 @@ Feature: Change current working directory
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
-      before(:each) do
+      before do
         create_directory 'new_dir.d/subdir.d'
       end
 
@@ -78,7 +78,7 @@ Feature: Change current working directory
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
-      before(:each) do
+      before do
         create_directory 'new_dir.d/subdir.d'
       end
 
@@ -105,7 +105,7 @@ Feature: Change current working directory
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
-      before(:each) do
+      before do
         create_directory 'new_dir.d/subdir.d'
       end
 
@@ -129,7 +129,7 @@ Feature: Change current working directory
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
-      before(:each) do
+      before do
         create_directory 'new_dir.d'
       end
 
@@ -157,7 +157,7 @@ Feature: Change current working directory
     require 'spec_helper'
 
     RSpec.describe 'cd to directory', :type => :aruba do
-      before(:each) do
+      before do
         create_directory 'new_dir.d/subdir.d'
       end
 
