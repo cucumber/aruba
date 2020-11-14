@@ -47,19 +47,20 @@ module Aruba
     def logger
       l = ::Logger.new($stderr)
 
-      case mode
-      when :debug
-        l.level = ::Logger::DEBUG
+      if mode == :debug
         format_debug(l)
-      when :silent
-        l.level = 9_999
-      when :info
-        l.level = ::Logger::INFO
-        format_standard(l)
       else
-        l.level = ::Logger::INFO
         format_standard(l)
       end
+
+      l.level = case mode
+                when :debug
+                  ::Logger::DEBUG
+                when :silent
+                  9_999
+                else
+                  ::Logger::INFO
+                end
 
       l
     end

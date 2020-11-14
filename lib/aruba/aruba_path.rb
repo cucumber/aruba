@@ -57,9 +57,8 @@ module Aruba
     # Get path
     def to_pathname
       current_path = @obj.inject do |path, element|
-        if element.start_with? '~'
-          element
-        elsif Aruba.platform.absolute_path? element
+        if element.start_with?('~') ||
+           Aruba.platform.absolute_path?(element)
           element
         else
           File.join(path, element)
