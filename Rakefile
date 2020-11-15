@@ -6,14 +6,6 @@ require 'aruba/platform'
 require 'bundler'
 Bundler.setup
 
-task default: %w(spec cucumber cucumber:wip lint)
-
-desc 'Run all linters.'
-task lint: %w(lint:coding_guidelines lint:licenses)
-
-desc 'Run the whole test suite.'
-task test: %w(spec cucumber cucumber:wip)
-
 require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
 
@@ -30,6 +22,9 @@ end
 
 RSpec::Core::RakeTask.new
 
+desc 'Run the whole test suite.'
+task test: [:spec, :cucumber]
+
 namespace :lint do
   desc 'Lint our code with "rubocop"'
   task :coding_guidelines do
@@ -44,6 +39,9 @@ namespace :lint do
   require 'yard-junk/rake'
   YardJunk::Rake.define_task
 end
+
+desc 'Run all linters.'
+task lint: %w(lint:coding_guidelines lint:licenses)
 
 Bundler::GemHelper.install_tasks
 
@@ -89,3 +87,5 @@ namespace :docker do
     sh builder.to_cli
   end
 end
+
+task default: :test
