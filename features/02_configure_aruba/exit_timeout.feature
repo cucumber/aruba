@@ -30,14 +30,14 @@ Feature: Configure timeout for command execution
     Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 0.2
+      config.exit_timeout = 1.0
     end
     """
     And a file named "features/run.feature" with:
     """
     Feature: Run it
       Scenario: Fast command
-        When I run `aruba-test-cli 0.1`
+        When I run `aruba-test-cli 0.5`
         Then the exit status should be 0
     """
     Then I successfully run `cucumber`
@@ -46,14 +46,14 @@ Feature: Configure timeout for command execution
     Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 0.1
+      config.exit_timeout = 0.5
     end
     """
     And a file named "features/run.feature" with:
     """
     Feature: Run it
       Scenario: Fast command
-        When I run `aruba-test-cli 0.5`
+        When I run `aruba-test-cli 2.5`
         Then the exit status should be 0
     """
     Then I run `cucumber`
