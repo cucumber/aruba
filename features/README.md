@@ -160,7 +160,7 @@ for the most up to date documentation.
      include Aruba::Api
 
      def setup
-       setup_aruba
+       aruba_setup
      end
 
      def test_getting_started_with_aruba

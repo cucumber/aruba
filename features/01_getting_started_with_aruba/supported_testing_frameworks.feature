@@ -72,7 +72,7 @@ Feature: Supported Testing Frameworks
       include Aruba::Api
 
       def setup
-        aruba_setup
+        setup_aruba
       end
 
       def test_getting_started_with_aruba
