@@ -75,7 +75,7 @@ Feature: Supported Testing Frameworks
         aruba_setup
       end
 
-      def getting_started_with_aruba
+      def test_getting_started_with_aruba
         file = 'file.txt'
         content = 'Hello World'
 
