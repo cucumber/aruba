@@ -80,7 +80,7 @@ Feature: Supported Testing Frameworks
         content = 'Hello World'
 
         write_file file, content
-				assert_equal read(file), [content]
+        assert_equal read(file), [content]
       end
     end
     """
