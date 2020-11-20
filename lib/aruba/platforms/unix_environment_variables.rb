@@ -11,7 +11,7 @@ module Aruba
         def initialize(other_env, &block)
           @other_env = other_env.to_h.transform_values(&:to_s)
 
-          @block = (block if block_given?)
+          @block = block
         end
 
         def call(env)

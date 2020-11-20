@@ -136,7 +136,7 @@ module Aruba
     def before(name, context = proc { nil }, *args, &block)
       name = format('%s_%s', 'before_', name.to_s).to_sym
 
-      if block_given?
+      if block
         @hooks.append(name, block)
 
         self
@@ -161,7 +161,7 @@ module Aruba
     def after(name, context = proc { nil }, *args, &block)
       name = format('%s_%s', 'after_', name.to_s).to_sym
 
-      if block_given?
+      if block
         @hooks.append(name, block)
 
         self

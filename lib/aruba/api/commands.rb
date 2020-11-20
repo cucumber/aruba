@@ -64,7 +64,7 @@ module Aruba
       #   If block is given use it to filter the commands which should be
       #   stoppend.
       def stop_all_commands(&block)
-        cmds = if block_given?
+        cmds = if block
                  all_commands.select(&block)
                else
                  all_commands
@@ -81,7 +81,7 @@ module Aruba
       #   If block is given use it to filter the commands which should be
       #   terminated.
       def terminate_all_commands(&block)
-        cmds = if block_given?
+        cmds = if block
                  all_commands.select(&block)
                else
                  all_commands
