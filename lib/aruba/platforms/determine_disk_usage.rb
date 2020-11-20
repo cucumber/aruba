@@ -7,7 +7,7 @@ module Aruba
     # @private
     class DetermineDiskUsage
       def call(paths)
-        size = paths.flatten.map { |path| minimum_disk_space_used path }.sum
+        size = paths.flatten.sum { |path| minimum_disk_space_used path }
 
         FileSize.new(size)
       end
