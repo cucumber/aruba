@@ -24,7 +24,7 @@ Feature: Usage of configuration
     Given a file named "spec/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 0.5
+      config.exit_timeout = 0.7
     end
     """
     And a file named "spec/usage_configuration_spec.rb" with:
