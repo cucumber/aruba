@@ -112,7 +112,7 @@ module Aruba
       end
 
       def output_format(channel, string = '%s', &block)
-        output_formats[channel.to_sym] = if block_given?
+        output_formats[channel.to_sym] = if block
                                            block
                                          elsif string.is_a?(Proc)
                                            string

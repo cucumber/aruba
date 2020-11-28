@@ -57,7 +57,7 @@ module Aruba
       #   result = cd('some-dir') { Dir.getwd }
       #
       def cd(dir, &block)
-        if block_given?
+        if block
           begin
             unless Aruba.platform.directory?(expand_path(dir))
               raise ArgumentError,
