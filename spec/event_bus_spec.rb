@@ -2,7 +2,9 @@ require 'spec_helper'
 
 module Events
   class TestEvent; end
+
   class AnotherTestEvent; end
+
   module MalformedTestEvent; end
 end
 
