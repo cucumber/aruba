@@ -13,10 +13,10 @@ Feature: Delete existing environment variable via API-method
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
-      before(:each) { delete_environment_variable 'LONG_LONG_VARIABLE' }
+      before { delete_environment_variable 'LONG_LONG_VARIABLE' }
 
-      before(:each) { run_command('env') }
-      before(:each) { stop_all_commands }
+      before { run_command('env') }
+      before { stop_all_commands }
 
       it { expect(last_command_started.output).not_to include 'LONG_LONG_VARIABLE=1' }
     end
@@ -30,11 +30,11 @@ Feature: Delete existing environment variable via API-method
     require 'spec_helper'
 
     RSpec.describe 'Long running command', :type => :aruba do
-      before(:each) { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
-      before(:each) { delete_environment_variable 'LONG_LONG_VARIABLE' }
+      before { set_environment_variable 'LONG_LONG_VARIABLE', '1' }
+      before { delete_environment_variable 'LONG_LONG_VARIABLE' }
 
-      before(:each) { run_command('env') }
-      before(:each) { stop_all_commands }
+      before { run_command('env') }
+      before { stop_all_commands }
 
       it { expect(last_command_started.output).not_to include 'LONG_LONG_VARIABLE' }
     end
@@ -51,10 +51,10 @@ Feature: Delete existing environment variable via API-method
     ENV['REALLY_LONG_LONG_VARIABLE'] = '1'
 
     RSpec.describe 'Environment command', :type => :aruba do
-      before(:each) { delete_environment_variable 'REALLY_LONG_LONG_VARIABLE' }
+      before { delete_environment_variable 'REALLY_LONG_LONG_VARIABLE' }
 
-      before(:each) { run_command('env') }
-      before(:each) { stop_all_commands }
+      before { run_command('env') }
+      before { stop_all_commands }
 
       it { expect(last_command_started.output).not_to include 'REALLY_LONG_LONG_VARIABLE' }
     end

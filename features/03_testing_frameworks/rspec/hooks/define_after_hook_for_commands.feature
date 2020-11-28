@@ -30,7 +30,7 @@ Feature: After command hooks
     require 'spec_helper'
 
     RSpec.describe 'Hooks', :type => :aruba do
-      before(:each) { run_command_and_stop 'echo running' }
+      before { run_command_and_stop 'echo running' }
 
       it { expect(last_command_started.stdout.chomp).to eq 'running' }
     end

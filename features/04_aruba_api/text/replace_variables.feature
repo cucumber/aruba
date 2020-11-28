@@ -22,8 +22,8 @@ Feature: Replace variables
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
  
       it { expect(replace_variables('<pid-last-command-started>')).to eq last_command_started.pid.to_s }
     end

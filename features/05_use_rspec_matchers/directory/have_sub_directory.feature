@@ -8,7 +8,7 @@ Feature: Check if directory has given sub directories
 
   RSpec.describe 'Check if directory has sub-directory', :type => :aruba do
     let(:file) { 'file.txt' }
-    before(:each) { touch(file) }
+    before { touch(file) }
 
     it { expect(file).to be_an_existing_file }
   end
@@ -26,7 +26,7 @@ Feature: Check if directory has given sub directories
       let(:directory) { 'dir.d' }
       let(:sub_directory) { 'sub-dir.d' }
 
-      before(:each) { create_directory(File.join(directory, sub_directory)) }
+      before { create_directory(File.join(directory, sub_directory)) }
 
       it { expect(directory).to have_sub_directory sub_directory }
     end
@@ -43,7 +43,7 @@ Feature: Check if directory has given sub directories
       let(:directory) { 'dir.d' }
       let(:sub_directories) { %w(sub-dir1.d sub-dir2.d) }
 
-      before(:each) do
+      before do
         sub_directories.each { |d| create_directory(File.join(directory, d)) }
       end
 
@@ -62,7 +62,7 @@ Feature: Check if directory has given sub directories
       let(:directory) { 'dir.d' }
       let(:sub_directory) { 'sub-dir.d' }
 
-      before(:each) { create_directory(directory) }
+      before { create_directory(directory) }
 
       it { expect(directory).not_to have_sub_directory sub_directory }
     end
@@ -79,7 +79,7 @@ Feature: Check if directory has given sub directories
       let(:directories) { %w(dir1.d dir2.d) }
       let(:sub_directory) { 'sub-dir.d' }
 
-      before(:each) do
+      before do
         directories.each { |d| create_directory(File.join(d, sub_directory)) }
       end
 
@@ -98,7 +98,7 @@ Feature: Check if directory has given sub directories
       let(:directories) { %w(dir1.d dir2.d) }
       let(:sub_directory) { 'sub-dir.d' }
 
-      before(:each) do
+      before do
         create_directory(File.join(directories.first, sub_directory))
       end
 

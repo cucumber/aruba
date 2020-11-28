@@ -18,8 +18,8 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "text\ntext" }
     end
@@ -38,8 +38,8 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
     end
@@ -58,8 +58,8 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "text\"text" }
     end
@@ -78,8 +78,8 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
     end
@@ -98,8 +98,8 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
     end
@@ -118,8 +118,8 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
     end
@@ -138,8 +138,8 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "Text" }
     end
@@ -158,8 +158,8 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "Text" }
     end
@@ -178,8 +178,8 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :remove_ansi_escape_sequences => false do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
     end
@@ -198,8 +198,8 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :remove_ansi_escape_sequences => false do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "texttext" }
     end
@@ -218,8 +218,8 @@ Feature: Sanitize text from output
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba, :remove_ansi_escape_sequences => false do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { stop_all_commands }
+      before { run_command('aruba-test-cli') }
+      before { stop_all_commands }
 
       it { expect(sanitize_text(last_command_started.output)).to eq "\e[31mText" }
     end

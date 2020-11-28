@@ -34,7 +34,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba do
-      before(:each) { run_command('aruba-test-cli') }
+      before { run_command('aruba-test-cli') }
       it { expect(last_command_started).to be_successfully_executed }
     end
     """
@@ -319,7 +319,7 @@ Feature: Run command
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba do
-      before(:each) { run_command('aruba-test-cli') }
+      before { run_command('aruba-test-cli') }
       let!(:found_command) { find_command('aruba-test-cli') }
       it { expect { found_command.start }.to raise_error Aruba::CommandAlreadyStartedError }
     end

@@ -10,7 +10,7 @@ Feature: Check if path has size
     let(:file) { 'file.txt' }
     let(:size) { 1 }
 
-    before(:each) { write_fixed_size_file(file, size) }
+    before { write_fixed_size_file(file, size) }
 
     it { expect(file).to have_file_size size }
   end
@@ -28,7 +28,7 @@ Feature: Check if path has size
       let(:file) { 'file.txt' }
       let(:size) { 1 }
 
-      before(:each) { write_fixed_size_file(file, size) }
+      before { write_fixed_size_file(file, size) }
 
       it { expect(file).to have_file_size size }
     end
@@ -83,7 +83,7 @@ Feature: Check if path has size
       let(:file) { 'file.txt' }
       let(:size) { 1 }
 
-      before(:each) { write_fixed_size_file(file, size) }
+      before { write_fixed_size_file(file, size) }
 
       it { expect(file).to have_file_size 2 }
     end

@@ -17,7 +17,7 @@ Feature: Use fixtures in your tests
     RSpec.describe 'My Feature', :type => :aruba do
       describe 'Copy file' do
         context 'when the file exists' do
-          before(:each) { copy '%/song.mp3', 'file.mp3' }
+          before { copy '%/song.mp3', 'file.mp3' }
 
           it { expect('file.mp3').to be_an_existing_file }
         end
@@ -35,8 +35,8 @@ Feature: Use fixtures in your tests
     require 'spec_helper'
 
     RSpec.describe 'My Feature', :type => :aruba do
-      before(:each) { copy '%/my_file.txt', 'new_file.txt' }
-      before(:each) { run_command 'aruba-test-cli new_file.txt' }
+      before { copy '%/my_file.txt', 'new_file.txt' }
+      before { run_command 'aruba-test-cli new_file.txt' }
 
       it { expect(last_command_started).to have_output 'Hello Aruba!' }
     end
@@ -63,7 +63,7 @@ Feature: Use fixtures in your tests
     RSpec.describe 'My Feature', :type => :aruba do
       describe 'Copy file' do
         context 'when the file exists' do
-          before(:each) { copy '%/song.mp3', 'file.mp3' }
+          before { copy '%/song.mp3', 'file.mp3' }
 
           it { expect('file.mp3').to be_an_existing_file }
         end
@@ -83,7 +83,7 @@ Feature: Use fixtures in your tests
     RSpec.describe 'My Feature', :type => :aruba do
       describe 'Copy file' do
         context 'when the file exists' do
-          before(:each) { copy '%/song.mp3', 'file.mp3' }
+          before { copy '%/song.mp3', 'file.mp3' }
 
           it { expect('file.mp3').to be_an_existing_file }
         end
@@ -103,7 +103,7 @@ Feature: Use fixtures in your tests
     RSpec.describe 'My Feature', :type => :aruba do
       describe 'Copy file' do
         context 'when the file exists' do
-          before(:each) { copy '%/song.mp3', 'file.mp3' }
+          before { copy '%/song.mp3', 'file.mp3' }
 
           it { expect('file.mp3').to be_an_existing_file }
         end

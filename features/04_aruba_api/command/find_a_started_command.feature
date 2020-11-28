@@ -11,10 +11,10 @@ Feature: Find a started command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('echo hello') }
+      before { run_command('echo hello') }
       let(:command) { find_command('echo hello') }
 
-      before(:each) { stop_all_commands }
+      before { stop_all_commands }
 
       it { expect(command).to be_successfully_executed }
       it { expect(command.commandline).to eq 'echo hello' }
@@ -44,11 +44,11 @@ Feature: Find a started command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { run_command('echo hello1') }
-      before(:each) { run_command('echo hello2') }
+      before { run_command('echo hello1') }
+      before { run_command('echo hello2') }
       let(:command) { find_command('echo hello1') }
 
-      before(:each) { stop_all_commands }
+      before { stop_all_commands }
 
       it { expect(command).to be_successfully_executed }
       it { expect(command.commandline).to eq 'echo hello1' }
@@ -66,14 +66,14 @@ Feature: Find a started command
     require 'spec_helper'
 
     RSpec.describe 'Run command', :type => :aruba do
-      before(:each) { set_environment_variable 'ENV_VAR', '1' }
-      before(:each) { run_command('bash -c "echo -n $ENV_VAR"') }
-      before(:each) { set_environment_variable 'ENV_VAR', '2' }
-      before(:each) { run_command('bash -c "echo -n $ENV_VAR"') }
+      before { set_environment_variable 'ENV_VAR', '1' }
+      before { run_command('bash -c "echo -n $ENV_VAR"') }
+      before { set_environment_variable 'ENV_VAR', '2' }
+      before { run_command('bash -c "echo -n $ENV_VAR"') }
 
       let(:command) { find_command('bash -c "echo -n $ENV_VAR"') }
 
-      before(:each) { stop_all_commands }
+      before { stop_all_commands }
 
       it { expect(command).to be_successfully_executed }
       it { expect(command.stdout).to eq '2' }

@@ -16,10 +16,10 @@ Feature: Terminate all commands
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba, exit_timeout: 5 do
-      before(:each) { run_command('aruba-test-cli') }
-      before(:each) { run_command('aruba-test-cli') }
+      before { run_command('aruba-test-cli') }
+      before { run_command('aruba-test-cli') }
 
-      before(:each) { terminate_all_commands }
+      before { terminate_all_commands }
 
       it { expect(all_commands).to all be_stopped }
     end
@@ -38,11 +38,11 @@ Feature: Terminate all commands
     require 'spec_helper'
 
     RSpec.describe 'Run command', type: :aruba, exit_timeout: 1 do
-      before(:each) { @cmd1 = run_command('aruba-test-cli') }
-      before(:each) { @cmd2 = run_command('aruba-test-cli') }
-      before(:each) { @cmd3 = run_command('sleep 1') }
+      before { @cmd1 = run_command('aruba-test-cli') }
+      before { @cmd2 = run_command('aruba-test-cli') }
+      before { @cmd3 = run_command('sleep 1') }
 
-      before(:each) { terminate_all_commands { |c| c.commandline == 'aruba-test-cli' } }
+      before { terminate_all_commands { |c| c.commandline == 'aruba-test-cli' } }
 
       it 'only terminates selected commands' do
         aggregate_failures do

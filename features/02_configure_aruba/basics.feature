@@ -33,12 +33,12 @@ Feature: Usage of configuration
 
     RSpec.describe 'Run command', :type => :aruba do
       context 'when fast command' do
-        before(:each) { run_command('aruba-test-cli 0') }
+        before { run_command('aruba-test-cli 0') }
         it { expect(last_command_started).to be_successfully_executed }
       end
 
       context 'when slow command' do
-        before(:each) { run_command('aruba-test-cli 1') }
+        before { run_command('aruba-test-cli 1') }
         it { expect(last_command_started).not_to be_successfully_executed }
       end
     end
@@ -74,17 +74,17 @@ Feature: Usage of configuration
 
     RSpec.describe 'Run command', :type => :aruba do
       context 'when fast command' do
-        before(:each) { run_command('aruba-test-cli 0') }
+        before { run_command('aruba-test-cli 0') }
         it { expect(last_command_started).to be_successfully_executed }
       end
 
       context 'when slow command and this is known by the developer', :slow_command => true do
-        before(:each) { run_command('aruba-test-cli 1') }
+        before { run_command('aruba-test-cli 1') }
         it { expect(last_command_started).to be_successfully_executed }
       end
 
       context 'when slow command, but this might be a failure' do
-        before(:each) { run_command('aruba-test-cli 1') }
+        before { run_command('aruba-test-cli 1') }
         it { expect(last_command_started).not_to be_successfully_executed }
       end
     end

@@ -8,9 +8,9 @@ Feature: Check if command can be found in PATH
 
   RSpec.describe 'Check if command can be found in PATH', :type => :aruba do
     let(:file) { 'file.sh' }
-    before(:each) { touch(file) }
-    before(:each) { chmod(0o755, file) }
-    before(:each) { prepend_environment_variable('PATH', format('%s:', expand_path('.')) }
+    before { touch(file) }
+    before { chmod(0o755, file) }
+    before { prepend_environment_variable('PATH', format('%s:', expand_path('.')) }
 
     it { expect(file).to be_an_existing_executable }
   end
@@ -27,9 +27,9 @@ Feature: Check if command can be found in PATH
     RSpec.describe 'Check if command can be found in PATH', :type => :aruba do
       let(:file) { 'file.sh' }
 
-      before(:each) { touch(file) }
-      before(:each) { chmod(0o755, file) }
-      before(:each) { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
+      before { touch(file) }
+      before { chmod(0o755, file) }
+      before { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
 
       it { expect(file).to be_a_command_found_in_path }
     end
@@ -45,7 +45,7 @@ Feature: Check if command can be found in PATH
     RSpec.describe 'Check if command can be found in PATH', :type => :aruba do
       let(:file) { 'file.sh' }
 
-      before(:each) { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
+      before { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
 
       it { expect(file).not_to be_a_command_found_in_path }
     end
@@ -61,8 +61,8 @@ Feature: Check if command can be found in PATH
     RSpec.describe 'Check if command can be found in PATH', :type => :aruba do
       let(:file) { 'file.sh' }
 
-      before(:each) { touch(file) }
-      before(:each) { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
+      before { touch(file) }
+      before { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
 
       it { expect(file).not_to be_a_command_found_in_path }
     end
@@ -85,7 +85,7 @@ Feature: Check if command can be found in PATH
         end
       end
 
-      before(:each) { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
+      before { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
 
       it { expect(files).to all be_a_command_found_in_path }
     end
@@ -106,7 +106,7 @@ Feature: Check if command can be found in PATH
         chmod(0o755, files.first)
       end
 
-      before(:each) { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
+      before { prepend_environment_variable('PATH', format('%s:', expand_path('.'))) }
 
       it { expect(files).to include a_command_found_in_path }
     end
