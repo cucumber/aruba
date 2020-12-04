@@ -32,6 +32,6 @@ matrix:
 branches:
   only:
     - master
-    - still
+    - 0-14-stable
 env:
   - JRUBY_OPTS='--dev'
