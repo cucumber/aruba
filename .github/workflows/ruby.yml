@@ -21,9 +21,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # Let's see everything that fails at once
-    continue-on-error: true
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
