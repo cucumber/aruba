@@ -36,7 +36,6 @@ Before('@ansi') do
   aruba.config.remove_ansi_escape_sequences = false
 end
 
-
 Before '@mocked_home_directory' do
   Aruba.platform.deprecated('The use of "@mocked_home_directory" is deprecated. Use "@mocked-home-directory" instead')
 
@@ -90,4 +89,3 @@ Then(/^the mode of filesystem object "([^"]*)" should (not )?match "([^"]*)"$/) 
     expect(file).to have_permissions(permissions)
   end
 end
-

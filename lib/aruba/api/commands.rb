@@ -173,9 +173,10 @@ module Aruba
           stop_signal       = opts[:stop_signal].nil? ? aruba.config.stop_signal : opts[:stop_signal]
           startup_wait_time = opts[:startup_wait_time].nil? ? aruba.config.startup_wait_time : opts[:startup_wait_time]
         else
-          if args.size > 0
+          unless args.empty?
             Aruba.platform.deprecated(
-              "Please pass options to `#run_command` as named parameters/hash and don\'t use the old style, e.g. `#run_command('cmd', :exit_timeout => 5)`.")
+              "Please pass options to `#run_command` as named parameters/hash and don\'t use the old style, e.g. `#run_command('cmd', :exit_timeout => 5)`."
+            )
           end
 
           exit_timeout      = args[0].nil? ? aruba.config.exit_timeout : args[0]
@@ -277,7 +278,7 @@ module Aruba
           opts = args.pop
           fail_on_error = opts.delete(:fail_on_error) == true ? true : false
         else
-          if args.size > 0
+          unless args.empty?
             # rubocop:disable Metrics/LineLength
             Aruba.platform.deprecated("Please pass options to `#run_command_and_stop` as named parameters/hash and don\'t use the old style with positional parameters, NEW: e.g. `#run_command_and_stop('cmd', :exit_timeout => 5)`.")
             # rubocop:enable Metrics/LineLength

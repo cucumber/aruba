@@ -285,11 +285,9 @@ module Aruba
       # @param [true,false] expect_presence
       #   Should the given paths be present (true) or absent (false)
       def check_file_presence(paths, expect_presence = true)
-        Aruba.platform.deprecated(
-          'The use of "check_file_presence" is deprecated.' \
+        Aruba.platform.deprecated('The use of "check_file_presence" is deprecated.' \
           ' Use "expect(path).to be_an_existing_file" or' \
-          ' "expect(all_paths).to all match /pattern/" instead'
-        )
+          ' "expect(all_paths).to all match /pattern/" instead')
 
         stop_all_commands
 
@@ -702,37 +700,27 @@ module Aruba
       # @deprecated
       def check_for_deprecated_variables
         if defined? @aruba_exit_timeout
-          Aruba.platform.deprecated(
-            'The use of "@aruba_exit_timeout" is deprecated.' \
-            ' Use "#aruba.config.exit_timeout = <numeric>" instead'
-          )
+          Aruba.platform.deprecated('The use of "@aruba_exit_timeout" is deprecated.' \
+            ' Use "#aruba.config.exit_timeout = <numeric>" instead')
           aruba.config.exit_timeout = @aruba_exit_timeout
         end
 
         if defined? @aruba_io_wait_seconds
-          Aruba.platform.deprecated(
-            'The use of "@aruba_io_wait_seconds" is deprecated.' \
-            ' Use "#aruba.config.io_wait_timeout = <numeric>" instead'
-          )
+          Aruba.platform.deprecated('The use of "@aruba_io_wait_seconds" is deprecated.' \
+            ' Use "#aruba.config.io_wait_timeout = <numeric>" instead')
           aruba.config.io_wait_timeout = @aruba_io_wait_seconds
         end
 
         if defined? @keep_ansi
-          Aruba.platform.deprecated(
-            'The use of "@aruba_keep_ansi" is deprecated.' \
+          Aruba.platform.deprecated('The use of "@aruba_keep_ansi" is deprecated.' \
             ' Use "#aruba.config.remove_ansi_escape_sequences = <true|false>" instead.' \
-            ' Be aware that it uses an inverted logic'
-          )
-
+            ' Be aware that it uses an inverted logic')
           aruba.config.remove_ansi_escape_sequences = false
         end
 
         if defined? @aruba_root_directory
-          Aruba.platform.deprecated(
-            'The use of "@aruba_root_directory" is deprecated.' \
-            ' Use "#aruba.config.root_directory = <string>" instead'
-          )
-
+          Aruba.platform.deprecated('The use of "@aruba_root_directory" is deprecated.' \
+            ' Use "#aruba.config.root_directory = <string>" instead')
           aruba.config.root_directory = @aruba_root_directory.to_s
         end
       end

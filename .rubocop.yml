@@ -45,7 +45,7 @@ Metrics/LineLength:
 
 # Configuration parameters: CountComments.
 Metrics/MethodLength:
-  Max: 18
+  Max: 21
 
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
