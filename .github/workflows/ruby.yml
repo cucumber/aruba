@@ -12,6 +12,7 @@ on:
 
 env:
   CUCUMBER_PUBLISH_QUIET: true
+  JRUBY_OPTS: "--dev"
 
 jobs:
   test-ubuntu:
