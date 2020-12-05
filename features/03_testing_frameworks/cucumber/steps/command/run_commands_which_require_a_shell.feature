@@ -23,15 +23,6 @@ Feature: Running shell commands
         puts "Hello"
         \"\"\"
         Then the output should contain "Hello"
-
-      Scenario: Running python script
-        When I run the following script:
-        \"\"\"bash
-        #!/usr/bin/env python
-
-        print("Hello")
-        \"\"\"
-        Then the output should contain exactly "Hello"
     """
     When I run `cucumber`
     Then the features should all pass
