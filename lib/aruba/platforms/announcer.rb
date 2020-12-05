@@ -90,7 +90,8 @@ module Aruba
         output_format :wait_time, '# %s: %s seconds'
         output_format :command_filesystem_status, proc { |status|
           format("<<-COMMAND FILESYSTEM STATUS\n%s\nCOMMAND FILESYSTEM STATUS",
-                 Aruba.platform.simple_table(status.to_h, :sort => false)) }
+                 Aruba.platform.simple_table(status.to_h, :sort => false))
+        }
 
         # rubocop:disable Metrics/LineLength
         if @options[:stdout]

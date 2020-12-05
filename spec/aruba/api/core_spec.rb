@@ -40,7 +40,7 @@ RSpec.describe Aruba::Api::Core do
       end
 
       it 'does not touch other environment variables in the passed block' do
-        keys = ENV.keys - ['PWD', 'OLDPWD']
+        keys = ENV.keys - %w(PWD OLDPWD)
         old_values = ENV.values_at(*keys)
         @aruba.create_directory @directory_name
         @aruba.cd @directory_name do
@@ -118,7 +118,7 @@ RSpec.describe Aruba::Api::Core do
       end
 
       it 'does not touch other environment variables in the passed block' do
-        keys = ENV.keys - ['PWD', 'OLDPWD']
+        keys = ENV.keys - %w(PWD OLDPWD)
         old_values = ENV.values_at(*keys)
         @aruba.in_current_directory do
           expect(ENV.values_at(*keys)).to eq old_values

@@ -21,20 +21,6 @@ RSpec::Core::RakeTask.new do |spec|
   spec.rspec_opts = ['--color', '--format progress', '--warnings']
 end
 
-namespace :travis do
-  desc 'Lint travis.yml'
-  task :lint do
-    begin
-      require 'travis/yaml'
-
-      puts 'Linting .travis.yml ... No output is good!'
-      Travis::Yaml.parse! File.read('.travis.yml')
-    rescue LoadError
-      $stderr.puts 'Your ruby is not supported for linting the .travis.yml file'
-    end
-  end
-end
-
 task :rubocop do
   if RUBY_VERSION >= '2'
     sh 'bundle exec rubocop --fail-level E'
@@ -44,6 +30,6 @@ task :rubocop do
 end
 
 desc "Run tests, both RSpec and Cucumber"
-task :test => [ 'travis:lint', :rubocop, :spec, :cucumber, :cucumber_wip]
+task :test => [:spec, :cucumber, :cucumber_wip]
 
 task :default => :test

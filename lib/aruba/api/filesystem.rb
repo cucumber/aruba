@@ -212,7 +212,6 @@ module Aruba
       #   needs to be a directory
       #
       # rubocop:disable Metrics/CyclomaticComplexity
-      # rubocop:disable Metrics/MethodLength
       def move(*args)
         args = args.flatten
         destination = args.pop
@@ -244,7 +243,6 @@ module Aruba
 
         self
       end
-      # rubocop:enable Metrics/MethodLength
       # rubocop:enable Metrics/CyclomaticComplexity
 
       # Create a file with the given size

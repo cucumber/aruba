@@ -126,7 +126,7 @@ module Aruba
         paths = Array(paths).map { |p| ::File.expand_path(p) }
 
         FileUtils.rm_r(paths, :force => options[:force], :noop => options[:noop],
-                       :verbose => options[:verbose], :secure => options[:secure])
+                              :verbose => options[:verbose], :secure => options[:secure])
       end
 
       # Get current working directory
@@ -146,7 +146,7 @@ module Aruba
       # Touch file, directory
       def touch(args, options)
         FileUtils.touch(args, :noop => options[:noop], :verbose => options[:verbose],
-                        :mtime => options[:mtime], :nocreate => options[:nocreate])
+                              :mtime => options[:mtime], :nocreate => options[:nocreate])
       end
 
       # Copy file/directory
@@ -162,7 +162,7 @@ module Aruba
       # Change mode of file/directory
       def chmod(mode, args, options)
         FileUtils.chmod_R(mode, args, :noop => options[:noop],
-                          :verbose => options[:verbose], :force => options[:force])
+                                      :verbose => options[:verbose], :force => options[:force])
       end
 
       # Exists and is file
