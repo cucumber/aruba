@@ -28,5 +28,20 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
-    - name: Run tests
-      run: bundle exec rake
+    - name: Run RSpec specs
+      run: bundle exec rake spec
+    - name: Run Cucumber senarios
+      run: bundle exec rake cucumber
+
+  rubocop:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+        bundler-cache: true
+    - name: Run RuboCop
+      run: bundle exec rubocop
