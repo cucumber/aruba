@@ -35,7 +35,10 @@ describe 'Aruba JRuby Startup Helper' do
 
   context 'when running under JRuby but not on Solaris' do
     before do
-      stub_const 'RUBY_PLATFORM', 'java'
+      unless RUBY_PLATFORM == 'java'
+        stub_const 'RUBY_PLATFORM', 'java'
+        stub_const 'JRUBY_VERSION', '9.2.0.0'
+      end
       stub_const 'RbConfig::CONFIG', rb_config
 
       allow(rb_config).to receive(:[]).with('host_os').and_return('foo-os')
@@ -54,7 +57,10 @@ describe 'Aruba JRuby Startup Helper' do
 
   context 'when running under JRuby on Solaris' do
     before do
-      stub_const 'RUBY_PLATFORM', 'java'
+      unless RUBY_PLATFORM == 'java'
+        stub_const 'RUBY_PLATFORM', 'java'
+        stub_const 'JRUBY_VERSION', '9.2.0.0'
+      end
       stub_const 'RbConfig::CONFIG', rb_config
 
       allow(rb_config).to receive(:[]).with('host_os').and_return('solaris')
