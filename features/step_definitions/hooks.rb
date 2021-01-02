@@ -37,24 +37,15 @@ Before '@requires-posix-standard-tools' do
 end
 
 Before '@requires-ruby-platform-java' do
-  # leave if java
-  next if RUBY_PLATFORM.include? 'java'
-
-  skip_this_scenario
+  skip_this_scenario unless Cucumber::JRUBY
 end
 
 Before '@unsupported-on-platform-java' do
-  # leave if not java
-  next unless RUBY_PLATFORM.include? 'java'
-
-  skip_this_scenario
+  skip_this_scenario if Cucumber::JRUBY
 end
 
 Before '@unsupported-on-platform-windows' do
-  # leave if not windows
-  next unless FFI::Platform.windows?
-
-  skip_this_scenario
+  skip_this_scenario if Cucumber::WINDOWS
 end
 
 Before '@requires-readline' do
@@ -66,15 +57,9 @@ Before '@requires-readline' do
 end
 
 Before '@unsupported-on-platform-unix' do
-  # leave if not windows
-  next unless FFI::Platform.unix?
-
-  skip_this_scenario
+  skip_this_scenario unless Cucumber::WINDOWS
 end
 
 Before '@unsupported-on-platform-mac' do
-  # leave if not windows
-  next unless FFI::Platform.mac?
-
-  skip_this_scenario
+  skip_this_scenario if Cucumber::OS_X
 end
