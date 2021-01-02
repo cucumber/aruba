@@ -1,7 +1,6 @@
 require 'pathname'
 
 require 'aruba/platform'
-require 'aruba/extensions/string/strip'
 
 Aruba.platform.require_matching_files('../matchers/file/*.rb', __FILE__)
 Aruba.platform.require_matching_files('../matchers/directory/*.rb', __FILE__)

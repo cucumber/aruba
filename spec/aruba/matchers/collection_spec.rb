@@ -18,7 +18,7 @@ RSpec.describe 'Collection Matchers' do
       it 'emits failure messages for all candidate objects' do
         no_oddity = [14, 'a']
         expect { expect(no_oddity).to include_an_object(be_odd) }
-          .to fail_with <<-MESSAGE.strip_heredoc.strip
+          .to fail_with <<~MESSAGE.strip
             expected [14, "a"] to include an object be odd
 
                object at index 0 failed to match:
