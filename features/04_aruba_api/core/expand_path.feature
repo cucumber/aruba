@@ -2,27 +2,33 @@ Feature: Expand paths with aruba
 
   There are quite a few uses cases why you want to expand a path. Aruba helps
   you with this by providing you the `expand_path`-method. This method expands
-  paths relative to the `aruba.current_directory`-directory. Use of absolute
-  paths is discouraged, since the intent is to only access the isolated Aruba
-  working directory.
+  paths relative to the `aruba.current_directory`-directory.
+
+  Use of absolute paths is discouraged, since the intent is to only access the
+  isolated Aruba working directory.
 
   Background:
     Given I use the fixture "cli-app"
 
-  Scenario: Use relative path
+  Scenario: Using a relative path
     Given a file named "spec/expand_path_spec.rb" with:
     """ruby
     require 'spec_helper'
 
     RSpec.describe 'Expand path', :type => :aruba do
       let(:path) { 'path/to/dir' }
-      it { expect(expand_path(path)).to eq File.join(aruba.config.home_directory, path) }
+
+      it "expands relative to Aruba's home directory" do
+        expected_path = File.join(aruba.config.home_directory, path)
+
+        expect(expand_path(path)).to eq expected_path
+      end
     end
     """
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Change directory using cd
+  Scenario: Using a relative path after changing directory using cd
     Given a file named "spec/expand_path_spec.rb" with:
     """ruby
     require 'spec_helper'
@@ -33,10 +39,14 @@ Feature: Expand paths with aruba
 
       before do
         create_directory directory
-        cd directory
       end
 
-      it { expect(expand_path(path)).to eq File.join(aruba.config.home_directory, directory, path) }
+      it "expands relative to the new directory" do
+        cd directory
+        expected_path = File.join(aruba.config.home_directory, directory, path)
+
+        expect(expand_path(path)).to eq expected_path
+      end
     end
     """
     When I run `rspec`
