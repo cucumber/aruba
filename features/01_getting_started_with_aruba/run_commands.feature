@@ -173,34 +173,6 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
-  @requires-java
-  Scenario: Java Program
-
-    It's even possible to compile and run Java programs with Aruba.
-
-    Given a file named "features/hello_aruba.feature" with:
-    """cucumber
-    Feature: Getting Started With Aruba
-      Scenario: First Run of Command
-        Given a file named "tmp/HelloArubaApp.java" with:
-        \"\"\"
-        class HelloArubaApp {
-          public static void main(String[] args) {
-            System.out.println("Hello, Aruba!");
-          }
-        }
-        \"\"\"
-        And I successfully run `javac tmp/HelloArubaApp.java` for up to 20 seconds
-        And I cd to "tmp/"
-        And I successfully run `java HelloArubaApp`
-        Then the output should contain:
-        \"\"\"
-        Hello, Aruba!
-        \"\"\"
-    """
-    When I successfully run `cucumber` for up to 21 seconds
-    Then the features should all pass
-
   @requires-posix-standard-tools
   Scenario: POSIX standard tools
     Given a file named "features/hello_aruba.feature" with:
