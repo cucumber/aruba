@@ -2,7 +2,6 @@ require 'rspec/expectations'
 require 'shellwords'
 
 require 'aruba/version'
-require 'aruba/extensions/string/strip'
 
 require 'aruba/platform'
 require 'aruba/api/core'

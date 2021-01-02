@@ -39,9 +39,6 @@ lib/aruba/event_bus
 lib/aruba/event_bus.rb
 lib/aruba/event_bus/name_resolver.rb
 lib/aruba/events.rb
-lib/aruba/extensions
-lib/aruba/extensions/string
-lib/aruba/extensions/string/strip.rb
 lib/aruba/file_size.rb
 lib/aruba/generators
 lib/aruba/generators/script_file.rb
