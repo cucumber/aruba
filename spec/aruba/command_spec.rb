@@ -16,13 +16,13 @@ RSpec.describe Aruba::Command do
   end
 
   let(:event_bus) { instance_double('Aruba::EventBus') }
-  let(:exit_timeout) { 1 }
-  let(:io_wait_timeout) { 1 }
+  let(:exit_timeout) { 0.01 }
+  let(:io_wait_timeout) { 0.01 }
   let(:working_directory) { expand_path('.') }
   let(:environment) { ENV.to_hash }
   let(:main_class) { nil }
   let(:stop_signal) { nil }
-  let(:startup_wait_time) { 1 }
+  let(:startup_wait_time) { 0.01 }
 
   describe '#start' do
     before do
