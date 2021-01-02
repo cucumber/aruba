@@ -1,47 +1,33 @@
 require 'spec_helper'
 
 RSpec.describe Aruba::Runtime do
+  include_context 'uses aruba API'
+
   describe '#fixtures_directory' do
-    let(:api) do
-      klass = Class.new do
-        include Aruba::Api
-
-        def root_directory
-          expand_path('.')
-        end
-      end
-
-      klass.new
+    let(:runtime) do
+      @aruba.aruba
     end
 
     context 'when no fixtures directories exist' do
+      before do
+        runtime.config.fixtures_directories = ['not-there', 'not/here', 'does/not/exist']
+      end
+
       it 'raises exception' do
-        expect { api.fixtures_directory }.to raise_error
+        expect { runtime.fixtures_directory }
+          .to raise_error RuntimeError, /No existing fixtures directory found/
       end
     end
 
-    context 'when "/features/fixtures"-directory exist' do
-      it {
-        pending('These tests need fixing and classifying')
-        api.create_directory('features/fixtures')
-        expect(api.fixtures_directory).to eq expand_path('features/fixtures')
-      }
-    end
+    context 'when one of the configures fixture directories exists' do
+      before do
+        runtime.config.fixtures_directories = ['not-there', 'fixtures', 'does/not/exist']
+      end
 
-    context 'when "/spec/fixtures"-directory exist' do
-      it {
-        pending('These tests need fixing and classifying')
-        api.create_directory('spec/fixtures')
-        expect(api.fixtures_directory).to eq expand_path('spec/fixtures')
-      }
-    end
-
-    context 'when "/test/fixtures"-directory exist' do
-      it {
-        pending('These tests need fixing and classifying')
-        api.create_directory('test/fixtures')
-        expect(api.fixtures_directory.to_s).to eq expand_path('test/fixtures')
-      }
+      it 'returns that directory' do
+        expect(runtime.fixtures_directory.to_s).to eq File.expand_path('fixtures',
+                                                                       runtime.root_directory)
+      end
     end
   end
 end
