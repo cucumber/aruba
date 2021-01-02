@@ -1,6 +1,6 @@
 Feature: Mock the HOME variable
 
-  If you develop commandline applications, you might want to give your users
+  If you develop command line applications, you might want to give your users
   the possibility to configure your program. Normally this is done via
   `.your-app-rc` or via `.config/your-app` an systems which comply to the
   freedesktop-specifications.

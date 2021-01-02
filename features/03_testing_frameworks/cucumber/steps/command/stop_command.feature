@@ -111,9 +111,9 @@ Feature: Stop commands
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Terminate command given by commandline
+  Scenario: Terminate command given by command line
 
-    Pass the commandline to the step to find the command, which should be
+    Pass the command line to the step to find the command, which should be
     stopped.
 
     Given an executable named "bin/aruba-test-cli1" with:
@@ -161,7 +161,7 @@ Feature: Stop commands
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Stop command given by commandline
+  Scenario: Stop command given by command line
 
     Stopping a command will wait n seconds for the command to stop and then
     send `SIGTERM` to the command. Normally "n" is defined by the default exit

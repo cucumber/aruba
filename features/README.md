@@ -8,7 +8,7 @@
 version of our README.md ([master](https://github.com/cucumber/aruba/tree/master) branch).**
 
 Aruba is an extension for popular TDD and BDD frameworks like Cucumber, RSpec
-and Minitest to make testing of commandline applications meaningful, easy and
+and Minitest to make testing of command line applications meaningful, easy and
 fun.
 
 Your benefits:

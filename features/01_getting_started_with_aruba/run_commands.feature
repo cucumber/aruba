@@ -2,12 +2,12 @@ Feature: Run commands with Aruba
 
   As long as you've got the neccessary programs, libraries, runtime
   environments, interpreters installed, it doesn't matter in which programming
-  language your commandline application is implemented. You can even use POSIX
+  language your command line application is implemented. You can even use POSIX
   standard tools like "printf".
 
   Below you find some examples of the "Hello, Aruba!"-application implemented
   with different programming languages and a single example for a POSIX
-  standard tool. This is NOT an exclusive list. Every commandline application
+  standard tool. This is NOT an exclusive list. Every command line application
   should run with `aruba`.
 
   Background:
