@@ -57,9 +57,9 @@ Feature: Find a started command
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Multiple commands with same commandline
+  Scenario: Multiple commands with same command line
 
-    If searches in reverse. So it finds the last command started with the given commandline.
+    If searches in reverse. So it finds the last command started with the given command line.
 
     Given a file named "spec/run_spec.rb" with:
     """ruby

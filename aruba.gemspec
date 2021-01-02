@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.author      = 'Aslak Hellesøy, Matt Wynne and other Aruba Contributors'
   spec.description = <<~TEXT
     Extension for popular TDD and BDD frameworks like "Cucumber", "RSpec" and "Minitest",
-    to make testing commandline applications meaningful, easy and fun.
+    to make testing command line applications meaningful, easy and fun.
   TEXT
   spec.summary     = "aruba-#{spec.version}"
   spec.license     = 'MIT'
