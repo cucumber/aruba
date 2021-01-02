@@ -256,7 +256,7 @@ module Aruba
       end
 
       def start_command(command)
-        aruba.config.before(:command, self, command)
+        aruba.config.run_before_hook(:command, self, command)
 
         in_current_directory do
           command.start
@@ -265,7 +265,7 @@ module Aruba
         stop_signal = command.stop_signal
         aruba.announcer.announce(:stop_signal, command.pid, stop_signal) if stop_signal
 
-        aruba.config.after(:command, self, command)
+        aruba.config.run_after_hook(:command, self, command)
       end
     end
   end
