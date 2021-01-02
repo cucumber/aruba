@@ -9,19 +9,22 @@ Feature: Terminate all commands
     Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
-    sleep 3
+    sleep 0.4
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 5 do
-      before { run_command('aruba-test-cli') }
-      before { run_command('aruba-test-cli') }
+    RSpec.describe 'terminating commands', type: :aruba, exit_timeout: 0.4 do
+      before do
+        run_command('aruba-test-cli')
+        run_command('aruba-test-cli')
+      end
 
-      before { terminate_all_commands }
-
-      it { expect(all_commands).to all be_stopped }
+      it 'stops all commands' do
+        terminate_all_commands
+        expect(all_commands).to all be_stopped
+      end
     end
     """
     When I run `rspec`
@@ -31,20 +34,22 @@ Feature: Terminate all commands
     Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
-    sleep 0.5
+    sleep 0.4
     """
     And a file named "spec/run_spec.rb" with:
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 1 do
-      before { @cmd1 = run_command('aruba-test-cli') }
-      before { @cmd2 = run_command('aruba-test-cli') }
-      before { @cmd3 = run_command('sleep 1') }
-
-      before { terminate_all_commands { |c| c.commandline == 'aruba-test-cli' } }
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.4 do
+      before do
+        @cmd1 = run_command('aruba-test-cli')
+        @cmd2 = run_command('aruba-test-cli')
+        @cmd3 = run_command('sleep 0.4')
+      end
 
       it 'only terminates selected commands' do
+        terminate_all_commands { |c| c.commandline == 'aruba-test-cli' }
+
         aggregate_failures do
           expect(@cmd1).to be_stopped
           expect(@cmd2).to be_stopped
