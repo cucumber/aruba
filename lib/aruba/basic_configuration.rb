@@ -28,12 +28,10 @@ module Aruba
       def option_reader(name, type:, default: nil)
         raise ArgumentError, 'Either use block or default value' if block_given? && default
 
-        Contract None => type
         add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
 
+        Contract None => type
         define_method(name) { find_option(name).value }
-
-        self
       end
 
       # Define an option reader and writer
