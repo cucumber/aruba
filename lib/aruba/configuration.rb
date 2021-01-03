@@ -17,11 +17,10 @@ module Aruba
   #
   # This defines the configuration options of aruba
   class Configuration < BasicConfiguration
-    option_reader :root_directory, contract: { None => String }, default: Dir.getwd
+    option_reader :root_directory, type: String, default: Dir.getwd
 
     option_accessor :working_directory,
-                    contract: { Aruba::Contracts::RelativePath =>
-                                Aruba::Contracts::RelativePath },
+                    type: Aruba::Contracts::RelativePath,
                     default: 'tmp/aruba'
 
     option_reader :fixtures_path_prefix, contract: { None => String }, default: '%'
