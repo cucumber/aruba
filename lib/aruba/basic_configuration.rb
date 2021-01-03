@@ -29,7 +29,7 @@ module Aruba
       # @option [Object] default
       #   The default value
       def option_reader(name, opts = {})
-        contract = opts[:contract]
+        contract = opts[:contract] || { None => opts[:type] }
         default  = opts[:default]
 
         raise ArgumentError, 'Either use block or default value' if block_given? && default
@@ -58,7 +58,7 @@ module Aruba
       #   The default value
       #
       def option_accessor(name, opts = {})
-        contract = opts[:contract]
+        contract = opts[:contract] || { opts[:type] => opts[:type] }
         default  = opts[:default]
 
         raise ArgumentError, 'Either use block or default value' if block_given? && default
