@@ -7,7 +7,7 @@ RSpec.describe Aruba::Configuration do
     let(:config) { described_class.new }
 
     it "won't allow bad values" do
-      expect { config.fixtures_directories = [1, 2] }.to raise_error ReturnContractError
+      expect { config.fixtures_directories = [1, 2] }.to raise_error ParamContractError
     end
   end
 end
