@@ -31,7 +31,7 @@ module Aruba
     # @private
     class UnixPlatform
       def self.match?
-        !FFI::Platform.windows?
+        !Cucumber::WINDOWS
       end
 
       def environment_variables

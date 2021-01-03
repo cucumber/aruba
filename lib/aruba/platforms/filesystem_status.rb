@@ -1,28 +1,34 @@
-require 'forwardable'
-
 module Aruba
   module Platforms
     # File System Status object
     #
     # This is a wrapper for File::Stat returning only a subset of information.
     class FilesystemStatus
-      METHODS = [
-        :executable?,
-        :ctime,
-        :atime,
-        :mtime,
-        :size
-      ].freeze
-
-      extend Forwardable
-
       private
 
       attr_reader :status
 
       public
 
-      def_delegators :@status, *METHODS
+      def executable?
+        status.executable?
+      end
+
+      def ctime
+        status.ctime
+      end
+
+      def atime
+        status.atime
+      end
+
+      def mtime
+        status.mtime
+      end
+
+      def size
+        status.size
+      end
 
       def initialize(path)
         @status = File::Stat.new(path)

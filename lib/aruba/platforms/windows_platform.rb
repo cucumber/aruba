@@ -1,4 +1,4 @@
-require 'ffi'
+require 'cucumber/platform'
 
 require 'aruba/platforms/unix_platform'
 require 'aruba/platforms/windows_command_string'
@@ -20,7 +20,7 @@ module Aruba
     # @private
     class WindowsPlatform < UnixPlatform
       def self.match?
-        FFI::Platform.windows?
+        Cucumber::WINDOWS
       end
 
       # @see UnixPlatform#command_string

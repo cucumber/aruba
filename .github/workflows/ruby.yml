@@ -29,6 +29,8 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
+    - name: Configure bundler globally
+      run: bundle config --global path $PWD/vendor/bundle
     - name: Run specs
       run: bundle exec rake spec
     - name: Run cukes
@@ -48,8 +50,10 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true
-    - name: Run tests
-      run: bundle exec rake
+    - name: Run specs
+      run: bundle exec rake spec
+    - name: Run cukes
+      run: bundle exec rake cucumber
 
   lint:
 
