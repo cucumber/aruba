@@ -23,19 +23,19 @@ module Aruba
       # @param [Hash] opts
       #   Options
       #
-      # @option [Class, Module] contract
-      #   The contract for the option
+      # @option [Class, Module] type
+      #   The type contract for the option
       #
       # @option [Object] default
       #   The default value
       def option_reader(name, opts = {})
-        contract = opts[:contract] || { None => opts[:type] }
-        default  = opts[:default]
+        type = opts[:type]
+        default = opts[:default]
 
         raise ArgumentError, 'Either use block or default value' if block_given? && default
-        raise ArgumentError, 'contract-options is required' if contract.nil?
+        raise ArgumentError, 'type option is required' if type.nil?
 
-        Contract contract
+        Contract None => type
         add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
 
         define_method(name) { find_option(name).value }
@@ -51,27 +51,27 @@ module Aruba
       # @param [Hash] opts
       #   Options
       #
-      # @option [Class, Module] contract
-      #   The contract for the option
+      # @option [Class, Module] type
+      #   The type contract for the option
       #
       # @option [Object] default
       #   The default value
       #
       def option_accessor(name, opts = {})
-        contract = opts[:contract] || { opts[:type] => opts[:type] }
-        default  = opts[:default]
+        type = opts[:type]
+        default = opts[:default]
 
         raise ArgumentError, 'Either use block or default value' if block_given? && default
-        raise ArgumentError, 'contract-options is required' if contract.nil?
+        raise ArgumentError, 'type option is required' if type.nil?
 
         # Add writer
         add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
 
-        Contract contract
+        Contract type => type
         define_method("#{name}=") { |v| find_option(name).value = v }
 
         # Add reader
-        option_reader name, contract: { None => contract.values.first }
+        option_reader name, type: type
       end
 
       private

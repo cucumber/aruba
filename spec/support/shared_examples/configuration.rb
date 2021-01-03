@@ -1,7 +1,7 @@
 RSpec.shared_examples 'a basic configuration' do
   subject(:config) do
     Class.new(described_class) do
-      option_accessor :use_test, contract: { Contracts::Bool => Contracts::Bool },
+      option_accessor :use_test, type: Contracts::Bool,
                                  default: false
     end.new
   end
@@ -14,7 +14,7 @@ RSpec.shared_examples 'a basic configuration' do
     let(:config_klass) { Class.new(described_class) }
 
     before do
-      config_klass.option_reader :new_opt, contract: { Contracts::Num => Contracts::Num },
+      config_klass.option_reader :new_opt, type: Contracts::Num,
                                            default: 1
     end
 
@@ -30,7 +30,7 @@ RSpec.shared_examples 'a basic configuration' do
       before do
         config_klass.option_reader(
           :new_opt2,
-          contract: { Contracts::Num => Contracts::Num }
+          type: Contracts::Num
         ) { |c| c.new_opt.value + 1 }
       end
 
@@ -43,7 +43,7 @@ RSpec.shared_examples 'a basic configuration' do
       it 'complains that only one or the other can be specified' do
         expect do
           config_klass
-            .option_accessor(:new_opt2, contract: { Contracts::Num => Contracts::Num },
+            .option_accessor(:new_opt2, type: Contracts::Num,
                                         default: 2) { |c| c.new_opt.value + 1 }
         end.to raise_error ArgumentError, 'Either use block or default value'
       end
@@ -56,7 +56,7 @@ RSpec.shared_examples 'a basic configuration' do
     let(:config_klass) { Class.new(described_class) }
 
     before do
-      config_klass.option_accessor :new_opt, contract: { Contracts::Num => Contracts::Num },
+      config_klass.option_accessor :new_opt, type: Contracts::Num,
                                              default: 1
     end
 
@@ -73,7 +73,7 @@ RSpec.shared_examples 'a basic configuration' do
     context 'when block is defined' do
       before do
         config_klass.option_accessor(
-          :new_opt2, contract: { Contracts::Num => Contracts::Num }
+          :new_opt2, type: Contracts::Num
         ) do |c|
           c.new_opt.value + 1
         end
@@ -88,7 +88,7 @@ RSpec.shared_examples 'a basic configuration' do
       it 'complains that only one or the other can be specified' do
         expect do
           config_klass.option_accessor(:new_opt2,
-                                       contract: { Contracts::Num => Contracts::Num },
+                                       type: Contracts::Num,
                                        default: 2) { |c| c.new_opt1 + 1 }
         end.to raise_error ArgumentError, 'Either use block or default value'
       end
