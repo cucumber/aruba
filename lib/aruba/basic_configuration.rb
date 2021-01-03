@@ -20,20 +20,13 @@ module Aruba
       # @param [Symbol] name
       #   The name of the reader
       #
-      # @param [Hash] opts
-      #   Options
-      #
       # @option [Class, Module] type
       #   The type contract for the option
       #
       # @option [Object] default
       #   The default value
-      def option_reader(name, opts = {})
-        type = opts[:type]
-        default = opts[:default]
-
+      def option_reader(name, type:, default: nil)
         raise ArgumentError, 'Either use block or default value' if block_given? && default
-        raise ArgumentError, 'type option is required' if type.nil?
 
         Contract None => type
         add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
@@ -48,21 +41,14 @@ module Aruba
       # @param [Symbol] name
       #   The name of the reader
       #
-      # @param [Hash] opts
-      #   Options
-      #
       # @option [Class, Module] type
       #   The type contract for the option
       #
       # @option [Object] default
       #   The default value
       #
-      def option_accessor(name, opts = {})
-        type = opts[:type]
-        default = opts[:default]
-
+      def option_accessor(name, type:, default: nil)
         raise ArgumentError, 'Either use block or default value' if block_given? && default
-        raise ArgumentError, 'type option is required' if type.nil?
 
         # Add writer
         add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
