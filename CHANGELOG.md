@@ -6,6 +6,21 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [1.0.4] / 2021-01-04
+
+* Update rubocop and fix new offenses (various pull requests)
+* Turn off Cucumber publish warning in CI ([#737] by [olleolleolle])
+* Move CI from Travis CI to GitHub Actions ([#738] by [mvz])
+* Remove superfluous :each from before hooks in RSpec-related cucumber
+  scenarios ([#748] by [mvz])
+* Make disabling Bundler more robust ([#750] by [mvz])
+* Officially support Ruby 3.0 ([#763] by [mvz])
+* Clean up hook methods in configuration ([#751] by [mvz])
+* Speed up RSpec suite ([#767] by [mvz])
+* Speed up Cucumber suite ([#766] and [#771] by [mvz])
+* Remove obsolete `String#strip_heredoc` monkey-patch ([#769] by [mvz])
+* Simplify configuration option specification ([#772] by [mvz])
+
 ## [1.0.3]
 
 * Loosen Cucumber dependency to allow Cucumber 5.0 ([#727] by [mvz])
