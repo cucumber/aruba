@@ -5,7 +5,6 @@ Feature: Access STDOUT of command
 
   Background:
     Given I use a fixture named "cli-app"
-    And the default aruba io wait timeout is 0 seconds
 
   Scenario: Existing executable
     Given an executable named "bin/aruba-test-cli" with:

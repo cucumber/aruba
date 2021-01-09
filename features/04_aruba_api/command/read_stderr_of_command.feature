@@ -5,7 +5,6 @@ Feature: Access STDERR of command
 
   Background:
     Given I use a fixture named "cli-app"
-    And the default aruba io wait timeout is 0.1 seconds
 
   Scenario: Existing executable
     Given an executable named "bin/aruba-test-cli" with:
@@ -37,7 +36,7 @@ Feature: Access STDERR of command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, io_wait_timeout: 0.3 do
+    RSpec.describe 'Run command', type: :aruba, io_wait_timeout: 0.4 do
       before { run_command('aruba-test-cli') }
       it { expect(last_command_started.stderr).to start_with 'Hello' }
     end
