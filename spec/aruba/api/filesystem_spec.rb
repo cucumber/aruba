@@ -4,6 +4,23 @@ require "aruba/api"
 RSpec.describe Aruba::Api::Filesystem do
   include_context "uses aruba API"
 
+  describe "#append_lines_to_file" do
+    let(:path) { @file_path }
+    let(:name) { @file_name }
+
+    it "inserts a newline if existing file does not end in one" do
+      Aruba.platform.write_file(path, "foo\nbar")
+      append_lines_to_file(name, "baz")
+      expect(File.read(path)).to eq "foo\nbar\nbaz"
+    end
+
+    it "does not insert a newline if the existing file ends in one" do
+      Aruba.platform.write_file(path, "foo\nbar\n")
+      append_lines_to_file(name, "baz")
+      expect(File.read(path)).to eq "foo\nbar\nbaz"
+    end
+  end
+
   describe "#all_paths" do
     let(:name) { @file_name }
     let(:path) { @file_path }

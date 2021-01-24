@@ -330,6 +330,28 @@ module Aruba
         File.open(file_name, "a") { |f| f << file_content }
       end
 
+      # Append lines to a (text) file. This will make sure a newline is present
+      # between the old content and the new.
+      #
+      # @param [String] file_name
+      #   The name of the file to be used
+      #
+      # @param [String] file_content
+      #   The lines which should be appended to file
+      def append_lines_to_file(file_name, file_content)
+        file_name = expand_path(file_name)
+
+        last = File.open(file_name) do |f|
+          f.seek(-3, IO::SEEK_END)
+          f.read
+        end
+
+        File.open(file_name, "a") do |f|
+          f << "\n" unless last.end_with? "\n"
+          f << file_content
+        end
+      end
+
       # Create a directory in current directory
       #
       # @param [String] directory_name
