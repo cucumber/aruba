@@ -1,6 +1,6 @@
-require 'contracts'
-require 'aruba/basic_configuration/option'
-require 'aruba/in_config_wrapper'
+require "contracts"
+require "aruba/basic_configuration/option"
+require "aruba/in_config_wrapper"
 
 # Aruba
 module Aruba
@@ -26,7 +26,7 @@ module Aruba
       # @option [Object] default
       #   The default value
       def option_reader(name, type:, default: nil)
-        raise ArgumentError, 'Either use block or default value' if block_given? && default
+        raise ArgumentError, "Either use block or default value" if block_given? && default
 
         add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
 
@@ -46,7 +46,7 @@ module Aruba
       #   The default value
       #
       def option_accessor(name, type:, default: nil)
-        raise ArgumentError, 'Either use block or default value' if block_given? && default
+        raise ArgumentError, "Either use block or default value" if block_given? && default
 
         # Add writer
         add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
@@ -110,8 +110,8 @@ module Aruba
     # @yield
     #   The code block which should be run. This is a configure time only option
     def before(name, &block)
-      name = format('%s_%s', 'before_', name.to_s).to_sym
-      raise ArgumentError, 'A block is required' unless block
+      name = format("%s_%s", "before_", name.to_s).to_sym
+      raise ArgumentError, "A block is required" unless block
 
       @hooks.append(name, block)
 
@@ -129,7 +129,7 @@ module Aruba
     # @param [Array] args
     #   Arguments for the run of hook
     def run_before_hook(name, context, *args)
-      name = format('%s_%s', 'before_', name.to_s).to_sym
+      name = format("%s_%s", "before_", name.to_s).to_sym
 
       @hooks.execute(name, context, *args)
     end
@@ -142,8 +142,8 @@ module Aruba
     # @yield
     #   The code block which should be run. This is a configure time only option
     def after(name, &block)
-      name = format('%s_%s', 'after_', name.to_s).to_sym
-      raise ArgumentError, 'A block is required' unless block
+      name = format("%s_%s", "after_", name.to_s).to_sym
+      raise ArgumentError, "A block is required" unless block
 
       @hooks.append(name, block)
 
@@ -161,7 +161,7 @@ module Aruba
     # @param [Array] args
     #   Arguments for the run of hook
     def run_after_hook(name, context, *args)
-      name = format('%s_%s', 'after_', name.to_s).to_sym
+      name = format("%s_%s", "after_", name.to_s).to_sym
 
       @hooks.execute(name, context, *args)
     end

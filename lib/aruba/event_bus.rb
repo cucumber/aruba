@@ -1,5 +1,5 @@
-require 'aruba/event_bus/name_resolver'
-require 'aruba/errors'
+require "aruba/event_bus/name_resolver"
+require "aruba/errors"
 
 module Aruba
   # Event bus
@@ -34,7 +34,7 @@ module Aruba
       handler = handler_proc || handler_object
 
       if handler.nil? || !handler.respond_to?(:call)
-        raise ArgumentError, 'Please pass either an object#call or a handler block'
+        raise ArgumentError, "Please pass either an object#call or a handler block"
       end
 
       Array(event_ids).flatten.each do |id|
@@ -53,7 +53,7 @@ module Aruba
     #   handler.
     #
     def notify(event)
-      raise NoEventError, 'Please pass an event object, not a class' if event.is_a?(Class)
+      raise NoEventError, "Please pass an event object, not a class" if event.is_a?(Class)
 
       @handlers[event.class.to_s].each { |handler| handler.call(event) }
     end

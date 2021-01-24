@@ -1,7 +1,7 @@
-require 'rspec/expectations/version'
+require "rspec/expectations/version"
 
-require 'aruba/matchers/command/have_exit_status'
-require 'aruba/matchers/command/have_finished_in_time'
+require "aruba/matchers/command/have_exit_status"
+require "aruba/matchers/command/have_finished_in_time"
 
 # @!method be_successfuly_executed
 #   This matchers checks if execution of <command> was successful
@@ -30,7 +30,7 @@ RSpec::Matchers.define :be_successfully_executed do
 
   failure_message do |_actual|
     "Expected `#{@actual}` to succeed" \
-      ' but got non-zero exit status and the following output:' \
+      " but got non-zero exit status and the following output:" \
       "\n\n#{@old_actual.output}\n"
   end
 end

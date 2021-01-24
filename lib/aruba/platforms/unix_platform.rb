@@ -1,20 +1,20 @@
-require 'rbconfig'
-require 'pathname'
+require "rbconfig"
+require "pathname"
 
-require 'aruba/aruba_path'
+require "aruba/aruba_path"
 
-require 'aruba/platforms/simple_table'
-require 'aruba/platforms/unix_command_string'
-require 'aruba/platforms/unix_which'
-require 'aruba/platforms/determine_file_size'
-require 'aruba/platforms/determine_disk_usage'
-require 'aruba/platforms/aruba_file_creator'
-require 'aruba/platforms/aruba_fixed_size_file_creator'
-require 'aruba/platforms/local_environment'
-require 'aruba/platforms/aruba_logger'
-require 'aruba/platforms/announcer'
-require 'aruba/platforms/command_monitor'
-require 'aruba/platforms/filesystem_status'
+require "aruba/platforms/simple_table"
+require "aruba/platforms/unix_command_string"
+require "aruba/platforms/unix_which"
+require "aruba/platforms/determine_file_size"
+require "aruba/platforms/determine_disk_usage"
+require "aruba/platforms/aruba_file_creator"
+require "aruba/platforms/aruba_fixed_size_file_creator"
+require "aruba/platforms/local_environment"
+require "aruba/platforms/aruba_logger"
+require "aruba/platforms/announcer"
+require "aruba/platforms/command_monitor"
+require "aruba/platforms/filesystem_status"
 
 # Aruba
 module Aruba
@@ -79,7 +79,7 @@ module Aruba
       end
 
       def default_shell
-        'bash'
+        "bash"
       end
 
       def detect_ruby(cmd)
@@ -91,11 +91,11 @@ module Aruba
       end
 
       def deprecated(msg)
-        warn(format('%s. Called by %s', msg, caller[1]))
+        warn(format("%s. Called by %s", msg, caller[1]))
       end
 
       def current_ruby
-        ::File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
+        ::File.join(RbConfig::CONFIG["bindir"], RbConfig::CONFIG["ruby_install_name"])
       end
 
       def require_matching_files(pattern, base)
@@ -125,7 +125,7 @@ module Aruba
       def chdir(dir_name, &block)
         dir_name = ::File.expand_path(dir_name.to_s)
 
-        with_environment 'OLDPWD' => getwd, 'PWD' => dir_name do
+        with_environment "OLDPWD" => getwd, "PWD" => dir_name do
           ::Dir.chdir(dir_name, &block)
         end
       end
@@ -233,7 +233,7 @@ module Aruba
       # @param [String] path
       #   The PATH, a string concatenated with ":", e.g. /usr/bin/:/bin on a
       #   UNIX-system
-      def which(program, path = ENV['PATH'])
+      def which(program, path = ENV["PATH"])
         UnixWhich.new.call(program, path)
       end
 

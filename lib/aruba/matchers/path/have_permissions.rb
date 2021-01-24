@@ -1,4 +1,4 @@
-require 'rspec/expectations/version'
+require "rspec/expectations/version"
 
 # @!method have_permissions(permissions)
 #   This matchers checks if <file> or <directory> has <perm> permissions
@@ -43,7 +43,7 @@ RSpec::Matchers.define :have_permissions do |expected|
                 when Integer
                   expected.to_s(8)
                 when String
-                  expected.gsub(/^0*/, '')
+                  expected.gsub(/^0*/, "")
                 else
                   expected
                 end

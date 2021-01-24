@@ -1,4 +1,4 @@
-require 'rspec/expectations/version'
+require "rspec/expectations/version"
 
 # @!method be_a_command_found_in_path
 #   This matchers checks if <command> can be found in path

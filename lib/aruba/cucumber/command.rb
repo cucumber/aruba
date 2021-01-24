@@ -1,4 +1,4 @@
-require 'aruba/generators/script_file'
+require "aruba/generators/script_file"
 
 When(/^I run `([^`]*)`$/) do |cmd|
   cmd = sanitize_text(cmd)
@@ -14,9 +14,9 @@ end
 
 When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) \
   do |shell, commands|
-  full_path = expand_path('bin/myscript')
+  full_path = expand_path("bin/myscript")
 
-  Aruba.platform.mkdir(expand_path('bin'))
+  Aruba.platform.mkdir(expand_path("bin"))
   shell ||= Aruba.platform.default_shell
 
   Aruba::ScriptFile.new(interpreter: shell, content: commands, path: full_path).call
@@ -55,7 +55,7 @@ When(/^I (terminate|stop) the command (?:"([^"]*)"|(?:started last))$/) do |sign
           last_command_started
         end
 
-  if signal == 'terminate'
+  if signal == "terminate"
     cmd.terminate
   else
     cmd.stop
@@ -135,9 +135,9 @@ Then(
   /^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)? "([^"]*)"$/
 ) do |channel, cmd, exactly, expected|
   matcher = case channel
-            when 'output'; then :have_output
-            when 'stderr'; then :have_output_on_stderr
-            when 'stdout'; then :have_output_on_stdout
+            when "output"; then :have_output
+            when "stderr"; then :have_output_on_stderr
+            when "stdout"; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -156,9 +156,9 @@ Then(
   /^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)? "([^"]*)"$/
 ) do |channel, cmd, exactly, expected|
   matcher = case channel
-            when 'output'; then :have_output
-            when 'stderr'; then :have_output_on_stderr
-            when 'stdout'; then :have_output_on_stdout
+            when "output"; then :have_output
+            when "stderr"; then :have_output_on_stderr
+            when "stdout"; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -204,9 +204,9 @@ end
 Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should not contain( exactly)?:$/) \
   do |channel, cmd, exactly, expected|
   matcher = case channel
-            when 'output'; then :have_output
-            when 'stderr'; then :have_output_on_stderr
-            when 'stdout'; then :have_output_on_stdout
+            when "output"; then :have_output
+            when "stderr"; then :have_output_on_stderr
+            when "stdout"; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -224,9 +224,9 @@ end
 Then(/^(?:the )?(output|stderr|stdout) from "([^"]*)" should contain( exactly)?:$/) \
   do |channel, cmd, exactly, expected|
   matcher = case channel
-            when 'output'; then :have_output
-            when 'stderr'; then :have_output_on_stderr
-            when 'stdout'; then :have_output_on_stdout
+            when "output"; then :have_output
+            when "stderr"; then :have_output_on_stderr
+            when "stdout"; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -287,7 +287,7 @@ end
 Then(/^it should not (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == 'pass'
+  if pass_fail == "pass"
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -299,7 +299,7 @@ end
 Then(/^it should (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == 'pass'
+  if pass_fail == "pass"
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -311,7 +311,7 @@ end
 Then(/^it should not (pass|fail) with:$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == 'pass'
+  if pass_fail == "pass"
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -323,7 +323,7 @@ end
 Then(/^it should (pass|fail) with:$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == 'pass'
+  if pass_fail == "pass"
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -335,7 +335,7 @@ end
 Then(/^it should not (pass|fail) with exactly:$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == 'pass'
+  if pass_fail == "pass"
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -347,7 +347,7 @@ end
 Then(/^it should (pass|fail) with exactly:$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == 'pass'
+  if pass_fail == "pass"
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -359,7 +359,7 @@ end
 Then(/^it should not (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == 'pass'
+  if pass_fail == "pass"
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -371,7 +371,7 @@ end
 Then(/^it should (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == 'pass'
+  if pass_fail == "pass"
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -382,9 +382,9 @@ end
 
 Then(/^(?:the )?(output|stderr|stdout) should not contain anything$/) do |channel|
   matcher = case channel
-            when 'output'; then :have_output
-            when 'stderr'; then :have_output_on_stderr
-            when 'stdout'; then :have_output_on_stdout
+            when "output"; then :have_output
+            when "stderr"; then :have_output_on_stderr
+            when "stdout"; then :have_output_on_stdout
             end
 
   expect(all_commands).to include_an_object send(matcher, be_nil.or(be_empty))
@@ -394,9 +394,9 @@ Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:
   do |channel, negated, table|
   table.raw.flatten.each do |expected|
     _matcher = case channel
-               when 'output'; then :have_output
-               when 'stderr'; then :have_output_on_stderr
-               when 'stdout'; then :have_output_on_stdout
+               when "output"; then :have_output
+               when "stderr"; then :have_output_on_stderr
+               when "stdout"; then :have_output_on_stdout
                end
 
     # TODO: This isn't actually using the above. It's hardcoded to use have_output only
@@ -440,5 +440,5 @@ When(/^I send the signal "([^"]*)" to the command (?:"([^"]*)"|(?:started last))
 end
 
 Given(/^I look for executables in "(.*)" within the current directory$/) do |directory|
-  prepend_environment_variable 'PATH', expand_path(directory) + File::PATH_SEPARATOR
+  prepend_environment_variable "PATH", expand_path(directory) + File::PATH_SEPARATOR
 end

@@ -1,4 +1,4 @@
-require 'aruba/matchers/base/object_formatter'
+require "aruba/matchers/base/object_formatter"
 
 # Aruba
 module Aruba

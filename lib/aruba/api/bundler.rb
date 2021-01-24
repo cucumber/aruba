@@ -1,4 +1,4 @@
-require 'aruba/api/environment'
+require "aruba/api/environment"
 
 module Aruba
   module Api

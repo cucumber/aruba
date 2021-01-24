@@ -30,9 +30,9 @@ module Aruba
       #   Input
       def extract_text(text)
         text
-          .gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, '')
-          .gsub(/\\\[|\\\]/, '')
-          .gsub(/\007|\016|\017/, '')
+          .gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, "")
+          .gsub(/\\\[|\\\]/, "")
+          .gsub(/\007|\016|\017/, "")
       end
 
       # Unescape special characters and remove ANSI characters
@@ -51,7 +51,7 @@ module Aruba
       # @param [#to_s] text
       #   The text to parse
       def replace_variables(text)
-        if text.include? '<pid-last-command-started>'
+        if text.include? "<pid-last-command-started>"
           text = text.gsub(/<pid-last-command-started>/, last_command_started.pid.to_s)
         end
 

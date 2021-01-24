@@ -46,12 +46,12 @@ Given(/^(?:a|the) (\d+) byte file(?: named)? "([^"]*)"$/) do |file_size, file_na
 end
 
 Given(/^(?:an|the) empty file(?: named)? "([^"]*)"$/) do |file_name|
-  write_file(file_name, '')
+  write_file(file_name, "")
 end
 
 Given(/^(?:an|the) empty file(?: named)? "([^"]*)" with mode "([^"]*)"$/) \
   do |file_name, file_mode|
-  write_file(file_name, '')
+  write_file(file_name, "")
   chmod(file_mode, file_name)
 end
 

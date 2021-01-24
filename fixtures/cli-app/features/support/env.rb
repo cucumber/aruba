@@ -1,1 +1,1 @@
-require_relative 'aruba'
+require_relative "aruba"

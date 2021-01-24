@@ -1,4 +1,4 @@
-require 'logger'
+require "logger"
 
 # Aruba
 module Aruba

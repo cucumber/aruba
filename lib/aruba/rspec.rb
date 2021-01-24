@@ -1,8 +1,8 @@
-require 'rspec/core'
+require "rspec/core"
 
-require 'aruba'
-require 'aruba/api'
-require 'aruba/version'
+require "aruba"
+require "aruba/api"
+require "aruba/version"
 
 RSpec.configure do |config|
   config.include Aruba::Api, type: :aruba
@@ -14,12 +14,12 @@ RSpec.configure do |config|
 
       # Modify PATH to include project/bin
       prepend_environment_variable(
-        'PATH',
+        "PATH",
         aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
       )
 
       # Use configured home directory as HOME
-      set_environment_variable 'HOME', aruba.config.home_directory
+      set_environment_variable "HOME", aruba.config.home_directory
     end
 
     example.run

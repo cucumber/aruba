@@ -20,6 +20,6 @@ at_exit do
   puts "------------- Top #{max_scenarios} slowest scenarios -------------"
   sorted_times = scenario_times.sort { |a, b| b[1] <=> a[1] }
   sorted_times[0..max_scenarios - 1].each do |key, value|
-    puts format('%.2f  %s', value, key)
+    puts format("%.2f  %s", value, key)
   end
 end

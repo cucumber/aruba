@@ -1,18 +1,18 @@
-require 'rspec/expectations'
-require 'shellwords'
+require "rspec/expectations"
+require "shellwords"
 
-require 'aruba/version'
+require "aruba/version"
 
-require 'aruba/platform'
-require 'aruba/api/core'
-require 'aruba/api/commands'
+require "aruba/platform"
+require "aruba/api/core"
+require "aruba/api/commands"
 
-require 'aruba/api/environment'
-require 'aruba/api/filesystem'
-require 'aruba/api/text'
-require 'aruba/api/bundler'
+require "aruba/api/environment"
+require "aruba/api/filesystem"
+require "aruba/api/text"
+require "aruba/api/bundler"
 
-Aruba.platform.require_matching_files('../matchers/**/*.rb', __FILE__)
+Aruba.platform.require_matching_files("../matchers/**/*.rb", __FILE__)
 
 # Aruba
 module Aruba
