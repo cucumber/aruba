@@ -11,6 +11,12 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.4
 
+# Spec blocks can be any size
+Metrics/BlockLength:
+  Exclude:
+    - '**/*.gemspec'
+    - 'spec/**/*'
+
 # Use older RuboCop default
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
