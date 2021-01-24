@@ -1,6 +1,6 @@
 Feature: Append content to file
 
-  You might want to append some content to a file.
+  You might want to append some content to an existing file.
 
   Background:
     Given I use a fixture named "cli-app"
@@ -48,7 +48,7 @@ Feature: Append content to file
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Append to a non-existing file
+  Scenario: Append to a non-existing file (deprecated)
     Given a file named "features/non-existence.feature" with:
     """
     Feature: Existence
@@ -65,3 +65,7 @@ Feature: Append content to file
     """
     When I run `cucumber`
     Then the features should all pass
+    And the output should contain:
+    """
+    The ability to call #append_to_file with a file that does not exist is deprecated
+    """
