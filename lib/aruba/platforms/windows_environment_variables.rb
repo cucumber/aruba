@@ -1,4 +1,4 @@
-require 'aruba/platforms/unix_environment_variables'
+require "aruba/platforms/unix_environment_variables"
 
 # Aruba
 module Aruba

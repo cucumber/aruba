@@ -1,4 +1,4 @@
-require 'cli/app/version'
+require "cli/app/version"
 
 module Cli
   module App

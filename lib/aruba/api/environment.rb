@@ -1,4 +1,4 @@
-require 'aruba/platform'
+require "aruba/platform"
 
 # Aruba
 module Aruba
@@ -96,7 +96,7 @@ module Aruba
 
         environment_change = { old: old_environment,
                                new: new_environment,
-                               changed: { name: name, value: '' } }
+                               changed: { name: name, value: "" } }
         aruba.event_bus.notify Events::ChangedEnvironmentVariable.new(environment_change)
 
         self

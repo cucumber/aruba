@@ -1,7 +1,7 @@
-require 'delegate'
-require 'aruba/processes/spawn_process'
-require 'aruba/processes/in_process'
-require 'aruba/processes/debug_process'
+require "delegate"
+require "aruba/processes/spawn_process"
+require "aruba/processes/in_process"
+require "aruba/processes/debug_process"
 
 # Aruba
 module Aruba

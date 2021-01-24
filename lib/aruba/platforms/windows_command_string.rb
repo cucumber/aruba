@@ -15,7 +15,7 @@ module Aruba
 
       # Convert to array
       def to_a
-        [cmd_path, '/c', [escaped_command, *escaped_arguments].join(' ')]
+        [cmd_path, "/c", [escaped_command, *escaped_arguments].join(" ")]
       end
 
       private
@@ -30,7 +30,7 @@ module Aruba
       end
 
       def cmd_path
-        Aruba.platform.which('cmd.exe')
+        Aruba.platform.which("cmd.exe")
       end
     end
   end

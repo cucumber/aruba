@@ -1,4 +1,4 @@
-require 'rspec/expectations/version'
+require "rspec/expectations/version"
 
 # @!method have_sub_directory(sub_directory)
 #   This matchers checks if <directory> has given sub-directory
@@ -42,13 +42,13 @@ RSpec::Matchers.define :have_sub_directory do |expected|
 
   failure_message do |actual|
     format('expected that directory "%s" has the following sub-directories: %s.',
-           actual.join(', '),
+           actual.join(", "),
            expected)
   end
 
   failure_message_when_negated do |actual|
     format('expected that directory "%s" does not have the following sub-directories: %s.',
-           actual.join(', '),
+           actual.join(", "),
            expected)
   end
 end

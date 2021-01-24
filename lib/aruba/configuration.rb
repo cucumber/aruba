@@ -1,15 +1,15 @@
-require 'contracts'
+require "contracts"
 
-require 'aruba/version'
-require 'aruba/basic_configuration'
-require 'aruba/in_config_wrapper'
-require 'aruba/hooks'
+require "aruba/version"
+require "aruba/basic_configuration"
+require "aruba/in_config_wrapper"
+require "aruba/hooks"
 
-require 'aruba/contracts/relative_path'
-require 'aruba/contracts/absolute_path'
-require 'aruba/contracts/enum'
+require "aruba/contracts/relative_path"
+require "aruba/contracts/absolute_path"
+require "aruba/contracts/enum"
 
-require 'aruba/contracts/is_power_of_two'
+require "aruba/contracts/is_power_of_two"
 
 # Aruba
 module Aruba
@@ -21,9 +21,9 @@ module Aruba
 
     option_accessor :working_directory,
                     type: Aruba::Contracts::RelativePath,
-                    default: 'tmp/aruba'
+                    default: "tmp/aruba"
 
-    option_reader :fixtures_path_prefix, type: String, default: '%'
+    option_reader :fixtures_path_prefix, type: String, default: "%"
 
     option_accessor :exit_timeout, type: Num, default: 15
     option_accessor :stop_signal, type: Maybe[String], default: nil
@@ -36,8 +36,8 @@ module Aruba
     option_accessor :command_runtime_environment, type: Hash, default: {}
     option_accessor :command_search_paths,
                     type: ArrayOf[String] do |config|
-                      [File.join(config.root_directory.value, 'bin'),
-                       File.join(config.root_directory.value, 'exe')]
+                      [File.join(config.root_directory.value, "bin"),
+                       File.join(config.root_directory.value, "exe")]
                     end
     option_accessor :remove_ansi_escape_sequences, type: Bool, default: true
     option_accessor :command_launcher,
@@ -64,7 +64,7 @@ module Aruba
                     type: Aruba::Contracts::IsPowerOfTwo,
                     default: 512
     option_accessor :console_history_file, type: String,
-                                           default: '~/.aruba_history'
+                                           default: "~/.aruba_history"
 
     option_accessor :activate_announcer_on_command_failure,
                     type: ArrayOf[Symbol],

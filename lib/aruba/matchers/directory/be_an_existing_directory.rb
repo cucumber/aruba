@@ -1,4 +1,4 @@
-require 'rspec/expectations/version'
+require "rspec/expectations/version"
 
 # @!method be_an_existing_directory
 #   This matchers checks if <directory> exists in filesystem
@@ -19,7 +19,7 @@ RSpec::Matchers.define :be_an_existing_directory do |_|
   match do |actual|
     stop_all_commands
 
-    raise 'String expected' unless actual.is_a? String
+    raise "String expected" unless actual.is_a? String
 
     directory?(actual)
   end

@@ -1,4 +1,4 @@
-require 'contracts'
+require "contracts"
 
 # Aruba
 module Aruba

@@ -1,5 +1,5 @@
-require 'rspec/expectations/version'
-require 'shellwords'
+require "rspec/expectations/version"
+require "shellwords"
 
 # @!method be_an_existing_executable
 #   This matchers checks if <file> exists in filesystem

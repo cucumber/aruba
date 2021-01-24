@@ -1,4 +1,4 @@
-require 'aruba/errors'
+require "aruba/errors"
 
 # Event notification library
 module Aruba
@@ -10,13 +10,13 @@ module Aruba
       # Helpers for Resolvers
       module ResolveHelpers
         def camel_case(underscored_name)
-          underscored_name.to_s.split('_').map { |word| word.upcase[0] + word[1..-1] }.join
+          underscored_name.to_s.split("_").map { |word| word.upcase[0] + word[1..-1] }.join
         end
 
         # Thanks ActiveSupport
         # (Only needed to support Ruby 1.9.3 and JRuby)
         def constantize(camel_cased_word)
-          names = camel_cased_word.split('::')
+          names = camel_cased_word.split("::")
 
           # Trigger a built-in NameError exception including the ill-formed
           # constant in the message.
@@ -148,7 +148,7 @@ module Aruba
       def transform(event_id)
         resolvers.find { |r| r.match? event_id }.new.transform(default_namespace, event_id)
       rescue StandardError => e
-        types = @resolvers.map(&:supports).flatten.join(', ')
+        types = @resolvers.map(&:supports).flatten.join(", ")
         message = "Transforming \"#{event_id}\" into an event class failed." \
           " Supported types are: #{types}. #{e.message}."
         raise EventNameResolveError, message, cause: e

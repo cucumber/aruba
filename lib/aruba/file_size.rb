@@ -1,4 +1,4 @@
-require 'delegate'
+require "delegate"
 
 # Aruba
 module Aruba

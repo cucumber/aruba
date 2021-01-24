@@ -1,4 +1,4 @@
-require 'rspec/expectations/version'
+require "rspec/expectations/version"
 
 # @!method run_too_long
 #   This matchers checks if <command> run too long. Say the timeout is 10

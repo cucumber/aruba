@@ -1,4 +1,4 @@
-require 'aruba/platform'
+require "aruba/platform"
 
 # Aruba
 module Aruba

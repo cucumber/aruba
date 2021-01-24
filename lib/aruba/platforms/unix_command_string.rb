@@ -1,5 +1,5 @@
-require 'delegate'
-require 'shellwords'
+require "delegate"
+require "shellwords"
 
 # Aruba
 module Aruba

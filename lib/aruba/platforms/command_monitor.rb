@@ -1,4 +1,4 @@
-require 'aruba/errors'
+require "aruba/errors"
 
 # Aruba
 module Aruba
@@ -20,7 +20,7 @@ module Aruba
       end
 
       def method_missing(*)
-        raise NoCommandHasBeenStoppedError, 'No last command stopped available'
+        raise NoCommandHasBeenStoppedError, "No last command stopped available"
       end
 
       def respond_to_missing?(*)
@@ -34,7 +34,7 @@ module Aruba
       end
 
       def method_missing(*)
-        raise NoCommandHasBeenStartedError, 'No last command started available'
+        raise NoCommandHasBeenStartedError, "No last command started available"
       end
 
       def respond_to_missing?(*)
@@ -96,7 +96,7 @@ module Aruba
     def all_stdout
       registered_commands.each(&:stop)
 
-      registered_commands.each_with_object('') { |e, a| a << e.stdout }
+      registered_commands.each_with_object("") { |e, a| a << e.stdout }
     end
 
     # Get stderr of all commands
@@ -106,7 +106,7 @@ module Aruba
     def all_stderr
       registered_commands.each(&:stop)
 
-      registered_commands.each_with_object('') { |e, a| a << e.stderr }
+      registered_commands.each_with_object("") { |e, a| a << e.stderr }
     end
 
     # Get stderr and stdout of all commands

@@ -1,5 +1,5 @@
-require 'aruba/platform'
-require 'shellwords'
+require "aruba/platform"
+require "shellwords"
 
 # Aruba
 module Aruba

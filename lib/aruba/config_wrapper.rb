@@ -30,7 +30,7 @@ module Aruba
     # If one method ends with "=", e.g. ":option1=", then notify the event
     # queue, that the user changes the value of "option1"
     def method_missing(name, *args, &block)
-      notify(name, args) if name.to_s.end_with?('=')
+      notify(name, args) if name.to_s.end_with?("=")
 
       return config.send(name, *args, &block) if config.respond_to? name
 
@@ -63,7 +63,7 @@ module Aruba
       event_bus.notify(
         Events::ChangedConfiguration.new(
           changed: {
-            name: name.to_s.gsub(/=$/, ''),
+            name: name.to_s.gsub(/=$/, ""),
             value: args.first
           }
         )

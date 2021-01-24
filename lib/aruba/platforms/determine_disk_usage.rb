@@ -1,4 +1,4 @@
-require 'aruba/file_size'
+require "aruba/file_size"
 
 module Aruba
   module Platforms

@@ -1,5 +1,5 @@
-require 'aruba/matchers/base/base_matcher'
-require 'aruba/matchers/base/message_indenter'
+require "aruba/matchers/base/base_matcher"
+require "aruba/matchers/base/message_indenter"
 
 # Aruba
 module Aruba

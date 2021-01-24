@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 module Events
   class TestEvent; end
@@ -17,7 +17,7 @@ class MyMalformedHandler; end
 describe Aruba::EventBus do
   subject(:bus) { described_class.new(name_resolver) }
 
-  let(:name_resolver) { instance_double('Events::NameResolver') }
+  let(:name_resolver) { instance_double("Events::NameResolver") }
 
   let(:event_klass) { Events::TestEvent }
   let(:event_name) { event_klass }
@@ -27,13 +27,13 @@ describe Aruba::EventBus do
   let(:another_event_name) { another_event_klass }
   let(:another_event_instance) { Events::AnotherTestEvent.new }
 
-  describe '#notify' do
+  describe "#notify" do
     before do
       allow(name_resolver)
         .to receive(:transform).with(event_name).and_return(event_klass)
     end
 
-    context 'when subscribed to the event' do
+    context "when subscribed to the event" do
       before do
         bus.register(event_klass) do |event|
           @received_payload = event
@@ -42,12 +42,12 @@ describe Aruba::EventBus do
         bus.notify event_instance
       end
 
-      it 'calls the block with an instance of the event passed as payload' do
+      it "calls the block with an instance of the event passed as payload" do
         expect(@received_payload).to eq(event_instance)
       end
     end
 
-    context 'when not subscriber to event' do
+    context "when not subscriber to event" do
       before do
         @received_payload = false
         bus.register(event_klass) { @received_payload = true }
@@ -57,7 +57,7 @@ describe Aruba::EventBus do
       it { expect(@received_payload).to eq(false) }
     end
 
-    context 'when event is not an instance of event class' do
+    context "when event is not an instance of event class" do
       let(:event_name) { :test_event }
       let(:received_payload) { [] }
 
@@ -69,14 +69,14 @@ describe Aruba::EventBus do
     end
   end
 
-  describe '#register' do
+  describe "#register" do
     before do
       allow(name_resolver)
         .to receive(:transform).with(event_name).and_return(event_klass)
     end
 
-    context 'when valid subscriber' do
-      context 'when multiple instances are given' do
+    context "when valid subscriber" do
+      context "when multiple instances are given" do
         let(:received_events) { [] }
 
         before do
@@ -94,7 +94,7 @@ describe Aruba::EventBus do
         it { expect(received_events).to all eq event_instance }
       end
 
-      context 'when is string' do
+      context "when is string" do
         let(:event_name) { event_klass.to_s }
         let(:received_payload) { [] }
 
@@ -109,7 +109,7 @@ describe Aruba::EventBus do
         it { expect(received_payload).to include event_instance }
       end
 
-      context 'when is symbol and event is defined in the default namespace' do
+      context "when is symbol and event is defined in the default namespace" do
         let(:event_name) { :test_event }
         let(:received_payload) { [] }
 
@@ -125,8 +125,8 @@ describe Aruba::EventBus do
       end
     end
 
-    context 'when valid custom handler' do
-      context 'when single event class' do
+    context "when valid custom handler" do
+      context "when single event class" do
         before do
           allow(name_resolver)
             .to receive(:transform).with(event_name).and_return(event_klass)
@@ -136,7 +136,7 @@ describe Aruba::EventBus do
         it { expect { bus.notify event_instance }.not_to raise_error }
       end
 
-      context 'when list of event classes' do
+      context "when list of event classes" do
         before do
           allow(name_resolver)
             .to receive(:transform).with(event_name).and_return(event_klass)
@@ -150,15 +150,15 @@ describe Aruba::EventBus do
       end
     end
 
-    context 'when malformed custom handler' do
-      it 'raises an ArgumentError' do
+    context "when malformed custom handler" do
+      it "raises an ArgumentError" do
         expect { bus.register(event_klass, MyMalformedHandler.new) }
           .to raise_error ArgumentError
       end
     end
 
-    context 'when no handler is given' do
-      it 'raises an ArgumentError' do
+    context "when no handler is given" do
+      it "raises an ArgumentError" do
         expect { bus.register(event_klass) }.to raise_error ArgumentError
       end
     end

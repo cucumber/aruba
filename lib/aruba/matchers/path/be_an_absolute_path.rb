@@ -1,4 +1,4 @@
-require 'rspec/expectations/version'
+require "rspec/expectations/version"
 
 # @!method be_an_absolute_path
 #   This matchers checks if <path> exists in filesystem

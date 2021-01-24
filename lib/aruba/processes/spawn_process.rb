@@ -1,10 +1,10 @@
-require 'childprocess'
-require 'tempfile'
-require 'shellwords'
+require "childprocess"
+require "tempfile"
+require "shellwords"
 
-require 'aruba/errors'
-require 'aruba/processes/basic_process'
-require 'aruba/platform'
+require "aruba/errors"
+require "aruba/processes/basic_process"
+require "aruba/platform"
 
 # Aruba
 module Aruba
@@ -67,23 +67,23 @@ module Aruba
         if started?
           error_message =
             "Command \"#{commandline}\" has already been started." \
-            ' Please `#stop` the command first and `#start` it again.' \
-            ' Alternatively use `#restart`.'
+            " Please `#stop` the command first and `#start` it again." \
+            " Alternatively use `#restart`."
           raise CommandAlreadyStartedError, error_message
         end
 
         @started = true
 
         @process = ChildProcess.build(*command_string.to_a)
-        @stdout_file = Tempfile.new('aruba-stdout-')
-        @stderr_file = Tempfile.new('aruba-stderr-')
+        @stdout_file = Tempfile.new("aruba-stdout-")
+        @stderr_file = Tempfile.new("aruba-stderr-")
 
         @stdout_file.sync = true
         @stderr_file.sync = true
 
-        if RUBY_VERSION >= '1.9'
-          @stdout_file.set_encoding('ASCII-8BIT')
-          @stderr_file.set_encoding('ASCII-8BIT')
+        if RUBY_VERSION >= "1.9"
+          @stdout_file.set_encoding("ASCII-8BIT")
+          @stderr_file.set_encoding("ASCII-8BIT")
         end
 
         @exit_status = nil
@@ -279,7 +279,7 @@ module Aruba
             if Aruba.platform.builtin_shell_commands.include?(command)
               command
             else
-              Aruba.platform.which(command, environment['PATH'])
+              Aruba.platform.which(command, environment["PATH"])
             end
           end
       end
@@ -295,7 +295,7 @@ module Aruba
         data = file.read
         file.close
 
-        data.force_encoding('UTF-8')
+        data.force_encoding("UTF-8")
       end
     end
   end

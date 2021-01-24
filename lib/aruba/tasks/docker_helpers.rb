@@ -1,4 +1,4 @@
-require 'psych'
+require "psych"
 
 module Aruba
   class DockerRunInstance
@@ -43,15 +43,15 @@ module Aruba
       docker_image        = run_instance.image
 
       cmdline = []
-      cmdline << 'docker'
-      cmdline << 'build'
-      cmdline << '--no-cache=true' if cache == 'false'
+      cmdline << "docker"
+      cmdline << "build"
+      cmdline << "--no-cache=true" if cache == "false"
 
       %w(http_proxy https_proxy HTTP_PROXY HTTPS_PROXY).each do |var|
         next unless ENV.key? var
 
         proxy_uri = URI(ENV[var])
-        proxy_uri.host = '172.17.0.1'
+        proxy_uri.host = "172.17.0.1"
         cmdline << "--build-arg #{var}=#{proxy_uri}"
       end
 
@@ -59,7 +59,7 @@ module Aruba
       cmdline << "-f #{docker_file}"
       cmdline << File.dirname(docker_file)
 
-      cmdline.join(' ')
+      cmdline.join(" ")
     end
   end
 
@@ -81,10 +81,10 @@ module Aruba
       command = opts[:command]
 
       cmdline = []
-      cmdline << 'docker'
-      cmdline << 'run'
-      cmdline << '-it'
-      cmdline << '--rm'
+      cmdline << "docker"
+      cmdline << "run"
+      cmdline << "-it"
+      cmdline << "--rm"
       cmdline << "--name #{run_instance.container_name}"
 
       volumes.each do |v|
@@ -94,13 +94,13 @@ module Aruba
       cmdline << image
       cmdline << command if command
 
-      cmdline.join(' ')
+      cmdline.join(" ")
     end
 
     private
 
     def expand_volume_paths(volume_paths)
-      volume_paths.split(':').map { |path| File.expand_path(path) }.join(':')
+      volume_paths.split(":").map { |path| File.expand_path(path) }.join(":")
     end
   end
 
@@ -112,39 +112,39 @@ module Aruba
     public
 
     def initialize(path)
-      @data = Psych.load_file(path)['services']
+      @data = Psych.load_file(path)["services"]
     end
 
     def volumes(instance)
-      fetch(instance)['volumes']
+      fetch(instance)["volumes"]
     end
 
     def build_context(instance)
-      fetch(instance).fetch('build', {})['context']
+      fetch(instance).fetch("build", {})["context"]
     end
 
     def build_arguments(instance)
-      fetch(instance).fetch('build', {})['args']
+      fetch(instance).fetch("build", {})["args"]
     end
 
     def docker_file(instance)
-      fetch(instance).fetch('build', {})['dockerfile']
+      fetch(instance).fetch("build", {})["dockerfile"]
     end
 
     def image(instance)
-      fetch(instance)['image']
+      fetch(instance)["image"]
     end
 
     def container_name(instance)
-      fetch(instance)['container_name']
+      fetch(instance)["container_name"]
     end
 
     def command(instance)
-      fetch(instance)['command']
+      fetch(instance)["command"]
     end
 
     def working_directory(instance)
-      fetch(instance)['working_dir']
+      fetch(instance)["working_dir"]
     end
 
     private
