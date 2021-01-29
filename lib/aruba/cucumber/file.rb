@@ -74,7 +74,7 @@ end
 
 When(/^I remove (?:a|the) (?:file|directory)(?: named)? "([^"]*)"( with full force)?$/) \
   do |name, force_remove|
-  remove(name, force: force_remove.nil? ? false : true)
+  remove(name, force: !force_remove.nil?)
 end
 
 Given(/^(?:a|the) (?:file|directory)(?: named)? "([^"]*)" does not exist$/) do |name|
