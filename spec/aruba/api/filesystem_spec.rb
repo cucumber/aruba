@@ -4,10 +4,12 @@ require "aruba/api"
 RSpec.describe Aruba::Api::Filesystem do
   include_context "uses aruba API"
 
-  describe "#append_lines_to_file" do
-    let(:path) { @file_path }
-    let(:name) { @file_name }
+  let(:name) { @file_name }
+  let(:path) { @file_path }
+  let(:dir_name) { "test.d" }
+  let(:dir_path) { @aruba.expand_path(dir_name) }
 
+  describe "#append_lines_to_file" do
     it "inserts a newline if existing file does not end in one" do
       Aruba.platform.write_file(path, "foo\nbar")
       append_lines_to_file(name, "baz")
@@ -22,9 +24,6 @@ RSpec.describe Aruba::Api::Filesystem do
   end
 
   describe "#all_paths" do
-    let(:name) { @file_name }
-    let(:path) { @file_path }
-
     context "when file exists" do
       before do
         Aruba.platform.write_file(path, "")
@@ -50,9 +49,6 @@ RSpec.describe Aruba::Api::Filesystem do
   end
 
   describe "#all_files" do
-    let(:name) { @file_name }
-    let(:path) { @file_path }
-
     context "when file exists" do
       before do
         Aruba.platform.write_file(path, "")
@@ -78,9 +74,6 @@ RSpec.describe Aruba::Api::Filesystem do
   end
 
   describe "#all_directories" do
-    let(:name) { @file_name }
-    let(:path) { @file_path }
-
     context "when file exists" do
       before do
         Aruba.platform.write_file(path, "")
@@ -106,8 +99,6 @@ RSpec.describe Aruba::Api::Filesystem do
   end
 
   describe "#file_size" do
-    let(:name) { @file_name }
-    let(:path) { @file_path }
     let(:size) { file_size(name) }
 
     context "when file exists" do
@@ -126,8 +117,6 @@ RSpec.describe Aruba::Api::Filesystem do
   end
 
   describe "#touch" do
-    let(:name) { @file_name }
-    let(:path) { @file_path }
     let(:options) { {} }
 
     before do
@@ -198,9 +187,6 @@ RSpec.describe Aruba::Api::Filesystem do
   end
 
   describe "#absolute?" do
-    let(:name) { @file_name }
-    let(:path) { File.expand_path(File.join(@aruba.aruba.current_directory, name)) }
-
     context "when is absolute path" do
       it { expect(@aruba).to be_absolute(path) }
     end
@@ -211,9 +197,6 @@ RSpec.describe Aruba::Api::Filesystem do
   end
 
   describe "#relative?" do
-    let(:name) { @file_name }
-    let(:path) { File.expand_path(File.join(@aruba.aruba.current_directory, name)) }
-
     context "when given an absolute path" do
       it { expect(@aruba).not_to be_relative(path) }
     end
@@ -225,9 +208,6 @@ RSpec.describe Aruba::Api::Filesystem do
 
   describe "#exist?" do
     context "when given a file" do
-      let(:name) { @file_name }
-      let(:path) { @file_path }
-
       context "when it exists" do
         before do
           Aruba.platform.write_file(path, "")
@@ -242,28 +222,22 @@ RSpec.describe Aruba::Api::Filesystem do
     end
 
     context "when given a directory" do
-      let(:name) { "test.d" }
-      let(:path) { File.join(@aruba.aruba.current_directory, name) }
-
       context "when it exists" do
         before do
-          Aruba.platform.mkdir(path)
+          Aruba.platform.mkdir(dir_path)
         end
 
-        it { expect(@aruba).to be_exist(name) }
+        it { expect(@aruba).to be_exist(dir_name) }
       end
 
       context "when it does not exist" do
-        it { expect(@aruba).not_to be_exist(name) }
+        it { expect(@aruba).not_to be_exist(dir_name) }
       end
     end
   end
 
   describe "#file?" do
     context "when given a file" do
-      let(:name) { @file_name }
-      let(:path) { @file_path }
-
       context "when it exists" do
         before do
           Aruba.platform.write_file(path, "")
@@ -297,9 +271,6 @@ RSpec.describe Aruba::Api::Filesystem do
 
   describe "#directory?" do
     context "when given a file" do
-      let(:name) { @file_name }
-      let(:path) { @file_path }
-
       context "when it exists" do
         before do
           Aruba.platform.write_file(path, "")
@@ -314,19 +285,16 @@ RSpec.describe Aruba::Api::Filesystem do
     end
 
     context "when given a directory" do
-      let(:name) { "test.d" }
-      let(:path) { File.join(@aruba.aruba.current_directory, name) }
-
       context "when it exists" do
         before do
-          Aruba.platform.mkdir(path)
+          Aruba.platform.mkdir(dir_path)
         end
 
-        it { expect(@aruba).to be_directory(name) }
+        it { expect(@aruba).to be_directory(dir_name) }
       end
 
       context "when does not exist" do
-        it { expect(@aruba).not_to be_directory(name) }
+        it { expect(@aruba).not_to be_directory(dir_name) }
       end
     end
   end
@@ -460,44 +428,44 @@ RSpec.describe Aruba::Api::Filesystem do
 
   describe "#write_file" do
     it "writes file" do
-      @aruba.write_file(@file_name, "")
+      @aruba.write_file(name, "")
 
-      expect(File.exist?(@file_path)).to eq true
+      expect(File.exist?(path)).to eq true
     end
   end
 
   describe "#write_fixed_size_file" do
+    let(:file_size) { @file_size }
+
     it "writes a fixed sized file" do
-      @aruba.write_fixed_size_file(@file_name, @file_size)
-      expect(File.exist?(@file_path)).to eq true
-      expect(File.size(@file_path)).to eq @file_size
+      @aruba.write_fixed_size_file(name, file_size)
+      expect(File.exist?(path)).to eq true
+      expect(File.size(path)).to eq file_size
     end
 
     it "works with ~ in path name" do
       file_path = File.join("~", random_string)
 
       @aruba.with_environment "HOME" => File.expand_path(aruba.current_directory) do
-        @aruba.write_fixed_size_file(file_path, @file_size)
+        @aruba.write_fixed_size_file(file_path, file_size)
 
         expect(File.exist?(File.expand_path(file_path))).to eq true
-        expect(File.size(File.expand_path(file_path))).to eq @file_size
+        expect(File.size(File.expand_path(file_path))).to eq file_size
       end
     end
   end
 
   describe "#chmod" do
     def actual_permissions
-      format("%o", File::Stat.new(file_path).mode)[-4, 4]
+      format("%o", File::Stat.new(path).mode)[-4, 4]
     end
 
-    let(:file_name) { @file_name }
-    let(:file_path) { @file_path }
     let(:permissions) { "0644" }
 
     before do
       @aruba.set_environment_variable "HOME", File.expand_path(@aruba.aruba.current_directory)
-      File.open(file_path, "w") { |f| f << "" }
-      @aruba.chmod(permissions, file_name)
+      File.open(path, "w") { |f| f << "" }
+      @aruba.chmod(permissions, name)
     end
 
     context "when file exists" do
@@ -512,9 +480,9 @@ RSpec.describe Aruba::Api::Filesystem do
       end
 
       context "and path has ~ in it" do
-        let(:path) { random_string }
-        let(:file_name) { File.join("~", path) }
-        let(:file_path) { File.join(@aruba.aruba.current_directory, path) }
+        let(:basename) { random_string }
+        let(:name) { File.join("~", basename) }
+        let(:path) { File.join(@aruba.aruba.current_directory, basename) }
 
         it { expect(actual_permissions).to eq("0644") }
       end
@@ -523,11 +491,11 @@ RSpec.describe Aruba::Api::Filesystem do
 
   describe "#with_file_content" do
     before do
-      @aruba.write_file(@file_name, "foo bar baz")
+      @aruba.write_file(name, "foo bar baz")
     end
 
     it "checks the given file's full content against the expectations in the passed block" do
-      @aruba.with_file_content @file_name do |full_content|
+      @aruba.with_file_content name do |full_content|
         expect(full_content).to eq "foo bar baz"
       end
     end
@@ -547,7 +515,7 @@ RSpec.describe Aruba::Api::Filesystem do
     context "checking the file's content against the expectations in the block" do
       it "is successful when the inner expectations match" do
         expect do
-          @aruba.with_file_content @file_name do |full_content|
+          @aruba.with_file_content name do |full_content|
             expect(full_content).to     match(/foo/)
             expect(full_content).not_to match(/zoo/)
           end
@@ -556,7 +524,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
       it "raises ExpectationNotMetError when the inner expectations don't match" do
         expect do
-          @aruba.with_file_content @file_name do |full_content|
+          @aruba.with_file_content name do |full_content|
             expect(full_content).to     match(/zoo/)
             expect(full_content).not_to match(/foo/)
           end
