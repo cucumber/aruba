@@ -119,21 +119,18 @@ bundle install
 Run the following command to run the test suite.
 
 ```bash
-# Run the test suite
-bin/test
+bundle exec rake test
 ```
 
 Or use these Rake tasks:
 
 ```bash
-# Run the whole test suite
-rake test
 # Run RSpec tests
-rake spec
+bundle exec rake spec
 # Run Cucumber features
-rake cucumber
+bundle exec rake cucumber
 # Run Cucumber features which are "WORK IN PROGRESS" and are allowed to fail
-rake cucumber:wip
+bundle exec rake cucumber:wip
 ```
 
 If you have problems because our assumptions about your local setup are wrong,
