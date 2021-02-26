@@ -96,7 +96,6 @@ lib/aruba/processes/spawn_process.rb
 lib/aruba/rspec.rb
 lib/aruba/runtime.rb
 lib/aruba/setup.rb
-lib/aruba/tasks/docker_helpers.rb
 lib/aruba/version.rb
 exe/aruba
 CHANGELOG.md
