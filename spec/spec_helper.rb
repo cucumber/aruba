@@ -1,9 +1,13 @@
 $LOAD_PATH << ::File.expand_path("../lib", __dir__)
 
 unless RUBY_PLATFORM.include?("java")
-  require "simplecov"
-  SimpleCov.command_name "rspec"
-  SimpleCov.start
+  begin
+    require "simplecov"
+    SimpleCov.command_name "rspec"
+    SimpleCov.start
+  rescue LoadError
+    # skip
+  end
 end
 
 # Pull in all of the gems including those in the `test` group
