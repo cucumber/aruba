@@ -9,7 +9,7 @@ module Aruba
         attr_reader :other_env, :block
 
         def initialize(other_env, &block)
-          @other_env = other_env.to_h.transform_values(&:to_s)
+          @other_env = other_env.to_h.each_with_object({}) { |(k, v), a| a[k] = v.to_s }
 
           @block = block
         end

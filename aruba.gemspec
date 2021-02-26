@@ -28,21 +28,18 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "thor", "~> 1.0"
 
   spec.add_development_dependency "json", "~> 2.1"
-  spec.add_development_dependency "license_finder", "~> 6.0"
+  spec.add_development_dependency "license_finder", [">= 5.3", "< 7.0"]
   spec.add_development_dependency "minitest", "~> 5.10"
   spec.add_development_dependency "pry-doc", "~> 1.0"
   spec.add_development_dependency "rake", "~> 13.0"
-  spec.add_development_dependency "rake-manifest", "~> 0.2.0"
   spec.add_development_dependency "rspec", "~> 3.10.0"
-  spec.add_development_dependency "rubocop", "~> 1.10.0"
-  spec.add_development_dependency "rubocop-packaging", "~> 0.5.0"
-  spec.add_development_dependency "rubocop-performance", "~> 1.9.0"
-  spec.add_development_dependency "rubocop-rspec", "~> 2.2.0"
-  spec.add_development_dependency "simplecov", [">= 0.18.0", "< 0.22.0"]
+  spec.add_development_dependency "rubocop", "~> 0.81.0"
+  spec.add_development_dependency "rubocop-performance", "~> 1.5.2"
+  spec.add_development_dependency "rubocop-rspec", "~> 1.38.0"
   spec.add_development_dependency "yard-junk", "~> 0.0.7"
 
   spec.rubygems_version = ">= 1.6.1"
-  spec.required_ruby_version = ">= 2.4"
+  spec.required_ruby_version = ">= 2.3"
 
   spec.files = File.readlines("Manifest.txt", chomp: true)
 

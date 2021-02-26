@@ -2,7 +2,7 @@
 # ------------
 #
 # This Dockerfile will always target the lowest version of Ruby supported by
-# Aruba. This is currently version 2.4.0.
+# Aruba. This is currently version 2.3.0.
 #
 # Build the Docker image using:
 #
@@ -16,7 +16,7 @@
 # The `-v $PWD:/aruba` will make the container pick up any changes to the
 # code, so you can edit and re-run the tests.
 
-FROM ruby:2.4
+FROM ruby:2.3
 
 # Create aruba user
 RUN useradd -m -s /bin/bash aruba

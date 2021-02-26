@@ -42,18 +42,23 @@ end
 desc "Run all linters."
 task lint: %w(lint:coding_guidelines lint:licenses)
 
-# Also check the manifest as part of the linting
-task lint: "manifest:check"
-
 Bundler::GemHelper.install_tasks
 
-require "rake/manifest/task"
+begin
+  require "rake/manifest/task"
 
-Rake::Manifest::Task.new do |t|
-  t.patterns = ["lib/**/*", "exe/*", "CHANGELOG.md", "CONTRIBUTING.md",
-                "LICENSE", "README.md"]
+  Rake::Manifest::Task.new do |t|
+    t.patterns = ["lib/**/*", "exe/*", "CHANGELOG.md", "CONTRIBUTING.md",
+                  "LICENSE", "README.md"]
+  end
+
+  # Check the manifest before building the gem
+  task build: "manifest:check"
+
+  # Also check the manifest as part of the linting
+  task lint: "manifest:check"
+rescue LoadError
+  # skip
 end
-
-task build: "manifest:check"
 
 task default: :test

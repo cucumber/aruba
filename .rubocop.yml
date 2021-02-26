@@ -1,5 +1,4 @@
 require:
-  - rubocop-packaging
   - rubocop-performance
   - rubocop-rspec
 
@@ -9,7 +8,7 @@ AllCops:
     - vendor/**/*
   DisplayCopNames: true
   NewCops: enable
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.3
 
 # Spec blocks can be any size
 Metrics/BlockLength:
