@@ -17,7 +17,7 @@ Aruba.configure do |config|
 
     env["JRUBY_OPTS"] = jruby_opts
 
-    if /solaris|sunos/i.match(RbConfig::CONFIG["host_os"])
+    if /solaris|sunos/i =~ RbConfig::CONFIG["host_os"]
       java_opts = env["JAVA_OPTS"] || ""
 
       # force jRuby to use client JVM for faster startup times

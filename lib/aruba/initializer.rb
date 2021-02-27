@@ -24,7 +24,7 @@ module Aruba
 
         content = if File.exist? file
                     file_ends_with_carriage_return =
-                      File.open(file, "r").readlines.last.match(/.*\n$/)
+                      File.open(file, "r").readlines.last =~ /.*\n$/
 
                     prefix = file_ends_with_carriage_return ? "" : "\n"
 
