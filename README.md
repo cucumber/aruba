@@ -78,8 +78,8 @@ We try to comply with [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.
 
 ## Supported Ruby versions
 
-Aruba is supported on Ruby 2.4 and up, and tested against CRuby 2.4, 2.5, 2.6
-and 2.7, and JRuby 9.2.
+Aruba is supported on Ruby 2.3 and up, and tested against CRuby 2.3, 2.4, 2.5,
+2.6 and 2.7, and JRuby 9.2.
 
 ## Supported operating systems
 
