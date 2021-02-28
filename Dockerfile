@@ -1,67 +1,43 @@
-FROM ubuntu:14.04
-MAINTAINER Aruba Maintainers <cukes-devs@googlegroups.com>
+# Instructions
+# ------------
+#
+# This Dockerfile will always target the lowest version of Ruby supported by
+# Aruba. This is currently version 2.4.0.
+#
+# Build the Docker image using:
+#
+#   docker build -t test-aruba .
+#
+# You can pick any image name instead of test-aruba, of course. After the
+# build is done, run bash interactively inside the image like so:
+#
+#   docker run -v $PWD:/aruba --rm -it test-aruba:latest bash
+#
+# The `-v $PWD:/aruba` will make the container pick up any changes to the
+# code, so you can edit and re-run the tests.
 
-# Packages needed to install RVM and run Bundler gem commands
-RUN apt-get update -qq \
-  && apt-get -y install ca-certificates curl git-core --no-install-recommends \
-  && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
+FROM ruby:2.4
 
-# Create guest user early (before rvm) so uid:gid are 1000:000
-RUN useradd -m -s /bin/bash guest
+# Create aruba user
+RUN useradd -m -s /bin/bash aruba
 
-# Temporarily install RVM as root - just for requirements
-RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 \
-  && curl -L get.rvm.io | bash -s stable \
-  && bash -l -c 'rvm requirements 2.2.1' \
-  && bash -l -c 'echo yes | rvm implode' \
+RUN mkdir /aruba
+RUN chown aruba:aruba /aruba
 
-# Fix locale
-ENV DEBIAN_FRONTEND noninteractive
-RUN dpkg-reconfigure locales && locale-gen en_US.UTF-8 && /usr/sbin/update-locale LANG=en_US.UTF-8 \
-   && echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen
-ENV LC_ALL C.UTF-8
-ENV LANG C.UTF-8
-ENV LANGUAGE C.UTF-8
+# Run the rest of the steps as non-root
+USER aruba
+WORKDIR /aruba
 
-# Zsh (just for the sake of a handful of Cucumber scenarios)
-RUN apt-get update -qq \
-  && apt-get -y install zsh --no-install-recommends \
-  && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
+# Ensure Bundler 2.x is installed
+RUN gem update bundler
 
-# Python (just for the sake of a handful of Cucumber scenarios)
-RUN apt-get update -qq \
-  && apt-get -y install python --no-install-recommends \
-  && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
+# Add just the files needed for running bundle install
+ADD Gemfile aruba.gemspec Manifest.txt /aruba/
+ADD lib/aruba/version.rb /aruba/lib/aruba/version.rb
+ADD exe/aruba /aruba/exe/aruba
 
-# Java (for javac - also for just a few Cucumber scenarios)
-RUN apt-get update -qq \
-  && apt-get -y install openjdk-7-jdk --no-install-recommends \
-  && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
+# Install dependencies
+RUN bundle
 
-# Cache needed gems - for faster test reruns
-ADD Gemfile Gemfile.lock aruba.gemspec /home/guest/cache/aruba/
-ADD lib/aruba/version.rb /home/guest/cache/aruba/lib/aruba/version.rb
-RUN chown -R guest:guest /home/guest/cache
-
-USER guest
-ENV HOME /home/guest
-WORKDIR /home/guest
-
-# Install RVM as guest
-RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 \
-  && /bin/bash -l -c "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc" \
-  && curl -L get.rvm.io | bash -s stable \
-  && /bin/bash -l -c "rvm install 2.3.0 && rvm cleanup all" \
-  && /bin/bash -l -c "gem install bundler --no-ri --no-rdoc" \
-  && echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc \
-  && echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"' >> ~/.zshrc
-
-# Download and install aruba + dependencies
-WORKDIR /home/guest/cache/aruba
-RUN bash -l -c "bundle install"
-
-# Default working directory
-RUN mkdir -p /home/guest/aruba
-WORKDIR /home/guest/aruba
-
-CMD ["bundle exec rake test"]
+# Add the full source code
+ADD . /aruba

@@ -119,21 +119,14 @@ bundle install
 Run the following command to run the test suite.
 
 ```bash
-# Run the test suite
-bin/test
-```
-
-Or use these Rake tasks:
-
-```bash
 # Run the whole test suite
-rake test
+bundle exec rake
 # Run RSpec tests
-rake spec
+bundle exec rake spec
 # Run Cucumber features
-rake cucumber
+bundle exec rake cucumber
 # Run Cucumber features which are "WORK IN PROGRESS" and are allowed to fail
-rake cucumber:wip
+bundle exec rake cucumber:wip
 ```
 
 If you have problems because our assumptions about your local setup are wrong,
@@ -142,19 +135,14 @@ installed on your local system.
 
 ```bash
 # Build the docker container
-bundle exec rake docker:build
+docker build -t test-aruba .
 
-# Alternative: Build with disabled cache
-bundle exec rake 'docker:build[false]'
+# Open a bash shell inside the container with attached volume so changes to the
+# code will be picked up automatically.
+docker run -v $PWD:/aruba --rm -it test-aruba:latest bash
 
-# Build image with version tag
-bundle exec rake 'docker:build[false, 0.1.0]'
-
-# Run the whole test suite in "docker"-container
-RUN_IN_DOCKER=1 bin/test
-
-# Run only selected scenario
-RUN_IN_DOCKER=1 bin/test cucumber features/steps/command/shell.feature:14
+# Run the test suite
+bundle exec rake
 ```
 
 ### Installing your own gems used for development
@@ -218,7 +206,7 @@ Now release it:
 bundle update
 
 # Run test suite
-bin/test
+bundle exec rake
 
 # Release gem
 git commit -m "Version bump"

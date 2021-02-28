@@ -1,7 +1,6 @@
 --output doc/yard
 --exclude features/
 --exclude bin/bootstrap
---exclude bin/test
 --exclude license
 --verbose
 --markup-provider kramdown

@@ -1,6 +1,5 @@
 $LOAD_PATH << File.expand_path(__dir__)
 
-require "aruba/tasks/docker_helpers"
 require "aruba/platform"
 
 require "bundler"
@@ -56,39 +55,5 @@ Rake::Manifest::Task.new do |t|
 end
 
 task build: "manifest:check"
-
-namespace :docker do
-  desc "Build docker image"
-  task :build, :cache, :version do |_, args|
-    args.with_defaults(version: "latest")
-    args.with_defaults(cache: true)
-
-    docker_compose_file =
-      Aruba::DockerComposeFile.new(File.expand_path("docker-compose.yml", __dir__))
-    docker_run_instance = Aruba::DockerRunInstance.new(docker_compose_file, :base)
-
-    builder = Aruba::DockerBuildCommandLineBuilder.new(
-      docker_run_instance,
-      cache: args[:cache],
-      version: args[:version]
-    )
-
-    sh builder.to_cli
-  end
-
-  desc "Run docker container"
-  task :run, :command do |_, args|
-    docker_compose_file =
-      Aruba::DockerComposeFile.new(File.expand_path("docker-compose.yml", __dir__))
-    docker_run_instance = Aruba::DockerRunInstance.new(docker_compose_file, :base)
-
-    builder = Aruba::DockerRunCommandLineBuilder.new(
-      docker_run_instance,
-      command: args[:command] || docker_run_instance.command
-    )
-
-    sh builder.to_cli
-  end
-end
 
 task default: :test

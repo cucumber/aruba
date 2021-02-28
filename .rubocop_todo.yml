@@ -87,7 +87,6 @@ Naming/MethodParameterName:
     - 'lib/aruba/platforms/announcer.rb'
     - 'lib/aruba/platforms/aruba_logger.rb'
     - 'lib/aruba/platforms/unix_platform.rb'
-    - 'lib/aruba/tasks/docker_helpers.rb'
 
 # Cop supports --auto-correct.
 Performance/Caller:
@@ -192,7 +191,6 @@ Style/Documentation:
     - 'lib/aruba/matchers/collection/include_an_object.rb'
     - 'lib/aruba/platforms/command_monitor.rb'
     - 'lib/aruba/setup.rb'
-    - 'lib/aruba/tasks/docker_helpers.rb'
 
 # Configuration parameters: MaxUnannotatedPlaceholdersAllowed, IgnoredMethods.
 # SupportedStyles: annotated, template, unannotated
