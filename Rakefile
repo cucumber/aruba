@@ -30,17 +30,12 @@ namespace :lint do
     sh "bundle exec rubocop"
   end
 
-  desc "Check for relevant licenses in project"
-  task :licenses do
-    sh "bundle exec license_finder"
-  end
-
   require "yard-junk/rake"
   YardJunk::Rake.define_task
 end
 
 desc "Run all linters."
-task lint: %w(lint:coding_guidelines lint:licenses)
+task lint: %w(lint:coding_guidelines)
 
 # Also check the manifest as part of the linting
 task lint: "manifest:check"
