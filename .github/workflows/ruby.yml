@@ -55,7 +55,7 @@ jobs:
     - name: Run cukes
       run: bundle exec rake cucumber
 
-  lint:
+  checks:
 
     runs-on: ubuntu-latest
 
@@ -66,5 +66,9 @@ jobs:
       with:
         ruby-version: 2.7
         bundler-cache: true
+    - name: Install license_finder
+      run: gem install license_finder
     - name: Run linters
       run: bundle exec rake lint
+    - name: Run license_finder
+      run: license_finder

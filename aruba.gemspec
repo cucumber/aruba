@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "thor", "~> 1.0"
 
   spec.add_development_dependency "json", "~> 2.1"
-  spec.add_development_dependency "license_finder", "~> 6.0"
+  spec.add_development_dependency "kramdown", "~> 2.1"
   spec.add_development_dependency "minitest", "~> 5.10"
   spec.add_development_dependency "pry-doc", "~> 1.0"
   spec.add_development_dependency "rake", "~> 13.0"

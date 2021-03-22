@@ -7,6 +7,8 @@ Bundler.setup
 
 require "cucumber/rake/task"
 require "rspec/core/rake_task"
+require "rubocop/rake_task"
+require "yard-junk/rake"
 
 Cucumber::Rake::Task.new do |t|
   t.cucumber_opts = %w(--format progress)
@@ -24,26 +26,8 @@ RSpec::Core::RakeTask.new
 desc "Run the whole test suite."
 task test: [:spec, :cucumber]
 
-namespace :lint do
-  desc 'Lint our code with "rubocop"'
-  task :coding_guidelines do
-    sh "bundle exec rubocop"
-  end
-
-  desc "Check for relevant licenses in project"
-  task :licenses do
-    sh "bundle exec license_finder"
-  end
-
-  require "yard-junk/rake"
-  YardJunk::Rake.define_task
-end
-
-desc "Run all linters."
-task lint: %w(lint:coding_guidelines lint:licenses)
-
-# Also check the manifest as part of the linting
-task lint: "manifest:check"
+RuboCop::RakeTask.new
+YardJunk::Rake.define_task
 
 Bundler::GemHelper.install_tasks
 
@@ -54,6 +38,10 @@ Rake::Manifest::Task.new do |t|
                 "LICENSE", "README.md"]
 end
 
+# Check the manifest before building the gem
 task build: "manifest:check"
+
+desc "Run checks"
+task lint: %w(rubocop manifest:check)
 
 task default: :test
