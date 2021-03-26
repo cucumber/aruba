@@ -275,12 +275,10 @@ module Aruba
 
       def command_path
         @command_path ||=
-          begin
-            if Aruba.platform.builtin_shell_commands.include?(command)
-              command
-            else
-              Aruba.platform.which(command, environment["PATH"])
-            end
+          if Aruba.platform.builtin_shell_commands.include?(command)
+            command
+          else
+            Aruba.platform.which(command, environment["PATH"])
           end
       end
 
