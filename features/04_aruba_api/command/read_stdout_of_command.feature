@@ -36,7 +36,7 @@ Feature: Access STDOUT of command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, io_wait_timeout: 0.3 do
+    RSpec.describe 'Run command', type: :aruba, io_wait_timeout: 0.4 do
       before { run_command('aruba-test-cli') }
       it { expect(last_command_started.stdout).to start_with 'Hello' }
     end
