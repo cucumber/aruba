@@ -271,7 +271,7 @@ Feature: Stop commands
     """
     Feature: Run it
       Scenario: Run command
-        Given the default aruba exit timeout is 0.2 seconds
+        Given the default aruba exit timeout is 0.3 seconds
         And I wait 0.1 seconds for a command to start up
         When I run `aruba-test-cli1` in background
         And I terminate the command started last
