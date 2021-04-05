@@ -81,10 +81,8 @@ module Aruba
         @stdout_file.sync = true
         @stderr_file.sync = true
 
-        if RUBY_VERSION >= "1.9"
-          @stdout_file.set_encoding("ASCII-8BIT")
-          @stderr_file.set_encoding("ASCII-8BIT")
-        end
+        @stdout_file.set_encoding("ASCII-8BIT")
+        @stderr_file.set_encoding("ASCII-8BIT")
 
         @exit_status = nil
         @duplex      = true
