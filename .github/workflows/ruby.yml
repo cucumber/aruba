@@ -98,6 +98,8 @@ jobs:
           bundler-cache: true
       - name: Run specs
         run: bundle exec rake spec
+      - name: Run cukes
+        run: bundle exec rake cucumber
 
   checks:
 
