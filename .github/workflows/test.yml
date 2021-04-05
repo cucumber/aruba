@@ -76,6 +76,8 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+      - name: Install ansicon to silence colour warnings
+        run: cinst ansicon
       - name: Run specs
         run: bundle exec rake spec
       - name: Run cukes
