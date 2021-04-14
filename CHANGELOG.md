@@ -8,6 +8,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 ## [Unreleased]
 
+## [1.1.0] / 2021-04-14
+
+* Add step and API to add whole lines to a file ([#780] by [mvz])
+* Deprecate file creation when using `append_to_file` ([#781] by [mvz])
 * Update dependencies to cucumber to allow working with incoming major versions
   ([#801] by [mattwynne])
 
@@ -1248,7 +1252,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.4...master
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.1.0...master
+[1.1.0]:          https://github.com/cucumber/aruba/compare/v1.0.4...v1.1.0
 [1.0.4]:          https://github.com/cucumber/aruba/compare/v1.0.3...v1.0.4
 [1.0.3]:          https://github.com/cucumber/aruba/compare/v1.0.2...v1.0.3
 [1.0.2]:          https://github.com/cucumber/aruba/compare/v1.0.1...v1.0.2
