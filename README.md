@@ -32,8 +32,7 @@ gem install aruba
 ### As a user getting started with Aruba
 
 Our most current documentation to get started with Aruba as a user can be
-found on [Cucumber Jam](https://app.cucumber.pro/projects/aruba).
-It is generated from our feature files describing the use of Aruba.
+found in [./features/](https://github.com/cucumber/aruba/tree/master/features/).
 
 ### As a user getting started with a ruby testing framework
 
