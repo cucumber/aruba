@@ -6,6 +6,11 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [Unreleased]
+
+* Update dependencies to cucumber to allow working with incoming major versions
+  ([#801] by [mattwynne])
+
 ## [1.0.4] / 2021-01-04
 
 * Update rubocop and fix new offenses (various pull requests)
@@ -964,6 +969,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- issues & pull requests -->
 
+[#801]: https://github.com/cucumber/aruba/pull/801
 [#727]: https://github.com/cucumber/aruba/pull/727
 [#725]: https://github.com/cucumber/aruba/pull/725
 [#724]: https://github.com/cucumber/aruba/pull/724
@@ -1242,7 +1248,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.3...master
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.0.4...master
+[1.0.4]:          https://github.com/cucumber/aruba/compare/v1.0.3...v1.0.4
 [1.0.3]:          https://github.com/cucumber/aruba/compare/v1.0.2...v1.0.3
 [1.0.2]:          https://github.com/cucumber/aruba/compare/v1.0.1...v1.0.2
 [1.0.1]:          https://github.com/cucumber/aruba/compare/v1.0.0...v1.0.1
