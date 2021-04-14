@@ -8,7 +8,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 ## [Unreleased]
 
-* Update dependencies to cucumber to allow depends on future version
+* Update dependencies to cucumber to allow working with incoming major versions
   ([#801] by [mattwynne])
 
 ## [1.0.4] / 2021-01-04
