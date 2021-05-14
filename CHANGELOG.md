@@ -8,6 +8,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 ## [Unreleased]
 
+## [1.1.1] / 2021-05-14
+
+* Loosen dependency on the contracts gem ([#804] by [mvz])
+
 ## [1.1.0] / 2021-04-14
 
 * Add step and API to add whole lines to a file ([#780] by [mvz])
@@ -973,6 +977,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- issues & pull requests -->
 
+[#804]: https://github.com/cucumber/aruba/pull/804
 [#801]: https://github.com/cucumber/aruba/pull/801
 [#727]: https://github.com/cucumber/aruba/pull/727
 [#725]: https://github.com/cucumber/aruba/pull/725
@@ -1252,7 +1257,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.1.0...master
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.1.1...main
+[1.1.1]:          https://github.com/cucumber/aruba/compare/v1.1.0...v1.1.1
 [1.1.0]:          https://github.com/cucumber/aruba/compare/v1.0.4...v1.1.0
 [1.0.4]:          https://github.com/cucumber/aruba/compare/v1.0.3...v1.0.4
 [1.0.3]:          https://github.com/cucumber/aruba/compare/v1.0.2...v1.0.3
