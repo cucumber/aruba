@@ -1,11 +1,11 @@
 [![GitHub stars](https://img.shields.io/github/stars/cucumber/aruba.svg)](https://github.com/cucumber/aruba/stargazers)
-[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cucumber/aruba/master/LICENSE)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cucumber/aruba/main/LICENSE)
 [![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.svg)](https://codeclimate.com/github/cucumber/aruba)
 [![Support](https://img.shields.io/badge/cucumber-support-orange.svg)](https://cucumber.io/support)
 
-**This is the [latest](https://github.com/cucumber/aruba/blob/master/features/README.md)
-version of our README.md ([master](https://github.com/cucumber/aruba/tree/master) branch).**
+**This is the [latest](https://github.com/cucumber/aruba/blob/main/features/README.md)
+version of our README.md ([main](https://github.com/cucumber/aruba/tree/main) branch).**
 
 Aruba is an extension for popular TDD and BDD frameworks like Cucumber, RSpec
 and Minitest to make testing of command line applications meaningful, easy and
@@ -186,13 +186,13 @@ for the most up to date documentation.
 ### Api Documentation
 
 A full documentation of the API can be found
-[here](http://www.rubydoc.info/github/cucumber/aruba/master/frames).
+[here](http://www.rubydoc.info/github/cucumber/aruba/main/frames).
 
 ### Code branches
 
-Development for the upcoming 1.0.0 release takes place in the `master` branch.
+Development for the upcoming 1.0.0 release takes place in the `main` branch.
 Maintenance of the current 0.14.x releases takes place in the `0-14-stable`
-branch. After the 1.0.0 release, development will take place in the `master`
+branch. After the 1.0.0 release, development will take place in the `main`
 branch as much as possible. Stable branches will not be created until
 absolutely necessary.
 
