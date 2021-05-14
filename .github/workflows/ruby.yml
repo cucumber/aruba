@@ -6,9 +6,9 @@ name: Ruby
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   CUCUMBER_PUBLISH_QUIET: true

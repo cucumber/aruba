@@ -20,7 +20,7 @@ Your benefits:
 * No worries about leaking state: The file system and the process environment
   will be reset between tests
 * Support by a helpful and welcoming community &ndash; see our
-  [Code of Conduct](https://github.com/cucumber/cucumber/blob/master/CODE_OF_CONDUCT.md)
+  [Code of Conduct](https://github.com/cucumber/cucumber/blob/main/CODE_OF_CONDUCT.md)
 * The [documentation](https://app.cucumber.pro/projects/aruba) is our contract
   with you. You can expect Aruba to work as documented
 
@@ -60,7 +60,7 @@ gem install aruba
 # Usage
 
 **Note:** Please also see this
-[feature test](https://app.cucumber.pro/projects/Aruba/documents/master/features/01_getting_started_with_aruba/supported_testing_frameworks.feature)
+[feature test](01_getting_started_with_aruba/supported_testing_frameworks.feature)
 for the most up to date documentation.
 
 ## Getting started

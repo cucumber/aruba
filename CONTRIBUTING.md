@@ -73,7 +73,7 @@ Please...
 
 * Use pull requests for larger or controversial changes made by yourself or
   changes you might expected to break the build.
-* Commit smaller changes directly to master, e.g. fixing typos, adding tests or
+* Commit smaller changes directly to `main`, e.g. fixing typos, adding tests or
   adding documentation.
 * Update [`CHANGELOG.md`][] when a pull request is merged.
 * Make sure all tests are green before merging a pull request.
