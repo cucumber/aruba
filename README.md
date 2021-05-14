@@ -1,4 +1,4 @@
-[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cucumber/aruba/master/LICENSE)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cucumber/aruba/main/LICENSE)
 [![Docs](https://img.shields.io/badge/cucumber.pro-aruba-3d10af.svg)](https://app.cucumber.pro/projects/aruba)
 [![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
 [![Code Climate](https://codeclimate.com/github/cucumber/aruba.svg)](https://codeclimate.com/github/cucumber/aruba)
@@ -32,7 +32,7 @@ gem install aruba
 ### As a user getting started with Aruba
 
 Our most current documentation to get started with Aruba as a user can be
-found in [./features/](https://github.com/cucumber/aruba/tree/master/features/).
+found in [./features/](https://github.com/cucumber/aruba/tree/main/features/).
 
 ### As a user getting started with a ruby testing framework
 
@@ -91,7 +91,7 @@ Please see the [CONTRIBUTING](CONTRIBUTING.md) file.
 
 ## Code branches
 
-Development takes place in the `master` branch and currently targets the 1.x
+Development takes place in the `main` branch and currently targets the 1.x
 releases. If necessary, maintenance of the old 0.14.x releases takes place in
 the `0-14-stable` branch. Stable branches will not be created until absolutely
 necessary.
