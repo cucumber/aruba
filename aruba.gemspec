@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "cucumber", [">= 2.4", "< 6.0"]
   spec.add_runtime_dependency "rspec-expectations", "~> 3.4"
   spec.add_runtime_dependency "thor", "~> 1.0"
+  spec.add_runtime_dependency "bundler", "~> 2.1"
 
   spec.add_development_dependency "json", "~> 2.1"
   spec.add_development_dependency "kramdown", "~> 2.1"

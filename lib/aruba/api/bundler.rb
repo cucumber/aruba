@@ -1,4 +1,5 @@
 require "aruba/api/environment"
+require "bundler"
 
 module Aruba
   module Api
