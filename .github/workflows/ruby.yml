@@ -16,25 +16,48 @@ env:
 
 jobs:
   test-ubuntu:
-    strategy:
-      matrix:
-        ruby: [2.4.0, 2.4, 2.5, 2.6, 2.7, "3.0", jruby-9.2]
-
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        ruby: [2.7, "3.0", jruby-9.2]
+        appraisal: [cucumber_6]
+        include:
+          - ruby: "2.4.0"
+            appraisal: cucumber_2_4
+          - ruby: "2.4"
+            appraisal: cucumber_3
+          - ruby: "2.5"
+            appraisal: cucumber_4
+          - ruby: "2.6"
+            appraisal: cucumber_5
+
+    env:
+      BUNDLE_GEMFILE: gemfiles/${{ matrix.appraisal }}.gemfile
+
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true
-    - name: Configure bundler globally
-      run: bundle config --global path $PWD/vendor/bundle
-    - name: Run specs
-      run: bundle exec rake spec
-    - name: Run cukes
-      run: bundle exec rake cucumber
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - uses: actions/cache@v2
+        with:
+          # NOTE: Bundler expands the path relative to the gemfile, not the
+          # current directory.
+          path: ./gemfiles/vendor/bundle
+          key: bundled-gems-${{ runner.os }}-ruby-${{ matrix.ruby }}-${{ matrix.appraisal }}-${{ hashFiles(env.BUNDLE_GEMFILE, '*.gemspec') }}
+          restore-keys: |
+            bundled-gems-${{ runner.os }}-ruby-${{ matrix.ruby }}-${{ matrix.appraisal }}-
+            bundled-gems-${{ runner.os }}-ruby-${{ matrix.ruby }}-
+      - name: Install gems
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4
+      - name: Run specs
+        run: bundle exec rake spec
+      - name: Run cukes
+        run: bundle exec rake cucumber
 
   test-macos:
     strategy:
@@ -45,16 +68,16 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true
-    - name: Run specs
-      run: bundle exec rake spec
-    - name: Run cukes
-      run: bundle exec rake cucumber
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run specs
+        run: bundle exec rake spec
+      - name: Run cukes
+        run: bundle exec rake cucumber
 
   test-windows:
     strategy:
@@ -65,31 +88,31 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: git config autocrlf
-      run: git config --global core.autocrlf false
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby }}
-        bundler-cache: true
-    - name: Run specs
-      run: bundle exec rake spec
+      - name: git config autocrlf
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run specs
+        run: bundle exec rake spec
 
   checks:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 2.7
-        bundler-cache: true
-    - name: Install license_finder
-      run: gem install license_finder
-    - name: Run linters
-      run: bundle exec rake lint
-    - name: Run license_finder
-      run: license_finder
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+      - name: Install license_finder
+        run: gem install license_finder
+      - name: Run linters
+        run: bundle exec rake lint
+      - name: Run license_finder
+        run: license_finder

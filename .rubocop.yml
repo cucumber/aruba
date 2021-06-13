@@ -11,6 +11,11 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 2.4
 
+# Ignore gemfiles created by Appraisal
+Bundler/OrderedGems:
+  Exclude:
+    - 'gemfiles/*.gemfile'
+
 # Spec blocks can be any size
 Metrics/BlockLength:
   Exclude:

@@ -145,6 +145,14 @@ docker run -v $PWD:/aruba --rm -it test-aruba:latest bash
 bundle exec rake
 ```
 
+If you want to run the test suite against specific versions of Aruba's
+dependencies, you can use [appraisal](https://github.com/thoughtbot/appraisal):
+
+```bash
+bundle exec appraisal cucumber_6 bundle install
+bundle exec appraisal cucumber_6 bundle exec rake
+```
+
 ### Installing your own gems used for development
 
 A `Gemfile.local` file can be used, to have your own gems installed to support

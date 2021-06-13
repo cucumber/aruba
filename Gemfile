@@ -8,7 +8,5 @@ if File.file? File.expand_path("Gemfile.local", __dir__)
   load File.expand_path("Gemfile.local", __dir__)
 end
 
-unless RUBY_PLATFORM.include?("java")
-  gem "byebug", "~> 11.0"
-  gem "pry-byebug", "~> 3.4"
-end
+gem "byebug", "~> 11.0", platform: :mri
+gem "pry-byebug", "~> 3.4", platform: :mri
