@@ -6,10 +6,6 @@ unless RUBY_PLATFORM.include?("java")
   SimpleCov.start
 end
 
-# Pull in all of the gems including those in the `test` group
-require "bundler"
-Bundler.require
-
 # Loading support files
 Dir.glob(::File.expand_path("support/*.rb", __dir__)).each { |f| require_relative f }
 Dir.glob(::File.expand_path("support/**/*.rb", __dir__)).each { |f| require_relative f }
