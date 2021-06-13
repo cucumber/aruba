@@ -194,7 +194,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   end
 
   describe "#send_signal" do
-    let(:signal) { Cucumber::WINDOWS ? 9 : "KILL" }
+    let(:signal) { Gem.win_platform? ? 9 : "KILL" }
 
     context "with a command that is running" do
       let(:cmd) { "bin/test-cli" }
