@@ -39,3 +39,6 @@ cucumber-pro.log
 
 # RSpec example status
 spec/examples.txt
+
+# Lockfiles for appraisals
+gemfiles/*.lock
