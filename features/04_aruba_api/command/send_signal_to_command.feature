@@ -1,7 +1,7 @@
 Feature: Send running command a signal
 
   You can send a running command a signal using
-  `last_command_started#send_signal`. This is only supported with
+  `Command#send_signal`. This is only supported with
   `aruba.config.command_launcher = :spawn` (default).
 
   Background:
@@ -9,7 +9,7 @@ Feature: Send running command a signal
 
   Scenario: Existing executable
     Given an executable named "bin/aruba-test-cli" with:
-    """ruby
+    """bash
     #!/usr/bin/env bash
 
     function hup {
@@ -25,28 +25,12 @@ Feature: Send running command a signal
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 1, startup_wait_time: 0.3 do
-      before { run_command('aruba-test-cli') }
-      before { last_command_started.send_signal 'HUP' }
-      it { expect(last_command_started).to have_output /Exit/ }
-    end
-    """
-    When I run `rspec`
-    Then the specs should all pass
-
-  Scenario: Dying command
-    Given an executable named "bin/aruba-test-cli" with:
-    """ruby
-    #!/usr/bin/env bash
-    exit 1
-    """
-    And a file named "spec/run_spec.rb" with:
-    """ruby
-    require 'spec_helper'
-
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 1, startup_wait_time: 0.2 do
-      before { run_command('aruba-test-cli') }
-      it { expect { last_command_started.send_signal 'HUP' }.to raise_error Aruba::CommandAlreadyStoppedError, /Command "aruba-test-cli" with PID/ }
+    RSpec.describe 'send_signal', type: :aruba, exit_timeout: 1, startup_wait_time: 0.3 do
+      it "sends the signal to the command" do
+        command = run_command('aruba-test-cli')
+        command.send_signal 'HUP'
+        expect(command).to have_output /Exit/
+      end
     end
     """
     When I run `rspec`
