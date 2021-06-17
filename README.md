@@ -57,15 +57,15 @@ A full documentation of the API for developers can be found on
 
 ## Support
 
-### Channels
-
 For support, please have a look at the [support website](https://cucumber.io/support)
 of Cucumber. You have different options to reach out for help: Recommended for
 Aruba are using the Slack channels &mdash; e.g. `committers-aruba` or `help-cucumber-ruby`
-&mdash; ([register account](https://cucumberbdd-slack-invite.herokuapp.com/)), and the
+&mdash; ([register account](https://cucumberbdd-slack-invite.herokuapp.com/))
+
+Concrete issues can be reported via the
 [Issues page on GitHub](https://github.com/cucumber/aruba/issues).
 
-### Maintainers
+## Maintainers
 
 Currently, this gem is mainly maintained by this group of people:
 
