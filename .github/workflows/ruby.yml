@@ -24,9 +24,9 @@ jobs:
         appraisal: [cucumber_6]
         include:
           - ruby: "2.4.0"
-            appraisal: cucumber_2_4
+            appraisal: cucumber_4
           - ruby: "2.4"
-            appraisal: cucumber_3
+            appraisal: cucumber_4
           - ruby: "2.5"
             appraisal: cucumber_4
           - ruby: "2.6"
