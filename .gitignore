@@ -37,8 +37,5 @@ cucumber-pro.log
 # Temp files of yar
 .yardoc
 
-# RSpec example status
-spec/examples.txt
-
 # Lockfiles for appraisals
 gemfiles/*.lock
