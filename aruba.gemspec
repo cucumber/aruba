@@ -21,12 +21,12 @@ Gem::Specification.new do |spec|
     "source_code_uri" => "https://github.com/cucumber/aruba"
   }
 
+  spec.add_runtime_dependency "bundler", [">= 1.17", "< 3.0"]
   spec.add_runtime_dependency "childprocess", [">= 2.0", "< 5.0"]
   spec.add_runtime_dependency "contracts", "~> 0.16.0"
   spec.add_runtime_dependency "cucumber", [">= 2.4", "< 6.0"]
   spec.add_runtime_dependency "rspec-expectations", "~> 3.4"
   spec.add_runtime_dependency "thor", "~> 1.0"
-  spec.add_runtime_dependency "bundler", "~> 2.1"
 
   spec.add_development_dependency "json", "~> 2.1"
   spec.add_development_dependency "kramdown", "~> 2.1"
