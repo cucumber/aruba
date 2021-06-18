@@ -18,50 +18,6 @@ env:
   JRUBY_OPTS: "--dev"
 
 jobs:
-  test-ubuntu:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        ruby: ["3.1", "3.2", "jruby-9.3", "jruby-9.4"]
-        appraisal: [cucumber_8]
-        include:
-          - ruby: "2.6"
-            appraisal: cucumber_4
-          - ruby: "2.7"
-            appraisal: cucumber_5
-          - ruby: "2.7"
-            appraisal: cucumber_6
-          - ruby: "3.0"
-            appraisal: cucumber_7
-
-    env:
-      BUNDLE_GEMFILE: gemfiles/${{ matrix.appraisal }}.gemfile
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-      - uses: actions/cache@v3
-        with:
-          # NOTE: Bundler expands the path relative to the gemfile, not the
-          # current directory.
-          path: ./gemfiles/vendor/bundle
-          key: bundled-gems-${{ runner.os }}-ruby-${{ matrix.ruby }}-${{ matrix.appraisal }}-${{ hashFiles(env.BUNDLE_GEMFILE, '*.gemspec') }}
-          restore-keys: |
-            bundled-gems-${{ runner.os }}-ruby-${{ matrix.ruby }}-${{ matrix.appraisal }}-
-            bundled-gems-${{ runner.os }}-ruby-${{ matrix.ruby }}-
-      - name: Install gems
-        run: |
-          bundle config path vendor/bundle
-          bundle install --jobs 4
-      - name: Run specs
-        run: bundle exec rake spec
-      - name: Run cukes
-        run: bundle exec rake cucumber
-
   test-macos:
     strategy:
       fail-fast: false

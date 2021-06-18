@@ -273,8 +273,16 @@ module Aruba
           else
             begin
               @process.stop
-            rescue Errno::EPERM # This can occur on MacOS
+            rescue Errno::EPERM => err # This can occur on MacOS
+              puts err.inpect
+              raise
               nil
+            rescue ChildProcess::Error => err
+              puts err.inspect
+
+              raise unless @process.exited?
+              puts "Process exited, we may proceed"
+              raise
             end
           end
         end
