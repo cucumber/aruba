@@ -47,17 +47,8 @@ jobs:
         # Cucumber 9  | Ruby 2.7
         # Cucumber 10 | Ruby 3.1
         #
-        ruby: ["3.1", "jruby-9.4", "3.2", "3.3", "3.4", "jruby-10.0", "4.0"]
+        ruby: ["3.3"]
         appraisal: [cucumber_10]
-        include:
-          - ruby: "3.0"
-            appraisal: cucumber_8
-          - ruby: "3.0"
-            appraisal: cucumber_9
-          - ruby: "3.1"
-            appraisal: cucumber_9
-          - ruby: "4.0"
-            appraisal: rspec_4
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.appraisal }}.gemfile
@@ -80,7 +71,7 @@ jobs:
       matrix:
         # This will automatically pick the latest supported version of Cucumber
         # for each Ruby version
-        ruby: ["3.0", "3.1", "3.2", "3.3", "3.4", "4.0"]
+        ruby: ["3.3"]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
@@ -101,7 +92,7 @@ jobs:
       matrix:
         # This will automatically pick the latest supported version of Cucumber
         # for each Ruby version
-        ruby: ["3.0", "3.1", "3.2", "3.3", "3.4", "4.0"]
+        ruby: ["3.3"]
     runs-on: windows-latest
     steps:
       - name: git config autocrlf
