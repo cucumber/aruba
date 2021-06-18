@@ -59,25 +59,3 @@ Feature: Send a signal to command
     """
     When I run `cucumber`
     Then the features should all pass
-
-  @unsupported-on-platform-windows
-  @experimental
-  Scenario: Using the "kill"-command
-
-    `<pid-last-command-started>` in your command line will be replaced by the
-    PID of the last command started. Please note, this feature is experimental.
-    The name of the variable may change without further notice.
-
-    Given a file named "features/run.feature" with:
-    """
-    Feature: Run it
-      Scenario: Run command
-        When I run `aruba-test-cli` in background
-        And I run `kill -HUP <pid-last-command-started>`
-        Then the output should contain:
-        \"\"\"
-        Got signal HUP.
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
