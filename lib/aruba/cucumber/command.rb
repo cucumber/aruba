@@ -12,7 +12,7 @@ When 'I successfully run {command}' do |cmd|
   run_command_and_stop(cmd, fail_on_error: true)
 end
 
-When 'I successfully run {command} for up to {float} seconds' do |cmd, secs|
+When 'I successfully run {command} for up to {float} second(s)' do |cmd, secs|
   cmd = sanitize_text(cmd)
   run_command_and_stop(cmd, fail_on_error: true, exit_timeout: secs.to_f)
 end
