@@ -25,7 +25,7 @@ Feature: Send running command a signal
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 1, startup_wait_time: 0.2 do
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 1, startup_wait_time: 0.3 do
       before { run_command('aruba-test-cli') }
       before { last_command_started.send_signal 'HUP' }
       it { expect(last_command_started).to have_output /Exit/ }
@@ -44,7 +44,7 @@ Feature: Send running command a signal
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 1, startup_wait_time: 0.1 do
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 1, startup_wait_time: 0.2 do
       before { run_command('aruba-test-cli') }
       it { expect { last_command_started.send_signal 'HUP' }.to raise_error Aruba::CommandAlreadyStoppedError, /Command "aruba-test-cli" with PID/ }
     end

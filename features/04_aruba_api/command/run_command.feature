@@ -1,13 +1,13 @@
 Feature: Run command
 
-  To run a command use the `#run_command` method. There are some configuration options
-  which are relevant here:
+  To run a command use the `#run_command` method. There are some configuration
+  options which are relevant here:
 
   - `startup_wait_time`:
 
     Given this option `aruba` waits n seconds after it started the command.
-    This is most useful when using `#run_command()` and not really makes sense for
-    `#run_command_and_stop()`.
+    This is most useful when using `#run_command()` and does not really make
+    sense for `#run_command_and_stop()`.
 
     You can use `#run_command()` + `startup_wait_time` to start background jobs.
 
@@ -116,7 +116,7 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.1, startup_wait_time: 0.3 do
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.1, startup_wait_time: 0.4 do
       before do
         run_command('aruba-test-cli')
         last_command_started.send_signal 'HUP'
@@ -154,7 +154,7 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.3 do
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.4 do
       before { run_command('aruba-test-cli') }
 
       it 'runs the command with the expected results' do
@@ -178,7 +178,7 @@ Feature: Run command
     #!/usr/bin/env bash
 
     function initialize_script {
-      sleep 0.2
+      sleep 0.3
     }
 
     function do_some_work {
@@ -235,8 +235,8 @@ Feature: Run command
 
     RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.1 do
       before do
-        run_command 'aruba-test-cli1', startup_wait_time: 0.3
-        run_command 'aruba-test-cli2', startup_wait_time: 0.1
+        run_command 'aruba-test-cli1', startup_wait_time: 0.5
+        run_command 'aruba-test-cli2', startup_wait_time: 0.2
         last_command_started.send_signal 'HUP'
       end
 
