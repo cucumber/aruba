@@ -81,6 +81,10 @@ RSpec.describe "File Matchers" do
     end
 
     describe "failure messages" do
+      before do
+        Aruba.platform.write_file(@file_path, "aba")
+      end
+
       def fail_with(message)
         raise_error(RSpec::Expectations::ExpectationNotMetError, message)
       end
@@ -88,20 +92,19 @@ RSpec.describe "File Matchers" do
       example "for a string" do
         expect do
           expect(@file_name).to have_file_content("z")
-        end.to fail_with('expected "test.txt" to have file content: "z"')
+        end.to fail_with('expected "aba" to have file content: "z"')
       end
 
       example "for a regular expression" do
         expect do
           expect(@file_name).to have_file_content(/z/)
-        end.to fail_with('expected "test.txt" to have file content: /z/')
+        end.to fail_with('expected "aba" to have file content: /z/')
       end
 
       example "for a matcher" do
-        expect { expect(@file_name).to have_file_content(a_string_starting_with("z")) }
-          .to fail_with(
-            'expected "test.txt" to have file content: a string starting with "z"'
-          )
+        expect do
+          expect(@file_name).to have_file_content(a_string_starting_with("z"))
+        end.to fail_with 'expected "aba" to have file content: a string starting with "z"'
       end
     end
   end
