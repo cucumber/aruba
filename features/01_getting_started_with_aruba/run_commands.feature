@@ -8,7 +8,7 @@ Feature: Run commands with Aruba
   Background:
     Given I use a fixture named "getting-started-app"
 
-  @requires-bash
+  @requires-bash @unsupported-on-platform-windows
   Scenario: Bash Program
     Given an executable named "bin/aruba-test-cli" with:
     """bash
@@ -80,6 +80,25 @@ Feature: Run commands with Aruba
         puts "Hello, Aruba!"
         \"\"\"
         When I successfully run `ruby ./cli.rb`
+        Then the output should contain:
+        \"\"\"
+        Hello, Aruba!
+        \"\"\"
+    """
+    When I successfully run `cucumber`
+    Then the features should all pass
+
+  @requires-platform-windows
+  Scenario: Windows .bat script
+    Given an executable named "bin/aruba-test-cli.bat" with:
+    """
+    echo "Hello, Aruba!"
+    """
+    Given a file named "features/hello_aruba.feature" with:
+    """
+    Feature: Getting Started With Aruba
+      Scenario: First Run of Command
+        Given I successfully run `aruba-test-cli`
         Then the output should contain:
         \"\"\"
         Hello, Aruba!
