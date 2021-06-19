@@ -1,4 +1,3 @@
-@requires-bash
 Feature: Check exit status of commands
 
   Use the `the exit status should be \d`-step to check the exit status of the
@@ -8,50 +7,34 @@ Feature: Check exit status of commands
   Background:
     Given I use a fixture named "cli-app"
   
-  Scenario: Test for exit status of 0
+  Scenario: Test for exit status
     Given an executable named "bin/aruba-test-cli" with:
     """
-    #!/bin/bash
-    exit 0
-    """
-    And a file named "features/exit_status.feature" with:
-    """
-    Feature: Exit status
-      Scenario: Run command
-        When I run `aruba-test-cli`
-        Then the exit status should be 0
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
-  Scenario: Test for exit status 1
-    Given an executable named "bin/aruba-test-cli" with:
-    """
-    #!/bin/bash
-    exit 1
+    #!/usr/bin/env ruby
+    exit 42
     """
     And a file named "features/exit_status.feature" with:
     """
     Feature: Failing program
       Scenario: Run command
         When I run `aruba-test-cli`
-        Then the exit status should be 1
+        Then the exit status should be 42
     """
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Test for non-zero exit status
+  Scenario: Negative test for exit status
     Given an executable named "bin/aruba-test-cli" with:
     """
-    #!/bin/bash
-    exit 1
+    #!/usr/bin/env ruby
+    exit 23
     """
     And a file named "features/exit_status.feature" with:
     """
     Feature: Failing program
       Scenario: Run command
         When I run `aruba-test-cli`
-        Then the exit status should not be 0
+        Then the exit status should not be 42
     """
     When I run `cucumber`
     Then the features should all pass
@@ -59,7 +42,7 @@ Feature: Check exit status of commands
   Scenario: Successfully run something
     Given an executable named "bin/aruba-test-cli" with:
     """
-    #!/bin/bash
+    #!/usr/bin/env ruby
     exit 0
     """
     And a file named "features/exit_status.feature" with:
@@ -74,7 +57,7 @@ Feature: Check exit status of commands
   Scenario: Fail to run something successfully
     Given an executable named "bin/aruba-test-cli" with:
     """
-    #!/bin/bash
+    #!/usr/bin/env ruby
     exit 1
     """
     And a file named "features/exit_status.feature" with:
@@ -86,11 +69,10 @@ Feature: Check exit status of commands
     When I run `cucumber`
     Then the features should not all pass
 
-  @requires-sleep
   Scenario: Overwrite the default exit timeout via step
     Given an executable named "bin/aruba-test-cli" with:
     """
-    #!/bin/bash
+    #!/usr/bin/env ruby
     sleep 0.1
     """
     And a file named "features/exit_status.feature" with:
@@ -106,7 +88,7 @@ Feature: Check exit status of commands
   Scenario: Successfully run something longer then the default time
     Given an executable named "bin/aruba-test-cli" with:
     """
-    #!/bin/bash
+    #!/usr/bin/env ruby
     sleep 0.1
     """
     And a file named "features/exit_status.feature" with:
@@ -122,7 +104,7 @@ Feature: Check exit status of commands
   Scenario: Unsuccessfully run something that takes too long
     Given an executable named "bin/aruba-test-cli" with:
     """
-    #!/bin/bash
+    #!/usr/bin/env ruby
     sleep 1
     """
     And a file named "features/exit_status.feature" with:
