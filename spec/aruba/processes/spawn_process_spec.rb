@@ -5,10 +5,12 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     described_class.new(command_line, exit_timeout, io_wait, working_directory)
   end
 
+  include_context "uses aruba API"
+
   let(:command_line) { 'echo "yo"' }
   let(:exit_timeout) { 30 }
   let(:io_wait) { 1 }
-  let(:working_directory) { Dir.getwd }
+  let(:working_directory) { @aruba.expand_path(".") }
 
   describe "#stdout" do
     before do
@@ -187,6 +189,42 @@ RSpec.describe Aruba::Processes::SpawnProcess do
           expect(ChildProcess).to have_received(:build)
             .with(cmd_path, "/c", "#{command_path} -x \"bar \"\"\"baz\"\"\"\"")
         end
+      end
+    end
+  end
+
+  describe "#send_signal" do
+    let(:signal) { Cucumber::WINDOWS ? 9 : "KILL" }
+
+    context "with a command that is running" do
+      let(:cmd) { "bin/test-cli" }
+      let(:command_line) { "bash bin/test-cli" }
+
+      before do
+        @aruba.write_file cmd, <<~BASH
+          #!/usr/bin/env bash
+
+          sleep 5
+          echo "Success"
+          exit 0
+        BASH
+      end
+
+      it "sends the given signal to the command" do
+        process.start
+        process.send_signal signal
+        process.stop
+        expect(process).not_to have_output "Success"
+      end
+    end
+
+    context "with a command that has stopped" do
+      it "raises an error" do
+        process.start
+        process.stop
+
+        expect { process.send_signal signal }
+          .to raise_error Aruba::CommandAlreadyStoppedError
       end
     end
   end
