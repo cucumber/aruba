@@ -8,6 +8,7 @@ Feature: Cleanup Aruba Working Directory
   Background:
     Given I use a fixture named "cli-app"
 
+  @requires-platform-windows
   Scenario: Clean up artifacts and pwd from a previous scenario
     Given a file named "features/cleanup.feature" with:
     """
@@ -30,6 +31,7 @@ Feature: Cleanup Aruba Working Directory
     When I run `cucumber`
     Then the features should all pass
 
+  @requires-platform-windows
   Scenario: Do not clobber before run
     The `@no-clobber` tag stops Aruba from clearing out its scratch directory.
     Other setup steps are still performed, such as setting the current working
