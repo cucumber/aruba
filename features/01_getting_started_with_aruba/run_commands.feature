@@ -8,7 +8,7 @@ Feature: Run commands with Aruba
   Background:
     Given I use a fixture named "getting-started-app"
 
-  @requires-bash
+  @requires-bash @unsupported-on-platform-windows
   Scenario: Bash Program
     Given an executable named "bin/aruba-test-cli" with:
     """bash
