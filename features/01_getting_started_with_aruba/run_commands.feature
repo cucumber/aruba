@@ -48,7 +48,7 @@ Feature: Run commands with Aruba
     When I successfully run `cucumber`
     Then the features should all pass
 
-  @requires-ruby
+  @requires-ruby @unsupported-on-platform-windows
   Scenario: Ruby Program
     Given an executable named "bin/aruba-test-cli" with:
     """ruby
