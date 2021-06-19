@@ -1,4 +1,3 @@
-@requires-bash
 Feature: Announce information during cucumber run
 
   In order to make debugging easier
@@ -19,28 +18,15 @@ Feature: Announce information during cucumber run
     """
     When I run `cucumber`
     Then the features should all pass
-    And the output should contain:
-    """
-    $ cd /
-    """
-    And the output should contain:
-    """
-    tmp/aruba/dir.d
-    """
+    And the output should match %r<\$ cd .*tmp/aruba/dir.d>
 
   Scenario: Announce stdout
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
-    """
-    And a file named "features/exit_status.feature" with:
+    Given a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-stdout
       Scenario: Run command
-        When I run `aruba-test-cli`
+        When I run `echo 'Hello World'`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -53,19 +39,14 @@ Feature: Announce information during cucumber run
     STDOUT
     """
 
+  @requires-ruby
   Scenario: Announce stderr
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World' >&2
-    """
-    And a file named "features/exit_status.feature" with:
+    Given a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-stderr
       Scenario: Run command
-        When I run `aruba-test-cli`
+        When I run `ruby -e "warn 'Hello World'"`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -78,20 +59,14 @@ Feature: Announce information during cucumber run
     STDERR
     """
 
+  @requires-ruby
   Scenario: Announce both stderr and stdout
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello' >&2
-    echo 'World'
-    """
-    And a file named "features/exit_status.feature" with:
+    Given a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-output
       Scenario: Run command
-        When I run `aruba-test-cli`
+        When I run `ruby -e "warn 'Hello'; puts 'World'"`
         Then the exit status should be 0
     """
     When I run `cucumber`
@@ -112,13 +87,7 @@ Feature: Announce information during cucumber run
     """
 
   Scenario: Announce command
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
-    """
-    And a file named "features/exit_status.feature" with:
+    Given a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-command
@@ -134,13 +103,7 @@ Feature: Announce information during cucumber run
     """
 
   Scenario: Announce change of environment variable
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
-    """
-    And a file named "features/exit_status.feature" with:
+    Given a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-changed-environment
@@ -159,13 +122,7 @@ Feature: Announce information during cucumber run
     """
 
   Scenario: Announce change of environment variable which contains special characters
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
-    """
-    And a file named "features/exit_status.feature" with:
+    Given a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-changed-environment
@@ -187,13 +144,7 @@ Feature: Announce information during cucumber run
     This will output information like owner, group, atime, mtime, ctime, size,
     mode and if command is executable.
 
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
-    """
-    And a file named "features/exit_status.feature" with:
+    Given a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce-command-filesystem-status
@@ -241,15 +192,9 @@ Feature: Announce information during cucumber run
     used with scripts only. For binary executables, to prevent large garbage
     output, a short replacement message is displayed.
 
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
-    """
-    And a file named "features/exit_status.feature" with:
+    Given a file named "features/exit_status.feature" with:
     """cucumber
-    Feature: Announce
+    Feature: Announce command content
       @announce-command-content
       Scenario: Run command
         And I run `aruba-test-cli`
@@ -259,19 +204,14 @@ Feature: Announce information during cucumber run
     Then the features should all pass
     And the output should contain:
     """
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
+    #!/usr/bin/env ruby
+    # frozen_string_literal: true
+    
+    $LOAD_PATH << File.expand_path('../lib', __dir__)
     """
 
   Scenario: Announce everything
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
-    """
-    And a file named "features/exit_status.feature" with:
+    Given a file named "features/exit_status.feature" with:
     """cucumber
     Feature: Announce
       @announce
@@ -281,28 +221,7 @@ Feature: Announce information during cucumber run
     """
     When I run `cucumber`
     Then the features should all pass
-    And the output should contain:
-    """
-    <<-STDOUT
-    Hello World
-
-    STDOUT
-    """
-    And the output should contain:
-    """
-    <<-STDERR
-
-    STDERR
-    """
-    And the output should contain:
-    """
-    <<-COMMAND
-    #!/usr/bin/env bash
-
-    echo 'Hello World'
-    COMMAND
-    """
-    And the output should contain:
-    """
-    <<-COMMAND FILESYSTEM STATUS
-    """
+    And the output should contain "<<-STDOUT"
+    And the output should contain "<<-STDERR"
+    And the output should contain "<<-COMMAND"
+    And the output should contain "<<-COMMAND FILESYSTEM STATUS"
