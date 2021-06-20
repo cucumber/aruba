@@ -1,5 +1,3 @@
-require "cucumber/platform"
-
 require "aruba/platforms/unix_platform"
 require "aruba/platforms/windows_command_string"
 require "aruba/platforms/windows_environment_variables"
@@ -20,7 +18,7 @@ module Aruba
     # @private
     class WindowsPlatform < UnixPlatform
       def self.match?
-        Cucumber::WINDOWS
+        Gem.win_platform?
       end
 
       # @see UnixPlatform#command_string

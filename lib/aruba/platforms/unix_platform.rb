@@ -31,7 +31,7 @@ module Aruba
     # @private
     class UnixPlatform
       def self.match?
-        !Cucumber::WINDOWS
+        !Gem.win_platform?
       end
 
       def environment_variables

@@ -46,10 +46,10 @@ RSpec.describe Aruba::Api::Commands do
     end
 
     context "when running a relative command" do
-      let(:cmd) { Cucumber::WINDOWS ? "bin/testcmd.bat" : "bin/testcmd" }
+      let(:cmd) { Gem.win_platform? ? "bin/testcmd.bat" : "bin/testcmd" }
 
       before do
-        if Cucumber::WINDOWS
+        if Gem.win_platform?
           @aruba.write_file cmd, <<~BAT
             exit 0
           BAT
