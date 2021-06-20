@@ -77,8 +77,8 @@ We try to comply with [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.
 
 ## Supported Ruby versions
 
-Aruba is supported on Ruby 2.4 and up, and tested against CRuby 2.4, 2.5, 2.6
-and 2.7, and JRuby 9.2.
+Aruba is supported on Ruby 2.5 and up, and tested against CRuby 2.5, 2.6 and
+2.7, and JRuby 9.2.
 
 ## Supported operating systems
 
@@ -91,10 +91,10 @@ Please see the [CONTRIBUTING](CONTRIBUTING.md) file.
 
 ## Code branches
 
-Development takes place in the `main` branch and currently targets the 1.x
-releases. If necessary, maintenance of the old 0.14.x releases takes place in
-the `0-14-stable` branch. Stable branches will not be created until absolutely
-necessary.
+Development takes place in the `main` branch and currently targets the 2.x
+releases. If necessary, maintenance of the old 1.1.x releases will take place
+in a `1-1-stable` branch, and of 0.14.x releases in the `0-14-stable` branch.
+Stable branches will not be created until absolutely necessary.
 
 ## License
 

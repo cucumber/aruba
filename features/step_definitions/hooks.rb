@@ -49,11 +49,9 @@ Before "@unsupported-on-platform-windows" do
 end
 
 Before "@requires-readline" do
-  begin
-    require "readline"
-  rescue LoadError
-    skip_this_scenario
-  end
+  require "readline"
+rescue LoadError
+  skip_this_scenario
 end
 
 Before "@unsupported-on-platform-unix" do

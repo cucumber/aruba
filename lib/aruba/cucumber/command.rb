@@ -64,47 +64,42 @@ end
 
 When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$/) \
   do |channel, expected|
-  begin
-    Timeout.timeout(aruba.config.exit_timeout) do
-      loop do
-        output = last_command_started.public_send channel.to_sym, wait_for_io: 0
 
-        output   = sanitize_text(output)
-        expected = sanitize_text(expected)
+  Timeout.timeout(aruba.config.exit_timeout) do
+    loop do
+      output = last_command_started.public_send channel.to_sym, wait_for_io: 0
 
-        if output.include? expected
-          last_command_started.terminate
+      output   = sanitize_text(output)
+      expected = sanitize_text(expected)
 
-          break
-        end
+      if output.include? expected
+        last_command_started.terminate
 
-        sleep 0.1
+        break
       end
+
+      sleep 0.1
     end
-  rescue ChildProcess::TimeoutError, Timeout::Error
-    last_command_started.terminate
   end
+rescue ChildProcess::TimeoutError, Timeout::Error
+  last_command_started.terminate
 end
 
 When(/^I wait for (?:output|stdout) to contain:$/) do |expected|
   Timeout.timeout(aruba.config.exit_timeout) do
-    begin
-      expect(last_command_started).to have_output an_output_string_including(expected)
-    rescue ExpectationError
-      sleep 0.1
-      retry
-    end
+    expect(last_command_started).to have_output an_output_string_including(expected)
+  rescue ExpectationError
+    sleep 0.1
+    retry
   end
 end
 
 When(/^I wait for (?:output|stdout) to contain "([^"]*)"$/) do |expected|
   Timeout.timeout(aruba.config.exit_timeout) do
-    begin
-      expect(last_command_started).to have_output an_output_string_including(expected)
-    rescue ExpectationError
-      sleep 0.1
-      retry
-    end
+    expect(last_command_started).to have_output an_output_string_including(expected)
+  rescue ExpectationError
+    sleep 0.1
+    retry
   end
 end
 

@@ -9,7 +9,7 @@ AllCops:
     - vendor/**/*
   DisplayCopNames: true
   NewCops: enable
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
 
 # Ignore gemfiles created by Appraisal
 Bundler/OrderedGems:
