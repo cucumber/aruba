@@ -76,7 +76,7 @@ module Aruba
       end
 
       def self.upcase_env(env)
-        env.each_with_object({}) { |(k, v), a| a[k.to_s.upcase] = v }
+        env.to_h.transform_keys { |k| k.to_s.upcase }
       end
 
       private
