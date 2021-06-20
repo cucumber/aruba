@@ -45,26 +45,6 @@ Feature: STDOUT of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Match output on several lines where stdout contains quotes
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'GET "/"'
-    """
-    And a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `aruba-test-cli`
-        Then the stdout should contain:
-        \"\"\"
-        GET "/"
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
   Scenario: Detect stdout from each process including interactive ones
     Given a file named "features/output.feature" with:
     """
@@ -124,5 +104,3 @@ Feature: STDOUT of commands which were executed
     """
     When I run `cucumber`
     Then the features should all pass
-
-
