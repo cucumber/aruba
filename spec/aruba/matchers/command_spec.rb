@@ -54,7 +54,7 @@ RSpec.describe "Command Matchers" do
     end
 
     context "when multiple commands output hello world on stdout" do
-      context "and all comands must have the output" do
+      context "and all commands must have the output" do
         before do
           run_command(cmd)
           run_command(cmd)
@@ -63,7 +63,7 @@ RSpec.describe "Command Matchers" do
         it { expect(all_commands).to all have_output output }
       end
 
-      context "and any comand can have the output" do
+      context "and any command can have the output" do
         before do
           run_command(cmd)
           run_command("echo hello universe")

@@ -52,7 +52,7 @@ Feature: Expand paths with aruba
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Warn when using absolute path
+  Scenario: Raise error when using absolute path
     Given a file named "spec/expand_path_spec.rb" with:
     """ruby
     require 'spec_helper'
@@ -63,15 +63,15 @@ Feature: Expand paths with aruba
     end
     """
     When I run `rspec`
-    Then the specs should all pass
+    Then the specs should not all pass
     And the output should contain:
     """
     Aruba's `expand_path` method was called with an absolute path
     """
 
-  Scenario: Silence warning about using absolute path
+  Scenario: Silence error about using absolute path
 
-    You can use config.allow_absolute_paths to silence the warning about the
+    You can use config.allow_absolute_paths to silence the error about the
     use of absolute paths.
 
     Given a file named "spec/expand_path_spec.rb" with:

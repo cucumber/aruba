@@ -117,28 +117,29 @@ module Aruba
       #
       # @example Single file name
       #
-      #   # => <path>/tmp/aruba/file
       #   expand_path('file')
+      #   # => <path>/tmp/aruba/file
       #
       # @example Single Dot
       #
-      #   # => <path>/tmp/aruba
       #   expand_path('.')
+      #   # => <path>/tmp/aruba
       #
       # @example using home directory
       #
-      #   # => <path>/home/<name>/file
       #   expand_path('~/file')
+      #   # => <path>/home/<name>/file
       #
       # @example using fixtures directory
       #
-      #   # => <path>/test/fixtures/file
       #   expand_path('%/file')
+      #   # => <path>/test/fixtures/file
       #
-      # @example Absolute directory
+      # @example Absolute directory (requires aruba.config.allow_absolute_paths
+      # to be set)
       #
-      #   # => /foo/bar
       #   expand_path('/foo/bar')
+      #   # => /foo/bar
       #
       def expand_path(file_name, dir_string = nil)
         unless file_name.is_a?(String) && !file_name.empty?
@@ -157,7 +158,7 @@ module Aruba
 
         prefix = file_name[0]
 
-        if aruba.config.fixtures_path_prefix == prefix
+        if prefix == aruba.config.fixtures_path_prefix
           rest = file_name[2..-1]
           path = File.join(*[aruba.fixtures_directory, rest].compact)
           unless Aruba.platform.exist? path
@@ -189,11 +190,13 @@ module Aruba
           unless aruba.config.allow_absolute_paths
             caller_location = caller_locations(1, 1).first
             caller_file_line = "#{caller_location.path}:#{caller_location.lineno}"
-            aruba.logger.warn \
+            message =
               "Aruba's `expand_path` method was called with an absolute path" \
               " at #{caller_file_line}, which is not recommended." \
+              " The path passed was '#{file_name}'." \
               " Change the call to pass a relative path or set "\
               "`config.allow_absolute_paths = true` to silence this warning"
+            raise UserError, message
           end
           file_name
         else

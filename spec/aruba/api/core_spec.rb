@@ -82,21 +82,16 @@ RSpec.describe Aruba::Api::Core do
       let(:logger) { @aruba.aruba.logger }
 
       before do
-        allow(@aruba.aruba.logger).to receive :warn
+        allow(logger).to receive :warn
       end
 
-      it { expect(@aruba.expand_path(@file_path)).to eq @file_path }
-
-      it "warns about it" do
-        @aruba.expand_path(@file_path)
-        expect(logger).to have_received(:warn)
-          .with(/Aruba's `expand_path` method was called with an absolute path/)
+      it "raises a UserError" do
+        expect { @aruba.expand_path(@file_path) }.to raise_error Aruba::UserError
       end
 
-      it "does not warn about it if told not to" do
+      it "does not raise an error if told not to" do
         @aruba.aruba.config.allow_absolute_paths = true
-        @aruba.expand_path(@file_path)
-        expect(logger).not_to have_received(:warn)
+        expect { @aruba.expand_path(@file_path) }.not_to raise_error
       end
     end
 
