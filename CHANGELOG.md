@@ -8,6 +8,10 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 ## [Unreleased]
 
+## [1.1.2] / 2021-06-20
+
+* Add Bundler as an explicit runtime dependency ([#810] by [luke-hill])
+
 ## [1.1.1] / 2021-05-14
 
 * Loosen dependency on the contracts gem ([#804] by [mvz])
@@ -977,6 +981,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- issues & pull requests -->
 
+[#810]: https://github.com/cucumber/aruba/pull/810
 [#804]: https://github.com/cucumber/aruba/pull/804
 [#801]: https://github.com/cucumber/aruba/pull/801
 [#727]: https://github.com/cucumber/aruba/pull/727
@@ -1257,7 +1262,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.1.1...main
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.1.2...main
+[1.1.2]:          https://github.com/cucumber/aruba/compare/v1.1.1...v1.1.2
 [1.1.1]:          https://github.com/cucumber/aruba/compare/v1.1.0...v1.1.1
 [1.1.0]:          https://github.com/cucumber/aruba/compare/v1.0.4...v1.1.0
 [1.0.4]:          https://github.com/cucumber/aruba/compare/v1.0.3...v1.0.4
