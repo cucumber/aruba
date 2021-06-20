@@ -7,81 +7,75 @@ Feature: STDOUT of commands which were executed
   Background:
     Given I use a fixture named "cli-app"
 
-  Scenario: Match output in stdout
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo -e "hello\nworld"
-    """
-    And a file named "features/output.feature" with:
+  Scenario: Detect inline subset of stdout
+    Given a file named "features/output.feature" with:
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `aruba-test-cli`
+        When I run `echo hello world`
         Then the stdout should contain "hello"
-        Then the stderr should not contain "hello"
+        And the stderr should not contain "hello"
     """
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Match stdout on several lines
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo 'GET /'
-    """
-    And a file named "features/output.feature" with:
+  Scenario: Detect subset of stdout with multiline string
+    Given a file named "features/output.feature" with:
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `aruba-test-cli`
+        When I run `ruby -e 'puts "hello\nworld"; warn "good-bye"'`
         Then the stdout should contain:
         \"\"\"
-        GET /
+        hello
+        \"\"\"
+        And the stdout should not contain:
+        \"\"\"
+        good-bye
         \"\"\"
     """
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Detect stdout from each process including interactive ones
+  Scenario: Detect exact multiline stdout
     Given a file named "features/output.feature" with:
-    """
+    """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `printf "hello world!\n"`
-        And I run `cat` interactively
-        And I type "hola"
-        And I type ""
-        Then the stdout should contain:
+        When I run `ruby -e 'puts "hello\nworld"; warn "good-bye"'`
+        Then the stdout should contain exactly:
         \"\"\"
-        hello world!
+        hello
+        world
         \"\"\"
-        And the stdout should contain:
-        \"\"\"
-        hola
-        \"\"\"
-        And the stderr should not contain anything
     """
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Detect stdout from all processes
-    Given a file named "features/output.feature" with:
+  Scenario: Detect combined stdout from normal and interactive processes
+    Given an executable named "bin/aruba-test-cli" with:
+    """
+    #!/usr/bin/env ruby
+
+    while input = gets do
+      break if "" == input
+      puts input
+      warn input
+    end
+    """
+    And a file named "features/output.feature" with:
     """
     Feature: Run command
       Scenario: Run command
-        When I run `printf "hello world!\n"`
-        And I run `cat` interactively
-        And I type "hola"
+        When I run `echo hello`
+        When I run `aruba-test-cli` interactively
+        And I type "good-bye"
         And I type ""
-        Then the stdout should contain:
+        Then the stdout should contain exactly:
         \"\"\"
-        hello world!
-        hola
+        hello
+        good-bye
         \"\"\"
-        And the stderr should not contain anything
     """
     When I run `cucumber`
     Then the features should all pass
@@ -91,16 +85,15 @@ Feature: STDOUT of commands which were executed
     """
     Feature: Run command
       Scenario: Run command
-        When I run `printf 'hello'`
-        And I run `printf 'goodbye'`
-        Then the stdout from "printf 'hello'" should contain "hello"
-        And the stdout from "printf 'hello'" should contain exactly "hello"
-        And the stdout from "printf 'hello'" should contain exactly:
+        When I run `echo hello`
+        And I run `echo good-bye`
+        Then the stdout from "echo hello" should contain "hello"
+        And the stdout from "echo good-bye" should contain exactly "good-bye"
+        And the stdout from "echo hello" should contain exactly:
         \"\"\"
         hello
         \"\"\"
-        And the stderr from "printf 'hello'" should not contain "hello"
-        And the stdout from "printf 'goodbye'" should not contain "hello"
+        And the stderr should not contain anything
     """
     When I run `cucumber`
     Then the features should all pass
