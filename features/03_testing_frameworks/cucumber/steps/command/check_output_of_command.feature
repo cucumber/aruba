@@ -14,34 +14,10 @@ Feature: All output of commands which were executed
       Scenario: Run command
         When I run `echo hello world`
         Then the output should contain "hello world"
+        And the output should not contain "good-bye"
     """
     When I run `cucumber`
     Then the features should all pass
-
-  Scenario: Detect absence of inline subset of output
-    Given a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `echo hello world`
-        Then the output should not contain "good-bye"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
-  Scenario: Failed detection of inline subset of output
-    Given a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `echo hello world`
-        Then the output should contain "goodbye world"
-    """
-    When I run `cucumber`
-    Then the features should not all pass with:
-    """
-    expected "hello world" to string includes: "goodbye world"
-    """
 
   Scenario: Detect subset of output with multiline string
     Given a file named "features/output.feature" with:
@@ -53,17 +29,7 @@ Feature: All output of commands which were executed
         \"\"\"
         hello
         \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
-  Scenario: Detect absence subset of output with multiline string
-    Given a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `ruby -e 'puts "hello\nworld"'`
-        Then the output should not contain:
+        And the output should not contain:
         \"\"\"
         good-bye
         \"\"\"
@@ -76,34 +42,60 @@ Feature: All output of commands which were executed
     """cucumber
     Feature: Run command
       Scenario: Run command
-        When I run `ruby -e 'puts "hello\nworld"'`
+        When I run `ruby -e 'puts "hello\nworld"; warn "good-bye"'`
         Then the output should contain exactly:
         \"\"\"
         hello
         world
+        good-bye
         \"\"\"
     """
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Failed detection of exact multi-line output
-    Given a file named "features/output.feature" with:
-    """cucumber
+  Scenario: Detect combined output from normal and interactive processes
+    Given an executable named "bin/aruba-test-cli" with:
+    """
+    #!/usr/bin/env ruby
+
+    while input = gets do
+      break if "" == input
+      puts input
+    end
+    """
+    And a file named "features/output.feature" with:
+    """
     Feature: Run command
       Scenario: Run command
-        When I run `ruby -e 'puts "goodbye\nworld"'`
-        Then the output should contain exactly:
+        When I run `echo hello`
+        When I run `aruba-test-cli` interactively
+        And I type "good-bye"
+        And I type ""
+        Then the stdout should contain exactly:
         \"\"\"
         hello
-        world
+        good-bye
         \"\"\"
     """
     When I run `cucumber`
-    Then the features should not all pass with:
+    Then the features should all pass
+
+  Scenario: Detect output from named source
+    Given a file named "features/output.feature" with:
     """
-          expected "goodbye\nworld" to output string is eq: "hello\nworld"
-          Diff:
+    Feature: Run command
+      Scenario: Run command
+        When I run `echo hello`
+        And I run `echo good-bye`
+        Then the output from "echo hello" should contain "hello"
+        And the output from "echo good-bye" should contain exactly "good-bye"
+        And the output from "echo hello" should contain exactly:
+        \"\"\"
+        hello
+        \"\"\"
     """
+    When I run `cucumber`
+    Then the features should all pass
 
   Scenario: Detect exact output with ANSI output
     Given a file named "features/output.feature" with:
@@ -191,153 +183,6 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
-  Scenario: Match passing exit status and partial output
-    Given a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `echo hello world`
-        Then it should pass with:
-        \"\"\"
-        hello
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
-  Scenario: Match passing exit status and exact output
-    Given a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `ruby -e 'puts "hello\nworld"; exit 0'`
-        Then it should pass with exactly:
-        \"\"\"
-        hello
-        world
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
-  Scenario: Match passing exit status but fail to match exact output
-    Given an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/usr/bin/env bash
-
-    echo -ne "hello\nworld"
-    exit 0
-    """
-    And a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `aruba-test-cli`
-        Then it should pass with exactly:
-        \"\"\"
-        hello
-        worl
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should not pass with:
-    """
-          expected "hello
-    world" to output string is eq: "hello
-    worl"
-          Diff:
-          @@ -1,2 +1,2 @@
-           hello
-          -worl
-          +world
-    """
-
-  Scenario: Match failing exit status and partial output
-    Given a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `ruby -e 'puts "hello\nworld"; exit 1'`
-        Then it should fail with:
-        \"\"\"
-        hello
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
-  Scenario: Match failing exit status and exact output
-    Given a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `ruby -e 'puts "hello\nworld"; exit 1'`
-        Then it should fail with exactly:
-        \"\"\"
-        hello
-        world
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
-  Scenario: Match failing exit status and output with regex
-    Given a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `ruby -e 'puts "hello\nworld"; exit 1'`
-        Then it should fail with regex:
-        \"\"\"
-        hello\s*world
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
-  Scenario: Detect output from all processes
-    Given a file named "features/output.feature" with:
-    """cucumber
-    Feature: Run command
-      Scenario: Run command
-        When I run `echo hello`
-        And I run `echo good-bye`
-        Then the stdout should contain exactly:
-        \"\"\"
-        hello
-        good-bye
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
-  Scenario: Detect combined output from normal and interactive processes
-    Given an executable named "bin/aruba-test-cli" with:
-    """
-    #!/usr/bin/env ruby
-
-    while input = gets do
-      break if "" == input
-      puts input
-    end
-    """
-    And a file named "features/output.feature" with:
-    """
-    Feature: Run command
-      Scenario: Run command
-        When I run `echo hello`
-        When I run `aruba-test-cli` interactively
-        And I type "good-bye"
-        And I type ""
-        Then the stdout should contain exactly:
-        \"\"\"
-        hello
-        good-bye
-        \"\"\"
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
   Scenario: Check size of output
     Given a file named "features/flushing.feature" with:
     """cucumber
@@ -345,19 +190,6 @@ Feature: All output of commands which were executed
       Scenario: Run command
         When I run `echo 1234567890`
         Then the output should be 11 bytes long
-    """
-    When I run `cucumber`
-    Then the features should all pass
-
-  Scenario: Detect output from named source
-    Given a file named "features/output.feature" with:
-    """
-    Feature: Run command
-      Scenario: Run command
-        When I run `echo hello`
-        And I run `echo good-bye`
-        Then the output from "echo hello" should contain exactly "hello"
-        And the output from "echo good-bye" should contain exactly "good-bye"
     """
     When I run `cucumber`
     Then the features should all pass
