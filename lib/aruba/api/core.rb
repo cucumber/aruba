@@ -144,8 +144,9 @@ module Aruba
       def expand_path(file_name, dir_string = nil)
         unless file_name.is_a?(String) && !file_name.empty?
           message = "Filename #{file_name} needs to be a string." \
-            " It cannot be nil or empty either. "\
-            "Please use `expand_path('.')` if you want the current directory to be expanded."
+                    " It cannot be nil or empty either."\
+                    " Please use `expand_path('.')` if you want" \
+                    " the current directory to be expanded."
 
           raise ArgumentError, message
         end
@@ -153,7 +154,7 @@ module Aruba
         unless Aruba.platform.directory? File.join(aruba.config.root_directory,
                                                    aruba.config.working_directory)
           raise "Aruba's working directory does not exist." \
-            " Maybe you forgot to run `setup_aruba` before using its API."
+                " Maybe you forgot to run `setup_aruba` before using its API."
         end
 
         prefix = file_name[0]

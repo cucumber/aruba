@@ -15,8 +15,8 @@ Cucumber::Rake::Task.new do |t|
 end
 
 Cucumber::Rake::Task.new("cucumber:wip", "Run Cucumber features "\
-                         'which are "WORK IN PROGRESS" and '\
-                         "are allowed to fail") do |t|
+                                         'which are "WORK IN PROGRESS" and '\
+                                         "are allowed to fail") do |t|
   t.cucumber_opts = %w(--format progress)
   t.profile = "wip"
 end
