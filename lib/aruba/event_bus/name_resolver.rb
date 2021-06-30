@@ -150,7 +150,7 @@ module Aruba
       rescue StandardError => e
         types = @resolvers.map(&:supports).flatten.join(", ")
         message = "Transforming \"#{event_id}\" into an event class failed." \
-          " Supported types are: #{types}. #{e.message}."
+                  " Supported types are: #{types}. #{e.message}."
         raise EventNameResolveError, message, cause: e
       end
     end
