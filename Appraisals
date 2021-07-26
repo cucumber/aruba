@@ -14,3 +14,8 @@ appraise "cucumber_6" do
   gem "cucumber", "~> 6.0"
   gem "childprocess", "~> 4.0"
 end
+
+appraise "cucumber_7" do
+  gem "cucumber", "~> 7.0"
+  gem "childprocess", "~> 4.0"
+end
