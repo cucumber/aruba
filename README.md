@@ -1,11 +1,7 @@
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cucumber/aruba/main/LICENSE)
-[![Docs](https://img.shields.io/badge/cucumber.pro-aruba-3d10af.svg)](https://app.cucumber.pro/projects/aruba)
 [![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
-[![Code Climate](https://codeclimate.com/github/cucumber/aruba.svg)](https://codeclimate.com/github/cucumber/aruba)
 [![Support](https://img.shields.io/badge/cucumber-support-orange.svg)](https://cucumber.io/support)
-
-[![Travis CI build status](https://travis-ci.org/cucumber/aruba.svg)](https://travis-ci.org/cucumber/aruba) 
-[![Appveyor build status](https://ci.appveyor.com/api/projects/status/jfo2tkqhnrqqcivl?svg=true)](https://ci.appveyor.com/project/cucumberbdd/aruba)
+[![Build Status](https://github.com/cucumber/aruba/actions/workflows/ruby.yml/badge.svg)](https://github.com/cucumber/aruba/actions/workflows/ruby.yml)
 
 ## Install
 

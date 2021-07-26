@@ -6,7 +6,20 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
-## [Unreleased]
+## [2.0.0] / 2021-07-26
+
+Potentially breaking changes:
+
+* Bump miminum cucumber version to 4 ([#814] by [mvz])
+* Drop support for Ruby 2.4 ([#820] by [mvz])
+* Remove deprecated ability to append to non-existent file ([#829] by [mvz])
+* Make absolute file name warning an error ([#783] by [mvz])
+
+Other changes
+
+* Use Ruby's built-in windows platform detection ([#813] by [mvz])
+* Update some step definitions to use Cucumber Expression syntax ([#822] by [mvz])
+* Update cucumber dependency to allow use of cucumber 7 ([#828] by [dependabot])
 
 ## [1.1.2] / 2021-06-20
 
@@ -981,9 +994,29 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- issues & pull requests -->
 
+[#829]: https://github.com/cucumber/aruba/pull/829
+[#828]: https://github.com/cucumber/aruba/pull/828
+[#822]: https://github.com/cucumber/aruba/pull/822
+[#820]: https://github.com/cucumber/aruba/pull/820
+[#814]: https://github.com/cucumber/aruba/pull/814
+[#813]: https://github.com/cucumber/aruba/pull/813
 [#810]: https://github.com/cucumber/aruba/pull/810
 [#804]: https://github.com/cucumber/aruba/pull/804
 [#801]: https://github.com/cucumber/aruba/pull/801
+[#783]: https://github.com/cucumber/aruba/pull/783
+[#781]: https://github.com/cucumber/aruba/pull/781
+[#780]: https://github.com/cucumber/aruba/pull/780
+[#772]: https://github.com/cucumber/aruba/pull/772
+[#771]: https://github.com/cucumber/aruba/pull/771
+[#769]: https://github.com/cucumber/aruba/pull/769
+[#767]: https://github.com/cucumber/aruba/pull/767
+[#766]: https://github.com/cucumber/aruba/pull/766
+[#763]: https://github.com/cucumber/aruba/pull/763
+[#751]: https://github.com/cucumber/aruba/pull/751
+[#750]: https://github.com/cucumber/aruba/pull/750
+[#748]: https://github.com/cucumber/aruba/pull/748
+[#738]: https://github.com/cucumber/aruba/pull/738
+[#737]: https://github.com/cucumber/aruba/pull/737
 [#727]: https://github.com/cucumber/aruba/pull/727
 [#725]: https://github.com/cucumber/aruba/pull/725
 [#724]: https://github.com/cucumber/aruba/pull/724
@@ -1262,7 +1295,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v1.1.2...main
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v2.0.0...main
+[2.0.0]:          https://github.com/cucumber/aruba/compare/v1.1.2...v2.0.0
 [1.1.2]:          https://github.com/cucumber/aruba/compare/v1.1.1...v1.1.2
 [1.1.1]:          https://github.com/cucumber/aruba/compare/v1.1.0...v1.1.1
 [1.1.0]:          https://github.com/cucumber/aruba/compare/v1.0.4...v1.1.0
