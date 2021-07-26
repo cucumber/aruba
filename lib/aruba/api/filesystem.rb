@@ -326,12 +326,6 @@ module Aruba
       def append_to_file(file_name, file_content)
         file_name = expand_path(file_name)
 
-        unless File.exist? file_name
-          Aruba.platform.deprecated("The ability to call #append_to_file with a file that" \
-                                    " does not exist is deprecated and will be removed in" \
-                                    " Aruba 2.0.")
-          Aruba.platform.mkdir(File.dirname(file_name))
-        end
         File.open(file_name, "a") { |f| f << file_content }
       end
 
