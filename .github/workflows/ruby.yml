@@ -20,13 +20,15 @@ jobs:
 
     strategy:
       matrix:
-        ruby: [2.7, "3.0", jruby-9.2]
-        appraisal: [cucumber_6]
+        ruby: ["3.0", jruby-9.2]
+        appraisal: [cucumber_7]
         include:
           - ruby: "2.5"
             appraisal: cucumber_4
           - ruby: "2.6"
             appraisal: cucumber_5
+          - ruby: "2.7"
+            appraisal: cucumber_6
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.appraisal }}.gemfile
