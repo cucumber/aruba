@@ -40,7 +40,7 @@ RSpec.describe "File Matchers" do
         Aruba.platform.write_file(@file_path, "aba")
       end
 
-      context "and file content is exactly equal string " do
+      context "and file content is exactly equal string" do
         it { expect(@file_name).to have_file_content("aba") }
       end
 
