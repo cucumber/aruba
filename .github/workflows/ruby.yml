@@ -23,17 +23,17 @@ jobs:
 
     strategy:
       matrix:
-        ruby: ["3.0", "3.1", jruby-9.2, jruby-9.3]
-        appraisal: [cucumber_7]
+        ruby: ["3.1", jruby-9.3]
+        appraisal: [cucumber_8]
         include:
-          - ruby: "2.5"
-            appraisal: cucumber_4
           - ruby: "2.6"
+            appraisal: cucumber_4
+          - ruby: "2.7"
             appraisal: cucumber_5
           - ruby: "2.7"
             appraisal: cucumber_6
-          - ruby: "3.1"
-            appraisal: cucumber_8
+          - ruby: "3.0"
+            appraisal: cucumber_7
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.appraisal }}.gemfile
@@ -66,7 +66,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: [2.5, 2.6, 2.7, "3.0"]
+        ruby: [2.6, 2.7, "3.0", "3.1"]
 
     runs-on: macos-latest
 
@@ -86,7 +86,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: [2.5, 2.6, 2.7, "3.0"]
+        ruby: [2.6, 2.7, "3.0", "3.1"]
 
     runs-on: windows-latest
 

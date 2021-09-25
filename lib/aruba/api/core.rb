@@ -160,7 +160,7 @@ module Aruba
         prefix = file_name[0]
 
         if prefix == aruba.config.fixtures_path_prefix
-          rest = file_name[2..-1]
+          rest = file_name[2..]
           path = File.join(*[aruba.fixtures_directory, rest].compact)
           unless Aruba.platform.exist? path
             aruba_fixture_candidates = aruba.config.fixtures_directories

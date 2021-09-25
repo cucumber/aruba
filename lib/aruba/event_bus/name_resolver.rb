@@ -10,7 +10,7 @@ module Aruba
       # Helpers for Resolvers
       module ResolveHelpers
         def camel_case(underscored_name)
-          underscored_name.to_s.split("_").map { |word| word.upcase[0] + word[1..-1] }.join
+          underscored_name.to_s.split("_").map { |word| word.upcase[0] + word[1..] }.join
         end
 
         # Thanks ActiveSupport

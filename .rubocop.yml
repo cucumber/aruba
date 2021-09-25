@@ -10,7 +10,7 @@ require:
 AllCops:
   DisplayCopNames: true
   NewCops: enable
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.6
 
 # Ignore gemfiles created by Appraisal
 Bundler/OrderedGems:
