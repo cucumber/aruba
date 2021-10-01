@@ -9,7 +9,7 @@
 # Configuration parameters: AllowComments.
 Lint/EmptyClass:
   Exclude:
-    - 'spec/event_bus_spec.rb'
+    - 'spec/aruba/event_bus_spec.rb'
 
 # Configuration parameters: CheckForMethodsWithNoSideEffects.
 Lint/Void:
@@ -117,8 +117,8 @@ RSpec/FilePath:
   Exclude:
     - 'spec/aruba/platform/windows_environment_variables_spec.rb'
     - 'spec/aruba/platforms/command_monitor_spec.rb'
-    - 'spec/event_bus/name_resolver_spec.rb'
-    - 'spec/event_bus_spec.rb'
+    - 'spec/aruba/event_bus/name_resolver_spec.rb'
+    - 'spec/aruba/event_bus_spec.rb'
 
 # Configuration parameters: AssignmentOnly.
 RSpec/InstanceVariable:
@@ -136,7 +136,7 @@ RSpec/InstanceVariable:
     - 'spec/aruba/processes/in_process_spec.rb'
     - 'spec/aruba/processes/spawn_process_spec.rb'
     - 'spec/aruba/runtime_spec.rb'
-    - 'spec/event_bus_spec.rb'
+    - 'spec/aruba/event_bus_spec.rb'
     - 'spec/support/shared_contexts/aruba.rb'
 
 RSpec/MultipleExpectations:
