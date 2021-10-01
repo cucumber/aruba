@@ -6,13 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Configuration parameters: Include.
-# Include: **/*.gemspec
-Gemspec/RequiredRubyVersion:
-  Exclude:
-    - 'fixtures/cli-app/cli-app.gemspec'
-    - 'fixtures/empty-app/cli-app.gemspec'
-
 Lint/AmbiguousBlockAssociation:
   Exclude:
     - 'lib/aruba/platforms/announcer.rb'
