@@ -6,12 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Configuration parameters: CheckForMethodsWithNoSideEffects.
-Lint/Void:
-  Exclude:
-    - 'lib/aruba/platforms/announcer.rb'
-    - 'lib/aruba/platforms/unix_environment_variables.rb'
-
 # Configuration parameters: IgnoredMethods, CountRepeatedAttributes.
 Metrics/AbcSize:
   Max: 118
