@@ -95,7 +95,7 @@ Then(/^the following files should (not )?exist:$/) do |negated, files|
   if negated
     expect(files).not_to include an_existing_file
   else
-    expect(files).to Aruba::Matchers.all be_an_existing_file
+    expect(files).to all be_an_existing_file
   end
 end
 
@@ -140,7 +140,7 @@ Then(/^the following directories should (not )?exist:$/) do |negated, directorie
   if negated
     expect(directories).not_to include an_existing_directory
   else
-    expect(directories).to Aruba::Matchers.all be_an_existing_directory
+    expect(directories).to all be_an_existing_directory
   end
 end
 
