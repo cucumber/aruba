@@ -98,14 +98,12 @@ RSpec.shared_examples "a basic configuration" do
   describe "option?" do
     let(:name) { :use_test }
 
-    context "when valid option" do
-      it { expect(name).to be_valid_option }
+    it "returns true when passed a valid option name" do
+      expect(config.option?(:use_test)).to be_truthy
     end
 
-    context "when invalid_option" do
-      let(:name) { :blub }
-
-      it { expect(name).not_to be_valid_option }
+    it "returns false when passed an invalid option name" do
+      expect(config.option?(:blub)).to be_falsy
     end
   end
 
