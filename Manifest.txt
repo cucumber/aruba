@@ -42,7 +42,6 @@ lib/aruba/matchers/base/message_indenter.rb
 lib/aruba/matchers/base/object_formatter.rb
 lib/aruba/matchers/collection.rb
 lib/aruba/matchers/collection/all.rb
-lib/aruba/matchers/collection/include_an_object.rb
 lib/aruba/matchers/command.rb
 lib/aruba/matchers/command/be_successfully_executed.rb
 lib/aruba/matchers/command/have_exit_status.rb
