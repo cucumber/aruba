@@ -113,16 +113,13 @@ RSpec.shared_examples "a basic configuration" do
     let(:name) { :use_test }
     let(:value) { true }
 
-    context "when valid option" do
-      before { config.set_if_option(name, value) }
-
-      it { expect(name).to have_option_value true }
+    it "sets the option to the given value if a valid option name is passed" do
+      expect { config.set_if_option(:use_test, true) }
+        .to change(config, :use_test).from(false).to(true)
     end
 
-    context "when invalid_option" do
-      let(:name) { :blub }
-
-      it { expect { config.set_if_option(name, value) }.not_to raise_error }
+    it "raises no error if an invalid option name is passed" do
+      expect { config.set_if_option(:blub, true) }.not_to raise_error
     end
   end
 end
