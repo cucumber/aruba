@@ -37,9 +37,7 @@ lib/aruba/generators/script_file.rb
 lib/aruba/hooks.rb
 lib/aruba/in_config_wrapper.rb
 lib/aruba/initializer.rb
-lib/aruba/matchers/base/base_matcher.rb
 lib/aruba/matchers/base/message_indenter.rb
-lib/aruba/matchers/base/object_formatter.rb
 lib/aruba/matchers/command.rb
 lib/aruba/matchers/command/be_successfully_executed.rb
 lib/aruba/matchers/command/have_exit_status.rb
