@@ -14,6 +14,7 @@ module Aruba
 
       # Create contract
       def initialize(*vals)
+        super()
         @vals = vals
       end
 

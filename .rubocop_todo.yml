@@ -11,11 +11,6 @@ Lint/EmptyClass:
   Exclude:
     - 'spec/event_bus_spec.rb'
 
-Lint/MissingSuper:
-  Exclude:
-    - 'lib/aruba/contracts/enum.rb'
-    - 'lib/aruba/matchers/collection/include_an_object.rb'
-
 # Configuration parameters: CheckForMethodsWithNoSideEffects.
 Lint/Void:
   Exclude:

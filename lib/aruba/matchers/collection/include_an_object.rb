@@ -21,6 +21,7 @@ module Aruba
       public
 
       def initialize(matcher)
+        super()
         @matcher              = matcher
         @failed_objects       = []
         @any_succeeded_object = false
