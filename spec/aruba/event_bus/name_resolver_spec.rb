@@ -1,13 +1,12 @@
 require "spec_helper"
 
 describe Aruba::EventBus::NameResolver do
-  subject(:resolver) { described_class.new(default_name_space) }
+  let(:resolver) { described_class.new(default_name_space) }
 
   let(:default_name_space) { "Events" }
   let(:resolved_name) { resolver.transform(original_name) }
 
   before do
-    stub_const("Events::MyEvent", Class.new)
     stub_const("Events::MyEvent", Class.new)
   end
 

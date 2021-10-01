@@ -1,153 +1,122 @@
 require "spec_helper"
 
-module Events
-  class TestEvent; end
-
-  class AnotherTestEvent; end
-
-  module MalformedTestEvent; end
-end
-
-class MyHandler
-  def call(*); end
-end
-
-class MyMalformedHandler; end
-
 describe Aruba::EventBus do
-  subject(:bus) { described_class.new(name_resolver) }
+  let(:bus) { described_class.new(name_resolver) }
 
-  let(:name_resolver) { instance_double("Events::NameResolver") }
+  let(:name_resolver) { Aruba::EventBus::NameResolver.new("Events") }
 
   let(:event_klass) { Events::TestEvent }
-  let(:event_name) { event_klass }
-  let(:event_instance) { Events::TestEvent.new }
+  let(:event_instance) { event_klass.new }
 
   let(:another_event_klass) { Events::AnotherTestEvent }
-  let(:another_event_name) { another_event_klass }
-  let(:another_event_instance) { Events::AnotherTestEvent.new }
+  let(:another_event_instance) { another_event_klass.new }
+
+  before do
+    stub_const("Events::TestEvent", Class.new)
+    stub_const("Events::AnotherTestEvent", Class.new)
+    stub_const("Events::MalformedTestEvent", Module.new)
+    stub_const("MyHandler", Class.new { def call(*); end })
+    stub_const("MyMalformedHandler", Class.new)
+  end
 
   describe "#notify" do
     before do
-      allow(name_resolver)
-        .to receive(:transform).with(event_name).and_return(event_klass)
+      bus.register(event_klass) do |event|
+        @received_payload = event
+      end
     end
 
     context "when subscribed to the event" do
+      it "calls the block with an instance of the event passed as payload" do
+        bus.notify event_instance
+        expect(@received_payload).to eq(event_instance)
+      end
+    end
+
+    context "when not subscribed to the event" do
+      it "does not call the block" do
+        bus.notify another_event_instance
+        expect(@received_payload).to be_nil
+      end
+    end
+
+    context "when event is not an event instance" do
+      it "raises an error" do
+        expect { bus.notify event_klass }.to raise_error Aruba::NoEventError
+      end
+    end
+  end
+
+  describe "#register" do
+    context "when registering an event multiple times" do
+      let(:received_events) { [] }
+
       before do
-        bus.register(event_klass) do |event|
-          @received_payload = event
+        bus.register(Events::TestEvent) do |event|
+          received_events << event
+        end
+        bus.register(Events::TestEvent) do |event|
+          received_events << event
+        end
+      end
+
+      it "keeps all registrations" do
+        bus.notify event_instance
+
+        expect(received_events).to match_array [event_instance, event_instance]
+      end
+    end
+
+    context "when event id is a string" do
+      let(:received_payload) { [] }
+
+      before do
+        bus.register("Events::TestEvent") do |event|
+          received_payload << event
         end
 
         bus.notify event_instance
       end
 
-      it "calls the block with an instance of the event passed as payload" do
-        expect(@received_payload).to eq(event_instance)
-      end
+      it { expect(received_payload).to include event_instance }
     end
 
-    context "when not subscriber to event" do
-      before do
-        @received_payload = false
-        bus.register(event_klass) { @received_payload = true }
-        bus.notify another_event_instance
-      end
-
-      it { expect(@received_payload).to eq(false) }
-    end
-
-    context "when event is not an instance of event class" do
-      let(:event_name) { :test_event }
+    context "when event id is a symbol" do
       let(:received_payload) { [] }
 
       before do
-        bus.register(event_name, proc {})
+        bus.register(:test_event) do |event|
+          received_payload << event
+        end
+
+        bus.notify event_instance
       end
 
-      it { expect { bus.notify event_klass }.to raise_error Aruba::NoEventError }
-    end
-  end
-
-  describe "#register" do
-    before do
-      allow(name_resolver)
-        .to receive(:transform).with(event_name).and_return(event_klass)
+      it { expect(received_payload).to include event_instance }
     end
 
-    context "when valid subscriber" do
-      context "when multiple instances are given" do
-        let(:received_events) { [] }
+    context "when multiple event ids are given" do
+      let(:received_payload) { [] }
 
-        before do
-          bus.register(Events::TestEvent) do |event|
-            received_events << event
-          end
-          bus.register(Events::TestEvent) do |event|
-            received_events << event
-          end
-
-          bus.notify event_instance
+      before do
+        bus.register [event_klass, another_event_klass] do |event|
+          received_payload << event
         end
-
-        it { expect(received_events.length).to eq 2 }
-        it { expect(received_events).to all eq event_instance }
       end
 
-      context "when is string" do
-        let(:event_name) { event_klass.to_s }
-        let(:received_payload) { [] }
-
-        before do
-          bus.register(event_klass.to_s) do |event|
-            received_payload << event
-          end
-
-          bus.notify event_instance
-        end
-
-        it { expect(received_payload).to include event_instance }
-      end
-
-      context "when is symbol and event is defined in the default namespace" do
-        let(:event_name) { :test_event }
-        let(:received_payload) { [] }
-
-        before do
-          bus.register(event_name) do |event|
-            received_payload << event
-          end
-
-          bus.notify event_instance
-        end
-
-        it { expect(received_payload).to include event_instance }
+      it "handles all passed in events" do
+        bus.notify event_instance
+        bus.notify another_event_instance
+        expect(received_payload).to eq [event_instance, another_event_instance]
       end
     end
 
     context "when valid custom handler" do
-      context "when single event class" do
-        before do
-          allow(name_resolver)
-            .to receive(:transform).with(event_name).and_return(event_klass)
-          bus.register(event_klass, MyHandler.new)
-        end
-
-        it { expect { bus.notify event_instance }.not_to raise_error }
+      before do
+        bus.register(event_klass, MyHandler.new)
       end
 
-      context "when list of event classes" do
-        before do
-          allow(name_resolver)
-            .to receive(:transform).with(event_name).and_return(event_klass)
-          allow(name_resolver)
-            .to receive(:transform).with(another_event_name).and_return(another_event_klass)
-          bus.register([event_klass, another_event_klass], MyHandler.new)
-        end
-
-        it { expect { bus.notify event_instance }.not_to raise_error }
-        it { expect { bus.notify another_event_instance }.not_to raise_error }
-      end
+      it { expect { bus.notify event_instance }.not_to raise_error }
     end
 
     context "when malformed custom handler" do
