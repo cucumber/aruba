@@ -22,6 +22,11 @@ Metrics/BlockLength:
     - '**/*.gemspec'
     - 'spec/**/*'
 
+# This cop does not work properly with predicates that take arguments.
+# TODO: Re-enable once https://github.com/rubocop/rubocop-rspec/issues/466 is resolved.
+RSpec/PredicateMatcher:
+  Enabled: false
+
 # Use older RuboCop default
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
