@@ -5,10 +5,10 @@ require "aruba/platforms/windows_platform"
 module Aruba
   PLATFORM_MUTEX = Mutex.new
 
-  Platform = [Platforms::WindowsPlatform, Platforms::UnixPlatform].find(&:match?)
+  PLATFORM = [Platforms::WindowsPlatform, Platforms::UnixPlatform].find(&:match?)
 
   PLATFORM_MUTEX.synchronize do
-    @platform = Platform.new
+    @platform = PLATFORM.new
   end
 
   class << self
