@@ -1,5 +1,3 @@
-require "rspec/expectations/version"
-
 # @!method have_file_size(size)
 #   This matchers checks if path has file size
 #

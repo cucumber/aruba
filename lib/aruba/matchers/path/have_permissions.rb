@@ -1,5 +1,3 @@
-require "rspec/expectations/version"
-
 # @!method have_permissions(permissions)
 #   This matchers checks if <file> or <directory> has <perm> permissions
 #
