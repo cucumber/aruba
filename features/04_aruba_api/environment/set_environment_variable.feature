@@ -34,7 +34,7 @@ Feature: Set environment variable via API-method
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Overriding an previously set variable
+  Scenario: Overriding a previously set variable
     Given a file named "spec/environment_spec.rb" with:
     """ruby
     require 'spec_helper'
@@ -134,7 +134,7 @@ Feature: Set environment variable via API-method
   Scenario: Run some ruby code in code with previously set environment
 
     The `#with_environment`-block makes the changed environment temporarily
-    avaiable for the code run within the block.
+    available for the code run within the block.
 
     Given a file named "spec/environment_spec.rb" with:
     """ruby
