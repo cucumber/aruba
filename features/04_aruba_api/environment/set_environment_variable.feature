@@ -57,7 +57,7 @@ Feature: Set environment variable via API-method
     Then the specs should all pass
 
 
-  Scenario: Setting variable set by some outer parent process
+  Scenario: Updating a variable previously set via ENV
 
     Given a file named "spec/environment_spec.rb" with:
     """ruby
