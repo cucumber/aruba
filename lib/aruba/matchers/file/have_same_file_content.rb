@@ -1,4 +1,3 @@
-require "rspec/expectations/version"
 require "fileutils"
 
 # @!method have_same_file_content_as(file_name)

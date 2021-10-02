@@ -1,5 +1,3 @@
-require "rspec/expectations/version"
-
 # @!method be_an_existing_file
 #   This matchers checks if <file> exists in filesystem
 #

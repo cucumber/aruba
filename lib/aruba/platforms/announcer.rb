@@ -134,8 +134,6 @@ module Aruba
       #   The mode to set
       def mode=(m)
         @announcer = @announcers.find { |a| a.mode? m.to_sym }
-
-        self
       end
 
       # Fecth mode of announcer

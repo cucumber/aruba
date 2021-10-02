@@ -406,7 +406,7 @@ module Aruba
       #   Bytes on disk
       def disk_usage(*paths)
         paths = paths.flatten
-        expect(paths).to Aruba::Matchers.all be_an_existing_path
+        expect(paths).to all be_an_existing_path
         expanded = paths.map { |path| expand_path(path) }
 
         Aruba.platform.determine_disk_usage(expanded)

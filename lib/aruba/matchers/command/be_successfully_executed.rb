@@ -1,5 +1,3 @@
-require "rspec/expectations/version"
-
 require "aruba/matchers/command/have_exit_status"
 require "aruba/matchers/command/have_finished_in_time"
 

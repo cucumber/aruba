@@ -16,7 +16,7 @@ Before do |scenario|
   command_name = if scenario.respond_to?(:feature) # Cucumber < 4
                    "#{scenario.feature.file} #{scenario.name}"
                  else
-                   "#{scenario.location.file} #{scenario.name}"
+                   "#{scenario.location.file}:#{scenario.location.line} # #{scenario.name}"
                  end
 
   # Used in simplecov_setup so that each scenario has a different name and

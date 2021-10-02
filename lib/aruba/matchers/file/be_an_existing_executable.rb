@@ -1,4 +1,3 @@
-require "rspec/expectations/version"
 require "shellwords"
 
 # @!method be_an_existing_executable

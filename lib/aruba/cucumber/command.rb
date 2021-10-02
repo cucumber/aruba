@@ -292,30 +292,30 @@ end
 Then(%r{^the output should( not)? match /([^/]*)/$}) do |negated, expected|
   if negated
     expect(all_commands)
-      .not_to include_an_object have_output an_output_string_matching(expected)
+      .not_to include have_output an_output_string_matching(expected)
   else
     expect(all_commands)
-      .to include_an_object have_output an_output_string_matching(expected)
+      .to include have_output an_output_string_matching(expected)
   end
 end
 
 Then(/^the output should( not)? match %r<([^>]*)>$/) do |negated, expected|
   if negated
     expect(all_commands)
-      .not_to include_an_object have_output an_output_string_matching(expected)
+      .not_to include have_output an_output_string_matching(expected)
   else
     expect(all_commands)
-      .to include_an_object have_output an_output_string_matching(expected)
+      .to include have_output an_output_string_matching(expected)
   end
 end
 
 Then(/^the output should( not)? match:$/) do |negated, expected|
   if negated
     expect(all_commands)
-      .not_to include_an_object have_output an_output_string_matching(expected)
+      .not_to include have_output an_output_string_matching(expected)
   else
     expect(all_commands)
-      .to include_an_object have_output an_output_string_matching(expected)
+      .to include have_output an_output_string_matching(expected)
   end
 end
 
@@ -432,7 +432,7 @@ Then(/^(?:the )?(output|stderr|stdout) should not contain anything$/) do |channe
             when "stdout"; then :have_output_on_stdout
             end
 
-  expect(all_commands).to include_an_object send(matcher, be_nil.or(be_empty))
+  expect(all_commands).to include send(matcher, be_nil.or(be_empty))
 end
 
 Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) \
@@ -448,10 +448,10 @@ Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:
 
     if negated
       expect(all_commands)
-        .not_to include_an_object have_output an_output_string_including(expected)
+        .not_to include have_output an_output_string_including(expected)
     else
       expect(all_commands)
-        .to include_an_object have_output an_output_string_including(expected)
+        .to include have_output an_output_string_including(expected)
     end
   end
 end

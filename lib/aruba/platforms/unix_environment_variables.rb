@@ -108,8 +108,6 @@ module Aruba
         value = value.to_s
 
         actions << UpdateAction.new(name.to_s => value)
-
-        value
       end
 
       # Append value to variable
