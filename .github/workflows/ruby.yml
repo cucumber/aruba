@@ -9,6 +9,8 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  schedule:
+    - cron: '16 4 12 * *'
 
 env:
   CUCUMBER_PUBLISH_QUIET: true
