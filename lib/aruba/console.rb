@@ -43,7 +43,7 @@ module Aruba
         end
 
         def inspect
-          "nil"
+          "aruba console"
         end
       end
 

@@ -320,7 +320,7 @@ Then(/^the output should( not)? match:$/) do |negated, expected|
 end
 
 Then(/^the exit status should( not)? be (\d+)$/) do |negated, exit_status|
-  last_command_started.stop if last_command_stopped.nil?
+  last_command_started.stop if last_command_stopped.empty?
 
   if negated
     expect(last_command_stopped).not_to have_exit_status exit_status.to_i

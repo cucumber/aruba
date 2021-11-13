@@ -15,7 +15,7 @@ module Aruba
     attr_reader :registered_commands, :last_command_started, :last_command_stopped
 
     class DefaultLastCommandStopped
-      def nil?
+      def empty?
         true
       end
 
@@ -29,7 +29,7 @@ module Aruba
     end
 
     class DefaultLastCommandStarted
-      def nil?
+      def empty?
         true
       end
 

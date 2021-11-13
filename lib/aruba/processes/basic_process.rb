@@ -130,6 +130,10 @@ module Aruba
         []
       end
 
+      def empty?
+        false
+      end
+
       private
 
       def truncate(string, max_length)
