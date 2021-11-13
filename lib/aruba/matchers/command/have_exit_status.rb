@@ -18,33 +18,27 @@
 #     end
 RSpec::Matchers.define :have_exit_status do |expected|
   match do |actual|
-    @old_actual = actual
+    actual.stop
+    @actual_exit_status = actual.exit_status
 
-    @old_actual.stop
-    @actual = actual.exit_status
-
-    unless @old_actual.respond_to? :exit_status
-      raise "Expected #{@old_actual} to respond to #exit_status"
-    end
-
-    values_match? expected, @actual
+    values_match? expected, @actual_exit_status
   end
 
   failure_message do |actual|
     format(
       %(expected that command "%s" has exit status of "%s", but has "%s".),
-      @old_actual.commandline,
+      actual.commandline,
       expected.to_s,
-      actual.to_s
+      @actual_exit_status.to_s
     )
   end
 
   failure_message_when_negated do |actual|
     format(
       %(expected that command "%s" does not have exit status of "%s", but has "%s".),
-      @old_actual.commandline,
+      actual.commandline,
       expected.to_s,
-      actual.to_s
+      @actual_exit_status.to_s
     )
   end
 end
