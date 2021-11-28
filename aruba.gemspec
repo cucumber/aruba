@@ -18,7 +18,8 @@ Gem::Specification.new do |spec|
     "changelog_uri" => "https://www.rubydoc.info/gems/aruba/file/CHANGELOG.md",
     "documentation_uri" => "https://www.rubydoc.info/gems/aruba",
     "homepage_uri" => spec.homepage,
-    "source_code_uri" => "https://github.com/cucumber/aruba"
+    "source_code_uri" => "https://github.com/cucumber/aruba",
+    "rubygems_mfa_required" => "true"
   }
 
   spec.add_runtime_dependency "bundler", [">= 1.17", "< 3.0"]
