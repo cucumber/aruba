@@ -16,6 +16,10 @@ Bundler/OrderedGems:
   Exclude:
     - 'gemfiles/*.gemfile'
 
+# TODO: Enable once the effects on using cukebot are clear and have been taken care of
+Gemspec/RequireMFA:
+  Enabled: false
+
 # Assume the programmer knows how bracketed block syntax works
 Lint/AmbiguousBlockAssociation:
   Enabled: false
