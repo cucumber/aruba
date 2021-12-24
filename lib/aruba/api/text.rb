@@ -45,18 +45,6 @@ module Aruba
 
         text.chomp
       end
-
-      # Replace variables in command string (experimental)
-      #
-      # @param [#to_s] text
-      #   The text to parse
-      def replace_variables(text)
-        if text.include? "<pid-last-command-started>"
-          text = text.gsub(/<pid-last-command-started>/, last_command_started.pid.to_s)
-        end
-
-        text
-      end
     end
   end
 end
