@@ -4,7 +4,7 @@ require "aruba/matchers/file"
 RSpec.describe "File Matchers" do
   include_context "uses aruba API"
 
-  describe "to_be_an_existing_file" do
+  describe "#be_an_existing_file" do
     let(:name) { @file_name }
 
     context "when file exists" do
@@ -34,7 +34,7 @@ RSpec.describe "File Matchers" do
     end
   end
 
-  describe "to_have_file_content" do
+  describe "#have_file_content" do
     context "when file exists" do
       before do
         Aruba.platform.write_file(@file_path, "aba")
@@ -109,7 +109,7 @@ RSpec.describe "File Matchers" do
     end
   end
 
-  describe "to have_same_file_content_as" do
+  describe "#have_same_file_content_as" do
     let(:file_name) { @file_name }
     let(:file_path) { @file_path }
 
@@ -151,6 +151,7 @@ RSpec.describe "File Matchers" do
     end
   end
 
+  # FIXME: This basically checks a_file_with_same_content_as as an alias
   describe "include a_file_with_same_content_as" do
     let(:reference_file) { "fixture" }
     let(:reference_file_content) { "foo bar baz" }
@@ -194,7 +195,7 @@ RSpec.describe "File Matchers" do
     end
   end
 
-  describe "to_have_file_size" do
+  describe "#have_file_size" do
     context "when file exists" do
       before do
         Aruba.platform.write_file(@file_path, "")
@@ -211,6 +212,41 @@ RSpec.describe "File Matchers" do
 
     context "when file does not exist" do
       it { expect(@file_name).not_to have_file_size(0) }
+    end
+  end
+
+  describe "#be_an_existing_executable" do
+    context "when file exists and is executable" do
+      let(:file) { Gem.win_platform? ? "foo.bat" : "foo" }
+
+      before do
+        @aruba.write_file(file, "")
+        @aruba.chmod(0x755, file) unless Gem.win_platform?
+      end
+
+      it "matches" do
+        expect(file).to be_an_existing_executable
+      end
+    end
+
+    context "when file exists and is not executable" do
+      let(:file) { Gem.win_platform? ? "foo.txt" : "foo" }
+
+      before do
+        @aruba.write_file(file, "")
+      end
+
+      it "does not match" do
+        expect(file).not_to be_an_existing_executable
+      end
+    end
+
+    context "when file does not exist" do
+      let(:file) { Gem.win_platform? ? "foo.bat" : "foo" }
+
+      it "does not match" do
+        expect(file).not_to be_an_existing_executable
+      end
     end
   end
 end
