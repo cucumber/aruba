@@ -1,12 +1,13 @@
+inherit_mode:
+  merge:
+    - Exclude
+
 require:
   - rubocop-packaging
   - rubocop-performance
   - rubocop-rspec
 
 AllCops:
-  Exclude:
-    - tmp/**/*
-    - vendor/**/*
   DisplayCopNames: true
   NewCops: enable
   TargetRubyVersion: 2.5
