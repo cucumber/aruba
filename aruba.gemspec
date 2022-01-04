@@ -39,7 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop", "~> 1.24.0"
   spec.add_development_dependency "rubocop-packaging", "~> 0.5.0"
   spec.add_development_dependency "rubocop-performance", "~> 1.13.0"
-  spec.add_development_dependency "rubocop-rspec", "~> 2.6.0"
+  spec.add_development_dependency "rubocop-rspec", "~> 2.7.0"
   spec.add_development_dependency "simplecov", [">= 0.18.0", "< 0.22.0"]
   spec.add_development_dependency "yard-junk", "~> 0.0.7"
 
