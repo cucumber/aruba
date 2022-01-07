@@ -14,6 +14,7 @@ on:
 
 env:
   CUCUMBER_PUBLISH_QUIET: true
+  RUBYOPTS: "--disable-did-you-mean"
   JRUBY_OPTS: "--dev"
 
 jobs:
@@ -22,7 +23,7 @@ jobs:
 
     strategy:
       matrix:
-        ruby: ["3.0", jruby-9.2]
+        ruby: ["3.0", "3.1", jruby-9.2]
         appraisal: [cucumber_7]
         include:
           - ruby: "2.5"

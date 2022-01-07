@@ -3,7 +3,10 @@
 unless RUBY_PLATFORM.include?("java")
   require "simplecov"
   root = File.expand_path("../..", __dir__)
-  SimpleCov.command_name(ENV["SIMPLECOV_COMMAND_NAME"])
+  command_name = ENV["SIMPLECOV_COMMAND_NAME"] || "Cucumber Features"
+  SimpleCov.command_name(command_name)
   SimpleCov.root(root)
-  load File.join(root, ".simplecov")
+
+  # Run simplecov by default
+  SimpleCov.start unless ENV.key? "ARUBA_NO_COVERAGE"
 end

@@ -31,6 +31,3 @@ SimpleCov.configure do
   # lets, befores, afters, etc are being used.
   add_group "Specs", "spec/"
 end
-
-# Run simplecov by default
-SimpleCov.start unless ENV.key? "ARUBA_NO_COVERAGE"
