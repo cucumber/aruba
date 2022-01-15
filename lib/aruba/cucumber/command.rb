@@ -105,7 +105,7 @@ When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$
   end
 end
 
-When 'I wait for output/stdout to contain:' do |expected|
+When 'I wait for (the )output/stdout to contain:' do |expected|
   start_time = Time.now
   loop do
     output = last_command_started.stdout wait_for_io: 0
@@ -124,7 +124,7 @@ When 'I wait for output/stdout to contain:' do |expected|
   end
 end
 
-When 'I wait for output/stdout to contain {string}' do |expected|
+When 'I wait for (the )output/stdout to contain {string}' do |expected|
   start_time = Time.now
   loop do
     output = last_command_started.stdout wait_for_io: 0
