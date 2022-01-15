@@ -161,7 +161,6 @@ your normal development workflow.
 Example `Gemfile.local`:
 
 ```ruby
-gem 'pry'
 gem 'pry-byebug'
 gem 'byebug'
 ```

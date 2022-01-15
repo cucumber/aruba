@@ -2,8 +2,6 @@
 
 source "https://rubygems.org"
 
-gem "byebug", "~> 11.0", platform: :mri
-gem "pry-byebug", "~> 3.4", platform: :mri
 gem "cucumber", "~> 4.0"
 gem "childprocess", "~> 2.0.0"
 
