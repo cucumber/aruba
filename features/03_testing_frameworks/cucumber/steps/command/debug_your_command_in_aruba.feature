@@ -7,7 +7,6 @@ Feature: Debug your command in cucumber-test-run
     Given I use a fixture named "cli-app"
     And the default aruba exit timeout is 60 seconds
 
-  @unsupported-on-platform-java
   Scenario: You can use a debug repl in your cli program
 
     If you want to debug an error, which only occurs in one of your
@@ -15,15 +14,14 @@ Feature: Debug your command in cucumber-test-run
     DebugProcess runner, making your program use the default stdin, stdout and
     stderr streams so you can interact with it directly.
 
-    This will, for example, make `binding.pry` and `byebug` work in your
-    program. However, Aruba steps that access the input and output of your
-    program will not work.
+    This will, for example, make `binding.irb` work in your program. However,
+    Aruba steps that access the input and output of your program will not work.
 
-    Please make sure, that there's a statement after the `binding.pry`-call.
-    Otherwise you might not get an interactive shell, because your program will
-    just exit.
+    Please make sure, that there's a statement after the statement starting the
+    debugger. Otherwise you might not get an interactive shell, because your
+    program will just exit.
 
-    We are going to demonstrate this using `pry`, but any other interactive
+    We are going to demonstrate this using `irb`, but any other interactive
     debugger for any other programming language should also work.
 
     Given an executable named "bin/aruba-test-cli" with:
@@ -35,8 +33,7 @@ Feature: Debug your command in cucumber-test-run
 
     foo = 'hello'
 
-    require 'pry'
-    binding.pry
+    binding.irb
 
     exit 0
     """
@@ -53,11 +50,15 @@ Feature: Debug your command in cucumber-test-run
     And I type "foo"
     And I type "exit"
     Then the output should contain:
-    """
-    [1] pry(main)> foo
-    => "hello"
-    [2] pry(main)> exit
-    """
+      """
+       => 8: binding.irb
+          9: 
+          10: exit 0
+      Switch to inspect mode.
+      foo
+      "hello"
+      exit
+      """
 
   Scenario: Can handle announcers
     Given an executable named "bin/aruba-test-cli" with:
