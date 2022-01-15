@@ -85,21 +85,33 @@ rescue ChildProcess::TimeoutError, Timeout::Error
   last_command_started.terminate
 end
 
-When "I wait for output/stdout to contain" do |expected|
+When "I wait for output/stdout to contain:" do |expected|
   Timeout.timeout(aruba.config.exit_timeout) do
-    expect(last_command_started).to have_output an_output_string_including(expected)
-  rescue ExpectationError
-    sleep 0.1
-    retry
+    loop do
+      output = last_command_started.public_send :stdout, wait_for_io: 0
+
+      output   = sanitize_text(output)
+      expected = sanitize_text(expected)
+
+      break if output.include? expected
+
+      sleep 0.1
+    end
   end
 end
 
 When "I wait for output/stdout to contain {string}" do |expected|
   Timeout.timeout(aruba.config.exit_timeout) do
-    expect(last_command_started).to have_output an_output_string_including(expected)
-  rescue ExpectationError
-    sleep 0.1
-    retry
+    loop do
+      output = last_command_started.public_send :stdout, wait_for_io: 0
+
+      output   = sanitize_text(output)
+      expected = sanitize_text(expected)
+
+      break if output.include? expected
+
+      sleep 0.1
+    end
   end
 end
 
