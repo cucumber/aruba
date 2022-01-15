@@ -43,3 +43,24 @@ Feature: Wait for output of commands
     """
     When I run `cucumber`
     Then the features should all pass
+
+  Scenario: Stop when output appears
+    Given a file named "features/output.feature" with:
+    """cucumber
+    Feature: Run command
+      Scenario: Run command
+        When I run `irb --prompt default` interactively
+        And I wait for output to contain:
+          \"\"\"
+          irb(main):001:0>
+          \"\"\"
+        And I type "10.times { |i| puts i + 2; sleep 0.1 }"
+        And I stop the command if output contains:
+          \"\"\"
+          3
+          \"\"\"
+        Then the output should contain "3"
+        Then the output should not contain "4"
+    """
+    When I run `cucumber`
+    Then the features should all pass
