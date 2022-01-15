@@ -54,13 +54,13 @@ Feature: Wait for output of commands
           \"\"\"
           irb(main):001:0>
           \"\"\"
-        And I type "10.times { |i| puts i + 2; sleep 0.1 }"
+        And I type '3.times { |i| puts "Test #{i}"; sleep 0.1 }'
         And I stop the command if output contains:
           \"\"\"
-          3
+          Test 0
           \"\"\"
-        Then the output should contain "3"
-        Then the output should not contain "4"
+        Then the output should contain "Test 0"
+        Then the output should not contain "Test 2"
     """
     When I run `cucumber`
     Then the features should all pass
