@@ -1,4 +1,5 @@
 require "rbconfig"
+require "rubygems"
 require "pathname"
 
 require "aruba/aruba_path"
