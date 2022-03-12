@@ -430,7 +430,7 @@ RSpec.describe Aruba::Api::Filesystem do
     it "writes file" do
       @aruba.write_file(name, "")
 
-      expect(File.exist?(path)).to eq true
+      expect(File.exist?(path)).to be true
     end
   end
 
@@ -439,7 +439,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
     it "writes a fixed sized file" do
       @aruba.write_fixed_size_file(name, file_size)
-      expect(File.exist?(path)).to eq true
+      expect(File.exist?(path)).to be true
       expect(File.size(path)).to eq file_size
     end
 
@@ -449,7 +449,7 @@ RSpec.describe Aruba::Api::Filesystem do
       @aruba.with_environment "HOME" => File.expand_path(aruba.current_directory) do
         @aruba.write_fixed_size_file(file_path, file_size)
 
-        expect(File.exist?(File.expand_path(file_path))).to eq true
+        expect(File.exist?(File.expand_path(file_path))).to be true
         expect(File.size(File.expand_path(file_path))).to eq file_size
       end
     end
