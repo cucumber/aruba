@@ -29,7 +29,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
       context "when unknown variable is given" do
         let(:variable) { "unknown" }
 
-        it { expect(environment[variable]).to eq nil }
+        it { expect(environment[variable]).to be nil }
       end
     end
 
@@ -57,7 +57,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
       context "when unknown variable is given" do
         let(:variable) { "unknown" }
 
-        it { expect(environment[variable]).to eq nil }
+        it { expect(environment[variable]).to be nil }
       end
     end
 
@@ -85,7 +85,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
       context "when unknown variable is given" do
         let(:variable) { "unknown" }
 
-        it { expect(environment[variable]).to eq nil }
+        it { expect(environment[variable]).to be nil }
       end
     end
   end
@@ -480,7 +480,7 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
 
     it "deletes a value from the environment" do
       environment.delete(variable)
-      expect(environment[variable]).to eq nil
+      expect(environment[variable]).to be nil
     end
 
     it "returns deleted value" do
