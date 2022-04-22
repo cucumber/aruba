@@ -69,12 +69,19 @@ Currently, this gem is mainly maintained by this group of people:
 
 ## Release Policy
 
-We try to comply with [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
+We use [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html). We
+depend on rubygems to ensure correct dependency versions, so dropping support
+for older dependencies and Ruby versions will not result in a major version
+bump.
 
 ## Supported Ruby versions
 
-Aruba is supported on Ruby 2.5 and up, and tested against CRuby 2.5, 2.6 and
-2.7, and JRuby 9.2.
+Aruba is supported on Ruby 2.5 and up, and tested against CRuby 2.5, 2.6, 2.7, 3.0 and
+3.1, and JRuby 9.2 and 9.2.
+
+## Supported Cucumber versions
+
+Aruba is supported on and tested with Cucumber versions 4 through 7.
 
 ## Supported operating systems
 

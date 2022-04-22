@@ -6,6 +6,16 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [2.0.1] / 2022-04-22
+
+* Various cleanups of internal APIs ([#838] by [mvz])
+* Make objects not pretend to be nil ([#843] by [mvz])
+* Remove experimental variables replacement feature ([#846] by [mvz])
+* Support Ruby 3.1 ([#850] by [mvz])
+* Fix steps that wait for output from commands ([#856] by [mvz])
+* Ensure `Gem.win_platform?` is available ([#858] by [mvz])
+* Support JRuby 9.3 ([#867] by [mvz])
+
 ## [2.0.0] / 2021-07-26
 
 Potentially breaking changes:
@@ -994,6 +1004,13 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- issues & pull requests -->
 
+[#867]: https://github.com/cucumber/aruba/pull/867
+[#858]: https://github.com/cucumber/aruba/pull/858
+[#856]: https://github.com/cucumber/aruba/pull/856
+[#850]: https://github.com/cucumber/aruba/pull/850
+[#846]: https://github.com/cucumber/aruba/pull/846
+[#843]: https://github.com/cucumber/aruba/pull/843
+[#838]: https://github.com/cucumber/aruba/pull/838
 [#829]: https://github.com/cucumber/aruba/pull/829
 [#828]: https://github.com/cucumber/aruba/pull/828
 [#822]: https://github.com/cucumber/aruba/pull/822
@@ -1295,7 +1312,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v2.0.0...main
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v2.0.1...main
+[2.0.1]:          https://github.com/cucumber/aruba/compare/v2.0.0...v2.0.1
 [2.0.0]:          https://github.com/cucumber/aruba/compare/v1.1.2...v2.0.0
 [1.1.2]:          https://github.com/cucumber/aruba/compare/v1.1.1...v1.1.2
 [1.1.1]:          https://github.com/cucumber/aruba/compare/v1.1.0...v1.1.1
