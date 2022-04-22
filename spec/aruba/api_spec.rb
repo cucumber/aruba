@@ -12,7 +12,7 @@ describe Aruba::Api do
 
       context "enabled" do
         before do
-          @aruba.aruba.announcer = instance_double "Aruba::Platforms::Announcer"
+          @aruba.aruba.announcer = instance_double Aruba::Platforms::Announcer
           allow(@aruba.aruba.announcer).to receive(:announce)
         end
 

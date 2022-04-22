@@ -15,7 +15,7 @@ RSpec.describe Aruba::Command do
     )
   end
 
-  let(:event_bus) { instance_double("Aruba::EventBus") }
+  let(:event_bus) { instance_double(Aruba::EventBus) }
   let(:exit_timeout) { 0.01 }
   let(:io_wait_timeout) { 0.01 }
   let(:working_directory) { File.expand_path(".") }
