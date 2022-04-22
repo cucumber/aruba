@@ -40,6 +40,10 @@ Metrics/BlockLength:
 RSpec/PredicateMatcher:
   Enabled: false
 
+# This cop doesn't seem to add much for us.
+Style/FetchEnvVar:
+  Enabled: false
+
 # Use older RuboCop default
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
