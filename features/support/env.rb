@@ -12,12 +12,8 @@ require "aruba/cucumber"
 require "aruba/config/jruby"
 require "rspec/expectations"
 
-Before do |scenario|
-  command_name = if scenario.respond_to?(:feature) # Cucumber < 4
-                   "#{scenario.feature.file} #{scenario.name}"
-                 else
-                   "#{scenario.location.file}:#{scenario.location.line} # #{scenario.name}"
-                 end
+Before do |test_case|
+  command_name = "#{test_case.location.file}:#{test_case.location.line} # #{test_case.name}"
 
   # Used in simplecov_setup so that each scenario has a different name and
   # their coverage results are merged instead of overwriting each other as
