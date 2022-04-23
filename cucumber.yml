@@ -1,6 +1,0 @@
-<%
-std_opts = "--format pretty --color --exclude features/fixtures --require features --tags 'not @unsupported-on'"
-ignore_opts = "--tags 'not @ignore'"
-%>
-default: <%= std_opts %> --tags 'not @wip' <%= ignore_opts %>
-wip: <%= std_opts %> --wip --tags @wip:3 <%= ignore_opts %>

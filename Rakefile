@@ -17,8 +17,7 @@ end
 Cucumber::Rake::Task.new("cucumber:wip", "Run Cucumber features "\
                                          'which are "WORK IN PROGRESS" and '\
                                          "are allowed to fail") do |t|
-  t.cucumber_opts = %w(--format progress)
-  t.profile = "wip"
+  t.cucumber_opts = %w(--tags @wip:3 --wip)
 end
 
 RSpec::Core::RakeTask.new
