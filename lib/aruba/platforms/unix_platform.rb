@@ -100,7 +100,7 @@ module Aruba
       end
 
       def require_matching_files(pattern, base)
-        ::Dir.glob(::File.expand_path(pattern, base)).each { |f| require_relative f }
+        ::Dir.glob(::File.expand_path(pattern, base)).sort.each { |f| require_relative f }
       end
 
       # Create directory and subdirectories
