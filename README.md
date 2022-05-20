@@ -40,7 +40,8 @@ information about how to write feature files in Gherkin.
 
 * **RSpec**:
 
-    If you want to use Aruba with RSpec and you need some information about how to use RSpec, please visit [their website](http://rspec.info/documentation/).
+    If you want to use Aruba with RSpec and you need some information about how
+    to use RSpec, please visit [their website](http://rspec.info/documentation/).
 
 * **minitest**:
 
@@ -76,12 +77,12 @@ bump.
 
 ## Supported Ruby versions
 
-Aruba is supported on Ruby 2.5 and up, and tested against CRuby 2.5, 2.6, 2.7, 3.0 and
-3.1, and JRuby 9.2 and 9.2.
+Aruba is supported on Ruby 2.5 and up, and tested against CRuby 2.5, 2.6, 2.7,
+3.0 and 3.1, and JRuby 9.2 and 9.2.
 
 ## Supported Cucumber versions
 
-Aruba is supported on and tested with Cucumber versions 4 through 7.
+Aruba is supported on and tested with Cucumber versions 4 through 8.
 
 ## Supported operating systems
 

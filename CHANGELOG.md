@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [2.1.0] / 2022-05-20
+
+* Support Cucumber 8 ([#870] by [mvz] with [dependabot])
+
 ## [2.0.1] / 2022-04-22
 
 * Various cleanups of internal APIs ([#838] by [mvz])
@@ -110,7 +114,8 @@ Other changes
 * Fix cucumber deprecations ([#688] by [deivid-rodriguez])
 * Update gemspec: Metadata and RDoc options ([#686] by [mvz])
 * Update dependencies and fix RuboCop offenses ([#683] by [mvz])
-* Init: Conditionally prefix the `gem aruba` line with a carriage return ([#570] by [xtrasimplicity])
+* Init: Conditionally prefix the `gem aruba` line with a carriage return
+  ([#570] by [xtrasimplicity])
 * Update supported set of rubies([#679] by [mvz])
 
 ## [1.0.0.pre.alpha.5]
@@ -160,7 +165,8 @@ Other changes
 * Improve documentation for users and developers ([#454], [#456], [#457], [#460],
   [#459], [#461], [#475], [#494] by [olleolleolle], [maxmeyer], [mvz])
 * Make forgetting `setup_aruba` a hard failure ([#510] by [mvz])
-* Update dependencies ([#511], [#541], [#553] by [mvz], [#528] by [maxmeyer], [#615] by [luke-hill] and [mvz])
+* Update dependencies ([#511], [#541], [#553] by [mvz], [#528] by [maxmeyer],
+  [#615] by [luke-hill] and [mvz])
 * Improve output of `#have_output` matcher ([#546] by [mvz])
 * Removed `have_same_file_content_like` and `a_file_with_same_content_like`
   matchers, in favour of `have_same_file_content_as` and
@@ -187,22 +193,26 @@ Other changes
 
 ### Developer experience and internal changes
 
-* Fix test suite failures ([#452], [#497] by [maxmeyer] and [mvz]; [#487], [#509] by [mvz])
+* Fix test suite failures ([#452], [#497] by [maxmeyer] and [mvz]; [#487],
+  [#509] by [mvz])
 * Remove development gems for unsupported Rubinius platform ([#464] by [maxmeyer])
 * Update `license_finder` dependency ([#466] by [maxmeyer])
 * Restrict branches to run Travis ([#471] by [junaruga])
-* Maintain Travis builds ([#476] by [maxmeyer]; [#493] [#532], [#536] by [mvz]; [#542], [#596], [#607] by [olleolleolle])
+* Maintain Travis builds ([#476] by [maxmeyer]; [#493], [#532], [#536] by [mvz];
+  [#542], [#596], [#607] by [olleolleolle])
 * Rename History.md to CHANGELOG.md and fix links and formatting, etc. to bring
   it in line with [cucumber/cucumber#521] ([#481], [#482] by [jaysonesmith])
-* Fix YARD documentation issues ([#491] [olleolleolle])
+* Fix YARD documentation issues ([#491] by [olleolleolle])
 * Change maintainership ([#495], [#523] by [maxmeyer])
 * Remove commented-out code ([#498] by [olleolleolle])
-* Documentation fixups ([#504] by [roschaefer]; [#530] by [xtrasimplicity]; [#606] by [olleolleolle])
+* Documentation fixups ([#504] by [roschaefer]; [#530] by [xtrasimplicity];
+  [#606] by [olleolleolle])
 * Add 'stale' bot ([#507] by [maxmeyer]
 * Update RuboCop and fix some offenses ([#514], [#537] by [mvz])
-* Mark scenarios requiring external commands ([#515] [mvz])
-* Remove cucumber features related to Aruba development ([#522], [#543], [#544] [mvz])
-* Avoid long waits in feature suite ([#544] [mvz])
+* Mark scenarios requiring external commands ([#515] by [mvz])
+* Remove cucumber features related to Aruba development
+  ([#522], [#543], [#544] by [mvz])
+* Avoid long waits in feature suite ([#544] by [mvz])
 * Clean up internally used cuke tags and their implementation ([#548] by [mvz])
 * Test with Ruby 2.5 and 2.6 ([#554] by [nicolasleger], [#578] by [mvz])
 * Fix tests on Debian. ([#575] by [Heinrich])
@@ -324,7 +334,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 ## [0.14.11]
 
 * Loosen childprocess dependency ([#658])
-* Do not set binmode on output temp files, so automatic line ending conversion works ([#650])
+* Do not set binmode on output temp files, so automatic line ending conversion
+  works ([#650])
 * Improve deprecation suggestions ([#647])
 * Backport fixes to code organization, layout and spelling ([#645])
 
@@ -374,7 +385,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 ## [0.14.5]
 
-* Loosen dependency on child_process ([#551])
+* Loosen dependency on `child_process` ([#551])
 
 ## [0.14.4]
 
@@ -468,7 +479,6 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
   commands from last to first.
 * Added `be_an_executable` matcher
 
-
 ## [0.11.0.pre]
 
 * Set stop signal which should be used to stop a process after a timeout or
@@ -485,16 +495,13 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
   private. Users should use `#run('cmd')` and not use the classes directly.
 * `rvm`-methods are deprecated. They are too ruby specific.
 
-
 ## [0.10.2]
 
 * Fixed problem in regex after merge of step definitions
 
-
 ## [0.10.1]
 
 * Merged remove steps for file and directory from 4 into 2 step definitions
-
 
 ## [0.10.0]
 
@@ -519,7 +526,6 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 * Added new method `delete_environment_variable` to remove environment variable
 * Added work around because of method name conflict between Capybara and RSpec
   ([1939c404](https://github.com/cucumber/aruba/commit/1939c4049d5195ffdd967485f50119bdd86e98a0))
-
 
 ## [0.9.0]
 
@@ -548,7 +554,6 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 * Now we make the process started via `SpawnProcess` the leader of the group to
   kill all sub-processes more reliably
 
-
 ## [0.9.0.pre]
 
 * Improve documentation for filesystem api and move it to feature tests
@@ -568,7 +573,6 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 * Split up `#which` for Windows and Unix/Linux ([#304])
 * Add `aruba console` command to play around with aruba ([#305])
 
-
 ## [0.8.1]
 
 * Fix problem if working directory of aruba does not exist ([#286])
@@ -578,7 +582,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 * Make the home directory configurable and use Around/around-hook to apply it
 * Add announcer to output the full environment before a command is run
 * Use `prepend_environment_variable` to modify PATH for rspec integration
-* Add `VERSION` constant to aruba and use it for code which should be activated on >= 1.0.0
+* Add `VERSION` constant to aruba and use it for code which should be activated
+  on >= 1.0.0
 
 ## [0.8.0]
 
@@ -588,7 +593,6 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 * Fixed bug in `in_current_dir*` not returning the result of the block
 * Fixed checks for file content
 * Fixed selectors for DebugProcess and InProcess to support sub-classes as well
-
 
 ## [0.8.0.pre3]
 
@@ -606,7 +610,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 * Added checks for version of `rspec-expectations` to support older `rspec`
   versions like `2.11`
 * Now each `path/to/dir` pushed to `aruba.current_directory` is `pop`ed as whole
-* Make testing of `aruba.current_directory` easier by supporting `end_with?` and `start_with?`
+* Make testing of `aruba.current_directory` easier by supporting `end_with?`
+  and `start_with?`
 
 ## [0.8.0.pre2]
 
@@ -626,17 +631,21 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 * Cleanup API by moving deprecated methods to separate class
 * Cleanup Core API - reduced to `cd`, `expand_path`, `setup_aruba` and use
   `expand_path` wherever possible ([#253])
-* Better isolation for environment variable manipulation - really helpful from 1.0.0 on
+* Better isolation for environment variable manipulation - really helpful from
+  1.0.0 on
 * Move configuration files like `jruby.rb` to `aruba/config/`-directory
-* Change default exit timeout to 15 seconds to work around long running processes on travis
+* Change default exit timeout to 15 seconds to work around long running
+  processes on travis
 * Use of instance variables like `@aruba_timeout_seconds` or
   `@aruba_io_wait_seconds` are deprecated.
   Use `Aruba.configure do |config| config.exit_timeout = 10` etc. for this.
 
 ## [0.7.4]
+
 * Really Fixed post install message
 
 ## [0.7.3]
+
 * Fixed post install message
 
 ## [0.7.2]
@@ -651,7 +660,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 * Introducing `root_directory` ([#232])
 * Introducing fixtures directory ([#224])
-* Make sure a file/directory does not exist + Cleanup named file/directory steps ([#234])
+* Make sure a file/directory does not exist + Cleanup named file/directory
+  steps ([#234])
 * Make matcher `have_permisions` public and add documentation ([#239])
 * Added matcher for file content ([#238])
 * Add rspec integrator ([#244])
@@ -660,7 +670,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 * Cleanup process management ([#257])
 * Make path content available through matchers and api metchods ([#250])
 * Refactor announcer to support user defined announce channels (fixes [#267])
-* `InProcess` requires that the working directory is determined on runtime not no loadtime
+* `InProcess` requires that the working directory is determined on runtime not
+  no loadtime
 
 ## [0.6.2]
 
@@ -693,7 +704,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 ## [0.5.2]
 
-* Plugin API for greater speed. Test Ruby CLI programs in a single Ruby process ([#148], [aslakhellesoy])
+* Plugin API for greater speed. Test Ruby CLI programs in a single Ruby process
+  ([#148], [aslakhellesoy])
 * Fix memory leak when several commands are executed in a single run ([#144], [y-higuchi])
 
 ## [0.5.1]
@@ -705,7 +717,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 * Add `#with_file_content` to the DSL ([#110], [argent-smith])
 * Make JRuby performance tweaks optional ([#102], [taylor], [#125], [alindeman])
-* Add `assert_partial_output_interactive` so you can peek at the output from a running process ([#104], [taylor])
+* Add `assert_partial_output_interactive` so you can peek at the output from a
+  running process ([#104], [taylor])
 * Add `assert_not_matching_output` ([#111], [argent-smith])
 * Add `remove_dir` ([#121], [LTe])
 
@@ -728,7 +741,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 * Add `before_run` hook ([mattwynne])
 * Add JRuby performance tweaks ([#93], [myronmarston], [mattwynne])
-* Invalid/Corrupt spec file for 0.4.7 - undefined method call for nil:Nilclass ([#47], [aslakhellesoy])
+* Invalid/Corrupt spec file for 0.4.7 - undefined method call for nil:Nilclass
+  ([#47], [aslakhellesoy])
 
 ## [0.4.7]
 
@@ -814,7 +828,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 * Remove latency introduced in the 0.2.8 release ([#42], [msassak])
 * New stepdef `Then /^the stdout should contain:$/ do |partial_output|` ([aslakhellesoy])
-* Quotes (") and newline (\n) in step arguments no longer need to be backslash-escaped. ([aslakhellesoy])
+* Quotes (") and newline (\n) in step arguments no longer need to be
+  backslash-escaped. ([aslakhellesoy])
 
 ## [0.2.8]
 
@@ -867,11 +882,13 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 * Added a @bin tag that sets up './bin' first on the path ([aslakhellesoy])
 * Richer API making aruba easier to use from Ruby code. (Mark Nijhof, [aslakhellesoy])
-* No more support for RVM. Use rvm 1.9.2,1.8.7 exec cucumber .... instead. (Mark Nijhof, [aslakhellesoy])
+* No more support for RVM. Use rvm 1.9.2,1.8.7 exec cucumber .... instead.
+  (Mark Nijhof, [aslakhellesoy])
 
 ## [0.2.1]
 
-* Always compare with RSpec should =~ instead of should match. This gives a diff when there is no match. ([aslakhellesoy])
+* Always compare with RSpec should =~ instead of should match. This gives a
+  diff when there is no match. ([aslakhellesoy])
 
 ## [0.2.0]
 
@@ -914,7 +931,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 ## [0.1.7]
 
-* New @announce-stderr tag ([robertwahler])
+* New `@announce-stderr` tag ([robertwahler])
 * New "I should see matching" steps using Regexp ([robertwahler])
 
 ## [0.1.6]
@@ -925,12 +942,14 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 ## [0.1.5]
 
-* Added ability to map rvm versions to a specific version with config/aruba-rvm.yml. ([aslakhellesoy])
+* Added ability to map rvm versions to a specific version with
+  config/aruba-rvm.yml. ([aslakhellesoy])
 * Check for presence of files. ([aslakhellesoy])
 * Allow specification of rvm gemsets. ([aslakhellesoy])
 * Detect ruby commands and use current ruby when rvm is not explicitly used. ([aslakhellesoy])
 * Added support for rvm, making it possible to choose Ruby interpreter. ([aslakhellesoy])
-* Added @announce-cmd, @announce-stdout and @announce tags, useful for seeing what's executed and outputted. ([aslakhellesoy])
+* Added `@announce-cmd`, `@announce-stdout` and `@announce` tags, useful for seeing
+  what's executed and outputted. ([aslakhellesoy])
 
 ## [0.1.4]
 
@@ -942,7 +961,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 ## [0.1.2]
 
-* Separated API from Cucumber step definitions, makes this usable without Cucumber. ([aslakhellesoy])
+* Separated API from Cucumber step definitions, makes this usable without
+  Cucumber. ([aslakhellesoy])
 
 ## [0.1.1]
 
@@ -1002,8 +1022,13 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [xtrasimplicity]: https://github.com/xtrasimplicity
 [y-higuchi]:      https://github.com/y-higuchi
 
+<!-- bots -->
+
+[dependabot]:     https://github.com/apps/dependabot
+
 <!-- issues & pull requests -->
 
+[#870]: https://github.com/cucumber/aruba/pull/870
 [#867]: https://github.com/cucumber/aruba/pull/867
 [#858]: https://github.com/cucumber/aruba/pull/858
 [#856]: https://github.com/cucumber/aruba/pull/856
@@ -1312,7 +1337,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v2.0.1...main
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v2.1.0...main
+[2.1.0]:          https://github.com/cucumber/aruba/compare/v2.0.1...v2.1.0
 [2.0.1]:          https://github.com/cucumber/aruba/compare/v2.0.0...v2.0.1
 [2.0.0]:          https://github.com/cucumber/aruba/compare/v1.1.2...v2.0.0
 [1.1.2]:          https://github.com/cucumber/aruba/compare/v1.1.1...v1.1.2
