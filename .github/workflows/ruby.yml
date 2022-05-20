@@ -4,11 +4,11 @@
 
 name: CI
 
-on:
+"on":
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   schedule:
     - cron: '16 4 12 * *'
 
@@ -32,6 +32,8 @@ jobs:
             appraisal: cucumber_5
           - ruby: "2.7"
             appraisal: cucumber_6
+          - ruby: "3.1"
+            appraisal: cucumber_8
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.appraisal }}.gemfile
