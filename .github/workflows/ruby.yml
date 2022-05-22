@@ -86,7 +86,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: [2.5, 2.6, 2.7, "3.0"]
+        ruby: ["3.1"]
+        appraisal: [cucumber_4, cucumber_5, cucumber_6, cucumber_7, cucumber_8]
 
     runs-on: windows-latest
 
