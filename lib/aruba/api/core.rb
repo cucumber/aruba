@@ -144,7 +144,7 @@ module Aruba
       def expand_path(file_name, dir_string = nil)
         unless file_name.is_a?(String) && !file_name.empty?
           message = "Filename #{file_name} needs to be a string." \
-                    " It cannot be nil or empty either."\
+                    " It cannot be nil or empty either." \
                     " Please use `expand_path('.')` if you want" \
                     " the current directory to be expanded."
 
@@ -195,7 +195,7 @@ module Aruba
               "Aruba's `expand_path` method was called with an absolute path" \
               " at #{caller_file_line}, which is not recommended." \
               " The path passed was '#{file_name}'." \
-              " Change the call to pass a relative path or set "\
+              " Change the call to pass a relative path or set " \
               "`config.allow_absolute_paths = true` to silence this warning"
             raise UserError, message
           end
