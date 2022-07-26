@@ -14,9 +14,9 @@ Cucumber::Rake::Task.new do |t|
   t.cucumber_opts = %w(--format progress)
 end
 
-Cucumber::Rake::Task.new("cucumber:wip", "Run Cucumber features "\
-                                         'which are "WORK IN PROGRESS" and '\
-                                         "are allowed to fail") do |t|
+Cucumber::Rake::Task.new("cucumber:wip", "Run Cucumber features" \
+                                         " which are \"WORK IN PROGRESS\" and" \
+                                         " are allowed to fail") do |t|
   t.cucumber_opts = %w(--tags @wip:3 --wip)
 end
 

@@ -44,7 +44,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "simplecov", [">= 0.18.0", "< 0.22.0"]
   spec.add_development_dependency "yard-junk", "~> 0.0.7"
 
-  spec.rubygems_version = ">= 1.6.1"
   spec.required_ruby_version = ">= 2.5"
 
   spec.files = File.readlines("Manifest.txt", chomp: true)
