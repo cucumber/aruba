@@ -210,7 +210,7 @@ module Aruba
       def type(input)
         return close_input if input == "\u0004"
 
-        last_command_started.write(input << "\n")
+        last_command_started.write(input, "\n")
       end
 
       # Close stdin
