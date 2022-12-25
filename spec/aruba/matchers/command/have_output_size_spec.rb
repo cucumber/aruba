@@ -3,10 +3,6 @@ require "spec_helper"
 RSpec.describe "Output Matchers" do
   include_context "uses aruba API"
 
-  def expand_path(*args)
-    @aruba.expand_path(*args)
-  end
-
   describe "#to_have_output_size" do
     let(:obj) { "string" }
 

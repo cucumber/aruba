@@ -3,14 +3,6 @@ require "spec_helper"
 RSpec.describe "Command Matchers" do
   include_context "uses aruba API"
 
-  def expand_path(*args)
-    @aruba.expand_path(*args)
-  end
-
-  def announcer(*args)
-    @aruba.send(:announcer, *args)
-  end
-
   describe "#to_have_exit_status" do
     let(:cmd) { "true" }
 
