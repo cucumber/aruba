@@ -1,4 +1,4 @@
-$LOAD_PATH << ::File.expand_path("../lib", __dir__)
+$LOAD_PATH << File.expand_path("../lib", __dir__)
 
 unless RUBY_PLATFORM.include?("java")
   require "simplecov"
@@ -9,5 +9,5 @@ unless RUBY_PLATFORM.include?("java")
 end
 
 # Loading support files
-Dir.glob(::File.expand_path("support/*.rb", __dir__)).sort.each { |f| require_relative f }
-Dir.glob(::File.expand_path("support/**/*.rb", __dir__)).sort.each { |f| require_relative f }
+Dir.glob(File.expand_path("support/*.rb", __dir__)).sort.each { |f| require_relative f }
+Dir.glob(File.expand_path("support/**/*.rb", __dir__)).sort.each { |f| require_relative f }

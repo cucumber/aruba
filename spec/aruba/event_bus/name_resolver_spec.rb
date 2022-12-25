@@ -33,7 +33,7 @@ describe Aruba::EventBus::NameResolver do
       end
 
       context "when prefixed" do
-        let(:original_name) { ::Events::MyEvent }
+        let(:original_name) { Events::MyEvent }
 
         it { expect(resolved_name).to eq Events::MyEvent }
       end
