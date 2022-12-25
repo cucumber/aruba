@@ -26,17 +26,9 @@ describe Aruba::EventBus::NameResolver do
     end
 
     context "when name is class" do
-      context "when simple" do
-        let(:original_name) { Events::MyEvent }
+      let(:original_name) { Events::MyEvent }
 
-        it { expect(resolved_name).to eq Events::MyEvent }
-      end
-
-      context "when prefixed" do
-        let(:original_name) { Events::MyEvent }
-
-        it { expect(resolved_name).to eq Events::MyEvent }
-      end
+      it { expect(resolved_name).to eq Events::MyEvent }
     end
 
     context "when name is symbol" do
