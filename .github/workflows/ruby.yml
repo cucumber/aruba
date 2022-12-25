@@ -23,7 +23,7 @@ jobs:
 
     strategy:
       matrix:
-        ruby: ["3.1", jruby-9.3]
+        ruby: ["3.1", jruby-9.4]
         appraisal: [cucumber_8]
         include:
           - ruby: "2.6"
@@ -34,6 +34,8 @@ jobs:
             appraisal: cucumber_6
           - ruby: "3.0"
             appraisal: cucumber_7
+          - ruby: "jruby-9.3"
+            appraisal: cucumber_8
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.appraisal }}.gemfile
