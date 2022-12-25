@@ -10,6 +10,7 @@ RSpec.shared_context 'uses aruba API' do
 
   def create_test_files(files, data = 'a')
     Array(files).each do |s|
+      # TODO: Only allow absolute paths here
       next if s.to_s[0] == '%'
 
       local_path = @aruba.expand_path(s)
