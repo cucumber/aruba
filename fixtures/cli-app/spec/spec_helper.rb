@@ -4,5 +4,5 @@ require "cli/app"
 
 require_relative "support/aruba"
 
-::Dir.glob(::File.expand_path("support/**/*.rb", __dir__)).sort
-     .each { |f| require_relative f }
+Dir.glob(File.expand_path("support/**/*.rb", __dir__)).sort
+   .each { |f| require_relative f }
