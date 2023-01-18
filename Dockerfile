@@ -16,7 +16,7 @@
 # The `-v $PWD:/aruba` will make the container pick up any changes to the
 # code, so you can edit and re-run the tests.
 
-FROM ruby:2.4
+FROM ruby:2.7
 
 # Create aruba user
 RUN useradd -m -s /bin/bash aruba
