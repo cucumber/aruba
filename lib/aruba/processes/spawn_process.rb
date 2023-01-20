@@ -63,8 +63,9 @@ module Aruba
       def poll_for_exit(exit_timeout)
         start = Time.now
         wait_until = start + exit_timeout
-        while Time.now < wait_until
+        loop do
           return true if exited?
+          break if Time.now >= wait_until
 
           sleep 0.1
         end

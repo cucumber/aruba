@@ -134,6 +134,17 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         expect(process).to be_timed_out
       end
     end
+
+    context "with zero exit timeout" do
+      let(:exit_timeout) { 0 }
+
+      it "does not make the command timed out if it already stopped" do
+        process.start
+        sleep 0.1
+        process.stop
+        expect(process).not_to be_timed_out
+      end
+    end
   end
 
   describe "#start" do
