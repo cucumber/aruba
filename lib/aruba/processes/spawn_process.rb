@@ -97,10 +97,8 @@ module Aruba
         @process.environment.update(environment)
 
         begin
-          Aruba.platform.with_environment(environment) do
-            @process.start
-            sleep startup_wait_time
-          end
+          @process.start
+          sleep startup_wait_time
         rescue ChildProcess::LaunchError => e
           raise LaunchError, "It tried to start #{commandline}. " + e.message
         end
