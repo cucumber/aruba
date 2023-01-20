@@ -36,6 +36,17 @@ module Aruba
         @stdin_w
       end
 
+      def stop
+        return if @exit_status
+
+        send_signal "TERM"
+        return if poll_for_exit(3)
+
+        send_signal "KILL"
+        _, status = Process.waitpid2 @pid
+        @exit_status = status
+      end
+
       def exited?
         return true if @exit_status
 
@@ -62,6 +73,12 @@ module Aruba
 
       def exit_code
         @exit_status&.exitstatus
+      end
+
+      private
+
+      def send_signal(signal)
+        Process.kill signal, @pid
       end
     end
 

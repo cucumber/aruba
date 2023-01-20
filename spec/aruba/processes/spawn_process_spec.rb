@@ -46,14 +46,38 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   end
 
   describe "#stop" do
-    before { process.start }
-
     context "when stopped successfully" do
+      before do
+        process.start
+      end
+
       it { expect { process.stop }.not_to raise_error }
 
       it "makes the process stopped" do
         process.stop
         expect(process).to be_stopped
+      end
+    end
+
+    context "with a command that is taking a long time to run" do
+      let(:cmd) { "bin/test-cli" }
+      let(:command_line) { "bash bin/test-cli" }
+      let(:exit_timeout) { 0.1 }
+
+      before do
+        @aruba.write_file cmd, <<~BASH
+          #!/usr/bin/env bash
+
+          sleep 5
+          echo "Success"
+          exit 0
+        BASH
+      end
+
+      it "terminates the command" do
+        process.start
+        process.stop
+        expect(process).not_to have_output "Success"
       end
     end
   end
@@ -65,6 +89,12 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       it "makes the process started" do
         process.start
         expect(process).to be_started
+      end
+
+      it "raises an error when attempting to start twice" do
+        process.start
+
+        expect { process.start }.to raise_error Aruba::CommandAlreadyStartedError
       end
     end
 
