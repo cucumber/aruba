@@ -16,10 +16,10 @@ Around do |scenario, block|
 end
 
 at_exit do
-  max_scenarios = scenario_times.size > 20 ? 20 : scenario_times.size
-  puts "------------- Top #{max_scenarios} slowest scenarios -------------"
   sorted_times = scenario_times.sort { |a, b| b[1] <=> a[1] }
-  sorted_times[0..max_scenarios - 1].each do |key, value|
+  slowest_times = sorted_times.first(20)
+  puts "------------- Top #{slowest_times.size} slowest scenarios -------------"
+  slowest_times.each do |key, value|
     puts format("%.2f  %s", value, key)
   end
 end
