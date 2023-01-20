@@ -246,7 +246,7 @@ module Aruba
       def stop(*)
         return @exit_status if stopped?
 
-        @process.poll_for_exit(@exit_timeout)
+        @process.poll_for_exit(@exit_timeout) or @timed_out = true
 
         terminate
       end

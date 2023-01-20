@@ -127,6 +127,12 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         process.stop
         expect(process).not_to have_output "Success"
       end
+
+      it "makes the command timed out" do
+        process.start
+        process.stop
+        expect(process).to be_timed_out
+      end
     end
   end
 
