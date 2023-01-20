@@ -202,7 +202,7 @@ module Aruba
         return @stdout_cache if stopped?
 
         wait_for_io opts.fetch(:wait_for_io, io_wait_timeout) do
-          @process.io.stdout.flush
+          @process.stdout.flush
           open(@stdout_file.path).read
         end
       end

@@ -13,17 +13,41 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   let(:working_directory) { @aruba.expand_path(".") }
 
   describe "#stdout" do
-    before do
-      process.start
-      process.stop
+    context "with a command that is stopped" do
+      before do
+        process.start
+        process.stop
+      end
+
+      context "when invoked once" do
+        it { expect(process.stdout.chomp).to eq "yo" }
+      end
+
+      context "when invoked twice" do
+        it { 2.times { expect(process.stdout.chomp).to eq "yo" } }
+      end
     end
 
-    context "when invoked once" do
-      it { expect(process.stdout.chomp).to eq "yo" }
-    end
+    context "with a command that is still running" do
+      let(:cmd) { "bin/test-cli" }
+      let(:command_line) { "bash bin/test-cli" }
+      let(:exit_timeout) { 0.1 }
 
-    context "when invoked twice" do
-      it { 2.times { expect(process.stdout.chomp).to eq "yo" } }
+      before do
+        @aruba.write_file cmd, <<~BASH
+          #!/usr/bin/env bash
+
+          echo "yo"
+          sleep 1
+          exit 0
+        BASH
+      end
+
+      it "returns the output so far" do
+        process.start
+        expect(process.stdout.chomp).to eq "yo"
+        process.stop
+      end
     end
   end
 
