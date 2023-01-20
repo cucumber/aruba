@@ -52,20 +52,44 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   end
 
   describe "#stderr" do
-    let(:command_line) { "sh -c \"echo 'yo' >&2\"" }
+    context "with a command that is stopped" do
+      let(:command_line) { "sh -c \"echo 'yo' >&2\"" }
 
-    before do
-      process.start
-      process.stop
+      before do
+        process.start
+        process.stop
+      end
+
+      it "returns the output of the process on stderr" do
+        expect(process).not_to be_timed_out
+        expect(process.stderr.chomp).to eq "yo"
+      end
+
+      it "returns the same result when invoked a second time" do
+        2.times { expect(process.stderr.chomp).to eq "yo" }
+      end
     end
 
-    it "returns the output of the process on stderr" do
-      expect(process).not_to be_timed_out
-      expect(process.stderr.chomp).to eq "yo"
-    end
+    context "with a command that is still running" do
+      let(:cmd) { "bin/test-cli" }
+      let(:command_line) { "bash bin/test-cli" }
+      let(:exit_timeout) { 0.1 }
 
-    it "returns the same result when invoked a second time" do
-      2.times { expect(process.stderr.chomp).to eq "yo" }
+      before do
+        @aruba.write_file cmd, <<~BASH
+          #!/usr/bin/env bash
+
+          echo "yo" >&2
+          sleep 1
+          exit 0
+        BASH
+      end
+
+      it "returns the error output so far" do
+        process.start
+        expect(process.stderr.chomp).to eq "yo"
+        process.stop
+      end
     end
   end
 

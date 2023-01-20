@@ -221,7 +221,7 @@ module Aruba
         return @stderr_cache if stopped?
 
         wait_for_io opts.fetch(:wait_for_io, io_wait_timeout) do
-          @process.io.stderr.flush
+          @process.stderr.flush
           open(@stderr_file.path).read
         end
       end
