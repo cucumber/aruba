@@ -1,9 +1,6 @@
 # Instructions
 # ------------
 #
-# This Dockerfile will always target the lowest version of Ruby supported by
-# Aruba. This is currently version 2.4.0.
-#
 # Build the Docker image using:
 #
 #   docker build -t test-aruba .
