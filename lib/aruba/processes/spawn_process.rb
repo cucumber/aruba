@@ -10,6 +10,61 @@ require "aruba/platform"
 module Aruba
   # Platforms
   module Processes
+    # Wrapper around Process.spawn that broadly follows the ChildProcess interface
+    # @private
+    class ProcessRunner
+      def initialize(command_array)
+        @command_array = command_array
+        @exit_status = nil
+      end
+
+      attr_accessor :stdout, :stderr, :duplex, :cwd, :environment
+      attr_reader :command_array, :pid
+
+      def start
+        @stdin_r, @stdin_w = IO.pipe
+        @pid = Process.spawn(environment, *command_array,
+                             unsetenv_others: true,
+                             in: @stdin_r,
+                             out: stdout, # alternative: IO.pipe
+                             err: stderr, # alternative: IO.pipe
+                             close_others: true,
+                             chdir: cwd)
+      end
+
+      def stdin
+        @stdin_w
+      end
+
+      def exited?
+        return true if @exit_status
+
+        pid, status = Process.waitpid2 @pid, Process::WNOHANG | Process::WUNTRACED
+
+        if pid
+          @exit_status = status
+          return true
+        end
+
+        false
+      end
+
+      def poll_for_exit(exit_timeout)
+        start = Time.now
+        wait_until = start + exit_timeout
+        while Time.now < wait_until
+          return true if exited?
+
+          sleep 0.1
+        end
+        false
+      end
+
+      def exit_code
+        @exit_status&.exitstatus
+      end
+    end
+
     # Spawn a process for command
     #
     # `SpawnProcess` is not meant for direct use - `SpawnProcess.new` - by
@@ -74,7 +129,8 @@ module Aruba
 
         @started = true
 
-        @process = ChildProcess.build(*command_string.to_a)
+        @process = ProcessRunner.new(command_string.to_a)
+
         @stdout_file = Tempfile.new("aruba-stdout-")
         @stderr_file = Tempfile.new("aruba-stderr-")
 
@@ -89,17 +145,17 @@ module Aruba
 
         before_run
 
-        @process.io.stdout = @stdout_file
-        @process.io.stderr = @stderr_file
-        @process.duplex    = @duplex
-        @process.cwd       = @working_directory
+        @process.stdout = @stdout_file
+        @process.stderr = @stderr_file
+        @process.duplex = @duplex
+        @process.cwd    = @working_directory
 
-        @process.environment.update(environment)
+        @process.environment = environment
 
         begin
           @process.start
           sleep startup_wait_time
-        rescue ChildProcess::LaunchError => e
+        rescue SystemCallError => e
           raise LaunchError, "It tried to start #{commandline}. " + e.message
         end
 
@@ -156,8 +212,8 @@ module Aruba
       def write(input)
         return if stopped?
 
-        @process.io.stdin.write(input)
-        @process.io.stdin.flush
+        @process.stdin.write(input)
+        @process.stdin.flush
 
         self
       end
@@ -166,18 +222,14 @@ module Aruba
       def close_io(name)
         return if stopped?
 
-        @process.io.public_send(name.to_sym).close
+        @process.public_send(name.to_sym).close
       end
 
       # Stop command
       def stop(*)
         return @exit_status if stopped?
 
-        begin
-          @process.poll_for_exit(@exit_timeout)
-        rescue ChildProcess::TimeoutError
-          @timed_out = true
-        end
+        @process.poll_for_exit(@exit_timeout)
 
         terminate
       end

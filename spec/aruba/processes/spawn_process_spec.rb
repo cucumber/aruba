@@ -75,8 +75,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     end
 
     context "when on unix" do
-      let(:child) { instance_double(ChildProcess::AbstractProcess).as_null_object }
-      let(:io) { instance_double(ChildProcess::AbstractIO).as_null_object }
+      let(:child) { instance_double(Aruba::Processes::ProcessRunner).as_null_object }
       let(:command_line) { "foo" }
       let(:command) { "foo" }
       let(:command_path) { "/bar/foo" }
@@ -86,56 +85,47 @@ RSpec.describe Aruba::Processes::SpawnProcess do
           .and_return Aruba::Platforms::UnixCommandString
         allow(Aruba.platform)
           .to receive(:which).with(command, anything).and_return(command_path)
-        allow(ChildProcess).to receive(:build).and_return(child)
+        allow(Aruba::Processes::ProcessRunner).to receive(:new).and_return(child)
 
-        allow(child).to receive(:io).and_return(io)
         allow(child).to receive(:environment).and_return({})
       end
 
-      context "with a childprocess launch error" do
+      context "when spawning raises some SystemCallError" do
+        let(:error) { Errno::ENOENT.new "Foobar!" }
+
         before do
-          allow(child).to receive(:start).and_raise(ChildProcess::LaunchError, "Foobar!")
+          allow(child).to receive(:start).and_raise error
         end
 
-        it "reraises LaunchError as Aruba's LaunchError" do
+        it "reraises as Aruba's LaunchError" do
           expect { process.start }
-            .to raise_error(Aruba::LaunchError, "It tried to start #{command}. Foobar!")
+            .to raise_error(Aruba::LaunchError,
+                            "It tried to start #{command}. #{error.message}")
         end
       end
 
       context "with a command with a space in the path" do
         let(:command_path) { "/path with space/foo" }
 
-        before do
-          allow(Aruba.platform).to receive(:command_string)
-            .and_return Aruba::Platforms::UnixCommandString
-          allow(Aruba.platform)
-            .to receive(:which).with(command, anything).and_return(command_path)
-          allow(ChildProcess).to receive(:build).with(command_path).and_return(child)
-          allow(child).to receive(:io).and_return io
-          allow(child).to receive(:environment).and_return({})
-        end
-
-        it "passes the command path as a single string to ChildProcess.build" do
+        it "passes the command path as a single string to ProcessRunner.new" do
           process.start
-          expect(ChildProcess).to have_received(:build).with(command_path)
+          expect(Aruba::Processes::ProcessRunner).to have_received(:new).with([command_path])
         end
       end
 
       context "with a command with arguments" do
         let(:command_line) { 'foo -x "bar baz"' }
 
-        it "passes the command and arguments as separate items to ChildProcess.build" do
+        it "passes the command and arguments as separate items to ProcessRunner.new" do
           process.start
-          expect(ChildProcess).to have_received(:build)
-            .with(command_path, "-x", "bar baz")
+          expect(Aruba::Processes::ProcessRunner).to have_received(:new)
+            .with([command_path, "-x", "bar baz"])
         end
       end
     end
 
     context "when on windows" do
-      let(:child) { instance_double(ChildProcess::AbstractProcess).as_null_object }
-      let(:io) { instance_double(ChildProcess::AbstractIO).as_null_object }
+      let(:child) { instance_double(Aruba::Processes::ProcessRunner).as_null_object }
       let(:command_line) { "foo" }
       let(:command) { "foo" }
       let(:cmd_path) { 'C:\Bar\cmd.exe' }
@@ -147,27 +137,30 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         allow(Aruba.platform).to receive(:which).with("cmd.exe").and_return(cmd_path)
         allow(Aruba.platform)
           .to receive(:which).with(command, anything).and_return(command_path)
-        allow(ChildProcess).to receive(:build).and_return(child)
+        allow(Aruba::Processes::ProcessRunner).to receive(:new).and_return(child)
 
-        allow(child).to receive(:io).and_return(io)
         allow(child).to receive(:environment).and_return({})
       end
 
-      context "with a childprocess launch error" do
+      context "when spawning raises some SystemCallError" do
+        let(:error) { Errno::ENOENT.new "Foobar!" }
+
         before do
-          allow(child).to receive(:start).and_raise(ChildProcess::LaunchError, "Foobar!")
+          allow(child).to receive(:start).and_raise error
         end
 
-        it "reraises LaunchError as Aruba's LaunchError" do
+        it "reraises as Aruba's LaunchError" do
           expect { process.start }
-            .to raise_error(Aruba::LaunchError, "It tried to start #{command}. Foobar!")
+            .to raise_error(Aruba::LaunchError,
+                            "It tried to start #{command}. #{error.message}")
         end
       end
 
       context "with a command without a space in the path" do
-        it "passes the command and shell paths as single strings to ChildProcess.build" do
+        it "passes the command and shell paths as single strings to ProcessRunner.new" do
           process.start
-          expect(ChildProcess).to have_received(:build).with(cmd_path, "/c", command_path)
+          expect(Aruba::Processes::ProcessRunner).to have_received(:new)
+            .with([cmd_path, "/c", command_path])
         end
       end
 
@@ -176,8 +169,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
 
         it "escapes the spaces using excessive double quotes" do
           process.start
-          expect(ChildProcess)
-            .to have_received(:build).with(cmd_path, "/c", 'D:\Bar""" """Baz\foo')
+          expect(Aruba::Processes::ProcessRunner).to have_received(:new)
+            .with([cmd_path, "/c", 'D:\Bar""" """Baz\foo'])
         end
       end
 
@@ -186,8 +179,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
 
         it "passes the command and arguments as one string with escaped quotes" do
           process.start
-          expect(ChildProcess).to have_received(:build)
-            .with(cmd_path, "/c", "#{command_path} -x \"bar \"\"\"baz\"\"\"\"")
+          expect(Aruba::Processes::ProcessRunner).to have_received(:new)
+            .with([cmd_path, "/c", "#{command_path} -x \"bar \"\"\"baz\"\"\"\""])
         end
       end
     end
