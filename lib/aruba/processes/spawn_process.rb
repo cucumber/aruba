@@ -1,4 +1,3 @@
-require "childprocess"
 require "tempfile"
 require "shellwords"
 
