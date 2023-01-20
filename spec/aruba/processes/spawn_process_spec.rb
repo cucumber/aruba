@@ -135,6 +135,43 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       end
     end
 
+    context "with an explicit termination signal specified" do
+      let(:cmd) { "bin/test-cli" }
+      let(:command_line) { "bash bin/test-cli" }
+      let(:exit_timeout) { 0.2 }
+      let(:process) do
+        described_class.new(command_line, exit_timeout, io_wait, working_directory,
+                            Aruba.platform.environment_variables.hash_from_env,
+                            nil, "HUP")
+      end
+
+      before do
+        @aruba.write_file cmd, <<~BASH
+          #!/usr/bin/env bash
+
+          function hup {
+            exit 155
+          }
+
+          function term {
+            exit 100
+          }
+
+          trap hup HUP
+          trap term TERM
+          echo "Hello, Aruba!"
+          while [ true ]; do sleep 0.1; done
+          exit 1
+        BASH
+      end
+
+      it "terminates the command with the given signal" do
+        process.start
+        process.stop
+        expect(process.exit_status).to eq 155
+      end
+    end
+
     context "with zero exit timeout" do
       let(:exit_timeout) { 0 }
 

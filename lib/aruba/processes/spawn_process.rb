@@ -43,6 +43,10 @@ module Aruba
         return if poll_for_exit(3)
 
         send_signal "KILL"
+        wait
+      end
+
+      def wait
         _, status = Process.waitpid2 @pid
         @exit_status = status
       end
