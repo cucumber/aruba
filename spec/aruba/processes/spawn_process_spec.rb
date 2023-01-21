@@ -146,6 +146,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       end
 
       before do
+        skip "Signals other than KILL are not supported on Windows" if Gem.win_platform?
+
         @aruba.write_file cmd, <<~BASH
           #!/usr/bin/env bash
 
