@@ -38,8 +38,10 @@ module Aruba
       def stop
         return if @exit_status
 
-        send_signal "TERM"
-        return if poll_for_exit(3)
+        if Aruba.platform.term_signal_supported?
+          send_signal "TERM"
+          return if poll_for_exit(3)
+        end
 
         send_signal "KILL"
         wait
