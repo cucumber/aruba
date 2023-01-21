@@ -17,7 +17,7 @@ module Aruba
         @exit_status = nil
       end
 
-      attr_accessor :stdout, :stderr, :duplex, :cwd, :environment
+      attr_accessor :stdout, :stderr, :cwd, :environment
       attr_reader :command_array, :pid
 
       def start
@@ -162,13 +162,11 @@ module Aruba
         @stderr_file.set_encoding("ASCII-8BIT")
 
         @exit_status = nil
-        @duplex      = true
 
         before_run
 
         @process.stdout = @stdout_file
         @process.stderr = @stderr_file
-        @process.duplex = @duplex
         @process.cwd    = @working_directory
 
         @process.environment = environment
