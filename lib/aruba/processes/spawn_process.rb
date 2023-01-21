@@ -25,8 +25,8 @@ module Aruba
         @pid = Process.spawn(environment, *command_array,
                              unsetenv_others: true,
                              in: @stdin_r,
-                             out: stdout, # alternative: IO.pipe
-                             err: stderr, # alternative: IO.pipe
+                             out: stdout.fileno,
+                             err: stderr.fileno,
                              close_others: true,
                              chdir: cwd)
       end
