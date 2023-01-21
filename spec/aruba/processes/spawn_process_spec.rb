@@ -266,7 +266,6 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       before do
         allow(Aruba.platform).to receive(:command_string)
           .and_return Aruba::Platforms::WindowsCommandString
-        allow(Aruba.platform).to receive(:which).with("cmd.exe").and_return(cmd_path)
         allow(Aruba.platform)
           .to receive(:which).with(command, anything).and_return(command_path)
         allow(Aruba::Processes::ProcessRunner).to receive(:new).and_return(child)
@@ -289,30 +288,30 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       end
 
       context "with a command without a space in the path" do
-        it "passes the command and shell paths as single strings to ProcessRunner.new" do
+        it "passes the command as-is" do
           process.start
           expect(Aruba::Processes::ProcessRunner).to have_received(:new)
-            .with([cmd_path, "/c", command_path])
+            .with([command_path])
         end
       end
 
       context "with a command with a space in the path" do
         let(:command_path) { 'D:\Bar Baz\foo' }
 
-        it "escapes the spaces using excessive double quotes" do
+        it "passes the command as-is" do
           process.start
           expect(Aruba::Processes::ProcessRunner).to have_received(:new)
-            .with([cmd_path, "/c", 'D:\Bar""" """Baz\foo'])
+            .with([command_path])
         end
       end
 
       context "with a command with arguments" do
         let(:command_line) { "foo -x 'bar \"baz\"'" }
 
-        it "passes the command and arguments as one string with escaped quotes" do
+        it "passes the command and arguments individually" do
           process.start
           expect(Aruba::Processes::ProcessRunner).to have_received(:new)
-            .with([cmd_path, "/c", "#{command_path} -x \"bar \"\"\"baz\"\"\"\""])
+            .with([command_path, "-x", "bar \"baz\""])
         end
       end
     end
