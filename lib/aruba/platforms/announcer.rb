@@ -2,6 +2,7 @@
 
 require 'shellwords'
 require 'aruba/colorizer'
+require 'aruba/platforms/simple_table'
 
 Aruba::Colorizer.coloring = false if !$stdout.tty? && !ENV.key?('AUTOTEST')
 
@@ -82,6 +83,10 @@ module Aruba
 
       private
 
+      def simple_table(hash, **opts)
+        SimpleTable.new(hash, **opts).to_s
+      end
+
       def after_init
         output_format :changed_configuration, proc { |n, v| format('# %s = %s', n, v) }
         output_format :changed_environment,
@@ -93,7 +98,7 @@ module Aruba
         output_format :full_environment,
                       proc { |h|
                         format("<<-ENVIRONMENT\n%s\nENVIRONMENT",
-                               Aruba.platform.simple_table(h))
+                               simple_table(h))
                       }
         output_format :modified_environment,
                       proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
@@ -109,7 +114,7 @@ module Aruba
         output_format :command_filesystem_status,
                       proc { |status|
                         format("<<-COMMAND FILESYSTEM STATUS\n%s\nCOMMAND FILESYSTEM STATUS",
-                               Aruba.platform.simple_table(status.to_h, sort: false))
+                               simple_table(status.to_h, sort: false))
                       }
       end
 
