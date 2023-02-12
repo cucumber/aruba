@@ -11,6 +11,10 @@ AllCops:
   DisplayCopNames: true
   NewCops: enable
   TargetRubyVersion: 2.6
+  Exclude:
+    - 'bin/cucumber'
+    - 'bin/rspec'
+    - 'bin/rake'
 
 # Ignore gemfiles created by Appraisal
 Bundler/OrderedGems:
