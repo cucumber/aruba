@@ -11,11 +11,20 @@ AllCops:
   DisplayCopNames: true
   NewCops: enable
   TargetRubyVersion: 2.6
+  Exclude:
+    - 'bin/cucumber'
+    - 'bin/rspec'
+    - 'bin/rake'
 
 # Ignore gemfiles created by Appraisal
 Bundler/OrderedGems:
   Exclude:
     - 'gemfiles/*.gemfile'
+
+# Don't complicate things in fixture apps and gems
+Gemspec/DevelopmentDependencies:
+  Exclude:
+    - 'fixtures/**/*'
 
 # TODO: Enable once the effects on using cukebot are clear and have been taken care of
 Gemspec/RequireMFA:
