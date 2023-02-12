@@ -21,6 +21,11 @@ Bundler/OrderedGems:
   Exclude:
     - 'gemfiles/*.gemfile'
 
+# Don't complicate things in fixture apps and gems
+Gemspec/DevelopmentDependencies:
+  Exclude:
+    - 'fixtures/**/*'
+
 # TODO: Enable once the effects on using cukebot are clear and have been taken care of
 Gemspec/RequireMFA:
   Enabled: false
