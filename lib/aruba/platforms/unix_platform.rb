@@ -241,6 +241,10 @@ module Aruba
       def builtin_shell_commands
         []
       end
+
+      def term_signal_supported?
+        true
+      end
     end
   end
 end
