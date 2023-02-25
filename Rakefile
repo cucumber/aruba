@@ -8,7 +8,6 @@ Bundler.setup
 require "cucumber/rake/task"
 require "rspec/core/rake_task"
 require "rubocop/rake_task"
-require "yard-junk/rake"
 
 Cucumber::Rake::Task.new do |t|
   t.cucumber_opts = %w(--format progress)
@@ -26,7 +25,6 @@ desc "Run the whole test suite."
 task test: [:spec, :cucumber]
 
 RuboCop::RakeTask.new
-YardJunk::Rake.define_task
 
 Bundler::GemHelper.install_tasks
 
