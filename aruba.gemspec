@@ -32,7 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "kramdown", "~> 2.1"
   spec.add_development_dependency "minitest", "~> 5.10"
   spec.add_development_dependency "pry", [">= 0.13.0", "< 0.15.0"]
-  spec.add_development_dependency "pry-doc", "~> 1.0"
   spec.add_development_dependency "rake", [">= 12.0", "< 14.0"]
   spec.add_development_dependency "rake-manifest", "~> 0.2.0"
   spec.add_development_dependency "rspec", "~> 3.11"
@@ -41,7 +40,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop-performance", "~> 1.13"
   spec.add_development_dependency "rubocop-rspec", "~> 2.8"
   spec.add_development_dependency "simplecov", ">= 0.18.0", "< 0.23.0"
-  spec.add_development_dependency "yard-junk", "~> 0.0.7"
 
   spec.required_ruby_version = ">= 2.6"
 
