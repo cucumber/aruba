@@ -8,6 +8,7 @@ Bundler.setup
 require "cucumber/rake/task"
 require "rspec/core/rake_task"
 require "rubocop/rake_task"
+require "rake/clean"
 
 Cucumber::Rake::Task.new do |t|
   t.cucumber_opts = %w(--format progress)
@@ -21,8 +22,10 @@ end
 
 RSpec::Core::RakeTask.new
 
+CLOBBER << "coverage/**/*"
+
 desc "Run the whole test suite."
-task test: [:spec, :cucumber]
+task test: [:clobber, :spec, :cucumber]
 
 RuboCop::RakeTask.new
 
