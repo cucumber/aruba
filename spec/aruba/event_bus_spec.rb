@@ -63,7 +63,7 @@ describe Aruba::EventBus do
       it "keeps all registrations" do
         bus.notify event_instance
 
-        expect(received_events).to match_array [event_instance, event_instance]
+        expect(received_events).to eq [event_instance, event_instance]
       end
     end
 
