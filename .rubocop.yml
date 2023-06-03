@@ -21,8 +21,10 @@ Bundler/OrderedGems:
   Exclude:
     - 'gemfiles/*.gemfile'
 
+# Put development dependencies in the gemspec so rubygems.org knows about them.
 # Don't complicate things in fixture apps and gems
 Gemspec/DevelopmentDependencies:
+  EnforcedStyle: gemspec
   Exclude:
     - 'fixtures/**/*'
 
