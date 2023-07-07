@@ -17,14 +17,14 @@ Around do |test_case, block|
   # Used in simplecov_setup so that each scenario has a different name and
   # their coverage results are merged instead of overwriting each other as
   # 'Cucumber Features'
-  set_environment_variable 'SIMPLECOV_COMMAND_NAME', command_name.to_s
+  set_environment_variable "SIMPLECOV_COMMAND_NAME", command_name.to_s
 
   simplecov_setup_pathname =
-    Pathname.new(__FILE__).expand_path.parent.join('simplecov').to_s
+    Pathname.new(__FILE__).expand_path.parent.join("simplecov").to_s
 
   # set environment variable so child processes will merge their coverage data
   # with parent process's coverage data.
-  prepend_environment_variable 'RUBYOPT', "-I#{simplecov_setup_pathname} -rsimplecov_setup "
+  prepend_environment_variable "RUBYOPT", "-I#{simplecov_setup_pathname} -rsimplecov_setup "
 
   with_environment do
     block.call
