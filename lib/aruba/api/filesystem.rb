@@ -302,11 +302,7 @@ module Aruba
                   end
 
         mode = args.shift
-        mode = if mode.is_a? String
-                 mode.to_i(8)
-               else
-                 mode
-               end
+        mode = mode.to_i(8) if mode.is_a? String
 
         args.each { |path| raise "Expected #{path} to be present" unless exist?(path) }
         paths = args.map { |path| expand_path(path) }
