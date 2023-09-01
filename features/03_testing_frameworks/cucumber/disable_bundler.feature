@@ -17,7 +17,7 @@ Feature: Disable Bundler environment
         \"\"\"
         source 'https://rubygems.org'
         \"\"\"
-        When I run `bundle --local`
+        When I run `bundle list`
         Then the output should not contain "aruba"
 
       Scenario: Run bundle in the existing bundler environment
@@ -25,7 +25,7 @@ Feature: Disable Bundler environment
         \"\"\"
         source 'https://rubygems.org'
         \"\"\"
-        When I run `bundle --local`
+        When I run `bundle list`
         Then the output should contain "aruba"
     """
     When I run `bundle exec cucumber`
