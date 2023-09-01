@@ -82,7 +82,7 @@ Aruba is supported on Ruby 2.6 and up, and tested against CRuby 2.6, 2.7, 3.0,
 
 ## Supported Cucumber versions
 
-Aruba is supported on and tested with Cucumber versions 4 through 8.
+Aruba is supported on and tested with Cucumber versions 4 through 9.
 
 ## Supported operating systems
 
