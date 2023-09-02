@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "bundler", [">= 1.17", "< 3.0"]
   spec.add_runtime_dependency "contracts", [">= 0.16.0", "< 0.18.0"]
-  spec.add_runtime_dependency "cucumber", ">= 4.0", "< 10.0"
+  spec.add_runtime_dependency "cucumber", ">= 8.0", "< 10.0"
   spec.add_runtime_dependency "rspec-expectations", "~> 3.4"
   spec.add_runtime_dependency "thor", "~> 1.0"
 

@@ -27,13 +27,11 @@ jobs:
         appraisal: [cucumber_8, cucumber_9]
         include:
           - ruby: "2.6"
-            appraisal: cucumber_4
+            appraisal: cucumber_8
           - ruby: "2.7"
-            appraisal: cucumber_5
-          - ruby: "2.7"
-            appraisal: cucumber_6
+            appraisal: cucumber_8
           - ruby: "3.0"
-            appraisal: cucumber_7
+            appraisal: cucumber_8
           - ruby: "jruby-9.3"
             appraisal: cucumber_8
 
