@@ -6,6 +6,17 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [2.2.0] / 2023-09-02
+
+* Drop support for Ruby 2.5 ([#836] by [mvz])
+* Add support for JRuby 9.4 ([#882] by [mvz])
+* Support CRuby 3.2 ([#883] by [mvz])
+* Improve `be_a_command_found_in_path matcher` and its tests ([#895] by [mvz])
+* Replace ChildProcess with Process.spawn ([#891] and [#892] by [mvz])
+* Support Cucumber version 9.0 ([#904] by [mvz])
+* Drop support for Cucumber 4 through 7 ([#906] by [mvz])
+* Drop support for Ruby 2.6 ([#907] by [mvz])
+
 ## [2.1.0] / 2022-05-20
 
 * Support Cucumber 8 ([#870] by [mvz] with [dependabot])
@@ -1017,16 +1028,25 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [scottj97]:       https://github.com/scottj97
 [stamhankar999]:  https://github.com/stamhankar999
 [taylor]:         https://github.com/taylor
-[utkarsh2102]:    https://github.com/utkarsh2102
 [tdreyno]:        https://github.com/tdreyno
+[utkarsh2102]:    https://github.com/utkarsh2102
 [xtrasimplicity]: https://github.com/xtrasimplicity
 [y-higuchi]:      https://github.com/y-higuchi
 
 <!-- bots -->
 
+[renovate]:       https://github.com/apps/renovate
 [dependabot]:     https://github.com/apps/dependabot
 
 <!-- issues & pull requests -->
+
+[#904]: https://github.com/cucumber/aruba/pull/904
+[#895]: https://github.com/cucumber/aruba/pull/895
+[#892]: https://github.com/cucumber/aruba/pull/892
+[#891]: https://github.com/cucumber/aruba/pull/891
+[#883]: https://github.com/cucumber/aruba/pull/883
+[#882]: https://github.com/cucumber/aruba/pull/882
+[#836]: https://github.com/cucumber/aruba/pull/836
 
 [#870]: https://github.com/cucumber/aruba/pull/870
 [#867]: https://github.com/cucumber/aruba/pull/867
@@ -1337,7 +1357,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v2.1.0...main
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v2.2.0...main
+[2.2.0]:          https://github.com/cucumber/aruba/compare/v2.1.0...v2.2.0
 [2.1.0]:          https://github.com/cucumber/aruba/compare/v2.0.1...v2.1.0
 [2.0.1]:          https://github.com/cucumber/aruba/compare/v2.0.0...v2.0.1
 [2.0.0]:          https://github.com/cucumber/aruba/compare/v1.1.2...v2.0.0
