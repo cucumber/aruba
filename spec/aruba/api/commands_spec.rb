@@ -17,6 +17,12 @@ RSpec.describe Aruba::Api::Commands do
         expect(@aruba.last_command_started).to have_output "Hello"
       end
 
+      it "respond to frozen input" do
+        @aruba.type "Hello".freeze
+        @aruba.type "\u0004".freeze
+        expect(@aruba.last_command_started).to have_output "Hello"
+      end
+
       it "respond to close_input" do
         @aruba.type "Hello"
         @aruba.close_input
