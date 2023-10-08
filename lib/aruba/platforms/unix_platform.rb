@@ -2,7 +2,9 @@ require "rbconfig"
 require "rubygems"
 require "pathname"
 
+require "aruba/aruba_logger"
 require "aruba/aruba_path"
+require "aruba/command_monitor"
 
 require "aruba/platforms/simple_table"
 require "aruba/platforms/unix_command_string"
@@ -12,9 +14,7 @@ require "aruba/platforms/determine_disk_usage"
 require "aruba/platforms/aruba_file_creator"
 require "aruba/platforms/aruba_fixed_size_file_creator"
 require "aruba/platforms/local_environment"
-require "aruba/platforms/aruba_logger"
 require "aruba/platforms/announcer"
-require "aruba/platforms/command_monitor"
 require "aruba/platforms/filesystem_status"
 
 # Aruba
