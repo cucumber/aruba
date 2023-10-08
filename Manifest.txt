@@ -6,12 +6,14 @@ lib/aruba/api/core.rb
 lib/aruba/api/environment.rb
 lib/aruba/api/filesystem.rb
 lib/aruba/api/text.rb
+lib/aruba/aruba_logger.rb
 lib/aruba/aruba_path.rb
 lib/aruba/basic_configuration.rb
 lib/aruba/basic_configuration/option.rb
 lib/aruba/cli.rb
 lib/aruba/colorizer.rb
 lib/aruba/command.rb
+lib/aruba/command_monitor.rb
 lib/aruba/config/jruby.rb
 lib/aruba/config_wrapper.rb
 lib/aruba/configuration.rb
@@ -70,8 +72,6 @@ lib/aruba/platform.rb
 lib/aruba/platforms/announcer.rb
 lib/aruba/platforms/aruba_file_creator.rb
 lib/aruba/platforms/aruba_fixed_size_file_creator.rb
-lib/aruba/platforms/aruba_logger.rb
-lib/aruba/platforms/command_monitor.rb
 lib/aruba/platforms/determine_disk_usage.rb
 lib/aruba/platforms/determine_file_size.rb
 lib/aruba/platforms/filesystem_status.rb
