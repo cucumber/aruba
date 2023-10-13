@@ -40,19 +40,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-      - uses: actions/cache@v3
-        with:
-          # NOTE: Bundler expands the path relative to the gemfile, not the
-          # current directory.
-          path: ./gemfiles/vendor/bundle
-          key: bundled-gems-${{ runner.os }}-ruby-${{ matrix.ruby }}-${{ matrix.appraisal }}-${{ hashFiles(env.BUNDLE_GEMFILE, '*.gemspec') }}
-          restore-keys: |
-            bundled-gems-${{ runner.os }}-ruby-${{ matrix.ruby }}-${{ matrix.appraisal }}-
-            bundled-gems-${{ runner.os }}-ruby-${{ matrix.ruby }}-
-      - name: Install gems
-        run: |
-          bundle config path vendor/bundle
-          bundle install --jobs 4
+          bundler-cache: true
       - name: Run specs
         run: bundle exec rake spec
       - name: Run cukes
