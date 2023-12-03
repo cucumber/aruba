@@ -28,9 +28,9 @@ module Aruba
       launchers << Processes::InProcess
       launchers << Processes::SpawnProcess
 
-      launcher = launchers.find { |l| l.match? opts[:mode] }
+      klass = launchers.find { |l| l.match? opts[:mode] }
 
-      super launcher.new(
+      launcher = klass.new(
         command,
         opts.fetch(:exit_timeout),
         opts.fetch(:io_wait_timeout),
@@ -40,6 +40,8 @@ module Aruba
         opts.fetch(:stop_signal),
         opts.fetch(:startup_wait_time)
       )
+
+      super(launcher)
 
       @event_bus = opts.fetch(:event_bus)
     rescue KeyError => e

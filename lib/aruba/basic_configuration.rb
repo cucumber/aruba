@@ -180,7 +180,7 @@ module Aruba
 
     # Set if name is option
     def set_if_option(name, *args)
-      public_send("#{name}=".to_sym, *args) if option? name
+      public_send(:"#{name}=", *args) if option? name
     end
 
     private
