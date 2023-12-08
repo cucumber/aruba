@@ -10,15 +10,15 @@ Feature: Debug your command in cucumber-test-run
   Scenario: You can use a debug repl in your cli program
 
     If you want to debug an error, which only occurs in one of your
-    `cucumber`-tests, the `@debug`-tag becomes handy. This will use the
+    Cucumber tests, the `@debug`-tag becomes handy. This will use the
     DebugProcess runner, making your program use the default stdin, stdout and
     stderr streams so you can interact with it directly.
 
-    This will, for example, make `binding.pry` and `byebug` work in your
+    This will, for example, make `binding.irb` and `byebug` work in your
     program. However, Aruba steps that access the input and output of your
     program will not work.
 
-    We are going to demonstrate this using `pry`, but any other interactive
+    We are going to demonstrate this using `irb`, but any other interactive
     debugger for any other programming language should also work.
 
     Given an executable named "bin/aruba-test-cli" with:
@@ -27,8 +27,7 @@ Feature: Debug your command in cucumber-test-run
 
     foo = 'hello'
 
-    require 'pry'
-    binding.pry
+    binding.irb
     """
     And a file named "features/debug.feature" with:
     """cucumber
@@ -44,9 +43,9 @@ Feature: Debug your command in cucumber-test-run
     And I type "exit"
     Then the output should contain:
     """
-    [1] pry(main)> foo
-    => "hello"
-    [2] pry(main)> exit
+    foo
+    "hello"
+    exit
     """
 
   Scenario: Can handle announcers
