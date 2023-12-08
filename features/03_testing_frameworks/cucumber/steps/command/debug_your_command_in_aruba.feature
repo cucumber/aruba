@@ -19,10 +19,6 @@ Feature: Debug your command in cucumber-test-run
     program. However, Aruba steps that access the input and output of your
     program will not work.
 
-    Please make sure, that there's a statement after the `binding.pry`-call.
-    Otherwise you might not get an interactive shell, because your program will
-    just exit.
-
     We are going to demonstrate this using `pry`, but any other interactive
     debugger for any other programming language should also work.
 
@@ -34,8 +30,6 @@ Feature: Debug your command in cucumber-test-run
 
     require 'pry'
     binding.pry
-
-    exit 0
     """
     And a file named "features/debug.feature" with:
     """cucumber
