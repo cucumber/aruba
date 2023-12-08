@@ -30,9 +30,6 @@ Feature: Debug your command in cucumber-test-run
     """ruby
     #!/usr/bin/env ruby
 
-    $stderr.sync = true
-    $stdout.sync = true
-
     foo = 'hello'
 
     require 'pry'
