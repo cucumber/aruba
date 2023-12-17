@@ -121,28 +121,28 @@ end
 
 ## the stderr should contain "hello"
 Then "(the ){channel} should contain {string}" do |channel, expected|
-  combined_output = send("all_#{channel}")
+  combined_output = send(:"all_#{channel}")
 
   expect(combined_output).to include_output_string expected
 end
 
 ## the stderr should not contain "hello"
 Then "(the ){channel} should not contain {string}" do |channel, expected|
-  combined_output = send("all_#{channel}")
+  combined_output = send(:"all_#{channel}")
 
   expect(combined_output).not_to include_output_string expected
 end
 
 ## the stderr should contain exactly "hello"
 Then "(the ){channel} should contain exactly {string}" do |channel, expected|
-  combined_output = send("all_#{channel}")
+  combined_output = send(:"all_#{channel}")
 
   expect(combined_output).to output_string_eq expected
 end
 
 ## the stderr should not contain exactly "hello"
 Then "(the ){channel} should not contain exactly {string}" do |channel, expected|
-  combined_output = send("all_#{channel}")
+  combined_output = send(:"all_#{channel}")
 
   expect(combined_output).not_to output_string_eq expected
 end
@@ -211,28 +211,28 @@ end
 
 ## the stderr should contain:
 Then "(the ){channel} should contain:" do |channel, expected|
-  combined_output = send("all_#{channel}")
+  combined_output = send(:"all_#{channel}")
 
   expect(combined_output).to include_output_string(expected)
 end
 
 ## the stderr should not contain:
 Then "(the ){channel} should not contain:" do |channel, expected|
-  combined_output = send("all_#{channel}")
+  combined_output = send(:"all_#{channel}")
 
   expect(combined_output).not_to include_output_string(expected)
 end
 
 ## the stderr should contain exactly:
 Then "(the ){channel} should contain exactly:" do |channel, expected|
-  combined_output = send("all_#{channel}")
+  combined_output = send(:"all_#{channel}")
 
   expect(combined_output).to output_string_eq(expected)
 end
 
 ## the stderr should not contain exactly:
 Then "(the ){channel} should not contain exactly:" do |channel, expected|
-  combined_output = send("all_#{channel}")
+  combined_output = send(:"all_#{channel}")
 
   expect(combined_output).not_to output_string_eq(expected)
 end
