@@ -22,7 +22,7 @@ RSpec.shared_context "uses aruba API" do
       include Aruba::Api
 
       def set_tag(tag_name, value)
-        instance_variable_set "@#{tag_name}", value
+        instance_variable_set :"@#{tag_name}", value
       end
     end
 

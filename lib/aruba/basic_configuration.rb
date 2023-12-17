@@ -52,7 +52,7 @@ module Aruba
         add_option(name, block_given? ? yield(InConfigWrapper.new(known_options)) : default)
 
         Contract type => type
-        define_method("#{name}=") { |v| find_option(name).value = v }
+        define_method(:"#{name}=") { |v| find_option(name).value = v }
 
         # Add reader
         option_reader name, type: type
