@@ -29,7 +29,6 @@ module Aruba
       IRB.conf[:RC] = false
 
       require "irb/completion"
-      require "irb/ext/save-history"
       IRB.conf[:READLINE] = true
       IRB.conf[:SAVE_HISTORY] = 1000
       IRB.conf[:HISTORY_FILE] = Aruba.config.console_history_file
