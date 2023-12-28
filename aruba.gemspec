@@ -41,7 +41,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop-rspec", "~> 2.8"
   spec.add_development_dependency "simplecov", ">= 0.18.0", "< 0.23.0"
 
-  spec.required_ruby_version = ">= 2.7"
+  spec.required_ruby_version = ">= 3.0.0"
 
   spec.files = File.readlines("Manifest.txt", chomp: true)
 

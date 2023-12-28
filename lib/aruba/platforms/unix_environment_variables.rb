@@ -156,10 +156,10 @@ module Aruba
       end
 
       # Pass on checks
-      def method_missing(name, *args, &block)
+      def method_missing(name, ...)
         super unless to_h.respond_to? name
 
-        to_h.send name, *args, &block
+        to_h.send(name, ...)
       end
 
       # Check for respond_to

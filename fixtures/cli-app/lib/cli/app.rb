@@ -1,6 +1,6 @@
 require "cli/app/version"
 
-Dir.glob(File.expand_path("**/*.rb", __dir__)).sort.each { |f| require_relative f }
+Dir.glob(File.expand_path("**/*.rb", __dir__)).each { |f| require_relative f }
 
 module Cli
   module App
