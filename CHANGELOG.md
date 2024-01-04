@@ -1357,7 +1357,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v2.2.0...main
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v2.2.0...HEAD
 [2.2.0]:          https://github.com/cucumber/aruba/compare/v2.1.0...v2.2.0
 [2.1.0]:          https://github.com/cucumber/aruba/compare/v2.0.1...v2.1.0
 [2.0.1]:          https://github.com/cucumber/aruba/compare/v2.0.0...v2.0.1
