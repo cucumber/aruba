@@ -10,7 +10,7 @@ Feature: Use fixtures in your tests
     Given I use a fixture named "cli-app"
 
   Scenario: Use a fixture for your tests
-    Given a file named "spec/fixture_spec.rb" with:
+    Given a file named "spec/fixture_a_spec.rb" with:
     """
     require 'spec_helper'
 
@@ -30,7 +30,7 @@ Feature: Use fixtures in your tests
     Then the specs should all pass
 
   Scenario: Pass file from fixtures to your command
-    Given a file named "spec/fixture_spec.rb" with:
+    Given a file named "spec/fixture_b_spec.rb" with:
     """
     require 'spec_helper'
 
@@ -56,7 +56,7 @@ Feature: Use fixtures in your tests
     Then the specs should all pass
 
   Scenario: Use a fixture for your tests in test/
-    Given a file named "spec/fixture_spec.rb" with:
+    Given a file named "spec/fixture_c_spec.rb" with:
     """
     require 'spec_helper'
 
@@ -76,7 +76,7 @@ Feature: Use fixtures in your tests
     Then the specs should all pass
 
   Scenario: Use a fixture for your tests in spec/
-    Given a file named "spec/fixture_spec.rb" with:
+    Given a file named "spec/fixture_d_spec.rb" with:
     """
     require 'spec_helper'
 
@@ -96,7 +96,7 @@ Feature: Use fixtures in your tests
     Then the specs should all pass
 
   Scenario: Use a fixture for your tests in features/
-    Given a file named "spec/fixture_spec.rb" with:
+    Given a file named "spec/fixture_e_spec.rb" with:
     """
     require 'spec_helper'
 

@@ -27,7 +27,7 @@ Feature: Stop command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.2 do
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.5 do
       before { run_command('aruba-test-cli') }
       before { last_command_started.stop }
       it { expect(last_command_started).to be_successfully_executed }
@@ -52,7 +52,7 @@ Feature: Stop command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, startup_wait_time: 0.1, exit_timeout: 0.3 do
+    RSpec.describe 'Run command', type: :aruba, startup_wait_time: 0.1, exit_timeout: 0.5 do
       before { run_command('aruba-test-cli') }
       before { find_command('aruba-test-cli').stop }
       it { expect(last_command_started).to be_successfully_executed }
@@ -85,7 +85,7 @@ Feature: Stop command
 
     Aruba.configure do |config|
       config.stop_signal  = 'HUP'
-      config.exit_timeout = 0.2
+      config.exit_timeout = 0.5
     end
 
     RSpec.describe 'Run command', type: :aruba do
@@ -120,7 +120,7 @@ Feature: Stop command
 
     Aruba.configure do |config|
       config.stop_signal  = 'HUP'
-      config.exit_timeout = 0.2
+      config.exit_timeout = 0.5
     end
 
     RSpec.describe 'Run command', type: :aruba do

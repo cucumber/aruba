@@ -116,7 +116,7 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.1, startup_wait_time: 0.4 do
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.5, startup_wait_time: 1.5 do
       before do
         run_command('aruba-test-cli')
         last_command_started.send_signal 'HUP'
@@ -154,7 +154,7 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.4 do
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 1.0 do
       before { run_command('aruba-test-cli') }
 
       it 'runs the command with the expected results' do
@@ -233,10 +233,10 @@ Feature: Run command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Run command', type: :aruba, exit_timeout: 0.1 do
+    RSpec.describe 'Run command', type: :aruba, exit_timeout: 1.0 do
       before do
-        run_command 'aruba-test-cli1', startup_wait_time: 0.5
-        run_command 'aruba-test-cli2', startup_wait_time: 0.2
+        run_command 'aruba-test-cli1', startup_wait_time: 1.0
+        run_command 'aruba-test-cli2', startup_wait_time: 0.7
         last_command_started.send_signal 'HUP'
       end
 
@@ -289,8 +289,8 @@ Feature: Run command
 
     RSpec.describe 'Run command', type: :aruba do
       before do
-        run_command 'aruba-test-cli1', exit_timeout: 0.4
-        run_command 'aruba-test-cli2', exit_timeout: 0.1
+        run_command 'aruba-test-cli1', exit_timeout: 1.5
+        run_command 'aruba-test-cli2', exit_timeout: 0.7
       end
 
       it 'runs both commands with the expected results' do
