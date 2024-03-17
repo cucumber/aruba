@@ -3,7 +3,7 @@ require "spec_helper"
 RSpec.describe Aruba::Command do
   let(:command) do
     described_class.new(
-      "true",
+      "exit 0",
       event_bus: event_bus,
       exit_timeout: exit_timeout,
       io_wait_timeout: io_wait_timeout,
