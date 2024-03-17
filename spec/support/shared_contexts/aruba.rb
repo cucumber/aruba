@@ -8,6 +8,7 @@ RSpec.shared_context "uses aruba API" do
 
   def create_test_files(files, data = "a")
     Array(files).each do |s|
+      # TODO: Only allow absolute paths here
       next if s.to_s[0] == "%"
 
       local_path = @aruba.expand_path(s)
@@ -17,7 +18,7 @@ RSpec.shared_context "uses aruba API" do
     end
   end
 
-  before do
+  around do |example|
     klass = Class.new do
       include Aruba::Api
 
@@ -35,6 +36,13 @@ RSpec.shared_context "uses aruba API" do
 
     if @aruba.aruba.current_directory[0] == "/"
       raise "We must work with relative paths, everything else is dangerous"
+    end
+
+    # Use configured home directory as HOME
+    @aruba.set_environment_variable "HOME", aruba.config.home_directory
+
+    @aruba.with_environment do
+      example.run
     end
   end
 end
