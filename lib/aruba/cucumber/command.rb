@@ -7,7 +7,7 @@ end
 
 ## I successfully run `echo -n "Hello"`
 ## I successfully run `sleep 29` for up to 30 seconds
-When(/^I successfully run `(.*?)`(?: for up to ([\d.]+) seconds)?$/) do |cmd, secs|
+When(/^I successfully run `(.*?)`(?: for up to ([\d.]+) seconds?)?$/) do |cmd, secs|
   cmd = sanitize_text(cmd)
   run_command_and_stop(cmd, fail_on_error: true, exit_timeout: secs && secs.to_f)
 end

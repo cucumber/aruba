@@ -49,6 +49,14 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         process.stop
       end
     end
+
+    context "with a command that produces a large output" do
+      let(:command_line) { "ruby -e 'puts \"a\" * 65536'" }
+
+      it "returns the whole output" do
+        expect(process.stdout.chomp).to eq "a" * 65_536
+      end
+    end
   end
 
   describe "#stderr" do
