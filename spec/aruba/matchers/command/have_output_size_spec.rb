@@ -1,21 +1,17 @@
 require "spec_helper"
 
 RSpec.describe "Output Matchers" do
-  include_context "uses aruba API"
-
   describe "#to_have_output_size" do
-    let(:obj) { "string" }
-
-    context "when has size" do
-      context "when is string" do
-        it { expect(obj).to have_output_size 6 }
-      end
-    end
-
-    context "when does not have size" do
+    context "when actual is a string" do
       let(:obj) { "string" }
 
-      it { expect(obj).not_to have_output_size(-1) }
+      it "matches when the string is the given size" do
+        expect(obj).to have_output_size 6
+      end
+
+      it "does not match when the string does not have the given size" do
+        expect(obj).not_to have_output_size 5
+      end
     end
   end
 end
