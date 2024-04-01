@@ -116,7 +116,7 @@ When "I wait for output/stdout to contain {string}" do |expected|
 end
 
 Then "the output should be {int} bytes long" do |size|
-  expect(last_command_started.output).to have_output_size size.to_i
+  expect(last_command_started).to have_output_size size.to_i
 end
 
 ## the stderr should contain "hello"
