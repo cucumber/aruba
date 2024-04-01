@@ -361,6 +361,7 @@ module Aruba
         data = file.read
         file.close
         file.unlink
+        raise "Unlink failed!" unless file.path.nil?
 
         data.force_encoding("UTF-8")
       end
