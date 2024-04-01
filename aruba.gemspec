@@ -35,10 +35,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", [">= 12.0", "< 14.0"]
   spec.add_development_dependency "rake-manifest", "~> 0.2.0"
   spec.add_development_dependency "rspec", "~> 3.11"
-  spec.add_development_dependency "rubocop", ["~> 1.28", "!= 1.29.0"]
-  spec.add_development_dependency "rubocop-packaging", "~> 0.5.0"
-  spec.add_development_dependency "rubocop-performance", "~> 1.13"
-  spec.add_development_dependency "rubocop-rspec", "~> 2.8"
+  spec.add_development_dependency "rubocop", "~> 1.62"
+  spec.add_development_dependency "rubocop-packaging", "~> 0.5.2"
+  spec.add_development_dependency "rubocop-performance", "~> 1.21"
+  spec.add_development_dependency "rubocop-rspec", "~> 2.28"
   spec.add_development_dependency "simplecov", ">= 0.18.0", "< 0.23.0"
 
   spec.required_ruby_version = ">= 3.0.0"
