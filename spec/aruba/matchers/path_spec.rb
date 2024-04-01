@@ -6,10 +6,6 @@ require "aruba/matchers/path"
 RSpec.describe "Path Matchers" do
   include_context "uses aruba API"
 
-  def expand_path(*args)
-    @aruba.expand_path(*args)
-  end
-
   describe "to_be_an_absolute_path" do
     let(:name) { @file_name }
     let(:path) { @aruba.expand_path(name) }
