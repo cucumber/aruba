@@ -3,6 +3,7 @@
 require 'fileutils'
 require 'securerandom'
 
+# Provide Aruba API via an instance variable, instead of including it into the RSpec class.
 RSpec.shared_context 'uses aruba API' do
   def random_string(options = {})
     options[:prefix].to_s + SecureRandom.hex + options[:suffix].to_s
@@ -30,11 +31,11 @@ RSpec.shared_context 'uses aruba API' do
     end
 
     @aruba = klass.new
+    @aruba.setup_aruba
 
     @file_name = 'test.txt'
     @file_size = 256
     @file_path = @aruba.expand_path(@file_name)
-    @aruba.setup_aruba
 
     if @aruba.aruba.current_directory[0] == '/'
       raise 'We must work with relative paths, everything else is dangerous'
