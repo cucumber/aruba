@@ -34,6 +34,7 @@ RSpec.shared_context 'uses aruba API' do
     @file_size = 256
     @file_path = @aruba.expand_path(@file_name)
     @aruba.setup_aruba
+    raise "File #{@file_path} exists" if File.exist? @file_path
 
     if @aruba.aruba.current_directory[0] == '/'
       raise 'We must work with relative paths, everything else is dangerous'
