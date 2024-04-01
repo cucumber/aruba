@@ -7,6 +7,7 @@ module Aruba
   #
   # Initialize project with aruba configuration files
   module Initializers
+    #
     # Common initializer
     #
     # @private
@@ -35,14 +36,9 @@ module Aruba
         send creator, file, content
       end
     end
-  end
-end
 
-# Aruba
-module Aruba
-  # Initializers
-  module Initializers
-    # Default Initializer
+    #
+    # Failing Initializer
     #
     # This handles invalid values for initializer.
     #
@@ -59,14 +55,8 @@ module Aruba
         end
       end
     end
-  end
-end
 
-# Aruba
-module Aruba
-  # Initializer
-  module Initializers
-    # Add aruba + rspec to project
+    # RSpec Initializer. Adds aruba + rspec to project
     #
     # @private
     class RSpecInitializer < Thor::Group
@@ -100,14 +90,9 @@ module Aruba
         EOS
       end
     end
-  end
-end
 
-# Aruba
-module Aruba
-  # Initializer
-  module Initializers
-    # Add aruba + aruba to project
+    #
+    # Cucumber Initializer. Adds Aruba + Cucumber to project
     #
     # @private
     class CucumberInitializer < Thor::Group
@@ -125,14 +110,9 @@ module Aruba
         EOS
       end
     end
-  end
-end
 
-# Aruba
-module Aruba
-  # Initializer
-  module Initializers
-    # Add aruba + minitest to project
+    #
+    # Minitest Initializer. Adds Aruba + Minitest to project
     #
     # @private
     class MiniTestInitializer < Thor::Group
@@ -172,17 +152,18 @@ module Aruba
             include Aruba::Api
 
             def setup
-              aruba_setup
+              setup_aruba
+            end
+
+            def test_dummy
+              skip "Add some real tests here"
             end
           end
         EOS
       end
     end
   end
-end
 
-# Aruba
-module Aruba
   # The whole initializer
   #
   # This one uses the specific initializers to generate the needed files.

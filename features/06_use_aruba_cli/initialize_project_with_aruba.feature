@@ -68,7 +68,7 @@ Feature: Initialize project with aruba
     When I successfully run `ruby -Ilib:test test/use_aruba_with_minitest.rb`
     Then the output should contain:
     """
-    0 runs, 0 assertions, 0 failures, 0 errors, 0 skips
+    1 runs, 0 assertions, 0 failures, 0 errors, 1 skips
     """
 
   Scenario: Unknown Test Framework

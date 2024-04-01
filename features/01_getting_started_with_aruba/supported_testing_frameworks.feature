@@ -72,15 +72,15 @@ Feature: Supported Testing Frameworks
       include Aruba::Api
 
       def setup
-        aruba_setup
+        setup_aruba
       end
 
-      def getting_started_with_aruba
+      def test_getting_started_with_aruba
         file = 'file.txt'
         content = 'Hello World'
 
         write_file file, content
-        read(file).must_equal [content]
+        assert_equal [content], read(file)
       end
     end
     """
