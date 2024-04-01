@@ -101,6 +101,7 @@ module Aruba
         ::File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
       end
 
+      # FIXME: Why is this part of platform!? Just use Ruby or just list all files to require.
       def require_matching_files(pattern, base)
         ::Dir.glob(::File.expand_path(pattern, base)).each { |f| require_relative f }
       end
