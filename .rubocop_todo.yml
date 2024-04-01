@@ -17,7 +17,7 @@ Metrics/BlockLength:
 
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ClassLength:
-  Max: 145
+  Max: 146
 
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Metrics/CyclomaticComplexity:
@@ -101,8 +101,6 @@ RSpec/InstanceVariable:
     - 'spec/aruba/api/filesystem_spec.rb'
     - 'spec/aruba/api_spec.rb'
     - 'spec/aruba/event_bus_spec.rb'
-    - 'spec/aruba/matchers/command/have_output_size_spec.rb'
-    - 'spec/aruba/matchers/command_spec.rb'
     - 'spec/aruba/matchers/directory_spec.rb'
     - 'spec/aruba/matchers/file_spec.rb'
     - 'spec/aruba/matchers/path_spec.rb'
