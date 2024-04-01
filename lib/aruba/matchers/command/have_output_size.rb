@@ -4,6 +4,8 @@
 #   @param [String,Aruba::Process:BasicProcess] output or process
 #     The content which should be checked, or the process whose output should be checked
 #
+#     Use of this matcher with a string is deprecated.
+#
 #   @return [Boolean] The result
 #
 #     false:
@@ -23,6 +25,9 @@
 RSpec::Matchers.define :have_output_size do |expected|
   match do |actual|
     if actual.respond_to? :size
+      Aruba.platform.deprecated \
+        "Application of the have_output_size matcher to a string is deprecated." \
+        " Apply the matcher directly to the process object instead"
       actual_size = actual.size
     elsif actual.respond_to? :output
       actual_size = actual.output.size

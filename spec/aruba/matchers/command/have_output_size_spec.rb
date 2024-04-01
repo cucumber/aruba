@@ -5,12 +5,23 @@ RSpec.describe "Output Matchers" do
     context "when actual is a string" do
       let(:obj) { "string" }
 
+      before do
+        allow(Aruba.platform).to receive(:deprecated)
+      end
+
       it "matches when the string is the given size" do
         expect(obj).to have_output_size 6
       end
 
       it "does not match when the string does not have the given size" do
         expect(obj).not_to have_output_size 5
+      end
+
+      it "emits a deprecation warning" do
+        aggregate_failures do
+          expect(obj).to have_output_size 6
+          expect(Aruba.platform).to have_received(:deprecated)
+        end
       end
     end
 
