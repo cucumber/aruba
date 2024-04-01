@@ -172,7 +172,11 @@ module Aruba
             include Aruba::Api
 
             def setup
-              aruba_setup
+              setup_aruba
+            end
+
+            def test_dummy
+              skip "Add some real tests here"
             end
           end
         EOS
