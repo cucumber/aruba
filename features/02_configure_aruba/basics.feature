@@ -55,7 +55,7 @@ Feature: Usage of configuration
     Given a file named "spec/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 0.5
+      config.exit_timeout = 0.7
     end
     """
     And a file named "spec/support/hooks.rb" with:
@@ -96,7 +96,7 @@ Feature: Usage of configuration
     Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 0.5
+      config.exit_timeout = 0.7
     end
     """
     And a file named "features/run.feature" with:
@@ -107,7 +107,7 @@ Feature: Usage of configuration
         Then the exit status should be 0
 
       Scenario: Slow command
-        When I run `aruba-test-cli 1.0`
+        When I run `aruba-test-cli 1.5`
         Then the exit status should be 128
     """
     When I run `cucumber`
@@ -122,7 +122,7 @@ Feature: Usage of configuration
     Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 0.2
+      config.exit_timeout = 0.7
     end
     """
     And a file named "features/support/hooks.rb" with:
@@ -140,11 +140,11 @@ Feature: Usage of configuration
 
       @slow-command
       Scenario: Slow command known by the developer
-        When I run `aruba-test-cli 0.5`
+        When I run `aruba-test-cli 1`
         Then the exit status should be 0
 
       Scenario: Slow command which might be a failure
-        When I run `aruba-test-cli 0.5`
+        When I run `aruba-test-cli 1`
         Then the exit status should be 128
     """
     When I run `cucumber`
