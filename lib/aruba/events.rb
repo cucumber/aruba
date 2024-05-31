@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "cucumber/core/event"
+
 # Aruba
 module Aruba
   # Events
@@ -10,13 +12,7 @@ module Aruba
     # inherited by normal events
     #
     # @private
-    class BasicEvent
-      attr_reader :entity
-
-      def initialize(entity)
-        @entity = entity
-      end
-    end
+    class BasicEvent < Cucumber::Core::Event.new(:entity); end
 
     # Command was stopped
     class CommandStopped < BasicEvent; end
@@ -38,5 +34,15 @@ module Aruba
 
     # The configuration was changed
     class ChangedConfiguration < BasicEvent; end
+
+    def self.registry
+      [CommandStarted,
+       CommandStopped,
+       AddedEnvironmentVariable,
+       ChangedEnvironmentVariable,
+       DeletedEnvironmentVariable,
+       ChangedWorkingDirectory,
+       ChangedConfiguration].to_h { |klass| [klass.event_id, klass] }
+    end
   end
 end

@@ -33,7 +33,4 @@ module Aruba
 
   # Raised if an event name cannot be resolved
   class EventNameResolveError < StandardError; end
-
-  # Raised if given object is not an event
-  class NoEventError < StandardError; end
 end

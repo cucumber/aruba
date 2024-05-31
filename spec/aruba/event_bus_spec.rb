@@ -5,7 +5,10 @@ require "spec_helper"
 describe Aruba::EventBus do
   let(:bus) { described_class.new(name_resolver) }
 
-  let(:name_resolver) { Aruba::EventBus::NameResolver.new("Events") }
+  let(:name_resolver) do
+    { test_event: Events::TestEvent,
+      another_test_event: Events::AnotherTestEvent }
+  end
 
   let(:event_klass) { Events::TestEvent }
   let(:event_instance) { event_klass.new }
@@ -16,7 +19,6 @@ describe Aruba::EventBus do
   before do
     stub_const("Events::TestEvent", Class.new)
     stub_const("Events::AnotherTestEvent", Class.new)
-    stub_const("Events::MalformedTestEvent", Module.new)
     stub_const("MyHandler", Class.new { def call(*); end })
     stub_const("MyMalformedHandler", Class.new)
   end
@@ -44,7 +46,7 @@ describe Aruba::EventBus do
 
     context "when event is not an event instance" do
       it "raises an error" do
-        expect { bus.notify event_klass }.to raise_error Aruba::NoEventError
+        expect { bus.notify event_klass }.to raise_error ArgumentError
       end
     end
   end
@@ -105,13 +107,6 @@ describe Aruba::EventBus do
       end
 
       it { expect { bus.notify event_instance }.not_to raise_error }
-    end
-
-    context "when malformed custom handler" do
-      it "raises an ArgumentError" do
-        expect { bus.register(:test_event, MyMalformedHandler.new) }
-          .to raise_error ArgumentError
-      end
     end
 
     context "when no handler is given" do

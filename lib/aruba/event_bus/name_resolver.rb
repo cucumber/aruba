@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 require "aruba/errors"
+require "cucumber/core/event_bus"
 
 # Event notification library
 module Aruba
   # EventBus
-  class EventBus
+  class EventBus < Cucumber::Core::EventBus
     # Resolve name to Event name
     class NameResolver
       # @private
