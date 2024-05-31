@@ -54,46 +54,6 @@ module Aruba
       end
 
       # @private
-      # Convert a class in to an event class
-      class ClassResolver
-        class << self
-          def match?(event_id)
-            event_id.is_a? Class
-          end
-
-          # Which types are supported
-          def supports
-            [Class]
-          end
-        end
-
-        def transform(_, event_id)
-          event_id
-        end
-      end
-
-      # @private
-      # Convert a string in to an event class
-      class StringResolver
-        include ResolveHelpers
-
-        class << self
-          def match?(event_id)
-            event_id.is_a? String
-          end
-
-          # Which types are supported
-          def supports
-            [String]
-          end
-        end
-
-        def transform(_, event_id)
-          constantize(event_id)
-        end
-      end
-
-      # @private
       # Convert a symbol in to an event class
       class SymbolResolver
         include ResolveHelpers
@@ -141,8 +101,6 @@ module Aruba
         @default_namespace = default_namespace
 
         @resolvers = []
-        @resolvers << ClassResolver
-        @resolvers << StringResolver
         @resolvers << SymbolResolver
         @resolvers << FailingResolver
       end

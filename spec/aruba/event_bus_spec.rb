@@ -23,7 +23,7 @@ describe Aruba::EventBus do
 
   describe "#notify" do
     before do
-      bus.register(event_klass) do |event|
+      bus.register(:test_event) do |event|
         @received_payload = event
       end
     end
@@ -54,10 +54,10 @@ describe Aruba::EventBus do
       let(:received_events) { [] }
 
       before do
-        bus.register(Events::TestEvent) do |event|
+        bus.register(:test_event) do |event|
           received_events << event
         end
-        bus.register(Events::TestEvent) do |event|
+        bus.register(:test_event) do |event|
           received_events << event
         end
       end
@@ -67,20 +67,6 @@ describe Aruba::EventBus do
 
         expect(received_events).to eq [event_instance, event_instance]
       end
-    end
-
-    context "when event id is a string" do
-      let(:received_payload) { [] }
-
-      before do
-        bus.register("Events::TestEvent") do |event|
-          received_payload << event
-        end
-
-        bus.notify event_instance
-      end
-
-      it { expect(received_payload).to include event_instance }
     end
 
     context "when event id is a symbol" do
@@ -101,7 +87,7 @@ describe Aruba::EventBus do
       let(:received_payload) { [] }
 
       before do
-        bus.register [event_klass, another_event_klass] do |event|
+        bus.register [:test_event, :another_test_event] do |event|
           received_payload << event
         end
       end
@@ -115,7 +101,7 @@ describe Aruba::EventBus do
 
     context "when valid custom handler" do
       before do
-        bus.register(event_klass, MyHandler.new)
+        bus.register(:test_event, MyHandler.new)
       end
 
       it { expect { bus.notify event_instance }.not_to raise_error }
@@ -123,7 +109,7 @@ describe Aruba::EventBus do
 
     context "when malformed custom handler" do
       it "raises an ArgumentError" do
-        expect { bus.register(event_klass, MyMalformedHandler.new) }
+        expect { bus.register(:test_event, MyMalformedHandler.new) }
           .to raise_error ArgumentError
       end
     end
