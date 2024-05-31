@@ -72,11 +72,6 @@ Style/StringLiterals:
 Style/SymbolArray:
   EnforcedStyle: brackets
 
-# Code is currently broken with frozen string literal comments applied.
-# TODO: Enable and fix build
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
 # Be relatively lenient with line length
 Layout/LineLength:
   Max: 94
