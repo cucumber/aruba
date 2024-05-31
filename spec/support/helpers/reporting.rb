@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SpecHelpers
   module Reporting
     # Captures the given stream and returns it:

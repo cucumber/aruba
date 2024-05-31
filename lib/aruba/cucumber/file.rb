@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given(/^I use (?:a|the) fixture(?: named)? "([^"]*)"$/) do |name|
   copy File.join(aruba.config.fixtures_path_prefix, name), name
   cd name

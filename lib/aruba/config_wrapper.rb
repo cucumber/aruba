@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Aruba
   # This wraps the current runtime configuration of aruba.
   # If an option is changed, it notifies the event queue.

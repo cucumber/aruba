@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # From https://itshouldbeuseful.wordpress.com/2010/11/10/find-your-slowest-running-cucumber-features/
 
 scenario_times = {}

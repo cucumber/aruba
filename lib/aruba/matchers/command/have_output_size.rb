@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @!method have_output_size(output)
 #   This matchers checks if output has size.
 #

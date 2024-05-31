@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Aruba
 module Aruba
   # Simple colorizer class. Only supports the color cyan

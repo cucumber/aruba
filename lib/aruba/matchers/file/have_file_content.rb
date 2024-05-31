@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @!method have_file_content(content)
 #   This matchers checks if <file> has content. `content` can be a string,
 #   regexp or an RSpec matcher.

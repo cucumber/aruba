@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "aruba/generators/script_file"
 
 When(/^I run `([^`]*)`$/) do |cmd|
@@ -88,7 +90,7 @@ end
 When "I wait for output/stdout to contain:" do |expected|
   Timeout.timeout(aruba.config.exit_timeout) do
     loop do
-      output = last_command_started.public_send :stdout, wait_for_io: 0
+      output = last_command_started.stdout wait_for_io: 0
 
       output   = sanitize_text(output)
       expected = sanitize_text(expected)
@@ -103,7 +105,7 @@ end
 When "I wait for output/stdout to contain {string}" do |expected|
   Timeout.timeout(aruba.config.exit_timeout) do
     loop do
-      output = last_command_started.public_send :stdout, wait_for_io: 0
+      output = last_command_started.stdout wait_for_io: 0
 
       output   = sanitize_text(output)
       expected = sanitize_text(expected)

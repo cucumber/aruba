@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "shellwords"
 
 # @!method be_an_existing_executable

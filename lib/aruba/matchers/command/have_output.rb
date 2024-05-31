@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "aruba/matchers/base/message_indenter"
 
 # @!method have_output

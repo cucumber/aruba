@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "aruba/platforms/unix_platform"
 require "aruba/platforms/windows_command_string"
 require "aruba/platforms/windows_environment_variables"

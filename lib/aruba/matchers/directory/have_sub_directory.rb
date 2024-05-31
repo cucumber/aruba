@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @!method have_sub_directory(sub_directory)
 #   This matchers checks if <directory> has given sub-directory
 #
