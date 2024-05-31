@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require "aruba/event_bus/name_resolver"
-require "aruba/errors"
+require "cucumber/core/event_bus"
 
 module Aruba
   # Event bus
@@ -9,55 +8,15 @@ module Aruba
   # Implements and in-process pub-sub events broadcaster allowing multiple observers
   # to subscribe to different events that fire as your tests are executed.
   #
-  class EventBus
-    # Create EventBus
-    #
-    # @param [#transform] resolver
-    #   A resolver which transforms Symbol, String, Class into an event Class.
-    def initialize(resolver)
-      @resolver = resolver
-      @handlers = Hash.new { |h, k| h[k] = [] }
+  class EventBus < Cucumber::Core::EventBus
+    def register(ids, handler_object = nil, &handler_proc)
+      Array(ids).each do |event_id|
+        on(event_id, handler_object, &handler_proc)
+      end
     end
 
-    # Register for an event
-    #
-    # @param [String, Symbol, Class, Array] event_ids
-    #   If Array, register multiple events witht the same handler. If String,
-    #   Symbol, Class register handler for given event.
-    #
-    # @param [#call] handler_object
-    #   The handler object, needs to have method `#call`. Either
-    #   `handler_object` or `block` can be defined. The handler object gets the
-    #   event passed to `#call`.
-    #
-    # @yield
-    #   Handler block which gets the event passed as parameter.
-    def register(event_ids, handler_object = nil, &handler_proc)
-      handler = handler_proc || handler_object
-
-      if handler.nil? || !handler.respond_to?(:call)
-        raise ArgumentError, "Please pass either an object#call or a handler block"
-      end
-
-      Array(event_ids).flatten.each do |id|
-        @handlers[
-          @resolver.transform(id).to_s
-        ] << handler
-      end
-
-      nil
-    end
-
-    # Broadcast an event
-    #
-    # @param [Object] event
-    #   An object of registered event class. This object is passed to the event
-    #   handler.
-    #
     def notify(event)
-      raise NoEventError, "Please pass an event object, not a class" if event.is_a?(Class)
-
-      @handlers[event.class.to_s].each { |handler| handler.call(event) }
+      broadcast(event)
     end
   end
 end

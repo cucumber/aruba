@@ -3,9 +3,12 @@
 require "spec_helper"
 
 describe Aruba::EventBus do
-  let(:bus) { described_class.new(name_resolver) }
+  let(:bus) { described_class.new(registry) }
 
-  let(:name_resolver) { Aruba::EventBus::NameResolver.new("Events") }
+  let(:registry) do
+    { test_event: Events::TestEvent,
+      another_test_event: Events::AnotherTestEvent }
+  end
 
   let(:event_klass) { Events::TestEvent }
   let(:event_instance) { event_klass.new }
@@ -16,14 +19,13 @@ describe Aruba::EventBus do
   before do
     stub_const("Events::TestEvent", Class.new)
     stub_const("Events::AnotherTestEvent", Class.new)
-    stub_const("Events::MalformedTestEvent", Module.new)
     stub_const("MyHandler", Class.new { def call(*); end })
     stub_const("MyMalformedHandler", Class.new)
   end
 
   describe "#notify" do
     before do
-      bus.register(event_klass) do |event|
+      bus.register(:test_event) do |event|
         @received_payload = event
       end
     end
@@ -44,7 +46,7 @@ describe Aruba::EventBus do
 
     context "when event is not an event instance" do
       it "raises an error" do
-        expect { bus.notify event_klass }.to raise_error Aruba::NoEventError
+        expect { bus.notify event_klass }.to raise_error ArgumentError
       end
     end
   end
@@ -54,10 +56,10 @@ describe Aruba::EventBus do
       let(:received_events) { [] }
 
       before do
-        bus.register(Events::TestEvent) do |event|
+        bus.register(:test_event) do |event|
           received_events << event
         end
-        bus.register(Events::TestEvent) do |event|
+        bus.register(:test_event) do |event|
           received_events << event
         end
       end
@@ -67,20 +69,6 @@ describe Aruba::EventBus do
 
         expect(received_events).to eq [event_instance, event_instance]
       end
-    end
-
-    context "when event id is a string" do
-      let(:received_payload) { [] }
-
-      before do
-        bus.register("Events::TestEvent") do |event|
-          received_payload << event
-        end
-
-        bus.notify event_instance
-      end
-
-      it { expect(received_payload).to include event_instance }
     end
 
     context "when event id is a symbol" do
@@ -101,7 +89,7 @@ describe Aruba::EventBus do
       let(:received_payload) { [] }
 
       before do
-        bus.register [event_klass, another_event_klass] do |event|
+        bus.register [:test_event, :another_test_event] do |event|
           received_payload << event
         end
       end
@@ -115,17 +103,10 @@ describe Aruba::EventBus do
 
     context "when valid custom handler" do
       before do
-        bus.register(event_klass, MyHandler.new)
+        bus.register(:test_event, MyHandler.new)
       end
 
       it { expect { bus.notify event_instance }.not_to raise_error }
-    end
-
-    context "when malformed custom handler" do
-      it "raises an ArgumentError" do
-        expect { bus.register(event_klass, MyMalformedHandler.new) }
-          .to raise_error ArgumentError
-      end
     end
 
     context "when no handler is given" do

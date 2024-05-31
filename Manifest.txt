@@ -32,7 +32,6 @@ lib/aruba/cucumber/parameter_types.rb
 lib/aruba/cucumber/testing_frameworks.rb
 lib/aruba/errors.rb
 lib/aruba/event_bus.rb
-lib/aruba/event_bus/name_resolver.rb
 lib/aruba/events.rb
 lib/aruba/file_size.rb
 lib/aruba/generators/script_file.rb

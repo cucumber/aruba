@@ -42,7 +42,7 @@ module Aruba
     attr_accessor :config, :environment, :logger, :command_monitor, :announcer, :event_bus
 
     def initialize(opts = {})
-      @event_bus       = EventBus.new(EventBus::NameResolver.new(Aruba::Events))
+      @event_bus       = EventBus.new(Aruba::Events.registry)
       @announcer       = opts.fetch(:announcer, Aruba.platform.announcer.new)
       @config          = opts.fetch(:config,
                                     ConfigWrapper.new(Aruba.config.make_copy, @event_bus))
