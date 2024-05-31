@@ -3,9 +3,9 @@
 require "spec_helper"
 
 describe Aruba::EventBus do
-  let(:bus) { described_class.new(name_resolver) }
+  let(:bus) { described_class.new(registry) }
 
-  let(:name_resolver) do
+  let(:registry) do
     { test_event: Events::TestEvent,
       another_test_event: Events::AnotherTestEvent }
   end

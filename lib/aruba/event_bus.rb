@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "aruba/event_bus/name_resolver"
-require "aruba/errors"
 require "cucumber/core/event_bus"
 
 module Aruba
