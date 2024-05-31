@@ -98,7 +98,7 @@ module Aruba
     def all_stdout
       registered_commands.each(&:stop)
 
-      registered_commands.each_with_object("") { |e, a| a << e.stdout }
+      registered_commands.map(&:stdout).join
     end
 
     # Get stderr of all commands
@@ -108,7 +108,7 @@ module Aruba
     def all_stderr
       registered_commands.each(&:stop)
 
-      registered_commands.each_with_object("") { |e, a| a << e.stderr }
+      registered_commands.map(&:stderr).join
     end
 
     # Get stderr and stdout of all commands
