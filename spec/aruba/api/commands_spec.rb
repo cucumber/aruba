@@ -13,15 +13,17 @@ RSpec.describe Aruba::Api::Commands do
 
       after { @aruba.all_commands.each(&:stop) }
 
-      it "respond to input" do
-        @aruba.type "Hello"
-        @aruba.type "\u0004"
+      it "respond to unfrozen input" do
+        @aruba.type(+"Hello")
+        @aruba.type(+"\u0004")
+
         expect(@aruba.last_command_started).to have_output "Hello"
       end
 
       it "respond to frozen input" do
         @aruba.type "Hello"
         @aruba.type "\u0004"
+
         expect(@aruba.last_command_started).to have_output "Hello"
       end
 
