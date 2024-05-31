@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "delegate"
 require "aruba/processes/spawn_process"
 require "aruba/processes/in_process"

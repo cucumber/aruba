@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "aruba/file_size"
 
 module Aruba

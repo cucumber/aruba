@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @!method have_permissions(permissions)
 #   This matchers checks if <file> or <directory> has <perm> permissions
 #

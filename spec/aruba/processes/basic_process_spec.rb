@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 RSpec.describe Aruba::Processes::BasicProcess do
@@ -6,7 +8,7 @@ RSpec.describe Aruba::Processes::BasicProcess do
       def initialize(*args)
         @stdout = args.shift
         @stderr = args.shift
-        super(*args)
+        super
       end
 
       def stdout(*_args)

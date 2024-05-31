@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Cucumber
 Then(/^the feature(?:s)? should not(?: all)? pass$/) do
   step 'the output should contain " failed)"'

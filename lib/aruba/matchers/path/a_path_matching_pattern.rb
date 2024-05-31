@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @!method a_path_matching_pattern(/pattern/)
 #   This matchers checks if <path> matches pattern. `pattern` can be a string,
 #   regexp or an RSpec matcher.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @!method be_an_existing_directory
 #   This matchers checks if <directory> exists in filesystem
 #

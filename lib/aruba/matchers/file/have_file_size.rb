@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @!method have_file_size(size)
 #   This matchers checks if path has file size
 #

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @!method be_an_existing_path
 #   This matchers checks if <path> exists in filesystem
 #

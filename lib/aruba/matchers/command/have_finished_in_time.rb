@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @!method run_too_long
 #   This matchers checks if <command> run too long. Say the timeout is 10
 #   seconds and it takes <command> to finish in 15. This matchers will succeed.

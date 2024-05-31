@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "contracts"
 require "aruba/basic_configuration/option"
 require "aruba/in_config_wrapper"

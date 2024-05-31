@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "shellwords"
 require "stringio"
 require "aruba/processes/basic_process"

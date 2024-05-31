@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "aruba/aruba_path"
 require "aruba/api"
 require "aruba/platform"

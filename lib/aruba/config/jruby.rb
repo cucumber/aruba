@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rbconfig"
 
 # ideas taken from: http://blog.headius.com/2010/03/jruby-startup-time-tips.html

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given(/^a mocked home directory$/) do
   set_environment_variable "HOME", expand_path(".")
 end

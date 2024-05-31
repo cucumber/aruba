@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "aruba/processes/spawn_process"
 
 # Aruba

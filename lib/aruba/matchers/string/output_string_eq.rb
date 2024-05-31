@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @!method output_string_eq(string)
 #   This matchers checks if the output string of a command includes string.
 #

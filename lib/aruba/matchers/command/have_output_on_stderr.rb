@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @!method have_output_on_stderr
 #   This matchers checks if <command> has created output on stderr
 #

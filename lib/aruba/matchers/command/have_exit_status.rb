@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @!method have_exit_status(status)
 #   This matchers checks if <command> has exit status <status>
 #

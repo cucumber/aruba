@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Aruba
 module Aruba
   # Generate script files on command line

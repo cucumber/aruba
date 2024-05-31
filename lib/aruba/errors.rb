@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Aruba
   # Standard error
   class Error < StandardError; end

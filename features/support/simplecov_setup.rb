@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @note this file is loaded in env.rb to setup simplecov using RUBYOPTs for
 # child processes and @in-process
 unless RUBY_PLATFORM.include?("java")

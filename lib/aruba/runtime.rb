@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "aruba/configuration"
 require "aruba/aruba_path"
 require "aruba/config_wrapper"
