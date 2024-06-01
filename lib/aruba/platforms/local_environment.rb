@@ -8,6 +8,12 @@ module Aruba
     #
     # Wraps logic to make enviroment local and restorable
     class LocalEnvironment
+      def initialize(platform)
+        @platform = platform
+      end
+
+      attr_reader :platform
+
       # Run in environment
       #
       # @param [Hash] env
@@ -16,7 +22,7 @@ module Aruba
       # @yield
       #   The block of code which should with local ENV
       def call(env)
-        old_env = Aruba.platform.environment_variables.hash_from_env
+        old_env = platform.environment_variables.hash_from_env
 
         ENV.clear
         ENV.update env

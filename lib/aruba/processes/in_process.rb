@@ -70,7 +70,8 @@ module Aruba
         Dir.chdir @working_directory do
           before_run
 
-          Aruba.platform.with_environment environment.merge("PWD" => @working_directory) do
+          new_env = environment.merge("PWD" => @working_directory)
+          Aruba.platform.with_replaced_environment new_env do
             main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
           end
 

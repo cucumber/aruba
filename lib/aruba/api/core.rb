@@ -221,7 +221,7 @@ module Aruba
       def with_environment(env = {}, &block)
         aruba.environment.nest do |nested_env|
           nested_env.update(env)
-          Aruba.platform.with_environment nested_env.to_h, &block
+          Aruba.platform.with_replaced_environment nested_env.to_h, &block
         end
       end
     end
