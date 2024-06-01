@@ -77,8 +77,8 @@ module Aruba
         ArubaFixedSizeFileCreator.new.call(*args)
       end
 
-      def with_environment(env = {}, &block)
-        LocalEnvironment.new.call(env, &block)
+      def with_replaced_environment(env = {}, &block)
+        LocalEnvironment.new(self).call(env, &block)
       end
 
       def default_shell
@@ -128,7 +128,7 @@ module Aruba
       def chdir(dir_name, &block)
         dir_name = ::File.expand_path(dir_name.to_s)
 
-        with_environment "OLDPWD" => getwd, "PWD" => dir_name do
+        with_replaced_environment "OLDPWD" => getwd, "PWD" => dir_name do
           ::Dir.chdir(dir_name, &block)
         end
       end
