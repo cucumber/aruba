@@ -5,9 +5,14 @@
 unless RUBY_PLATFORM.include?("java")
   require "simplecov"
   root = File.expand_path("../..", __dir__)
-  command_name = ENV["SIMPLECOV_COMMAND_NAME"] || "Cucumber Features"
-  SimpleCov.command_name(command_name)
   SimpleCov.root(root)
+
+  if (command_name = ENV["SIMPLECOV_COMMAND_NAME"])
+    SimpleCov.command_name(command_name)
+    SimpleCov.formatter SimpleCov::Formatter::SimpleFormatter
+  else
+    SimpleCov.command_name "Cucumber Features"
+  end
 
   # Run simplecov by default
   SimpleCov.start unless ENV.key? "ARUBA_NO_COVERAGE"
