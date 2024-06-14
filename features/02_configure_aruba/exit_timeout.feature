@@ -1,3 +1,4 @@
+@unsupported-on-platform-windows @todo-improve-cross-platform-support
 Feature: Configure timeout for command execution
 
   As a developer

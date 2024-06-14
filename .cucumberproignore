@@ -1,3 +1,4 @@
 /
 !features/
 features/04_aruba_api/command/run_simple.feature
+features/unpublished
