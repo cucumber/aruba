@@ -6,16 +6,50 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [Unreleased]
+
+Potentialy breaking changes:
+
+* Freeze string literals by default ([#929] by [mvz])
+* Use core cucumber event bus implementation, dropping Aruba's own
+  ([#930] by [mvz])
+* Support Ruby 3.0 and up, dropping support for Ruby 2.7 ([#918] by [mvz])
+
+Other changes:
+
+* Prepare for Ruby 3.3 ([#914] by [mvz])
+* Allow for type input of frozen strings ([#909] by [mikelkew])
+* Fix minitest setup code ([#921] by [mvz])
+* Make `#have_output_size` work on a process, and deprecate its use with
+  strings ([#924] by [mvz])
+
+[mikelkew]: https://github.com/mikelkew
+[#909]: https://github.com/cucumber/aruba/pull/909
+[#914]: https://github.com/cucumber/aruba/pull/914
+[#918]: https://github.com/cucumber/aruba/pull/918
+[#921]: https://github.com/cucumber/aruba/pull/921
+[#924]: https://github.com/cucumber/aruba/pull/924
+[#929]: https://github.com/cucumber/aruba/pull/929
+[#930]: https://github.com/cucumber/aruba/pull/930
+
 ## [2.2.0] / 2023-09-02
 
 * Drop support for Ruby 2.5 ([#836] by [mvz])
 * Add support for JRuby 9.4 ([#882] by [mvz])
 * Support CRuby 3.2 ([#883] by [mvz])
-* Improve `be_a_command_found_in_path matcher` and its tests ([#895] by [mvz])
+* Improve `be_a_command_found_in_path` matcher and its tests ([#895] by [mvz])
 * Replace ChildProcess with Process.spawn ([#891] and [#892] by [mvz])
 * Support Cucumber version 9.0 ([#904] by [mvz])
 * Drop support for Cucumber 4 through 7 ([#906] by [mvz])
 * Drop support for Ruby 2.6 ([#907] by [mvz])
+
+[#904]: https://github.com/cucumber/aruba/pull/904
+[#895]: https://github.com/cucumber/aruba/pull/895
+[#892]: https://github.com/cucumber/aruba/pull/892
+[#891]: https://github.com/cucumber/aruba/pull/891
+[#883]: https://github.com/cucumber/aruba/pull/883
+[#882]: https://github.com/cucumber/aruba/pull/882
+[#836]: https://github.com/cucumber/aruba/pull/836
 
 ## [2.1.0] / 2022-05-20
 
@@ -1039,14 +1073,6 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [dependabot]:     https://github.com/apps/dependabot
 
 <!-- issues & pull requests -->
-
-[#904]: https://github.com/cucumber/aruba/pull/904
-[#895]: https://github.com/cucumber/aruba/pull/895
-[#892]: https://github.com/cucumber/aruba/pull/892
-[#891]: https://github.com/cucumber/aruba/pull/891
-[#883]: https://github.com/cucumber/aruba/pull/883
-[#882]: https://github.com/cucumber/aruba/pull/882
-[#836]: https://github.com/cucumber/aruba/pull/836
 
 [#870]: https://github.com/cucumber/aruba/pull/870
 [#867]: https://github.com/cucumber/aruba/pull/867
