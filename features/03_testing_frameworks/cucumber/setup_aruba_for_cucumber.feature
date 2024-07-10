@@ -66,7 +66,7 @@ Feature: Getting started with Cucumber and aruba
     end
 
     # Clean up
-    Before('~@no-clobber') do
+    Before('not @no-clobber') do
       setup_aruba
     end
     """
