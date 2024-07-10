@@ -8,7 +8,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
 ## [Unreleased]
 
-Potentialy breaking changes:
+Potentially breaking changes:
 
 * Freeze string literals by default ([#929] by [mvz])
 * Use core cucumber event bus implementation, dropping Aruba's own
@@ -22,6 +22,7 @@ Other changes:
 * Fix minitest setup code ([#921] by [mvz])
 * Make `#have_output_size` work on a process, and deprecate its use with
   strings ([#924] by [mvz])
+* Remove traces of legacy tag expressions (`~@tag` is now `not @tag`) ([#935] by [luke-hill])
 
 [mikelkew]: https://github.com/mikelkew
 [#909]: https://github.com/cucumber/aruba/pull/909
@@ -31,6 +32,7 @@ Other changes:
 [#924]: https://github.com/cucumber/aruba/pull/924
 [#929]: https://github.com/cucumber/aruba/pull/929
 [#930]: https://github.com/cucumber/aruba/pull/930
+[#935]: https://github.com/cucumber/aruba/pull/935
 
 ## [2.2.0] / 2023-09-02
 
