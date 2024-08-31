@@ -157,7 +157,7 @@ RSpec.describe Aruba::Api::Filesystem do
       end
 
       it 'creates multiple files when multiple names are given' do
-        names = %w(file1 file2 file3)
+        names = %w[file1 file2 file3]
 
         @aruba.touch(names)
 
@@ -171,7 +171,7 @@ RSpec.describe Aruba::Api::Filesystem do
     end
 
     context 'when touching an existing directory' do
-      let(:name) { %w(directory1) }
+      let(:name) { %w[directory1] }
       let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
       before do
@@ -334,7 +334,7 @@ RSpec.describe Aruba::Api::Filesystem do
           end
 
           context 'when source is list of files' do
-            let(:source) { %w(file1.txt file2.txt file3.txt) }
+            let(:source) { %w[file1.txt file2.txt file3.txt] }
             let(:destination) { 'file.d' }
             let(:destination_files) { source.map { |s| File.join(destination, s) } }
 
@@ -369,7 +369,7 @@ RSpec.describe Aruba::Api::Filesystem do
           before { create_test_files(source) }
 
           context 'when destination is directory' do
-            let(:source) { %w(file1.txt file2.txt file3.txt) }
+            let(:source) { %w[file1.txt file2.txt file3.txt] }
             let(:destination) { 'file.d' }
             let(:destination_files) { source.map { |s| File.join(destination, s) } }
 
@@ -382,7 +382,7 @@ RSpec.describe Aruba::Api::Filesystem do
           end
 
           context 'when destination is not a directory' do
-            let(:source) { %w(file1.txt file2.txt file3.txt) }
+            let(:source) { %w[file1.txt file2.txt file3.txt] }
             let(:destination) { 'file.txt' }
             let(:error_message) { 'Multiples sources can only be copied to a directory' }
 
@@ -608,7 +608,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
   describe '#list' do
     let(:name) { 'test.d' }
-    let(:content) { %w(subdir.1.d subdir.2.d) }
+    let(:content) { %w[subdir.1.d subdir.2.d] }
     let(:path) { File.join(@aruba.aruba.current_directory, name) }
 
     before do
@@ -682,7 +682,7 @@ RSpec.describe Aruba::Api::Filesystem do
       end
 
       it 'removes multiple files' do
-        names = %w(file1 file2 file3)
+        names = %w[file1 file2 file3]
         paths = names.map { |it| File.join(@aruba.aruba.current_directory, it) }
         paths.each { |it| File.write(File.expand_path(it), "foo #{it}") }
 
@@ -718,7 +718,7 @@ RSpec.describe Aruba::Api::Filesystem do
       end
 
       it 'removes multiple directories' do
-        names = %w(directory1 directory2 directory3)
+        names = %w[directory1 directory2 directory3]
         paths = names.map { |it| File.join(@aruba.aruba.current_directory, it) }
         paths.each { |path| Aruba.platform.mkdir path }
 

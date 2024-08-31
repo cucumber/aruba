@@ -39,7 +39,7 @@ module Aruba
       end
 
       def builtin_shell_commands
-        %w(cd dir echo exit set type)
+        %w[cd dir echo exit set type]
       end
 
       def term_signal_supported?

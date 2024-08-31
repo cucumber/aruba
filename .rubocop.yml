@@ -59,11 +59,6 @@ RSpec/PredicateMatcher:
 Style/FetchEnvVar:
   Enabled: false
 
-# Use older RuboCop default
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    '%w': ()
-
 # SupportedStyles: percent, brackets
 Style/SymbolArray:
   EnforcedStyle: brackets

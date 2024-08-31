@@ -33,7 +33,7 @@ module Aruba
     option_accessor :startup_wait_time, type: Num, default: 0
     option_accessor :fixtures_directories,
                     type: ArrayOf[String],
-                    default: %w(features/fixtures spec/fixtures test/fixtures fixtures)
+                    default: %w[features/fixtures spec/fixtures test/fixtures fixtures]
 
     option_accessor :command_runtime_environment, type: Hash, default: {}
     option_accessor :command_search_paths,

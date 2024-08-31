@@ -27,7 +27,7 @@ RSpec.describe 'Directory Matchers' do
   describe 'to_have_sub_directory' do
     let(:name) { 'test.d' }
     let(:path) { @aruba.expand_path(name) }
-    let(:content) { %w(subdir.1.d subdir.2.d) }
+    let(:content) { %w[subdir.1.d subdir.2.d] }
 
     context 'when directory exists' do
       before do

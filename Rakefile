@@ -12,13 +12,13 @@ require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 
 Cucumber::Rake::Task.new do |t|
-  t.cucumber_opts = %w(--format progress)
+  t.cucumber_opts = %w[--format progress]
 end
 
 Cucumber::Rake::Task.new('cucumber:wip', 'Run Cucumber features' \
                                          ' which are "WORK IN PROGRESS" and' \
                                          ' are allowed to fail') do |t|
-  t.cucumber_opts = %w(--tags @wip:3 --wip)
+  t.cucumber_opts = %w[--tags @wip:3 --wip]
 end
 
 RSpec::Core::RakeTask.new
@@ -41,6 +41,6 @@ end
 task build: 'manifest:check'
 
 desc 'Run checks'
-task lint: %w(rubocop manifest:check)
+task lint: %w[rubocop manifest:check]
 
 task default: :test
