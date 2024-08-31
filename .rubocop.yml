@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 inherit_mode:
   merge:
     - Exclude
@@ -8,59 +10,20 @@ require:
   - rubocop-rspec
 
 AllCops:
-  DisplayCopNames: true
-  NewCops: enable
+  NewCops: disable
+  # Keep this inline with the lowest ruby version in the gemspec
   TargetRubyVersion: 3.0
+  # Display cop name / style guide references
+  DisplayCopNames: true
+  DisplayStyleGuide: true
   Exclude:
-    - 'bin/cucumber'
-    - 'bin/rspec'
-    - 'bin/rake'
+    - bin/*
 
-# Ignore gemfiles created by Appraisal
-Bundler/OrderedGems:
-  Exclude:
-    - 'gemfiles/*.gemfile'
-
-# Put development dependencies in the gemspec so rubygems.org knows about them.
-# Don't complicate things in fixture apps and gems
-Gemspec/DevelopmentDependencies:
-  EnforcedStyle: gemspec
-  Exclude:
-    - 'fixtures/**/*'
-
-# TODO: Enable once the effects on using cukebot are clear and have been taken care of
-Gemspec/RequireMFA:
-  Enabled: false
-
-# Spaces in strings with line continuations go at the beginning of the line.
-Layout/LineContinuationLeadingSpace:
-  EnforcedStyle: leading
-
-# Assume the programmer knows how bracketed block syntax works
-Lint/AmbiguousBlockAssociation:
-  Enabled: false
-
-# Assume the programmer knows precendence rules
-Lint/AmbiguousOperatorPrecedence:
-  Enabled: false
-
-# Spec blocks can be any size
-Metrics/BlockLength:
-  Exclude:
-    - '**/*.gemspec'
-    - 'spec/**/*'
+# A short line length prevents putting longer conditionals on one line.
+Layout/LineLength:
+  Max: 94
 
 # This cop does not work properly with predicates that take arguments.
 # TODO: Re-enable once https://github.com/rubocop/rubocop-rspec/issues/466 is resolved.
 RSpec/PredicateMatcher:
   Enabled: false
-
-# This cop doesn't seem to add much for us.
-Style/FetchEnvVar:
-  Enabled: false
-
-# Be relatively lenient with line length
-Layout/LineLength:
-  Max: 94
-
-inherit_from: .rubocop_todo.yml
