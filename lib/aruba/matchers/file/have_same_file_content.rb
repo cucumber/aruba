@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "fileutils"
+require 'fileutils'
 
 # @!method have_same_file_content_as(file_name)
 #   This matchers checks if <file1> has the same content like <file2>

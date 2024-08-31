@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-Aruba.platform.require_matching_files("../matchers/environment/*.rb", __FILE__)
+Aruba.platform.require_matching_files('../matchers/environment/*.rb', __FILE__)

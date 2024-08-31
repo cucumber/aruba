@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "aruba/platforms/unix_platform"
-require "aruba/platforms/windows_platform"
+require 'aruba/platforms/unix_platform'
+require 'aruba/platforms/windows_platform'
 
 # Aruba
 module Aruba

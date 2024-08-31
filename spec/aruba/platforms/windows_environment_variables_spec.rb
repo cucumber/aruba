@@ -1,200 +1,200 @@
 # frozen_string_literal: true
 
-require "spec_helper"
-require "aruba/platforms/windows_environment_variables"
+require 'spec_helper'
+require 'aruba/platforms/windows_environment_variables'
 
 RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
   subject(:environment) { described_class.new(old_environment) }
 
-  describe "#[]" do
-    context "when environment contains uppercase variable" do
-      let(:old_environment) { { "MY_VARIABLE" => "1" } }
+  describe '#[]' do
+    context 'when environment contains uppercase variable' do
+      let(:old_environment) { { 'MY_VARIABLE' => '1' } }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
-        it { expect(environment[variable]).to eq "1" }
+        it { expect(environment[variable]).to eq '1' }
       end
 
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
-        it { expect(environment[variable]).to eq "1" }
+        it { expect(environment[variable]).to eq '1' }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
 
-        it { expect(environment[variable]).to eq "1" }
+        it { expect(environment[variable]).to eq '1' }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
         it { expect(environment[variable]).to be_nil }
       end
     end
 
-    context "when environment contains lowercase variable" do
-      let(:old_environment) { { "my_variable" => "1" } }
+    context 'when environment contains lowercase variable' do
+      let(:old_environment) { { 'my_variable' => '1' } }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
-        it { expect(environment[variable]).to eq "1" }
+        it { expect(environment[variable]).to eq '1' }
       end
 
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
-        it { expect(environment[variable]).to eq "1" }
+        it { expect(environment[variable]).to eq '1' }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
 
-        it { expect(environment[variable]).to eq "1" }
+        it { expect(environment[variable]).to eq '1' }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
         it { expect(environment[variable]).to be_nil }
       end
     end
 
-    context "when environment contains mixed case variable" do
-      let(:old_environment) { { "MY_variable" => "1" } }
+    context 'when environment contains mixed case variable' do
+      let(:old_environment) { { 'MY_variable' => '1' } }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
-        it { expect(environment[variable]).to eq "1" }
+        it { expect(environment[variable]).to eq '1' }
       end
 
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
-        it { expect(environment[variable]).to eq "1" }
+        it { expect(environment[variable]).to eq '1' }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
 
-        it { expect(environment[variable]).to eq "1" }
+        it { expect(environment[variable]).to eq '1' }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
         it { expect(environment[variable]).to be_nil }
       end
     end
   end
 
-  describe "#fetch" do
-    context "when environment contains uppercase variable" do
-      let(:old_environment) { { "MY_VARIABLE" => "1" } }
+  describe '#fetch' do
+    context 'when environment contains uppercase variable' do
+      let(:old_environment) { { 'MY_VARIABLE' => '1' } }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
-        it { expect(environment.fetch(variable)).to eq "1" }
+        it { expect(environment.fetch(variable)).to eq '1' }
       end
 
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
-        it { expect(environment.fetch(variable)).to eq "1" }
+        it { expect(environment.fetch(variable)).to eq '1' }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
 
-        it { expect(environment.fetch(variable)).to eq "1" }
+        it { expect(environment.fetch(variable)).to eq '1' }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
-        context "and no default is given" do
+        context 'and no default is given' do
           it { expect { environment.fetch(variable) }.to raise_error KeyError }
         end
 
-        context "and default is given" do
-          let(:default_value) { "default_value" }
+        context 'and default is given' do
+          let(:default_value) { 'default_value' }
 
           it { expect(environment.fetch(variable, default_value)).to eq default_value }
         end
       end
     end
 
-    context "when environment contains lowercase variable" do
-      let(:old_environment) { { "my_variable" => "1" } }
+    context 'when environment contains lowercase variable' do
+      let(:old_environment) { { 'my_variable' => '1' } }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
-        it { expect(environment.fetch(variable)).to eq "1" }
+        it { expect(environment.fetch(variable)).to eq '1' }
       end
 
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
-        it { expect(environment.fetch(variable)).to eq "1" }
+        it { expect(environment.fetch(variable)).to eq '1' }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
 
-        it { expect(environment.fetch(variable)).to eq "1" }
+        it { expect(environment.fetch(variable)).to eq '1' }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
-        context "and no default is given" do
+        context 'and no default is given' do
           it { expect { environment.fetch(variable) }.to raise_error KeyError }
         end
 
-        context "and default is given" do
-          let(:default_value) { "default_value" }
+        context 'and default is given' do
+          let(:default_value) { 'default_value' }
 
           it { expect(environment.fetch(variable, default_value)).to eq default_value }
         end
       end
     end
 
-    context "when environment contains mixed case variable" do
-      let(:old_environment) { { "MY_variable" => "1" } }
+    context 'when environment contains mixed case variable' do
+      let(:old_environment) { { 'MY_variable' => '1' } }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
-        it { expect(environment.fetch(variable)).to eq "1" }
+        it { expect(environment.fetch(variable)).to eq '1' }
       end
 
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
-        it { expect(environment.fetch(variable)).to eq "1" }
+        it { expect(environment.fetch(variable)).to eq '1' }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
 
-        it { expect(environment.fetch(variable)).to eq "1" }
+        it { expect(environment.fetch(variable)).to eq '1' }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
-        context "and no default is given" do
+        context 'and no default is given' do
           it { expect { environment.fetch(variable) }.to raise_error KeyError }
         end
 
-        context "and default is given" do
-          let(:default_value) { "default_value" }
+        context 'and default is given' do
+          let(:default_value) { 'default_value' }
 
           it { expect(environment.fetch(variable, default_value)).to eq default_value }
         end
@@ -202,291 +202,291 @@ RSpec.describe Aruba::Platforms::WindowsEnvironmentVariables do
     end
   end
 
-  describe "#key?" do
-    context "when environment contains uppercase variable" do
-      let(:old_environment) { { "MY_VARIABLE" => "1" } }
+  describe '#key?' do
+    context 'when environment contains uppercase variable' do
+      let(:old_environment) { { 'MY_VARIABLE' => '1' } }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
-
-        it { expect(environment).to be_key variable }
-      end
-
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
         it { expect(environment).to be_key variable }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
         it { expect(environment).to be_key variable }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
+
+        it { expect(environment).to be_key variable }
+      end
+
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
         it { expect(environment).not_to be_key variable }
       end
     end
 
-    context "when environment contains lowercase variable" do
-      let(:old_environment) { { "my_variable" => "1" } }
+    context 'when environment contains lowercase variable' do
+      let(:old_environment) { { 'my_variable' => '1' } }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
-
-        it { expect(environment).to be_key variable }
-      end
-
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
         it { expect(environment).to be_key variable }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
         it { expect(environment).to be_key variable }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
+
+        it { expect(environment).to be_key variable }
+      end
+
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
         it { expect(environment).not_to be_key variable }
       end
     end
 
-    context "when environment contains mixed case variable" do
-      let(:old_environment) { { "MY_variable" => "1" } }
+    context 'when environment contains mixed case variable' do
+      let(:old_environment) { { 'MY_variable' => '1' } }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
-
-        it { expect(environment).to be_key variable }
-      end
-
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
         it { expect(environment).to be_key variable }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
         it { expect(environment).to be_key variable }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
+
+        it { expect(environment).to be_key variable }
+      end
+
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
         it { expect(environment).not_to be_key variable }
       end
     end
   end
 
-  describe "#append" do
-    let(:value) { "NEW_VALUE" }
+  describe '#append' do
+    let(:value) { 'NEW_VALUE' }
 
-    context "when environment contains uppercase variable" do
-      let(:old_environment) { { "MY_VARIABLE" => "1" } }
+    context 'when environment contains uppercase variable' do
+      let(:old_environment) { { 'MY_VARIABLE' => '1' } }
 
       before { environment.append(variable, value) }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
-        it { expect(environment[variable]).to eq "1NEW_VALUE" }
+        it { expect(environment[variable]).to eq '1NEW_VALUE' }
       end
 
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
-        it { expect(environment[variable]).to eq "1NEW_VALUE" }
+        it { expect(environment[variable]).to eq '1NEW_VALUE' }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
 
-        it { expect(environment[variable]).to eq "1NEW_VALUE" }
+        it { expect(environment[variable]).to eq '1NEW_VALUE' }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE' }
       end
     end
 
-    context "when environment contains lowercase variable" do
-      let(:old_environment) { { "my_variable" => "1" } }
+    context 'when environment contains lowercase variable' do
+      let(:old_environment) { { 'my_variable' => '1' } }
 
       before { environment.append(variable, value) }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
-        it { expect(environment[variable]).to eq "1NEW_VALUE" }
+        it { expect(environment[variable]).to eq '1NEW_VALUE' }
       end
 
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
-        it { expect(environment[variable]).to eq "1NEW_VALUE" }
+        it { expect(environment[variable]).to eq '1NEW_VALUE' }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
 
-        it { expect(environment[variable]).to eq "1NEW_VALUE" }
+        it { expect(environment[variable]).to eq '1NEW_VALUE' }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE' }
       end
     end
 
-    context "when environment contains mixed case variable" do
-      let(:old_environment) { { "MY_variable" => "1" } }
+    context 'when environment contains mixed case variable' do
+      let(:old_environment) { { 'MY_variable' => '1' } }
 
       before { environment.append(variable, value) }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
-        it { expect(environment[variable]).to eq "1NEW_VALUE" }
+        it { expect(environment[variable]).to eq '1NEW_VALUE' }
       end
 
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
-        it { expect(environment[variable]).to eq "1NEW_VALUE" }
+        it { expect(environment[variable]).to eq '1NEW_VALUE' }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
 
-        it { expect(environment[variable]).to eq "1NEW_VALUE" }
+        it { expect(environment[variable]).to eq '1NEW_VALUE' }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE' }
       end
     end
   end
 
-  describe "#prepend" do
-    let(:value) { "NEW_VALUE" }
+  describe '#prepend' do
+    let(:value) { 'NEW_VALUE' }
 
-    context "when environment contains uppercase variable" do
-      let(:old_environment) { { "MY_VARIABLE" => "1" } }
+    context 'when environment contains uppercase variable' do
+      let(:old_environment) { { 'MY_VARIABLE' => '1' } }
 
       before { environment.prepend(variable, value) }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE1" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE1' }
       end
 
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE1" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE1' }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE1" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE1' }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE' }
       end
     end
 
-    context "when environment contains lowercase variable" do
-      let(:old_environment) { { "my_variable" => "1" } }
+    context 'when environment contains lowercase variable' do
+      let(:old_environment) { { 'my_variable' => '1' } }
 
       before { environment.prepend(variable, value) }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE1" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE1' }
       end
 
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE1" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE1' }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE1" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE1' }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE' }
       end
     end
 
-    context "when environment contains mixed case variable" do
-      let(:old_environment) { { "MY_variable" => "1" } }
+    context 'when environment contains mixed case variable' do
+      let(:old_environment) { { 'MY_variable' => '1' } }
 
       before { environment.prepend(variable, value) }
 
-      context "when uppercase key is given" do
-        let(:variable) { "MY_VARIABLE" }
+      context 'when uppercase key is given' do
+        let(:variable) { 'MY_VARIABLE' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE1" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE1' }
       end
 
-      context "when lowercase key is given" do
-        let(:variable) { "my_variable" }
+      context 'when lowercase key is given' do
+        let(:variable) { 'my_variable' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE1" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE1' }
       end
 
-      context "when mixed case key is given" do
-        let(:variable) { "MY_variable" }
+      context 'when mixed case key is given' do
+        let(:variable) { 'MY_variable' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE1" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE1' }
       end
 
-      context "when unknown variable is given" do
-        let(:variable) { "unknown" }
+      context 'when unknown variable is given' do
+        let(:variable) { 'unknown' }
 
-        it { expect(environment[variable]).to eq "NEW_VALUE" }
+        it { expect(environment[variable]).to eq 'NEW_VALUE' }
       end
     end
   end
 
-  describe "#delete" do
-    let(:variable) { "my_variable" }
-    let(:old_environment) { { "MY_VARIABLE" => "1" } }
+  describe '#delete' do
+    let(:variable) { 'my_variable' }
+    let(:old_environment) { { 'MY_VARIABLE' => '1' } }
 
-    it "deletes a value from the environment" do
+    it 'deletes a value from the environment' do
       environment.delete(variable)
       expect(environment[variable]).to be_nil
     end
 
-    it "returns deleted value" do
-      expect(environment.delete(variable)).to eq("1")
+    it 'returns deleted value' do
+      expect(environment.delete(variable)).to eq('1')
     end
   end
 end

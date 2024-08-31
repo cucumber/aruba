@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "pathname"
+require 'pathname'
 
 # Aruba
 module Aruba
@@ -59,7 +59,7 @@ module Aruba
     # Get path
     def to_pathname
       current_path = @obj.inject do |path, element|
-        if element.start_with?("~") ||
+        if element.start_with?('~') ||
            Aruba.platform.absolute_path?(element)
           element
         else

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "aruba/platforms/unix_platform"
-require "aruba/platforms/windows_command_string"
-require "aruba/platforms/windows_environment_variables"
-require "aruba/platforms/windows_which"
+require 'aruba/platforms/unix_platform'
+require 'aruba/platforms/windows_command_string'
+require 'aruba/platforms/windows_environment_variables'
+require 'aruba/platforms/windows_which'
 
 # Aruba
 module Aruba
@@ -34,7 +34,7 @@ module Aruba
       end
 
       # @see UnixPlatform#which
-      def which(program, path = ENV["PATH"])
+      def which(program, path = ENV['PATH'])
         WindowsWhich.new.call(program, path)
       end
 

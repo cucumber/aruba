@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "aruba/api/environment"
-require "bundler"
+require 'aruba/api/environment'
+require 'bundler'
 
 module Aruba
   module Api

@@ -19,7 +19,7 @@ RSpec::Matchers.define :be_an_existing_file do |_|
   match do |actual|
     stop_all_commands
 
-    raise "String expected" unless actual.is_a? String
+    raise 'String expected' unless actual.is_a? String
 
     file?(actual)
   end

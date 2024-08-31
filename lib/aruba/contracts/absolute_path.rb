@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "aruba/platform"
+require 'aruba/platform'
 
 # Aruba
 module Aruba

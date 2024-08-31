@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require "pathname"
+require 'pathname'
 
-require "aruba/platform"
+require 'aruba/platform'
 
-Aruba.platform.require_matching_files("../matchers/file/*.rb", __FILE__)
-Aruba.platform.require_matching_files("../matchers/directory/*.rb", __FILE__)
-Aruba.platform.require_matching_files("../matchers/path/*.rb", __FILE__)
+Aruba.platform.require_matching_files('../matchers/file/*.rb', __FILE__)
+Aruba.platform.require_matching_files('../matchers/directory/*.rb', __FILE__)
+Aruba.platform.require_matching_files('../matchers/path/*.rb', __FILE__)
 
 # Aruba
 module Aruba
@@ -69,7 +69,7 @@ module Aruba
       # @return [Array]
       #   List of files and directories
       def all_paths
-        list(".").map { |path| expand_path(path) }
+        list('.').map { |path| expand_path(path) }
       end
 
       # Return all existing files in current directory
@@ -77,7 +77,7 @@ module Aruba
       # @return [Array]
       #   List of files
       def all_files
-        list(".").select { |p| file? p }.map { |p| expand_path(p) }
+        list('.').select { |p| file? p }.map { |p| expand_path(p) }
       end
 
       # Return all existing directories in current directory
@@ -85,7 +85,7 @@ module Aruba
       # @return [Array]
       #   List of files
       def all_directories
-        list(".").select { |p| directory? p }.map { |p| expand_path(p) }
+        list('.').select { |p| directory? p }.map { |p| expand_path(p) }
       end
 
       # Create directory object
@@ -110,8 +110,8 @@ module Aruba
                 %(Only directories are supported. Path "#{name}" is not a directory.)
         end
 
-        existing_files            = Dir.glob(expand_path(File.join(name, "**", "*")))
-        current_working_directory = Pathname.new(expand_path("."))
+        existing_files            = Dir.glob(expand_path(File.join(name, '**', '*')))
+        current_working_directory = Pathname.new(expand_path('.'))
 
         existing_files.map do |d|
           Pathname.new(d).relative_path_from(current_working_directory).to_s
@@ -193,7 +193,7 @@ module Aruba
         end
 
         if source.count > 1 && exist?(destination) && !directory?(destination)
-          raise ArgumentError, "Multiples sources can only be copied to a directory"
+          raise ArgumentError, 'Multiples sources can only be copied to a directory'
         end
 
         source_paths     = source.map { |f| expand_path(f) }
@@ -242,7 +242,7 @@ module Aruba
         end
 
         if source.count > 1 && exist?(destination) && !directory?(destination)
-          raise ArgumentError, "Multiple sources can only be copied to a directory"
+          raise ArgumentError, 'Multiple sources can only be copied to a directory'
         end
 
         source_paths     = source.map { |f| expand_path(f) }
@@ -324,7 +324,7 @@ module Aruba
       def append_to_file(file_name, file_content)
         file_name = expand_path(file_name)
 
-        File.open(file_name, "a") { |f| f << file_content }
+        File.open(file_name, 'a') { |f| f << file_content }
       end
 
       # Append lines to a (text) file. This will make sure a newline is present
@@ -343,7 +343,7 @@ module Aruba
           f.read
         end
 
-        File.open(file_name, "a") do |f|
+        File.open(file_name, 'a') do |f|
           f << "\n" unless last.end_with? "\n"
           f << file_content
         end

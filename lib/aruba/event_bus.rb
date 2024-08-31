@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "cucumber/core/event_bus"
+require 'cucumber/core/event_bus'
 
 module Aruba
   # Event bus

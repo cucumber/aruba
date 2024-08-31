@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "contracts"
+require 'contracts'
 
 # Aruba
 module Aruba

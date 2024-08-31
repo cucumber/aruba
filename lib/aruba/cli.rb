@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "thor"
-require "aruba/console"
-require "aruba/initializer"
+require 'thor'
+require 'aruba/console'
+require 'aruba/initializer'
 
 # Aruba
 module Aruba
@@ -14,16 +14,16 @@ module Aruba
       true
     end
 
-    desc "console", "Start aruba's console"
+    desc 'console', "Start aruba's console"
     def console
       Aruba::Console.new.start
     end
 
-    desc "init", "Initialize aruba"
+    desc 'init', 'Initialize aruba'
     option :test_framework,
-           default: "cucumber",
+           default: 'cucumber',
            enum: %w(cucumber rspec minitest),
-           desc: "Choose which test framework to use"
+           desc: 'Choose which test framework to use'
     def init
       Aruba::Initializer.new.call(options[:test_framework])
     end

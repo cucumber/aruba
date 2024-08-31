@@ -18,7 +18,7 @@ module Aruba
 
     def method_missing(name, *args)
       if config.key? name
-        raise ArgumentError, "Options take no argument" if args.any?
+        raise ArgumentError, 'Options take no argument' if args.any?
 
         config[name]
       else

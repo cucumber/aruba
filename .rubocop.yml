@@ -64,10 +64,6 @@ Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%w': ()
 
-# Do not commit to use of interpolation
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
-
 # SupportedStyles: percent, brackets
 Style/SymbolArray:
   EnforcedStyle: brackets

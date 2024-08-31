@@ -10,7 +10,7 @@ module Aruba
         module_function
 
         def indent_multiline_message(message)
-          message = message.sub(/\n+\z/, "")
+          message = message.sub(/\n+\z/, '')
           message.lines.map do |line|
             /\S/.match?(line) ? "   #{line}" : line
           end.join

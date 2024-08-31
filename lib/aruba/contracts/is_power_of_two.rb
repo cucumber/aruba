@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "aruba/aruba_path"
+require 'aruba/aruba_path'
 
 # Aruba
 module Aruba

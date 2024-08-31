@@ -25,7 +25,7 @@ module Aruba
 
     def header
       if script_starts_with_shebang?
-        ""
+        ''
       elsif interpreter_is_absolute_path?
         format("#!%s\n", interpreter)
       elsif interpreter_is_just_the_name_of_shell?
@@ -42,7 +42,7 @@ module Aruba
     end
 
     def script_starts_with_shebang?
-      content.start_with? "#!"
+      content.start_with? '#!'
     end
   end
 end

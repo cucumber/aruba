@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "aruba/aruba_path"
-require "aruba/api"
-require "aruba/platform"
+require 'aruba/aruba_path'
+require 'aruba/api'
+require 'aruba/platform'
 World(Aruba::Api)
 
 Around do |_, block|
@@ -12,10 +12,10 @@ end
 Before do
   # ... so every change needs to be done later
   prepend_environment_variable(
-    "PATH",
+    'PATH',
     aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
   )
-  set_environment_variable "HOME", aruba.config.home_directory
+  set_environment_variable 'HOME', aruba.config.home_directory
 end
 
 After do
@@ -23,68 +23,68 @@ After do
   aruba.command_monitor.clear
 end
 
-Before("@no-clobber") do
+Before('@no-clobber') do
   setup_aruba(false)
 end
 
-Before("~@no-clobber") do
+Before('~@no-clobber') do
   setup_aruba
 end
 
-Before("@puts") do
+Before('@puts') do
   aruba.announcer.mode = :puts
 end
 
-Before("@announce-command") do
+Before('@announce-command') do
   aruba.announcer.activate :command
 end
 
-Before("@announce-command-content") do
+Before('@announce-command-content') do
   aruba.announcer.activate :command_content
 end
 
-Before("@announce-command-filesystem-status") do
+Before('@announce-command-filesystem-status') do
   aruba.announcer.activate :command_filesystem_status
 end
 
-Before("@announce-output") do
+Before('@announce-output') do
   aruba.announcer.activate :stdout
   aruba.announcer.activate :stderr
 end
 
-Before("@announce-stdout") do
+Before('@announce-stdout') do
   aruba.announcer.activate :stdout
 end
 
-Before("@announce-stderr") do
+Before('@announce-stderr') do
   aruba.announcer.activate :stderr
 end
 
-Before("@announce-directory") do
+Before('@announce-directory') do
   aruba.announcer.activate :directory
 end
 
-Before("@announce-stop-signal") do
+Before('@announce-stop-signal') do
   aruba.announcer.activate :stop_signal
 end
 
-Before("@announce-full-environment") do
+Before('@announce-full-environment') do
   aruba.announcer.activate :full_environment
 end
 
-Before("@announce-changed-environment") do
+Before('@announce-changed-environment') do
   aruba.announcer.activate :changed_environment
 end
 
-Before("@announce-timeout") do
+Before('@announce-timeout') do
   aruba.announcer.activate :timeout
 end
 
-Before("@announce-wait-time") do
+Before('@announce-wait-time') do
   aruba.announcer.activate :wait_time
 end
 
-Before("@announce") do
+Before('@announce') do
   aruba.announcer.activate :changed_environment
   aruba.announcer.activate :command
   aruba.announcer.activate :directory
@@ -100,30 +100,30 @@ Before("@announce") do
   aruba.announcer.activate :command_filesystem_status
 end
 
-Before("@keep-ansi-escape-sequences") do
+Before('@keep-ansi-escape-sequences') do
   aruba.config.remove_ansi_escape_sequences = false
 end
 
-Before "@mocked-home-directory" do
-  set_environment_variable "HOME", expand_path(".")
+Before '@mocked-home-directory' do
+  set_environment_variable 'HOME', expand_path('.')
 end
 
-Before("@disable-bundler") do
+Before('@disable-bundler') do
   unset_bundler_env_vars
 end
 
-Before("@debug") do
+Before('@debug') do
   aruba.config.command_launcher = :debug
 end
 
-Before("@command-launcher-spawn") do
+Before('@command-launcher-spawn') do
   aruba.config.command_launcher = :spawn
 end
 
-Before("@command-launcher-in-process") do
+Before('@command-launcher-in-process') do
   aruba.config.command_launcher = :in_process
 end
 
-Before("@command-launcher-debug") do
+Before('@command-launcher-debug') do
   aruba.config.command_launcher = :debug
 end

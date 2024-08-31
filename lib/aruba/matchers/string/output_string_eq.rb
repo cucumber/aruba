@@ -20,7 +20,7 @@
 #     end
 RSpec::Matchers.define :output_string_eq do |expected|
   match do |actual|
-    actual.force_encoding("UTF-8")
+    actual.force_encoding('UTF-8')
     @expected = sanitize_text(expected.to_s)
     @actual   = sanitize_text(actual.to_s)
 

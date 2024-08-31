@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require "aruba/configuration"
-require "aruba/aruba_path"
-require "aruba/config_wrapper"
-require "aruba/events"
-require "aruba/event_bus"
+require 'aruba/configuration'
+require 'aruba/aruba_path'
+require 'aruba/config_wrapper'
+require 'aruba/events'
+require 'aruba/event_bus'
 
 module Aruba
   # Runtime of aruba
@@ -86,7 +86,7 @@ module Aruba
         directory = candidates.find { |d| Aruba.platform.directory? d }
 
         unless directory
-          canditates_display = candidates.map { |d| format('"%s"', d) }.join(", ")
+          canditates_display = candidates.map { |d| format('"%s"', d) }.join(', ')
           raise "No existing fixtures directory found in #{canditates_display}."
         end
 
