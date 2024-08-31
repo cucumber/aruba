@@ -59,10 +59,6 @@ RSpec/PredicateMatcher:
 Style/FetchEnvVar:
   Enabled: false
 
-# SupportedStyles: percent, brackets
-Style/SymbolArray:
-  EnforcedStyle: brackets
-
 # Be relatively lenient with line length
 Layout/LineLength:
   Max: 94

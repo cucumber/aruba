@@ -76,9 +76,9 @@ module Aruba
       )
 
       runtime.event_bus.register(
-        [:changed_environment_variable,
-         :added_environment_variable,
-         :deleted_environment_variable],
+        %i[changed_environment_variable
+           added_environment_variable
+           deleted_environment_variable],
         proc do |event|
           runtime.announcer.announce :changed_environment,
                                      event.entity[:changed][:name],

@@ -24,7 +24,7 @@ end
 RSpec::Core::RakeTask.new
 
 desc 'Run the whole test suite.'
-task test: [:spec, :cucumber]
+task test: %i[spec cucumber]
 
 RuboCop::RakeTask.new
 

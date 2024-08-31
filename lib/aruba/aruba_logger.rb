@@ -38,7 +38,7 @@ module Aruba
     # @!method unknown(msg)
     # Log an unknown level log message
 
-    [:fatal, :warn, :debug, :info, :error, :unknown].each do |m|
+    %i[fatal warn debug info error unknown].each do |m|
       define_method m do |msg|
         logger.public_send m, msg
       end
