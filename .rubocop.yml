@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 inherit_mode:
   merge:
     - Exclude
@@ -32,6 +34,10 @@ Gemspec/DevelopmentDependencies:
 Gemspec/RequireMFA:
   Enabled: false
 
+# Be relatively lenient with line length
+Layout/LineLength:
+  Max: 94
+
 # Assume the programmer knows how bracketed block syntax works
 Lint/AmbiguousBlockAssociation:
   Enabled: false
@@ -54,9 +60,3 @@ RSpec/PredicateMatcher:
 # This cop doesn't seem to add much for us.
 Style/FetchEnvVar:
   Enabled: false
-
-# Be relatively lenient with line length
-Layout/LineLength:
-  Max: 94
-
-inherit_from: .rubocop_todo.yml
