@@ -29,8 +29,8 @@ RSpec::Matchers.define :be_successfully_executed do
   end
 
   failure_message do |_actual|
-    "Expected `#{@actual}` to succeed" \
-      ' but got non-zero exit status and the following output:' \
+    "Expected `#{@actual}` to succeed " \
+      'but got non-zero exit status and the following output:' \
       "\n\n#{@old_actual.output}\n"
   end
 end

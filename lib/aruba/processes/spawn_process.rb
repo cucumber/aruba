@@ -146,9 +146,9 @@ module Aruba
       def start
         if started?
           error_message =
-            "Command \"#{commandline}\" has already been started." \
-            ' Please `#stop` the command first and `#start` it again.' \
-            ' Alternatively use `#restart`.'
+            "Command \"#{commandline}\" has already been started. " \
+            'Please `#stop` the command first and `#start` it again. ' \
+            'Alternatively use `#restart`.'
           raise CommandAlreadyStartedError, error_message
         end
 

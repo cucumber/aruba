@@ -145,18 +145,18 @@ module Aruba
       #
       def expand_path(file_name, dir_string = nil)
         unless file_name.is_a?(String) && !file_name.empty?
-          message = "Filename #{file_name} needs to be a string." \
-                    ' It cannot be nil or empty either.' \
-                    " Please use `expand_path('.')` if you want" \
-                    ' the current directory to be expanded.'
+          message = "Filename #{file_name} needs to be a string. " \
+                    'It cannot be nil or empty either. ' \
+                    "Please use `expand_path('.')` if you want " \
+                    'the current directory to be expanded.'
 
           raise ArgumentError, message
         end
 
         unless Aruba.platform.directory? File.join(aruba.config.root_directory,
                                                    aruba.config.working_directory)
-          raise "Aruba's working directory does not exist." \
-                ' Maybe you forgot to run `setup_aruba` before using its API.'
+          raise "Aruba's working directory does not exist. " \
+                'Maybe you forgot to run `setup_aruba` before using its API.'
         end
 
         prefix = file_name[0]
@@ -169,10 +169,10 @@ module Aruba
                                             .map { |p| format('"%s"', p) }.join(', ')
 
             raise ArgumentError,
-                  "Fixture \"#{rest}\" does not exist" \
-                  " in fixtures directory \"#{aruba.fixtures_directory}\"." \
-                  ' This was the one we found first on your system from all possible' \
-                  " candidates: #{aruba_fixture_candidates}."
+                  "Fixture \"#{rest}\" does not exist " \
+                  "in fixtures directory \"#{aruba.fixtures_directory}\". " \
+                  'This was the one we found first on your system from all possible ' \
+                  "candidates: #{aruba_fixture_candidates}."
           end
 
           path
@@ -194,11 +194,11 @@ module Aruba
             caller_location = caller_locations(1, 1).first
             caller_file_line = "#{caller_location.path}:#{caller_location.lineno}"
             message =
-              "Aruba's `expand_path` method was called with an absolute path" \
-              " at #{caller_file_line}, which is not recommended." \
-              " The path passed was '#{file_name}'." \
-              ' Change the call to pass a relative path or set' \
-              ' `config.allow_absolute_paths = true` to silence this warning'
+              "Aruba's `expand_path` method was called with an absolute path " \
+              "at #{caller_file_line}, which is not recommended. " \
+              "The path passed was '#{file_name}'. " \
+              'Change the call to pass a relative path or set ' \
+              '`config.allow_absolute_paths = true` to silence this warning'
             raise UserError, message
           end
           file_name

@@ -315,8 +315,8 @@ RSpec.describe 'File Matchers' do
       it 'provides the correct path value in the message' do
         expect { expect(file).to be_a_command_found_in_path }
           .to raise_error RSpec::Expectations::ExpectationNotMetError,
-                          "expected that command \"#{file}\" can be found" \
-                          " in PATH \"#{expand_path('.')}\"."
+                          "expected that command \"#{file}\" can be found " \
+                          "in PATH \"#{expand_path('.')}\"."
       end
     end
 
@@ -332,8 +332,8 @@ RSpec.describe 'File Matchers' do
       it 'provides the correct path value in the message' do
         expect { expect(file).not_to be_a_command_found_in_path }
           .to raise_error RSpec::Expectations::ExpectationNotMetError,
-                          "expected that command \"#{file}\" cannot be found" \
-                          " in PATH \"#{expand_path('.')}\"."
+                          "expected that command \"#{file}\" cannot be found " \
+                          "in PATH \"#{expand_path('.')}\"."
       end
     end
   end

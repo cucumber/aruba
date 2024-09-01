@@ -32,10 +32,6 @@ Gemspec/DevelopmentDependencies:
 Gemspec/RequireMFA:
   Enabled: false
 
-# Spaces in strings with line continuations go at the beginning of the line.
-Layout/LineContinuationLeadingSpace:
-  EnforcedStyle: leading
-
 # Assume the programmer knows how bracketed block syntax works
 Lint/AmbiguousBlockAssociation:
   Enabled: false
