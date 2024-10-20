@@ -244,8 +244,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         let(:command_path) { '/path with space/foo' }
 
         it 'passes the command path as a single string to ProcessRunner.new' do
+          expect(Aruba::Processes::ProcessRunner).to receive(:new).with([command_path])
           process.start
-          expect(Aruba::Processes::ProcessRunner).to have_received(:new).with([command_path])
         end
       end
 
@@ -253,9 +253,9 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         let(:command_line) { 'foo -x "bar baz"' }
 
         it 'passes the command and arguments as separate items to ProcessRunner.new' do
-          process.start
-          expect(Aruba::Processes::ProcessRunner).to have_received(:new)
+          expect(Aruba::Processes::ProcessRunner).to receive(:new)
             .with([command_path, '-x', 'bar baz'])
+          process.start
         end
       end
     end
@@ -293,9 +293,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
 
       context 'with a command without a space in the path' do
         it 'passes the command as-is' do
+          expect(Aruba::Processes::ProcessRunner).to receive(:new).with([command_path])
           process.start
-          expect(Aruba::Processes::ProcessRunner).to have_received(:new)
-            .with([command_path])
         end
       end
 
@@ -303,9 +302,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         let(:command_path) { 'D:\Bar Baz\foo' }
 
         it 'passes the command as-is' do
+          expect(Aruba::Processes::ProcessRunner).to receive(:new).with([command_path])
           process.start
-          expect(Aruba::Processes::ProcessRunner).to have_received(:new)
-            .with([command_path])
         end
       end
 
@@ -313,9 +311,9 @@ RSpec.describe Aruba::Processes::SpawnProcess do
         let(:command_line) { "foo -x 'bar \"baz\"'" }
 
         it 'passes the command and arguments individually' do
-          process.start
-          expect(Aruba::Processes::ProcessRunner).to have_received(:new)
+          expect(Aruba::Processes::ProcessRunner).to receive(:new)
             .with([command_path, '-x', 'bar "baz"'])
+          process.start
         end
       end
     end

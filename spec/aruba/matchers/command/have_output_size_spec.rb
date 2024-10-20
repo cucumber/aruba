@@ -21,8 +21,8 @@ RSpec.describe 'Output Matchers' do
 
       it 'emits a deprecation warning' do
         aggregate_failures do
+          expect(Aruba.platform).to receive(:deprecated)
           expect(obj).to have_output_size 6
-          expect(Aruba.platform).to have_received(:deprecated)
         end
       end
     end

@@ -19,12 +19,10 @@ describe Aruba::Api do
         end
 
         it 'announces to stdout exactly once' do
+          expect(@aruba.aruba.announcer).to receive(:announce).with(:stdout).once
           @aruba.run_command_and_stop('echo "hello world"', fail_on_error: false)
 
-          aggregate_failures do
-            expect(@aruba.last_command_started.output).to include('hello world')
-            expect(@aruba.aruba.announcer).to have_received(:announce).with(:stdout).once
-          end
+          expect(@aruba.last_command_started.output).to include('hello world')
         end
       end
 

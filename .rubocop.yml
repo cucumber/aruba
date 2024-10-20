@@ -52,6 +52,10 @@ Metrics/BlockLength:
     - '**/*.gemspec'
     - 'spec/**/*'
 
+# Stylistic preference for cucumber
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+
 # This cop does not work properly with predicates that take arguments.
 # TODO: Re-enable once https://github.com/rubocop/rubocop-rspec/issues/466 is resolved.
 RSpec/PredicateMatcher:
