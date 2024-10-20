@@ -29,12 +29,12 @@ module Aruba
       #   The table
       def to_s
         longest_key = hash.keys.map(&:to_s).max_by(&:length)
-        return "" if longest_key.nil?
+        return '' if longest_key.nil?
 
         name_size = longest_key.length
 
         rows = hash.map do |k, v|
-          format("# %-*s => %s", name_size, k, v)
+          format('# %-*s => %s', name_size, k, v)
         end
 
         if opts[:sort] == true

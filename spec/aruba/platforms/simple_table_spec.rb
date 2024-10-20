@@ -1,34 +1,34 @@
 # frozen_string_literal: true
 
-require "spec_helper"
-require "aruba/platform"
+require 'spec_helper'
+require 'aruba/platform'
 
-RSpec.describe ".simple_table" do
-  context "when valid hash" do
+RSpec.describe '.simple_table' do
+  context 'when valid hash' do
     let(:hash) do
       {
-        key1: "value",
-        key2: "value"
+        key1: 'value',
+        key2: 'value'
       }
     end
-    let(:rows) { ["# key1 => value", "# key2 => value"] }
+    let(:rows) { ['# key1 => value', '# key2 => value'] }
 
     it { expect(Aruba.platform.simple_table(hash).to_s).to eq rows.join("\n") }
   end
 
-  context "when valid hash with unequal key lengths" do
+  context 'when valid hash with unequal key lengths' do
     let(:hash) do
       {
-        key1: "value",
-        long_key2: "value"
+        key1: 'value',
+        long_key2: 'value'
       }
     end
-    let(:rows) { ["# key1      => value", "# long_key2 => value"] }
+    let(:rows) { ['# key1      => value', '# long_key2 => value'] }
 
     it { expect(Aruba.platform.simple_table(hash).to_s).to eq rows.join("\n") }
   end
 
-  context "when empty hash" do
+  context 'when empty hash' do
     let(:hash) { {} }
     let(:rows) { [] }
 

@@ -18,6 +18,6 @@ at_exit do
   slowest_times = sorted_times.first(20)
   puts "------------- Top #{slowest_times.size} slowest scenarios -------------"
   slowest_times.each do |key, value|
-    puts format("%.2f  %s", value, key)
+    puts format('%.2f  %s', value, key)
   end
 end

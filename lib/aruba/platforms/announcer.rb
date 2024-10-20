@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "shellwords"
-require "aruba/colorizer"
+require 'shellwords'
+require 'aruba/colorizer'
 
-Aruba::Colorizer.coloring = false if !$stdout.tty? && !ENV.key?("AUTOTEST")
+Aruba::Colorizer.coloring = false if !$stdout.tty? && !ENV.key?('AUTOTEST')
 
 # Aruba
 module Aruba
@@ -83,29 +83,29 @@ module Aruba
       private
 
       def after_init
-        output_format :changed_configuration, proc { |n, v| format("# %s = %s", n, v) }
+        output_format :changed_configuration, proc { |n, v| format('# %s = %s', n, v) }
         output_format :changed_environment,
-                      proc { |n, v| format("$ export %s=%s", n, Shellwords.escape(v)) }
-        output_format :command, "$ %s"
-        output_format :directory, "$ cd %s"
+                      proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
+        output_format :command, '$ %s'
+        output_format :directory, '$ cd %s'
         output_format :environment,
-                      proc { |n, v| format("$ export %s=%s", n, Shellwords.escape(v)) }
+                      proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
         output_format :full_environment,
                       proc { |h|
                         format("<<-ENVIRONMENT\n%s\nENVIRONMENT",
                                Aruba.platform.simple_table(h))
                       }
         output_format :modified_environment,
-                      proc { |n, v| format("$ export %s=%s", n, Shellwords.escape(v)) }
+                      proc { |n, v| format('$ export %s=%s', n, Shellwords.escape(v)) }
         output_format :stderr, "<<-STDERR\n%s\nSTDERR"
         output_format :stdout, "<<-STDOUT\n%s\nSTDOUT"
         output_format :command_content, "<<-COMMAND\n%s\nCOMMAND"
         output_format :stop_signal,
                       proc { |p, s|
-                        format("Command will be stopped with `kill -%s %s`", s, p)
+                        format('Command will be stopped with `kill -%s %s`', s, p)
                       }
-        output_format :timeout, "# %s-timeout: %s seconds"
-        output_format :wait_time, "# %s: %s seconds"
+        output_format :timeout, '# %s-timeout: %s seconds'
+        output_format :wait_time, '# %s: %s seconds'
         output_format :command_filesystem_status,
                       proc { |status|
                         format("<<-COMMAND FILESYSTEM STATUS\n%s\nCOMMAND FILESYSTEM STATUS",
@@ -113,7 +113,7 @@ module Aruba
                       }
       end
 
-      def output_format(channel, string = "%s", &block)
+      def output_format(channel, string = '%s', &block)
         output_formats[channel.to_sym] = if block
                                            block
                                          elsif string.is_a?(Proc)
@@ -180,7 +180,7 @@ module Aruba
         the_output_format = if output_formats.key? channel
                               output_formats[channel]
                             else
-                              proc { |v| format("%s", v) }
+                              proc { |v| format('%s', v) }
                             end
 
         return unless activated?(channel)

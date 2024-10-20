@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "shellwords"
-require "stringio"
-require "aruba/processes/basic_process"
-require "aruba/platform"
+require 'shellwords'
+require 'stringio'
+require 'aruba/processes/basic_process'
+require 'aruba/platform'
 
 # Aruba
 module Aruba
@@ -63,14 +63,14 @@ module Aruba
 
       # Start command
       def start
-        raise "You need to call aruba.config.main_class = YourMainClass" unless main_class
+        raise 'You need to call aruba.config.main_class = YourMainClass' unless main_class
 
         @started = true
 
         Dir.chdir @working_directory do
           before_run
 
-          new_env = environment.merge("PWD" => @working_directory)
+          new_env = environment.merge('PWD' => @working_directory)
           Aruba.platform.with_replaced_environment new_env do
             main_class.new(@argv, @stdin, @stdout, @stderr, @kernel).execute!
           end
@@ -112,8 +112,8 @@ module Aruba
 
       # Close io
       def close_io(name)
-        unless [:stdin, :stdout, :stderr].include? name
-          raise ArgumentError, "Only stdin stdout and stderr are allowed to close"
+        unless %i[stdin stdout stderr].include? name
+          raise ArgumentError, 'Only stdin stdout and stderr are allowed to close'
         end
 
         get_instance_variable(name.to_sym).close

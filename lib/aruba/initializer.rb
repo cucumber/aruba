@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "thor/group"
-require "thor/actions"
+require 'thor/group'
+require 'thor/actions'
 
 # Aruba
 module Aruba
@@ -18,7 +18,7 @@ module Aruba
 
       # Add gem to gemfile
       def add_gem
-        file = "Gemfile"
+        file = 'Gemfile'
         creator = if File.exist? file
                     :append_to_file
                   else
@@ -27,9 +27,9 @@ module Aruba
 
         content = if File.exist? file
                     file_ends_with_carriage_return =
-                      File.open(file, "r").readlines.last.match(/.*\n$/)
+                      File.open(file, 'r').readlines.last.match(/.*\n$/)
 
-                    prefix = file_ends_with_carriage_return ? "" : "\n"
+                    prefix = file_ends_with_carriage_return ? '' : "\n"
 
                     %(#{prefix}gem 'aruba', '~> #{Aruba::VERSION}')
                   else
@@ -71,7 +71,7 @@ module Aruba
       end
 
       def create_helper
-        file = "spec/spec_helper.rb"
+        file = 'spec/spec_helper.rb'
         creator = if File.exist? file
                     :append_to_file
                   else
@@ -87,7 +87,7 @@ module Aruba
       end
 
       def create_support_file
-        create_file "spec/support/aruba.rb", <<~EOS
+        create_file 'spec/support/aruba.rb', <<~EOS
           require 'aruba/rspec'
         EOS
       end
@@ -107,7 +107,7 @@ module Aruba
       end
 
       def create_support_file
-        create_file "features/support/aruba.rb", <<~EOS
+        create_file 'features/support/aruba.rb', <<~EOS
           require 'aruba/cucumber'
         EOS
       end
@@ -127,7 +127,7 @@ module Aruba
       end
 
       def create_helper
-        file =  "test/test_helper.rb"
+        file =  'test/test_helper.rb'
         creator = if File.exist? file
                     :append_to_file
                   else
@@ -143,7 +143,7 @@ module Aruba
       end
 
       def create_example
-        create_file "test/use_aruba_with_minitest.rb", <<~EOS
+        create_file 'test/use_aruba_with_minitest.rb', <<~EOS
           $LOAD_PATH.unshift File.expand_path('../test', __FILE__)
 
           require 'test_helper'

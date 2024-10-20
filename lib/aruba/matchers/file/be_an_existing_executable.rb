@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "shellwords"
+require 'shellwords'
 
 # @!method be_an_existing_executable
 #   This matchers checks if <file> exists in filesystem

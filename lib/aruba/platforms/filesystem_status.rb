@@ -38,7 +38,7 @@ module Aruba
 
       # Return permissions
       def mode
-        format("%o", status.mode)[-4, 4].gsub(/^0*/, "")
+        format('%o', status.mode)[-4, 4].gsub(/^0*/, '')
       end
 
       # Return owner

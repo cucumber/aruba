@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-require "spec_helper"
+require 'spec_helper'
 
-RSpec.describe "aruba" do
-  describe "#config" do
+RSpec.describe 'aruba' do
+  describe '#config' do
     subject(:config) { aruba.config }
 
-    context "when initialized" do
+    context 'when initialized' do
       it { is_expected.to eq Aruba.config }
     end
 
-    context "when changed earlier" do
-      context "values when init" do
+    context 'when changed earlier' do
+      context 'values when init' do
         let(:value) { 20 }
 
         before { aruba.config.io_wait_timeout = value }
@@ -19,7 +19,7 @@ RSpec.describe "aruba" do
         it { expect(config.io_wait_timeout).to eq value }
       end
 
-      context "default value" do
+      context 'default value' do
         let(:value) { 0.1 } # Aruba.config.io_wait_timeout
 
         it { expect(config.io_wait_timeout).to eq value }
