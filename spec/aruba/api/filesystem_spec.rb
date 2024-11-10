@@ -123,6 +123,8 @@ RSpec.describe Aruba::Api::Filesystem do
       it 'creates an empty file in an existing directory' do
         @aruba.touch(name)
 
+        warn "File path is #{path}"
+        warn "File contents is #{File.read path}"
         aggregate_failures do
           expect(File.size(path)).to eq 0
           expect(File.file?(path)).to be true
