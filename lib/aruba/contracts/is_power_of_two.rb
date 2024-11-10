@@ -15,7 +15,7 @@ module Aruba
       def self.valid?(value)
         # explanation for algorithm can be found here:
         # http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/
-        value.positive? && (value & (value - 1)).zero?
+        value.positive? && value.nobits?(value - 1)
       rescue StandardError
         false
       end
