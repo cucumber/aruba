@@ -2,35 +2,46 @@
 
 require 'aruba/generators/script_file'
 
-When(/^I run `([^`]*)`$/) do |cmd|
+When 'I run {command}' do |cmd|
   cmd = sanitize_text(cmd)
   run_command_and_stop(cmd, fail_on_error: false)
 end
 
-## I successfully run `echo -n "Hello"`
-## I successfully run `sleep 29` for up to 30 seconds
-When(/^I successfully run `(.*?)`(?: for up to ([\d.]+) seconds)?$/) do |cmd, secs|
+When 'I successfully run {command}' do |cmd|
   cmd = sanitize_text(cmd)
-  run_command_and_stop(cmd, fail_on_error: true, exit_timeout: secs && secs.to_f)
+  run_command_and_stop(cmd, fail_on_error: true)
 end
 
-When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) \
-  do |shell, commands|
+When 'I successfully run {command} for up to {float} seconds' do |cmd, secs|
+  cmd = sanitize_text(cmd)
+  run_command_and_stop(cmd, fail_on_error: true, exit_timeout: secs.to_f)
+end
+
+When 'I run the following commands:/script:' do |commands|
   full_path = expand_path('bin/myscript')
 
   Aruba.platform.mkdir(expand_path('bin'))
-  shell ||= Aruba.platform.default_shell
+  shell = Aruba.platform.default_shell
 
   Aruba::ScriptFile.new(interpreter: shell, content: commands, path: full_path).call
   run_command_and_stop(Shellwords.escape(full_path), fail_on_error: false)
 end
 
-When(/^I run `([^`]*)` interactively$/) do |cmd|
+When 'I run the following commands/script with/in {command}:' do |shell, commands|
+  full_path = expand_path('bin/myscript')
+
+  Aruba.platform.mkdir(expand_path('bin'))
+
+  Aruba::ScriptFile.new(interpreter: shell, content: commands, path: full_path).call
+  run_command_and_stop(Shellwords.escape(full_path), fail_on_error: false)
+end
+
+When 'I run {command} interactively' do |cmd|
   run_command(sanitize_text(cmd))
 end
 
 # Merge interactive and background after refactoring with event queue
-When(/^I run `([^`]*)` in background$/) do |cmd|
+When 'I run {command} in background' do |cmd|
   run_command(sanitize_text(cmd))
 end
 
