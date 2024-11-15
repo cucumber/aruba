@@ -87,8 +87,11 @@ Then(/^the spec(?:s)? should not(?: all)? pass$/) do
 end
 
 Then(/^the spec(?:s)? should(?: all)? pass$/) do
-  aggregate_failures do
-    expect(all_output).to include_output_string_matching 'examples?, 0 failures'
+  expect(all_output).to include_output_string_matching 'examples?, 0 failures'
+
+  if last_command_stopped.exit_status != 0
+    expect(last_command_stopped)
+      .to have_output an_output_string_matching(', [1-9][0-9]* failure')
     expect(last_command_stopped).to have_exit_status 0
   end
 end
