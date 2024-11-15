@@ -2,12 +2,6 @@
 
 require 'cucumber/platform'
 
-Before '@requires-python' do
-  next unless Aruba.platform.which('python').nil?
-
-  skip_this_scenario
-end
-
 Before '@requires-zsh' do
   next unless Aruba.platform.which('zsh').nil?
 
