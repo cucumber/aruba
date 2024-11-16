@@ -87,7 +87,8 @@ Then(/^the spec(?:s)? should not(?: all)? pass$/) do
 end
 
 Then(/^the spec(?:s)? should(?: all)? pass$/) do
-  expect(all_output).to include_output_string_matching 'examples?, 0 failures'
+  expect(all_output)
+    .to include_output_string_matching('^[1-9][0-9]* examples?, 0 failures$')
 
   if last_command_stopped.exit_status != 0
     expect(last_command_stopped)
