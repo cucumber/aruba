@@ -52,8 +52,14 @@ end
 
 # RSpec
 Then(/^the spec(?:s)? should all pass$/) do
-  step 'the output should contain "0 failures"'
-  step 'the exit status should be 0'
+  expect(last_command_stopped)
+    .to have_output an_output_string_matching('^[1-9][0-9]* examples?, 0 failures$')
+
+  if last_command_stopped.exit_status != 0
+    expect(last_command_stopped)
+      .to have_output an_output_string_matching(', [1-9][0-9]* failure')
+    expect(last_command_stopped).to have_exit_status 0
+  end
 end
 
 # RSpec
