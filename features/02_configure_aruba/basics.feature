@@ -19,7 +19,8 @@ Feature: Usage of configuration
     sleep ARGV[0].to_f
     """
 
-  @wip
+  # TMP: Disable temporarily
+  @unsupported-on-platform-windows
   Scenario: Setting default values for option for RSpec
     Given a file named "spec/support/aruba_config.rb" with:
     """ruby
