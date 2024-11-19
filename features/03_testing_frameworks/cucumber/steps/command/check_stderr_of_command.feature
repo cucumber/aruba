@@ -66,3 +66,23 @@ Feature: STDERR of commands which were executed
     """
     When I run `cucumber`
     Then the features should all pass
+
+  Scenario: Failure message when checking that stderr from all processes is empty
+    Given a file named "features/output.feature" with:
+    """
+    Feature: Run command
+      Scenario: Run command
+        When I run `bash -c 'printf "hello\nworld!\n" >&2'`
+        And I run `printf "hola"`
+        And the stderr should not contain anything
+    """
+    When I run `cucumber`
+    Then the features should not pass with:
+    """
+          expected "hello
+    world!" to output string is eq: ""
+          Diff:
+          @@ -1,2 +1,4 @@
+          +hello
+          +world!
+    """
