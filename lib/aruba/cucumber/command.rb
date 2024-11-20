@@ -423,7 +423,7 @@ Then(/^it should (pass|fail) with exactly:$/) do |pass_fail, expected|
     expect(last_command_stopped).not_to be_successfully_executed
   end
 
-  expect(last_command_stopped).to have_output an_output_string_being_eq(expected)
+  expect(last_command_stopped.output).to output_string_eq(expected)
 end
 
 Then(/^it should not (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
