@@ -423,7 +423,7 @@ Then(/^it should (pass|fail) with exactly:$/) do |pass_fail, expected|
     expect(last_command_stopped).not_to be_successfully_executed
   end
 
-  expect(last_command_stopped).to have_output an_output_string_being_eq(expected)
+  expect(last_command_stopped.output).to output_string_eq(expected)
 end
 
 Then(/^it should not (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
@@ -450,14 +450,10 @@ Then(/^it should (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expect
   expect(last_command_stopped).to have_output an_output_string_matching(expected)
 end
 
-Then(/^(?:the )?(output|stderr|stdout) should not contain anything$/) do |channel|
-  matcher = case channel
-            when 'output'; then :have_output
-            when 'stderr'; then :have_output_on_stderr
-            when 'stdout'; then :have_output_on_stdout
-            end
+Then '(the ){channel} should not contain anything' do |channel|
+  combined_output = send(:"all_#{channel}")
 
-  expect(all_commands).to include send(matcher, be_nil.or(be_empty))
+  expect(combined_output).to output_string_eq ''
 end
 
 Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) \

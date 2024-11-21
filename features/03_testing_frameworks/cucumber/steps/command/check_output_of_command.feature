@@ -327,6 +327,38 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
+  Scenario: Match passing exit status but fail to match exact output
+    Given an executable named "bin/aruba-test-cli" with:
+    """bash
+    #!/usr/bin/env bash
+
+    echo -ne "hello\nworld"
+    exit 0
+    """
+    And a file named "features/output.feature" with:
+    """cucumber
+    Feature: Run command
+      Scenario: Run command
+        When I run `aruba-test-cli`
+        Then it should pass with exactly:
+        \"\"\"
+        hello
+        worl
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should not pass with:
+    """
+          expected "hello
+    world" to output string is eq: "hello
+    worl"
+          Diff:
+          @@ -1,3 +1,3 @@
+           hello
+          -worl
+          +world
+    """
+
   Scenario: Match failing exit status and partial output
     Given an executable named "bin/aruba-test-cli" with:
     """bash
