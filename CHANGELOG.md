@@ -6,22 +6,19 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
-## [Unreleased]
+## [2.3.0] / 2024-11-22
 
-Potentialy breaking changes:
-
-* Freeze string literals by default ([#929] by [mvz])
-* Use core cucumber event bus implementation, dropping Aruba's own
-  ([#930] by [mvz])
-* Support Ruby 3.0 and up, dropping support for Ruby 2.7 ([#918] by [mvz])
-
-Other changes:
-
+* Allow passing frozen string as argument to `#type` ([#909] by [mikelkew])
 * Prepare for Ruby 3.3 ([#914] by [mvz])
-* Allow for type input of frozen strings ([#909] by [mikelkew])
+* Support Ruby 3.0 and up, dropping support for Ruby 2.7 ([#918] by [mvz])
 * Fix minitest setup code ([#921] by [mvz])
 * Make `#have_output_size` work on a process, and deprecate its use with
   strings ([#924] by [mvz])
+* Freeze string literals by default ([#929] by [mvz])
+* Use core cucumber event bus implementation, dropping Aruba's own
+  ([#930] by [mvz])
+* Introduce Cucumber parameter type 'command' ([#941] by [mvz])
+* Improve failure messages for two steps ([#943] by [mvz])
 
 [mikelkew]: https://github.com/mikelkew
 [#909]: https://github.com/cucumber/aruba/pull/909
@@ -31,6 +28,8 @@ Other changes:
 [#924]: https://github.com/cucumber/aruba/pull/924
 [#929]: https://github.com/cucumber/aruba/pull/929
 [#930]: https://github.com/cucumber/aruba/pull/930
+[#941]: https://github.com/cucumber/aruba/pull/941
+[#943]: https://github.com/cucumber/aruba/pull/943
 
 ## [2.2.0] / 2023-09-02
 
@@ -232,9 +231,9 @@ Other changes
 * Fix command spawning when spaces occur in the path ([#520] by [mvz])
 * Make exit in in-process runner behave like real Kernel#exit ([#594] by [grosser])
 * Improve compatibility with Windows ([#618] by [mvz])
-  - Upcase ENV keys on Windows
-  - Properly escape command and arguments on Windows
-  - Use correct path separator on Windows
+   * Upcase ENV keys on Windows
+   * Properly escape command and arguments on Windows
+   * Use correct path separator on Windows
 
 ### Developer experience and internal changes
 
@@ -343,23 +342,25 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 * The use of `@interactive` is discontinued. You need to use
   `#last_command_started`-method to get access to the interactively started
   command.
-* If multiple commands have been started, each output has to be check
+* If multiple commands have been started, each output has to be checked
   separately
 
-        Scenario: Detect stdout from all processes
-          When I run `printf "hello world!\n"`
-          And I run `cat` interactively
-          And I type "hola"
-          And I type ""
-          Then the stdout should contain:
-            """
-            hello world!
-            """
-          And the stdout should contain:
-            """
-            hola
-            """
-          And the stderr should not contain anything
+    ```
+    Scenario: Detect stdout from all processes
+      When I run `printf "hello world!\n"`
+      And I run `cat` interactively
+      And I type "hola"
+      And I type ""
+      Then the stdout should contain:
+        """
+        hello world!
+        """
+      And the stdout should contain:
+        """
+        hola
+        """
+      And the stderr should not contain anything
+    ```
 
 ## [0.14.14]
 
@@ -463,9 +464,9 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 * Add two new hooks for rspec and cucumber to make troubleshooting feature
   files easier ([#338]):
-  * `command_content`: Outputs command content - helpful for scripts
-  * `command_filesystem_status`: Outputs information like group, owner, mode,
-    atime, mtime
+   * `command_content`: Outputs command content - helpful for scripts
+   * `command_filesystem_status`: Outputs information like group, owner, mode,
+     atime, mtime
 * Add generator to create ad hoc script file ([#323], [AdrieanKhisbe])
 * Colored announcer output similar to the color of `cucumber` tags: cyan
 * Fixed bug in announcer. It announces infomation several times due to
@@ -940,29 +941,31 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 * Added aruba.gemspec. ([dchelimsky])
 * Several step definitions regarding output have changed. ([#1], [aslakhellesoy])
 
-        - /^I should see "([^\"]*)"$/
-        + /^the output should contain "([^"]*)"$/
+    ```diff
+    - /^I should see "([^\"]*)"$/
+    + /^the output should contain "([^"]*)"$/
 
-        - /^I should not see "([^\"]*)"$/
-        + /^the output should not contain "([^"]*)"$/
+    - /^I should not see "([^\"]*)"$/
+    + /^the output should not contain "([^"]*)"$/
 
-        - /^I should see:$/
-        + /^the output should contain:$/
+    - /^I should see:$/
+    + /^the output should contain:$/
 
-        - /^I should not see:$/
-        + /^the output should not contain:$/
+    - /^I should not see:$/
+    + /^the output should not contain:$/
 
-        - /^I should see exactly "([^\"]*)"$/
-        + /^the output should contain exactly "([^"]*)"$/
+    - /^I should see exactly "([^\"]*)"$/
+    + /^the output should contain exactly "([^"]*)"$/
 
-        - /^I should see exactly:$/
-        + /^the output should contain exactly:$/
+    - /^I should see exactly:$/
+    + /^the output should contain exactly:$/
 
-        - /^I should see matching \/([^\/]*)\/$/
-        + /^the output should match \/([^\/]*)\/$/
+    - /^I should see matching \/([^\/]*)\/$/
+    + /^the output should match \/([^\/]*)\/$/
 
-        - /^I should see matching:$/
-        + /^the output should match:$/
+    - /^I should see matching:$/
+    + /^the output should match:$/
+    ```
 
 ## [0.1.9]
 
@@ -1383,7 +1386,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v2.2.0...HEAD
+[Unreleased]:     https://github.com/cucumber/aruba/compare/v2.3.0...HEAD
+[2.3.0]:          https://github.com/cucumber/aruba/compare/v2.2.0...v2.3.0
 [2.2.0]:          https://github.com/cucumber/aruba/compare/v2.1.0...v2.2.0
 [2.1.0]:          https://github.com/cucumber/aruba/compare/v2.0.1...v2.1.0
 [2.0.1]:          https://github.com/cucumber/aruba/compare/v2.0.0...v2.0.1

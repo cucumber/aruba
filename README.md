@@ -8,7 +8,7 @@
 Add this line to your application's `Gemfile`:
 
 ```ruby
-gem 'aruba'
+gem 'aruba', '~> 2.3'
 ```
 
 And then execute:
