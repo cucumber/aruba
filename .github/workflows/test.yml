@@ -6,12 +6,15 @@ name: CI
 
 "on":
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
+  workflow_call:
+  workflow_dispatch:
   schedule:
     - cron: '16 4 12 * *'
-  workflow_dispatch:
 
 env:
   CUCUMBER_PUBLISH_QUIET: true
