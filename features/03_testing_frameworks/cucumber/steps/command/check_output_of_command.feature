@@ -353,7 +353,7 @@ Feature: All output of commands which were executed
     world" to output string is eq: "hello
     worl"
           Diff:
-          @@ -1,3 +1,3 @@
+          @@ -1,2 +1,2 @@
            hello
           -worl
           +world
