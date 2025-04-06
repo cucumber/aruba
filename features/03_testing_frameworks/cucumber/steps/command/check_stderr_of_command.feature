@@ -82,7 +82,7 @@ Feature: STDERR of commands which were executed
           expected "hello
     world!" to output string is eq: ""
           Diff:
-          @@ -1,2 +1,4 @@
+          @@ -0,0 +1,2 @@
           +hello
           +world!
     """

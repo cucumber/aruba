@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'thor', '~> 1.0'
 
   spec.add_development_dependency 'appraisal', '~> 2.4'
+  spec.add_development_dependency 'diff-lcs', '~> 1.6'
   spec.add_development_dependency 'json', '~> 2.1'
   spec.add_development_dependency 'kramdown', '~> 2.1'
   spec.add_development_dependency 'minitest', '~> 5.10'
