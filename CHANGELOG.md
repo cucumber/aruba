@@ -49,6 +49,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * Drop support for Cucumber 4 through 7 ([#906] by [mvz])
 * Drop support for Ruby 2.6 ([#907] by [mvz])
 
+[#906]: https://github.com/cucumber/aruba/pull/906
 [#904]: https://github.com/cucumber/aruba/pull/904
 [#895]: https://github.com/cucumber/aruba/pull/895
 [#892]: https://github.com/cucumber/aruba/pull/892
