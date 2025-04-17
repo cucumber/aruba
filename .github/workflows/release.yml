@@ -1,6 +1,6 @@
 name: Release to RubyGems
 
-"on":
+on:
   push:
     branches:
       - release/*
