@@ -5,12 +5,17 @@ require 'spec_helper'
 RSpec.describe Aruba::Command do
   let(:event_bus) { instance_double(Aruba::EventBus) }
   let(:command) do
-    described_class.new('true',
-                        event_bus: event_bus,
-                        startup_wait_time: 0.01, io_wait_timeout: 0.01, exit_timeout: 0.01,
-                        working_directory: File.expand_path('.'),
-                        environment: ENV.to_hash,
-                        main_class: nil, stop_signal: nil)
+    described_class.new(
+      'exit 0',
+      event_bus: event_bus,
+      startup_wait_time: 0.01,
+      io_wait_timeout: 0.01,
+      exit_timeout: 0.01,
+      working_directory: File.expand_path('.'),
+      environment: ENV.to_hash,
+      main_class: nil,
+      stop_signal: nil
+    )
   end
 
   describe '#start' do
