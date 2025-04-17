@@ -12,7 +12,6 @@ Feature: Running shell commands
     Given I use a fixture named "cli-app"
 
   @requires-ruby
-  @requires-python
   Scenario: Creating and running scripts
     Given a file named "features/shell.feature" with:
     """
@@ -23,15 +22,6 @@ Feature: Running shell commands
         #!/usr/bin/env ruby
 
         puts "Hello"
-        \"\"\"
-        Then the output should contain exactly "Hello"
-
-      Scenario: Running python script
-        When I run the following script:
-        \"\"\"bash
-        #!/usr/bin/env python
-
-        print("Hello")
         \"\"\"
         Then the output should contain exactly "Hello"
     """

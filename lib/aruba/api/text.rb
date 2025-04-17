@@ -32,9 +32,9 @@ module Aruba
       #   Input
       def extract_text(text)
         text
-          .gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, "")
-          .gsub(/\\\[|\\\]/, "")
-          .gsub(/\007|\016|\017/, "")
+          .gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, '')
+          .gsub(/\\\[|\\\]/, '')
+          .gsub(/\007|\016|\017/, '')
       end
 
       # Unescape special characters and remove ANSI characters

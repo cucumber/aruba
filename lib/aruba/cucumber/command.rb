@@ -1,66 +1,77 @@
 # frozen_string_literal: true
 
-require "aruba/generators/script_file"
+require 'aruba/generators/script_file'
 
-When(/^I run `([^`]*)`$/) do |cmd|
+When 'I run {command}' do |cmd|
   cmd = sanitize_text(cmd)
   run_command_and_stop(cmd, fail_on_error: false)
 end
 
-## I successfully run `echo -n "Hello"`
-## I successfully run `sleep 29` for up to 30 seconds
-When(/^I successfully run `(.*?)`(?: for up to ([\d.]+) seconds)?$/) do |cmd, secs|
+When 'I successfully run {command}' do |cmd|
   cmd = sanitize_text(cmd)
-  run_command_and_stop(cmd, fail_on_error: true, exit_timeout: secs && secs.to_f)
+  run_command_and_stop(cmd, fail_on_error: true)
 end
 
-When(/^I run the following (?:commands|script)(?: (?:with|in) `([^`]+)`)?:$/) \
-  do |shell, commands|
-  full_path = expand_path("bin/myscript")
+When 'I successfully run {command} for up to {float} seconds' do |cmd, secs|
+  cmd = sanitize_text(cmd)
+  run_command_and_stop(cmd, fail_on_error: true, exit_timeout: secs.to_f)
+end
 
-  Aruba.platform.mkdir(expand_path("bin"))
-  shell ||= Aruba.platform.default_shell
+When 'I run the following commands:/script:' do |commands|
+  full_path = expand_path('bin/myscript')
+
+  Aruba.platform.mkdir(expand_path('bin'))
+  shell = Aruba.platform.default_shell
 
   Aruba::ScriptFile.new(interpreter: shell, content: commands, path: full_path).call
   run_command_and_stop(Shellwords.escape(full_path), fail_on_error: false)
 end
 
-When(/^I run `([^`]*)` interactively$/) do |cmd|
+When 'I run the following commands/script with/in {command}:' do |shell, commands|
+  full_path = expand_path('bin/myscript')
+
+  Aruba.platform.mkdir(expand_path('bin'))
+
+  Aruba::ScriptFile.new(interpreter: shell, content: commands, path: full_path).call
+  run_command_and_stop(Shellwords.escape(full_path), fail_on_error: false)
+end
+
+When 'I run {command} interactively' do |cmd|
   run_command(sanitize_text(cmd))
 end
 
 # Merge interactive and background after refactoring with event queue
-When(/^I run `([^`]*)` in background$/) do |cmd|
+When 'I run {command} in background' do |cmd|
   run_command(sanitize_text(cmd))
 end
 
-When "I type {string}" do |input|
+When 'I type {string}' do |input|
   type(unescape_text(input))
 end
 
-When "I close the stdin stream" do
+When 'I close the stdin stream' do
   close_input
 end
 
-When "I pipe in a/the file( named) {string}" do |file|
+When 'I pipe in a/the file( named) {string}' do |file|
   pipe_in_file(file)
 
   close_input
 end
 
-When "I stop the command started last" do
+When 'I stop the command started last' do
   last_command_started.stop
 end
 
-When "I stop the command {string}" do |command|
+When 'I stop the command {string}' do |command|
   aruba.command_monitor.find(command).stop
 end
 
-When "I terminate the command started last" do
+When 'I terminate the command started last' do
   last_command_started.terminate
 end
 
-When "I terminate the command {string}" do |command|
+When 'I terminate the command {string}' do |command|
   aruba.command_monitor.find(command).terminate
 end
 
@@ -87,7 +98,7 @@ rescue Timeout::Error
   last_command_started.terminate
 end
 
-When "I wait for output/stdout to contain:" do |expected|
+When 'I wait for output/stdout to contain:' do |expected|
   Timeout.timeout(aruba.config.exit_timeout) do
     loop do
       output = last_command_started.stdout wait_for_io: 0
@@ -102,7 +113,7 @@ When "I wait for output/stdout to contain:" do |expected|
   end
 end
 
-When "I wait for output/stdout to contain {string}" do |expected|
+When 'I wait for output/stdout to contain {string}' do |expected|
   Timeout.timeout(aruba.config.exit_timeout) do
     loop do
       output = last_command_started.stdout wait_for_io: 0
@@ -117,44 +128,44 @@ When "I wait for output/stdout to contain {string}" do |expected|
   end
 end
 
-Then "the output should be {int} bytes long" do |size|
+Then 'the output should be {int} bytes long' do |size|
   expect(last_command_started).to have_output_size size.to_i
 end
 
 ## the stderr should contain "hello"
-Then "(the ){channel} should contain {string}" do |channel, expected|
+Then '(the ){channel} should contain {string}' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
   expect(combined_output).to include_output_string expected
 end
 
 ## the stderr should not contain "hello"
-Then "(the ){channel} should not contain {string}" do |channel, expected|
+Then '(the ){channel} should not contain {string}' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
   expect(combined_output).not_to include_output_string expected
 end
 
 ## the stderr should contain exactly "hello"
-Then "(the ){channel} should contain exactly {string}" do |channel, expected|
+Then '(the ){channel} should contain exactly {string}' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
   expect(combined_output).to output_string_eq expected
 end
 
 ## the stderr should not contain exactly "hello"
-Then "(the ){channel} should not contain exactly {string}" do |channel, expected|
+Then '(the ){channel} should not contain exactly {string}' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
   expect(combined_output).not_to output_string_eq expected
 end
 
 ## the stderr from "echo -n 'Hello'" should contain "hello"
-Then "(the ){channel} from {string} should contain {string}" do |channel, cmd, expected|
+Then '(the ){channel} from {string} should contain {string}' do |channel, cmd, expected|
   matcher = case channel
-            when "output"; then :have_output
-            when "stderr"; then :have_output_on_stderr
-            when "stdout"; then :have_output_on_stdout
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -165,12 +176,12 @@ Then "(the ){channel} from {string} should contain {string}" do |channel, cmd, e
 end
 
 ## the stderr from "echo -n 'Hello'" should contain exactly "hello"
-Then "(the ){channel} from {string} should contain exactly {string}" \
+Then '(the ){channel} from {string} should contain exactly {string}' \
   do |channel, cmd, expected|
   matcher = case channel
-            when "output"; then :have_output
-            when "stderr"; then :have_output_on_stderr
-            when "stdout"; then :have_output_on_stdout
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -181,11 +192,11 @@ Then "(the ){channel} from {string} should contain exactly {string}" \
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain "hello"
-Then "(the ){channel} from {string} should not contain {string}" do |channel, cmd, expected|
+Then '(the ){channel} from {string} should not contain {string}' do |channel, cmd, expected|
   matcher = case channel
-            when "output"; then :have_output
-            when "stderr"; then :have_output_on_stderr
-            when "stdout"; then :have_output_on_stdout
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -196,12 +207,12 @@ Then "(the ){channel} from {string} should not contain {string}" do |channel, cm
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain exactly "hello"
-Then "(the ){channel} from {string} should not contain exactly {string}" \
+Then '(the ){channel} from {string} should not contain exactly {string}' \
   do |channel, cmd, expected|
   matcher = case channel
-            when "output"; then :have_output
-            when "stderr"; then :have_output_on_stderr
-            when "stdout"; then :have_output_on_stdout
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -212,39 +223,39 @@ Then "(the ){channel} from {string} should not contain exactly {string}" \
 end
 
 ## the stderr should contain:
-Then "(the ){channel} should contain:" do |channel, expected|
+Then '(the ){channel} should contain:' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
   expect(combined_output).to include_output_string(expected)
 end
 
 ## the stderr should not contain:
-Then "(the ){channel} should not contain:" do |channel, expected|
+Then '(the ){channel} should not contain:' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
   expect(combined_output).not_to include_output_string(expected)
 end
 
 ## the stderr should contain exactly:
-Then "(the ){channel} should contain exactly:" do |channel, expected|
+Then '(the ){channel} should contain exactly:' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
   expect(combined_output).to output_string_eq(expected)
 end
 
 ## the stderr should not contain exactly:
-Then "(the ){channel} should not contain exactly:" do |channel, expected|
+Then '(the ){channel} should not contain exactly:' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
   expect(combined_output).not_to output_string_eq(expected)
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain:
-Then "(the ){channel} from {string} should not contain:" do |channel, cmd, expected|
+Then '(the ){channel} from {string} should not contain:' do |channel, cmd, expected|
   matcher = case channel
-            when "output"; then :have_output
-            when "stderr"; then :have_output_on_stderr
-            when "stdout"; then :have_output_on_stdout
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -255,11 +266,11 @@ Then "(the ){channel} from {string} should not contain:" do |channel, cmd, expec
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain exactly:
-Then "(the ){channel} from {string} should not contain exactly:" do |channel, cmd, expected|
+Then '(the ){channel} from {string} should not contain exactly:' do |channel, cmd, expected|
   matcher = case channel
-            when "output"; then :have_output
-            when "stderr"; then :have_output_on_stderr
-            when "stdout"; then :have_output_on_stdout
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -270,11 +281,11 @@ Then "(the ){channel} from {string} should not contain exactly:" do |channel, cm
 end
 
 ## the stderr from "echo -n 'Hello'" should contain:
-Then "(the ){channel} from {string} should contain:" do |channel, cmd, expected|
+Then '(the ){channel} from {string} should contain:' do |channel, cmd, expected|
   matcher = case channel
-            when "output"; then :have_output
-            when "stderr"; then :have_output_on_stderr
-            when "stdout"; then :have_output_on_stdout
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -285,11 +296,11 @@ Then "(the ){channel} from {string} should contain:" do |channel, cmd, expected|
 end
 
 ## the stderr from "echo -n 'Hello'" should contain exactly:
-Then "(the ){channel} from {string} should contain exactly:" do |channel, cmd, expected|
+Then '(the ){channel} from {string} should contain exactly:' do |channel, cmd, expected|
   matcher = case channel
-            when "output"; then :have_output
-            when "stderr"; then :have_output_on_stderr
-            when "stdout"; then :have_output_on_stdout
+            when 'output'; then :have_output
+            when 'stderr'; then :have_output_on_stderr
+            when 'stdout'; then :have_output_on_stdout
             end
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
@@ -346,7 +357,7 @@ end
 Then(/^it should not (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == "pass"
+  if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -358,7 +369,7 @@ end
 Then(/^it should (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == "pass"
+  if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -370,7 +381,7 @@ end
 Then(/^it should not (pass|fail) with:$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == "pass"
+  if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -382,7 +393,7 @@ end
 Then(/^it should (pass|fail) with:$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == "pass"
+  if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -394,7 +405,7 @@ end
 Then(/^it should not (pass|fail) with exactly:$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == "pass"
+  if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -406,19 +417,19 @@ end
 Then(/^it should (pass|fail) with exactly:$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == "pass"
+  if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
   end
 
-  expect(last_command_stopped).to have_output an_output_string_being_eq(expected)
+  expect(last_command_stopped.output).to output_string_eq(expected)
 end
 
 Then(/^it should not (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == "pass"
+  if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -430,7 +441,7 @@ end
 Then(/^it should (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
   last_command_started.stop
 
-  if pass_fail == "pass"
+  if pass_fail == 'pass'
     expect(last_command_stopped).to be_successfully_executed
   else
     expect(last_command_stopped).not_to be_successfully_executed
@@ -439,23 +450,19 @@ Then(/^it should (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expect
   expect(last_command_stopped).to have_output an_output_string_matching(expected)
 end
 
-Then(/^(?:the )?(output|stderr|stdout) should not contain anything$/) do |channel|
-  matcher = case channel
-            when "output"; then :have_output
-            when "stderr"; then :have_output_on_stderr
-            when "stdout"; then :have_output_on_stdout
-            end
+Then '(the ){channel} should not contain anything' do |channel|
+  combined_output = send(:"all_#{channel}")
 
-  expect(all_commands).to include send(matcher, be_nil.or(be_empty))
+  expect(combined_output).to output_string_eq ''
 end
 
 Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) \
   do |channel, negated, table|
   table.raw.flatten.each do |expected|
     _matcher = case channel
-               when "output"; then :have_output
-               when "stderr"; then :have_output_on_stderr
-               when "stdout"; then :have_output_on_stdout
+               when 'output'; then :have_output
+               when 'stderr'; then :have_output_on_stderr
+               when 'stdout'; then :have_output_on_stdout
                end
 
     # TODO: This isn't actually using the above. It's hardcoded to use have_output only
@@ -478,7 +485,7 @@ Given(/^the (?:default )?aruba exit timeout is ([\d.]+) seconds?$/) do |seconds|
   aruba.config.exit_timeout = seconds.to_f
 end
 
-Given "the( default) aruba stop signal is {string}" do |signal|
+Given 'the( default) aruba stop signal is {string}' do |signal|
   aruba.config.stop_signal = signal
 end
 
@@ -486,17 +493,17 @@ Given(/^I wait ([\d.]+) seconds? for (?:a|the) command to start up$/) do |second
   aruba.config.startup_wait_time = seconds.to_f
 end
 
-When "I send the signal {string} to the command {string}" do |signal, command|
+When 'I send the signal {string} to the command {string}' do |signal, command|
   cmd = all_commands.find { |c| c.commandline == command }
   raise ArgumentError, %(No command "#{command}" found) if cmd.nil?
 
   cmd.send_signal signal
 end
 
-When "I send the signal {string} to the command started last" do |signal|
+When 'I send the signal {string} to the command started last' do |signal|
   last_command_started.send_signal signal
 end
 
-Given "I look for executables in {string} within the current directory" do |directory|
-  prepend_environment_variable "PATH", expand_path(directory) + File::PATH_SEPARATOR
+Given 'I look for executables in {string} within the current directory' do |directory|
+  prepend_environment_variable 'PATH', expand_path(directory) + File::PATH_SEPARATOR
 end

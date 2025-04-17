@@ -1,8 +1,10 @@
+inherit_from: .rubocop_todo.yml
+
 inherit_mode:
   merge:
     - Exclude
 
-require:
+plugins:
   - rubocop-packaging
   - rubocop-performance
   - rubocop-rspec
@@ -32,9 +34,9 @@ Gemspec/DevelopmentDependencies:
 Gemspec/RequireMFA:
   Enabled: false
 
-# Spaces in strings with line continuations go at the beginning of the line.
-Layout/LineContinuationLeadingSpace:
-  EnforcedStyle: leading
+# Be relatively lenient with line length
+Layout/LineLength:
+  Max: 94
 
 # Assume the programmer knows how bracketed block syntax works
 Lint/AmbiguousBlockAssociation:
@@ -50,6 +52,10 @@ Metrics/BlockLength:
     - '**/*.gemspec'
     - 'spec/**/*'
 
+# Stylistic preference for cucumber
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+
 # This cop does not work properly with predicates that take arguments.
 # TODO: Re-enable once https://github.com/rubocop/rubocop-rspec/issues/466 is resolved.
 RSpec/PredicateMatcher:
@@ -58,22 +64,3 @@ RSpec/PredicateMatcher:
 # This cop doesn't seem to add much for us.
 Style/FetchEnvVar:
   Enabled: false
-
-# Use older RuboCop default
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    '%w': ()
-
-# Do not commit to use of interpolation
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
-
-# SupportedStyles: percent, brackets
-Style/SymbolArray:
-  EnforcedStyle: brackets
-
-# Be relatively lenient with line length
-Layout/LineLength:
-  Max: 94
-
-inherit_from: .rubocop_todo.yml

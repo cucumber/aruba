@@ -104,7 +104,7 @@ Before('@keep-ansi-escape-sequences') do
   aruba.config.remove_ansi_escape_sequences = false
 end
 
-Before '@mocked-home-directory' do
+Before('@mocked-home-directory') do
   set_environment_variable 'HOME', expand_path('.')
 end
 

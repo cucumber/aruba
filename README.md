@@ -8,7 +8,7 @@
 Add this line to your application's `Gemfile`:
 
 ```ruby
-gem 'aruba'
+gem 'aruba', '~> 2.3'
 ```
 
 And then execute:
@@ -56,8 +56,7 @@ A full documentation of the API for developers can be found on
 
 For support, please have a look at the [support website](https://cucumber.io/support)
 of Cucumber. You have different options to reach out for help: Recommended for
-Aruba are using the Slack channels &mdash; e.g. `committers-aruba` or `help-cucumber-ruby`
-&mdash; ([register account](https://cucumberbdd-slack-invite.herokuapp.com/))
+Aruba would be using the [Community Discord](https://github.com/cucumber#get-in-touch).
 
 Concrete issues can be reported via the
 [Issues page on GitHub](https://github.com/cucumber/aruba/issues).

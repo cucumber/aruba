@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require "tempfile"
-require "shellwords"
+require 'tempfile'
+require 'shellwords'
 
-require "aruba/errors"
-require "aruba/processes/basic_process"
-require "aruba/platform"
+require 'aruba/errors'
+require 'aruba/processes/basic_process'
+require 'aruba/platform'
 
 # Aruba
 module Aruba
@@ -41,11 +41,11 @@ module Aruba
         return if @exit_status
 
         if Aruba.platform.term_signal_supported?
-          send_signal "TERM"
+          send_signal 'TERM'
           return if poll_for_exit(3)
         end
 
-        send_signal "KILL"
+        send_signal 'KILL'
         wait
       end
 
@@ -146,9 +146,9 @@ module Aruba
       def start
         if started?
           error_message =
-            "Command \"#{commandline}\" has already been started." \
-            " Please `#stop` the command first and `#start` it again." \
-            " Alternatively use `#restart`."
+            "Command \"#{commandline}\" has already been started. " \
+            'Please `#stop` the command first and `#start` it again. ' \
+            'Alternatively use `#restart`.'
           raise CommandAlreadyStartedError, error_message
         end
 
@@ -156,14 +156,14 @@ module Aruba
 
         @process = ProcessRunner.new(command_string.to_a)
 
-        @stdout_file = Tempfile.new("aruba-stdout-")
-        @stderr_file = Tempfile.new("aruba-stderr-")
+        @stdout_file = Tempfile.new('aruba-stdout-')
+        @stderr_file = Tempfile.new('aruba-stderr-')
 
         @stdout_file.sync = true
         @stderr_file.sync = true
 
-        @stdout_file.set_encoding("ASCII-8BIT")
-        @stderr_file.set_encoding("ASCII-8BIT")
+        @stdout_file.set_encoding('ASCII-8BIT')
+        @stderr_file.set_encoding('ASCII-8BIT')
 
         @exit_status = nil
 
@@ -348,7 +348,7 @@ module Aruba
           if Aruba.platform.builtin_shell_commands.include?(command)
             command
           else
-            Aruba.platform.which(command, environment["PATH"])
+            Aruba.platform.which(command, environment['PATH'])
           end
       end
 
@@ -363,7 +363,7 @@ module Aruba
         data = file.read
         file.close
 
-        data.force_encoding("UTF-8")
+        data.force_encoding('UTF-8')
       end
     end
   end

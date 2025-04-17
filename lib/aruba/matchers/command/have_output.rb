@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "aruba/matchers/base/message_indenter"
+require 'aruba/matchers/base/message_indenter'
 
 # @!method have_output
 #   This matchers checks if <command> has created output

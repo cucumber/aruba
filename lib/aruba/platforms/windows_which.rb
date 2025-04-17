@@ -51,7 +51,7 @@ module Aruba
             file = File.join(dir, program)
             # Dir[] doesn't handle backslashes properly, so convert them. Also, if
             # the program name doesn't have an extension, try them all.
-            file = file.tr("\\", "/")
+            file = file.tr('\\', '/')
 
             found = Dir[file].first
 
@@ -86,7 +86,7 @@ module Aruba
       #
       # @param [String] path
       #   ENV['PATH']
-      def call(program, path = ENV["PATH"])
+      def call(program, path = ENV['PATH'])
         raise ArgumentError, "ENV['PATH'] cannot be empty" if path.nil? || path.empty?
 
         program = program.to_s
@@ -98,10 +98,10 @@ module Aruba
       private
 
       def windows_executable_extentions
-        if ENV["PATHEXT"]
-          format(".{%s}", ENV["PATHEXT"].tr(";", ",").tr(".", "")).downcase
+        if ENV['PATHEXT']
+          format('.{%s}', ENV['PATHEXT'].tr(';', ',').tr('.', '')).downcase
         else
-          ".{exe,com,bat}"
+          '.{exe,com,bat}'
         end
       end
     end

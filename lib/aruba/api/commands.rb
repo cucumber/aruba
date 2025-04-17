@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "pathname"
+require 'pathname'
 
-require "aruba/platform"
-require "aruba/command"
+require 'aruba/platform'
+require 'aruba/command'
 
 # require 'win32/file' if File::ALT_SEPARATOR
 
@@ -24,7 +24,7 @@ module Aruba
       def which(program, path = nil)
         with_environment do
           # ENV is set within this block
-          path = ENV["PATH"] if path.nil?
+          path = ENV['PATH'] if path.nil?
 
           Aruba.platform.which(program, path)
         end
@@ -37,7 +37,7 @@ module Aruba
       def pipe_in_file(file_name)
         file_name = expand_path(file_name)
 
-        File.open(file_name, "r").each_line do |line|
+        File.open(file_name, 'r').each_line do |line|
           last_command_started.write(line)
         end
       end
@@ -154,7 +154,7 @@ module Aruba
 
         unless command.interactive?
           raise NotImplementedError,
-                "Running interactively is not supported with this process launcher."
+                'Running interactively is not supported with this process launcher.'
         end
 
         start_command(command)
@@ -232,7 +232,7 @@ module Aruba
         @commands << cmd
 
         environment       = aruba.environment
-        working_directory = expand_path(".")
+        working_directory = expand_path('.')
         event_bus         = aruba.event_bus
 
         cmd = Aruba.platform.detect_ruby(cmd)

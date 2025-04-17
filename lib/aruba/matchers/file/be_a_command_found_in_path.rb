@@ -22,12 +22,12 @@ RSpec::Matchers.define :be_a_command_found_in_path do
 
   failure_message do |actual|
     format(%(expected that command "%s" can be found in PATH "%s".),
-           actual, aruba.environment["PATH"])
+           actual, aruba.environment['PATH'])
   end
 
   failure_message_when_negated do |actual|
     format(%(expected that command "%s" cannot be found in PATH "%s".),
-           actual, aruba.environment["PATH"])
+           actual, aruba.environment['PATH'])
   end
 end
 

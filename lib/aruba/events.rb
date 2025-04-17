@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "cucumber/core/event"
+require 'cucumber/core/event'
 
 # Aruba
 module Aruba

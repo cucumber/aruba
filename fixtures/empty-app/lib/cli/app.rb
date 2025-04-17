@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "cli/app/version"
+require 'cli/app/version'
 
 module Cli
   module App

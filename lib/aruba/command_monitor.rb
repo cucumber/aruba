@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "aruba/errors"
+require 'aruba/errors'
 
 # Aruba
 module Aruba
@@ -22,7 +22,7 @@ module Aruba
       end
 
       def method_missing(*)
-        raise NoCommandHasBeenStoppedError, "No last command stopped available"
+        raise NoCommandHasBeenStoppedError, 'No last command stopped available'
       end
 
       def respond_to_missing?(*)
@@ -36,7 +36,7 @@ module Aruba
       end
 
       def method_missing(*)
-        raise NoCommandHasBeenStartedError, "No last command started available"
+        raise NoCommandHasBeenStartedError, 'No last command started available'
       end
 
       def respond_to_missing?(*)

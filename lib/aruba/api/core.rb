@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "rspec/expectations"
-require "aruba/runtime"
-require "aruba/errors"
-require "aruba/setup"
+require 'rspec/expectations'
+require 'aruba/runtime'
+require 'aruba/errors'
+require 'aruba/setup'
 
 # Aruba
 module Aruba
@@ -40,8 +40,8 @@ module Aruba
       # @yield
       #   The block which should be run in current directory
       def in_current_directory(&block)
-        create_directory "." unless directory?(".")
-        cd(".", &block)
+        create_directory '.' unless directory?('.')
+        cd('.', &block)
       end
 
       # Switch to directory
@@ -66,9 +66,9 @@ module Aruba
                     "#{expand_path(dir)} is not a directory or does not exist."
             end
 
-            old_directory = expand_path(".")
+            old_directory = expand_path('.')
             aruba.current_directory << dir
-            new_directory = expand_path(".")
+            new_directory = expand_path('.')
 
             aruba.event_bus.notify Events::ChangedWorkingDirectory.new(old: old_directory,
                                                                        new: new_directory)
@@ -80,8 +80,8 @@ module Aruba
             Aruba.platform.chdir real_new_directory
 
             result = with_environment(
-              "OLDPWD" => old_dir,
-              "PWD" => real_new_directory,
+              'OLDPWD' => old_dir,
+              'PWD' => real_new_directory,
               &block
             )
           ensure
@@ -96,9 +96,9 @@ module Aruba
           raise ArgumentError, "#{expand_path(dir)} is not a directory or does not exist."
         end
 
-        old_directory = expand_path(".")
+        old_directory = expand_path('.')
         aruba.current_directory << dir
-        new_directory = expand_path(".")
+        new_directory = expand_path('.')
 
         aruba.event_bus.notify Events::ChangedWorkingDirectory.new(old: old_directory,
                                                                    new: new_directory)
@@ -145,18 +145,18 @@ module Aruba
       #
       def expand_path(file_name, dir_string = nil)
         unless file_name.is_a?(String) && !file_name.empty?
-          message = "Filename #{file_name} needs to be a string." \
-                    " It cannot be nil or empty either." \
-                    " Please use `expand_path('.')` if you want" \
-                    " the current directory to be expanded."
+          message = "Filename #{file_name} needs to be a string. " \
+                    'It cannot be nil or empty either. ' \
+                    "Please use `expand_path('.')` if you want " \
+                    'the current directory to be expanded.'
 
           raise ArgumentError, message
         end
 
         unless Aruba.platform.directory? File.join(aruba.config.root_directory,
                                                    aruba.config.working_directory)
-          raise "Aruba's working directory does not exist." \
-                " Maybe you forgot to run `setup_aruba` before using its API."
+          raise "Aruba's working directory does not exist. " \
+                'Maybe you forgot to run `setup_aruba` before using its API.'
         end
 
         prefix = file_name[0]
@@ -166,22 +166,22 @@ module Aruba
           path = File.join(*[aruba.fixtures_directory, rest].compact)
           unless Aruba.platform.exist? path
             aruba_fixture_candidates = aruba.config.fixtures_directories
-                                            .map { |p| format('"%s"', p) }.join(", ")
+                                            .map { |p| format('"%s"', p) }.join(', ')
 
             raise ArgumentError,
-                  "Fixture \"#{rest}\" does not exist" \
-                  " in fixtures directory \"#{aruba.fixtures_directory}\"." \
-                  " This was the one we found first on your system from all possible" \
-                  " candidates: #{aruba_fixture_candidates}."
+                  "Fixture \"#{rest}\" does not exist " \
+                  "in fixtures directory \"#{aruba.fixtures_directory}\". " \
+                  'This was the one we found first on your system from all possible ' \
+                  "candidates: #{aruba_fixture_candidates}."
           end
 
           path
-        elsif prefix == "~"
+        elsif prefix == '~'
           path = with_environment do
             File.expand_path(file_name)
           end
 
-          raise ArgumentError, 'Expanding "~/" to "/" is not allowed' if path == "/"
+          raise ArgumentError, 'Expanding "~/" to "/" is not allowed' if path == '/'
 
           unless Aruba.platform.absolute_path? path
             raise ArgumentError,
@@ -194,11 +194,11 @@ module Aruba
             caller_location = caller_locations(1, 1).first
             caller_file_line = "#{caller_location.path}:#{caller_location.lineno}"
             message =
-              "Aruba's `expand_path` method was called with an absolute path" \
-              " at #{caller_file_line}, which is not recommended." \
-              " The path passed was '#{file_name}'." \
-              " Change the call to pass a relative path or set" \
-              " `config.allow_absolute_paths = true` to silence this warning"
+              "Aruba's `expand_path` method was called with an absolute path " \
+              "at #{caller_file_line}, which is not recommended. " \
+              "The path passed was '#{file_name}'. " \
+              'Change the call to pass a relative path or set ' \
+              '`config.allow_absolute_paths = true` to silence this warning'
             raise UserError, message
           end
           file_name
