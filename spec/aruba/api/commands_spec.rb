@@ -8,8 +8,10 @@ RSpec.describe Aruba::Api::Commands do
   include_context 'uses aruba API'
 
   describe '#run_command' do
-    context 'when succesfully running a command' do
-      before { @aruba.run_command 'cat' }
+    let(:cmd) { 'ruby -ne "puts $_"' }
+
+    context 'when successfully running a command' do
+      before { @aruba.run_command cmd }
 
       after { @aruba.all_commands.each(&:stop) }
 
@@ -17,27 +19,29 @@ RSpec.describe Aruba::Api::Commands do
         @aruba.type(+'Hello')
         @aruba.type(+"\u0004")
 
-        expect(@aruba.last_command_started).to have_output 'Hello'
+        expect(@aruba.last_command_started).to have_output('Hello')
       end
 
       it 'respond to frozen input' do
         @aruba.type 'Hello'
         @aruba.type "\u0004"
 
-        expect(@aruba.last_command_started).to have_output 'Hello'
+        expect(@aruba.last_command_started).to have_output('Hello')
       end
 
       it 'respond to close_input' do
         @aruba.type 'Hello'
         @aruba.close_input
-        expect(@aruba.last_command_started).to have_output 'Hello'
+        expect(@aruba.last_command_started).to have_output('Hello')
       end
 
+      # TODO: This may need some support and/or disabling for windows when introduced
+      # See https://github.com/cucumber/aruba/pull/505/files#r207702697 for details
       it 'pipes data' do
         @aruba.write_file(@file_name, "Hello\nWorld!")
         @aruba.pipe_in_file(@file_name)
         @aruba.close_input
-        expect(@aruba.last_command_started).to have_output "Hello\nWorld!"
+        expect(@aruba.last_command_started).to have_output("Hello\nWorld!")
       end
     end
 
@@ -51,7 +55,7 @@ RSpec.describe Aruba::Api::Commands do
       end
 
       it 'raises an error' do
-        expect { @aruba.run_command 'cat' }.to raise_error NotImplementedError
+        expect { @aruba.run_command cmd }.to raise_error NotImplementedError
       end
     end
 
