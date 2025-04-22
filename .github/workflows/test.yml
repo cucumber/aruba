@@ -31,6 +31,9 @@ jobs:
         include:
           - ruby: "3.0"
             appraisal: cucumber_8
+          - ruby: "3.4"
+            appraisal: cucumber_9
+
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.appraisal }}.gemfile
     steps:
@@ -49,7 +52,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: ["3.0", "3.1", "3.2", "3.3"]
+        ruby: ["3.0", "3.1", "3.2", "3.3", "3.4"]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -67,7 +70,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: ["3.0", "3.1", "3.2", "3.3"]
+        ruby: ["3.0", "3.1", "3.2", "3.3", "3.4"]
     runs-on: windows-latest
     steps:
       - name: git config autocrlf
