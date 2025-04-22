@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [Unreleased]
+
+* Remove traces of legacy tag expressions (`~@tag` is now `not @tag`) ([#935] by [luke-hill])
+
+[#935]: https://github.com/cucumber/aruba/pull/935
+
 ## [2.3.0] / 2024-11-22
 
 * Allow passing frozen string as argument to `#type` ([#909] by [mikelkew])
@@ -31,6 +37,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 [#941]: https://github.com/cucumber/aruba/pull/941
 [#943]: https://github.com/cucumber/aruba/pull/943
 
+
 ## [2.2.0] / 2023-09-02
 
 * Drop support for Ruby 2.5 ([#836] by [mvz])
@@ -42,6 +49,7 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 * Drop support for Cucumber 4 through 7 ([#906] by [mvz])
 * Drop support for Ruby 2.6 ([#907] by [mvz])
 
+[#906]: https://github.com/cucumber/aruba/pull/906
 [#904]: https://github.com/cucumber/aruba/pull/904
 [#895]: https://github.com/cucumber/aruba/pull/895
 [#892]: https://github.com/cucumber/aruba/pull/892
