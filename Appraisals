@@ -16,3 +16,7 @@ end
 appraise 'cucumber_9' do
   gem 'cucumber', ['~> 9.0', '>= 9.0.1']
 end
+
+appraise 'cucumber_10' do
+  gem 'cucumber', '~> 10.0'
+end
