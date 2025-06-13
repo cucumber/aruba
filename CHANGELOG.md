@@ -6,11 +6,16 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
-## [Unreleased]
+## [2.3.1] / 2025-06-13
 
-* Remove traces of legacy tag expressions (`~@tag` is now `not @tag`) ([#935] by [luke-hill])
+* Remove traces of legacy tag expressions (`~@tag` is now `not @tag`) ([#935]
+  by [luke-hill])
+* Officially support Ruby 3.4 ([#945] by [mvz])
+* Support Cucumber 10 ([#951] by [mvz])
 
 [#935]: https://github.com/cucumber/aruba/pull/935
+[#945]: https://github.com/cucumber/aruba/pull/945
+[#951]: https://github.com/cucumber/aruba/pull/951
 
 ## [2.3.0] / 2024-11-22
 
@@ -36,7 +41,6 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 [#930]: https://github.com/cucumber/aruba/pull/930
 [#941]: https://github.com/cucumber/aruba/pull/941
 [#943]: https://github.com/cucumber/aruba/pull/943
-
 
 ## [2.2.0] / 2023-09-02
 
@@ -1394,7 +1398,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 <!-- Releases -->
 
-[Unreleased]:     https://github.com/cucumber/aruba/compare/v2.3.0...HEAD
+[2.3.1]:          https://github.com/cucumber/aruba/compare/v2.3.0...v2.3.1
 [2.3.0]:          https://github.com/cucumber/aruba/compare/v2.2.0...v2.3.0
 [2.2.0]:          https://github.com/cucumber/aruba/compare/v2.1.0...v2.2.0
 [2.1.0]:          https://github.com/cucumber/aruba/compare/v2.0.1...v2.1.0

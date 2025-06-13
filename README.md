@@ -1,3 +1,5 @@
+# Aruba
+
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cucumber/aruba/main/LICENSE)
 [![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
 [![Support](https://img.shields.io/badge/cucumber-support-orange.svg)](https://cucumber.io/support)
@@ -76,8 +78,8 @@ bump.
 
 ## Supported Ruby versions
 
-Aruba is supported on Ruby 2.7 and up, and tested against CRuby 2.7, 3.0,
-3.1 and 3.2, and JRuby 9.4.
+Aruba is supported on Ruby 3.0 and up, and tested against CRuby 3.0, 3.1, 3.2,
+3.3 and 3.4, and JRuby 9.4.
 
 ## Supported Cucumber versions
 
