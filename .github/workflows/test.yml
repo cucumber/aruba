@@ -84,7 +84,7 @@ jobs:
       - name: Run specs
         run: bundle exec rake spec
 
-  static_checks:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
