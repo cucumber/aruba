@@ -635,7 +635,7 @@ RSpec.describe Aruba::Api::Filesystem do
       context 'when directory' do
         before do
           Aruba.platform.mkdir path
-          Array(content).each { |it| Aruba.platform.mkdir File.join(path, it) }
+          Array(content).each { |a| Aruba.platform.mkdir File.join(path, a) }
         end
 
         context 'when has subdirectories' do
@@ -683,8 +683,8 @@ RSpec.describe Aruba::Api::Filesystem do
 
       it 'removes multiple files' do
         names = %w[file1 file2 file3]
-        paths = names.map { |it| File.join(@aruba.aruba.current_directory, it) }
-        paths.each { |it| File.write(File.expand_path(it), "foo #{it}") }
+        paths = names.map { |name| File.join(@aruba.aruba.current_directory, name) }
+        paths.each { |path| File.write(File.expand_path(path), "foo #{path}") }
 
         @aruba.remove(names)
         aggregate_failures do
@@ -719,7 +719,7 @@ RSpec.describe Aruba::Api::Filesystem do
 
       it 'removes multiple directories' do
         names = %w[directory1 directory2 directory3]
-        paths = names.map { |it| File.join(@aruba.aruba.current_directory, it) }
+        paths = names.map { |name| File.join(@aruba.aruba.current_directory, name) }
         paths.each { |path| Aruba.platform.mkdir path }
 
         @aruba.remove(names)
