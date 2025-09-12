@@ -54,7 +54,7 @@ module Aruba
         stat = File::Stat.new(path.to_s)
 
         blocks = stat.blocks
-        return (blocks * dev_bsize) if blocks
+        return blocks * dev_bsize if blocks
 
         typical_fs_unit = 4096
         typical_dev_bsize = 512 # google dev_bsize for more info
