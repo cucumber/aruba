@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [2.3.2] / 2025-09-13
+
+* Relax RSpec verson constraint to allow RSpec 4.x ([#956] by [pirj])
+
+[pirj]: https://github.com/pirj
+
 ## [2.3.1] / 2025-06-13
 
 * Remove traces of legacy tag expressions (`~@tag` is now `not @tag`) ([#935]
