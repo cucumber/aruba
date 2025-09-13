@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Aruba::EventBus do
+RSpec.describe Aruba::EventBus do
   let(:bus) { described_class.new(registry) }
 
   let(:registry) do

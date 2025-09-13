@@ -5,7 +5,7 @@ require 'aruba/api'
 require 'fileutils'
 require 'time'
 
-describe Aruba::Api do
+RSpec.describe Aruba::Api do
   include_context 'uses aruba API'
 
   describe 'tags' do

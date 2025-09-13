@@ -20,3 +20,14 @@ end
 appraise 'cucumber_10' do
   gem 'cucumber', '~> 10.0'
 end
+
+appraise 'rspec_4' do
+  %w[rspec rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
+    if lib == 'rspec'
+      gem lib, git: 'https://github.com/rspec/rspec', branch: '4-0-dev'
+    else
+      gem lib, git: 'https://github.com/rspec/rspec', branch: '4-0-dev',
+               glob: "#{lib}/#{lib}.gemspec"
+    end
+  end
+end

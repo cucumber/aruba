@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'aruba/api'
 
-describe 'Aruba JRuby Startup Helper' do
+RSpec.describe 'Aruba JRuby Startup Helper' do
   include Aruba::Api
 
   let(:rb_config) { instance_double(Hash) }

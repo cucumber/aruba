@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Aruba::Hooks do
+RSpec.describe Aruba::Hooks do
   let(:hooks) { described_class.new }
 
   it 'executes a stored hook' do
