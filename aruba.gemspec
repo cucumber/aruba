@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
     'source_code_uri' => 'https://github.com/cucumber/aruba'
   }
 
-  spec.add_dependency 'bundler', ['>= 1.17', '< 3.0']
+  spec.add_dependency 'bundler', '>= 1.17'
   spec.add_dependency 'contracts', ['>= 0.16.0', '< 0.18.0']
   spec.add_dependency 'cucumber', '>= 8.0', '< 11.0'
   spec.add_dependency 'rspec-expectations', '>= 3.4', '< 5.0'
