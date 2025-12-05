@@ -6,11 +6,19 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [2.3.3] / 2025-12-05
+
+* Remove bundler version upper limit constraint ([#962] by [hsbt])
+
+[hsbt]: https://github.com/hsbt
+[#962]: https://github.com/cucumber/aruba/pull/962
+
 ## [2.3.2] / 2025-09-13
 
 * Relax RSpec verson constraint to allow RSpec 4.x ([#956] by [pirj])
 
 [pirj]: https://github.com/pirj
+[#956]: https://github.com/cucumber/aruba/pull/956
 
 ## [2.3.1] / 2025-06-13
 
