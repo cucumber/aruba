@@ -26,11 +26,14 @@ module Aruba
           .gsub('\t', "\t")
       end
 
-      # Remove ansi characters from text
+      # Remove ansi characters from text. Does nothing if
+      # config.remove_ansi_escape_sequences is false
       #
       # @param [#to_s] text
       #   Input
       def extract_text(text)
+        return text unless aruba.config.remove_ansi_escape_sequences
+
         text
           .gsub(/(?:\e|\033)\[\d+(?>(;\d+)*)m/, '')
           .gsub(/\\\[|\\\]/, '')
@@ -43,7 +46,7 @@ module Aruba
       #   The text to sanitize
       def sanitize_text(text)
         text = unescape_text(text)
-        text = extract_text(text) if aruba.config.remove_ansi_escape_sequences
+        text = extract_text(text)
 
         text.chomp
       end

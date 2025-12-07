@@ -25,7 +25,7 @@ RSpec::Matchers.define :have_output_on_stderr do |expected|
 
     @old_actual.stop
 
-    @actual = sanitize_text(actual.stderr)
+    @actual = extract_text(actual.stderr)
 
     values_match?(expected, @actual)
   end

@@ -17,20 +17,20 @@ RSpec.describe Aruba::Api::Commands do
         @aruba.type(+'Hello')
         @aruba.type(+"\u0004")
 
-        expect(@aruba.last_command_started).to have_output 'Hello'
+        expect(@aruba.last_command_started).to have_output "Hello\n"
       end
 
       it 'respond to frozen input' do
         @aruba.type 'Hello'
         @aruba.type "\u0004"
 
-        expect(@aruba.last_command_started).to have_output 'Hello'
+        expect(@aruba.last_command_started).to have_output "Hello\n"
       end
 
       it 'respond to close_input' do
         @aruba.type 'Hello'
         @aruba.close_input
-        expect(@aruba.last_command_started).to have_output 'Hello'
+        expect(@aruba.last_command_started).to have_output "Hello\n"
       end
 
       it 'pipes data' do

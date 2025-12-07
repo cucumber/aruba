@@ -76,109 +76,168 @@ RSpec.describe 'Command Matchers' do
   end
 
   describe '#have_output' do
-    let(:cmd) { "echo #{output}" }
-    let(:output) { 'hello world' }
-
-    context 'when have output hello world on stdout' do
-      before { run_command(cmd) }
-
-      it { expect(last_command_started).to have_output output }
+    let(:cmd) do
+      instance_double(Aruba::Processes::SpawnProcess,
+                      commandline: 'foo',
+                      stop: true)
     end
 
-    context 'when multiple commands output hello world on stdout' do
-      context 'and all commands must have the output' do
-        before do
-          run_command(cmd)
-          run_command(cmd)
-        end
+    before do
+      allow(cmd).to receive(:output).and_return(output)
+    end
 
-        it { expect(all_commands).to all have_output output }
+    context 'with a simple one-line output' do
+      let(:output) { "hello world\n" }
+
+      it 'succeeds when matching against identical string' do
+        expect(cmd).to have_output output
       end
 
-      context 'and any command can have the output' do
-        before do
-          run_command(cmd)
-          run_command('echo hello universe')
-        end
+      it 'succeeds when negating match against other string' do
+        expect(cmd).not_to have_output "hello universe\n"
+      end
 
-        it { expect(all_commands).to include have_output(output) }
+      it 'succeeds when negating match against empty string' do
+        expect(cmd).not_to have_output ''
       end
     end
 
-    context 'when have output hello world on stderr' do
-      let(:cmd) { "sh -c \"echo #{output} >&2\"" }
+    context 'with empty output' do
+      let(:output) { '' }
 
-      before { run_command(cmd) }
-
-      it { expect(last_command_started).to have_output output }
+      it 'succeeds when matching against empty string' do
+        expect(cmd).to have_output ''
+      end
     end
 
-    context 'when not has output' do
-      before { run_command(cmd) }
+    context 'with output containing ansi escape codes' do
+      let(:output) { "\e[36mhello world\e[0m\n" }
 
-      it { expect(last_command_started).not_to have_output 'hello universe' }
-    end
+      it 'matches with expected string without escape codes' do
+        expect(cmd).to have_output "hello world\n"
+      end
 
-    context 'when has empty output' do
-      before { run_command('false') }
+      it 'does not match with string with escape codes' do
+        expect(cmd).not_to have_output "\e[36mhello world\e[0m\n"
+      end
 
-      it { expect(last_command_started).to have_output '' }
-    end
+      it 'does not match with plain string when ansi codes are kept' do
+        aruba.config.remove_ansi_escape_sequences = false
+        expect(cmd).not_to have_output "hello world\n"
+      end
 
-    context 'when not has empty output' do
-      before { run_command(cmd) }
-
-      it { expect(last_command_started).not_to have_output '' }
+      it 'matches with string with escape codes when ansi codes are kept' do
+        aruba.config.remove_ansi_escape_sequences = false
+        expect(cmd).to have_output "\e[36mhello world\e[0m\n"
+      end
     end
   end
 
   describe '#have_output_on_stdout' do
-    let(:cmd) { "echo #{output}" }
-    let(:output) { 'hello world' }
-
-    context 'when have output hello world on stdout' do
-      before { run_command(cmd) }
-
-      it { expect(last_command_started).to have_output_on_stdout output }
+    let(:cmd) do
+      instance_double(Aruba::Processes::SpawnProcess,
+                      commandline: 'foo',
+                      stop: true)
     end
 
-    context 'when have output hello world on stderr' do
-      let(:cmd) { "sh -c \"echo #{output} >&2\"" }
-
-      before { run_command(cmd) }
-
-      it { expect(last_command_started).not_to have_output_on_stdout output }
+    before do
+      allow(cmd).to receive(:stdout).and_return(output)
     end
 
-    context 'when not has output' do
-      before { run_command(cmd) }
+    context 'with a simple one-line output on stdout' do
+      let(:output) { "hello world\n" }
 
-      it { expect(last_command_started).not_to have_output_on_stdout 'hello universe' }
+      it 'succeeds when matching against identical string' do
+        expect(cmd).to have_output_on_stdout output
+      end
+
+      it 'succeeds when negating match against other string' do
+        expect(cmd).not_to have_output_on_stdout "hello universe\n"
+      end
+    end
+
+    context 'with empty output' do
+      let(:output) { '' }
+
+      it 'succeeds when matching against empty string' do
+        expect(cmd).to have_output_on_stdout ''
+      end
+    end
+
+    context 'with output containing ansi escape codes on stdout' do
+      let(:output) { "\e[36mhello world\e[0m\n" }
+
+      it 'matches with expected string without escape codes' do
+        expect(cmd).to have_output_on_stdout "hello world\n"
+      end
+
+      it 'does not match with string with escape codes' do
+        expect(cmd).not_to have_output_on_stdout "\e[36mhello world\e[0m\n"
+      end
+
+      it 'does not match with plain string when ansi codes are kept' do
+        aruba.config.remove_ansi_escape_sequences = false
+        expect(cmd).not_to have_output_on_stdout "hello world\n"
+      end
+
+      it 'matches with string with escape codes when ansi codes are kept' do
+        aruba.config.remove_ansi_escape_sequences = false
+        expect(cmd).to have_output_on_stdout "\e[36mhello world\e[0m\n"
+      end
     end
   end
 
   describe '#have_output_on_stderr' do
-    let(:cmd) { "echo #{output}" }
-    let(:output) { 'hello world' }
-
-    context 'when have output hello world on stdout' do
-      before { run_command(cmd) }
-
-      it { expect(last_command_started).not_to have_output_on_stderr output }
+    let(:cmd) do
+      instance_double(Aruba::Processes::SpawnProcess,
+                      commandline: 'foo',
+                      stop: true)
     end
 
-    context 'when have output hello world on stderr' do
-      let(:cmd) { "sh -c \"echo #{output} >&2\"" }
-
-      before { run_command(cmd) }
-
-      it { expect(last_command_started).to have_output_on_stderr output }
+    before do
+      allow(cmd).to receive(:stderr).and_return(output)
     end
 
-    context 'when not has output' do
-      before { run_command(cmd) }
+    context 'with a simple one-line output on stderr' do
+      let(:output) { "hello world\n" }
 
-      it { expect(last_command_started).not_to have_output_on_stderr 'hello universe' }
+      it 'succeeds when matching against identical string' do
+        expect(cmd).to have_output_on_stderr output
+      end
+
+      it 'succeeds when negating match against other string' do
+        expect(cmd).not_to have_output_on_stderr "hello universe\n"
+      end
+    end
+
+    context 'with empty output on stderr' do
+      let(:output) { '' }
+
+      it 'succeeds when matching against empty string' do
+        expect(cmd).to have_output_on_stderr ''
+      end
+    end
+
+    context 'with output containing ansi escape codes on stderr' do
+      let(:output) { "\e[36mhello world\e[0m\n" }
+
+      it 'matches with expected string without escape codes' do
+        expect(cmd).to have_output_on_stderr "hello world\n"
+      end
+
+      it 'does not match with string with escape codes' do
+        expect(cmd).not_to have_output_on_stderr "\e[36mhello world\e[0m\n"
+      end
+
+      it 'has negative match with plain string when ansi codes are kept' do
+        aruba.config.remove_ansi_escape_sequences = false
+        expect(cmd).not_to have_output_on_stderr "hello world\n"
+      end
+
+      it 'matches with string with escape codes when ansi codes are kept' do
+        aruba.config.remove_ansi_escape_sequences = false
+        expect(cmd).to have_output_on_stderr "\e[36mhello world\e[0m\n"
+      end
     end
   end
 
