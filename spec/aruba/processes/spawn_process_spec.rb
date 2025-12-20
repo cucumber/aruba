@@ -95,6 +95,26 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     end
   end
 
+  describe '#write' do
+    let(:command_line) { "ruby -e 'puts gets'" }
+
+    it 'writes single strings to the process' do
+      process.start
+      process.write "hello\n"
+      process.stop
+
+      expect(process.stdout).to eq "hello\n"
+    end
+
+    it 'writes multiple strings to the process' do
+      process.start
+      process.write 'hel', "lo\n"
+      process.stop
+
+      expect(process.stdout).to eq "hello\n"
+    end
+  end
+
   describe '#stop' do
     context 'when stopped successfully' do
       before do
