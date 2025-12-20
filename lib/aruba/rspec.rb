@@ -10,47 +10,35 @@ RSpec.configure do |config|
   config.include Aruba::Api, type: :aruba
 
   # Setup environment for aruba
-  config.around :each do |example|
-    if self.class.include? Aruba::Api
-      setup_aruba
+  config.around :each, type: :aruba do |example|
+    setup_aruba
 
-      # Modify PATH to include project/bin
-      prepend_environment_variable(
-        'PATH',
-        aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
-      )
+    # Modify PATH to include project/bin
+    prepend_environment_variable(
+      'PATH',
+      aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
+    )
 
-      # Use configured home directory as HOME
-      set_environment_variable 'HOME', aruba.config.home_directory
-    end
+    # Use configured home directory as HOME
+    set_environment_variable 'HOME', aruba.config.home_directory
 
     example.run
-
-    next unless self.class.include? Aruba::Api
 
     stop_all_commands
   end
 
-  config.around :each do |example|
-    if self.class.include? Aruba::Api
-      with_environment do
-        example.run
-      end
-    else
+  config.around :each, type: :aruba do |example|
+    with_environment do
       example.run
     end
   end
 
-  config.before :each do |example|
-    next unless self.class.include? Aruba::Api
-
+  config.before :each, type: :aruba do |example|
     example.metadata.each { |k, v| aruba.config.set_if_option(k, v) }
   end
 
   # Activate announcers based on rspec metadata
-  config.before :each do |example|
-    next unless self.class.include?(Aruba::Api)
-
+  config.before :each, type: :aruba do |example|
     if example.metadata[:announce_full_environment]
       aruba.announcer.activate(:full_environment)
     end
