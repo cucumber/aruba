@@ -26,6 +26,18 @@ Before '@requires-ruby' do
   skip_this_scenario
 end
 
+Before '@requires-bash' do
+  next unless Aruba.platform.which('bash').nil?
+
+  skip_this_scenario
+end
+
+Before '@requires-platform-windows' do
+  next if Cucumber::WINDOWS
+
+  skip_this_scenario
+end
+
 Before '@requires-posix-standard-tools' do
   next unless Aruba.platform.which('printf').nil?
 
