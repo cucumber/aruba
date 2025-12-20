@@ -6,21 +6,13 @@ module Aruba
   module Platforms
     # Generate simple table
     class SimpleTable
-      private
-
-      attr_reader :hash, :opts
-
-      public
-
       # Create
       #
       # @param [Hash] hash
       #   Input
-      def initialize(hash, opts)
+      def initialize(hash, sort: true)
         @hash = hash
-        @opts = {
-          sort: true
-        }.merge opts
+        @sort = sort
       end
 
       # Generate table
@@ -37,12 +29,16 @@ module Aruba
           format('# %-*s => %s', name_size, k, v)
         end
 
-        if opts[:sort] == true
+        if sort
           rows.sort.join("\n")
         else
           rows.join("\n")
         end
       end
+
+      private
+
+      attr_reader :hash, :sort
     end
   end
 end

@@ -8,7 +8,6 @@ require 'aruba/aruba_logger'
 require 'aruba/aruba_path'
 require 'aruba/command_monitor'
 
-require 'aruba/platforms/simple_table'
 require 'aruba/platforms/unix_command_string'
 require 'aruba/platforms/unix_which'
 require 'aruba/platforms/determine_file_size'
@@ -219,11 +218,6 @@ module Aruba
       # Write to file
       def write_file(path, content)
         File.write(path, content)
-      end
-
-      # Transform hash to a string table which can be output on stderr/stdout
-      def simple_table(hash, opts = {})
-        SimpleTable.new(hash, opts).to_s
       end
 
       # Resolve path for command using the PATH-environment variable
