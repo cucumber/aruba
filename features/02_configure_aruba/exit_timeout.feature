@@ -7,10 +7,9 @@ Feature: Configure timeout for command execution
   Background:
     Given I use the fixture "cli-app"
     And an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/bin/bash
-    trap "exit 128" SIGTERM SIGINT
-    sleep $*
+    """ruby
+    #!/usr/bin/env ruby
+    sleep ARGV[0].to_f
     """
 
   Scenario: Default value
