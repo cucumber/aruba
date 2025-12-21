@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# TODO: Isn't this provided by RSpec itself? 
+# TODO: Isn't this provided by RSpec itself?
 module SpecHelpers
   module Reporting
     # Captures the given stream and returns it:
