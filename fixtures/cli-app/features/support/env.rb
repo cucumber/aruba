@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-require_relative 'aruba'
+require 'aruba/cucumber'

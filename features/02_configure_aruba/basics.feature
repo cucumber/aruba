@@ -92,7 +92,7 @@ Feature: Usage of configuration
     Then the specs should all pass
 
   Scenario: Setting default values for option for Cucumber
-    Given a file named "features/support/aruba_config.rb" with:
+    Given a file named "features/support/aruba.rb" with:
     """ruby
     Aruba.configure do |config|
       config.exit_timeout = 0.5
@@ -128,7 +128,7 @@ Feature: Usage of configuration
     want to set the default timeout for all commands to the maximum value only
     to prevent those commands from failing.
 
-    Given a file named "features/support/aruba_config.rb" with:
+    Given a file named "features/support/aruba.rb" with:
     """ruby
     Aruba.configure do |config|
       config.exit_timeout = 0.5

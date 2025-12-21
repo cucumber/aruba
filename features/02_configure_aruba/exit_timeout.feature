@@ -23,7 +23,7 @@ Feature: Configure timeout for command execution
     """
 
   Scenario: Default value
-    Given a file named "features/support/aruba_config.rb" with:
+    Given a file named "features/support/aruba.rb" with:
     """ruby
     Aruba.configure do |config|
       puts %(The default value is "#{config.exit_timeout}")
@@ -36,7 +36,7 @@ Feature: Configure timeout for command execution
     """
 
   Scenario: Modify value
-    Given a file named "features/support/aruba_config.rb" with:
+    Given a file named "features/support/aruba.rb" with:
     """ruby
     Aruba.configure do |config|
       config.exit_timeout = 1.0
@@ -52,7 +52,7 @@ Feature: Configure timeout for command execution
     Then I successfully run `cucumber`
 
   Scenario: Fails if takes longer
-    Given a file named "features/support/aruba_config.rb" with:
+    Given a file named "features/support/aruba.rb" with:
     """ruby
     Aruba.configure do |config|
       config.exit_timeout = 0.5
