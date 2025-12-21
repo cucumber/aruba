@@ -23,7 +23,7 @@ Feature: Usage of configuration
     Given a file named "spec/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 0.7
+      config.exit_timeout = 1.0
     end
     """
     And a file named "spec/usage_configuration_spec.rb" with:
@@ -54,7 +54,7 @@ Feature: Usage of configuration
     Given a file named "spec/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 0.5
+      config.exit_timeout = 1.0
     end
     """
     And a file named "spec/support/hooks.rb" with:
@@ -63,7 +63,7 @@ Feature: Usage of configuration
       config.before :each do |example|
         next unless example.metadata.key? :slow_command
 
-        aruba.config.exit_timeout = 1.5
+        aruba.config.exit_timeout = 2.5
       end
     end
     """
@@ -78,12 +78,12 @@ Feature: Usage of configuration
       end
 
       context 'when slow command and this is known by the developer', :slow_command => true do
-        before { run_command('aruba-test-cli 1') }
+        before { run_command('aruba-test-cli 1.1') }
         it { expect(last_command_started).to have_finished_in_time }
       end
 
       context 'when slow command, but this might be a failure' do
-        before { run_command('aruba-test-cli 1') }
+        before { run_command('aruba-test-cli 1.1') }
         it { expect(last_command_started).not_to have_finished_in_time }
       end
     end
@@ -95,7 +95,7 @@ Feature: Usage of configuration
     Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 0.5
+      config.exit_timeout = 1.0
     end
     """
     And a file named "features/step_definitions/timeout_steps.rb" with:
@@ -131,13 +131,13 @@ Feature: Usage of configuration
     Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 0.5
+      config.exit_timeout = 1.0
     end
     """
     And a file named "features/support/hooks.rb" with:
     """ruby
     Before '@slow-command' do
-      aruba.config.exit_timeout = 1.5
+      aruba.config.exit_timeout = 2.5
     end
     """
     And a file named "features/step_definitions/timeout_steps.rb" with:
@@ -159,11 +159,11 @@ Feature: Usage of configuration
 
       @slow-command
       Scenario: Slow command finishes when given more time
-        When I run `aruba-test-cli 1`
+        When I run `aruba-test-cli 1.1`
         Then the command should finish in time
 
       Scenario: Slow command fails
-        When I run `aruba-test-cli 1`
+        When I run `aruba-test-cli 1.1`
         Then the command should time out
     """
     When I run `cucumber`
