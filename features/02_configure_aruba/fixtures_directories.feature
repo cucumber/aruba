@@ -21,7 +21,7 @@ Feature: Configure directory where to look for fixtures
     """
 
   Scenario: Modify value
-    Given a file named "features/support/aaa.rb" with:
+    Given a file named "features/support/aruba.rb" with:
     """ruby
     Aruba.configure do |config|
       config.fixtures_directories = %w(spec/fixtures)
