@@ -46,7 +46,7 @@ Feature: Configure timeout for command execution
     """
     Feature: Run it
       Scenario: Fast command
-        When I run `aruba-test-cli 0.5`
+        When I run `aruba-test-cli 0.1`
         Then the command should finish in time
     """
     Then I successfully run `cucumber`
