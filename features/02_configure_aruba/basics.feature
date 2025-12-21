@@ -33,12 +33,12 @@ Feature: Usage of configuration
     RSpec.describe 'Run command', :type => :aruba do
       context 'when fast command' do
         before { run_command('aruba-test-cli 0') }
-        it { expect(last_command_started).to be_successfully_executed }
+        it { expect(last_command_started).to have_finished_in_time }
       end
 
       context 'when slow command' do
         before { run_command('aruba-test-cli 1') }
-        it { expect(last_command_started).not_to be_successfully_executed }
+        it { expect(last_command_started).not_to have_finished_in_time }
       end
     end
     """
@@ -74,17 +74,17 @@ Feature: Usage of configuration
     RSpec.describe 'Run command', :type => :aruba do
       context 'when fast command' do
         before { run_command('aruba-test-cli 0') }
-        it { expect(last_command_started).to be_successfully_executed }
+        it { expect(last_command_started).to have_finished_in_time }
       end
 
       context 'when slow command and this is known by the developer', :slow_command => true do
         before { run_command('aruba-test-cli 1') }
-        it { expect(last_command_started).to be_successfully_executed }
+        it { expect(last_command_started).to have_finished_in_time }
       end
 
       context 'when slow command, but this might be a failure' do
         before { run_command('aruba-test-cli 1') }
-        it { expect(last_command_started).not_to be_successfully_executed }
+        it { expect(last_command_started).not_to have_finished_in_time }
       end
     end
     """
@@ -98,16 +98,26 @@ Feature: Usage of configuration
       config.exit_timeout = 0.5
     end
     """
+    And a file named "features/step_definitions/timeout_steps.rb" with:
+    """ruby
+    Then 'the command should finish in time' do
+      expect(last_command_started).to have_finished_in_time
+    end
+
+    Then 'the command should time out' do
+      expect(last_command_started).to run_too_long
+    end
+    """
     And a file named "features/run.feature" with:
     """
     Feature: Run it
       Scenario: Fast command
         When I run `aruba-test-cli 0`
-        Then the exit status should be 0
+        Then the command should finish in time
 
       Scenario: Slow command
         When I run `aruba-test-cli 1.0`
-        Then the exit status should not be 0
+        Then the command should time out
     """
     When I run `cucumber`
     Then the features should all pass
@@ -130,21 +140,31 @@ Feature: Usage of configuration
       aruba.config.exit_timeout = 1.5
     end
     """
+    And a file named "features/step_definitions/timeout_steps.rb" with:
+    """ruby
+    Then 'the command should finish in time' do
+      expect(last_command_started).to have_finished_in_time
+    end
+
+    Then 'the command should time out' do
+      expect(last_command_started).to run_too_long
+    end
+    """
     And a file named "features/usage_configuration.feature" with:
     """
     Feature: Run it
       Scenario: Fast command
         When I run `aruba-test-cli 0`
-        Then the exit status should be 0
+        Then the command should finish in time
 
       @slow-command
-      Scenario: Slow command known by the developer
-        When I run `aruba-test-cli 0.5`
-        Then the exit status should be 0
-
-      Scenario: Slow command which might be a failure
+      Scenario: Slow command finishes when given more time
         When I run `aruba-test-cli 1`
-        Then the exit status should not be 0
+        Then the command should finish in time
+
+      Scenario: Slow command fails
+        When I run `aruba-test-cli 1`
+        Then the command should time out
     """
     When I run `cucumber`
     Then the features should all pass
