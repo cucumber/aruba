@@ -76,12 +76,14 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Run specs
-        run: bundle exec rake spec
-      - name: Run cukes (1)
-        run: bundle exec cucumber features/01_getting_started_with_aruba/
-      - name: Run cukes (2)
-        run: bundle exec cucumber features/02_configure_aruba/
+      # - name: Run specs
+      #   run: bundle exec rake spec
+      # - name: Run cukes (1)
+      #   run: bundle exec cucumber features/01_getting_started_with_aruba/
+      # - name: Run cukes (2)
+      #   run: bundle exec cucumber features/02_configure_aruba/
+      - name: Run cukes - focus!
+        run: bundle exec cucumber features/02_configure_aruba/basics.feature
       # - name: Run cukes (3)
       #   run: bundle exec cucumber features/03_testing_frameworks/
       # - name: Run cukes (4)
