@@ -4,17 +4,26 @@ Feature: Configure timeout for command execution
   I want to configure the timeout when executing a command
   In order to support some longer running commands
 
+  Note that on Windows, you must check for timeouts explicitly and cannot rely
+  on a nonzero exit status: Killing the process from Ruby when the timeout
+  occurs will set the exit status to 0.
+
   Background:
     Given I use the fixture "cli-app"
     And an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/bin/bash
-    trap "exit 128" SIGTERM SIGINT
-    sleep $*
+    """ruby
+    #!/usr/bin/env ruby
+    sleep ARGV[0].to_f
+    """
+    And a file named "features/step_definitions/timeout_steps.rb" with:
+    """ruby
+    Then 'the command should finish in time' do
+      expect(last_command_started).to have_finished_in_time
+    end
     """
 
   Scenario: Default value
-    Given a file named "features/support/aruba_config.rb" with:
+    Given a file named "features/support/aruba.rb" with:
     """ruby
     Aruba.configure do |config|
       puts %(The default value is "#{config.exit_timeout}")
@@ -27,7 +36,7 @@ Feature: Configure timeout for command execution
     """
 
   Scenario: Modify value
-    Given a file named "features/support/aruba_config.rb" with:
+    Given a file named "features/support/aruba.rb" with:
     """ruby
     Aruba.configure do |config|
       config.exit_timeout = 1.0
@@ -37,13 +46,13 @@ Feature: Configure timeout for command execution
     """
     Feature: Run it
       Scenario: Fast command
-        When I run `aruba-test-cli 0.5`
-        Then the exit status should be 0
+        When I run `aruba-test-cli 0.1`
+        Then the command should finish in time
     """
     Then I successfully run `cucumber`
 
   Scenario: Fails if takes longer
-    Given a file named "features/support/aruba_config.rb" with:
+    Given a file named "features/support/aruba.rb" with:
     """ruby
     Aruba.configure do |config|
       config.exit_timeout = 0.5
@@ -54,7 +63,7 @@ Feature: Configure timeout for command execution
     Feature: Run it
       Scenario: Fast command
         When I run `aruba-test-cli 2.5`
-        Then the exit status should be 0
+        Then the command should finish in time
     """
     Then I run `cucumber`
     And the exit status should be 1
