@@ -31,6 +31,8 @@ jobs:
         include:
           - ruby: "3.0"
             appraisal: cucumber_8
+          - ruby: "4.0.0-preview3"
+            appraisal: cucumber_10
         exclude:
           - ruby: "3.4"
             appraisal: cucumber_8
