@@ -26,20 +26,38 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        # - Users should upgrade to the latest Cucumber that is supported on
+        #   their version of Ruby
+        # - Users should upgrade to the latest RSpec that is supported on
+        #   their version of Ruby
+        #
+        # To facilitate this:
+        # - We should test with the latest Cucumber that is supported for each
+        #   version of Ruby
+        # - On the miminum Ruby version supported by each Cucumber version, we
+        #   should also test with the next earlier Cucumber version, to
+        #   facilitate upgrades
+        # - We should test with each Cucumber version supported by Aruba at
+        #   least once
+        # - We explicitly test with upcoming RSpec 4.0 at least once
+        #
+        # Cucumber    | Minimum Ruby Version
+        # ------------------------------------
+        # Cucumber 8  | Ruby 2.6
+        # Cucumber 9  | Ruby 2.7
+        # Cucumber 10 | Ruby 3.1
+        #
         ruby: ["3.1", "jruby-9.4", "3.2", "3.3", "3.4", "4.0"]
-        appraisal: [cucumber_8, cucumber_9, cucumber_10, rspec_4]
+        appraisal: [cucumber_10]
         include:
           - ruby: "3.0"
             appraisal: cucumber_8
-          - ruby: "4.0"
-            appraisal: cucumber_10
-        exclude:
-          - ruby: "3.4"
-            appraisal: cucumber_8
-          - ruby: "4.0"
-            appraisal: cucumber_8
-          - ruby: "4.0"
+          - ruby: "3.0"
             appraisal: cucumber_9
+          - ruby: "3.1"
+            appraisal: cucumber_9
+          - ruby: "4.0"
+            appraisal: rspec_4
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.appraisal }}.gemfile
@@ -60,6 +78,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # This will automatically pick the latest supported version of Cucumber
+        # for each Ruby version
         ruby: ["3.0", "3.1", "3.2", "3.3", "3.4", "4.0"]
     runs-on: macos-latest
     steps:
@@ -79,6 +99,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # This will automatically pick the latest supported version of Cucumber
+        # for each Ruby version
         ruby: ["3.0", "3.1", "3.2", "3.3", "3.4", "4.0"]
     runs-on: windows-latest
     steps:
