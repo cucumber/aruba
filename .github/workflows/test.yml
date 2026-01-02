@@ -49,6 +49,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
+          bundler: latest
           bundler-cache: true
       - name: Run specs
         run: bundle exec rake spec
@@ -67,6 +68,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
+          bundler: latest
           bundler-cache: true
       - name: Run specs
         run: bundle exec rake spec
@@ -87,6 +89,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
+          bundler: latest
           bundler-cache: true
       - name: Run specs
         run: bundle exec rake spec
