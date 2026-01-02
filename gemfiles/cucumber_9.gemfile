@@ -4,6 +4,7 @@
 
 source 'https://rubygems.org'
 
+gem 'win32ole', platform: :windows
 gem 'cucumber', ['~> 9.0', '>= 9.0.1']
 
 gemspec path: '../'

@@ -4,6 +4,7 @@
 
 source 'https://rubygems.org'
 
+gem 'win32ole', platform: :windows
 gem 'rspec', git: 'https://github.com/rspec/rspec', branch: '4-0-dev'
 gem 'rspec-core', git: 'https://github.com/rspec/rspec', branch: '4-0-dev',
                   glob: 'rspec-core/rspec-core.gemspec'
