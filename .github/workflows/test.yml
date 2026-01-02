@@ -31,9 +31,15 @@ jobs:
         include:
           - ruby: "3.0"
             appraisal: cucumber_8
+          - ruby: "4.0"
+            appraisal: cucumber_10
         exclude:
           - ruby: "3.4"
             appraisal: cucumber_8
+          - ruby: "4.0"
+            appraisal: cucumber_8
+          - ruby: "4.0"
+            appraisal: cucumber_9
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.appraisal }}.gemfile
