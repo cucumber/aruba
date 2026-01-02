@@ -26,13 +26,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: ["3.1", "3.2", "jruby-9.4", "3.3", "3.4"]
+        ruby: ["3.1", "jruby-9.4", "3.2", "3.3", "3.4", "4.0"]
         appraisal: [cucumber_8, cucumber_9, cucumber_10, rspec_4]
         include:
           - ruby: "3.0"
             appraisal: cucumber_8
-          - ruby: "4.0.0-preview3"
-            appraisal: cucumber_10
         exclude:
           - ruby: "3.4"
             appraisal: cucumber_8
@@ -55,7 +53,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: ["3.0", "3.1", "3.2", "3.3", "3.4"]
+        ruby: ["3.0", "3.1", "3.2", "3.3", "3.4", "4.0"]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
@@ -73,7 +71,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: ["3.0", "3.1", "3.2", "3.3", "3.4"]
+        ruby: ["3.0", "3.1", "3.2", "3.3", "3.4", "4.0"]
     runs-on: windows-latest
     steps:
       - name: git config autocrlf
