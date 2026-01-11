@@ -13,11 +13,7 @@ Feature: Announce information during rspec run
     require 'spec_helper'
 
     RSpec.describe 'Announce', type: :aruba do
-      before do
-        aruba.announcer.activate :directory
-      end
-
-      specify "run command" do
+      specify "run command", :announce_directory do
         create_directory "dir.d"
         cd "dir.d"
       end
@@ -46,11 +42,7 @@ Feature: Announce information during rspec run
     require 'spec_helper'
 
     RSpec.describe 'Announce', type: :aruba do
-      before do
-        aruba.announcer.activate :stdout
-      end
-
-      specify "run command" do
+      specify "run command", :announce_stdout do
         run_command_and_stop "aruba-test-cli"
         expect(last_command_stopped).to be_successfully_executed
       end
@@ -78,11 +70,7 @@ Feature: Announce information during rspec run
     require 'spec_helper'
 
     RSpec.describe 'Announce', type: :aruba do
-      before do
-        aruba.announcer.activate :stderr
-      end
-
-      specify "run command" do
+      specify "run command", :announce_stderr do
         run_command_and_stop "aruba-test-cli"
         expect(last_command_stopped).to be_successfully_executed
       end
@@ -98,6 +86,42 @@ Feature: Announce information during rspec run
     STDERR
     """
 
+  Scenario: Announce both stderr and stdout
+    Given an executable named "bin/aruba-test-cli" with:
+    """bash
+    #!/usr/bin/env bash
+
+    echo 'Hello' >&2
+    echo 'World'
+    """
+    And a file named "spec/announcing_spec.rb" with:
+    """ruby
+    require 'spec_helper'
+
+    RSpec.describe 'Announce', type: :aruba do
+      specify "run command", :announce_output do
+        run_command_and_stop "aruba-test-cli"
+        expect(last_command_stopped).to be_successfully_executed
+      end
+    end
+    """
+    When I run `rspec`
+    Then the specs should all pass
+    And the output should contain:
+    """
+    <<-STDERR
+    Hello
+
+    STDERR
+    """
+    And the output should contain:
+    """
+    <<-STDOUT
+    World
+
+    STDOUT
+    """
+
   Scenario: Announce command
     Given an executable named "bin/aruba-test-cli" with:
     """bash
@@ -110,11 +134,7 @@ Feature: Announce information during rspec run
     require 'spec_helper'
 
     RSpec.describe 'Announce', type: :aruba do
-      before do
-        aruba.announcer.activate :command
-      end
-
-      specify "run command" do
+      specify "run command", :announce_command do
         run_command_and_stop "aruba-test-cli"
         expect(last_command_stopped).to be_successfully_executed
       end
@@ -139,11 +159,7 @@ Feature: Announce information during rspec run
     require 'spec_helper'
 
     RSpec.describe 'Announce', type: :aruba do
-      before do
-        aruba.announcer.activate :changed_environment
-      end
-
-      specify "run command" do
+      specify "run command", :announce_changed_environment do
         set_environment_variable("MY_VAR", "my_value")
         run_command_and_stop "aruba-test-cli"
         expect(last_command_stopped).to be_successfully_executed
@@ -172,11 +188,7 @@ Feature: Announce information during rspec run
     require 'spec_helper'
 
     RSpec.describe 'Announce', type: :aruba do
-      before do
-        aruba.announcer.activate :command_filesystem_status
-      end
-
-      specify "run command" do
+      specify "run command", :announce_command_filesystem_status do
         run_command_and_stop "aruba-test-cli"
         expect(last_command_stopped).to be_successfully_executed
       end
@@ -232,11 +244,7 @@ Feature: Announce information during rspec run
     require 'spec_helper'
 
     RSpec.describe 'Announce', type: :aruba do
-      before do
-        aruba.announcer.activate :command_content
-      end
-
-      specify "run command" do
+      specify "run command", :announce_command_content do
         run_command_and_stop "aruba-test-cli"
         expect(last_command_stopped).to be_successfully_executed
       end
@@ -251,7 +259,7 @@ Feature: Announce information during rspec run
     echo 'Hello World'
     """
 
-  Scenario: Acctivate several announcers
+  Scenario: Announce everything
     Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/usr/bin/env bash
@@ -263,14 +271,7 @@ Feature: Announce information during rspec run
     require 'spec_helper'
 
     RSpec.describe 'Announce', type: :aruba do
-      before do
-        aruba.announcer.activate :stdout
-        aruba.announcer.activate :stderr
-        aruba.announcer.activate :command_content
-        aruba.announcer.activate :command_filesystem_status
-      end
-
-      specify "run command" do
+      specify "run command", :announce do
         run_command_and_stop "aruba-test-cli"
         expect(last_command_stopped).to be_successfully_executed
       end
