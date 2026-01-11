@@ -1,8 +1,8 @@
-Feature: Announce output during test run
+Feature: Announce information during cucumber run
 
-  In order to specify expected output
+  In order to make debugging easier
   As a developer using Cucumber
-  I want to use the "the output should contain" step
+  I want to have certain information announced
 
   Background:
     Given I use a fixture named "cli-app"
