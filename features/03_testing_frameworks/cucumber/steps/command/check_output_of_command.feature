@@ -81,6 +81,37 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should all pass
 
+  Scenario: Failed detection of subset of multiline output
+    Given an executable named "bin/aruba-test-cli" with:
+    """bash
+    #!/usr/bin/env bash
+
+    echo -e "hello\ncruel\nworld"
+    """
+    And a file named "features/output.feature" with:
+    """cucumber
+    Feature: Run command
+      Scenario: Run command
+        When I run `aruba-test-cli`
+        Then the output should contain:
+        \"\"\"
+        goodbye
+        cruel
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should not all pass with:
+    """
+          expected "hello\ncruel\nworld" to string includes: "goodbye\ncruel"
+          Diff:
+          
+          @@ -1,2 +1,3 @@
+          -goodbye
+          +hello
+           cruel
+          +world
+    """
+
   Scenario: Detect absence of subset of multiline output
     Given an executable named "bin/aruba-test-cli" with:
     """bash
@@ -100,6 +131,33 @@ Feature: All output of commands which were executed
     """
     When I run `cucumber`
     Then the features should all pass
+
+  Scenario: Failed detection of absence of subset of multiline output
+    Given an executable named "bin/aruba-test-cli" with:
+    """bash
+    #!/usr/bin/env bash
+
+    echo -e "hello\nworld"
+    """
+    And a file named "features/output.feature" with:
+    """cucumber
+    Feature: Run command
+      Scenario: Run command
+        When I run `aruba-test-cli`
+        Then the output should not contain:
+        \"\"\"
+        hello
+        \"\"\"
+    """
+    When I run `cucumber`
+    Then the features should not all pass with:
+    """
+          expected "hello\nworld" not to string includes: "hello"
+          Diff:
+          @@ -1 +1,2 @@
+           hello
+          +world
+    """
 
   Scenario: Detect exact one-line output
     Given a file named "features/output.feature" with:
@@ -201,6 +259,10 @@ Feature: All output of commands which were executed
     """
           expected "goodbye\nworld" to output string is eq: "hello\nworld"
           Diff:
+          @@ -1,2 +1,2 @@
+          -hello
+          +goodbye
+           world
     """
 
   Scenario: Detect subset of one-line output with regex
