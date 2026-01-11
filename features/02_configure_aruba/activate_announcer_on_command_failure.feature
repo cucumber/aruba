@@ -32,7 +32,7 @@ Feature: Configure announcer activation on command failure
     """
     When I successfully run `cucumber`
     Then the output should contain:
-    """ruby
+    """
     The default value is "[]"
     """
 
