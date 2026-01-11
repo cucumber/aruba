@@ -186,6 +186,8 @@ Feature: Run command in a simpler fashion
 
   Scenario: Activate announcer channels on failure
 
+    This feature only works when using run_command_and_stop to run a command.
+
     Given an executable named "bin/aruba-test-cli" with:
     """bash
     #!/bin/bash
