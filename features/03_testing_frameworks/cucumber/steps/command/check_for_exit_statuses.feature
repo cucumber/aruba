@@ -4,6 +4,9 @@ Feature: Check exit status of commands
   last command which was finished. If no commands have finished yet, it stops
   the one that was started last.
 
+  If you have started multiple commands, to make sure the correct command's
+  exit status is checked, you can explicitly specify the command to check.
+
   Background:
     Given I use a fixture named "cli-app"
 
@@ -135,3 +138,24 @@ Feature: Check exit status of commands
     """
     expected "aruba-test-cli" to have finished in time
     """
+
+  Scenario: Checking for exit status when multiple commands were started
+    Given an executable named "bin/aruba-test-cli" with:
+    """
+    #!/bin/bash
+    sleep 0.1
+    exit $1
+    """
+    And a file named "features/exit_status.feature" with:
+    """
+    Feature: Failing program
+      Scenario: Run command
+        Given I run `aruba-test-cli 0` in background
+        And I run `aruba-test-cli 1` in background
+        Then the exit status of `aruba-test-cli 1` should be 1
+        And the exit status of `aruba-test-cli 0` should be 0
+        And the exit status of `aruba-test-cli 1` should not be 0
+        And the exit status of `aruba-test-cli 0` should not be 1
+    """
+    When I run `cucumber`
+    Then the features should all pass

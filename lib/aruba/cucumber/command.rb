@@ -354,6 +354,20 @@ Then(/^the exit status should( not)? be (\d+)$/) do |negated, exit_status|
   end
 end
 
+Then('the exit status of {command} should be {int}') do |command, exit_status|
+  cmd = aruba.command_monitor.find(command)
+  cmd.stop
+
+  expect(cmd).to have_exit_status exit_status
+end
+
+Then('the exit status of {command} should not be {int}') do |command, exit_status|
+  cmd = aruba.command_monitor.find(command)
+  cmd.stop
+
+  expect(cmd).not_to have_exit_status exit_status
+end
+
 Then(/^it should not (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
   last_command_started.stop
 
