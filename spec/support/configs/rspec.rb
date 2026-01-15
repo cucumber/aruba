@@ -11,6 +11,8 @@ RSpec.configure do |config|
 
   config.expect_with :rspec
 
+  # FIXME: Right, so we always include Aruba::Api, and all the special matchers
+  # only work when that's done (and also are not loaded unless that's done?)
   config.include Aruba::Api
   config.before { setup_aruba }
 end
