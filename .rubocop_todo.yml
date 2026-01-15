@@ -17,7 +17,7 @@ Metrics/BlockLength:
 
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ClassLength:
-  Max: 145
+  Max: 146
 
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Metrics/CyclomaticComplexity:
