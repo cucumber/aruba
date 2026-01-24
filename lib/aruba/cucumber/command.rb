@@ -373,7 +373,20 @@ Then('the exit status of {command} should not be {int}') do |command, exit_statu
   expect(cmd).not_to have_exit_status exit_status
 end
 
+Then(/^it should (pass|fail)$/) do |pass_fail|
+  last_command_started.stop
+
+  if pass_fail == 'pass'
+    expect(last_command_stopped).to be_successfully_executed
+  else
+    expect(last_command_stopped).not_to be_successfully_executed
+  end
+end
+
 Then(/^it should not (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
+  Aruba.platform.deprecated \
+    'This cucumber step has confusing behavior and is deprecated.' \
+    "Use 'it should #{pass_fail}' with a negative output matcher step instead."
   last_command_started.stop
 
   if pass_fail == 'pass'
@@ -398,6 +411,9 @@ Then(/^it should (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
 end
 
 Then(/^it should not (pass|fail) with:$/) do |pass_fail, expected|
+  Aruba.platform.deprecated \
+    'This cucumber step has confusing behavior and is deprecated.' \
+    "Use 'it should #{pass_fail}' with a negative output matcher step instead."
   last_command_started.stop
 
   if pass_fail == 'pass'
@@ -422,6 +438,9 @@ Then(/^it should (pass|fail) with:$/) do |pass_fail, expected|
 end
 
 Then(/^it should not (pass|fail) with exactly:$/) do |pass_fail, expected|
+  Aruba.platform.deprecated \
+    'This cucumber step has confusing behavior and is deprecated.' \
+    "Use 'it should #{pass_fail}' with a negative output matcher step instead."
   last_command_started.stop
 
   if pass_fail == 'pass'
@@ -446,6 +465,9 @@ Then(/^it should (pass|fail) with exactly:$/) do |pass_fail, expected|
 end
 
 Then(/^it should not (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
+  Aruba.platform.deprecated \
+    'This cucumber step has confusing behavior and is deprecated.' \
+    "Use 'it should #{pass_fail}' with a negative output matcher step instead."
   last_command_started.stop
 
   if pass_fail == 'pass'
