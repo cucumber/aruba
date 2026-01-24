@@ -500,20 +500,18 @@ end
 Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) \
   do |channel, negated, table|
   table.raw.flatten.each do |expected|
-    _matcher = case channel
-               when 'output'; then :have_output
-               when 'stderr'; then :have_output_on_stderr
-               when 'stdout'; then :have_output_on_stdout
-               end
-
-    # TODO: This isn't actually using the above. It's hardcoded to use have_output only
+    matcher = case channel
+              when 'output'; then :have_output
+              when 'stderr'; then :have_output_on_stderr
+              when 'stdout'; then :have_output_on_stdout
+              end
 
     if negated
       expect(all_commands)
-        .not_to include have_output an_output_string_including(expected)
+        .not_to include send(matcher, an_output_string_including(expected))
     else
       expect(all_commands)
-        .to include have_output an_output_string_including(expected)
+        .to include send(matcher, an_output_string_including(expected))
     end
   end
 end
