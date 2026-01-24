@@ -40,8 +40,13 @@ When 'I run {command} interactively' do |cmd|
   run_command(sanitize_text(cmd))
 end
 
-# Merge interactive and background after refactoring with event queue
+When 'I run {command} in the background' do |cmd|
+  run_command(sanitize_text(cmd))
+end
+
 When 'I run {command} in background' do |cmd|
+  Aruba.platform.deprecated \
+    'This cucumber step is deprecated. Use "I run {command} in the background" instead.'
   run_command(sanitize_text(cmd))
 end
 
