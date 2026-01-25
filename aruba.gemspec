@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'contracts', ['>= 0.16.0', '< 0.18.0']
   spec.add_dependency 'cucumber', '>= 8.0', '< 11.0'
   spec.add_dependency 'irb', '~> 1.16'
+  spec.add_dependency 'marcel', '~> 1.0'
   spec.add_dependency 'rspec-expectations', '>= 3.4', '< 5.0'
   spec.add_dependency 'thor', '~> 1.0'
 
