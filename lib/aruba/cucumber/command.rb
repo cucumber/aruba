@@ -83,53 +83,63 @@ end
 When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$/) \
   do |channel, expected|
 
-  Timeout.timeout(aruba.config.exit_timeout) do
-    loop do
-      output = last_command_started.public_send channel.to_sym, wait_for_io: 0
+  start_time = Time.now
+  loop do
+    output = last_command_started.public_send channel.to_sym, wait_for_io: 0
 
-      output   = sanitize_text(output)
-      expected = sanitize_text(expected)
+    output   = sanitize_text(output)
+    expected = sanitize_text(expected)
 
-      if output.include? expected
-        last_command_started.terminate
+    if output.include? expected
+      last_command_started.terminate
 
-        break
-      end
-
-      sleep 0.1
+      break
     end
+
+    if Time.now - start_time > aruba.config.exit_timeout
+      last_command_started.terminate
+      break
+    end
+
+    sleep 0.1
   end
-rescue Timeout::Error
-  last_command_started.terminate
 end
 
 When 'I wait for output/stdout to contain:' do |expected|
-  Timeout.timeout(aruba.config.exit_timeout) do
-    loop do
-      output = last_command_started.stdout wait_for_io: 0
+  start_time = Time.now
+  loop do
+    output = last_command_started.stdout wait_for_io: 0
 
-      output   = sanitize_text(output)
-      expected = sanitize_text(expected)
+    output   = sanitize_text(output)
+    expected = sanitize_text(expected)
 
-      break if output.include? expected
+    break if output.include? expected
 
-      sleep 0.1
+    elapsed_time = Time.now - start_time
+    if elapsed_time > aruba.config.exit_timeout
+      raise "Operation timed out after #{elapsed_time} seconds"
     end
+
+    sleep 0.1
   end
 end
 
 When 'I wait for output/stdout to contain {string}' do |expected|
-  Timeout.timeout(aruba.config.exit_timeout) do
-    loop do
-      output = last_command_started.stdout wait_for_io: 0
+  start_time = Time.now
+  loop do
+    output = last_command_started.stdout wait_for_io: 0
 
-      output   = sanitize_text(output)
-      expected = sanitize_text(expected)
+    output   = sanitize_text(output)
+    expected = sanitize_text(expected)
 
-      break if output.include? expected
+    break if output.include? expected
 
-      sleep 0.1
+    elapsed_time = Time.now - start_time
+    if elapsed_time > aruba.config.exit_timeout
+      raise "Operation timed out after #{elapsed_time} seconds"
     end
+
+    sleep 0.1
   end
 end
 
