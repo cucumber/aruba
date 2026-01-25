@@ -383,6 +383,47 @@ RSpec.describe Aruba::Processes::SpawnProcess do
     end
   end
 
+  describe '#content' do
+    context 'with a binary' do
+      let(:command_line) { "ruby -e 'warn \"yo\"'" }
+
+      it 'returns a useful message' do
+        expect(process.content).to start_with 'Binary content'
+      end
+    end
+
+    context 'with a missing command' do
+      let(:command_line) { 'not-here' }
+
+      it 'returns nil' do
+        expect(process.content).to be_nil
+      end
+    end
+
+    context 'with a script' do
+      let(:cmd) { 'test-cli' }
+      let(:command_line) { cmd }
+      let(:file_content) do
+        <<~BASH
+          #!/usr/bin/env bash
+
+          echo "yo"
+        BASH
+      end
+
+      before do
+        @aruba.write_file cmd, file_content
+        command_path = @aruba.expand_path cmd
+        allow(Aruba.platform)
+          .to receive(:which).with(cmd, anything).and_return(command_path)
+      end
+
+      it 'returns the script contents' do
+        expect(process.content).to eq file_content
+      end
+    end
+  end
+
   describe '#arguments' do
     let(:command_line) { "ruby -e 'warn \"yo\"'" }
 

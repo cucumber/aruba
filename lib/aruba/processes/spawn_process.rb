@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'marcel'
 require 'tempfile'
 require 'shellwords'
 
@@ -325,7 +326,13 @@ module Aruba
       #   The content of the script/command. This might be binary output as
       #   string if your command is a binary executable.
       def content
-        File.read command_path
+        return unless command_path
+
+        if binary_file?(command_path)
+          "Binary content of '#{command_path}' not displayed"
+        else
+          File.read command_path
+        end
       end
 
       def interactive?
@@ -350,6 +357,12 @@ module Aruba
           else
             Aruba.platform.which(command, environment['PATH'])
           end
+      end
+
+      def binary_file?(file_path)
+        mime_type = Marcel::MimeType.for Pathname.new(file_path)
+        magic = Marcel::Magic.new mime_type
+        !magic.text?
       end
 
       def wait_for_io(time_to_wait)
