@@ -323,8 +323,8 @@ module Aruba
       # Content of command
       #
       # @return [String]
-      #   The content of the script/command. This might be binary output as
-      #   string if your command is a binary executable.
+      #   The content of the script/command. If your command is a binary
+      #   executable, a human-readable message is returned instead.
       def content
         return unless command_path
 
