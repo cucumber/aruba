@@ -33,7 +33,7 @@ Feature: Send a signal to command
     """
     Feature: Run it
       Scenario: Run command
-        When I run `aruba-test-cli` in background
+        When I run `aruba-test-cli` in the background
         And I send the signal "HUP" to the command started last
         Then the exit status should be 0
         And the output should contain:
@@ -49,7 +49,7 @@ Feature: Send a signal to command
     """
     Feature: Run it
       Scenario: Run command
-        When I run `aruba-test-cli` in background
+        When I run `aruba-test-cli` in the background
         And I send the signal "HUP" to the command "aruba-test-cli"
         Then the exit status should be 0
         And the output should contain:
