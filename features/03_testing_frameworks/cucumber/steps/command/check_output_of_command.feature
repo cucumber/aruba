@@ -56,7 +56,7 @@ Feature: All output of commands which were executed
         Then the output should contain "goodbye world"
     """
     When I run `cucumber`
-    Then the features should not all pass with:
+    Then the features should fail with:
     """
     expected "hello world" to string includes: "goodbye world"
     """
@@ -100,7 +100,7 @@ Feature: All output of commands which were executed
         \"\"\"
     """
     When I run `cucumber`
-    Then the features should not all pass with:
+    Then the features should fail with:
     """
           expected "hello\ncruel\nworld" to string includes: "goodbye\ncruel"
           Diff:
@@ -150,7 +150,7 @@ Feature: All output of commands which were executed
         \"\"\"
     """
     When I run `cucumber`
-    Then the features should not all pass with:
+    Then the features should fail with:
     """
           expected "hello\nworld" not to string includes: "hello"
           Diff:
@@ -255,7 +255,7 @@ Feature: All output of commands which were executed
         \"\"\"
     """
     When I run `cucumber`
-    Then the features should not all pass with:
+    Then the features should fail with:
     """
           expected "goodbye\nworld" to output string is eq: "hello\nworld"
           Diff:
@@ -409,7 +409,7 @@ Feature: All output of commands which were executed
         \"\"\"
     """
     When I run `cucumber`
-    Then the features should not pass with:
+    Then the features should fail with:
     """
           expected "hello
     world" to output string is eq: "hello

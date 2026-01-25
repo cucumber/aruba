@@ -66,7 +66,7 @@ Feature: Overwrite a file
         \"\"\"
     """
     When I run `cucumber`
-    Then the features should not all pass with regex:
+    Then the features should fail with regex:
     """
     Expected [^ ]+ to be present
     """

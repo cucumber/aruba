@@ -7,7 +7,7 @@ Feature: Set time to wait after spawning command
 
 
   If you setup a ruby script, this may load bundler. This makes the script to
-  start up a little bit longer. If you want to run a command in background,
+  start up a little bit longer. If you want to run a command in the background,
   starting the command in a background process may take longer then sending it
   a signal.
 

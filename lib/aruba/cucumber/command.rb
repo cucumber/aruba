@@ -40,8 +40,13 @@ When 'I run {command} interactively' do |cmd|
   run_command(sanitize_text(cmd))
 end
 
-# Merge interactive and background after refactoring with event queue
+When 'I run {command} in the background' do |cmd|
+  run_command(sanitize_text(cmd))
+end
+
 When 'I run {command} in background' do |cmd|
+  Aruba.platform.deprecated \
+    'This cucumber step is deprecated. Use "I run {command} in the background" instead.'
   run_command(sanitize_text(cmd))
 end
 
@@ -368,7 +373,20 @@ Then('the exit status of {command} should not be {int}') do |command, exit_statu
   expect(cmd).not_to have_exit_status exit_status
 end
 
+Then(/^it should (pass|fail)$/) do |pass_fail|
+  last_command_started.stop
+
+  if pass_fail == 'pass'
+    expect(last_command_stopped).to be_successfully_executed
+  else
+    expect(last_command_stopped).not_to be_successfully_executed
+  end
+end
+
 Then(/^it should not (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
+  Aruba.platform.deprecated \
+    'This cucumber step has confusing behavior and is deprecated.' \
+    "Use 'it should #{pass_fail}' with a negative output matcher step instead."
   last_command_started.stop
 
   if pass_fail == 'pass'
@@ -393,6 +411,9 @@ Then(/^it should (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
 end
 
 Then(/^it should not (pass|fail) with:$/) do |pass_fail, expected|
+  Aruba.platform.deprecated \
+    'This cucumber step has confusing behavior and is deprecated.' \
+    "Use 'it should #{pass_fail}' with a negative output matcher step instead."
   last_command_started.stop
 
   if pass_fail == 'pass'
@@ -417,6 +438,9 @@ Then(/^it should (pass|fail) with:$/) do |pass_fail, expected|
 end
 
 Then(/^it should not (pass|fail) with exactly:$/) do |pass_fail, expected|
+  Aruba.platform.deprecated \
+    'This cucumber step has confusing behavior and is deprecated.' \
+    "Use 'it should #{pass_fail}' with a negative output matcher step instead."
   last_command_started.stop
 
   if pass_fail == 'pass'
@@ -441,6 +465,9 @@ Then(/^it should (pass|fail) with exactly:$/) do |pass_fail, expected|
 end
 
 Then(/^it should not (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
+  Aruba.platform.deprecated \
+    'This cucumber step has confusing behavior and is deprecated.' \
+    "Use 'it should #{pass_fail}' with a negative output matcher step instead."
   last_command_started.stop
 
   if pass_fail == 'pass'
@@ -473,20 +500,18 @@ end
 Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) \
   do |channel, negated, table|
   table.raw.flatten.each do |expected|
-    _matcher = case channel
-               when 'output'; then :have_output
-               when 'stderr'; then :have_output_on_stderr
-               when 'stdout'; then :have_output_on_stdout
-               end
-
-    # TODO: This isn't actually using the above. It's hardcoded to use have_output only
+    matcher = case channel
+              when 'output'; then :have_output
+              when 'stderr'; then :have_output_on_stderr
+              when 'stdout'; then :have_output_on_stdout
+              end
 
     if negated
       expect(all_commands)
-        .not_to include have_output an_output_string_including(expected)
+        .not_to include send(matcher, an_output_string_including(expected))
     else
       expect(all_commands)
-        .to include have_output an_output_string_including(expected)
+        .to include send(matcher, an_output_string_including(expected))
     end
   end
 end

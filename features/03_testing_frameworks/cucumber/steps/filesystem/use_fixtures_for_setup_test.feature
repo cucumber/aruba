@@ -71,7 +71,7 @@ Feature: Use a fixture
     """
     And a directory named "fixtures"
     When I run `cucumber`
-    Then the features should not all pass with regex:
+    Then the features should fail with regex:
     """
     Fixture "my-app" does not exist in fixtures directory ".+/fixtures"
     """

@@ -134,7 +134,7 @@ Feature: Check exit status of commands
         When I successfully run `aruba-test-cli`
     """
     When I run `cucumber`
-    Then the features should not all pass with:
+    Then the features should fail with:
     """
     expected "aruba-test-cli" to have finished in time
     """
@@ -150,8 +150,8 @@ Feature: Check exit status of commands
     """
     Feature: Failing program
       Scenario: Run command
-        Given I run `aruba-test-cli 0` in background
-        And I run `aruba-test-cli 1` in background
+        Given I run `aruba-test-cli 0` in the background
+        And I run `aruba-test-cli 1` in the background
         Then the exit status of `aruba-test-cli 1` should be 1
         And the exit status of `aruba-test-cli 0` should be 0
         And the exit status of `aruba-test-cli 1` should not be 0

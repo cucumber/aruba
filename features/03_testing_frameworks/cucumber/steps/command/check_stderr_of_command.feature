@@ -77,7 +77,7 @@ Feature: STDERR of commands which were executed
         And the stderr should not contain anything
     """
     When I run `cucumber`
-    Then the features should not pass with:
+    Then the features should fail with:
     """
           expected "hello
     world!" to output string is eq: ""
