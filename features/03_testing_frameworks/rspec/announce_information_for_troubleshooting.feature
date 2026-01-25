@@ -230,8 +230,9 @@ Feature: Announce information during rspec run
     """
 
   Scenario: Announce content of command
-    This will output the content of the executable command. Be careful doing
-    this with binary executables. This hook should be used with scripts only.
+    This will output the content of the executable command. This hook should be
+    used with scripts only. For binary executables, to prevent large garbage
+    output, a short replacement message is displayed.
 
     Given an executable named "bin/aruba-test-cli" with:
     """bash
