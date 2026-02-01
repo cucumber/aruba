@@ -19,6 +19,7 @@ Feature: Usage of configuration
     sleep ARGV[0].to_f
     """
 
+  @announce-output
   Scenario: Setting default values for option for RSpec
     Given a file named "spec/support/aruba_config.rb" with:
     """ruby
@@ -92,6 +93,7 @@ Feature: Usage of configuration
     When I run `rspec`
     Then the specs should all pass
 
+  @announce-output
   Scenario: Setting default values for option for Cucumber
     Given a file named "features/support/aruba.rb" with:
     """ruby
