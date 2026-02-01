@@ -45,6 +45,7 @@ Feature: Usage of configuration
     When I run `rspec`
     Then the specs should all pass
 
+  @announce-output
   Scenario: Setting option during runtime for RSpec
 
     Maybe there are some long running tests, which need longer. You may not
@@ -122,6 +123,7 @@ Feature: Usage of configuration
     When I run `cucumber`
     Then the features should all pass
 
+  @announce-output
   Scenario: Setting option during runtime for Cucumber
 
     Maybe there are some long running tests, which need longer. You may not
