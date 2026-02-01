@@ -88,6 +88,7 @@ end
 
 Then(/^the spec(?:s)? should(?: all)? pass$/) do
   aggregate_failures do
+    # TODO: Detect '0 examples, 0 failures, 1 error occurred outside of examples'
     expect(last_command_stopped)
       .to have_output an_output_string_matching('examples?, 0 failures')
     expect(last_command_stopped).to have_exit_status 0
