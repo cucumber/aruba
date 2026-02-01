@@ -13,10 +13,7 @@ module Aruba
     end
 
     def call(clobber = true)
-      if runtime.setup_already_done?
-        warn "Skipping since setup is already done"
-        return
-      end
+      return if runtime.setup_already_done?
 
       working_directory(clobber)
       register_event_handlers

@@ -30,7 +30,6 @@ module Aruba
       # artifacts of your tests. This does NOT clean up the current working
       # directory.
       def setup_aruba(clobber = true)
-        warn "Setting up Aruba"
         Aruba::Setup.new(aruba).call(clobber)
 
         self
