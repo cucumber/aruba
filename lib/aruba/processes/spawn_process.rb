@@ -358,6 +358,7 @@ module Aruba
         file.rewind
         data = file.read
         file.close
+        File.unlink(file.path)
 
         data.force_encoding('UTF-8')
       end
