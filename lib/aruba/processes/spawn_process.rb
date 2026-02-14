@@ -273,16 +273,12 @@ module Aruba
             # ... and set the exit status
             wait
           else
-            begin
-              @process.stop
-            rescue Errno::EPERM # This can occur on MacOS
-              nil
-            end
+            @process.stop
           end
         end
 
         @exit_status = @process.exit_code
-        raise "No exit status" unless @exit_status
+        raise 'No exit status' unless @exit_status
 
         @stdout_cache = read_temporary_output_file @stdout_file
         @stderr_cache = read_temporary_output_file @stderr_file
