@@ -282,6 +282,7 @@ module Aruba
         end
 
         @exit_status = @process.exit_code
+        raise "No exit status" unless @exit_status
 
         @stdout_cache = read_temporary_output_file @stdout_file
         @stderr_cache = read_temporary_output_file @stderr_file
