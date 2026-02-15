@@ -81,10 +81,6 @@ module Aruba
         raise NotImplementedError
       end
 
-      def wait
-        raise NotImplementedError
-      end
-
       # Restart a command
       def restart
         stop
