@@ -257,11 +257,6 @@ module Aruba
         terminate
       end
 
-      # Wait for command to finish
-      def wait
-        @process.wait
-      end
-
       # Terminate command
       def terminate
         return @exit_status if stopped?
@@ -346,6 +341,11 @@ module Aruba
           else
             Aruba.platform.which(command, environment['PATH'])
           end
+      end
+
+      # Wait for command to finish
+      def wait
+        @process.wait
       end
 
       def wait_for_io(time_to_wait)
