@@ -87,8 +87,12 @@ Then(/^the spec(?:s)? should not(?: all)? pass$/) do
 end
 
 Then(/^the spec(?:s)? should(?: all)? pass$/) do
-  expect(all_output).to include_output_string '0 failures'
-  expect(last_command_stopped).to have_exit_status 0
+  aggregate_failures do
+    # TODO: Detect '0 examples, 0 failures, 1 error occurred outside of examples'
+    expect(last_command_stopped)
+      .to have_output an_output_string_matching('examples?, 0 failures')
+    expect(last_command_stopped).to have_exit_status 0
+  end
 end
 
 Then(/^the spec(?:s)? should fail with (\d+) failures?$/) do |count|
