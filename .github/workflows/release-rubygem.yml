@@ -5,6 +5,7 @@ on:
     branches:
       - release/*
 
+jobs:
   publish-rubygem:
     name: Publish Ruby Gem
     runs-on: ubuntu-latest
