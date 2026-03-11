@@ -36,9 +36,10 @@ module Aruba
       #   The file which should be used to pipe in data
       def pipe_in_file(file_name)
         file_name = expand_path(file_name)
-
-        File.open(file_name, 'r').each_line do |line|
-          last_command_started.write(line)
+        File.open(file_name, 'r') do |file|
+          file.each_line do |line|
+            last_command_started.write(line)
+          end
         end
       end
 
