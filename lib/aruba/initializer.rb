@@ -26,9 +26,9 @@ module Aruba
                   end
 
         content = if File.exist? file
-                    file_ends_with_carriage_return =
-                      File.open(file, 'r').readlines.last.match(/.*\n$/)
-
+                    file_ends_with_carriage_return = File.open(file, 'r') do |f|
+                      f.readlines.last.match(/.*\n$/)
+                    end
                     prefix = file_ends_with_carriage_return ? '' : "\n"
 
                     %(#{prefix}gem 'aruba', '~> #{Aruba::VERSION}')

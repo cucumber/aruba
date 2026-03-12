@@ -159,3 +159,7 @@ Style/OptionalBooleanParameter:
     - 'lib/aruba/api/core.rb'
     - 'lib/aruba/platforms/aruba_file_creator.rb'
     - 'lib/aruba/setup.rb'
+
+Style/OneClassPerFile:
+  Exclude:
+    - 'lib/aruba/configuration.rb'
