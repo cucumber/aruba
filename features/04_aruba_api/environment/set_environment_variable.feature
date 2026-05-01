@@ -262,7 +262,6 @@ Feature: Set environment variable via API-method
     Then the specs should all pass
 
   @unsupported-on-platform-unix
-  @unsupported-on-platform-mac
   Scenario: Mixed-Case variable
     Given a file named "spec/environment_spec.rb" with:
     """ruby
