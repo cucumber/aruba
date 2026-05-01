@@ -6,6 +6,27 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [2.4.0] / 2026-05-??
+
+* Allow multiple arguments to xProcess#write ([#634] by [mvz])
+* Add step definitions to check the exit status of a specific command
+  ([#978] by [mvz])
+* Improve cucumber step wording ([#982] by [mvz])
+* Support Ruby 4.0 ([#969], [#972] and [#974] by [mvz])
+* Documentation improvements ([#976], [#977] and [#987] by [mvz])
+
+[#634]: https://github.com/cucumber/aruba/pull/634
+[#969]: https://github.com/cucumber/aruba/pull/969
+[#972]: https://github.com/cucumber/aruba/pull/972
+[#974]: https://github.com/cucumber/aruba/pull/974
+[#976]: https://github.com/cucumber/aruba/pull/976
+[#977]: https://github.com/cucumber/aruba/pull/977
+[#978]: https://github.com/cucumber/aruba/pull/978
+[#982]: https://github.com/cucumber/aruba/pull/982
+[#987]: https://github.com/cucumber/aruba/pull/987
+
+[2.4.0]:          https://github.com/cucumber/aruba/compare/v2.3.3...main
+
 ## [2.3.3] / 2025-12-05
 
 * Remove bundler version upper limit constraint ([#962] by [hsbt])
@@ -13,12 +34,16 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 [hsbt]: https://github.com/hsbt
 [#962]: https://github.com/cucumber/aruba/pull/962
 
+[2.3.3]:          https://github.com/cucumber/aruba/compare/v2.3.2...v2.3.3
+
 ## [2.3.2] / 2025-09-13
 
 * Relax RSpec verson constraint to allow RSpec 4.x ([#956] by [pirj])
 
 [pirj]: https://github.com/pirj
 [#956]: https://github.com/cucumber/aruba/pull/956
+
+[2.3.2]:          https://github.com/cucumber/aruba/compare/v2.3.1...v2.3.2
 
 ## [2.3.1] / 2025-06-13
 

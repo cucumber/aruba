@@ -26,36 +26,40 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # - Users should upgrade to the latest Cucumber that is supported on
-        #   their version of Ruby
-        # - Users should upgrade to the latest RSpec that is supported on
-        #   their version of Ruby
-        #
-        # To facilitate this:
         # - We should test with the latest Cucumber that is supported for each
-        #   version of Ruby
-        # - On the miminum Ruby version supported by each Cucumber version, we
-        #   should also test with the next earlier Cucumber version, to
-        #   facilitate upgrades
+        #   version of Ruby, and the version below it
         # - We should test with each Cucumber version supported by Aruba at
         #   least once
         # - We explicitly test with upcoming RSpec 4.0 at least once
+        #
+        # This should ensure a reasonable upgrade path through tested
+        # combinations, provided users don't let one of their Cucumber, RSpec
+        # and Ruby versions stay behind while updating the others.
         #
         # Cucumber    | Minimum Ruby Version
         # ------------------------------------
         # Cucumber 8  | Ruby 2.6
         # Cucumber 9  | Ruby 2.7
         # Cucumber 10 | Ruby 3.1
+        # Cucumber 11 | Ruby 3.2
         #
-        ruby: ["3.1", "jruby-9.4", "3.2", "3.3", "3.4", "jruby-10.0", "4.0"]
-        appraisal: [cucumber_10]
+        ruby: ["3.2", "3.3", "3.4", "jruby-10.0", "4.0"]
+        appraisal: [cucumber_10, cucumber_11]
         include:
           - ruby: "3.0"
             appraisal: cucumber_8
           - ruby: "3.0"
             appraisal: cucumber_9
+
           - ruby: "3.1"
             appraisal: cucumber_9
+          - ruby: "jruby-9.4"
+            appraisal: cucumber_9
+          - ruby: "3.1"
+            appraisal: cucumber_10
+          - ruby: "jruby-9.4"
+            appraisal: cucumber_10
+
           - ruby: "4.0"
             appraisal: rspec_4
 

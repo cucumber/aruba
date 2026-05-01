@@ -65,7 +65,3 @@ end
 Before '@unsupported-on-platform-unix' do
   skip_this_scenario unless Cucumber::WINDOWS
 end
-
-Before '@unsupported-on-platform-mac' do
-  skip_this_scenario if Cucumber::OS_X
-end
