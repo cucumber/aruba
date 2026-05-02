@@ -58,7 +58,7 @@ Please...
 * Make sure your patch is well covered by tests. We don't accept changes that
   aren't tested.
 * Do not change the `Rakefile`, gem version number in `version.rb`, or
-  [`CHANGELOG.md`][].
+  [`CHANGELOG.md`][changelog].
   (If you want to have your own version, that is fine but bump version in a
   separate commit, so that we can ignore that commit when we merge your change.)
 * Make sure your pull request complies with our development style guidelines.
@@ -75,7 +75,7 @@ Please...
   changes you might expected to break the build.
 * Commit smaller changes directly to `main`, e.g. fixing typos, adding tests or
   adding documentation.
-* Update [`CHANGELOG.md`][] when a pull request is merged.
+* Update [`CHANGELOG.md`][changelog] when a pull request is merged.
 * Make sure all tests are green before merging a pull request.
 
 ### Development style guidelines
@@ -102,7 +102,7 @@ Please...
   6. Wrap the body at 72 characters
   7. Use the body to explain what and why vs. how (optional if subject is self-explanatory)
 
-## Getting started as a "Contributor"
+## Getting started as a contributor
 
 ### Requirements
 
@@ -195,56 +195,19 @@ bundle exec rake install
 bundle exec rake install:local
 ```
 
-## Getting started as a "Maintainer"
-
-### Release Process
+## Release Process
 
 * Bump the version number in `lib/aruba/version.rb`
-* Make sure [`CHANGELOG.md`] is updated with the upcoming version number, and has
-  entries for all fixes.
-* No need to add a [`CHANGELOG.md`] header at this point - this should be done
-  later, when a new change is made.
+* Make sure [`CHANGELOG.md`][changelog] is updated with the upcoming version
+  number, and has entries for all fixes.
+* Make sure [`README.md`][readme] is up-to-date.
+* No need to add a [`CHANGELOG.md`][changelog] header at this point - this
+  should be done later, when a new change is made.
 
-Now release it:
+See [the general Cucumber project release process](https://github.com/cucumber/.github/blob/main/RELEASING.md).
 
-```bash
-# update dependencies
-bundle update
-
-# Run test suite
-bundle exec rake
-
-# Release gem
-git commit -m "Version bump"
-bundle exec rake release
-```
-
-Now send a PR to [cucumber/website] adding an article
-with details of the new release. Then merge it - an aruba maintainer should
-normally be allowed to merge PRs on [cucumber/website]. A copy of an old
-announcement can be used as basis for the new article.
-
-Now, send an email with the link to the article to `cukes@googlegroups.com`.
-
-### Gaining Release Karma
-
-To become a release manager, create a pull request adding your name to the list
-below, and include your Rubygems email address in the ticket. One of the
-existing Release managers will then add you.
-
-Current release managers:
-  * Aslak Hellesøy ([@aslakhellesoy](https://github.com/aslakhellesoy))
-  * Matt Wynne ([@mattwynne](https://github.com/mattwynne))
-  * Matijs van Zuijlen ([@mvz](https://github.com/mvz))
-
-To grant release karma, issue the following command:
-
-```bash
-gem owner aruba --add <NEW OWNER RUBYGEMS EMAIL>
-```
-
-[`CHANGELOG.md`]: CHANGELOG.md
-[CHANGELOG.md]: CHANGELOG.md
+[changelog]: CHANGELOG.md
+[readme]: README.md
 
 [`rubocop`]: https://github.com/bbatsov/rubocop
 [Ruby Community Style Guide]: https://github.com/bbatsov/ruby-style-guide

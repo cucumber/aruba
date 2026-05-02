@@ -10,7 +10,7 @@
 Add this line to your application's `Gemfile`:
 
 ```ruby
-gem 'aruba', '~> 2.3'
+gem 'aruba', '~> 2.4'
 ```
 
 And then execute:
@@ -79,16 +79,17 @@ bump.
 ## Supported Ruby versions
 
 Aruba is supported on Ruby 3.0 and up, and tested against CRuby 3.0, 3.1, 3.2,
-3.3 and 3.4, and JRuby 9.4.
+3.3, 3.4 and 4.0, and JRuby 9.4 and 10.0.
 
 ## Supported Cucumber versions
 
-Aruba is supported on and tested with Cucumber versions 8 and 9.
+Aruba is supported on and tested with Cucumber versions 8, 9, 10 and 11.
 
 ## Supported operating systems
 
 Aruba is fully tested in CI on Linux and MacOS. On Windows, only RSpec tests
-are run, so YMMV. Full Windows support is a work in progress.
+and some of the Cucumber scenarios are run, so YMMV. Full Windows support is a
+work in progress.
 
 ## Contributing
 
