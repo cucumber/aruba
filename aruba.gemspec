@@ -3,19 +3,19 @@
 require_relative 'lib/aruba/version'
 
 Gem::Specification.new do |spec|
-  spec.name        = 'aruba'
-  spec.version     = Aruba::VERSION
-  spec.author      = 'Aslak Hellesøy, Matt Wynne and other Aruba Contributors'
+  spec.name = 'aruba'
+  spec.version = Aruba::VERSION
+  spec.author = 'Aslak Hellesøy, Matt Wynne and other Aruba Contributors'
   spec.description = <<~TEXT
     Extension for popular TDD and BDD frameworks like "Cucumber", "RSpec" and "Minitest",
     to make testing command line applications meaningful, easy and fun.
   TEXT
-  spec.summary     = "aruba-#{spec.version}"
-  spec.license     = 'MIT'
-  spec.email       = 'cukes@googlegroups.com'
-  spec.homepage    = 'https://github.com/cucumber/aruba'
+  spec.summary = 'Test command line applications with Cucumber, RSpec or Minitest'
+  spec.license = 'MIT'
+  spec.email = 'cukes@googlegroups.com'
+  spec.homepage = 'https://github.com/cucumber/aruba'
 
-  spec.metadata    = {
+  spec.metadata = {
     'bug_tracker_uri' => 'https://github.com/cucumber/aruba/issues',
     'changelog_uri' => 'https://www.rubydoc.info/gems/aruba/file/CHANGELOG.md',
     'documentation_uri' => 'https://www.rubydoc.info/gems/aruba',
