@@ -209,7 +209,7 @@ module Aruba
 
         wait_for_io opts.fetch(:wait_for_io, io_wait_timeout) do
           @process.stdout.flush
-          open(@stdout_file.path).read
+          File.read(@stdout_file.path)
         end
       end
 
@@ -228,7 +228,7 @@ module Aruba
 
         wait_for_io opts.fetch(:wait_for_io, io_wait_timeout) do
           @process.stderr.flush
-          open(@stderr_file.path).read
+          File.read(@stderr_file.path)
         end
       end
 
