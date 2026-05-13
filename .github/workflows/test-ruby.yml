@@ -149,7 +149,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@6aaa311d81eba98ae12eaffbcb63296ace0efcde # v1.307.0
         with:
-          ruby-version: "4.0.3"
+          ruby-version: "4.0.4"
           bundler-cache: true
       - name: Install and run license_finder
         run: |
