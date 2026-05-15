@@ -6,6 +6,16 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [2.4.1] / 2026-05-15
+
+* Fix summary text in the gemspec [89dda45]
+* Remove needless mangling of message from indenting helper ([#1015] by [mvz])
+* Use File.read instead of Kernel.open ([#1016] by [mvz])
+
+[89dda45]: https://github.com/cucumber/aruba/commit/89dda459fecc7aa88bbb8dca35ea47879543a93a
+[#1015]: https://github.com/cucumber/aruba/pull/1015
+[#1016]: https://github.com/cucumber/aruba/pull/1016
+
 ## [2.4.0] / 2026-05-02
 
 * Allow multiple arguments to xProcess#write ([#634] by [mvz])
