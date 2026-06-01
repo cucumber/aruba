@@ -1,24 +1,9 @@
-<h1 align="center">
-  <img src="https://raw.githubusercontent.com/cucumber/cucumber-js/46a5a78107be27e99c6e044c69b6e8f885ce456c/docs/images/logo.svg" alt="Cucumber logo" width="75">
-  <br>
-  Aruba
-</h1>
-<p align="center">
-
-**Test command-line applications with Cucumber-Ruby, RSpec or Minitest**
-
-</p>
-
-<div align="center">
+# Aruba
 
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cucumber/aruba/main/LICENSE)
 [![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
 [![Support](https://img.shields.io/badge/cucumber-support-orange.svg)](https://cucumber.io/support)
-[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/cucumber/aruba/badge)](https://scorecard.dev/viewer/?uri=github.com/cucumber/aruba)
-
-[![CI](https://github.com/cucumber/aruba/actions/workflows/test-ruby.yaml/badge.svg)](https://github.com/cucumber/aruba/actions/workflows/test-ruby.yaml)
-
-</div>
+[![CI](https://github.com/cucumber/aruba/actions/workflows/test.yml/badge.svg)](https://github.com/cucumber/aruba/actions/workflows/test.yml)
 
 ## Install
 
