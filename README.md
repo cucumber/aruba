@@ -3,7 +3,9 @@
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cucumber/aruba/main/LICENSE)
 [![Gem Version](https://badge.fury.io/rb/aruba.svg)](http://badge.fury.io/rb/aruba)
 [![Support](https://img.shields.io/badge/cucumber-support-orange.svg)](https://cucumber.io/support)
-[![CI](https://github.com/cucumber/aruba/actions/workflows/test.yml/badge.svg)](https://github.com/cucumber/aruba/actions/workflows/test.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/cucumber/aruba/badge)](https://scorecard.dev/viewer/?uri=github.com/cucumber/aruba)
+
+[![CI](https://github.com/cucumber/aruba/actions/workflows/test-ruby.yaml/badge.svg)](https://github.com/cucumber/aruba/actions/workflows/test-ruby.yaml)
 
 ## Install
 
