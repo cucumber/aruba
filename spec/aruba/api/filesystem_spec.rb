@@ -521,8 +521,8 @@ RSpec.describe Aruba::Api::Filesystem do
       it 'is successful when the inner expectations match' do
         expect do
           @aruba.with_file_content name do |full_content|
-            expect(full_content).to     match(/foo/)
-            expect(full_content).not_to match(/zoo/)
+            expect(full_content).to     include('foo')
+            expect(full_content).not_to include('zoo')
           end
         end.not_to raise_error
       end
@@ -530,8 +530,8 @@ RSpec.describe Aruba::Api::Filesystem do
       it "raises ExpectationNotMetError when the inner expectations don't match" do
         expect do
           @aruba.with_file_content name do |full_content|
-            expect(full_content).to     match(/zoo/)
-            expect(full_content).not_to match(/foo/)
+            expect(full_content).to     include('zoo')
+            expect(full_content).not_to include('foo')
           end
         end.to raise_error RSpec::Expectations::ExpectationNotMetError
       end
