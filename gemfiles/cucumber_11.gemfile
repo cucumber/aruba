@@ -4,6 +4,7 @@
 
 source 'https://rubygems.org'
 
+gem 'rdoc', '~> 7.2.0', platform: :jruby
 gem 'win32ole', platform: :windows
 gem 'cucumber', '~> 11.0'
 
