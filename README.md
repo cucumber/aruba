@@ -99,10 +99,10 @@ Please see the [CONTRIBUTING](CONTRIBUTING.md) file.
 
 ## Code branches
 
-Development takes place in the `main` branch and currently targets the 2.x
-releases. If necessary, maintenance of the old 1.1.x releases will take place
-in a `1-1-stable` branch, and of 0.14.x releases in the `0-14-stable` branch.
-Stable branches will not be created until absolutely necessary.
+Development takes place in the `main` branch and currently targets the future
+3.0 release. If necessary, maintenance of 2.4.x releases will take place in a
+`2-4-stable` branch. Older releases will not receive updates. Stable branches
+will not be created until absolutely necessary.
 
 ## License
 
