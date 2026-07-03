@@ -17,8 +17,6 @@ lib/aruba/command_monitor.rb
 lib/aruba/config/jruby.rb
 lib/aruba/config_wrapper.rb
 lib/aruba/configuration.rb
-lib/aruba/console.rb
-lib/aruba/console/help.rb
 lib/aruba/contracts/absolute_path.rb
 lib/aruba/contracts/enum.rb
 lib/aruba/contracts/is_power_of_two.rb

@@ -164,14 +164,6 @@ Example `Gemfile.local`:
 gem 'byebug'
 ```
 
-### Running a developer console
-
-The interactive Aruba console starts an IRB console with Aruba's API loaded:
-
-```bash
-bin/console
-```
-
 ### Linting
 
 Aruba's Rakefile provides the following linting tasks
