@@ -12,7 +12,7 @@ plugins:
 AllCops:
   DisplayCopNames: true
   NewCops: enable
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.2
   Exclude:
     - 'bin/cucumber'
     - 'bin/rspec'
@@ -52,6 +52,10 @@ Metrics/BlockLength:
     - '**/*.gemspec'
     - 'spec/**/*'
 
+# Keep block names explict for now
+Naming/BlockForwarding:
+  EnforcedStyle: explicit
+
 # Stylistic preference for cucumber
 RSpec/MessageSpies:
   EnforcedStyle: receive
@@ -60,6 +64,10 @@ RSpec/MessageSpies:
 # TODO: Re-enable once https://github.com/rubocop/rubocop-rspec/issues/466 is resolved.
 RSpec/PredicateMatcher:
   Enabled: false
+
+# Keep forwarded argument names explict for now
+Style/ArgumentsForwarding:
+  UseAnonymousForwarding: false
 
 # This cop doesn't seem to add much for us.
 Style/FetchEnvVar:

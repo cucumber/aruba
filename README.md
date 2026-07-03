@@ -80,8 +80,8 @@ bump.
 
 ## Supported Ruby versions
 
-Aruba is supported on Ruby 3.0 and up, and tested against CRuby 3.0, 3.1, 3.2,
-3.3, 3.4 and 4.0, and JRuby 9.4 and 10.0.
+Aruba is supported on Ruby 3.2 and up, and tested against CRuby 3.2, 3.3, 3.4
+and 4.0, and JRuby 10.0.
 
 ## Supported Cucumber versions
 
