@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'thor'
-require 'aruba/console'
 require 'aruba/initializer'
 
 # Aruba
@@ -12,11 +11,6 @@ module Aruba
   class Cli < Thor
     def self.exit_on_failure?
       true
-    end
-
-    desc 'console', "Start aruba's console"
-    def console
-      Aruba::Console.new.start
     end
 
     desc 'init', 'Initialize aruba'

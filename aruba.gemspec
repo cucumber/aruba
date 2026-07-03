@@ -26,12 +26,12 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'bundler', '>= 1.17'
   spec.add_dependency 'contracts', ['>= 0.16.0', '< 0.18.0']
   spec.add_dependency 'cucumber', '>= 8.0', '< 12.0'
-  spec.add_dependency 'irb', '~> 1.16'
   spec.add_dependency 'rspec-expectations', '>= 3.4', '< 5.0'
   spec.add_dependency 'thor', '~> 1.0'
 
   spec.add_development_dependency 'appraisal', '~> 2.4'
   spec.add_development_dependency 'diff-lcs', '~> 1.6'
+  spec.add_development_dependency 'irb', '~> 1.16'
   spec.add_development_dependency 'json', '~> 2.1'
   spec.add_development_dependency 'kramdown', '~> 2.1'
   spec.add_development_dependency 'minitest', ['>= 5.26', '< 7.0']
