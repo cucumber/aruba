@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         # - We should test with the latest Cucumber that is supported for each
-        #   version of Ruby, and the version below it
+        #   version of Ruby, and the version below it if supported
         # - We should test with each Cucumber version supported by Aruba at
         #   least once
         # - We explicitly test with upcoming RSpec 4.0 at least once
@@ -38,19 +38,11 @@ jobs:
         #
         # Cucumber    | Minimum Ruby Version
         # ------------------------------------
-        # Cucumber 8  | Ruby 2.6
-        # Cucumber 9  | Ruby 2.7
-        # Cucumber 10 | Ruby 3.1
         # Cucumber 11 | Ruby 3.2
         #
         ruby: ["3.2", "3.3", "3.4", "jruby-10.0", "4.0"]
-        appraisal: [cucumber_10, cucumber_11]
+        appraisal: [cucumber_11]
         include:
-          - ruby: "3.2"
-            appraisal: cucumber_8
-          - ruby: "3.2"
-            appraisal: cucumber_9
-
           - ruby: "4.0"
             appraisal: rspec_4
 
