@@ -5,6 +5,9 @@ source 'https://rubygems.org'
 # Use dependencies from gemspec
 gemspec
 
+# Prevent attempts to install rbs on jruby
+# See https://github.com/ruby/rbs/issues/2067
+gem 'rdoc', '~> 7.2.0', platform: :jruby
 # Needed on Ruby 4.0, since win32ole is now a gem
 gem 'win32ole', platform: :windows
 
