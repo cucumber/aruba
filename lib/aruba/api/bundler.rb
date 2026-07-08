@@ -23,11 +23,7 @@ module Aruba
       private
 
       def with_unbundled_env(&block)
-        if ::Bundler.respond_to?(:with_unbundled_env)
-          ::Bundler.with_unbundled_env(&block)
-        else
-          ::Bundler.with_clean_env(&block)
-        end
+        ::Bundler.with_unbundled_env(&block)
       end
     end
   end
