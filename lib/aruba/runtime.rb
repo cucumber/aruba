@@ -41,21 +41,19 @@ module Aruba
     #
     attr_accessor :config, :environment, :logger, :command_monitor, :announcer, :event_bus
 
-    def initialize(opts = {})
+    def initialize
       @event_bus       = EventBus.new(Aruba::Events.registry)
-      @announcer       = opts.fetch(:announcer, Aruba.platform.announcer.new)
-      @config          = opts.fetch(:config,
-                                    ConfigWrapper.new(Aruba.config.make_copy, @event_bus))
-      @environment     = opts.fetch(:environment, Aruba.platform.environment_variables.new)
+      @announcer       = Aruba.platform.announcer.new
+      @config          = ConfigWrapper.new(Aruba.config.make_copy, @event_bus)
+      @environment     = Aruba.platform.environment_variables.new
       @current_directory = ArubaPath.new(@config.working_directory)
       @root_directory    = ArubaPath.new(@config.root_directory)
 
       @environment.update(@config.command_runtime_environment)
 
-      @command_monitor = opts.fetch(:command_monitor,
-                                    Aruba.platform.command_monitor.new(announcer: @announcer))
+      @command_monitor = Aruba.platform.command_monitor.new(announcer: @announcer)
 
-      @logger = opts.fetch(:logger, Aruba.platform.logger.new)
+      @logger = Aruba.platform.logger.new
       @logger.mode = @config.log_level
 
       @setup_done = false
