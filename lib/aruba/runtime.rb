@@ -39,7 +39,7 @@ module Aruba
     # @!attribute [r] event_bus
     #   Handle events (private)
     #
-    attr_accessor :config, :environment, :logger, :command_monitor, :announcer, :event_bus
+    attr_reader :config, :environment, :logger, :command_monitor, :announcer, :event_bus
 
     def initialize
       @event_bus       = EventBus.new(Aruba::Events.registry)
