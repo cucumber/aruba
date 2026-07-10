@@ -112,7 +112,7 @@ module Aruba
       end
 
       # Remove file, directory + sub-directories
-      def rm(paths, options = {})
+      def rm(paths, **options)
         paths = Array(paths).map { |p| ::File.expand_path(p) }
 
         FileUtils.rm_r(paths, **options)
@@ -133,7 +133,7 @@ module Aruba
       end
 
       # Touch file, directory
-      def touch(args, options)
+      def touch(args, **options)
         FileUtils.touch(args, **options)
       end
 
@@ -148,7 +148,7 @@ module Aruba
       end
 
       # Change mode of file/directory
-      def chmod(mode, args, options)
+      def chmod(mode, args, **options)
         FileUtils.chmod_R(mode, args, **options)
       end
 

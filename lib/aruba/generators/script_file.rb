@@ -10,15 +10,15 @@ module Aruba
 
     public
 
-    def initialize(opts = {})
-      @path        = opts[:path]
-      @content     = opts[:content]
-      @interpreter = opts[:interpreter]
+    def initialize(path: nil, content: nil, interpreter: nil)
+      @path        = path
+      @content     = content
+      @interpreter = interpreter
     end
 
     def call
       Aruba.platform.write_file(path, "#{header}#{content}")
-      Aruba.platform.chmod(0o755, path, {})
+      Aruba.platform.chmod(0o755, path)
     end
 
     private

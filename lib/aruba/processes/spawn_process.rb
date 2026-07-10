@@ -197,18 +197,15 @@ module Aruba
 
       # Access to stdout of process
       #
-      # @param [Hash] opts
-      #   Options
-      #
-      # @option [Integer] wait_for_io
+      # @param [Integer] wait_for_io
       #   Wait for IO to be finished
       #
       # @return [String]
       #   The content of stdout
-      def stdout(opts = {})
+      def stdout(wait_for_io: io_wait_timeout)
         return @stdout_cache if stopped?
 
-        wait_for_io opts.fetch(:wait_for_io, io_wait_timeout) do
+        wait_for_io wait_for_io do
           @process.stdout.flush
           File.read(@stdout_file.path)
         end
@@ -216,18 +213,15 @@ module Aruba
 
       # Access to stderr of process
       #
-      # @param [Hash] opts
-      #   Options
-      #
-      # @option [Integer] wait_for_io
+      # @param [Integer] wait_for_io
       #   Wait for IO to be finished
       #
       # @return [String]
       #   The content of stderr
-      def stderr(opts = {})
+      def stderr(wait_for_io: io_wait_timeout)
         return @stderr_cache if stopped?
 
-        wait_for_io opts.fetch(:wait_for_io, io_wait_timeout) do
+        wait_for_io wait_for_io do
           @process.stderr.flush
           File.read(@stderr_file.path)
         end

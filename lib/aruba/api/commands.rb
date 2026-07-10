@@ -131,27 +131,19 @@ module Aruba
       #
       # @param [String] cmd
       #   The command which should be executed
-      #
-      # @param [Hash] opts
-      #   Options
-      #
-      # @option opts [Numeric] exit_timeout
+      # @param [Numeric] exit_timeout
       #   If the timeout is reached the command will be killed
-      #
-      # @option opts [Numeric] io_wait_timeout
+      # @param [Numeric] io_wait_timeout
       #   Wait for IO to finish
-      #
-      # @option opts [Numeric] startup_wait_time
+      # @param [Numeric] startup_wait_time
       #   Wait for a command to start
-      #
-      # @option opts [String] stop_signal
+      # @param [String] stop_signal
       #   Use signal to stop command
-      #
       # @yield [SpawnProcess]
       #   Run block with process
       #
-      def run_command(cmd, opts = {})
-        command = prepare_command(cmd, opts)
+      def run_command(cmd, **)
+        command = prepare_command(cmd, **)
 
         unless command.interactive?
           raise NotImplementedError,
@@ -170,27 +162,19 @@ module Aruba
       #
       # @param [String] cmd
       #   The command to be executed
-      #
-      # @param [Hash] opts
-      #   Options for aruba
-      #
-      # @option opts [Boolean] :fail_on_error
+      # @param [Boolean] fail_on_error
       #   Should aruba fail on error?
-      #
-      # @option opts [Numeric] :exit_timeout
+      # @param [Numeric] exit_timeout
       #   Timeout for execution
-      #
-      # @option opts [Numeric] :io_wait_timeout
+      # @param [Numeric] io_wait_timeout
       #   Timeout for IO - STDERR, STDOUT
+      # @param [String] stop_signal
+      #   Name of signal to send to stop process. E.g. 'HUP'.
+      # @param [Numeric] startup_wait_time
+      #   Timeout for command start-up
       #
-      def run_command_and_stop(cmd, opts = {})
-        fail_on_error = if opts.key?(:fail_on_error)
-                          opts.delete(:fail_on_error) == true
-                        else
-                          true
-                        end
-
-        command = prepare_command(cmd, opts)
+      def run_command_and_stop(cmd, fail_on_error: true, **)
+        command = prepare_command(cmd, **)
         start_command(command)
         command.stop
 
@@ -223,12 +207,11 @@ module Aruba
 
       private
 
-      def prepare_command(cmd, opts)
-        exit_timeout      = opts[:exit_timeout] || aruba.config.exit_timeout
-        io_wait_timeout   = opts[:io_wait_timeout] || aruba.config.io_wait_timeout
-        stop_signal       = opts[:stop_signal] || aruba.config.stop_signal
-        startup_wait_time = opts[:startup_wait_time] || aruba.config.startup_wait_time
-
+      def prepare_command(cmd,
+                          exit_timeout: aruba.config.exit_timeout,
+                          io_wait_timeout: aruba.config.io_wait_timeout,
+                          stop_signal: aruba.config.stop_signal,
+                          startup_wait_time: aruba.config.startup_wait_time)
         @commands ||= []
         @commands << cmd
 

@@ -45,8 +45,8 @@ module Aruba
       end
 
       # Output stderr and stdout
-      def output(opts = {})
-        stdout(opts) + stderr(opts)
+      def output(**opts)
+        stdout(**opts) + stderr(**opts)
       end
 
       def write(*)

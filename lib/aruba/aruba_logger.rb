@@ -12,12 +12,9 @@ module Aruba
 
     # Create logger
     #
-    # @param [Hash] opts
-    #   Options
-    #
-    # @option opts [Symbol] :default_mode Log level
-    def initialize(opts = {})
-      @mode = opts.fetch(:default_mode, :info)
+    # @param [Symbol] default_mode Log level
+    def initialize(default_mode: :info)
+      @mode = default_mode
     end
 
     # @!method fatal(msg)
