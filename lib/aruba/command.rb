@@ -24,30 +24,29 @@ module Aruba
 
     public
 
-    def initialize(command, opts = {})
+    def initialize(command, exit_timeout:, io_wait_timeout:, working_directory:, environment:, # rubocop:disable Metrics/ParameterLists
+                   main_class:, stop_signal:, startup_wait_time:, event_bus:, mode: nil)
       launchers = []
       launchers << Processes::DebugProcess
       launchers << Processes::InProcess
       launchers << Processes::SpawnProcess
 
-      klass = launchers.find { |l| l.match? opts[:mode] }
+      klass = launchers.find { |l| l.match? mode }
 
       launcher = klass.new(
         command,
-        opts.fetch(:exit_timeout),
-        opts.fetch(:io_wait_timeout),
-        opts.fetch(:working_directory),
-        opts.fetch(:environment),
-        opts.fetch(:main_class),
-        opts.fetch(:stop_signal),
-        opts.fetch(:startup_wait_time)
+        exit_timeout,
+        io_wait_timeout,
+        working_directory,
+        environment,
+        main_class,
+        stop_signal,
+        startup_wait_time
       )
 
       super(launcher)
 
-      @event_bus = opts.fetch(:event_bus)
-    rescue KeyError => e
-      raise ArgumentError, e.message
+      @event_bus = event_bus
     end
 
     # Stop command

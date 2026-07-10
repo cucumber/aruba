@@ -150,20 +150,16 @@ module Aruba
 
       # Create an empty file
       #
-      # @param [String] file_name
-      #   The name of the file
-      def touch(*args)
-        args = args.flatten
-
-        options = if args.last.is_a? Hash
-                    args.pop
-                  else
-                    {}
-                  end
+      # @param [String, Array] list
+      #   The names of the files
+      # @param [Hash] options
+      #   Options to pass to FileUtils.touch
+      def touch(list, **options)
+        args = Array(list)
 
         args.each { |p| create_directory(File.dirname(p)) }
 
-        Aruba.platform.touch(args.map { |p| expand_path(p) }, options)
+        Aruba.platform.touch(args.map { |p| expand_path(p) }, **options)
 
         self
       end
@@ -178,11 +174,8 @@ module Aruba
       # @param [String] destination
       #   A file or directory name. If multiple sources are given the destination
       #   needs to be a directory
-      def copy(*args)
-        args = args.flatten
-        destination = args.pop
-        source = args
-
+      def copy(source, destination)
+        source = Array(source)
         source.each do |s|
           raise ArgumentError, %(The following source "#{s}" does not exist.) unless exist? s
         end
@@ -221,11 +214,8 @@ module Aruba
       # @param [String] destination
       #   A file or directory name. If multiple sources are given the destination
       #   needs to be a directory
-      def move(*args)
-        args = args.flatten
-        destination = args.pop
-        source = args
-
+      def move(source, destination)
+        source = Array(source)
         source.each do |s|
           if s.start_with? aruba.config.fixtures_path_prefix
             raise ArgumentError, "Using a fixture as source (#{source}) is not supported"
@@ -294,22 +284,14 @@ module Aruba
       #
       # @param [String] file_name
       #   Name of file to be modified. This file needs to be present to succeed
-      def chmod(*args)
-        args = args.flatten
-
-        options = if args.last.is_a? Hash
-                    args.pop
-                  else
-                    {}
-                  end
-
-        mode = args.shift
+      def chmod(mode, file_name)
         mode = mode.to_i(8) if mode.is_a? String
 
-        args.each { |path| raise "Expected #{path} to be present" unless exist?(path) }
-        paths = args.map { |path| expand_path(path) }
+        paths = [file_name]
+        paths.each { |path| raise "Expected #{path} to be present" unless exist?(path) }
+        paths = paths.map { |path| expand_path(path) }
 
-        Aruba.platform.chmod(mode, paths, options)
+        Aruba.platform.chmod(mode, paths)
 
         self
       end
@@ -362,19 +344,17 @@ module Aruba
       # Remove file or directory
       #
       # @param [Array, String] name
-      #   The name of the file / directory which should be removed
-      def remove(*args)
-        args = args.flatten
-
-        options = if args.last.is_a? Hash
-                    args.pop
-                  else
-                    {}
-                  end
+      #   The name of the file or directory which should be removed,
+      #   or a list of such names.
+      #
+      # @param [Hash] options
+      #   Options to pass to FileUtils.rm_r
+      def remove(name, **options)
+        args = Array(name)
 
         args = args.map { |path| expand_path(path) }
 
-        Aruba.platform.rm(args, options)
+        Aruba.platform.rm(args, **options)
       end
 
       # Read content of file and yield the content to block

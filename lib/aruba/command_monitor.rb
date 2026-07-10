@@ -44,14 +44,12 @@ module Aruba
       end
     end
 
-    def initialize(opts = {})
+    def initialize(announcer:)
       @registered_commands = []
-      @announcer = opts.fetch(:announcer)
+      @announcer = announcer
 
       @last_command_stopped = DefaultLastCommandStopped.new
       @last_command_started = DefaultLastCommandStarted.new
-    rescue KeyError => e
-      raise ArgumentError, e.message
     end
 
     # Set last command started

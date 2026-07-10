@@ -4,8 +4,8 @@ require 'fileutils'
 require 'securerandom'
 
 RSpec.shared_context 'uses aruba API' do
-  def random_string(options = {})
-    options[:prefix].to_s + SecureRandom.hex + options[:suffix].to_s
+  def random_string(prefix: nil, suffix: nil)
+    prefix.to_s + SecureRandom.hex + suffix.to_s
   end
 
   def create_test_files(files, data = 'a')

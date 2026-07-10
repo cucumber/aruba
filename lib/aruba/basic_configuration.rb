@@ -19,13 +19,10 @@ module Aruba
 
       # Define an option reader
       #
-      # @param [Symbol] name
-      #   The name of the reader
-      #
-      # @option [Class, Module] type
+      # @param [Class, Module] type
       #   The type contract for the option
       #
-      # @option [Object] default
+      # @param [Object] default
       #   The default value
       def option_reader(name, type:, default: nil)
         raise ArgumentError, 'Either use block or default value' if block_given? && default
@@ -38,13 +35,10 @@ module Aruba
 
       # Define an option reader and writer
       #
-      # @param [Symbol] name
-      #   The name of the reader
-      #
-      # @option [Class, Module] type
+      # @param [Class, Module] type
       #   The type contract for the option
       #
-      # @option [Object] default
+      # @param [Object] default
       #   The default value
       #
       def option_accessor(name, type:, default: nil)

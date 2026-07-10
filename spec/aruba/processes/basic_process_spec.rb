@@ -15,17 +15,17 @@ RSpec.describe Aruba::Processes::BasicProcess do
 
     let(:derived_process) do
       Class.new(described_class) do
-        def initialize(*args)
-          @stdout = args.shift
-          @stderr = args.shift
-          super
+        def initialize(stdout, stderr, *args)
+          @stdout = stdout
+          @stderr = stderr
+          super(*args)
         end
 
-        def stdout(*_args)
+        def stdout(*)
           @stdout
         end
 
-        def stderr(*_args)
+        def stderr(*)
           @stderr
         end
       end.new(stdout, stderr, cmd, exit_timeout, io_wait_timeout, working_directory)
