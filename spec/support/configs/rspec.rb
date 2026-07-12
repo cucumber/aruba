@@ -13,4 +13,5 @@ RSpec.configure do |config|
 
   config.include Aruba::Api
   config.before { setup_aruba }
+  config.after { stop_all_commands }
 end
