@@ -104,10 +104,6 @@ Before('@keep-ansi-escape-sequences') do
   aruba.config.remove_ansi_escape_sequences = false
 end
 
-Before('@mocked-home-directory') do
-  set_environment_variable 'HOME', expand_path('.')
-end
-
 Before('@disable-bundler') do
   unset_bundler_env_vars
 end

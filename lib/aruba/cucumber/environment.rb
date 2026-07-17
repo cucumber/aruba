@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-Given(/^a mocked home directory$/) do
-  set_environment_variable 'HOME', expand_path('.')
-end
-
 Given(/^I set the environment variable "(.*)" to "(.*)"/) do |variable, value|
   set_environment_variable(variable.to_s, value.to_s)
 end

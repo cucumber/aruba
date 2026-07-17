@@ -12,7 +12,7 @@ Feature: Getting started with Cucumber and aruba
 
       \* Setup Aruba Test directory
       \* Clear environment (ENV)
-      \* Make HOME-variable configurable via `aruba.config.home_directory`
+      \* Set HOME-variable from `aruba.config.home_directory`
       \* Activate announcers based on `@announce-<name>`-tags
 
     Given a file named "features/support/env.rb" with:
