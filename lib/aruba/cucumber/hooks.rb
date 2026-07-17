@@ -23,11 +23,7 @@ After do
   aruba.command_monitor.clear
 end
 
-Before('@no-clobber') do
-  setup_aruba(false)
-end
-
-Before('not @no-clobber') do
+Before do
   setup_aruba
 end
 

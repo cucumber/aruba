@@ -29,8 +29,8 @@ module Aruba
       # This will only clean up aruba's working directory to remove all
       # artifacts of your tests. This does NOT clean up the current working
       # directory.
-      def setup_aruba(clobber = true)
-        Aruba::Setup.new(aruba).call(clobber)
+      def setup_aruba
+        Aruba::Setup.new(aruba).call
 
         self
       end
