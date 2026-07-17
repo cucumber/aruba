@@ -17,7 +17,7 @@ RSpec.describe 'RSpec Integration', type: :aruba do
 
   describe 'Setting up the environment' do
     it 'sets HOME to the configured value' do
-      expect(Dir.home).to eq aruba.config.home_directory
+      expect(Dir.home).to eq aruba.home_directory
     end
 
     it 'includes configured command search paths in PATH' do

@@ -15,7 +15,7 @@ Before do
     'PATH',
     aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
   )
-  set_environment_variable 'HOME', aruba.config.home_directory
+  set_environment_variable 'HOME', aruba.home_directory
 end
 
 After do

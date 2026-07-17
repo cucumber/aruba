@@ -8,14 +8,18 @@ Feature: Configure the home directory to be used with aruba
     Given I use the fixture "cli-app"
 
   Scenario: Default value
-    Given a file named "features/support/aruba_config.rb" with:
+    Given a file named "spec/home_directory_spec.rb" with:
     """ruby
-    Aruba.configure do |config|
-      puts %(The default value is "#{config.home_directory}")
+    require 'spec_helper'
+
+    RSpec.describe 'home_directory', :type => :aruba do
+      it "is available on the Aruba runtime" do
+        puts %(The home directory is "#{aruba.home_directory}")
+      end
     end
     """
-    When I successfully run `cucumber`
+    When I successfully run `rspec`
     Then the output should match:
     """
-    The default value is "/.*/tmp/aruba"
+    The home directory is "/.*/tmp/aruba"
     """

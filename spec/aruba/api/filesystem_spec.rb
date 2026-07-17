@@ -140,7 +140,7 @@ RSpec.describe Aruba::Api::Filesystem do
       it 'creates a file relative to home if name includes ~' do
         string = random_string
         name = File.join('~', string)
-        path = File.join(@aruba.aruba.config.home_directory, string)
+        path = File.join(@aruba.aruba.home_directory, string)
 
         @aruba.touch(name)
         expect(File.file?(path)).to be true
@@ -697,7 +697,7 @@ RSpec.describe Aruba::Api::Filesystem do
       it 'interprets ~ as referencing the aruba home directory' do
         string = random_string
         name = File.join('~', string)
-        path = File.join(@aruba.aruba.config.home_directory, string)
+        path = File.join(@aruba.aruba.home_directory, string)
         File.write(File.expand_path(path), 'foo')
 
         @aruba.remove(name)
@@ -733,7 +733,7 @@ RSpec.describe Aruba::Api::Filesystem do
       it 'interprets ~ as referencing the aruba home directory' do
         string = random_string
         name = File.join('~', string)
-        path = File.join(@aruba.aruba.config.home_directory, string)
+        path = File.join(@aruba.aruba.home_directory, string)
         Aruba.platform.mkdir path
 
         @aruba.remove(name)

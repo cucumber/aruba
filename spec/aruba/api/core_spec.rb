@@ -51,7 +51,7 @@ RSpec.describe Aruba::Api::Core do
       end
 
       it 'expands "~" to the aruba home directory' do
-        full_path = aruba.config.home_directory
+        full_path = aruba.home_directory
         @aruba.cd '~' do
           expect(Dir.pwd).to eq full_path
         end
@@ -68,7 +68,7 @@ RSpec.describe Aruba::Api::Core do
       end
 
       it 'expands "~" to the aruba home directory' do
-        full_path = aruba.config.home_directory
+        full_path = aruba.home_directory
         @aruba.cd '~'
         expect(File.expand_path(@aruba.aruba.current_directory)).to eq full_path
       end
