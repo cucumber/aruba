@@ -623,11 +623,12 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 
 ## [0.10.0.pre]
 
-* Add some new steps to make writing documentation easier using "cucumber",
-  "rspec", "minitest" together with "aruba" - see [Feature](features/getting_started/supported_testing_frameworks.feature)
-  for some examples
-* Write output of commands directly to disk if SpawnProcess is used
-  (see [85d74fcc](https://github.com/cucumber/aruba/commit/85d74fcca4fff4e753776925d8b003cddaa8041d))
+* Add some new steps to make writing documentation easier using "cucumber", "rspec",
+  "minitest" together with "aruba" - see
+  [Feature](features/getting_started/supported_testing_frameworks.feature) for
+  some examples
+* Write output of commands directly to disk if SpawnProcess is used (see
+  [85d74fcc](https://github.com/cucumber/aruba/commit/85d74fcca4fff4e753776925d8b003cddaa8041d))
 * Refactored API of cucumber steps to reduce the need for more methods and make
   it easier for users to write their own steps ([#306])
 * Added `aruba init` to the cli command to setup environment for aruba (issue
@@ -1057,7 +1058,8 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
   config/aruba-rvm.yml. ([aslakhellesoy])
 * Check for presence of files. ([aslakhellesoy])
 * Allow specification of rvm gemsets. ([aslakhellesoy])
-* Detect ruby commands and use current ruby when rvm is not explicitly used. ([aslakhellesoy])
+* Detect ruby commands and use current ruby when rvm is not explicitly used.
+  ([aslakhellesoy])
 * Added support for rvm, making it possible to choose Ruby interpreter. ([aslakhellesoy])
 * Added `@announce-cmd`, `@announce-stdout` and `@announce` tags, useful for seeing
   what's executed and outputted. ([aslakhellesoy])
@@ -1556,7 +1558,7 @@ Note: These are changes w.r.t. Aruba version 0.14.1.
 [0.1.3]:         https://github.com/cucumber/aruba/compare/v0.1.2...v0.1.3
 [0.1.2]:         https://github.com/cucumber/aruba/compare/v0.1.1...v0.1.2
 [0.1.1]:         https://github.com/cucumber/aruba/compare/v0.1.0...v0.1.1
-[0.1.0]:         https://github.com/cucumber/aruba/compare/ed6a175d23aaff62dbf355706996f276f304ae8b...v0.1.1
+[0.1.0]:https://github.com/cucumber/aruba/compare/ed6a175d23aaff62dbf355706996f276f304ae8b...v0.1.0
 
 <!-- Other links -->
 
