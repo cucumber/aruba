@@ -21,9 +21,9 @@ module Aruba
   class Configuration < BasicConfiguration
     option_reader :root_directory, type: String, default: Dir.getwd
 
-    option_accessor :working_directory,
+    option_accessor :working_directory_suffix,
                     type: Aruba::Contracts::RelativePath,
-                    default: 'tmp/aruba'
+                    default: 'aruba'
 
     option_reader :fixtures_path_prefix, type: String, default: '%'
 

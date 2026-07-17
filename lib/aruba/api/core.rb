@@ -154,7 +154,7 @@ module Aruba
         end
 
         unless Aruba.platform.directory? File.join(aruba.config.root_directory,
-                                                   aruba.config.working_directory)
+                                                   aruba.working_directory)
           raise "Aruba's working directory does not exist. " \
                 'Maybe you forgot to run `setup_aruba` before using its API.'
         end

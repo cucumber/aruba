@@ -17,12 +17,15 @@ module Aruba
     # @!attribute [r] current_directory
     #   Returns the current working directory
     #
+    # @!attribute [r] working_directory
+    #   Returns the working directory
+    #
     # @!attribute [r] root_directory
     #   Returns the root directory of aruba
     #
     # @!attribute [r] home_directory
     #   Returns the home directory used to mock HOME by aruba
-    attr_reader :current_directory, :root_directory, :home_directory
+    attr_reader :current_directory, :working_directory, :root_directory, :home_directory
 
     # @!attribute [r] config
     #   Access configuration of aruba
@@ -50,9 +53,10 @@ module Aruba
       @config          = ConfigWrapper.new(Aruba.config.make_copy, @event_bus)
       @environment     = Aruba.platform.environment_variables.new
 
-      @current_directory = ArubaPath.new(@config.working_directory)
-      @root_directory    = ArubaPath.new(@config.root_directory)
-      @home_directory = File.join(@config.root_directory, config.working_directory)
+      @working_directory = File.join('tmp', @config.working_directory_suffix)
+      @current_directory = ArubaPath.new(@working_directory)
+      @root_directory = ArubaPath.new(@config.root_directory)
+      @home_directory = File.join(@config.root_directory, @working_directory)
 
       @environment.update(@config.command_runtime_environment)
 
