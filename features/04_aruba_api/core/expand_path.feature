@@ -110,8 +110,7 @@ Feature: Expand paths with aruba
   Scenario: Use ~ in path
 
     Aruba sets HOME to `File.join(aruba.config.root_directory,
-    aruba.config.working_directory)`. If you want HOME have some other value,
-    you need to configure it explicitly via `Aruba.configure {}`.
+    aruba.config.working_directory)`.
 
     Given a file named "spec/expand_path_spec.rb" with:
     """ruby

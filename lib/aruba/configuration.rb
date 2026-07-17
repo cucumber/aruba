@@ -47,9 +47,8 @@ module Aruba
                     default: :spawn
     option_accessor :main_class, type: Maybe[Class], default: nil
 
-    option_accessor :home_directory,
-                    type: Or[Aruba::Contracts::AbsolutePath,
-                             Aruba::Contracts::RelativePath] do |config|
+    option_reader :home_directory,
+                  type: Aruba::Contracts::AbsolutePath do |config|
       File.join(config.root_directory.value, config.working_directory.value)
     end
 
