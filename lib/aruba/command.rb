@@ -24,14 +24,15 @@ module Aruba
 
     public
 
+    LAUNCHERS = [
+      Processes::DebugProcess,
+      Processes::InProcess,
+      Processes::SpawnProcess
+    ].freeze
+
     def initialize(command, exit_timeout:, io_wait_timeout:, working_directory:, environment:, # rubocop:disable Metrics/ParameterLists
                    main_class:, stop_signal:, startup_wait_time:, event_bus:, mode: nil)
-      launchers = []
-      launchers << Processes::DebugProcess
-      launchers << Processes::InProcess
-      launchers << Processes::SpawnProcess
-
-      klass = launchers.find { |l| l.match? mode }
+      klass = LAUNCHERS.find { |l| l.match? mode }
 
       launcher = klass.new(
         command,
