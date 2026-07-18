@@ -19,11 +19,19 @@ module Aruba
   #
   # This defines the configuration options of aruba
   class Configuration < BasicConfiguration
+    # Custom Contracts go here
+    class PathSegment
+      def self.valid?(value)
+        test_path = Pathname.new('test').join(value).cleanpath
+        test_path.basename.to_s == value
+      rescue StandardError
+        false
+      end
+    end
+
     option_reader :root_directory, type: String, default: Dir.getwd
 
-    option_accessor :working_directory_suffix,
-                    type: Aruba::Contracts::RelativePath,
-                    default: 'aruba'
+    option_accessor :working_directory_suffix, type: PathSegment, default: 'aruba'
 
     option_reader :fixtures_path_prefix, type: String, default: '%'
 
