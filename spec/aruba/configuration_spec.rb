@@ -36,4 +36,26 @@ RSpec.describe Aruba::Configuration do
         .to raise_error ParamContractError
     end
   end
+
+  describe '#command_launcher=' do
+    it 'allows only a limited set of values' do
+      aggregate_failures do
+        %i[in_process spawn debug].each do |value|
+          expect { config.command_launcher = value }.not_to raise_error
+        end
+        expect { config.command_launcher = :potato }.to raise_error ParamContractError
+        expect { config.command_launcher = nil }.to raise_error ParamContractError
+      end
+    end
+  end
+
+  describe '#log_level=' do
+    it 'allows only a limited set of values' do
+      aggregate_failures do
+        expect { config.log_level = :warn }.not_to raise_error
+        expect { config.log_level = :potato }.to raise_error ParamContractError
+        expect { config.log_level = nil }.to raise_error ParamContractError
+      end
+    end
+  end
 end

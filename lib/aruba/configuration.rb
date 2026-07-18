@@ -7,23 +7,35 @@ require 'aruba/basic_configuration'
 require 'aruba/in_config_wrapper'
 require 'aruba/hooks'
 
-require 'aruba/contracts/relative_path'
-require 'aruba/contracts/absolute_path'
-require 'aruba/contracts/enum'
-
-require 'aruba/contracts/is_power_of_two'
-
 # Aruba
 module Aruba
   # Aruba Configuration
   #
   # This defines the configuration options of aruba
   class Configuration < BasicConfiguration
+    #
     # Custom Contracts go here
+    #
+
+    # Value is a single safe relative path segment. Joining it to a path must
+    # yield a strict subdirectory of that path.
+    # @private
     class PathSegment
       def self.valid?(value)
         test_path = Pathname.new('test').join(value).cleanpath
         test_path.basename.to_s == value
+      rescue StandardError
+        false
+      end
+    end
+
+    # Value is a power of two
+    # @private
+    class IsPowerOfTwo
+      def self.valid?(value)
+        # explanation for algorithm can be found here:
+        # http://www.exploringbinary.com/ten-ways-to-check-if-an-integer-is-a-power-of-two-in-c/
+        value.positive? && value.nobits?(value - 1)
       rescue StandardError
         false
       end
@@ -51,21 +63,19 @@ module Aruba
                     end
     option_accessor :remove_ansi_escape_sequences, type: Bool, default: true
     option_accessor :command_launcher,
-                    type: Aruba::Contracts::Enum[:in_process, :spawn, :debug],
+                    type: Enum[:in_process, :spawn, :debug],
                     default: :spawn
     option_accessor :main_class, type: Maybe[Class], default: nil
 
     option_accessor :log_level,
-                    type:
-                        Aruba::Contracts::Enum[:fatal, :warn, :debug, :info,
-                                               :error, :unknown, :silent],
+                    type: Enum[:fatal, :warn, :debug, :info, :error, :unknown, :silent],
                     default: :info
 
     # TODO: deprecate this value and replace with "filesystem allocation unit"
     # equal to 4096 by default. "filesystem allocation unit" would represent
     # the actual MINIMUM space taken in bytes by a 1-byte file
     option_accessor :physical_block_size,
-                    type: Aruba::Contracts::IsPowerOfTwo,
+                    type: IsPowerOfTwo,
                     default: 512
     option_accessor :console_history_file, type: String,
                                            default: '~/.aruba_history'
