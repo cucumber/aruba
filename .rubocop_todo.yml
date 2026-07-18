@@ -8,7 +8,7 @@
 
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.
 Metrics/AbcSize:
-  Max: 62
+  Max: 61
 
 # Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns, inherit_mode.
 # AllowedMethods: refine
@@ -29,7 +29,7 @@ Metrics/MethodLength:
 
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ModuleLength:
-  Max: 188
+  Max: 168
 
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Metrics/PerceivedComplexity:
@@ -109,9 +109,9 @@ RSpec/InstanceVariable:
     - 'spec/aruba/matchers/directory_spec.rb'
     - 'spec/aruba/matchers/file_spec.rb'
     - 'spec/aruba/matchers/path_spec.rb'
+    - 'spec/aruba/processes/debug_process_spec.rb'
     - 'spec/aruba/processes/in_process_spec.rb'
     - 'spec/aruba/processes/spawn_process_spec.rb'
-    - 'spec/aruba/runtime_spec.rb'
     - 'spec/support/shared_contexts/aruba.rb'
 
 RSpec/MultipleExpectations:
