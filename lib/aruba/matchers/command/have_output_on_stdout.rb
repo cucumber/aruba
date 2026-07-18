@@ -25,7 +25,7 @@ RSpec::Matchers.define :have_output_on_stdout do |expected|
 
     @old_actual.stop
 
-    @actual = sanitize_text(actual.stdout)
+    @actual = extract_text(actual.stdout)
 
     values_match?(expected, @actual)
   end

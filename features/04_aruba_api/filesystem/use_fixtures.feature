@@ -38,7 +38,7 @@ Feature: Use fixtures in your tests
       before { copy '%/my_file.txt', 'new_file.txt' }
       before { run_command 'aruba-test-cli new_file.txt' }
 
-      it { expect(last_command_started).to have_output 'Hello Aruba!' }
+      it { expect(last_command_started).to have_output "Hello Aruba!\n" }
     end
     """
     And a directory named "fixtures"
