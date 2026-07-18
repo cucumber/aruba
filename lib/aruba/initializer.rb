@@ -3,7 +3,8 @@
 require 'thor/group'
 require 'thor/actions'
 
-# Aruba
+require 'aruba/version'
+
 module Aruba
   # Initializers
   #
