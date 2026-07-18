@@ -27,12 +27,11 @@ RSpec.describe Aruba::Api do
 
       context 'disabled' do
         it 'does not announce to stdout' do
-          result = capture(:stdout) do
-            @aruba.run_command_and_stop('echo "hello world"', fail_on_error: false)
+          aggregate_failures do
+            expect { @aruba.run_command_and_stop('echo "hello world"', fail_on_error: false) }
+              .not_to output('hello world').to_stdout
+            expect(@aruba.last_command_started.output).to include('hello world')
           end
-
-          expect(result).not_to include('hello world')
-          expect(@aruba.last_command_started.output).to include('hello world')
         end
       end
     end
