@@ -15,7 +15,7 @@ Before do
     'PATH',
     aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
   )
-  set_environment_variable 'HOME', aruba.config.home_directory
+  set_environment_variable 'HOME', aruba.home_directory
 end
 
 After do
@@ -102,10 +102,6 @@ end
 
 Before('@keep-ansi-escape-sequences') do
   aruba.config.remove_ansi_escape_sequences = false
-end
-
-Before('@mocked-home-directory') do
-  set_environment_variable 'HOME', expand_path('.')
 end
 
 Before('@disable-bundler') do

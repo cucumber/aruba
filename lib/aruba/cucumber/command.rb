@@ -331,31 +331,25 @@ end
 # appear naturally in the output
 Then(%r{^the output should( not)? match /([^/]*)/$}) do |negated, expected|
   if negated
-    expect(all_commands)
-      .not_to include have_output an_output_string_matching(expected)
+    expect(all_output).not_to match_output_string(expected)
   else
-    expect(all_commands)
-      .to include have_output an_output_string_matching(expected)
+    expect(all_output).to match_output_string(expected)
   end
 end
 
 Then(/^the output should( not)? match %r<([^>]*)>$/) do |negated, expected|
   if negated
-    expect(all_commands)
-      .not_to include have_output an_output_string_matching(expected)
+    expect(all_output).not_to match_output_string(expected)
   else
-    expect(all_commands)
-      .to include have_output an_output_string_matching(expected)
+    expect(all_output).to match_output_string(expected)
   end
 end
 
 Then(/^the output should( not)? match:$/) do |negated, expected|
   if negated
-    expect(all_commands)
-      .not_to include have_output an_output_string_matching(expected)
+    expect(all_output).not_to match_output_string(expected)
   else
-    expect(all_commands)
-      .to include have_output an_output_string_matching(expected)
+    expect(all_output).to match_output_string(expected)
   end
 end
 

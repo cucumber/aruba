@@ -50,14 +50,14 @@ module Aruba
         Contract type => type
         define_method(:"#{name}=") { |v| find_option(name).value = v }
 
-        # Add reader
-        option_reader name, type: type
+        Contract None => type
+        define_method(name) { find_option(name).value }
       end
 
       private
 
       def add_option(name, value = nil)
-        return if known_options.key?(name)
+        raise "Option #{name} already exists" if known_options.key?(name)
 
         known_options[name] = Option.new(name: name, value: value)
 

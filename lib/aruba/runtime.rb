@@ -17,9 +17,15 @@ module Aruba
     # @!attribute [r] current_directory
     #   Returns the current working directory
     #
+    # @!attribute [r] working_directory
+    #   Returns the working directory
+    #
     # @!attribute [r] root_directory
     #   Returns the root directory of aruba
-    attr_reader :current_directory, :root_directory
+    #
+    # @!attribute [r] home_directory
+    #   Returns the home directory used to mock HOME by aruba
+    attr_reader :current_directory, :working_directory, :root_directory, :home_directory
 
     # @!attribute [r] config
     #   Access configuration of aruba
@@ -41,13 +47,17 @@ module Aruba
     #
     attr_reader :config, :environment, :logger, :command_monitor, :announcer, :event_bus
 
-    def initialize
+    def initialize(config: Aruba.config)
       @event_bus       = EventBus.new(Aruba::Events.registry)
       @announcer       = Aruba.platform.announcer.new
-      @config          = ConfigWrapper.new(Aruba.config.make_copy, @event_bus)
+      @config          = ConfigWrapper.new(config.make_copy, @event_bus)
       @environment     = Aruba.platform.environment_variables.new
-      @current_directory = ArubaPath.new(@config.working_directory)
-      @root_directory    = ArubaPath.new(@config.root_directory)
+
+      @working_directory = File.join('tmp', @config.working_directory_suffix)
+
+      @current_directory = ArubaPath.new(@working_directory)
+      @root_directory = ArubaPath.new(@config.root_directory)
+      @home_directory = File.join(@config.root_directory, @working_directory)
 
       @environment.update(@config.command_runtime_environment)
 

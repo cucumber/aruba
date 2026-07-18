@@ -21,7 +21,7 @@ RSpec.configure do |config|
       )
 
       # Use configured home directory as HOME
-      set_environment_variable 'HOME', aruba.config.home_directory
+      set_environment_variable 'HOME', aruba.home_directory
     end
 
     example.run

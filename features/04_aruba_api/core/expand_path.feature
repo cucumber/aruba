@@ -19,7 +19,7 @@ Feature: Expand paths with aruba
       let(:path) { 'path/to/dir' }
 
       it "expands relative to Aruba's home directory" do
-        expected_path = File.join(aruba.config.home_directory, path)
+        expected_path = File.join(aruba.home_directory, path)
 
         expect(expand_path(path)).to eq expected_path
       end
@@ -43,7 +43,7 @@ Feature: Expand paths with aruba
 
       it "expands relative to the new directory" do
         cd directory
-        expected_path = File.join(aruba.config.home_directory, directory, path)
+        expected_path = File.join(aruba.home_directory, directory, path)
 
         expect(expand_path(path)).to eq expected_path
       end
@@ -110,8 +110,7 @@ Feature: Expand paths with aruba
   Scenario: Use ~ in path
 
     Aruba sets HOME to `File.join(aruba.config.root_directory,
-    aruba.config.working_directory)`. If you want HOME have some other value,
-    you need to configure it explicitly via `Aruba.configure {}`.
+    aruba.working_directory)`.
 
     Given a file named "spec/expand_path_spec.rb" with:
     """ruby
@@ -126,7 +125,7 @@ Feature: Expand paths with aruba
         cd directory
       end
 
-      it { expect(expand_path(path)).to eq File.join(aruba.config.home_directory, 'path/to/dir') }
+      it { expect(expand_path(path)).to eq File.join(aruba.home_directory, 'path/to/dir') }
     end
     """
     When I run `rspec`

@@ -11,20 +11,20 @@ Feature: Configure working directory of aruba
     Given a file named "features/support/aruba_config.rb" with:
     """
     Aruba.configure do |config|
-      puts %(The default value is "#{config.working_directory}")
+      puts %(The working directory suffix is "#{config.working_directory_suffix}")
     end
     """
     When I successfully run `cucumber`
     Then the output should contain:
     """
-    The default value is "tmp/aruba"
+    The working directory suffix is "aruba"
     """
 
   Scenario: Modify value
     Given a file named "features/support/aruba_config.rb" with:
     """
     Aruba.configure do |config|
-      config.working_directory = 'tmp/cucumber'
+      config.working_directory_suffix = 'cucumber'
     end
     """
     And a file named "features/run.feature" with:
