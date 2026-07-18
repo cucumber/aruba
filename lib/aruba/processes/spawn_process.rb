@@ -157,8 +157,8 @@ module Aruba
 
         @process = ProcessRunner.new(command_string.to_a)
 
-        @stdout_file = Tempfile.new('aruba-stdout-')
-        @stderr_file = Tempfile.new('aruba-stderr-')
+        @stdout_file = Tempfile.create('aruba-stdout-')
+        @stderr_file = Tempfile.create('aruba-stderr-')
 
         @stdout_file.sync = true
         @stderr_file.sync = true
@@ -207,7 +207,8 @@ module Aruba
 
         wait_for_io wait_for_io do
           @process.stdout.flush
-          File.read(@stdout_file.path)
+          @stdout_file.rewind
+          @stdout_file.read
         end
       end
 
@@ -223,7 +224,8 @@ module Aruba
 
         wait_for_io wait_for_io do
           @process.stderr.flush
-          File.read(@stderr_file.path)
+          @stderr_file.rewind
+          @stderr_file.read
         end
       end
 
@@ -369,6 +371,7 @@ module Aruba
         file.rewind
         data = file.read
         file.close
+        File.unlink file.path
 
         data.force_encoding('UTF-8')
       end
