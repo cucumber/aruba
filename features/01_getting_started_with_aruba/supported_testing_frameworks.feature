@@ -33,8 +33,6 @@ Feature: Supported Testing Frameworks
   Scenario: Use "aruba" with "RSpec"
     Given a file named "spec/spec_helper.rb" with:
     """
-    $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-
     require 'aruba/rspec'
     """
     And a file named "spec/use_aruba_with_rspec_spec.rb" with:
@@ -53,20 +51,15 @@ Feature: Supported Testing Frameworks
     When I run `rspec`
     Then the specs should all pass
 
-
   Scenario: Use "aruba" with "Minitest"
     Given a file named "test/test_helper.rb" with:
     """
-    $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-
     require 'aruba/api'
+    require 'minitest/autorun'
     """
     And a file named "test/use_aruba_with_minitest.rb" with:
     """
-    $LOAD_PATH.unshift File.expand_path('../test', __FILE__)
-
     require_relative 'test_helper'
-    require 'minitest/autorun'
 
     class FirstRun < Minitest::Test
       include Aruba::Api
