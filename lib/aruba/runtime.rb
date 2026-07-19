@@ -66,17 +66,23 @@ module Aruba
       @logger = Aruba.platform.logger.new
       @logger.mode = @config.log_level
 
+      @setup = Aruba::Setup.new(self)
       @setup_done = false
     end
 
     # Set up Aruba's workspace and event bus. Cleans out the workspace as well.
     def setup
-      return if setup_already_done?
+      return if @setup_done
 
-      @setup = Aruba::Setup.new(self)
-      @setup.call
+      @setup.setup
+      @setup_done = true
+    end
 
-      setup_done
+    def teardown
+      return unless @setup_done
+
+      @setup.teardown
+      @setup_done = false
     end
 
     # The path to the directory which contains fixtures
@@ -105,11 +111,6 @@ module Aruba
     end
 
     private
-
-    # Setup of aruba is finshed.
-    def setup_done
-      @setup_done = true
-    end
 
     def setup_already_done?
       @setup_done == true

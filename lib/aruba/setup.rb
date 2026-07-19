@@ -12,22 +12,31 @@ module Aruba
       @runtime = runtime
     end
 
-    def call
-      working_directory
+    def setup
+      create_workspace
       register_event_handlers
+    end
 
-      self
+    def teardown
+      destroy_workspace
     end
 
     private
 
-    def working_directory
-      Aruba.platform.rm File.join(runtime.config.root_directory,
-                                  runtime.working_directory),
-                        force: true
-      Aruba.platform.mkdir File.join(runtime.config.root_directory,
-                                     runtime.working_directory)
+    def create_workspace
+      destroy_workspace if File.exist? workspace_directory
+
+      Aruba.platform.mkdir workspace_directory
       Aruba.platform.chdir runtime.config.root_directory
+    end
+
+    def destroy_workspace
+      Aruba.platform.rm workspace_directory, force: true
+    end
+
+    def workspace_directory
+      File.join(runtime.config.root_directory,
+                runtime.working_directory)
     end
 
     def handle_command_started(event)
