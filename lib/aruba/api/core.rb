@@ -177,6 +177,7 @@ module Aruba
 
           path
         elsif prefix == '~'
+          # FIXME: Can we force use of config.home_directory
           path = with_environment do
             File.expand_path(file_name)
           end
