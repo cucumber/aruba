@@ -10,6 +10,26 @@ unless RUBY_PLATFORM.include?('java')
   SimpleCov.start unless ENV.key? 'ARUBA_NO_COVERAGE'
 end
 
-# Loading support files
-Dir.glob(File.expand_path('support/*.rb', __dir__)).each { |f| require_relative f }
-Dir.glob(File.expand_path('support/**/*.rb', __dir__)).each { |f| require_relative f }
+require 'rspec/core'
+require 'aruba/rspec'
+require 'aruba/config/jruby'
+
+Aruba.configure do |config|
+  config.activate_announcer_on_command_failure = %i[stderr stdout command]
+end
+
+RSpec.configure do |config|
+  config.filter_run_when_matching :focus
+
+  config.example_status_persistence_file_path = 'tmp/rspec-examples.txt'
+  config.profile_examples = 10
+
+  config.expect_with :rspec
+
+  config.include Aruba::Api
+  config.before { setup_aruba }
+end
+
+# Load support files
+require_relative 'support/shared_examples/configuration'
+require_relative 'support/shared_contexts/aruba'

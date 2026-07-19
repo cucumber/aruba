@@ -1,8 +1,0 @@
-# frozen_string_literal: true
-
-require 'aruba/rspec'
-require 'aruba/config/jruby'
-
-Aruba.configure do |config|
-  config.activate_announcer_on_command_failure = %i[stderr stdout command]
-end
