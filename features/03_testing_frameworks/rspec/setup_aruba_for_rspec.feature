@@ -18,8 +18,8 @@ Feature: Getting started with RSpec and aruba
       \* Activate announcers based on `RSpec` metadata
 
     Be careful, if you are going to use a `before(:all)` hook to set up
-    files/directories. Those will be deleted by the `setup_aruba` call within
-    the `before` hook. Look for some custom integration further down the
+    files/directories. Those will be deleted by the `aruba.teardown` call within
+    the `after` hook. Look for some custom integration further down the
     documentation for a solution.
 
     Given a file named "spec/spec_helper.rb" with:
@@ -51,11 +51,8 @@ Feature: Getting started with RSpec and aruba
   Scenario: Simple Custom Integration
 
     There might be some use cases where you want to build an aruba integration
-    of your own. You need to include the API and make sure, that you run
-
-      \* `setup_aruba`
-
-    before any method of aruba is used.
+    of your own. You need to include the API and make sure, that you run `aruba.setup`
+    before any method of aruba is used, and run `aruba.teardown` to clean up.
 
     Given a file named "spec/spec_helper.rb" with:
     """
@@ -72,8 +69,9 @@ Feature: Getting started with RSpec and aruba
     RSpec.describe 'Custom Integration of aruba' do
       let(:file) { 'file.txt' }
 
-      before { setup_aruba }
+      before { aruba.setup }
       before { write_file file, 'Hello World' }
+      after { aruba.teardown }
 
       it { expect(file).to be_an_existing_file }
     end
@@ -84,13 +82,13 @@ Feature: Getting started with RSpec and aruba
   Scenario: Custom Integration using before(:all) hook
 
     You can even use `aruba` within a `before(:all)` hook. But again, make sure
-    that `setup_aruba` is run before you use any method of `aruba`. Using
-    `setup_aruba` both in a `before(:all)` and a `before` hook is not
+    that `aruba.setup` is run before you use any method of `aruba`. Using
+    `aruba.setup` both in a `before(:all)` and a `before` hook is not
     possible and therefore not supported:
 
-    Running `setup_aruba` removes `tmp/aruba`, creates a new `tmp/aruba`, and
+    Running `aruba.setup` removes `tmp/aruba`, creates a new `tmp/aruba`, and
     makes that the working directory. Running it within a `before(:all)` hook,
-    running some `aruba` method and, then running `setup_aruba` again within a
+    running some `aruba` method and, then running `aruba.setup` again within a
     `before` hook, will remove the files and directories created within
     the `before(:all)` hook.
 
@@ -107,8 +105,9 @@ Feature: Getting started with RSpec and aruba
     require 'spec_helper'
 
     RSpec.describe 'Custom Integration of aruba' do
-      before(:all) { setup_aruba }
+      before(:all) { aruba.setup }
       before(:all) { write_file 'file.txt', 'Hello World' }
+      after(:all) { aruba.teardown }
 
       it { expect('file.txt').to be_an_existing_file }
     end

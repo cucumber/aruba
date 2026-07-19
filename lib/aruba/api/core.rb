@@ -24,17 +24,6 @@ module Aruba
         @_aruba_runtime ||= Runtime.new
       end
 
-      # Clean the working directory of aruba
-      #
-      # This will only clean up aruba's working directory to remove all
-      # artifacts of your tests. This does NOT clean up the current working
-      # directory.
-      def setup_aruba
-        aruba.setup
-
-        self
-      end
-
       # Execute block in Aruba's current directory
       #
       # @yield
@@ -156,7 +145,7 @@ module Aruba
         unless Aruba.platform.directory? File.join(aruba.config.root_directory,
                                                    aruba.working_directory)
           raise "Aruba's working directory does not exist. " \
-                'Maybe you forgot to run `setup_aruba` before using its API.'
+                'Maybe you forgot to run `aruba.setup` before using its API.'
         end
 
         prefix = file_name[0]

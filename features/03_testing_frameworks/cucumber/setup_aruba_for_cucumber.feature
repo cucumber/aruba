@@ -3,17 +3,23 @@ Feature: Getting started with Cucumber and aruba
   Background:
     Given I use the fixture "empty-app"
 
-  Scenario: Simple Integration
+  Scenario: Standard Integration
 
-    To use the simple integration just require `aruba/cucumber` in your
+    To use the standard integration just require `aruba/cucumber` in your
     `features/support/env.rb`.
 
-    The simple integration adds some `Before`-hooks for you:
+    The standard integration adds some `Before` hooks for you:
 
-      \* Setup Aruba Test directory
-      \* Clear environment (ENV)
-      \* Set HOME-variable from `aruba.home_directory`
-      \* Activate announcers based on `@announce-<name>`-tags
+    - Set up the temporary Aruba workspace directory
+    - Clear environment (ENV)
+    - Set HOME-variable from `aruba.home_directory`
+    - Activate announcers based on `@announce-<name>`-tags
+
+    It also adds `After` hooks to:
+
+    - Terminate any running commands
+    - Clear out the command monitor
+    - Tear down the temporary Aruba workspace directory
 
     Given a file named "features/support/env.rb" with:
     """
@@ -40,10 +46,17 @@ Feature: Getting started with Cucumber and aruba
     There might be some use cases where you want to build an aruba integration
     of your own. You need to include the API and make sure, that you run
 
-      \* `setup_aruba`
-      \* `terminate_all_commands`
+    - `aruba.setup`
 
     before any method of aruba is used.
+
+    Also, make sure you run
+
+    - `terminate_all_commands`
+    - `aruba.command_monitor.clear`
+    - `aruba.teardown`
+
+    after each scenario.
 
     Given a file named "features/support/env.rb" with:
     """
@@ -57,17 +70,14 @@ Feature: Getting started with Cucumber and aruba
 
       # Mock HOME-directory
       set_environment_variable 'HOME', aruba.home_directory
+
+      aruba.setup
     end
 
-    # Make sure you command can be found by "aruba"
     After do
       terminate_all_commands
       aruba.command_monitor.clear
-    end
-
-    # Clean up
-    Before('not @no-clobber') do
-      setup_aruba
+      aruba.teardown
     end
     """
     And a file named "features/use_aruba_with_cucumber.feature" with:

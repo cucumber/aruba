@@ -18,13 +18,14 @@ Before do
   set_environment_variable 'HOME', aruba.home_directory
 end
 
+Before do
+  aruba.setup
+end
+
 After do
   terminate_all_commands
   aruba.command_monitor.clear
-end
-
-Before do
-  setup_aruba
+  aruba.teardown
 end
 
 Before('@puts') do

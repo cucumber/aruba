@@ -154,7 +154,11 @@ module Aruba
             include Aruba::Api
 
             def setup
-              setup_aruba
+              aruba.setup
+            end
+
+            def teardown
+              aruba.teardown
             end
 
             def test_dummy

@@ -160,8 +160,10 @@ for the most up to date documentation.
      include Aruba::Api
 
      def setup
-       setup_aruba
+       aruba.setup
      end
+
+     # TODO: Teardown
 
      def test_getting_started_with_aruba
        file = 'file.txt'
