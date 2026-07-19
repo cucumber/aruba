@@ -13,7 +13,7 @@ Feature: Wait for output of commands
     Feature: Run command
       Scenario: Run command
         When I run `irb --prompt classic` interactively
-        And I wait for output to contain "irb"
+        And I wait for the output to contain "irb"
         And I type "puts 6 + 5"
         And I type "exit"
         Then the output should contain "11"
@@ -33,7 +33,7 @@ Feature: Wait for output of commands
     Feature: Run command
       Scenario: Run command
         When I run `irb --prompt classic` interactively
-        And I wait for output to contain:
+        And I wait for the output to contain:
           \"\"\"
           irb(main):001:0>
           \"\"\"
@@ -50,7 +50,7 @@ Feature: Wait for output of commands
     Feature: Run command
       Scenario: Run command
         When I run `irb --prompt classic` interactively
-        And I wait for output to contain:
+        And I wait for the output to contain:
           \"\"\"
           irb(main):001:0>
           \"\"\"
