@@ -157,8 +157,8 @@ module Aruba
 
         @process = ProcessRunner.new(command_string.to_a)
 
-        @stdout_file = Tempfile.create('aruba-stdout-')
-        @stderr_file = Tempfile.create('aruba-stderr-')
+        @stdout_file = Tempfile.create('aruba-stdout-', anonymous: true)
+        @stderr_file = Tempfile.create('aruba-stderr-', anonymous: true)
 
         @stdout_file.sync = true
         @stderr_file.sync = true
@@ -371,7 +371,6 @@ module Aruba
         file.rewind
         data = file.read
         file.close
-        File.unlink file.path
 
         data.force_encoding('UTF-8')
       end
