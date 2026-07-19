@@ -30,7 +30,7 @@ module Aruba
       # artifacts of your tests. This does NOT clean up the current working
       # directory.
       def setup_aruba
-        Aruba::Setup.new(aruba).call
+        aruba.setup
 
         self
       end

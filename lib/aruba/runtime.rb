@@ -69,18 +69,14 @@ module Aruba
       @setup_done = false
     end
 
-    # @private
-    #
-    # Setup of aruba is finshed. Should be used only internally.
-    def setup_done
-      @setup_done = true
-    end
+    # Set up Aruba's workspace and event bus. Cleans out the workspace as well.
+    def setup
+      return if setup_already_done?
 
-    # @private
-    #
-    # Has aruba already been setup. Should be used only internally.
-    def setup_already_done?
-      @setup_done == true
+      @setup = Aruba::Setup.new(self)
+      @setup.call
+
+      setup_done
     end
 
     # The path to the directory which contains fixtures
@@ -106,6 +102,17 @@ module Aruba
       end
 
       ArubaPath.new(@fixtures_directory)
+    end
+
+    private
+
+    # Setup of aruba is finshed.
+    def setup_done
+      @setup_done = true
+    end
+
+    def setup_already_done?
+      @setup_done == true
     end
   end
 end

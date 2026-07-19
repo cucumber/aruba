@@ -13,12 +13,8 @@ module Aruba
     end
 
     def call
-      return if runtime.setup_already_done?
-
       working_directory
       register_event_handlers
-
-      runtime.setup_done
 
       self
     end
