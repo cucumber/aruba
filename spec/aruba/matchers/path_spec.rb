@@ -5,12 +5,12 @@ require 'spec_helper'
 require 'fileutils'
 require 'aruba/matchers/path'
 
-RSpec.describe 'Path Matchers' do
+RSpec.describe 'Path Matchers', type: :aruba do
   include_context 'uses aruba API'
 
   describe 'to_be_an_absolute_path' do
     let(:name) { @file_name }
-    let(:path) { @aruba.expand_path(name) }
+    let(:path) { expand_path(name) }
 
     context 'when is absolute path' do
       it { expect(path).to be_an_absolute_path }
@@ -38,7 +38,7 @@ RSpec.describe 'Path Matchers' do
 
     context 'when directory' do
       let(:name) { 'test.d' }
-      let(:path) { @aruba.expand_path(name) }
+      let(:path) { expand_path(name) }
 
       context 'exists' do
         before do
@@ -61,9 +61,9 @@ RSpec.describe 'Path Matchers' do
     let(:permissions) { '0644' }
 
     before do
-      @aruba.set_environment_variable 'HOME', File.expand_path(@aruba.aruba.current_directory)
+      set_environment_variable 'HOME', File.expand_path(aruba.current_directory)
       File.open(file_path, 'w') { |f| f << '' }
-      @aruba.chmod(permissions, file_name)
+      chmod(permissions, file_name)
     end
 
     context 'when file exists' do
@@ -81,7 +81,7 @@ RSpec.describe 'Path Matchers' do
         context 'and path includes ~' do
           let(:string) { random_string }
           let(:file_name) { File.join('~', string) }
-          let(:file_path) { File.join(@aruba.aruba.current_directory, string) }
+          let(:file_path) { File.join(aruba.current_directory, string) }
 
           it { expect(file_name).to have_permissions permissions }
         end

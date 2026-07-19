@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'aruba' do
+RSpec.describe 'aruba', type: :aruba do
   describe '#config' do
     subject(:config) { aruba.config }
 

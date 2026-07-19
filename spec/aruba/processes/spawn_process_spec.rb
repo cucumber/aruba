@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Aruba::Processes::SpawnProcess do
+RSpec.describe Aruba::Processes::SpawnProcess, type: :aruba do
   subject(:process) do
     described_class.new(command_line, exit_timeout, io_wait, working_directory)
   end
@@ -12,7 +12,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
   let(:command_line) { 'echo "yo"' }
   let(:exit_timeout) { 30 }
   let(:io_wait) { 1 }
-  let(:working_directory) { @aruba.expand_path('.') }
+  let(:working_directory) { expand_path('.') }
 
   describe '#stdout' do
     context 'with a command that is stopped' do
@@ -36,7 +36,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       let(:exit_timeout) { 0.1 }
 
       before do
-        @aruba.write_file cmd, <<~BASH
+        write_file cmd, <<~BASH
           #!/usr/bin/env bash
 
           echo "yo"
@@ -78,7 +78,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       let(:exit_timeout) { 0.1 }
 
       before do
-        @aruba.write_file cmd, <<~BASH
+        write_file cmd, <<~BASH
           #!/usr/bin/env bash
 
           echo "yo" >&2
@@ -135,7 +135,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       let(:exit_timeout) { 0.1 }
 
       before do
-        @aruba.write_file cmd, <<~BASH
+        write_file cmd, <<~BASH
           #!/usr/bin/env bash
 
           sleep 5
@@ -170,7 +170,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       before do
         skip 'Signals other than KILL are not supported on Windows' if Gem.win_platform?
 
-        @aruba.write_file cmd, <<~BASH
+        write_file cmd, <<~BASH
           #!/usr/bin/env bash
 
           function hup {
@@ -347,7 +347,7 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       let(:command_line) { 'bash bin/test-cli' }
 
       before do
-        @aruba.write_file cmd, <<~BASH
+        write_file cmd, <<~BASH
           #!/usr/bin/env bash
 
           sleep 5
@@ -412,8 +412,8 @@ RSpec.describe Aruba::Processes::SpawnProcess do
       end
 
       before do
-        @aruba.write_file cmd, file_content
-        command_path = @aruba.expand_path cmd
+        write_file cmd, file_content
+        command_path = expand_path cmd
         allow(Aruba.platform)
           .to receive(:which).with(cmd, anything).and_return(command_path)
       end

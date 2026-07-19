@@ -12,7 +12,7 @@ RSpec.shared_context 'uses aruba API' do
     Array(files).each do |s|
       next if s.to_s[0] == '%'
 
-      local_path = @aruba.expand_path(s)
+      local_path = expand_path(s)
 
       FileUtils.mkdir_p File.dirname(local_path)
       File.open(local_path, 'w') { |f| f << data }
@@ -20,18 +20,11 @@ RSpec.shared_context 'uses aruba API' do
   end
 
   before do
-    klass = Class.new do
-      include Aruba::Api
-    end
-
-    @aruba = klass.new
-
     @file_name = 'test.txt'
     @file_size = 256
-    @file_path = @aruba.expand_path(@file_name)
-    @aruba.setup_aruba
+    @file_path = expand_path(@file_name)
 
-    if @aruba.aruba.current_directory[0] == '/'
+    if aruba.current_directory[0] == '/'
       raise 'We must work with relative paths, everything else is dangerous'
     end
   end

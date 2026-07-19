@@ -25,9 +25,6 @@ RSpec.configure do |config|
   config.profile_examples = 10
 
   config.expect_with :rspec
-
-  config.include Aruba::Api
-  config.before { setup_aruba }
 end
 
 # Load support files

@@ -4,12 +4,10 @@ require 'spec_helper'
 require 'aruba/matchers/directory'
 require 'fileutils'
 
-RSpec.describe 'Directory Matchers' do
-  include_context 'uses aruba API'
-
+RSpec.describe 'Directory Matchers', type: :aruba do
   describe 'to_be_an_existing_directory' do
     let(:name) { 'test.d' }
-    let(:path) { @aruba.expand_path(name) }
+    let(:path) { expand_path(name) }
 
     context 'when directory exists' do
       before do
@@ -26,7 +24,7 @@ RSpec.describe 'Directory Matchers' do
 
   describe 'to_have_sub_directory' do
     let(:name) { 'test.d' }
-    let(:path) { @aruba.expand_path(name) }
+    let(:path) { expand_path(name) }
     let(:content) { %w[subdir.1.d subdir.2.d] }
 
     context 'when directory exists' do
