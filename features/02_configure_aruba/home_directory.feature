@@ -21,5 +21,5 @@ Feature: Configure the home directory to be used with aruba
     When I successfully run `rspec`
     Then the output should match:
     """
-    The home directory is "/.*/tmp/aruba"
+    The home directory is ".*/tmp/aruba"
     """

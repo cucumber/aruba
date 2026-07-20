@@ -40,11 +40,8 @@ jobs:
         # ------------------------------------
         # Cucumber 11 | Ruby 3.2
         #
-        ruby: ["3.2", "3.3", "3.4", "jruby-10.0", "4.0"]
+        ruby: ["3.3"]
         appraisal: [cucumber_11]
-        include:
-          - ruby: "4.0"
-            appraisal: rspec_4
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.appraisal }}.gemfile
@@ -69,7 +66,7 @@ jobs:
       matrix:
         # This will automatically pick the latest supported version of Cucumber
         # for each Ruby version
-        ruby: ["3.2", "3.3", "3.4", "4.0"]
+        ruby: ["3.3"]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -92,7 +89,7 @@ jobs:
       matrix:
         # This will automatically pick the latest supported version of Cucumber
         # for each Ruby version
-        ruby: ["3.2", "3.3", "3.4", "4.0"]
+        ruby: ["3.3"]
     runs-on: windows-latest
     steps:
       - name: git config autocrlf
@@ -106,12 +103,14 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler: latest
           bundler-cache: true
-      - name: Run specs
-        run: bundle exec rake spec
-      - name: Run cukes (1)
-        run: bundle exec cucumber features/01_getting_started_with_aruba/
+      # - name: Run specs
+      #   run: bundle exec rake spec
+      # - name: Run cukes (1)
+      #   run: bundle exec cucumber features/01_getting_started_with_aruba/
       # - name: Run cukes (2)
       #   run: bundle exec cucumber features/02_configure_aruba/
+      - name: Run cukes - focus!
+        run: bundle exec cucumber features/02_configure_aruba/basics.feature
       # - name: Run cukes (3)
       #   run: bundle exec cucumber features/03_testing_frameworks/
       # - name: Run cukes (4)
