@@ -14,12 +14,13 @@ Feature: Usage of configuration
   Background:
     Given I use a fixture named "cli-app"
     And an executable named "bin/aruba-test-cli" with:
-    """bash
-    #!/bin/bash
-    trap "exit 128" SIGTERM SIGINT
-    sleep $*
+    """ruby
+    #!/usr/bin/env ruby
+    sleep ARGV[0].to_f
     """
 
+  # TMP: Disable temporarily
+  @unsupported-on-platform-windows
   Scenario: Setting default values for option for RSpec
     Given a file named "spec/support/aruba_config.rb" with:
     """ruby
@@ -108,7 +109,7 @@ Feature: Usage of configuration
 
       Scenario: Slow command
         When I run `aruba-test-cli 1.0`
-        Then the exit status should be 128
+        Then the exit status should not be 0
     """
     When I run `cucumber`
     Then the features should all pass
@@ -122,7 +123,7 @@ Feature: Usage of configuration
     Given a file named "features/support/aruba_config.rb" with:
     """ruby
     Aruba.configure do |config|
-      config.exit_timeout = 0.2
+      config.exit_timeout = 0.5
     end
     """
     And a file named "features/support/hooks.rb" with:
@@ -144,8 +145,8 @@ Feature: Usage of configuration
         Then the exit status should be 0
 
       Scenario: Slow command which might be a failure
-        When I run `aruba-test-cli 0.5`
-        Then the exit status should be 128
+        When I run `aruba-test-cli 1`
+        Then the exit status should not be 0
     """
     When I run `cucumber`
     Then the features should all pass

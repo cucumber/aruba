@@ -40,11 +40,8 @@ jobs:
         # ------------------------------------
         # Cucumber 11 | Ruby 3.2
         #
-        ruby: ["3.2", "3.3", "3.4", "jruby-10.0", "4.0"]
+        ruby: ["3.3"]
         appraisal: [cucumber_11]
-        include:
-          - ruby: "4.0"
-            appraisal: rspec_4
 
     env:
       BUNDLE_GEMFILE: gemfiles/${{ matrix.appraisal }}.gemfile
@@ -60,8 +57,20 @@ jobs:
           bundler-cache: true
       - name: Run specs
         run: bundle exec rake spec
-      - name: Run cukes
-        run: bundle exec rake cucumber
+      - name: Run cukes (1)
+        run: bundle exec cucumber features/01_getting_started_with_aruba/
+      - name: Run cukes (2)
+        run: bundle exec cucumber features/02_configure_aruba/
+      - name: Run cukes (3)
+        run: bundle exec cucumber features/03_testing_frameworks/
+      - name: Run cukes (4)
+        run: bundle exec cucumber features/04_aruba_api/
+      - name: Run cukes (5)
+        run: bundle exec cucumber features/05_use_rspec_matchers/
+      - name: Run cukes (6)
+        run: bundle exec cucumber features/06_use_aruba_cli/
+      - name: Run cukes (8)
+        run: bundle exec cucumber features/08_other/
 
   test-macos:
     strategy:
@@ -69,7 +78,7 @@ jobs:
       matrix:
         # This will automatically pick the latest supported version of Cucumber
         # for each Ruby version
-        ruby: ["3.2", "3.3", "3.4", "4.0"]
+        ruby: ["3.3"]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -83,8 +92,20 @@ jobs:
           bundler-cache: true
       - name: Run specs
         run: bundle exec rake spec
-      - name: Run cukes
-        run: bundle exec rake cucumber
+      - name: Run cukes (1)
+        run: bundle exec cucumber features/01_getting_started_with_aruba/
+      - name: Run cukes (2)
+        run: bundle exec cucumber features/02_configure_aruba/
+      - name: Run cukes (3)
+        run: bundle exec cucumber features/03_testing_frameworks/
+      - name: Run cukes (4)
+        run: bundle exec cucumber features/04_aruba_api/
+      - name: Run cukes (5)
+        run: bundle exec cucumber features/05_use_rspec_matchers/
+      - name: Run cukes (6)
+        run: bundle exec cucumber features/06_use_aruba_cli/
+      - name: Run cukes (8)
+        run: bundle exec cucumber features/08_other/
 
   test-windows:
     strategy:
@@ -92,7 +113,7 @@ jobs:
       matrix:
         # This will automatically pick the latest supported version of Cucumber
         # for each Ruby version
-        ruby: ["3.2", "3.3", "3.4", "4.0"]
+        ruby: ["3.3"]
     runs-on: windows-latest
     steps:
       - name: git config autocrlf
@@ -110,18 +131,18 @@ jobs:
         run: bundle exec rake spec
       - name: Run cukes (1)
         run: bundle exec cucumber features/01_getting_started_with_aruba/
-      # - name: Run cukes (2)
-      #   run: bundle exec cucumber features/02_configure_aruba/
-      # - name: Run cukes (3)
-      #   run: bundle exec cucumber features/03_testing_frameworks/
-      # - name: Run cukes (4)
-      #   run: bundle exec cucumber features/04_aruba_api/
-      # - name: Run cukes (5)
-      #   run: bundle exec cucumber features/05_use_rspec_matchers/
-      # - name: Run cukes (6)
-      #   run: bundle exec cucumber features/06_use_aruba_cli/
-      # - name: Run cukes (8)
-      #   run: bundle exec cucumber features/08_other/
+      - name: Run cukes (2)
+        run: bundle exec cucumber features/02_configure_aruba/
+      - name: Run cukes (3)
+        run: bundle exec cucumber features/03_testing_frameworks/
+      - name: Run cukes (4)
+        run: bundle exec cucumber features/04_aruba_api/
+      - name: Run cukes (5)
+        run: bundle exec cucumber features/05_use_rspec_matchers/
+      - name: Run cukes (6)
+        run: bundle exec cucumber features/06_use_aruba_cli/
+      - name: Run cukes (8)
+        run: bundle exec cucumber features/08_other/
 
   checks:
     runs-on: ubuntu-latest

@@ -1,3 +1,4 @@
+@unsupported-on-platform-unix @unsupported-on-platform-mac
 Feature: After command hooks
 
   You can configure Aruba to run blocks of code after it has run
@@ -18,7 +19,6 @@ Feature: After command hooks
   Background:
     Given I use a fixture named "cli-app"
 
-  @requires-cat
   Scenario: Run a simple command with an "after(:command)"-hook
     Given a file named "features/support/hooks.rb" with:
     """
@@ -38,7 +38,7 @@ Feature: After command hooks
         \"\"\"
         Hello World
         \"\"\"
-        When I successfully run `cat file.txt`
+        When I successfully run `type file.txt`
         Then the output should contain:
         \"\"\"
         Hello World
@@ -48,5 +48,5 @@ Feature: After command hooks
     Then the features should all pass
     And the output should contain:
     """
-    after the run of `cat file.txt`
+    after the run of `type file.txt`
     """

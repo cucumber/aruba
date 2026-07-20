@@ -1,3 +1,4 @@
+@requires-cat
 Feature: before_cmd hooks
 
   You can configure Aruba to run blocks of code before it runs
