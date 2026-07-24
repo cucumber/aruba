@@ -55,7 +55,7 @@ RSpec.describe 'Command Matchers', type: :aruba do
   end
 
   describe '#run_too_long' do
-    let(:slow_cmd) { 'sleep 0.2' }
+    let(:slow_cmd) { 'sleep 0.3' }
     let(:fast_cmd) { 'true' }
 
     before { aruba.config.exit_timeout = 0.1 }
