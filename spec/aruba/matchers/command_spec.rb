@@ -240,30 +240,7 @@ RSpec.describe 'Command Matchers', type: :aruba do
   end
 
   describe '#have_output_size' do
-    context 'when actual is a string' do
-      let(:obj) { 'string' }
-
-      before do
-        allow(Aruba.platform).to receive(:deprecated)
-      end
-
-      it 'matches when the string is the given size' do
-        expect(obj).to have_output_size 6
-      end
-
-      it 'does not match when the string does not have the given size' do
-        expect(obj).not_to have_output_size 5
-      end
-
-      it 'emits a deprecation warning' do
-        aggregate_failures do
-          expect(Aruba.platform).to receive(:deprecated)
-          expect(obj).to have_output_size 6
-        end
-      end
-    end
-
-    context 'when actual is a command' do
+    context 'when command has some output' do
       let(:cmd) { "echo #{output}" }
       let(:output) { 'hello world' }
 
