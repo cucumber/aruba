@@ -45,7 +45,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop-packaging', '~> 0.6.0'
   spec.add_development_dependency 'rubocop-performance', '~> 1.26'
   spec.add_development_dependency 'rubocop-rspec', '~> 3.10'
-  spec.add_development_dependency 'simplecov', '>= 0.18.0', '< 0.23.0'
+  spec.add_development_dependency 'simplecov', '~> 1.0.2'
 
   spec.required_ruby_version = '>= 3.2.0'
 
