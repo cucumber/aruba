@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-# @!method have_output_size(output)
-#   This matchers checks if output has size.
+# @!method have_output_size
+#   This matcher checks if the process has produced output of a given size.
 #
-#   @param [String,Aruba::Process:BasicProcess] output or process
-#     The content which should be checked, or the process whose output should be checked
-#
-#     Use of this matcher with a string is deprecated.
+#   @param [Aruba::Process:BasicProcess] process
+#     The process whose output should be checked
 #
 #   @return [Boolean] The result
 #
@@ -18,24 +16,13 @@
 #   @example Use matcher
 #
 #     RSpec.describe do
-#       it { expect(file1).to have_output_size(256) }
-#     end
-#
-#     RSpec.describe do
 #       it { expect(last_command_started).to have_output_size(256) }
 #     end
 RSpec::Matchers.define :have_output_size do |expected|
   match do |actual|
-    if actual.respond_to? :size
-      Aruba.platform.deprecated \
-        'Application of the have_output_size matcher to a string is deprecated. ' \
-        'Apply the matcher directly to the process object instead'
-      actual_size = actual.size
-    elsif actual.respond_to? :output
-      actual_size = actual.output.size
-    else
-      raise "Expected #{actual} to respond to #size or #output"
-    end
+    raise "Expected #{actual} to respond to #output" unless actual.respond_to? :output
+
+    actual_size = actual.output.size
 
     values_match? expected, actual_size
   end

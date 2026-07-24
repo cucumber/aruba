@@ -44,12 +44,6 @@ When 'I run {command} in the background' do |cmd|
   run_command(sanitize_text(cmd))
 end
 
-When 'I run {command} in background' do |cmd|
-  Aruba.platform.deprecated \
-    'This cucumber step is deprecated. Use "I run {command} in the background" instead.'
-  run_command(sanitize_text(cmd))
-end
-
 When 'I type {string}' do |input|
   type(unescape_text(input))
 end
@@ -387,21 +381,6 @@ Then(/^it should (pass|fail)$/) do |pass_fail|
   end
 end
 
-Then(/^it should not (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
-  Aruba.platform.deprecated \
-    'This cucumber step has confusing behavior and is deprecated.' \
-    "Use 'it should #{pass_fail}' with a negative output matcher step instead."
-  last_command_started.stop
-
-  if pass_fail == 'pass'
-    expect(last_command_stopped).to be_successfully_executed
-  else
-    expect(last_command_stopped).not_to be_successfully_executed
-  end
-
-  expect(last_command_stopped).not_to have_output an_output_string_including(expected)
-end
-
 Then(/^it should (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
   last_command_started.stop
 
@@ -412,21 +391,6 @@ Then(/^it should (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
   end
 
   expect(last_command_stopped).to have_output an_output_string_including(expected)
-end
-
-Then(/^it should not (pass|fail) with:$/) do |pass_fail, expected|
-  Aruba.platform.deprecated \
-    'This cucumber step has confusing behavior and is deprecated.' \
-    "Use 'it should #{pass_fail}' with a negative output matcher step instead."
-  last_command_started.stop
-
-  if pass_fail == 'pass'
-    expect(last_command_stopped).to be_successfully_executed
-  else
-    expect(last_command_stopped).not_to be_successfully_executed
-  end
-
-  expect(last_command_stopped).not_to have_output an_output_string_including(expected)
 end
 
 Then(/^it should (pass|fail) with:$/) do |pass_fail, expected|
@@ -441,21 +405,6 @@ Then(/^it should (pass|fail) with:$/) do |pass_fail, expected|
   expect(last_command_stopped).to have_output an_output_string_including(expected)
 end
 
-Then(/^it should not (pass|fail) with exactly:$/) do |pass_fail, expected|
-  Aruba.platform.deprecated \
-    'This cucumber step has confusing behavior and is deprecated.' \
-    "Use 'it should #{pass_fail}' with a negative output matcher step instead."
-  last_command_started.stop
-
-  if pass_fail == 'pass'
-    expect(last_command_stopped).to be_successfully_executed
-  else
-    expect(last_command_stopped).not_to be_successfully_executed
-  end
-
-  expect(last_command_stopped).not_to have_output an_output_string_eq(expected)
-end
-
 Then(/^it should (pass|fail) with exactly:$/) do |pass_fail, expected|
   last_command_started.stop
 
@@ -466,21 +415,6 @@ Then(/^it should (pass|fail) with exactly:$/) do |pass_fail, expected|
   end
 
   expect(last_command_stopped.output).to output_string_eq(expected)
-end
-
-Then(/^it should not (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
-  Aruba.platform.deprecated \
-    'This cucumber step has confusing behavior and is deprecated.' \
-    "Use 'it should #{pass_fail}' with a negative output matcher step instead."
-  last_command_started.stop
-
-  if pass_fail == 'pass'
-    expect(last_command_stopped).to be_successfully_executed
-  else
-    expect(last_command_stopped).not_to be_successfully_executed
-  end
-
-  expect(last_command_stopped).not_to have_output an_output_string_matching(expected)
 end
 
 Then(/^it should (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
