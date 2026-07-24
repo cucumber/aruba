@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Aruba::Processes::DebugProcess do
+RSpec.describe Aruba::Processes::DebugProcess, type: :aruba do
   subject(:process) do
     described_class.new(command_line, exit_timeout, io_wait, working_directory)
   end
@@ -12,7 +12,7 @@ RSpec.describe Aruba::Processes::DebugProcess do
   let(:command_line) { 'true' }
   let(:exit_timeout) { 30 }
   let(:io_wait) { 1 }
-  let(:working_directory) { @aruba.expand_path('.') }
+  let(:working_directory) { expand_path('.') }
 
   describe '#stop' do
     it 'makes the process stopped' do

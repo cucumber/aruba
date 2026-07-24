@@ -4,39 +4,39 @@ require 'spec_helper'
 require 'aruba/api'
 require 'fileutils'
 
-RSpec.describe Aruba::Api::Core do
+RSpec.describe Aruba::Api::Core, type: :aruba do
   include_context 'uses aruba API'
 
   describe '#cd' do
     before do
       @directory_name = 'test_dir'
-      @directory_path = File.join(@aruba.aruba.current_directory, @directory_name)
+      @directory_path = File.join(aruba.current_directory, @directory_name)
     end
 
     context 'with a block given' do
       it 'runs the passed block in the given directory' do
-        @aruba.create_directory @directory_name
+        create_directory @directory_name
         full_path = File.expand_path(@directory_path)
-        @aruba.cd @directory_name do
+        cd @directory_name do
           expect(Dir.pwd).to eq full_path
         end
         expect(Dir.pwd).not_to eq full_path
       end
 
       it 'sets directory environment in the passed block' do
-        @aruba.create_directory @directory_name
+        create_directory @directory_name
         old_pwd = Dir.pwd
         full_path = File.expand_path(@directory_path)
-        @aruba.cd @directory_name do
+        cd @directory_name do
           expect(ENV['PWD']).to eq full_path
           expect(ENV['OLDPWD']).to eq old_pwd
         end
       end
 
       it 'sets aruba environment in the passed block' do
-        @aruba.create_directory @directory_name
-        @aruba.set_environment_variable('FOO', 'bar')
-        @aruba.cd @directory_name do
+        create_directory @directory_name
+        set_environment_variable('FOO', 'bar')
+        cd @directory_name do
           expect(ENV['FOO']).to eq 'bar'
         end
       end
@@ -44,15 +44,15 @@ RSpec.describe Aruba::Api::Core do
       it 'does not touch other environment variables in the passed block' do
         keys = ENV.keys - %w[PWD OLDPWD]
         old_values = ENV.values_at(*keys)
-        @aruba.create_directory @directory_name
-        @aruba.cd @directory_name do
+        create_directory @directory_name
+        cd @directory_name do
           expect(ENV.values_at(*keys)).to eq old_values
         end
       end
 
       it 'expands "~" to the aruba home directory' do
         full_path = aruba.home_directory
-        @aruba.cd '~' do
+        cd '~' do
           expect(Dir.pwd).to eq full_path
         end
         expect(Dir.pwd).not_to eq full_path
@@ -61,83 +61,83 @@ RSpec.describe Aruba::Api::Core do
 
     context 'with no block given' do
       it "sets aruba's current directory to the given directory" do
-        @aruba.create_directory @directory_name
+        create_directory @directory_name
         full_path = File.expand_path(@directory_path)
-        @aruba.cd @directory_name
-        expect(File.expand_path(@aruba.aruba.current_directory)).to eq full_path
+        cd @directory_name
+        expect(File.expand_path(aruba.current_directory)).to eq full_path
       end
 
       it 'expands "~" to the aruba home directory' do
         full_path = aruba.home_directory
-        @aruba.cd '~'
-        expect(File.expand_path(@aruba.aruba.current_directory)).to eq full_path
+        cd '~'
+        expect(File.expand_path(aruba.current_directory)).to eq full_path
       end
     end
   end
 
   describe '#expand_path' do
     context 'when file_name is given' do
-      it { expect(@aruba.expand_path(@file_name)).to eq File.expand_path(@file_path) }
+      it { expect(expand_path(@file_name)).to eq File.expand_path(@file_path) }
     end
 
     context 'when an absolute file_path is given' do
-      let(:logger) { @aruba.aruba.logger }
+      let(:logger) { aruba.logger }
 
       before do
         allow(logger).to receive :warn
       end
 
       it 'raises a UserError' do
-        expect { @aruba.expand_path(@file_path) }.to raise_error Aruba::UserError
+        expect { expand_path(@file_path) }.to raise_error Aruba::UserError
       end
 
       it 'does not raise an error if told not to' do
-        @aruba.aruba.config.allow_absolute_paths = true
-        expect { @aruba.expand_path(@file_path) }.not_to raise_error
+        aruba.config.allow_absolute_paths = true
+        expect { expand_path(@file_path) }.not_to raise_error
       end
     end
 
     context 'when path contains "."' do
-      it { expect(@aruba.expand_path('.')).to eq File.expand_path(aruba.current_directory) }
+      it { expect(expand_path('.')).to eq File.expand_path(aruba.current_directory) }
     end
 
     context 'when path contains ".."' do
       it {
-        expect(@aruba.expand_path('path/..'))
+        expect(expand_path('path/..'))
           .to eq File.expand_path(File.join(aruba.current_directory))
       }
     end
 
     context 'when path is nil' do
-      it { expect { @aruba.expand_path(nil) }.to raise_error ArgumentError }
+      it { expect { expand_path(nil) }.to raise_error ArgumentError }
     end
 
     context 'when path is empty' do
-      it { expect { @aruba.expand_path('') }.to raise_error ArgumentError }
+      it { expect { expand_path('') }.to raise_error ArgumentError }
     end
 
     context 'when second argument is given' do
       it 'behaves similar to File.expand_path' do
-        expect(@aruba.expand_path(@file_name, 'path'))
+        expect(expand_path(@file_name, 'path'))
           .to eq File.expand_path(File.join(aruba.current_directory, 'path', @file_name))
       end
     end
 
     context 'when file_name contains fixtures "%" string' do
       it 'finds files in the fixtures directory' do
-        expect(@aruba.expand_path('%/cli-app'))
+        expect(expand_path('%/cli-app'))
           .to eq File.expand_path('cli-app', File.join(aruba.fixtures_directory))
       end
     end
   end
 
   describe '#in_current_directory' do
-    let(:directory_path) { @aruba.aruba.current_directory }
+    let(:directory_path) { aruba.current_directory }
     let!(:full_path) { File.expand_path(directory_path) }
 
     context 'with a block given' do
       it 'runs the passed block in the given directory' do
-        @aruba.in_current_directory do
+        in_current_directory do
           expect(Dir.pwd).to eq full_path
         end
         expect(Dir.pwd).not_to eq full_path
@@ -145,15 +145,15 @@ RSpec.describe Aruba::Api::Core do
 
       it 'sets directory environment in the passed block' do
         old_pwd = Dir.pwd
-        @aruba.in_current_directory do
+        in_current_directory do
           expect(ENV['PWD']).to eq full_path
           expect(ENV['OLDPWD']).to eq old_pwd
         end
       end
 
       it 'sets aruba environment in the passed block' do
-        @aruba.set_environment_variable('FOO', 'bar')
-        @aruba.in_current_directory do
+        set_environment_variable('FOO', 'bar')
+        in_current_directory do
           expect(ENV['FOO']).to eq 'bar'
         end
       end
@@ -161,7 +161,7 @@ RSpec.describe Aruba::Api::Core do
       it 'does not touch other environment variables in the passed block' do
         keys = ENV.keys - %w[PWD OLDPWD]
         old_values = ENV.values_at(*keys)
-        @aruba.in_current_directory do
+        in_current_directory do
           expect(ENV.values_at(*keys)).to eq old_values
         end
       end
@@ -173,7 +173,7 @@ RSpec.describe Aruba::Api::Core do
       variable = 'THIS_IS_A_ENV_VAR'
       ENV[variable] = '1'
 
-      @aruba.with_environment variable => '0' do
+      with_environment variable => '0' do
         expect(ENV[variable]).to eq '0'
       end
 
@@ -184,8 +184,8 @@ RSpec.describe Aruba::Api::Core do
       variable = 'THIS_IS_A_ENV_VAR'
       ENV[variable] = '1'
 
-      @aruba.with_environment variable => '0' do
-        @aruba.with_environment do
+      with_environment variable => '0' do
+        with_environment do
           expect(ENV[variable]).to eq '0'
         end
       end
@@ -195,12 +195,12 @@ RSpec.describe Aruba::Api::Core do
 
     it 'works together with #set_environment_variable' do
       variable = 'THIS_IS_A_ENV_VAR'
-      @aruba.set_environment_variable variable, '1'
+      set_environment_variable variable, '1'
 
-      @aruba.with_environment do
+      with_environment do
         expect(ENV[variable]).to eq '1'
-        @aruba.set_environment_variable variable, '0'
-        @aruba.with_environment do
+        set_environment_variable variable, '0'
+        with_environment do
           expect(ENV[variable]).to eq '0'
         end
         expect(ENV[variable]).to eq '1'
@@ -209,14 +209,14 @@ RSpec.describe Aruba::Api::Core do
 
     it 'works with a mix of ENV and #set_environment_variable' do
       variable = 'THIS_IS_A_ENV_VAR'
-      @aruba.set_environment_variable variable, '1'
+      set_environment_variable variable, '1'
       ENV[variable] = '2'
       expect(ENV[variable]).to eq '2'
 
-      @aruba.with_environment do
+      with_environment do
         expect(ENV[variable]).to eq '1'
-        @aruba.set_environment_variable variable, '0'
-        @aruba.with_environment do
+        set_environment_variable variable, '0'
+        with_environment do
           expect(ENV[variable]).to eq '0'
         end
         expect(ENV[variable]).to eq '1'
@@ -227,10 +227,10 @@ RSpec.describe Aruba::Api::Core do
     it 'works with a mix of argument and #set_environment_variable' do
       variable = 'THIS_IS_A_ENV_VAR'
 
-      @aruba.set_environment_variable variable, '1'
-      @aruba.with_environment variable => '2' do
+      set_environment_variable variable, '1'
+      with_environment variable => '2' do
         expect(ENV[variable]).to eq '2'
-        @aruba.with_environment do
+        with_environment do
           expect(ENV[variable]).to eq '2'
         end
       end
@@ -239,9 +239,9 @@ RSpec.describe Aruba::Api::Core do
     it 'works together with #delete_environment_variable' do
       variable = 'THIS_IS_A_ENV_VAR'
       ENV[variable] = '2'
-      @aruba.delete_environment_variable variable
+      delete_environment_variable variable
 
-      @aruba.with_environment do
+      with_environment do
         expect(ENV[variable]).to be_nil
       end
       expect(ENV[variable]).to eq '2'
@@ -250,13 +250,13 @@ RSpec.describe Aruba::Api::Core do
     it 'works with #delete_environment_variable when called several times' do
       variable = 'THIS_IS_A_ENV_VAR'
       ENV[variable] = '2'
-      @aruba.delete_environment_variable variable
+      delete_environment_variable variable
 
-      @aruba.with_environment do
+      with_environment do
         expect(ENV[variable]).to be_nil
       end
 
-      @aruba.with_environment do
+      with_environment do
         expect(ENV[variable]).to be_nil
       end
       expect(ENV[variable]).to eq '2'
@@ -265,11 +265,11 @@ RSpec.describe Aruba::Api::Core do
     it 'forgets passed argument when called again' do
       variable = 'THIS_IS_A_ENV_VAR'
 
-      @aruba.with_environment variable => 2 do
+      with_environment variable => 2 do
         expect(ENV[variable]).to eq '2'
       end
 
-      @aruba.with_environment do
+      with_environment do
         expect(ENV[variable]).to be_nil
       end
     end
@@ -279,7 +279,7 @@ RSpec.describe Aruba::Api::Core do
       ENV[variable] = '2'
       expect(ENV[variable]).to eq '2'
 
-      @aruba.with_environment do
+      with_environment do
         expect(ENV[variable]).to eq '2'
       end
       expect(ENV[variable]).to eq '2'

@@ -2,9 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Command Matchers' do
-  include_context 'uses aruba API'
-
+RSpec.describe 'Command Matchers', type: :aruba do
   describe '#have_exit_status' do
     let(:cmd) { 'true' }
 

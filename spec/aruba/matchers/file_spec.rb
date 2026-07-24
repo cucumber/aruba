@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'aruba/matchers/file'
 
-RSpec.describe 'File Matchers' do
+RSpec.describe 'File Matchers', type: :aruba do
   include_context 'uses aruba API'
 
   describe '#be_an_existing_file' do
@@ -23,13 +23,13 @@ RSpec.describe 'File Matchers' do
       let(:name) { File.join('~', random_string) }
 
       before do
-        @aruba.with_environment 'HOME' => expand_path('.') do
+        with_environment 'HOME' => expand_path('.') do
           create_test_files(name)
         end
       end
 
       it do
-        @aruba.with_environment 'HOME' => expand_path('.') do
+        with_environment 'HOME' => expand_path('.') do
           expect(name).to be_an_existing_file
         end
       end
@@ -118,8 +118,8 @@ RSpec.describe 'File Matchers' do
     let(:reference_file) { 'fixture' }
 
     before do
-      @aruba.write_file(@file_name, 'foo bar baz')
-      @aruba.write_file(reference_file, reference_file_content)
+      write_file(@file_name, 'foo bar baz')
+      write_file(reference_file, reference_file_content)
     end
 
     context 'when files are the same' do
@@ -161,9 +161,9 @@ RSpec.describe 'File Matchers' do
     let(:file_with_different_content) { 'file_b.txt' }
 
     before do
-      @aruba.write_file(file_with_same_content, reference_file_content)
-      @aruba.write_file(reference_file, reference_file_content)
-      @aruba.write_file(file_with_different_content, 'Some different content here...')
+      write_file(file_with_same_content, reference_file_content)
+      write_file(reference_file, reference_file_content)
+      write_file(file_with_different_content, 'Some different content here...')
     end
 
     context 'when the array of files includes a file with the same content' do
@@ -222,8 +222,8 @@ RSpec.describe 'File Matchers' do
       let(:file) { Gem.win_platform? ? 'foo.bat' : 'foo' }
 
       before do
-        @aruba.write_file(file, '')
-        @aruba.chmod(0x755, file) unless Gem.win_platform?
+        write_file(file, '')
+        chmod(0x755, file) unless Gem.win_platform?
       end
 
       it 'matches' do
@@ -235,7 +235,7 @@ RSpec.describe 'File Matchers' do
       let(:file) { Gem.win_platform? ? 'foo.txt' : 'foo' }
 
       before do
-        @aruba.write_file(file, '')
+        write_file(file, '')
       end
 
       it 'does not match' do
@@ -258,8 +258,8 @@ RSpec.describe 'File Matchers' do
 
       before do
         prepend_environment_variable('PATH', expand_path('.') + File::PATH_SEPARATOR)
-        @aruba.write_file(file, '')
-        @aruba.chmod(0x755, file) unless Gem.win_platform?
+        write_file(file, '')
+        chmod(0x755, file) unless Gem.win_platform?
       end
 
       it 'matches' do
@@ -271,8 +271,8 @@ RSpec.describe 'File Matchers' do
       let(:file) { Gem.win_platform? ? 'foo.bat' : 'foo' }
 
       before do
-        @aruba.write_file(file, '')
-        @aruba.chmod(0x755, file) unless Gem.win_platform?
+        write_file(file, '')
+        chmod(0x755, file) unless Gem.win_platform?
       end
 
       it 'does not match' do
@@ -285,7 +285,7 @@ RSpec.describe 'File Matchers' do
 
       before do
         prepend_environment_variable('PATH', expand_path('.') + File::PATH_SEPARATOR)
-        @aruba.write_file(file, '')
+        write_file(file, '')
       end
 
       it 'does not match' do
@@ -325,8 +325,8 @@ RSpec.describe 'File Matchers' do
 
       before do
         set_environment_variable('PATH', expand_path('.'))
-        @aruba.write_file(file, '')
-        @aruba.chmod(0x755, file) unless Gem.win_platform?
+        write_file(file, '')
+        chmod(0x755, file) unless Gem.win_platform?
       end
 
       it 'provides the correct path value in the message' do

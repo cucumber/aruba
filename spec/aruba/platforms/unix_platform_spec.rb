@@ -3,9 +3,7 @@
 require 'spec_helper'
 require 'aruba/platforms/unix_platform'
 
-RSpec.describe Aruba::Platforms::UnixPlatform do
-  include_context 'uses aruba API'
-
+RSpec.describe Aruba::Platforms::UnixPlatform, type: :aruba do
   describe '.match?' do
     it 'works even when ruby is launched with --disable-gems and --disable-rubyopt' do
       aruba_lib = File.expand_path('../../../lib', __dir__)
