@@ -5,12 +5,12 @@ SimpleCov.configure do
   enable_coverage :branch
 
   # ignore this file
-  add_filter '.simplecov'
-  add_filter 'features'
+  skip '.simplecov'
+  skip 'features'
 
   # Rake tasks aren't tested with rspec
-  add_filter 'Rakefile'
-  add_filter 'lib/tasks'
+  skip 'Rakefile'
+  skip 'lib/tasks'
 
   #
   # Changed Files in Git Group
@@ -21,15 +21,15 @@ SimpleCov.configure do
   all               = untracked + unstaged + staged
   changed_filenames = all.split("\n")
 
-  add_group 'Changed' do |source_file|
+  group 'Changed' do |source_file|
     changed_filenames.select do |changed_filename|
       source_file.filename.end_with?(changed_filename)
     end
   end
 
-  add_group 'Libraries', 'lib'
+  group 'Libraries', 'lib'
 
   # Specs are reported on to ensure that all examples are being run and all
   # lets, befores, afters, etc are being used.
-  add_group 'Specs', 'spec/'
+  group 'Specs', 'spec/'
 end
