@@ -3,29 +3,24 @@
 #
 # Build the Docker image using:
 #
-#   docker build -t test-aruba-docker .
+#   podman build -t test-aruba-podman -f Dockerfile.podman .
 #
-# You can pick any image name instead of test-aruba-docker, of course. After
+# You can pick any image name instead of test-aruba-podman, of course. After
 # the build is done, run bash interactively inside the image like so:
 #
-#   docker run -v $PWD:/aruba --rm -it test-aruba-docker:latest bash
+#   podman run -v $PWD:/aruba --rm -it test-aruba-podman:latest bash
 #
 # The `-v $PWD:/aruba` will make the container pick up any changes to the
 # code, so you can edit and re-run the tests.
 
-FROM ruby:4.0
-
-# Create aruba user
-RUN useradd -m -s /bin/bash aruba
+FROM docker.io/ruby:4.0
 
 RUN mkdir /aruba
-RUN chown aruba:aruba /aruba
 
-# Run the rest of the steps as non-root
-USER aruba
+# Run the rest of the steps in the aruba environment
 WORKDIR /aruba
 
-# Ensure Bundler 2.x is installed
+# Ensure Bundler 4.x is installed
 RUN gem update bundler
 
 # Add just the files needed for running bundle install

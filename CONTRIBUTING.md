@@ -1,16 +1,14 @@
 # Contributing to the Cucumber Aruba Project
 
-## Introduction
-
 We would love to get help from you as a **user** and a **contributor**.
 
-### As a **User**
+As a **User**:
 
 * Tell us how "Aruba" works for you
 * Spread the word if you like our work and please tell us if something is (utterly) wrong
 * Encourage people in testing their code and keep communicating their needs
 
-### As a **Contributor**
+As a **Contributor**:
 
 * Send us bug fixes
 * Add new features to the code
@@ -48,9 +46,7 @@ please learn our basic rules:
 
 ### Pull Requests
 
-#### Contributors
-
-Please...
+**Contributors**, please
 
 * Fork the project. Make a branch for your change.
 * Make your feature addition or bug fix &mdash; if you're unsure if your
@@ -69,7 +65,7 @@ Please...
   lines/files relevant for a single change.
 * Send us a pull request.
 
-#### Maintainers
+**Maintainers**,
 
 * Use pull requests for larger or controversial changes made by yourself or
   changes you might expected to break the build.
@@ -129,29 +125,61 @@ bundle exec rake cucumber
 bundle exec rake cucumber:wip
 ```
 
-If you have problems because our assumptions about your local setup are wrong,
-perhaps you can use this Docker workflow. This requires [Docker] to be
-installed on your local system.
-
-```bash
-# Build the docker container
-docker build -t test-aruba .
-
-# Open a bash shell inside the container with attached volume so changes to the
-# code will be picked up automatically.
-docker run -v $PWD:/aruba --rm -it test-aruba:latest bash
-
-# Run the test suite
-bundle exec rake
-```
-
 If you want to run the test suite against specific versions of Aruba's
 dependencies, you can use [appraisal](https://github.com/thoughtbot/appraisal):
 
 ```bash
-bundle exec appraisal cucumber_6 bundle install
-bundle exec appraisal cucumber_6 bundle exec rake
+bundle exec appraisal cucumber_11 bundle install
+bundle exec appraisal cucumber_11 bundle exec rake
 ```
+
+### Running tests in a container
+
+If you have problems because our assumptions about your local setup are wrong,
+perhaps you can use this Docker workflow. This requires [Docker] or [Podman] to be
+installed on your local system.
+
+**Using Docker**
+
+1. Build the container:
+
+   ```bash
+   docker build -t test-aruba-docker .
+   ```
+
+2. Open a bash shell inside the container with attached volume so changes to
+   the code will be picked up automatically:
+
+   ```bash
+   docker run -v $PWD:/aruba --rm -it test-aruba-docker:latest bash
+   ```
+
+3. Inside the container, run the test suite:
+
+   ```bash
+   bundle exec rake
+   ```
+
+**Using Podman**
+
+1. Build the container:
+
+   ```bash
+   podman build -t test-aruba-podman -f Dockerfile.podman .
+   ```
+
+2. Open a bash shell inside the container with attached volume so changes to
+   the code will be picked up automatically:
+
+   ```bash
+   podman run -v $PWD:/aruba --rm -it test-aruba-podman:latest bash
+   ```
+
+3. Inside the container, run the test suite:
+
+   ```bash
+   bundle exec rake
+   ```
 
 ### Installing your own gems used for development
 
@@ -196,10 +224,11 @@ bundle exec rake install:local
 * No need to add a [`CHANGELOG.md`][changelog] header at this point - this
   should be done later, when a new change is made.
 
-See [the general Cucumber project release process](https://github.com/cucumber/.github/blob/main/RELEASING.md).
+See [the general Cucumber project release process][releasing].
 
 [changelog]: CHANGELOG.md
 [readme]: README.md
+[releasing]: https://github.com/cucumber/.github/blob/main/RELEASING.md
 
 [`rubocop`]: https://github.com/bbatsov/rubocop
 [Ruby Community Style Guide]: https://github.com/bbatsov/ruby-style-guide
@@ -209,6 +238,7 @@ See [the general Cucumber project release process](https://github.com/cucumber/.
 [Bundler]: https://bundler.io/
 
 [Docker]: https://docs.docker.com/
+[Podman]: https://podman.io/docs
 [YARD]: http://yardoc.org/
 ["How to Write a Git Commit Message"]: http://chris.beams.io/posts/git-commit/
 [cucumber/website]: https://github.com/cucumber/website
