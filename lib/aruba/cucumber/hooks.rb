@@ -10,16 +10,16 @@ Around do |_, block|
 end
 
 Before do
-  # ... so every change needs to be done later
+  aruba.setup
+
+  # Modify PATH to include project/bin
   prepend_environment_variable(
     'PATH',
     aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
   )
-  set_environment_variable 'HOME', aruba.home_directory
-end
 
-Before do
-  aruba.setup
+  # Use configured home directory as HOME
+  set_environment_variable 'HOME', aruba.home_directory
 end
 
 After do

@@ -21,7 +21,7 @@ Feature: Configure working directory of aruba
     RSpec.describe 'Workspace', :type => :aruba do
       it 'uses "aruba" by default' do
         run_command("pwd")
-        expect(last_command_started).to have_output(/tmp\/aruba$/)
+        expect(last_command_started).to have_output(/tmp\/aruba-[^\/]+$/)
       end
     end
     """
@@ -45,10 +45,10 @@ Feature: Configure working directory of aruba
     RSpec.describe 'Workspace', :type => :aruba do
       it 'uses the configured suffix' do
         run_command("pwd")
-        expect(last_command_started).to have_output(/tmp\/cucumber$/)
+        expect(last_command_started).to have_output(/tmp\/cucumber-[^\/]+$/)
         puts last_command_started.output
       end
     end
     """
     When I successfully run `rspec`
-    Then the output should match %r<tmp/cucumber$>
+    Then the output should match %r<tmp/cucumber-[^\/]+$>

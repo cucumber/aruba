@@ -53,11 +53,7 @@ module Aruba
       @config          = ConfigWrapper.new(config.make_copy, @event_bus)
       @environment     = Aruba.platform.environment_variables.new
 
-      @working_directory = File.join('tmp', @config.working_directory_suffix)
-
-      @current_directory = ArubaPath.new(@working_directory)
       @root_directory = ArubaPath.new(@config.root_directory)
-      @home_directory = File.join(@config.root_directory, @working_directory)
 
       @environment.update(@config.command_runtime_environment)
 
@@ -75,6 +71,12 @@ module Aruba
       return if @setup_done
 
       @setup.setup
+
+      @home_directory = @setup.workspace_directory
+      @working_directory = Pathname.new(@home_directory)
+                                   .relative_path_from(@config.root_directory).to_s
+      @current_directory = ArubaPath.new(@working_directory)
+
       @setup_done = true
     end
 

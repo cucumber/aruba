@@ -2,12 +2,6 @@
 
 module Aruba
   class Setup
-    private
-
-    attr_reader :runtime
-
-    public
-
     def initialize(runtime)
       @runtime = runtime
     end
@@ -21,22 +15,24 @@ module Aruba
       destroy_workspace
     end
 
+    attr_reader :workspace_directory
+
     private
 
-    def create_workspace
-      destroy_workspace if File.exist? workspace_directory
+    attr_reader :runtime
 
-      Aruba.platform.mkdir workspace_directory
+    def create_workspace
+      workspace_base = File.join(runtime.config.root_directory, 'tmp')
+      prefix = "#{runtime.config.working_directory_suffix}-"
+
+      Aruba.platform.mkdir workspace_base
+      @workspace_directory = Dir.mktmpdir(prefix, workspace_base)
+
       Aruba.platform.chdir runtime.config.root_directory
     end
 
     def destroy_workspace
       Aruba.platform.rm workspace_directory, force: true
-    end
-
-    def workspace_directory
-      File.join(runtime.config.root_directory,
-                runtime.working_directory)
     end
 
     def handle_command_started(event)

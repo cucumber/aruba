@@ -23,7 +23,7 @@ Feature: Mock the HOME variable
     Feature: Home Variable
       Scenario: Run command
         When I run `aruba-test-cli`
-        Then the output should match %r<HOME:.*tmp/aruba$>
+        Then the output should match %r<HOME:.*tmp/aruba-[^\/]+$>
     """
     When I run `cucumber`
     Then the features should all pass
