@@ -25,7 +25,11 @@ RSpec.configure do |config|
     example.run
 
     stop_all_commands
-    aruba.teardown
+    if example.exception
+      warn "Find the Aruba working directory for inspection at #{aruba.home_directory}"
+    else
+      aruba.teardown
+    end
   end
 
   config.around :each, type: :aruba do |example|

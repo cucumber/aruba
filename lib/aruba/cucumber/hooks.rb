@@ -22,10 +22,14 @@ Before do
   set_environment_variable 'HOME', aruba.home_directory
 end
 
-After do
+After do |scenario|
   terminate_all_commands
   aruba.command_monitor.clear
-  aruba.teardown
+  if scenario.passed?
+    aruba.teardown
+  else
+    warn "Find the Aruba working directory for inspection at #{aruba.home_directory}"
+  end
 end
 
 Before('@puts') do
