@@ -244,7 +244,7 @@ RSpec.describe 'Command Matchers', type: :aruba do
       let(:cmd) { "echo #{output}" }
       let(:output) { 'hello world' }
 
-      before { run_command(cmd) }
+      before { run_command_and_stop(cmd) }
 
       it 'matches directly on the command itself' do
         expect(last_command_started).to have_output_size "#{output}\n".length
