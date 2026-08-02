@@ -99,4 +99,35 @@ RSpec.describe Aruba::Api::Commands, type: :aruba do
       expect(last_command_started).to have_output "Hello\nWorld!"
     end
   end
+
+  describe '#which' do
+    it 'finds a globally available command' do
+      expected = if Gem.win_platform?
+                   '\\echo.exe'
+                 else
+                   '/echo'
+                 end
+      expect(which('echo')).to end_with expected
+    end
+
+      let(:cmd) { Gem.win_platform? ? 'bin/testcmd.bat' : 'bin/testcmd' }
+
+      before do
+        if Gem.win_platform?
+          write_file cmd, <<~BAT
+            exit 0
+          BAT
+        else
+          write_file cmd, <<~BASH
+            #!/bin/bash
+            exit 0
+          BASH
+          chmod 0o755, cmd
+        end
+      end
+
+      it 'finds the command in the workspace' do
+        expect(which(cmd)).to eq expand_path(cmd)
+      end
+  end
 end
