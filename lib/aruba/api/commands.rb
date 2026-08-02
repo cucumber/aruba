@@ -13,20 +13,26 @@ module Aruba
   module Api
     # Command module
     module Commands
-      # Resolve path for command using the PATH-environment variable
+      # Resolve path for command.
+      # - An absolute path resolves to the path itself
+      # - A relative path is resolved with respect to the current Aruba working
+      #   directory
+      # - Other paths are resolved using the path
       #
       # @param [#to_s] program
       #   The name of the program which should be resolved
       #
       # @param [String] path
       #   The PATH, a string concatenated with ":", e.g. /usr/bin/:/bin on a
-      #   UNIX-system
+      #   UNIX-system, or nil to use the path from the Aruba environment.
       def which(program, path = nil)
         with_environment do
           # ENV is set within this block
           path = ENV['PATH'] if path.nil?
 
-          Aruba.platform.which(program, path)
+          in_current_directory do
+            Aruba.platform.which(program, path)
+          end
         end
       end
 

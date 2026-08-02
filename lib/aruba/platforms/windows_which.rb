@@ -43,7 +43,7 @@ module Aruba
 
         def call(program, path)
           # Iterate over each path glob the dir + program.
-          path.split(File::PATH_SEPARATOR).each do |dir|
+          path&.split(File::PATH_SEPARATOR)&.each do |dir|
             dir = Aruba.platform.expand_path(dir, Dir.getwd)
 
             next unless Aruba.platform.exist?(dir) # In case of bogus second argument
@@ -79,7 +79,7 @@ module Aruba
         @whiches << DefaultWhich
       end
 
-      # Find fully quallified path for program
+      # Find fully qualified path for program
       #
       # @param [String] program
       #   Name of program
@@ -87,8 +87,6 @@ module Aruba
       # @param [String] path
       #   ENV['PATH']
       def call(program, path = ENV['PATH'])
-        raise ArgumentError, "ENV['PATH'] cannot be empty" if path.nil? || path.empty?
-
         program = program.to_s
         program += windows_executable_extentions if File.extname(program).empty?
 
