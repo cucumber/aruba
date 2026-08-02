@@ -51,20 +51,50 @@ RSpec.describe Aruba::Runtime do
     end
   end
 
+  describe '#setup' do
+    let(:config) { Aruba::Configuration.new }
+
+    it 'creates a new unique workspace directory' do
+      one = described_class.new(config: config)
+      two = described_class.new(config: config)
+
+      one.setup
+      two.setup
+
+      aggregate_failures do
+        expect(one.working_directory).to start_with 'tmp/aruba-'
+        expect(two.working_directory).to start_with 'tmp/aruba-'
+        expect(one.working_directory).not_to eq two.working_directory
+      end
+    ensure
+      one.teardown
+      two.teardown
+    end
+  end
+
   describe '#working_directory' do
     let(:config) { Aruba::Configuration.new }
 
     it 'is set based on the configured working_directory_suffix' do
       config.working_directory_suffix = 'foo'
       runtime = described_class.new(config: config)
-      expect(runtime.working_directory).to eq 'tmp/foo'
+      runtime.setup
+
+      expect(runtime.working_directory).to start_with 'tmp/foo-'
+    ensure
+      runtime.teardown
     end
 
-    it 'is not reset after initialization' do
+    it 'is not reset after setup' do
       config.working_directory_suffix = 'foo'
       runtime = described_class.new(config: config)
       runtime.config.working_directory_suffix = 'bar'
-      expect(runtime.working_directory).to eq 'tmp/foo'
+      runtime.setup
+      runtime.config.working_directory_suffix = 'baz'
+
+      expect(runtime.working_directory).to start_with 'tmp/bar-'
+    ensure
+      runtime.teardown
     end
 
     it 'cannot escape the tmp directory' do

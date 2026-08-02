@@ -10,21 +10,26 @@ Around do |_, block|
 end
 
 Before do
-  # ... so every change needs to be done later
+  aruba.setup
+
+  # Modify PATH to include project/bin
   prepend_environment_variable(
     'PATH',
     aruba.config.command_search_paths.join(File::PATH_SEPARATOR) + File::PATH_SEPARATOR
   )
+
+  # Use configured home directory as HOME
   set_environment_variable 'HOME', aruba.home_directory
 end
 
-After do
+After do |scenario|
   terminate_all_commands
   aruba.command_monitor.clear
-end
-
-Before do
-  setup_aruba
+  if scenario.passed?
+    aruba.teardown
+  else
+    warn "Find the Aruba working directory for inspection at #{aruba.home_directory}"
+  end
 end
 
 Before('@puts') do

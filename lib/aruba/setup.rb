@@ -2,36 +2,37 @@
 
 module Aruba
   class Setup
-    private
-
-    attr_reader :runtime
-
-    public
-
     def initialize(runtime)
       @runtime = runtime
     end
 
-    def call
-      return if runtime.setup_already_done?
-
-      working_directory
+    def setup
+      create_workspace
       register_event_handlers
-
-      runtime.setup_done
-
-      self
     end
+
+    def teardown
+      destroy_workspace
+    end
+
+    attr_reader :workspace_directory
 
     private
 
-    def working_directory
-      Aruba.platform.rm File.join(runtime.config.root_directory,
-                                  runtime.working_directory),
-                        force: true
-      Aruba.platform.mkdir File.join(runtime.config.root_directory,
-                                     runtime.working_directory)
+    attr_reader :runtime
+
+    def create_workspace
+      workspace_base = File.join(runtime.config.root_directory, 'tmp')
+      prefix = "#{runtime.config.working_directory_suffix}-"
+
+      Aruba.platform.mkdir workspace_base
+      @workspace_directory = Dir.mktmpdir(prefix, workspace_base)
+
       Aruba.platform.chdir runtime.config.root_directory
+    end
+
+    def destroy_workspace
+      Aruba.platform.rm workspace_directory, force: true
     end
 
     def handle_command_started(event)

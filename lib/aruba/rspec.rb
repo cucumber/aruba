@@ -11,7 +11,7 @@ RSpec.configure do |config|
 
   # Setup environment for aruba
   config.around :each, type: :aruba do |example|
-    setup_aruba
+    aruba.setup
 
     # Modify PATH to include project/bin
     prepend_environment_variable(
@@ -25,6 +25,11 @@ RSpec.configure do |config|
     example.run
 
     stop_all_commands
+    if example.exception
+      warn "Find the Aruba working directory for inspection at #{aruba.home_directory}"
+    else
+      aruba.teardown
+    end
   end
 
   config.around :each, type: :aruba do |example|

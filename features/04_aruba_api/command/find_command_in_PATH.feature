@@ -16,8 +16,11 @@ Feature: Get path to command
     """ruby
     require 'spec_helper'
 
-    RSpec.describe 'Find path for command', :type => :aruba do
-      it { expect(which('aruba-test-cli')).to match %r{tmp/aruba/cli-app/bin/aruba-test-cli} }
+    RSpec.describe 'which', type: :aruba do
+      it "finds the command in the local project's bin directory" do
+        expect(which('aruba-test-cli'))
+          .to match %r{tmp/aruba-[^/]+/cli-app/bin/aruba-test-cli}
+      end
     end
     """
     When I run `rspec`

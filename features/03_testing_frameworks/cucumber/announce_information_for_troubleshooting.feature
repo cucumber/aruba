@@ -22,9 +22,9 @@ Feature: Announce information during cucumber run
     """
     $ cd /
     """
-    And the output should contain:
+    And the output should match:
     """
-    tmp/aruba/dir.d
+    tmp\/aruba-[^\/]+\/dir.d
     """
 
   Scenario: Announce stdout

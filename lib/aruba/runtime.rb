@@ -53,11 +53,7 @@ module Aruba
       @config          = ConfigWrapper.new(config.make_copy, @event_bus)
       @environment     = Aruba.platform.environment_variables.new
 
-      @working_directory = File.join('tmp', @config.working_directory_suffix)
-
-      @current_directory = ArubaPath.new(@working_directory)
       @root_directory = ArubaPath.new(@config.root_directory)
-      @home_directory = File.join(@config.root_directory, @working_directory)
 
       @environment.update(@config.command_runtime_environment)
 
@@ -66,21 +62,29 @@ module Aruba
       @logger = Aruba.platform.logger.new
       @logger.mode = @config.log_level
 
+      @setup = Aruba::Setup.new(self)
       @setup_done = false
     end
 
-    # @private
-    #
-    # Setup of aruba is finshed. Should be used only internally.
-    def setup_done
+    # Set up Aruba's workspace and event bus. Cleans out the workspace as well.
+    def setup
+      return if @setup_done
+
+      @setup.setup
+
+      @home_directory = @setup.workspace_directory
+      @working_directory = Pathname.new(@home_directory)
+                                   .relative_path_from(@config.root_directory).to_s
+      @current_directory = ArubaPath.new(@working_directory)
+
       @setup_done = true
     end
 
-    # @private
-    #
-    # Has aruba already been setup. Should be used only internally.
-    def setup_already_done?
-      @setup_done == true
+    def teardown
+      return unless @setup_done
+
+      @setup.teardown
+      @setup_done = false
     end
 
     # The path to the directory which contains fixtures
@@ -106,6 +110,12 @@ module Aruba
       end
 
       ArubaPath.new(@fixtures_directory)
+    end
+
+    private
+
+    def setup_already_done?
+      @setup_done == true
     end
   end
 end

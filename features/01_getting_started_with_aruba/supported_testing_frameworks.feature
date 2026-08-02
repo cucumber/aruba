@@ -65,7 +65,11 @@ Feature: Supported Testing Frameworks
       include Aruba::Api
 
       def setup
-        setup_aruba
+        aruba.setup
+      end
+
+      def teardown
+        aruba.teardown
       end
 
       def test_getting_started_with_aruba
