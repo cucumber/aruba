@@ -110,6 +110,11 @@ RSpec.describe Aruba::Api::Commands, type: :aruba do
       expect(which('echo')).to end_with expected
     end
 
+    it 'does not find a globally available command if path is empty' do
+      expect(which('echo', '')).to be_nil
+    end
+
+    context 'when looking for a relative command' do
       let(:cmd) { Gem.win_platform? ? 'bin/testcmd.bat' : 'bin/testcmd' }
 
       before do
@@ -129,5 +134,10 @@ RSpec.describe Aruba::Api::Commands, type: :aruba do
       it 'finds the command in the workspace' do
         expect(which(cmd)).to eq expand_path(cmd)
       end
+
+      it 'finds the command even when the path is empty' do
+        expect(which(cmd, '')).to eq expand_path(cmd)
+      end
+    end
   end
 end
