@@ -5,39 +5,17 @@ require 'aruba/api'
 require 'fileutils'
 
 RSpec.describe Aruba::Api::Commands, type: :aruba do
-  include_context 'uses aruba API'
-
   describe '#run_command' do
-    context 'when succesfully running a command' do
-      before { run_command 'cat' }
-
+    context 'when running a globally available command' do
       after { all_commands.each(&:stop) }
 
-      it 'respond to unfrozen input' do
-        type(+'Hello')
-        type(+"\u0004")
+      it 'runs the command succesfully' do
+        run_command 'echo "Hello"'
 
-        expect(last_command_started).to have_output "Hello\n"
-      end
-
-      it 'respond to frozen input' do
-        type 'Hello'
-        type "\u0004"
-
-        expect(last_command_started).to have_output "Hello\n"
-      end
-
-      it 'respond to close_input' do
-        type 'Hello'
-        close_input
-        expect(last_command_started).to have_output "Hello\n"
-      end
-
-      it 'pipes data' do
-        write_file(@file_name, "Hello\nWorld!")
-        pipe_in_file(@file_name)
-        close_input
-        expect(last_command_started).to have_output "Hello\nWorld!"
+        aggregate_failures do
+          expect(last_command_started).to be_successfully_executed
+          expect(last_command_started).to have_output "Hello\n"
+        end
       end
     end
 
@@ -76,6 +54,49 @@ RSpec.describe Aruba::Api::Commands, type: :aruba do
         run_command(cmd)
         expect(last_command_started).to be_successfully_executed
       end
+    end
+  end
+
+  describe '#type' do
+    before { run_command 'cat' }
+
+    after { all_commands.each(&:stop) }
+
+    it 'works with unfrozen input' do
+      type(+'Hello')
+      type(+"\u0004")
+
+      expect(last_command_started).to have_output "Hello\n"
+    end
+
+    it 'works with frozen input' do
+      type 'Hello'
+      type "\u0004"
+
+      expect(last_command_started).to have_output "Hello\n"
+    end
+  end
+
+  describe '#close_input' do
+    after { all_commands.each(&:stop) }
+
+    it 'closes the input stream' do
+      run_command 'cat'
+      type 'Hello'
+      close_input
+      expect { type 'Goodbye' }.to raise_error IOError
+    end
+  end
+
+  describe '#pipe_in_file' do
+    after { all_commands.each(&:stop) }
+
+    it 'pipes data' do
+      run_command 'cat'
+      write_file('test.txt', "Hello\nWorld!")
+      pipe_in_file('test.txt')
+      close_input
+      expect(last_command_started).to have_output "Hello\nWorld!"
     end
   end
 end
