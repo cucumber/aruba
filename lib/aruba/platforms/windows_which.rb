@@ -43,7 +43,7 @@ module Aruba
 
         def call(program, path)
           # Iterate over each path glob the dir + program.
-          path.split(File::PATH_SEPARATOR).each do |dir|
+          path&.split(File::PATH_SEPARATOR)&.each do |dir|
             dir = Aruba.platform.expand_path(dir, Dir.getwd)
 
             next unless Aruba.platform.exist?(dir) # In case of bogus second argument
