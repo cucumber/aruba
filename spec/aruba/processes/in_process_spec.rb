@@ -59,7 +59,7 @@ RSpec.describe Aruba::Processes::InProcess do
   let(:exit_timeout) { 1 }
   let(:io_wait) { 1 }
   let(:working_directory) { Dir.getwd }
-  let(:environment) { ENV.to_hash.dup }
+  let(:environment) { Aruba.platform.environment_variables.hash_from_env }
   let(:main_class) { base_runner }
 
   describe '#stdout' do
