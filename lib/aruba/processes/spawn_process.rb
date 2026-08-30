@@ -75,7 +75,7 @@ module Aruba
           return true if exited?
           break if Time.now >= wait_until
 
-          sleep 0.1
+          sleep 0.01
         end
         false
       end
