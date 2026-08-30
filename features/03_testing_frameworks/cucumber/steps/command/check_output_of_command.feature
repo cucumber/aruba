@@ -256,7 +256,11 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should fail with:
     """
-          expected "goodbye\nworld" to output string is eq: "hello\nworld"
+          expected: "hello\nworld"
+               got: "goodbye\nworld"
+          
+          (compared using ==)
+          
           Diff:
           @@ -1,2 +1,2 @@
           -hello
@@ -410,7 +414,10 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should fail with:
     """
-          expected "hello\nworld" to output string is eq: "hello\nworl"
+          expected `aruba-test-cli` to have output "hello\nworl"
+          but was:
+             hello
+             world
           Diff:
           @@ -1,2 +1,2 @@
            hello
