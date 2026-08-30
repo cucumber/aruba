@@ -31,5 +31,3 @@ RSpec::Matchers.define :output_string_eq do |expected|
 
   description { "output string is eq: #{description_of expected}" }
 end
-
-RSpec::Matchers.alias_matcher :an_output_string_being_eq, :output_string_eq

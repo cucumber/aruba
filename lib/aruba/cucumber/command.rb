@@ -195,9 +195,7 @@ Then '(the ){channel} from {string} should contain exactly {string}' \
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
 
-  output_string_matcher = :an_output_string_being_eq
-
-  expect(command).to send(matcher, send(output_string_matcher, expected))
+  expect(command).to send(matcher, expected)
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain "hello"
@@ -226,9 +224,7 @@ Then '(the ){channel} from {string} should not contain exactly {string}' \
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
 
-  output_string_matcher = :an_output_string_being_eq
-
-  expect(command).not_to send(matcher, send(output_string_matcher, expected))
+  expect(command).not_to send(matcher, expected)
 end
 
 ## the stderr should contain:
@@ -284,9 +280,7 @@ Then '(the ){channel} from {string} should not contain exactly:' do |channel, cm
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
 
-  output_string_matcher = :an_output_string_being_eq
-
-  expect(command).not_to send(matcher, send(output_string_matcher, expected))
+  expect(command).not_to send(matcher, expected)
 end
 
 ## the stderr from "echo -n 'Hello'" should contain:
@@ -314,9 +308,7 @@ Then '(the ){channel} from {string} should contain exactly:' do |channel, cmd, e
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
 
-  output_string_matcher = :an_output_string_being_eq
-
-  expect(command).to send(matcher, send(output_string_matcher, expected))
+  expect(command).to send(matcher, expected)
 end
 
 # "the output should match" allows regex in the partial_output, if
