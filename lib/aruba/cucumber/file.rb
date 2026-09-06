@@ -121,9 +121,9 @@ end
 
 Then(/^(?:a|the) file matching %r<(.*?)> should (not )?exist$/) do |pattern, expect_match|
   if expect_match
-    expect(all_paths).not_to include a_file_name_matching(pattern)
+    expect(all_paths).not_to include a_string_matching(pattern)
   else
-    expect(all_paths).to include match a_file_name_matching(pattern)
+    expect(all_paths).to include a_string_matching(pattern)
   end
 end
 
