@@ -33,4 +33,3 @@ RSpec::Matchers.define :match_output_string do |expected|
 end
 
 RSpec::Matchers.alias_matcher :an_output_string_matching, :match_output_string
-RSpec::Matchers.alias_matcher :file_content_matching, :match_output_string

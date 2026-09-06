@@ -176,18 +176,18 @@ end
 Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?match %r<([^>]*)>$/) \
   do |file, negated, content|
   if negated
-    expect(file).not_to have_file_content file_content_matching(content)
+    expect(file).not_to have_file_content Regexp.new(content)
   else
-    expect(file).to have_file_content file_content_matching(content)
+    expect(file).to have_file_content Regexp.new(content)
   end
 end
 
 Then(%r{^(?:a|the) file(?: named)? "([^"]*)" should (not )?match /([^/]*)/$}) \
   do |file, negated, content|
   if negated
-    expect(file).not_to have_file_content file_content_matching(content)
+    expect(file).not_to have_file_content Regexp.new(content)
   else
-    expect(file).to have_file_content file_content_matching(content)
+    expect(file).to have_file_content Regexp.new(content)
   end
 end
 
