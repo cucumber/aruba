@@ -57,7 +57,6 @@ lib/aruba/matchers/path/be_an_absolute_path.rb
 lib/aruba/matchers/path/be_an_existing_path.rb
 lib/aruba/matchers/path/have_permissions.rb
 lib/aruba/matchers/string.rb
-lib/aruba/matchers/string/include_output_string.rb
 lib/aruba/matchers/string/match_output_string.rb
 lib/aruba/matchers/string/output_string_eq.rb
 lib/aruba/platform.rb

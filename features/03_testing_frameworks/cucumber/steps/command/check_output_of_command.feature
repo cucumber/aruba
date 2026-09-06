@@ -58,7 +58,7 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should fail with:
     """
-    expected "hello world" to string includes: "goodbye world"
+    expected "hello world\n" to include "goodbye world"
     """
 
   Scenario: Detect subset of multiline output
@@ -102,13 +102,12 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should fail with:
     """
-          expected "hello\ncruel\nworld" to string includes: "goodbye\ncruel"
+          expected "hello\ncruel\nworld\n" to include "goodbye\ncruel"
           Diff:
-          
-          @@ -1,2 +1,3 @@
-          -goodbye
+          @@ -1 +1,3 @@
+          -goodbye\ncruel
           +hello
-           cruel
+          +cruel
           +world
     """
 
@@ -152,7 +151,7 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should fail with:
     """
-          expected "hello\nworld" not to string includes: "hello"
+          expected "hello\nworld\n" not to include "hello"
           Diff:
           @@ -1 +1,2 @@
            hello
@@ -411,9 +410,7 @@ Feature: All output of commands which were executed
     When I run `cucumber`
     Then the features should fail with:
     """
-          expected "hello
-    world" to output string is eq: "hello
-    worl"
+          expected "hello\nworld" to output string is eq: "hello\nworl"
           Diff:
           @@ -1,2 +1,2 @@
            hello

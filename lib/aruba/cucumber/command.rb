@@ -144,14 +144,14 @@ end
 Then '(the ){channel} should contain {string}' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
-  expect(combined_output).to include_output_string expected
+  expect(extract_text(combined_output)).to include expected
 end
 
 ## the stderr should not contain "hello"
 Then '(the ){channel} should not contain {string}' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
-  expect(combined_output).not_to include_output_string expected
+  expect(extract_text(combined_output)).not_to include expected
 end
 
 ## the stderr should contain exactly "hello"
@@ -178,9 +178,7 @@ Then '(the ){channel} from {string} should contain {string}' do |channel, cmd, e
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
 
-  output_string_matcher = :an_output_string_including
-
-  expect(command).to send(matcher, send(output_string_matcher, expected))
+  expect(command).to send(matcher, a_string_including(expected))
 end
 
 ## the stderr from "echo -n 'Hello'" should contain exactly "hello"
@@ -207,9 +205,7 @@ Then '(the ){channel} from {string} should not contain {string}' do |channel, cm
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
 
-  output_string_matcher = :an_output_string_including
-
-  expect(command).not_to send(matcher, send(output_string_matcher, expected))
+  expect(command).not_to send(matcher, a_string_including(expected))
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain exactly "hello"
@@ -230,14 +226,14 @@ end
 Then '(the ){channel} should contain:' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
-  expect(combined_output).to include_output_string(expected)
+  expect(extract_text(combined_output)).to include(expected)
 end
 
 ## the stderr should not contain:
 Then '(the ){channel} should not contain:' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
-  expect(combined_output).not_to include_output_string(expected)
+  expect(extract_text(combined_output)).not_to include(expected)
 end
 
 ## the stderr should contain exactly:
@@ -264,9 +260,7 @@ Then '(the ){channel} from {string} should not contain:' do |channel, cmd, expec
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
 
-  output_string_matcher = :an_output_string_including
-
-  expect(command).not_to send(matcher, send(output_string_matcher, expected))
+  expect(command).not_to send(matcher, a_string_including(expected))
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain exactly:
@@ -292,9 +286,7 @@ Then '(the ){channel} from {string} should contain:' do |channel, cmd, expected|
 
   command = aruba.command_monitor.find(Aruba.platform.detect_ruby(cmd))
 
-  output_string_matcher = :an_output_string_including
-
-  expect(command).to send(matcher, send(output_string_matcher, expected))
+  expect(command).to send(matcher, a_string_including(expected))
 end
 
 ## the stderr from "echo -n 'Hello'" should contain exactly:
@@ -381,7 +373,7 @@ Then(/^it should (pass|fail) with "(.*?)"$/) do |pass_fail, expected|
     expect(last_command_stopped).not_to be_successfully_executed
   end
 
-  expect(last_command_stopped).to have_output an_output_string_including(expected)
+  expect(last_command_stopped).to have_output a_string_including(expected)
 end
 
 Then(/^it should (pass|fail) with:$/) do |pass_fail, expected|
@@ -393,7 +385,7 @@ Then(/^it should (pass|fail) with:$/) do |pass_fail, expected|
     expect(last_command_stopped).not_to be_successfully_executed
   end
 
-  expect(last_command_stopped).to have_output an_output_string_including(expected)
+  expect(last_command_stopped).to have_output a_string_including(expected)
 end
 
 Then(/^it should (pass|fail) with exactly:$/) do |pass_fail, expected|
@@ -437,10 +429,10 @@ Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:
 
     if negated
       expect(all_commands)
-        .not_to include send(matcher, an_output_string_including(expected))
+        .not_to include send(matcher, a_string_including(expected))
     else
       expect(all_commands)
-        .to include send(matcher, an_output_string_including(expected))
+        .to include send(matcher, a_string_including(expected))
     end
   end
 end

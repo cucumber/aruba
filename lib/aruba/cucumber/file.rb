@@ -149,18 +149,18 @@ end
 Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain "([^"]*)"$/) \
   do |file, negated, content|
   if negated
-    expect(file).not_to have_file_content file_content_including(content.chomp)
+    expect(file).not_to have_file_content a_string_including(content.chomp)
   else
-    expect(file).to have_file_content file_content_including(content.chomp)
+    expect(file).to have_file_content a_string_including(content.chomp)
   end
 end
 
 Then(/^(?:a|the) file(?: named)? "([^"]*)" should (not )?contain:$/) \
   do |file, negated, content|
   if negated
-    expect(file).not_to have_file_content file_content_including(content.chomp)
+    expect(file).not_to have_file_content a_string_including(content.chomp)
   else
-    expect(file).to have_file_content file_content_including(content.chomp)
+    expect(file).to have_file_content a_string_including(content.chomp)
   end
 end
 
