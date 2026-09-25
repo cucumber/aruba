@@ -35,7 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'cucumber', '~> 11.0'
   spec.add_development_dependency 'diff-lcs', '~> 1.6'
   spec.add_development_dependency 'irb', '~> 1.16'
-  spec.add_development_dependency 'json', '~> 2.1'
   spec.add_development_dependency 'kramdown', '~> 2.1'
   spec.add_development_dependency 'minitest', ['>= 5.26', '< 7.0']
   spec.add_development_dependency 'rake', ['>= 12.0', '< 14.0']
