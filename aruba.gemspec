@@ -40,9 +40,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rake-manifest', '~> 0.2.0'
   spec.add_development_dependency 'rspec', '>= 3.11', '< 5.0'
-  spec.add_development_dependency 'rubocop', '~> 1.87'
+  spec.add_development_dependency 'rubocop', '~> 1.92'
   spec.add_development_dependency 'rubocop-packaging', '~> 0.6.0'
-  spec.add_development_dependency 'rubocop-performance', '~> 1.26'
+  spec.add_development_dependency 'rubocop-performance', '~> 1.27'
   spec.add_development_dependency 'rubocop-rspec', '~> 3.10'
   spec.add_development_dependency 'simplecov', '~> 1.1'
 
