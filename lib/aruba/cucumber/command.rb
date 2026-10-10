@@ -76,7 +76,6 @@ end
 
 When(/^I stop the command(?: started last)? if (output|stdout|stderr) contains:$/) \
   do |channel, expected|
-
   start_time = Time.now
   loop do
     output = last_command_started.public_send channel.to_sym, wait_for_io: 0
