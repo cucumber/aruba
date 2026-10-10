@@ -158,14 +158,14 @@ end
 Then '(the ){channel} should contain exactly {string}' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
-  expect(combined_output).to output_string_eq expected
+  expect(extract_text(combined_output)).to eq expected
 end
 
 ## the stderr should not contain exactly "hello"
 Then '(the ){channel} should not contain exactly {string}' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
-  expect(combined_output).not_to output_string_eq expected
+  expect(extract_text(combined_output)).not_to eq expected
 end
 
 ## the stderr from "echo -n 'Hello'" should contain "hello"
@@ -244,14 +244,14 @@ end
 Then '(the ){channel} should contain exactly:' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
-  expect(combined_output).to output_string_eq(expected)
+  expect(extract_text(combined_output)).to eq expected
 end
 
 ## the stderr should not contain exactly:
 Then '(the ){channel} should not contain exactly:' do |channel, expected|
   combined_output = send(:"all_#{channel}")
 
-  expect(combined_output).not_to output_string_eq(expected)
+  expect(extract_text(combined_output)).not_to eq expected
 end
 
 ## the stderr from "echo -n 'Hello'" should not contain:
@@ -405,7 +405,7 @@ Then(/^it should (pass|fail) with exactly:$/) do |pass_fail, expected|
     expect(last_command_stopped).not_to be_successfully_executed
   end
 
-  expect(last_command_stopped.output).to output_string_eq(expected)
+  expect(last_command_stopped).to have_output expected
 end
 
 Then(/^it should (pass|fail) (?:with regexp?|matching):$/) do |pass_fail, expected|
@@ -423,7 +423,7 @@ end
 Then '(the ){channel} should not contain anything' do |channel|
   combined_output = send(:"all_#{channel}")
 
-  expect(combined_output).to output_string_eq ''
+  expect(extract_text(combined_output)).to eq ''
 end
 
 Then(/^(?:the )?(output|stdout|stderr) should( not)? contain all of these lines:$/) \
