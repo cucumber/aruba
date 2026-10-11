@@ -79,7 +79,11 @@ Feature: STDERR of commands which were executed
     When I run `cucumber`
     Then the features should fail with:
     """
-          expected "hello\nworld!" to output string is eq: ""
+          expected: ""
+               got: "hello\nworld!\n"
+          
+          (compared using ==)
+          
           Diff:
           @@ -0,0 +1,2 @@
           +hello
