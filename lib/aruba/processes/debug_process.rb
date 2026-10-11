@@ -16,9 +16,10 @@ module Aruba
     # users. Only its public methods are part of the public API of aruba, e.g.
     # `#stdin`, `#stdout`.
     #
-    # @private
     class DebugProcess < BasicProcess
       # Use only if mode is :debug
+      #
+      # @private
       def self.match?(mode)
         mode == :debug || (mode.is_a?(Class) && mode <= DebugProcess)
       end

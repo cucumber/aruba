@@ -9,13 +9,13 @@ module Aruba
   module Processes
     # Basic Process
     #
-    # `BasicProcess` is not meant for direct use - `BasicProcess.new` - by users.
+    # Base class for all Aruba process runners.
     #
-    # @private
     class BasicProcess
       attr_reader :exit_status, :environment, :working_directory, :main_class,
                   :io_wait_timeout, :exit_timeout, :startup_wait_time, :stop_signal
 
+      # @private
       def initialize(cmd, exit_timeout, io_wait_timeout, working_directory, # rubocop:disable Metrics/ParameterLists
                      environment = Aruba.platform.environment_variables.hash_from_env,
                      main_class = nil, stop_signal = nil, startup_wait_time = 0)
