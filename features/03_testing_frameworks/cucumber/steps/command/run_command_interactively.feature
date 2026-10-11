@@ -52,7 +52,11 @@ Feature: Running an interactive command
         Given a file named "test.txt" with "line1\nline2"
         When I run `cat` interactively
         And I pipe in the file "test.txt"
-        Then the output should contain "line1\nline2"
+        Then the output should contain:
+        \"\"\"
+        line1
+        line2
+        \"\"\"
     """
     When I run `cucumber`
     Then the features should all pass
