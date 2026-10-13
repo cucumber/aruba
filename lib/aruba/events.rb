@@ -6,34 +6,70 @@ require 'cucumber/core/event'
 module Aruba
   # Events
   module Events
-    # Basic event
-    #
-    # This is not meant for direct use - BasicEvent.new - by users. It is
-    # inherited by normal events
-    #
-    # @private
-    class BasicEvent < Cucumber::Core::Event.new(:entity); end
+    # cucumber-core version 19 and up
+    if defined? Cucumber::Core::Event::Base
+      # @private
+      class BasicEvent < Cucumber::Core::Event::Base
+        attr_reader :entity
+
+        def initialize(entity)
+          @entity = entity
+          super()
+        end
+      end
+    else
+      # @private
+      class BasicEvent < Cucumber::Core::Event.new(:entity); end
+    end
 
     # Command was stopped
-    class CommandStopped < BasicEvent; end
+    class CommandStopped < BasicEvent
+      def self.event_id
+        :command_stopped
+      end
+    end
 
     # Command was started
-    class CommandStarted < BasicEvent; end
+    class CommandStarted < BasicEvent
+      def self.event_id
+        :command_started
+      end
+    end
 
     # An environment variable was changed
-    class ChangedEnvironmentVariable < BasicEvent; end
+    class ChangedEnvironmentVariable < BasicEvent
+      def self.event_id
+        :changed_environment_variable
+      end
+    end
 
     # An environment variable was added
-    class AddedEnvironmentVariable < BasicEvent; end
+    class AddedEnvironmentVariable < BasicEvent
+      def self.event_id
+        :added_environment_variable
+      end
+    end
 
     # An environment variable was deleted
-    class DeletedEnvironmentVariable < BasicEvent; end
+    class DeletedEnvironmentVariable < BasicEvent
+      def self.event_id
+        :deleted_environment_variable
+      end
+    end
 
     # The working directory has changed
-    class ChangedWorkingDirectory < BasicEvent; end
+    class ChangedWorkingDirectory < BasicEvent
+      def self.event_id
+        :changed_working_directory
+      end
+    end
 
     # The configuration was changed
-    class ChangedConfiguration < BasicEvent; end
+    class ChangedConfiguration < BasicEvent
+      def self.event_id
+        :changed_configuration
+      end
+    end
 
     def self.registry
       [CommandStarted,
