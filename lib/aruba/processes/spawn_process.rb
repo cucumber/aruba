@@ -97,9 +97,9 @@ module Aruba
     # users. Only it's public methods are part of the public API of aruba, e.g.
     # `#stdin`, `#stdout`.
     #
-    # @private
     class SpawnProcess < BasicProcess
       # Use as default launcher
+      # @private
       def self.match?(_mode)
         true
       end
@@ -129,6 +129,8 @@ module Aruba
       #
       # @param [Numeric] startup_wait_time
       #   The amount of seconds to wait after Aruba has started a command.
+      #
+      # @private
       def initialize(cmd, exit_timeout, io_wait_timeout, working_directory, # rubocop:disable Metrics/ParameterLists
                      environment = Aruba.platform.environment_variables.hash_from_env,
                      main_class = nil, stop_signal = nil, startup_wait_time = 0)

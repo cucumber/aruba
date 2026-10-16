@@ -15,9 +15,10 @@ module Aruba
     # users. Only it's public methods are part of the public API of aruba, e.g.
     # `#stdin`, `#stdout`.
     #
-    # @private
     class InProcess < BasicProcess
       # Use only if mode is in_process
+      #
+      # @private
       def self.match?(mode)
         mode == :in_process || (mode.is_a?(Class) && mode <= InProcess)
       end
@@ -48,6 +49,7 @@ module Aruba
       # @private
       attr_reader :main_class
 
+      # @private
       def initialize(cmd, exit_timeout, io_wait_timeout, working_directory, # rubocop:disable Metrics/ParameterLists
                      environment = Aruba.platform.environment_variables.hash_from_env,
                      main_class = nil, stop_signal = nil, startup_wait_time = 0)
