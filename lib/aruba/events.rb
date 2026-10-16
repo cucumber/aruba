@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'cucumber/core/event'
-
 # Aruba
 module Aruba
   # Events
@@ -12,7 +10,26 @@ module Aruba
     # inherited by normal events
     #
     # @private
-    class BasicEvent < Cucumber::Core::Event.new(:entity); end
+    class BasicEvent
+      # @return [Symbol] the underscored class name, used as the key in the event registry
+      def self.event_id
+        name.split('::').last.gsub(/([a-z\d])([A-Z])/, '\1_\2').downcase.to_sym
+      end
+
+      attr_reader :entity
+
+      def initialize(entity)
+        @entity = entity
+      end
+
+      def event_id
+        self.class.event_id
+      end
+
+      def to_h
+        { entity: entity }
+      end
+    end
 
     # Command was stopped
     class CommandStopped < BasicEvent; end

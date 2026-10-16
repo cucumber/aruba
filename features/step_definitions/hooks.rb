@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'cucumber/core/platform'
+require 'cucumber/platform'
 
 Before '@requires-zsh' do
   next unless Aruba.platform.which('zsh').nil?
