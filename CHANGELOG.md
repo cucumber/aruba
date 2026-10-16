@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [3.0.1] / 2026-10-16
+
+* Restore support for older versions of Bundler ([#1106] by [mvz])
+
+[#1106]: https://github.com/cucumber/aruba/pull/1106
+
 ## [3.0.0] / 2026-10-16
 
 ### Breaking changes
