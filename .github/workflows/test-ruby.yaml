@@ -39,10 +39,13 @@ jobs:
         # Cucumber    | Minimum Ruby Version
         # ------------------------------------
         # Cucumber 11 | Ruby 3.2
+        # Cucumber 12 | Ruby 3.3
         #
-        ruby: ["3.2", "3.3", "3.4", "jruby-10.0", "4.0"]
-        appraisal: [cucumber_11]
+        ruby: ["3.3", "3.4", "jruby-10.0", "4.0"]
+        appraisal: [cucumber_11, cucumber_12]
         include:
+          - ruby: "3.2"
+            appraisal: cucumber_11
           - ruby: "4.0"
             appraisal: rspec_4
 
