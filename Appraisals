@@ -13,6 +13,10 @@ appraise 'cucumber_11' do
   gem 'cucumber', '~> 11.0'
 end
 
+appraise 'cucumber_12' do
+  gem 'cucumber', '~> 12.0'
+end
+
 appraise 'rspec_4' do
   %w[rspec rspec-core rspec-expectations rspec-mocks rspec-support].each do |lib|
     if lib == 'rspec'
