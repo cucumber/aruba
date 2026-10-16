@@ -12,7 +12,7 @@
 Add this line to your application's `Gemfile`:
 
 ```ruby
-gem 'aruba', '~> 2.4'
+gem 'aruba', '~> 3.0'
 ```
 
 And then execute:
@@ -99,9 +99,9 @@ Please see the [CONTRIBUTING](CONTRIBUTING.md) file.
 
 ## Code branches
 
-Development takes place in the `main` branch and currently targets the future
-3.0 release. If necessary, maintenance of 2.4.x releases will take place in a
-`2-4-stable` branch. Older releases will not receive updates. Stable branches
+Development takes place in the `main` branch and currently targets bugfixes on
+the 3.0 release. If necessary, maintenance of 2.4.x releases will take place in
+a `2-4-stable` branch. Older releases will not receive updates. Stable branches
 will not be created until absolutely necessary.
 
 ## License

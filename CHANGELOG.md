@@ -6,6 +6,82 @@ This project adheres to [Semantic Versioning][1].
 
 This document is formatted according to the principles of [Keep A CHANGELOG][2].
 
+## [3.0.0] / 2026-10-16
+
+### Breaking changes
+
+* Remove Aruba console ([#1034] by [mvz])
+* Do not unescape actual output text in `have_output*` matchers ([#1057] by [mvz])
+* Remove code that was marked deprecated in the previous release ([#1068] by [mvz])
+* Run each scenario in a separate working directory with a unique name.
+   * Ensure working directory is safe ([#1053] by [mvz])
+   * Always clean up the working directory for the next test or scenario ([#1072] by [mvz])
+   * Isolate workspace directories from each other ([#1075] by [mvz])
+* Make testing framework steps internal to Aruba ([#1085] by [mvz])
+* Remove several RSpec matchers. Use RSpec's built-in matchers instead.
+   * Drop use of `an_output_string_being_eq` matcher ([#1095] by [mvz])
+   * Remove `a_file_name_matching` matcher ([#1097] by [mvz])
+   * Remove `include_output_string` matcher ([#1099] by [mvz])
+   * Remove `file_content_matching` matcher ([#1100] by [mvz])
+   * Remove `output_string_eq matcher` ([#1098] by [mvz])
+* Improve Aruba::Api#which and allow empty path ([#1073] by [mvz])
+
+### Improvements
+
+* Make wording for steps waiting for output read better ([#1060] by [mvz])
+
+### Dependencies
+
+Aruba 3 supports Ruby 3.2 and above, and Cucumer 11 and 12
+
+* Support Ruby 3.2 and above ([#1038] by [mvz])
+* Drop support for Cucumber 8 through 10 ([#1039] by [mvz])
+* Require a bundler version that supports `with_unbundled_env` ([#1041] by [mvz])
+* Depend only on cucumber-core at runtime ([#1049] by [mvz])
+* Add support for Cucumber version 12 ([#1102] by [mvz])
+
+### Bugfixes
+
+* Do not announce binary content of command ([#985] by [mvz])
+* Use anonymous temporary files that are unlinked upon creation ([#1059] by [mvz])
+* Ensure Aruba::VERSION is available for aruba init ([87a92c9] by [mvz])
+
+### Documentation
+
+* Add OpenSSF Scorecard badge ([#1023] by [mpkorstanje])
+* Improve getting started documentation for minitest and rspec ([#1055] by [mvz])
+* Make most of the process runners' API public ([#1105] by [mvz])
+
+[mpkorstanje]: https://github.com/mpkorstanje
+
+[87a92c9]: https://github.com/cucumber/aruba/commit/87a92c9af714cd767f6e5926e45e03a62d53f761
+[#985]: https://github.com/cucumber/aruba/pull/985
+[#1023]: https://github.com/cucumber/aruba/pull/1023
+[#1034]: https://github.com/cucumber/aruba/pull/1034
+[#1038]: https://github.com/cucumber/aruba/pull/1038
+[#1039]: https://github.com/cucumber/aruba/pull/1039
+[#1041]: https://github.com/cucumber/aruba/pull/1041
+[#1049]: https://github.com/cucumber/aruba/pull/1049
+[#1053]: https://github.com/cucumber/aruba/pull/1053
+[#1055]: https://github.com/cucumber/aruba/pull/1055
+[#1057]: https://github.com/cucumber/aruba/pull/1057
+[#1059]: https://github.com/cucumber/aruba/pull/1059
+[#1060]: https://github.com/cucumber/aruba/pull/1060
+[#1068]: https://github.com/cucumber/aruba/pull/1068
+[#1072]: https://github.com/cucumber/aruba/pull/1072
+[#1073]: https://github.com/cucumber/aruba/pull/1073
+[#1075]: https://github.com/cucumber/aruba/pull/1075
+[#1085]: https://github.com/cucumber/aruba/pull/1085
+[#1095]: https://github.com/cucumber/aruba/pull/1095
+[#1097]: https://github.com/cucumber/aruba/pull/1097
+[#1098]: https://github.com/cucumber/aruba/pull/1098
+[#1099]: https://github.com/cucumber/aruba/pull/1099
+[#1100]: https://github.com/cucumber/aruba/pull/1100
+[#1102]: https://github.com/cucumber/aruba/pull/1102
+[#1105]: https://github.com/cucumber/aruba/pull/1105
+
+[3.0.0]: https://github.com/cucumber/aruba/compare/v2.4.1...v3.0.0
+
 ## [2.4.1] / 2026-05-15
 
 * Fix summary text in the gemspec [89dda45]
@@ -15,6 +91,8 @@ This document is formatted according to the principles of [Keep A CHANGELOG][2].
 [89dda45]: https://github.com/cucumber/aruba/commit/89dda459fecc7aa88bbb8dca35ea47879543a93a
 [#1015]: https://github.com/cucumber/aruba/pull/1015
 [#1016]: https://github.com/cucumber/aruba/pull/1016
+
+[2.4.1]: https://github.com/cucumber/aruba/compare/v2.4.0...v2.4.1
 
 ## [2.4.0] / 2026-05-02
 
