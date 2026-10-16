@@ -85,7 +85,7 @@ and 4.0, and JRuby 10.0.
 
 ## Supported Cucumber versions
 
-Aruba is supported on and tested with Cucumber version 11.
+Aruba is supported on and tested with Cucumber version 11 and 12.
 
 ## Supported operating systems
 
