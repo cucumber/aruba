@@ -44,7 +44,7 @@ RSpec::Matchers.define :have_file_content do |expected|
 
     next false unless file? actual
 
-    @actual   = read(actual).join("\n").chomp
+    @actual   = read_lines(actual).join("\n").chomp
     @expected = if expected.is_a? String
                   expected.chomp
                 else
