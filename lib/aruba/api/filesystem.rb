@@ -120,10 +120,23 @@ module Aruba
 
       # Return content of file
       #
+      # @return [String]
+      #   The content of the file
+      def read_file(name)
+        raise ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
+        unless file? name
+          raise ArgumentError, %(Only files are supported. Path "#{name}" is not a file.)
+        end
+
+        File.read(expand_path(name))
+      end
+
+      # Return lines of content of file
+      #
       # @return [Array]
       #   The content of file, without "\n" or "\r\n" at the end.
       #   To rebuild the file use `content.join("\n")`
-      def read(name)
+      def read_lines(name)
         raise ArgumentError, %(Path "#{name}" does not exist.) unless exist? name
         unless file? name
           raise ArgumentError, %(Only files are supported. Path "#{name}" is not a file.)
@@ -367,7 +380,7 @@ module Aruba
       def with_file_content(file)
         expect(file).to be_an_existing_path
 
-        content = read(file).join("\n")
+        content = read_lines(file).join("\n")
 
         yield(content)
       end

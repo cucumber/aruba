@@ -550,7 +550,7 @@ RSpec.describe Aruba::Api::Filesystem, type: :aruba do
     end
   end
 
-  describe '#read' do
+  describe '#read_file' do
     let(:name) { 'test.txt' }
     let(:path) { File.join(aruba.current_directory, name) }
     let(:content) { 'asdf' }
@@ -560,7 +560,7 @@ RSpec.describe Aruba::Api::Filesystem, type: :aruba do
     end
 
     context 'when does not exist' do
-      it { expect { read(name) }.to raise_error ArgumentError }
+      it { expect { read_file(name) }.to raise_error ArgumentError }
     end
 
     context 'when it exists' do
@@ -570,19 +570,19 @@ RSpec.describe Aruba::Api::Filesystem, type: :aruba do
         end
 
         context 'when normal file' do
-          it { expect(read(name)).to eq [content] }
+          it { expect(read_file(name)).to eq content }
         end
 
         context 'when binary file' do
           let(:content) { "\u0000" }
 
-          it { expect(read(name)).to eq [content] }
+          it { expect(read_file(name)).to eq content }
         end
 
         context 'when is empty file' do
           let(:content) { '' }
 
-          it { expect(read(name)).to eq [] }
+          it { expect(read_file(name)).to eq '' }
         end
 
         context 'when path contains ~' do
@@ -590,7 +590,7 @@ RSpec.describe Aruba::Api::Filesystem, type: :aruba do
           let(:name) { File.join('~', string) }
           let(:path) { File.join(aruba.current_directory, string) }
 
-          it { expect(read(name)).to eq [content] }
+          it { expect(read_file(name)).to eq content }
         end
       end
 
@@ -601,7 +601,63 @@ RSpec.describe Aruba::Api::Filesystem, type: :aruba do
           Aruba.platform.mkdir path
         end
 
-        it { expect { read(name) }.to raise_error ArgumentError }
+        it { expect { read_file(name) }.to raise_error ArgumentError }
+      end
+    end
+  end
+
+  describe '#read_lines' do
+    let(:name) { 'test.txt' }
+    let(:path) { File.join(aruba.current_directory, name) }
+    let(:content) { 'asdf' }
+
+    before do
+      set_environment_variable 'HOME', File.expand_path(aruba.current_directory)
+    end
+
+    context 'when does not exist' do
+      it { expect { read_lines(name) }.to raise_error ArgumentError }
+    end
+
+    context 'when it exists' do
+      context 'when file' do
+        before do
+          File.open(File.expand_path(path), 'w') { |f| f << content }
+        end
+
+        context 'when normal file' do
+          it { expect(read_lines(name)).to eq [content] }
+        end
+
+        context 'when binary file' do
+          let(:content) { "\u0000" }
+
+          it { expect(read_lines(name)).to eq [content] }
+        end
+
+        context 'when is empty file' do
+          let(:content) { '' }
+
+          it { expect(read_lines(name)).to eq [] }
+        end
+
+        context 'when path contains ~' do
+          let(:string) { random_string }
+          let(:name) { File.join('~', string) }
+          let(:path) { File.join(aruba.current_directory, string) }
+
+          it { expect(read_lines(name)).to eq [content] }
+        end
+      end
+
+      context 'when directory' do
+        let(:name) { 'test.d' }
+
+        before do
+          Aruba.platform.mkdir path
+        end
+
+        it { expect { read_lines(name) }.to raise_error ArgumentError }
       end
     end
   end
