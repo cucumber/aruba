@@ -135,7 +135,7 @@ module Aruba
       # Create a file with given content
       #
       # The method does not check if file already exists. If the file name is a
-      # path the method will create all neccessary directories.
+      # path the method will create all necessary directories.
       #
       # @param [String] name
       #   The name of the file
@@ -253,7 +253,7 @@ module Aruba
       # Create a file with the given size
       #
       # The method does not check if file already exists. If the file name is a
-      # path the method will create all neccessary directories.
+      # path the method will create all necessary directories.
       #
       # @param [String] name
       #   The name of the file
@@ -269,7 +269,7 @@ module Aruba
       # Create a file with given content
       #
       # The method does check if file already exists and fails if the file is
-      # missing. If the file name is a path the method will create all neccessary
+      # missing. If the file name is a path the method will create all necessary
       # directories.
       def overwrite_file(name, content)
         Aruba.platform.create_file(expand_path(name), content, true)

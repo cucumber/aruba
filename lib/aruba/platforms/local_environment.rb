@@ -4,9 +4,9 @@
 module Aruba
   # Platforms
   module Platforms
-    # Local environemnt
+    # Local environment
     #
-    # Wraps logic to make enviroment local and restorable
+    # Wraps logic to make environment local and restorable
     class LocalEnvironment
       def initialize(platform)
         @platform = platform

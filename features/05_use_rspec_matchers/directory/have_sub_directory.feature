@@ -1,6 +1,6 @@
 Feature: Check if directory has given sub directories
 
-  If you need to check if a given directory has given sub dirctories, you can
+  If you need to check if a given directory has given sub directories, you can
   use the `have_sub_directory`-matcher.
 
   ```ruby

@@ -140,7 +140,7 @@ Feature: Report disk usage
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: Compare two repored disk usages
+  Scenario: Compare two reported disk usages
     Given a file named "spec/disk_usage_spec.rb" with:
     """ruby
     require 'spec_helper'

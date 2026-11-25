@@ -46,7 +46,7 @@ module Aruba
 
     # Compare two configs
     #
-    # The comparism is done based on their values. No hooks are compared.
+    # The comparison is done based on their values. No hooks are compared.
     #
     # Somehow `#respond_to_missing?`, `method_missing?` and `respond_to?` don't
     # help here.

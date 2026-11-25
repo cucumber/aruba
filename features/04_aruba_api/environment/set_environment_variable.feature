@@ -184,7 +184,7 @@ Feature: Set environment variable via API-method
     When I run `rspec`
     Then the specs should all pass
 
-  Scenario: When an error occures the ENV is not polluted
+  Scenario: When an error occurs the ENV is not polluted
     Given a file named "spec/environment_spec.rb" with:
     """ruby
     require 'spec_helper'
