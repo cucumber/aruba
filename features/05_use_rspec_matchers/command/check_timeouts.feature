@@ -1,4 +1,4 @@
-Feature: Check if a timeout occured during command execution
+Feature: Check if a timeout occurred during command execution
 
   If you want to check if a command takes to long to finish it's work
 

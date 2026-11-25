@@ -1,6 +1,6 @@
 Feature: Run commands with Aruba
 
-  As long as you've got the neccessary programs, libraries, runtime
+  As long as you've got the necessary programs, libraries, runtime
   environments, interpreters installed, it doesn't matter in which programming
   language your command line application is implemented. You can also run any
   program that is in your $PATH.

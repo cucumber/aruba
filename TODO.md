@@ -1,4 +1,4 @@
-* Replace check filesystem permissons through a better rspec matcher
+* Replace check filesystem permissions through a better rspec matcher
 * Improve documentation for matchers in file
 * Cleanup stdout/stderr in spawn process:
     It should be enough to use 'open(@process.io.stdout).read' and 'open(@process.io.stderr).read'. There's no need to rewind them.
